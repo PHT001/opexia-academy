@@ -11,25 +11,14 @@ export default function Hero() {
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-6 lg:py-12">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Anti-hook — TikTok style */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#111] px-4 py-1.5 text-sm font-medium text-white mb-5">
-              <span className="text-base">&#x1F4A1;</span> La comp&eacute;tence qui va valoir de l&apos;or en 2026
-            </span>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.05 }}
-          >
             <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744] mb-6">
               <span className="h-2 w-2 rounded-full bg-[#FF1744] animate-pulse" />
-              +200 entreprises accompagn&eacute;es en IA
+              La comp&eacute;tence qui va valoir de l&apos;or en 2026
             </span>
           </motion.div>
 
