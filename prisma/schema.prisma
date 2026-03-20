@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  hashedPassword String
+  role           String   @default("student")
+  referralCode   String?  @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  progress         LessonProgress[]
+  quizSubmissions  QuizSubmission[]
+  streaks          Streak[]
+  enrollments      Enrollment[]
+  coachingSessions CoachingSession[]
+  referralsMade    Referral[] @relation("referrerReferrals")
+  referredBy       Referral[] @relation("referredReferrals")
+  deals            PipelineDeal[]
+}
+
+model Module {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  order       Int      @unique
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  content     String
+  videoUrl    String?
+  pdfUrl      String?
+  exercise    String?
+  duration    String   @default("15 min")
+  order       Int
+  moduleId    String
+  module      Module   @relation(fields: [moduleId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  quiz     Quiz?
+  progress LessonProgress[]
+
+  @@unique([moduleId, order])
+}
+
+model Quiz {
+  id           String         @id @default(cuid())
+  lessonId     String         @unique
+  lesson       Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  passingScore Int            @default(80)
+  questions    QuizQuestion[]
+  submissions  QuizSubmission[]
+}
+
+model QuizQuestion {
+  id            String @id @default(cuid())
+  quizId        String
+  quiz          Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  type          String
+  question      String
+  options       String
+  correctAnswer String
+  explanation   String?
+  order         Int
+
+  @@unique([quizId, order])
+}
+
+model QuizSubmission {
+  id        String   @id @default(cuid())
+  userId    String
+  quizId    String
+  score     Int
+  answers   String
+  passed    Boolean
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  quiz Quiz @relation(fields: [quizId], references: [id])
+}
+
+model LessonProgress {
+  id          String    @id @default(cuid())
+  userId      String
+  lessonId    String
+  status      String    @default("locked")
+  completedAt DateTime?
+  xpEarned    Int       @default(0)
+
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+}
+
+model Streak {
+  id     String   @id @default(cuid())
+  userId String
+  date   DateTime
+  user   User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  tier      String
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model CoachingSession {
+  id              String   @id @default(cuid())
+  userId          String
+  date            DateTime
+  slot            String
+  status          String   @default("pending")
+  stripeSessionId String?
+  stripePaymentId String?
+  amount          Int      @default(9000)
+  createdAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model PipelineDeal {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  company   String?
+  value     Int      @default(0)
+  stage     String   @default("lead")
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Referral {
+  id           String    @id @default(cuid())
+  referrerId   String
+  referredId   String
+  referredTier String?
+  commission   Int       @default(0)
+  status       String    @default("pending")
+  createdAt    DateTime  @default(now())
+  paidAt       DateTime?
+
+  referrer User @relation("referrerReferrals", fields: [referrerId], references: [id])
+  referred User @relation("referredReferrals", fields: [referredId], references: [id])
+}
