@@ -27,6 +27,58 @@ export default function LeadMagnet() {
           <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#FF1744]/5 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative">
+            {/* Gift box animation */}
+            <motion.div
+              className="mx-auto mb-6 w-16 h-16 relative"
+              initial={{ scale: 0, y: 10 }}
+              whileInView={{ scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 200, damping: 14, delay: 0.2 }}
+            >
+              {/* Lid that lifts */}
+              <motion.div
+                className="absolute top-0 left-0 right-0 z-10"
+                animate={{ y: [0, -6, 0], rotate: [0, -3, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              >
+                {/* Lid */}
+                <div className="h-5 bg-[#FF1744] rounded-t-lg relative mx-[-4px]">
+                  {/* Ribbon on lid */}
+                  <div className="absolute inset-x-0 top-0 bottom-0 flex justify-center">
+                    <div className="w-3 bg-[#FFD54F]" />
+                  </div>
+                  {/* Bow */}
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 flex items-center">
+                    <div className="w-3.5 h-3 bg-[#FFD54F] rounded-full -mr-0.5" />
+                    <div className="w-2 h-2 bg-[#FFC107] rounded-full z-10" />
+                    <div className="w-3.5 h-3 bg-[#FFD54F] rounded-full -ml-0.5" />
+                  </div>
+                </div>
+              </motion.div>
+              {/* Box body */}
+              <div className="absolute bottom-0 left-0 right-0 h-11 bg-[#FF5252] rounded-b-lg overflow-hidden">
+                {/* Ribbon on box */}
+                <div className="absolute inset-x-0 top-0 bottom-0 flex justify-center">
+                  <div className="w-3 bg-[#FFD54F]" />
+                </div>
+              </div>
+              {/* Sparkles */}
+              <motion.span
+                className="absolute -top-3 -right-2 text-[#FFD54F] text-xs"
+                animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+              >&#10022;</motion.span>
+              <motion.span
+                className="absolute -top-1 -left-3 text-[#FF1744] text-[10px]"
+                animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+              >&#10022;</motion.span>
+              <motion.span
+                className="absolute bottom-1 -right-3 text-[#FF8A65] text-[8px]"
+                animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
+              >&#10022;</motion.span>
+            </motion.div>
             <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744] mb-6">
               Gratuit
             </span>

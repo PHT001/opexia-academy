@@ -5,12 +5,12 @@ import VideoBlock from "@/components/landing/VideoBlock";
 import LogosBar from "@/components/landing/LogosBar";
 import PainSection from "@/components/landing/PainSection";
 import UrgenceIA from "@/components/landing/UrgenceIA";
-import DreamSection from "@/components/landing/DreamSection";
-import DarkStats from "@/components/landing/DarkStats";
 import Features from "@/components/landing/Features";
-import LeadMagnet from "@/components/landing/LeadMagnet";
-import Testimonials from "@/components/landing/Testimonials";
+import HowItWorks from "@/components/landing/HowItWorks";
+import DreamSection from "@/components/landing/DreamSection";
 import FoundersFormation from "@/components/landing/FoundersFormation";
+import Testimonials from "@/components/landing/Testimonials";
+import LeadMagnet from "@/components/landing/LeadMagnet";
 import Pricing from "@/components/landing/Pricing";
 import MiniPricingFAQ from "@/components/landing/MiniPricingFAQ";
 import FAQ from "@/components/landing/FAQ";
@@ -29,11 +29,11 @@ export default function Home() {
       <LogosBar />
       <PainSection />
       <UrgenceIA />
-      <DarkStats />
       <Features />
+      <HowItWorks />
       <DreamSection />
-      <Testimonials />
       <FoundersFormation />
+      <Testimonials />
       <LeadMagnet />
       <Pricing />
       <MiniPricingFAQ />
@@ -42,7 +42,7 @@ export default function Home() {
       <Footer />
       <StickyFloatingCTA />
       <Chatbot />
-      {/* <SaleNotification /> */}
+      <SaleNotification />
     </>
   );
 }

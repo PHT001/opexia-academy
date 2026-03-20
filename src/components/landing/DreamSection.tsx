@@ -5,9 +5,7 @@ import LazyVideo from "@/components/ui/LazyVideo";
 
 const dreamPoints = [
   "Tu factures **3 \u00e0 5 clients** entre 2 000\u20ac et 5 000\u20ac/mois chacun pour des automatisations IA.",
-  "Tes syst\u00e8mes tournent **en autonomie** \u2014 tu g\u00e9n\u00e8res du revenu m\u00eame offline.",
-  "Tu es positionn\u00e9 comme **l\u2019expert IA** dans ta niche, avec des clients qui viennent \u00e0 toi.",
-  "Tu travailles depuis **o\u00f9 tu veux**, avec un laptop et une connexion internet.",
+  "Tes syst\u00e8mes tournent **en autonomie** \u2014 tu g\u00e9n\u00e8res du revenu m\u00eame quand tu dors.",
   "Tu n\u2019as plus peur d\u2019\u00eatre remplac\u00e9 par l\u2019IA \u2014 **tu la vends** \u00e0 ceux qui le craignent.",
 ];
 

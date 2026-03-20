@@ -86,6 +86,76 @@ function ScrollIndicator() {
   );
 }
 
+function ServiceCard({ service, i }: { service: typeof services[0]; i: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4, delay: i * 0.08 }}
+      className="group relative flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto rounded-2xl border border-gray-100 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+      style={{ borderColor: "rgb(243 244 246)" }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = service.accent + "40";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "rgb(243 244 246)";
+      }}
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div
+          className="h-11 w-11 rounded-xl flex items-center justify-center"
+          style={{ backgroundColor: service.accentLight, color: service.accent }}
+        >
+          {service.icon}
+        </div>
+        <span
+          className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
+          style={{ backgroundColor: service.accentLight, color: service.accent }}
+        >
+          {service.tag}
+        </span>
+      </div>
+      <h3 className="text-lg font-bold text-[#111] mb-2">{service.title}</h3>
+      <p className="text-sm text-gray-400 leading-relaxed mb-5">{service.desc}</p>
+      <div className="pt-4 border-t border-gray-50">
+        <p className="text-[10px] font-medium text-gray-300 uppercase tracking-wider">
+          Tes clients paient
+        </p>
+        <p className="text-2xl font-black text-[#111] mt-1">{service.price}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function GhostCard() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      className="flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-6 flex flex-col items-center justify-center text-center"
+    >
+      <div className="h-12 w-12 rounded-full bg-[#FF1744]/10 flex items-center justify-center mb-4">
+        <svg className="h-6 w-6 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </div>
+      <p className="text-sm font-semibold text-[#111] mb-1">Et bien plus encore</p>
+      <p className="text-xs text-gray-400 mb-5">Tu apprendras &agrave; cr&eacute;er des offres sur-mesure</p>
+      <a
+        href="#pricing"
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#FF1744] hover:underline"
+      >
+        Voir la formation
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </motion.div>
+  );
+}
+
 export default function Features() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -166,10 +236,10 @@ export default function Features() {
         <ScrollIndicator />
       </div>
 
-      {/* Horizontal scroll container */}
+      {/* Mobile: horizontal scroll */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth px-6 lg:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pb-4 pt-2 -mt-1"
+        className="flex gap-4 overflow-x-auto scroll-smooth px-6 pb-4 pt-2 -mt-1 lg:hidden"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -177,77 +247,19 @@ export default function Features() {
         }}
       >
         {services.map((service, i) => (
-          <motion.div
-            key={service.title}
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
-            className="group relative flex-shrink-0 w-[280px] sm:w-[300px] rounded-2xl border border-gray-100 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-            style={{ borderColor: "rgb(243 244 246)" }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = service.accent + "40";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgb(243 244 246)";
-            }}
-          >
-            {/* Top row: icon + tag */}
-            <div className="flex items-center justify-between mb-4">
-              <div
-                className="h-11 w-11 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: service.accentLight, color: service.accent }}
-              >
-                {service.icon}
-              </div>
-              <span
-                className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                style={{ backgroundColor: service.accentLight, color: service.accent }}
-              >
-                {service.tag}
-              </span>
-            </div>
-
-            {/* Title */}
-            <h3 className="text-lg font-bold text-[#111] mb-2">{service.title}</h3>
-
-            {/* Desc */}
-            <p className="text-sm text-gray-400 leading-relaxed mb-5">{service.desc}</p>
-
-            {/* Price */}
-            <div className="pt-4 border-t border-gray-50">
-              <p className="text-[10px] font-medium text-gray-300 uppercase tracking-wider">
-                Tes clients paient
-              </p>
-              <p className="text-2xl font-black text-[#111] mt-1">{service.price}</p>
-            </div>
-          </motion.div>
+          <ServiceCard key={service.title} service={service} i={i} />
         ))}
+        <GhostCard />
+      </div>
 
-        {/* Ghost card — CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex-shrink-0 w-[280px] sm:w-[300px] rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-6 flex flex-col items-center justify-center text-center"
-        >
-          <div className="h-12 w-12 rounded-full bg-[#FF1744]/10 flex items-center justify-center mb-4">
-            <svg className="h-6 w-6 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-          </div>
-          <p className="text-sm font-semibold text-[#111] mb-1">Et bien plus encore</p>
-          <p className="text-xs text-gray-400 mb-5">Tu apprendras &agrave; cr&eacute;er des offres sur-mesure</p>
-          <a
-            href="#pricing"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#FF1744] hover:underline"
-          >
-            Voir la formation
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-        </motion.div>
+      {/* Desktop: grid */}
+      <div className="hidden lg:block mx-auto max-w-7xl px-8">
+        <div className="grid grid-cols-3 gap-5">
+          {services.map((service, i) => (
+            <ServiceCard key={service.title} service={service} i={i} />
+          ))}
+          <GhostCard />
+        </div>
       </div>
     </section>
   );

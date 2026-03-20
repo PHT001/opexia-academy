@@ -139,6 +139,35 @@ export default function HowItWorks() {
             <FullJourneyAnimation />
           </motion.div>
         </div>
+        {/* Video placeholder */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-14 max-w-4xl mx-auto"
+        >
+          <div
+            className="relative rounded-2xl overflow-hidden border border-gray-200 shadow-2xl cursor-pointer group"
+            style={{ aspectRatio: "16/9" }}
+          >
+            {/* TODO: Replace with real video — <video src="/videos/how-it-works.mp4" controls className="w-full h-full object-cover" /> */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#1a1a2e] to-[#111]" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+              <div className="h-16 w-16 lg:h-20 lg:w-20 rounded-full bg-[#FF1744] flex items-center justify-center shadow-2xl shadow-red-900/50 group-hover:scale-110 transition-transform">
+                <svg className="h-7 w-7 lg:h-8 lg:w-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <p className="text-white/60 text-sm font-medium">
+                D&eacute;couvre le parcours complet en 3 minutes
+              </p>
+            </div>
+            <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5">
+              <span className="text-xs font-medium text-white/80">3:00</span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
