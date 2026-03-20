@@ -5,7 +5,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from "@react-pdf/renderer";
 import type {
   ModuleRecap,
@@ -13,158 +12,166 @@ import type {
   RecapElement,
 } from "./extractRecapContent";
 
-/* ─── Colors ─── */
+/* ─── OpexIA Brand Colors ─── */
 const C = {
-  primary: "#4F46E5",   // Indigo (like the PDF example)
-  primaryLight: "#EEF2FF",
-  accent: "#FF1744",
-  accentLight: "#FFF0F2",
-  dark: "#111827",
-  text: "#374151",
-  muted: "#6B7280",
-  light: "#F3F4F6",
+  red: "#FF1744",
+  redLight: "#FFF0F2",
+  redDark: "#D50000",
+  dark: "#111111",
+  text: "#333333",
+  muted: "#888888",
+  light: "#F5F5F5",
   white: "#FFFFFF",
-  green: "#059669",
-  greenLight: "#ECFDF5",
-  amber: "#D97706",
-  amberLight: "#FFFBEB",
-  border: "#E5E7EB",
-  teal: "#0D9488",
-  tealLight: "#F0FDFA",
+  border: "#E0E0E0",
+  borderLight: "#F0F0F0",
+  green: "#00C853",
+  greenBg: "#F0FFF4",
+  amber: "#FF8F00",
+  amberBg: "#FFFBF0",
+  blue: "#2979FF",
+  blueBg: "#F0F5FF",
 };
 
-/* ─── Styles ─── */
 const s = StyleSheet.create({
   page: {
     paddingTop: 50,
-    paddingBottom: 60,
+    paddingBottom: 65,
     paddingHorizontal: 50,
     fontFamily: "Helvetica",
-    fontSize: 9.5,
+    fontSize: 9,
     color: C.text,
-    lineHeight: 1.5,
+    lineHeight: 1.6,
+    backgroundColor: C.white,
   },
-  // Cover
-  coverModuleLabel: {
-    fontSize: 10,
+
+  /* ── Cover ── */
+  coverLabel: {
+    fontSize: 9,
     color: C.muted,
-    letterSpacing: 1,
-    marginBottom: 8,
+    letterSpacing: 2,
+    marginBottom: 10,
     textTransform: "uppercase",
   },
   coverTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontFamily: "Helvetica-Bold",
-    color: C.primary,
+    color: C.dark,
     marginBottom: 6,
-    lineHeight: 1.2,
+    lineHeight: 1.3,
   },
-  coverSubtitle: {
-    fontSize: 12,
+  coverDesc: {
+    fontSize: 11,
     color: C.muted,
-    marginBottom: 20,
+    marginBottom: 16,
   },
   coverLine: {
-    height: 3,
-    backgroundColor: C.primary,
-    marginBottom: 30,
-    borderRadius: 2,
+    height: 2,
+    backgroundColor: C.red,
+    marginBottom: 28,
   },
-  // Lesson
-  lessonHeader: {
-    marginTop: 24,
-    marginBottom: 10,
-  },
-  lessonLabel: {
-    fontSize: 14,
-    fontFamily: "Helvetica-Bold",
-    color: C.dark,
-    marginBottom: 2,
-  },
-  lessonLabelPrefix: {
-    color: C.primary,
-    fontFamily: "Helvetica-Bold",
-  },
-  // Heading
-  h2: {
-    fontSize: 11,
-    fontFamily: "Helvetica-Bold",
-    color: C.primary,
-    marginTop: 14,
+
+  /* ── Lesson header ── */
+  lessonSection: {
+    marginTop: 22,
     marginBottom: 6,
   },
-  h3: {
-    fontSize: 10,
+  lessonTitle: {
+    fontSize: 13,
     fontFamily: "Helvetica-Bold",
     color: C.dark,
-    marginTop: 10,
+    marginBottom: 8,
+  },
+  lessonPrefix: {
+    color: C.red,
+    fontFamily: "Helvetica-Bold",
+  },
+  lessonDivider: {
+    height: 0.5,
+    backgroundColor: C.border,
+    marginBottom: 10,
+  },
+
+  /* ── Heading ── */
+  h2: {
+    fontSize: 10.5,
+    fontFamily: "Helvetica-Bold",
+    color: C.red,
+    marginTop: 12,
+    marginBottom: 5,
+  },
+  h3: {
+    fontSize: 9.5,
+    fontFamily: "Helvetica-Bold",
+    color: C.dark,
+    marginTop: 8,
     marginBottom: 4,
   },
-  // Callout
-  calloutBox: {
+
+  /* ── Callout ── */
+  callout: {
     borderLeftWidth: 3,
-    borderLeftColor: C.primary,
-    backgroundColor: C.primaryLight,
     padding: 10,
-    marginVertical: 8,
-    borderRadius: 3,
+    marginVertical: 7,
+    borderRadius: 2,
   },
-  calloutTitle: {
-    fontSize: 9.5,
+  calloutLabel: {
+    fontSize: 8.5,
     fontFamily: "Helvetica-Bold",
-    color: C.dark,
     marginBottom: 3,
   },
-  calloutText: {
-    fontSize: 9,
-    color: C.text,
+  calloutBody: {
+    fontSize: 8.5,
     lineHeight: 1.5,
   },
-  // Bullets
-  bulletContainer: {
-    marginVertical: 6,
+
+  /* ── Bullets ── */
+  bulletsWrap: {
+    marginVertical: 5,
   },
-  bulletTitle: {
-    fontSize: 9.5,
+  bulletsTitle: {
+    fontSize: 9,
     fontFamily: "Helvetica-Bold",
     color: C.dark,
     marginBottom: 4,
   },
   bulletRow: {
     flexDirection: "row",
-    marginBottom: 3,
-    paddingLeft: 4,
+    marginBottom: 2.5,
+    paddingLeft: 2,
   },
   bulletDot: {
-    width: 10,
-    fontSize: 9,
-    color: C.primary,
+    width: 12,
+    fontSize: 8,
+    color: C.red,
+    marginTop: 1,
   },
   bulletText: {
     flex: 1,
-    fontSize: 9,
+    fontSize: 8.5,
     color: C.text,
+    lineHeight: 1.5,
   },
-  bulletTextBold: {
+  bold: {
     fontFamily: "Helvetica-Bold",
   },
-  // Table
-  table: {
-    marginVertical: 8,
+
+  /* ── Table ── */
+  tableWrap: {
+    marginVertical: 7,
     borderWidth: 0.5,
     borderColor: C.border,
     borderRadius: 3,
+    overflow: "hidden",
   },
   tableHeaderRow: {
     flexDirection: "row",
-    backgroundColor: C.primary,
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 3,
+    backgroundColor: C.dark,
   },
   tableHeaderCell: {
     flex: 1,
-    padding: 6,
-    fontSize: 8.5,
+    paddingVertical: 6,
+    paddingHorizontal: 6,
+    fontSize: 7.5,
     fontFamily: "Helvetica-Bold",
     color: C.white,
     textAlign: "center",
@@ -172,57 +179,63 @@ const s = StyleSheet.create({
   tableRow: {
     flexDirection: "row",
     borderTopWidth: 0.5,
-    borderTopColor: C.border,
+    borderTopColor: C.borderLight,
   },
   tableRowAlt: {
-    backgroundColor: "#FAFAFA",
+    backgroundColor: C.light,
   },
   tableCell: {
     flex: 1,
-    padding: 6,
-    fontSize: 8.5,
+    paddingVertical: 5,
+    paddingHorizontal: 6,
+    fontSize: 7.5,
     color: C.text,
     textAlign: "center",
+    lineHeight: 1.4,
   },
-  // Flow
-  flowContainer: {
+  tableCellFirst: {
+    fontFamily: "Helvetica-Bold",
+    color: C.dark,
+    textAlign: "left",
+  },
+
+  /* ── Flow ── */
+  flowWrap: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 8,
+    marginVertical: 7,
     flexWrap: "wrap",
-    gap: 0,
   },
   flowNode: {
-    backgroundColor: C.primaryLight,
-    borderWidth: 0.5,
-    borderColor: C.primary,
-    borderRadius: 4,
     paddingVertical: 5,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: C.border,
+    backgroundColor: C.light,
     marginBottom: 4,
   },
-  flowNodeFirst: {
-    backgroundColor: C.primary,
+  flowNodeEnd: {
+    backgroundColor: C.red,
+    borderColor: C.red,
   },
-  flowNodeLast: {
-    backgroundColor: C.primary,
-  },
-  flowNodeText: {
-    fontSize: 8,
-    color: C.dark,
+  flowText: {
+    fontSize: 7.5,
     fontFamily: "Helvetica-Bold",
+    color: C.dark,
     textAlign: "center",
   },
-  flowNodeTextWhite: {
+  flowTextWhite: {
     color: C.white,
   },
   flowArrow: {
-    fontSize: 10,
+    fontSize: 9,
     color: C.muted,
-    marginHorizontal: 3,
+    marginHorizontal: 4,
     marginBottom: 4,
   },
-  // Footer
+
+  /* ── Footer ── */
   footer: {
     position: "absolute",
     bottom: 30,
@@ -235,64 +248,67 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
   },
   footerText: {
-    fontSize: 7.5,
+    fontSize: 7,
     color: C.muted,
   },
 });
 
-/* ─── Callout variant styles ─── */
-const calloutStyles: Record<string, { border: string; bg: string }> = {
-  tip: { border: C.green, bg: C.greenLight },
-  success: { border: C.green, bg: C.greenLight },
-  warning: { border: C.amber, bg: C.amberLight },
-  info: { border: C.primary, bg: C.primaryLight },
+/* ─── Helpers ─── */
+
+/** Replace emoji stars/symbols that don't render in PDF fonts */
+function cleanText(text: string): string {
+  return text
+    .replace(/\u2b50/g, "*")        // ⭐ → *
+    .replace(/\u2b50\ufe0f/g, "*")  // ⭐️ → *
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, "") // remove other emojis
+    .replace(/\*{2,5}/g, (m) => {
+      const count = m.length;
+      return "\u2588".repeat(count) + "\u2591".repeat(5 - count);
+    })
+    .trim();
+}
+
+/* ─── Callout colors per variant ─── */
+const calloutConfig: Record<string, { border: string; bg: string; labelColor: string; label: string }> = {
+  tip:     { border: C.green,  bg: C.greenBg, labelColor: C.green,  label: "A retenir" },
+  success: { border: C.green,  bg: C.greenBg, labelColor: C.green,  label: "A retenir" },
+  warning: { border: C.amber,  bg: C.amberBg, labelColor: C.amber,  label: "Attention" },
+  info:    { border: C.blue,   bg: C.blueBg,  labelColor: C.blue,   label: "Info" },
 };
 
-const calloutLabels: Record<string, string> = {
-  tip: "A retenir",
-  success: "A retenir",
-  warning: "Attention",
-  info: "Info",
-};
-
-/* ─── Element renderers ─── */
+/* ─── Render functions ─── */
 
 function RenderCallout({ el }: { el: Extract<RecapElement, { type: "callout" }> }) {
-  const style = calloutStyles[el.variant] || calloutStyles.info;
-  const label = el.title || calloutLabels[el.variant] || "Note";
+  const cfg = calloutConfig[el.variant] || calloutConfig.info;
   return (
-    <View
-      style={[
-        s.calloutBox,
-        { borderLeftColor: style.border, backgroundColor: style.bg },
-      ]}
-    >
-      <Text style={s.calloutTitle}>{label}</Text>
-      <Text style={s.calloutText}>{el.text}</Text>
+    <View style={[s.callout, { borderLeftColor: cfg.border, backgroundColor: cfg.bg }]}>
+      <Text style={[s.calloutLabel, { color: cfg.labelColor }]}>
+        {el.title || cfg.label}
+      </Text>
+      <Text style={[s.calloutBody, { color: C.text }]}>
+        {cleanText(el.text)}
+      </Text>
     </View>
   );
 }
 
 function RenderBullets({ el }: { el: Extract<RecapElement, { type: "bullets" }> }) {
   return (
-    <View style={s.bulletContainer}>
-      {el.title && <Text style={s.bulletTitle}>{el.title}</Text>}
+    <View style={s.bulletsWrap}>
+      {el.title && <Text style={s.bulletsTitle}>{cleanText(el.title)}</Text>}
       {el.items.map((item, i) => {
-        // Split on " : " to bold the term
         const colonIdx = item.indexOf(" : ");
         return (
           <View key={i} style={s.bulletRow}>
             <Text style={s.bulletDot}>{"\u2022"}</Text>
             {colonIdx > -1 ? (
               <Text style={s.bulletText}>
-                <Text style={s.bulletTextBold}>
-                  {item.slice(0, colonIdx)}
-                </Text>
+                <Text style={s.bold}>{cleanText(item.slice(0, colonIdx))}</Text>
                 {" : "}
-                {item.slice(colonIdx + 3)}
+                {cleanText(item.slice(colonIdx + 3))}
               </Text>
             ) : (
-              <Text style={s.bulletText}>{item}</Text>
+              <Text style={s.bulletText}>{cleanText(item)}</Text>
             )}
           </View>
         );
@@ -303,22 +319,22 @@ function RenderBullets({ el }: { el: Extract<RecapElement, { type: "bullets" }> 
 
 function RenderTable({ el }: { el: Extract<RecapElement, { type: "table" }> }) {
   return (
-    <View style={s.table}>
+    <View style={s.tableWrap}>
       <View style={s.tableHeaderRow}>
         {el.headers.map((h, i) => (
           <Text key={i} style={s.tableHeaderCell}>
-            {h}
+            {cleanText(h) || " "}
           </Text>
         ))}
       </View>
       {el.rows.map((row, ri) => (
-        <View
-          key={ri}
-          style={[s.tableRow, ri % 2 === 1 ? s.tableRowAlt : {}]}
-        >
+        <View key={ri} style={[s.tableRow, ri % 2 === 1 ? s.tableRowAlt : {}]}>
           {row.map((cell, ci) => (
-            <Text key={ci} style={s.tableCell}>
-              {cell}
+            <Text
+              key={ci}
+              style={[s.tableCell, ci === 0 ? s.tableCellFirst : {}]}
+            >
+              {cleanText(cell)}
             </Text>
           ))}
         </View>
@@ -329,32 +345,22 @@ function RenderTable({ el }: { el: Extract<RecapElement, { type: "table" }> }) {
 
 function RenderFlow({ el }: { el: Extract<RecapElement, { type: "flow" }> }) {
   return (
-    <View style={s.flowContainer}>
-      {el.nodes.map((node, i) => (
-        <React.Fragment key={i}>
-          <View
-            style={[
-              s.flowNode,
-              i === 0 ? s.flowNodeFirst : {},
-              i === el.nodes.length - 1 ? s.flowNodeLast : {},
-            ]}
-          >
-            <Text
-              style={[
-                s.flowNodeText,
-                i === 0 || i === el.nodes.length - 1
-                  ? s.flowNodeTextWhite
-                  : {},
-              ]}
-            >
-              {node}
-            </Text>
-          </View>
-          {i < el.nodes.length - 1 && (
-            <Text style={s.flowArrow}>{"\u2192"}</Text>
-          )}
-        </React.Fragment>
-      ))}
+    <View style={s.flowWrap}>
+      {el.nodes.map((node, i) => {
+        const isEnd = i === 0 || i === el.nodes.length - 1;
+        return (
+          <React.Fragment key={i}>
+            <View style={[s.flowNode, isEnd ? s.flowNodeEnd : {}]}>
+              <Text style={[s.flowText, isEnd ? s.flowTextWhite : {}]}>
+                {cleanText(node)}
+              </Text>
+            </View>
+            {i < el.nodes.length - 1 && (
+              <Text style={s.flowArrow}>{"\u2192"}</Text>
+            )}
+          </React.Fragment>
+        );
+      })}
     </View>
   );
 }
@@ -363,9 +369,9 @@ function RenderElement({ el }: { el: RecapElement }) {
   switch (el.type) {
     case "heading":
       return el.level === 2 ? (
-        <Text style={s.h2}>{el.text}</Text>
+        <Text style={s.h2}>{cleanText(el.text)}</Text>
       ) : (
-        <Text style={s.h3}>{el.text}</Text>
+        <Text style={s.h3}>{cleanText(el.text)}</Text>
       );
     case "callout":
       return <RenderCallout el={el} />;
@@ -375,8 +381,6 @@ function RenderElement({ el }: { el: RecapElement }) {
       return <RenderTable el={el} />;
     case "flow":
       return <RenderFlow el={el} />;
-    case "text":
-      return <Text style={{ fontSize: 9, color: C.text, marginVertical: 3 }}>{el.text}</Text>;
     default:
       return null;
   }
@@ -386,11 +390,12 @@ function RenderElement({ el }: { el: RecapElement }) {
 function LessonSection({ lesson }: { lesson: LessonRecap }) {
   if (lesson.elements.length === 0) return null;
   return (
-    <View style={s.lessonHeader} wrap={false}>
-      <Text style={s.lessonLabel}>
-        <Text style={s.lessonLabelPrefix}>L{lesson.order} </Text>
-        {lesson.title}
+    <View style={s.lessonSection}>
+      <Text style={s.lessonTitle}>
+        <Text style={s.lessonPrefix}>L{lesson.order} </Text>
+        {cleanText(lesson.title)}
       </Text>
+      <View style={s.lessonDivider} />
       {lesson.elements.map((el, i) => (
         <RenderElement key={i} el={el} />
       ))}
@@ -405,11 +410,11 @@ export function ModuleRecapPDF({ data }: { data: ModuleRecap }) {
       title={`Module ${data.moduleOrder} - ${data.moduleTitle}`}
       author="OpexIA Academy"
     >
-      <Page size="A4" style={s.page}>
-        {/* Cover header */}
-        <Text style={s.coverModuleLabel}>MODULE {data.moduleOrder}</Text>
-        <Text style={s.coverTitle}>{data.moduleTitle}</Text>
-        <Text style={s.coverSubtitle}>{data.moduleDescription}</Text>
+      <Page size="A4" style={s.page} wrap>
+        {/* Cover */}
+        <Text style={s.coverLabel}>MODULE {data.moduleOrder}</Text>
+        <Text style={s.coverTitle}>{cleanText(data.moduleTitle)}</Text>
+        <Text style={s.coverDesc}>{cleanText(data.moduleDescription)}</Text>
         <View style={s.coverLine} />
 
         {/* Lessons */}
@@ -417,10 +422,10 @@ export function ModuleRecapPDF({ data }: { data: ModuleRecap }) {
           <LessonSection key={lesson.order} lesson={lesson} />
         ))}
 
-        {/* Footer on every page */}
+        {/* Footer */}
         <View style={s.footer} fixed>
           <Text style={s.footerText}>
-            Formation OpexIA Academy | Notes recapitulatives
+            OpexIA Academy | Notes recapitulatives
           </Text>
           <Text
             style={s.footerText}
