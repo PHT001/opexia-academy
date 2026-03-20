@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import NextImage from "next/image";
 
 export default function Hero() {
   return (
@@ -42,6 +43,32 @@ export default function Hero() {
             Ma&icirc;trise l&apos;IA, vends des services d&apos;automatisation aux PME, et vis de ton activit&eacute; — m&ecirc;me en partant de z&eacute;ro.
           </motion.p>
 
+          {/* Social proof — avatars + rating */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="flex items-center justify-center gap-2.5 mb-6"
+          >
+            <NextImage
+              src="/images/customers.webp"
+              alt="Clients"
+              width={100}
+              height={32}
+              className="h-8 w-auto"
+            />
+            <span className="text-sm text-[#111] font-medium">
+              <strong>4.7</strong>/5 par <strong>+50 clients</strong>
+            </span>
+            <NextImage
+              src="/images/blue-badge.svg"
+              alt="V&eacute;rifi&eacute;"
+              width={18}
+              height={18}
+              className="h-[18px] w-[18px]"
+            />
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -66,8 +93,6 @@ export default function Hero() {
                   muted
                   playsInline
                   className="w-full h-full object-contain"
-                  style={{ display: 'none' }}
-                  onLoadedData={(e) => { (e.target as HTMLVideoElement).style.display = 'block'; }}
                 />
               </motion.div>
 
@@ -93,24 +118,30 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          {/* Social proof mini-stats */}
+          {/* Trust badges */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-[#6B7280]"
+            className="mt-8 flex justify-center gap-4 sm:gap-6 text-[11px] sm:text-sm text-[#9CA3AF]"
           >
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-              <strong className="text-[#111]">+150</strong> &eacute;l&egrave;ves form&eacute;s
+            <span className="flex items-center gap-1.5">
+              <svg className="h-3.5 w-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              Paiement s&eacute;curis&eacute;
             </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-              1er client en <strong className="text-[#111]">14j</strong> en moyenne
+            <span className="flex items-center gap-1.5">
+              <svg className="h-3.5 w-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              Satisfait ou rembours&eacute;
             </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-              Rembours&eacute; sous <strong className="text-[#111]">14j</strong>
+            <span className="flex items-center gap-1.5">
+              <svg className="h-3.5 w-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Acc&egrave;s imm&eacute;diat
             </span>
           </motion.div>
         </div>

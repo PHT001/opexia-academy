@@ -28,7 +28,7 @@ export default function LeadMagnet() {
 
           <div className="relative">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744] mb-6">
-              <span className="text-base">&#127873;</span> Gratuit
+              Gratuit
             </span>
 
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">

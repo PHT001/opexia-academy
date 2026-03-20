@@ -7,7 +7,6 @@ import PainSection from "@/components/landing/PainSection";
 import UrgenceIA from "@/components/landing/UrgenceIA";
 import DreamSection from "@/components/landing/DreamSection";
 import DarkStats from "@/components/landing/DarkStats";
-import HowItWorks from "@/components/landing/HowItWorks";
 import Features from "@/components/landing/Features";
 import LeadMagnet from "@/components/landing/LeadMagnet";
 import Testimonials from "@/components/landing/Testimonials";
@@ -29,11 +28,10 @@ export default function Home() {
       <VideoBlock />
       <LogosBar />
       <PainSection />
-      <DreamSection />
       <UrgenceIA />
       <DarkStats />
-      <HowItWorks />
       <Features />
+      <DreamSection />
       <Testimonials />
       <FoundersFormation />
       <LeadMagnet />
@@ -44,7 +42,7 @@ export default function Home() {
       <Footer />
       <StickyFloatingCTA />
       <Chatbot />
-      <SaleNotification />
+      {/* <SaleNotification /> */}
     </>
   );
 }

@@ -85,7 +85,7 @@ export default function LogosBar() {
       <div className="relative">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-        <div className="flex animate-marquee-right md:[animation-duration:20s] [animation-duration:8s] items-center">
+        <div className="flex animate-marquee-right md:[animation-duration:20s] [animation-duration:4s] items-center">
           {doubled.map((tool, i) => (
             <div
               key={`${tool.name}-${i}`}

@@ -222,18 +222,18 @@ export default function Testimonials() {
         viewport={{ once: true }}
         className="mt-12 flex justify-center px-6"
       >
-        <div className="inline-flex items-center gap-4 bg-[#0A0A0A] rounded-full px-6 py-3">
-          <div className="flex -space-x-2">
-            <div className="h-9 w-9 rounded-full border-2 border-[#333] overflow-hidden">
-              <Image src="/images/founder-marius.png" alt="Marius" width={36} height={36} className="h-full w-full object-cover" />
+        <div className="inline-flex items-center gap-3 bg-[#0A0A0A] rounded-full px-5 py-2.5 max-w-full">
+          <div className="flex -space-x-2 flex-shrink-0">
+            <div className="h-8 w-8 rounded-full border-2 border-[#333] overflow-hidden">
+              <Image src="/images/founder-marius.png" alt="Marius" width={32} height={32} className="h-full w-full object-cover" />
             </div>
-            <div className="h-9 w-9 rounded-full border-2 border-[#333] overflow-hidden">
-              <Image src="/images/founder-igor.jpg" alt="Igor" width={36} height={36} className="h-full w-full object-cover" />
+            <div className="h-8 w-8 rounded-full border-2 border-[#333] overflow-hidden">
+              <Image src="/images/founder-igor.jpg" alt="Igor" width={32} height={32} className="h-full w-full object-cover" />
             </div>
           </div>
-          <p className="text-white text-sm font-medium">
-            &ldquo;On a cr&eacute;&eacute; OpexIA pour rendre l&apos;IA accessible &agrave; tous.&rdquo;
-            <span className="text-gray-400 text-xs block">&mdash; Marius &amp; Igor, Co-fondateurs</span>
+          <p className="text-white text-xs sm:text-sm font-medium whitespace-nowrap">
+            &ldquo;L&apos;IA accessible &agrave; tous.&rdquo;
+            <span className="text-gray-400 text-xs ml-2">&mdash; Marius &amp; Igor</span>
           </p>
         </div>
       </motion.div>

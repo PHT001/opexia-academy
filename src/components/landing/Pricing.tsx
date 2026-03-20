@@ -91,21 +91,50 @@ const plans: Plan[] = [
   },
 ];
 
-function CountdownTimer() {
+/* ── Rotating promos — changes every 3 days automatically ── */
+const promos = [
+  { discount: "-20%", reason: "Offre de lancement" },
+  { discount: "-15%", reason: "Promo flash" },
+  { discount: "-25%", reason: "Offre sp\u00e9ciale" },
+  { discount: "-10%", reason: "Offre limit\u00e9e" },
+  { discount: "-30%", reason: "Vente priv\u00e9e" },
+  { discount: "-20%", reason: "Offre exclusive" },
+  { discount: "-15%", reason: "Happy days" },
+  { discount: "-25%", reason: "Derni\u00e8res places" },
+];
+
+function getCurrentPromo() {
+  // Epoch anchor: rotates every 3 days based on absolute date
+  const msPerCycle = 3 * 24 * 60 * 60 * 1000; // 3 days
+  const epoch = new Date("2025-01-01T00:00:00").getTime();
+  const now = Date.now();
+  const cycleIndex = Math.floor((now - epoch) / msPerCycle) % promos.length;
+
+  // End of current 3-day window
+  const currentCycleStart = epoch + Math.floor((now - epoch) / msPerCycle) * msPerCycle;
+  const endDate = new Date(currentCycleStart + msPerCycle);
+
+  return { promo: promos[cycleIndex], endDate };
+}
+
+function PromoBanner() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [promoData, setPromoData] = useState<{ promo: typeof promos[0]; endDate: Date } | null>(null);
 
   useEffect(() => {
-    const target = new Date("2026-03-31T23:59:59");
+    setPromoData(getCurrentPromo());
+  }, []);
+
+  useEffect(() => {
+    if (!promoData) return;
 
     const update = () => {
-      const now = new Date();
-      const diff = target.getTime() - now.getTime();
-
+      const diff = promoData.endDate.getTime() - Date.now();
       if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        // Promo expired, get next one
+        setPromoData(getCurrentPromo());
         return;
       }
-
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -117,7 +146,9 @@ function CountdownTimer() {
     update();
     const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [promoData]);
+
+  if (!promoData) return null;
 
   const blocks = [
     { value: timeLeft.days, label: "j" },
@@ -127,16 +158,24 @@ function CountdownTimer() {
   ];
 
   return (
-    <div className="flex items-center gap-1.5 mt-3">
-      {blocks.map((b, i) => (
-        <span key={i} className="flex items-center">
-          <span className="bg-[#FF1744] text-white text-xs font-bold rounded-md px-2 py-1 min-w-[32px] text-center tabular-nums">
-            {String(b.value).padStart(2, "0")}
-            <span className="text-white/70 text-[10px] ml-0.5">{b.label}</span>
-          </span>
-          {i < blocks.length - 1 && <span className="text-[#FF1744] font-bold text-xs mx-0.5">:</span>}
+    <div className="mt-4 inline-flex flex-col items-center gap-2.5 rounded-2xl bg-[#FF1744]/10 border border-[#FF1744]/20 px-5 py-3">
+      <span className="flex items-center gap-2 text-sm text-[#FF1744] font-medium">
+        <span className="bg-[#FF1744] text-white text-xs font-bold rounded-md px-2 py-0.5">
+          {promoData.promo.discount}
         </span>
-      ))}
+        {promoData.promo.reason}
+      </span>
+      <div className="flex items-center gap-1.5">
+        {blocks.map((b, i) => (
+          <span key={i} className="flex items-center">
+            <span className="bg-[#FF1744] text-white text-xs font-bold rounded-md px-2 py-1 min-w-[32px] text-center tabular-nums">
+              {String(b.value).padStart(2, "0")}
+              <span className="text-white/70 text-[10px] ml-0.5">{b.label}</span>
+            </span>
+            {i < blocks.length - 1 && <span className="text-[#FF1744] font-bold text-xs mx-0.5">:</span>}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -160,12 +199,7 @@ export default function Pricing() {
           <p className="mt-4 text-lg text-[#6B7280]">
             {"Investis dans toi. Rentabilise d\u00e8s le premier mois."}
           </p>
-          <div className="mt-4 inline-flex flex-col items-center gap-2 rounded-2xl bg-[#FF1744]/10 border border-[#FF1744]/20 px-5 py-3">
-            <span className="flex items-center gap-2 text-sm text-[#FF1744] font-medium">
-              <span>{"\u26A1"}</span> {"Tarif early-bird \u2014 expire le 31 mars 2026"}
-            </span>
-            <CountdownTimer />
-          </div>
+          <PromoBanner />
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-8 items-start">

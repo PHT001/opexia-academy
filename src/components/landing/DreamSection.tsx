@@ -26,7 +26,7 @@ function formatBold(text: string) {
 
 export default function DreamSection() {
   return (
-    <section className="py-16 lg:py-24 bg-[#F8F9FA]">
+    <section className="pt-24 lg:pt-32 pb-16 lg:pb-24 bg-[#F8F9FA] overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Income card — LEFT */}
@@ -39,7 +39,7 @@ export default function DreamSection() {
           >
             {/* Floating robot video behind the card */}
             <motion.div
-              className="absolute left-1/2 -translate-x-1/2 -top-24 lg:-top-32 z-0 w-48 h-48 lg:w-60 lg:h-60"
+              className="absolute left-1/2 -translate-x-1/2 -top-20 lg:-top-24 z-0 w-40 h-40 lg:w-52 lg:h-52"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
@@ -48,6 +48,9 @@ export default function DreamSection() {
                 className="w-full h-full"
               />
             </motion.div>
+
+            {/* Red aura behind card */}
+            <div className="absolute inset-0 z-[5] rounded-2xl bg-[#FF1744]/10 blur-2xl scale-105 pointer-events-none" />
 
             <div className="relative z-10 bg-white rounded-2xl border border-gray-200 shadow-xl p-10 lg:p-12 text-center">
               <div className="text-6xl lg:text-7xl font-black text-[#FF1744] leading-none">
