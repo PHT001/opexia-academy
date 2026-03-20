@@ -48,10 +48,10 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <div className="relative flex items-center justify-center">
+            <div className="relative flex items-center justify-center mt-6">
               {/* Floating robot video behind the button */}
               <motion.div
-                className="absolute -top-20 lg:-top-24 z-0 w-36 h-36 lg:w-44 lg:h-44 pointer-events-none"
+                className="absolute -top-16 lg:-top-20 z-0 w-36 h-36 lg:w-44 lg:h-44 pointer-events-none"
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 style={{
