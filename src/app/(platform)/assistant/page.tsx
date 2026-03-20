@@ -46,6 +46,8 @@ export default function AssistantPage() {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [remaining, setRemaining] = useState<number | null>(null);
+  const [limitReached, setLimitReached] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -86,8 +88,25 @@ export default function AssistantPage() {
 
       const data = await res.json();
 
+      if (res.status === 429) {
+        setLimitReached(true);
+        setRemaining(0);
+        const limitMsg: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: data.error || "Tu as atteint la limite de 20 messages par jour. Reviens demain !",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, limitMsg]);
+        return;
+      }
+
       if (!res.ok) {
         throw new Error(data.error || "Erreur serveur");
+      }
+
+      if (data.remaining !== undefined) {
+        setRemaining(data.remaining);
       }
 
       const botMsg: Message = {
@@ -101,7 +120,7 @@ export default function AssistantPage() {
       const errorMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "Désolé, une erreur est survenue. Réessaie dans quelques instants.",
+        content: "Desole, une erreur est survenue. Reessaie dans quelques instants.",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -149,9 +168,14 @@ export default function AssistantPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-medium text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full">
-                {messages.length - 1} message{messages.length - 1 !== 1 ? "s" : ""}
-              </span>
+              {remaining !== null && (
+                <span className={cn(
+                  "text-[10px] font-medium px-2.5 py-1 rounded-full",
+                  remaining <= 3 ? "bg-red-50 text-[#FF1744]" : "bg-gray-50 text-gray-400"
+                )}>
+                  {remaining} message{remaining !== 1 ? "s" : ""} restant{remaining !== 1 ? "s" : ""}
+                </span>
+              )}
             </div>
           </div>
 
@@ -270,12 +294,12 @@ export default function AssistantPage() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Pose ta question..."
-                disabled={isTyping}
+                disabled={isTyping || limitReached}
                 className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744]/30 transition-all disabled:opacity-50"
               />
               <button
                 onClick={() => handleSend()}
-                disabled={!input.trim() || isTyping}
+                disabled={!input.trim() || isTyping || limitReached}
                 className={cn(
                   "p-2.5 rounded-xl transition-all flex-shrink-0",
                   input.trim() && !isTyping
