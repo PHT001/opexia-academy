@@ -21,23 +21,23 @@ export default function FinalCTA() {
           </span>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white leading-tight">
-            Il ne manque que
+            Dans 90 jours, tu te
             <br />
-            <span className="text-[#FF1744]">ta d&eacute;cision.</span>
+            <span className="text-[#FF1744]">remercieras.</span>
           </h2>
 
           <p className="mt-6 text-lg text-gray-400 max-w-xl mx-auto leading-relaxed">
-            Dans 90 jours, tu te remercieras d&apos;avoir commenc&eacute; aujourd&apos;hui.
+            Pendant que tu h&eacute;sites, d&apos;autres lancent leur agence IA.
             <br />
-            Ou tu regarderas toujours les autres r&eacute;ussir.
+            La vraie question : c&apos;est toi ou eux ?
           </p>
 
-          <div className="mt-10">
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#pricing"
               className="inline-flex items-center justify-center rounded-full bg-[#FF1744] px-10 py-5 text-lg font-bold text-white transition-all hover:bg-[#D50000] hover:shadow-2xl hover:shadow-red-900/40"
             >
-              Rejoindre la formation
+              Choisir ma formule
               <svg
                 className="ml-3 h-5 w-5"
                 fill="none"

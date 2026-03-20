@@ -1,6 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+
+const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
 
 interface Plan {
   name: string;
@@ -12,7 +15,7 @@ interface Plan {
   features: string[];
   notIncluded: string[];
   cta: string;
-  href?: string;
+  href: string;
   external?: boolean;
   limited?: boolean;
 }
@@ -37,9 +40,8 @@ const plans: Plan[] = [
       "Assistant IA int\u00e9gr\u00e9",
       "Visios individuelles",
     ],
-    cta: "T\u00e9l\u00e9charger le Starter",
-    href: "https://wa.me/33768683946?text=Salut%20!%20Je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20pack%20Starter%20%C3%A0%2047%E2%82%AC%20%F0%9F%91%8B",
-    external: true,
+    cta: "Obtenir le Starter \u2014 47\u20ac",
+    href: "/api/checkout?plan=starter",
   },
   {
     name: "Academy",
@@ -61,9 +63,8 @@ const plans: Plan[] = [
       "Programme de parrainage",
     ],
     notIncluded: ["Visios individuelles"],
-    cta: "Rejoindre l\u2019Academy",
-    href: "https://wa.me/33768683946?text=Salut%20!%20Je%20suis%20int%C3%A9ress%C3%A9%20par%20l'Academy%20%C3%A0%20397%E2%82%AC%20%F0%9F%91%8B",
-    external: true,
+    cta: "Rejoindre l\u2019Academy \u2014 397\u20ac",
+    href: "/api/checkout?plan=academy",
   },
   {
     name: "One-to-One",
@@ -84,11 +85,61 @@ const plans: Plan[] = [
       "Strat\u00e9gie de lancement sur-mesure",
     ],
     notIncluded: [],
-    cta: "Postuler au One-to-One",
-    href: "https://wa.me/33768683946?text=Salut%20!%20Je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20One-to-One%20%C3%A0%203997%E2%82%AC%20%F0%9F%91%8B",
+    cta: "Postuler via WhatsApp",
+    href: WHATSAPP_LINK,
     external: true,
   },
 ];
+
+function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const target = new Date("2026-03-31T23:59:59");
+
+    const update = () => {
+      const now = new Date();
+      const diff = target.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    };
+
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const blocks = [
+    { value: timeLeft.days, label: "j" },
+    { value: timeLeft.hours, label: "h" },
+    { value: timeLeft.minutes, label: "m" },
+    { value: timeLeft.seconds, label: "s" },
+  ];
+
+  return (
+    <div className="flex items-center gap-1.5 mt-3">
+      {blocks.map((b, i) => (
+        <span key={i} className="flex items-center">
+          <span className="bg-[#FF1744] text-white text-xs font-bold rounded-md px-2 py-1 min-w-[32px] text-center tabular-nums">
+            {String(b.value).padStart(2, "0")}
+            <span className="text-white/70 text-[10px] ml-0.5">{b.label}</span>
+          </span>
+          {i < blocks.length - 1 && <span className="text-[#FF1744] font-bold text-xs mx-0.5">:</span>}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export default function Pricing() {
   return (
@@ -109,8 +160,11 @@ export default function Pricing() {
           <p className="mt-4 text-lg text-[#6B7280]">
             {"Investis dans toi. Rentabilise d\u00e8s le premier mois."}
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#FF1744]/10 border border-[#FF1744]/20 px-4 py-2 text-sm text-[#FF1744] font-medium">
-            <span>{"\u26A1"}</span> {"Tarif early-bird \u2014 expire le 31 mars 2026"}
+          <div className="mt-4 inline-flex flex-col items-center gap-2 rounded-2xl bg-[#FF1744]/10 border border-[#FF1744]/20 px-5 py-3">
+            <span className="flex items-center gap-2 text-sm text-[#FF1744] font-medium">
+              <span>{"\u26A1"}</span> {"Tarif early-bird \u2014 expire le 31 mars 2026"}
+            </span>
+            <CountdownTimer />
           </div>
         </motion.div>
 
@@ -154,15 +208,22 @@ export default function Pricing() {
               </div>
 
               <a
-                href={plan.href || "#"}
+                href={plan.href}
                 target={plan.external ? "_blank" : undefined}
                 rel={plan.external ? "noopener noreferrer" : undefined}
-                className={`block w-full text-center rounded-full py-3.5 text-sm font-semibold transition-all ${
+                className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all ${
                   plan.popular
                     ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200"
+                    : plan.external
+                    ? "bg-[#25D366] text-white hover:bg-[#1da851] hover:shadow-lg hover:shadow-green-200"
                     : "bg-[#111] text-white hover:bg-[#333]"
                 }`}
               >
+                {plan.external && (
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                )}
                 {plan.cta}
               </a>
 

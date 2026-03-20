@@ -11,108 +11,119 @@ export default function Hero() {
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-6 lg:py-12">
         <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744] mb-8">
-                <span className="h-2 w-2 rounded-full bg-[#FF1744] animate-pulse" />
-                +200 entreprises accompagn&eacute;es en IA
-              </span>
-            </motion.div>
+          {/* Anti-hook — TikTok style */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#111] px-4 py-1.5 text-sm font-medium text-white mb-5">
+              <span className="text-base">&#x1F6AB;</span> Non, c&apos;est pas du dropshipping.
+            </span>
+          </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-[56px] font-bold leading-[1.15] tracking-tight mb-6"
-            >
-              Lance ton agence IA
-              <br />
-              et g&eacute;n&egrave;re <span className="text-[#FF1744]">10K&euro;/mois</span> en 90 jours
-            </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+          >
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744] mb-6">
+              <span className="h-2 w-2 rounded-full bg-[#FF1744] animate-pulse" />
+              +200 entreprises accompagn&eacute;es en IA
+            </span>
+          </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="relative z-10 text-lg lg:text-xl text-[#6B7280] max-w-xl mx-auto mb-10 leading-relaxed"
-            >
-              La formation pas-&agrave;-pas pour ma&icirc;triser l&apos;IA, vendre des services d&apos;automatisation aux PME, et vivre de ton activit&eacute; — m&ecirc;me si tu pars de z&eacute;ro.
-            </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-[56px] font-bold leading-[1.15] tracking-tight mb-4"
+          >
+            Lance ton agence IA
+            <br />
+            et g&eacute;n&egrave;re <span className="text-[#FF1744]">10K&euro;/mois</span> en 90 jours
+          </motion.h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-6"
-            >
-              <div className="relative flex items-center justify-center">
-                {/* Floating robot video behind the button */}
-                <motion.div
-                  className="absolute -top-20 lg:-top-24 z-0 w-36 h-36 lg:w-44 lg:h-44 pointer-events-none"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  style={{
-                    maskImage: "radial-gradient(ellipse 65% 65% at center, black 30%, transparent 70%)",
-                    WebkitMaskImage: "radial-gradient(ellipse 65% 65% at center, black 30%, transparent 70%)",
-                  }}
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="relative z-10 text-base lg:text-lg text-[#6B7280] max-w-md mx-auto mb-8 leading-relaxed"
+          >
+            Ma&icirc;trise l&apos;IA, vends des services d&apos;automatisation aux PME, et vis de ton activit&eacute; — m&ecirc;me en partant de z&eacute;ro.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
+            <div className="relative flex items-center justify-center">
+              {/* Floating robot video behind the button */}
+              <motion.div
+                className="absolute -top-20 lg:-top-24 z-0 w-36 h-36 lg:w-44 lg:h-44 pointer-events-none"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  maskImage: "radial-gradient(ellipse 65% 65% at center, black 30%, transparent 70%)",
+                  WebkitMaskImage: "radial-gradient(ellipse 65% 65% at center, black 30%, transparent 70%)",
+                }}
+              >
+                <video
+                  src="/images/coucou.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-contain"
+                  style={{ display: 'none' }}
+                  onLoadedData={(e) => { (e.target as HTMLVideoElement).style.display = 'block'; }}
+                />
+              </motion.div>
+
+              <a
+                href="#pricing"
+                className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200"
+              >
+                Commencer maintenant
+                <svg
+                  className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
-                  <video
-                    src="/images/coucou.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-contain"
-                    style={{ display: 'none' }}
-                    onLoadedData={(e) => { (e.target as HTMLVideoElement).style.display = 'block'; }}
-                  />
-                </motion.div>
-
-                <a
-                  href="#pricing"
-                  className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200"
-                >
-                  D&eacute;couvrir les formules
-                  <svg
-                    className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-              </div>
-
-              <a href="#testimonials" className="text-[#6B7280] text-sm font-medium hover:text-[#111] transition-colors flex items-center gap-1.5">
-                Voir les r&eacute;sultats des &eacute;l&egrave;ves &darr;
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </a>
-            </motion.div>
+            </div>
 
-            {/* Social proof mini-stats */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-[#6B7280]"
-            >
-              <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                <strong className="text-[#111]">+150</strong> &eacute;l&egrave;ves form&eacute;s
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                Premier client en <strong className="text-[#111]">14 jours</strong> en moyenne
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                Satisfait ou rembours&eacute; <strong className="text-[#111]">14 jours</strong>
-              </span>
-            </motion.div>
+            <a href="#testimonials" className="text-[#6B7280] text-sm font-medium hover:text-[#111] transition-colors flex items-center gap-1.5">
+              Voir les r&eacute;sultats des &eacute;l&egrave;ves &darr;
+            </a>
+          </motion.div>
+
+          {/* Social proof mini-stats */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-[#6B7280]"
+          >
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              <strong className="text-[#111]">+150</strong> &eacute;l&egrave;ves form&eacute;s
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              1er client en <strong className="text-[#111]">14j</strong> en moyenne
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              Rembours&eacute; sous <strong className="text-[#111]">14j</strong>
+            </span>
+          </motion.div>
         </div>
 
         {/* Founders Badge — 3D Floating Liquid Glass */}
@@ -165,7 +176,7 @@ export default function Hero() {
               </div>
               <div className="relative">
                 <p className="text-white text-sm font-semibold">
-                  Fondé par Marius &amp; Igor
+                  Fond&eacute; par Marius &amp; Igor
                 </p>
                 <p className="text-gray-400 text-xs flex items-center gap-1">
                   <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
