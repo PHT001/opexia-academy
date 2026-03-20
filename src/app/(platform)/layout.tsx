@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
+import { XPToastProvider } from "@/components/platform/XPToast";
+import OnboardingModal from "@/components/platform/OnboardingModal";
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
@@ -21,7 +23,9 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   }, []);
 
   return (
+    <XPToastProvider>
     <div className="min-h-screen bg-[#F8F9FA]">
+      <OnboardingModal />
       <Sidebar
         userName={session?.user?.name}
         role={session?.user?.role}
@@ -56,5 +60,6 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         </div>
       </main>
     </div>
+    </XPToastProvider>
   );
 }

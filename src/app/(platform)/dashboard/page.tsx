@@ -7,6 +7,15 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { TIERS, TIER_MODULE_ACCESS } from "@/lib/constants";
 
+interface RecentActivityItem {
+  type: "lesson" | "quiz";
+  title: string;
+  lessonOrder: number;
+  moduleOrder: number;
+  xpEarned: number;
+  completedAt: string;
+}
+
 interface DashboardData {
   totalLessons: number;
   completedLessons: number;
@@ -14,6 +23,9 @@ interface DashboardData {
   streak: number;
   xp: number;
   tier: string | null;
+  recentActivity: RecentActivityItem[];
+  quizzesCompleted: number;
+  averageScore: number;
   modules: Array<{ id: string; title: string; order: number; totalLessons: number; completedLessons: number; }>;
 }
 
@@ -45,27 +57,21 @@ function getGreeting(): string {
   return "Bonsoir";
 }
 
-/* ——— Mock Data ——— */
-const WEEK_ACTIVITY = [
-  { day: "Lun", minutes: 52 }, { day: "Mar", minutes: 38 }, { day: "Mer", minutes: 71 },
-  { day: "Jeu", minutes: 18 }, { day: "Ven", minutes: 55 }, { day: "Sam", minutes: 0 }, { day: "Dim", minutes: 30 },
-];
-const MAX_WEEK = Math.max(...WEEK_ACTIVITY.map((d) => d.minutes), 1);
-const TODAY_INDEX = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
-
-const DAILY_GOALS = [
-  { label: "Compl\u00e9ter 1 le\u00e7on", progress: 100, done: true },
-  { label: "R\u00e9ussir 1 quiz", progress: 100, done: true },
-  { label: "Gagner 50 XP", progress: 68, done: false },
-  { label: "\u00c9tudier 30 min", progress: 45, done: false },
-];
-
-const RECENT = [
-  { text: "Le\u00e7on 1 termin\u00e9e", sub: "Comprendre l\u2019IA", time: "Il y a 2h", icon: "check" },
-  { text: "Quiz r\u00e9ussi", sub: "Score : 85%", time: "Il y a 3h", icon: "quiz" },
-  { text: "S\u00e9rie de 3 jours", sub: "Continue comme \u00e7a !", time: "Hier", icon: "flame" },
-  { text: "Module 1 commenc\u00e9", sub: "D\u00e9couvrir Claude", time: "Hier", icon: "layers" },
-];
+/* ——— Helpers ——— */
+function timeAgo(dateStr: string): string {
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diffMs = now.getTime() - date.getTime();
+  const diffMin = Math.floor(diffMs / 60000);
+  if (diffMin < 1) return "À l\u2019instant";
+  if (diffMin < 60) return `Il y a ${diffMin} min`;
+  const diffH = Math.floor(diffMin / 60);
+  if (diffH < 24) return `Il y a ${diffH}h`;
+  const diffD = Math.floor(diffH / 24);
+  if (diffD === 1) return "Hier";
+  if (diffD < 7) return `Il y a ${diffD} jours`;
+  return date.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+}
 
 const fadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } };
 const stagger = { visible: { transition: { staggerChildren: 0.06 } } };
@@ -178,7 +184,7 @@ export default function DashboardPage() {
           { label: "Le\u00e7ons", value: `${data?.completedLessons || 0}/${data?.totalLessons || 80}`, sub: "termin\u00e9es", color: "text-[#FF1744]", bg: "bg-red-50", icon: "\ud83d\udcda" },
           { label: "XP total", value: `${(data?.xp || 0).toLocaleString()}`, sub: "points gagn\u00e9s", color: "text-amber-500", bg: "bg-amber-50", icon: "\u26a1" },
           { label: "Streak", value: `${data?.streak || 0}`, sub: "jours cons\u00e9cutifs", color: "text-orange-500", bg: "bg-orange-50", icon: "\ud83d\udd25" },
-          { label: "Temps moyen", value: "18 min", sub: "par le\u00e7on", color: "text-blue-500", bg: "bg-blue-50", icon: "\u23f1" },
+          { label: "Quiz r\u00e9ussis", value: `${data?.quizzesCompleted || 0}`, sub: `moy. ${Math.round(data?.averageScore || 0)}%`, color: "text-blue-500", bg: "bg-blue-50", icon: "\u2705" },
         ].map((stat) => (
           <Card key={stat.label} variants={fadeUp} className="p-5">
             <div className="flex items-center gap-3 mb-3">
@@ -220,37 +226,53 @@ export default function DashboardPage() {
           )}
 
           {/* Weekly Activity */}
-          <Card initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-sm font-bold text-[#111]">Activit&eacute; de la semaine</h3>
-                <p className="text-xs text-gray-400 mt-0.5">Minutes &eacute;tudi&eacute;es par jour</p>
-              </div>
-              <span className="text-xs font-bold text-[#FF1744] bg-red-50 px-3 py-1.5 rounded-lg border border-red-100">
-                {WEEK_ACTIVITY.reduce((a, b) => a + b.minutes, 0)} min
-              </span>
-            </div>
-            <div className="flex items-end justify-between gap-2 h-32">
-              {WEEK_ACTIVITY.map((d, i) => {
-                const isToday = i === TODAY_INDEX;
-                return (
-                  <div key={d.day} className="flex flex-col items-center gap-2 flex-1">
-                    {d.minutes > 0 && (
-                      <span className={cn("text-[10px] font-bold", isToday ? "text-[#FF1744]" : "text-gray-400")}>{d.minutes}</span>
-                    )}
-                    <motion.div
-                      className={cn("w-full max-w-[36px] rounded-lg", isToday ? "bg-gradient-to-t from-[#D50000] to-[#FF1744]" : "bg-gray-100")}
-                      initial={{ height: 0 }}
-                      whileInView={{ height: d.minutes > 0 ? `${(d.minutes / MAX_WEEK) * 100}%` : "4px" }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.15 + i * 0.06, duration: 0.6, ease: "easeOut" }}
-                    />
-                    <span className={cn("text-[10px] font-semibold", isToday ? "text-[#FF1744]" : "text-gray-400")}>{d.day}</span>
+          {(() => {
+            const days = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
+            const todayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+            // Build activity from recentActivity data
+            const weekData = days.map((day, i) => {
+              const targetDate = new Date();
+              targetDate.setDate(targetDate.getDate() - (todayIdx - i));
+              const dayStr = targetDate.toDateString();
+              const count = (data?.recentActivity || []).filter(a => new Date(a.completedAt).toDateString() === dayStr).length;
+              return { day, count };
+            });
+            const maxCount = Math.max(...weekData.map(d => d.count), 1);
+            const totalWeek = weekData.reduce((s, d) => s + d.count, 0);
+            return (
+              <Card initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-sm font-bold text-[#111]">Activit&eacute; de la semaine</h3>
+                    <p className="text-xs text-gray-400 mt-0.5">Le&ccedil;ons et quiz compl&eacute;t&eacute;s</p>
                   </div>
-                );
-              })}
-            </div>
-          </Card>
+                  <span className="text-xs font-bold text-[#FF1744] bg-red-50 px-3 py-1.5 rounded-lg border border-red-100">
+                    {totalWeek} activit&eacute;{totalWeek !== 1 ? "s" : ""}
+                  </span>
+                </div>
+                <div className="flex items-end justify-between gap-2 h-32">
+                  {weekData.map((d, i) => {
+                    const isToday = i === todayIdx;
+                    return (
+                      <div key={d.day} className="flex flex-col items-center gap-2 flex-1">
+                        {d.count > 0 && (
+                          <span className={cn("text-[10px] font-bold", isToday ? "text-[#FF1744]" : "text-gray-400")}>{d.count}</span>
+                        )}
+                        <motion.div
+                          className={cn("w-full max-w-[36px] rounded-lg", isToday ? "bg-gradient-to-t from-[#D50000] to-[#FF1744]" : d.count > 0 ? "bg-gray-200" : "bg-gray-100")}
+                          initial={{ height: 0 }}
+                          whileInView={{ height: d.count > 0 ? `${(d.count / maxCount) * 100}%` : "4px" }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.15 + i * 0.06, duration: 0.6, ease: "easeOut" }}
+                        />
+                        <span className={cn("text-[10px] font-semibold", isToday ? "text-[#FF1744]" : "text-gray-400")}>{d.day}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Card>
+            );
+          })()}
 
           {/* Mon offre */}
           <Card initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-6">
@@ -319,37 +341,63 @@ export default function DashboardPage() {
         <div className="lg:col-span-5 space-y-5">
 
           {/* Daily Goals */}
-          <Card initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-6">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-sm font-bold text-[#111]">Objectifs du jour</h3>
-              <span className="text-[10px] font-bold text-[#FF1744] bg-red-50 px-2 py-1 rounded-lg border border-red-100">
-                {DAILY_GOALS.filter((g) => g.done).length}/{DAILY_GOALS.length}
-              </span>
-            </div>
-            <div className="space-y-4">
-              {DAILY_GOALS.map((goal, i) => (
-                <div key={goal.label}>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2.5">
-                      <div className={cn("w-5 h-5 rounded-full flex items-center justify-center shrink-0", goal.done ? "bg-emerald-500" : "border-2 border-gray-200 bg-white")}>
-                        {goal.done && <IconCheck className="text-white w-3 h-3" />}
-                      </div>
-                      <span className={cn("text-xs", goal.done ? "text-gray-400 line-through" : "text-[#111] font-medium")}>{goal.label}</span>
-                    </div>
-                    <span className="text-[10px] text-gray-400 font-bold">{goal.progress}%</span>
-                  </div>
-                  <div className="w-full h-1.5 rounded-full bg-gray-100 overflow-hidden ml-[30px]" style={{ width: "calc(100% - 30px)" }}>
-                    <motion.div
-                      className={cn("h-full rounded-full", goal.done ? "bg-emerald-400" : "bg-gradient-to-r from-[#FF1744] to-[#FF5252]")}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${goal.progress}%` }}
-                      transition={{ duration: 0.7, delay: 0.3 + 0.1 * i, ease: "easeOut" }}
-                    />
-                  </div>
+          {(() => {
+            const todayLessons = (data?.recentActivity || []).filter(a => {
+              const d = new Date(a.completedAt);
+              const now = new Date();
+              return a.type === "lesson" && d.toDateString() === now.toDateString();
+            }).length;
+            const todayQuizzes = (data?.recentActivity || []).filter(a => {
+              const d = new Date(a.completedAt);
+              const now = new Date();
+              return a.type === "quiz" && d.toDateString() === now.toDateString();
+            }).length;
+            const todayXp = (data?.recentActivity || []).filter(a => {
+              const d = new Date(a.completedAt);
+              const now = new Date();
+              return d.toDateString() === now.toDateString();
+            }).reduce((s, a) => s + a.xpEarned, 0);
+            const dailyGoals = [
+              { label: "Compl\u00e9ter 1 le\u00e7on", progress: Math.min(todayLessons * 100, 100), done: todayLessons >= 1 },
+              { label: "R\u00e9ussir 1 quiz", progress: Math.min(todayQuizzes * 100, 100), done: todayQuizzes >= 1 },
+              { label: "Gagner 50 XP", progress: Math.min(Math.round((todayXp / 50) * 100), 100), done: todayXp >= 50 },
+              { label: "Maintenir le streak", progress: (data?.streak || 0) > 0 ? 100 : 0, done: (data?.streak || 0) > 0 },
+            ];
+            const doneCount = dailyGoals.filter(g => g.done).length;
+            return (
+              <Card initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-6">
+                <div className="flex items-center justify-between mb-5">
+                  <h3 className="text-sm font-bold text-[#111]">Objectifs du jour</h3>
+                  <span className="text-[10px] font-bold text-[#FF1744] bg-red-50 px-2 py-1 rounded-lg border border-red-100">
+                    {doneCount}/{dailyGoals.length}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </Card>
+                <div className="space-y-4">
+                  {dailyGoals.map((goal, i) => (
+                    <div key={goal.label}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <div className="flex items-center gap-2.5">
+                          <div className={cn("w-5 h-5 rounded-full flex items-center justify-center shrink-0", goal.done ? "bg-emerald-500" : "border-2 border-gray-200 bg-white")}>
+                            {goal.done && <IconCheck className="text-white w-3 h-3" />}
+                          </div>
+                          <span className={cn("text-xs", goal.done ? "text-gray-400 line-through" : "text-[#111] font-medium")}>{goal.label}</span>
+                        </div>
+                        <span className="text-[10px] text-gray-400 font-bold">{goal.progress}%</span>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-gray-100 overflow-hidden ml-[30px]" style={{ width: "calc(100% - 30px)" }}>
+                        <motion.div
+                          className={cn("h-full rounded-full", goal.done ? "bg-emerald-400" : "bg-gradient-to-r from-[#FF1744] to-[#FF5252]")}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${goal.progress}%` }}
+                          transition={{ duration: 0.7, delay: 0.3 + 0.1 * i, ease: "easeOut" }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            );
+          })()}
 
           {/* Module Progress */}
           {data?.modules && data.modules.length > 0 && (
@@ -381,21 +429,26 @@ export default function DashboardPage() {
           <Card initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="p-6">
             <h3 className="text-sm font-bold text-[#111] mb-4">Activit&eacute; r&eacute;cente</h3>
             <div className="space-y-0">
-              {RECENT.map((item, i) => (
-                <div key={i} className={cn("flex items-center gap-3 py-3", i < RECENT.length - 1 && "border-b border-gray-100")}>
-                  <div className="w-8 h-8 rounded-lg bg-[#FF1744]/10 flex items-center justify-center flex-shrink-0 text-[#FF1744]">
-                    {item.icon === "check" && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                    {item.icon === "quiz" && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M12 16v.01" /><path d="M12 13a2 2 0 0 0 .914-3.782A2 2 0 0 0 10 11" /></svg>}
-                    {item.icon === "flame" && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2c1 3 4.5 6 4.5 10a6.5 6.5 0 1 1-13 0C3.5 8 7 5 8 2c.5 2 2 4 4 0z" /></svg>}
-                    {item.icon === "layers" && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" /></svg>}
+              {(data?.recentActivity && data.recentActivity.length > 0) ? data.recentActivity.map((item, i) => (
+                <div key={i} className={cn("flex items-center gap-3 py-3", i < data.recentActivity.length - 1 && "border-b border-gray-100")}>
+                  <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0", item.type === "quiz" ? "bg-emerald-50 text-emerald-500" : "bg-[#FF1744]/10 text-[#FF1744]")}>
+                    {item.type === "lesson" ? (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                    ) : (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M12 16v.01" /><path d="M12 13a2 2 0 0 0 .914-3.782A2 2 0 0 0 10 11" /></svg>
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-[#111]">{item.text}</p>
-                    <p className="text-[10px] text-gray-400">{item.sub}</p>
+                    <p className="text-xs font-semibold text-[#111]">
+                      {item.type === "lesson" ? "Le\u00e7on termin\u00e9e" : "Quiz r\u00e9ussi"}
+                    </p>
+                    <p className="text-[10px] text-gray-400">M{item.moduleOrder} &middot; {item.title}{item.xpEarned > 0 ? ` &middot; +${item.xpEarned} XP` : ""}</p>
                   </div>
-                  <span className="text-[10px] text-gray-300 shrink-0">{item.time}</span>
+                  <span className="text-[10px] text-gray-300 shrink-0">{timeAgo(item.completedAt)}</span>
                 </div>
-              ))}
+              )) : (
+                <p className="text-xs text-gray-400 text-center py-6">Aucune activit\u00e9 pour le moment. Commence ta premi\u00e8re le\u00e7on !</p>
+              )}
             </div>
           </Card>
         </div>
