@@ -4,50 +4,59 @@ import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 
-export const authOptions: NextAuthOptions = {
-  providers: [
+const providers: NextAuthOptions["providers"] = [];
+
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  providers.push(
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    CredentialsProvider({
-      name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Mot de passe", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    })
+  );
+}
 
-        // DEV BYPASS — skip DB lookup in development
-        if (process.env.NODE_ENV === "development") {
-          return {
-            id: "dev-admin",
-            email: credentials.email,
-            name: "Admin Opexia",
-            role: "admin",
-            createdAt: new Date().toISOString(),
-          };
-        }
+providers.push(
+  CredentialsProvider({
+    name: "credentials",
+    credentials: {
+      email: { label: "Email", type: "email" },
+      password: { label: "Mot de passe", type: "password" },
+    },
+    async authorize(credentials) {
+      if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
-        if (!user) return null;
-
-        const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
-        if (!passwordMatch) return null;
-
+      // DEV BYPASS — skip DB lookup in development
+      if (process.env.NODE_ENV === "development") {
         return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          createdAt: user.createdAt.toISOString(),
+          id: "dev-admin",
+          email: credentials.email,
+          name: "Admin Opexia",
+          role: "admin",
+          createdAt: new Date().toISOString(),
         };
-      },
-    }),
-  ],
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { email: credentials.email },
+      });
+      if (!user) return null;
+
+      const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
+      if (!passwordMatch) return null;
+
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        createdAt: user.createdAt.toISOString(),
+      };
+    },
+  })
+);
+
+export const authOptions: NextAuthOptions = {
+  providers,
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user, account }) {
