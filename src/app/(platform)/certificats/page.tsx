@@ -1,54 +1,232 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
+interface ProgressData {
+  completedLessons: string[];
+  completedModules: number[];
+}
+
+const STORAGE_KEY = "opexia-progress";
+
 const certificates = [
-  { title: "Fondamentaux IA & Claude Code", modules: "Modules 1-4", icon: "🧠" },
-  { title: "Builder : Apps & Projets", modules: "Modules 5-8", icon: "⚡" },
-  { title: "ClawBot & Business", modules: "Modules 9-11", icon: "🔧" },
-  { title: "Vente & Scaling", modules: "Modules 12-13", icon: "💼" },
-  { title: "Personal Brand & Déploiement", modules: "Modules 14-15", icon: "🚀" },
-  { title: "Diplôme Opexia Academy", modules: "Tous les modules", icon: "🎓" },
+  {
+    title: "Fondations IA",
+    desc: "Tu maitrises les bases de l'IA et du prompt engineering.",
+    modules: [1, 2, 3, 4],
+    modulesLabel: "Modules 1-4",
+    icon: "🧠",
+    color: "#10B981",
+    colorLight: "rgba(16,185,129,0.08)",
+  },
+  {
+    title: "Builder : Apps & Projets",
+    desc: "Tu sais construire des apps, automatiser et creer des chatbots.",
+    modules: [5, 6, 7, 8],
+    modulesLabel: "Modules 5-8",
+    icon: "⚡",
+    color: "#3B82F6",
+    colorLight: "rgba(59,130,246,0.08)",
+  },
+  {
+    title: "Business & MVP",
+    desc: "Tu sais creer une offre, fixer tes prix et livrer un MVP.",
+    modules: [9, 10, 11, 12],
+    modulesLabel: "Modules 9-12",
+    icon: "💼",
+    color: "#F59E0B",
+    colorLight: "rgba(245,158,11,0.08)",
+  },
+  {
+    title: "Scaling & Juridique",
+    desc: "Tu connais le scaling, la gestion et le cadre legal.",
+    modules: [13, 14],
+    modulesLabel: "Modules 13-14",
+    icon: "🚀",
+    color: "#A855F7",
+    colorLight: "rgba(168,85,247,0.08)",
+  },
+  {
+    title: "Masterclasses",
+    desc: "Tu as complete les masterclasses bonus avancees.",
+    modules: [15, 16],
+    modulesLabel: "Masterclasses",
+    icon: "🔧",
+    color: "#EF4444",
+    colorLight: "rgba(239,68,68,0.08)",
+  },
+  {
+    title: "Diplome Opexia Academy",
+    desc: "Tu as complete l'integralite de la formation. Bravo !",
+    modules: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    modulesLabel: "Tous les modules",
+    icon: "🎓",
+    color: "#FF1744",
+    colorLight: "rgba(255,23,68,0.08)",
+  },
 ];
 
+function getProgress(): ProgressData {
+  if (typeof window === "undefined") return { completedLessons: [], completedModules: [] };
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (!data) return { completedLessons: [], completedModules: [] };
+    return JSON.parse(data);
+  } catch {
+    return { completedLessons: [], completedModules: [] };
+  }
+}
+
 export default function CertificatsPage() {
+  const [progress, setProgress] = useState<ProgressData>({ completedLessons: [], completedModules: [] });
+
+  useEffect(() => {
+    setProgress(getProgress());
+  }, []);
+
+  const completedModules = new Set(progress.completedModules);
+
+  const unlockedCount = certificates.filter((cert) =>
+    cert.modules.every((m) => completedModules.has(m))
+  ).length;
+
   return (
     <div className="w-full">
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 mb-1">Certificats</h1>
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 mb-1">
+          Certificats
+        </h1>
         <p className="text-sm text-gray-500">
-          Complète des modules pour débloquer tes certificats et diplomes.
+          Complete des modules pour debloquer tes certificats et diplomes.
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 text-center mb-8">
-        <svg className="w-12 h-12 text-gray-300 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <circle cx="12" cy="8" r="6" />
-          <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
-        </svg>
-        <h3 className="text-lg font-semibold text-gray-600 mb-2">Pas encore de certificat</h3>
-        <p className="text-sm text-gray-400 max-w-md mx-auto">
-          Complète les modules de la formation pour débloquer tes premiers certificats.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {certificates.map((cert) => (
-          <div key={cert.title} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 opacity-50">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-2xl">{cert.icon}</span>
-              <div>
-                <h3 className="font-semibold text-sm text-gray-900">{cert.title}</h3>
-                <p className="text-[10px] text-gray-400">{cert.modules}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-300">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-              <span className="text-[10px] text-gray-400">Verrouillé</span>
-            </div>
+      {/* Stats bar */}
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 mb-6 flex flex-wrap items-center gap-6">
+        <div>
+          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
+            Certificats debloques
+          </p>
+          <p className="text-2xl font-black text-gray-900">
+            {unlockedCount}
+            <span className="text-sm font-normal text-gray-400">
+              /{certificates.length}
+            </span>
+          </p>
+        </div>
+        <div className="h-10 w-px bg-gray-100 hidden sm:block" />
+        <div>
+          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
+            Modules completes
+          </p>
+          <p className="text-2xl font-black text-gray-900">
+            {completedModules.size}
+            <span className="text-sm font-normal text-gray-400">/16</span>
+          </p>
+        </div>
+        <div className="flex-1" />
+        <div className="w-full sm:w-48">
+          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${(completedModules.size / 16) * 100}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
           </div>
-        ))}
+          <p className="text-[9px] text-gray-400 mt-1 text-right">
+            {Math.round((completedModules.size / 16) * 100)}% de la formation
+          </p>
+        </div>
+      </div>
+
+      {/* Certificates grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {certificates.map((cert, i) => {
+          const completedCount = cert.modules.filter((m) => completedModules.has(m)).length;
+          const totalCount = cert.modules.length;
+          const isUnlocked = completedCount === totalCount;
+          const progressPct = (completedCount / totalCount) * 100;
+
+          return (
+            <motion.div
+              key={cert.title}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06 }}
+              className={`relative bg-white rounded-2xl border shadow-sm p-6 transition-all ${
+                isUnlocked
+                  ? "border-gray-200 hover:shadow-md hover:-translate-y-0.5"
+                  : "border-gray-100 opacity-60"
+              }`}
+            >
+              {/* Unlocked badge */}
+              {isUnlocked && (
+                <div className="absolute top-3 right-3">
+                  <span
+                    className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: cert.colorLight, color: cert.color }}
+                  >
+                    Obtenu
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl"
+                  style={{ backgroundColor: cert.colorLight }}
+                >
+                  {cert.icon}
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-gray-900">{cert.title}</h3>
+                  <p className="text-[10px] text-gray-400">{cert.modulesLabel}</p>
+                </div>
+              </div>
+
+              <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                {cert.desc}
+              </p>
+
+              {/* Progress bar */}
+              <div className="mb-2">
+                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${progressPct}%`,
+                      backgroundColor: cert.color,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] text-gray-400">
+                  {completedCount}/{totalCount} modules
+                </p>
+                {isUnlocked ? (
+                  <div className="flex items-center gap-1" style={{ color: cert.color }}>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-[10px] font-semibold">Complete</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 text-gray-300">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    <span className="text-[10px] text-gray-400">Verrouille</span>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );

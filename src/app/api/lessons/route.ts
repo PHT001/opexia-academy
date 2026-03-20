@@ -42,6 +42,9 @@ export async function GET() {
                 where: { userId, passed: true },
                 take: 1,
               },
+              _count: {
+                select: { questions: true },
+              },
             },
           },
         },
@@ -82,6 +85,7 @@ export async function GET() {
           status,
           quizPassed: (lesson.quiz?.submissions?.length ?? 0) > 0,
           hasQuiz: !!lesson.quiz,
+          questionCount: lesson.quiz?._count?.questions ?? 0,
           xpEarned: prog?.xpEarned || 0,
         };
       }),

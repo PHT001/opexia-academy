@@ -54,14 +54,14 @@ export const MODULE_METADATA: Record<number, ModuleMetadata> = {
   4:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 6  },
   // Semaine 2 — Construction
   5:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 5  },
-  6:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 6  },
-  7:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~1h30",  lessonCount: 4  },
-  8:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~3h",    lessonCount: 7  },
+  6:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 5  },
+  7:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 6  },
+  8:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
   // Semaine 3 — Business
   9:  { brands: [],            difficulty: "avance",         estimatedTime: "~3h",    lessonCount: 7  },
   10: { brands: [],            difficulty: "avance",         estimatedTime: "~3h",    lessonCount: 6  },
   11: { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~3h",    lessonCount: 7  },
-  12: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 6  },
+  12: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 7  },
   // Semaine 4 — Finalisation
   13: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 5  },
   14: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 5  },
