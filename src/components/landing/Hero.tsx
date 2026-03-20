@@ -18,7 +18,7 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
           >
             <span className="inline-flex items-center gap-2 rounded-full bg-[#111] px-4 py-1.5 text-sm font-medium text-white mb-5">
-              <span className="text-base">&#x1F6AB;</span> Non, c&apos;est pas du dropshipping.
+              <span className="text-base">&#x1F4A1;</span> La comp&eacute;tence qui va valoir de l&apos;or en 2026
             </span>
           </motion.div>
 
