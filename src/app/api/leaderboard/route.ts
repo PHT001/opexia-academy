@@ -49,11 +49,17 @@ export async function GET() {
   const currentUserRank = allRanked.findIndex((u) => u.id === session.user.id) + 1;
   const currentUserXp = allRanked.find((u) => u.id === session.user.id)?.xp || 0;
 
+  const currentUserFull = leaderboard.find((u) => u.id === session.user.id) || {
+    id: session.user.id,
+    name: session.user.name || "Élève",
+    xp: currentUserXp,
+    lessonsCompleted: 0,
+    level: Math.floor(currentUserXp / 500) + 1,
+  };
+
   return NextResponse.json({
-    leaderboard,
-    currentUser: {
-      rank: currentUserRank || leaderboard.length + 1,
-      xp: currentUserXp,
-    },
+    rankings: leaderboard,
+    currentUserRank: currentUserRank || null,
+    currentUser: currentUserFull,
   });
 }
