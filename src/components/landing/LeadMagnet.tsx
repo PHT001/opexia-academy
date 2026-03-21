@@ -6,12 +6,36 @@ import { motion } from "framer-motion";
 export default function LeadMagnet() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    // TODO: Connect to email service (Mailchimp, Resend, etc.)
-    setSubmitted(true);
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Erreur lors de l'inscription");
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setError("Erreur de connexion. Reessaye.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -100,7 +124,7 @@ export default function LeadMagnet() {
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                  Check tes mails ! Le guide arrive dans 2 min.
+                  Merci ! Tu seras notifi&eacute; d&egrave;s que le guide est disponible.
                 </div>
               </motion.div>
             ) : (
@@ -115,11 +139,16 @@ export default function LeadMagnet() {
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-[#FF1744] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200 whitespace-nowrap"
+                  disabled={loading}
+                  className="rounded-full bg-[#FF1744] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Recevoir le guide
+                  {loading ? "Envoi..." : "Recevoir le guide"}
                 </button>
               </form>
+            )}
+
+            {error && (
+              <p className="mt-3 text-sm text-red-500">{error}</p>
             )}
 
             <p className="mt-4 text-xs text-gray-400">

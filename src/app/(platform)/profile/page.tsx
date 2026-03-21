@@ -12,13 +12,22 @@ const TIER_LABELS: Record<string, { label: string; color: string; bg: string }> 
   one_to_one: { label: "Premium", color: "text-amber-700", bg: "bg-amber-50" },
 };
 
-const BADGES = [
-  { icon: "\u{1F3AF}", name: "Premier pas", desc: "Premi\u00e8re le\u00e7on compl\u00e9t\u00e9e", unlocked: true },
-  { icon: "\u{1F9E0}", name: "Fondations IA", desc: "Module 1 termin\u00e9", unlocked: false },
-  { icon: "\u{1F525}", name: "Semaine de feu", desc: "7 jours de streak", unlocked: false },
-  { icon: "\u26A1", name: "Mi-parcours", desc: "44 le\u00e7ons compl\u00e9t\u00e9es", unlocked: false },
-  { icon: "\u{1F3C6}", name: "Quiz Master", desc: "Tous les quiz valid\u00e9s", unlocked: false },
-  { icon: "\u{1F393}", name: "Dipl\u00f4me", desc: "Formation compl\u00e8te", unlocked: false },
+interface BadgeCheckInput {
+  lessonsCompleted: number;
+  quizzesPassed: number;
+  streak: number;
+  totalLessons: number;
+  modulesCompleted: number;
+  totalModules: number;
+}
+
+const BADGE_DEFS: { icon: string; name: string; desc: string; check: (s: BadgeCheckInput) => boolean }[] = [
+  { icon: "\u{1F3AF}", name: "Premier pas", desc: "Premi\u00e8re le\u00e7on compl\u00e9t\u00e9e", check: (s) => s.lessonsCompleted >= 1 },
+  { icon: "\u{1F9E0}", name: "Fondations IA", desc: "Module 1 termin\u00e9", check: (s) => s.modulesCompleted >= 1 },
+  { icon: "\u{1F525}", name: "Semaine de feu", desc: "7 jours de streak", check: (s) => s.streak >= 7 },
+  { icon: "\u26A1", name: "Mi-parcours", desc: "50% des le\u00e7ons", check: (s) => s.totalLessons > 0 && s.lessonsCompleted >= Math.ceil(s.totalLessons / 2) },
+  { icon: "\u{1F3C6}", name: "Quiz Master", desc: "5 quiz valid\u00e9s", check: (s) => s.quizzesPassed >= 5 },
+  { icon: "\u{1F393}", name: "Dipl\u00f4me", desc: "Formation compl\u00e8te", check: (s) => s.totalModules > 0 && s.modulesCompleted >= s.totalModules },
 ];
 
 type Tab = "profile" | "subscription";
@@ -34,7 +43,8 @@ export default function ProfilePage() {
 function ProfileContent() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
-  const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter", lessonsCompleted: 0, quizzesPassed: 0 });
+  const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter", lessonsCompleted: 0, quizzesPassed: 0, memberSince: "", totalLessons: 0, modulesCompleted: 0, totalModules: 0 });
+  const [badgesLoading, setBadgesLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>(
     searchParams.get("tab") === "subscription" ? "subscription" : "profile"
   );
@@ -44,16 +54,23 @@ function ProfileContent() {
       .then((r) => r.json())
       .then((data) => {
         if (data?.xp !== undefined) {
+          const mods: { totalLessons: number; completedLessons: number }[] = data.modules || [];
+          const modulesCompleted = mods.filter((m) => m.totalLessons > 0 && m.completedLessons >= m.totalLessons).length;
           setStats({
             xp: data.xp,
             streak: data.streak,
             tier: data.tier || "starter",
-            lessonsCompleted: data.lessonsCompleted || 0,
-            quizzesPassed: data.quizzesPassed || 0,
+            lessonsCompleted: data.completedLessons || 0,
+            quizzesPassed: data.quizzesCompleted || 0,
+            memberSince: data.memberSince || "",
+            totalLessons: data.totalLessons || 0,
+            modulesCompleted,
+            totalModules: mods.length,
           });
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setBadgesLoading(false));
   }, []);
 
   useEffect(() => {
@@ -61,9 +78,9 @@ function ProfileContent() {
   }, [searchParams]);
 
   const tierInfo = TIER_LABELS[stats.tier] || TIER_LABELS.starter;
-  const level = Math.floor(stats.xp / 200) + 1;
-  const xpInLevel = stats.xp % 200;
-  const xpProgress = (xpInLevel / 200) * 100;
+  const level = Math.floor(stats.xp / 500) + 1;
+  const xpInLevel = stats.xp % 500;
+  const xpProgress = (xpInLevel / 500) * 100;
   const isAdmin = session?.user?.role === "admin";
 
   return (
@@ -159,18 +176,36 @@ function ProfileContent() {
                 <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-2">
                   <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
                 </div>
-                <p className="text-[10px] text-gray-400">{xpInLevel}/200 XP pour le niveau {level + 1}</p>
+                <p className="text-[10px] text-gray-400">{xpInLevel}/500 XP pour le niveau {level + 1}</p>
               </div>
 
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
                 <h3 className="text-sm font-bold text-[#111] mb-3">Badges</h3>
-                <div className="flex gap-2">
-                  {BADGES.map((badge) => (
-                    <div key={badge.name} className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${badge.unlocked ? "bg-amber-50 border border-amber-200" : "bg-gray-50 border border-dashed border-gray-200 grayscale opacity-30"}`} title={badge.name}>
-                      {badge.icon}
-                    </div>
-                  ))}
-                </div>
+                {badgesLoading ? (
+                  <div className="flex gap-2">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div key={i} className="w-10 h-10 rounded-xl bg-gray-100 animate-pulse" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    {BADGE_DEFS.map((badge) => {
+                      const unlocked = badge.check({
+                        lessonsCompleted: stats.lessonsCompleted,
+                        quizzesPassed: stats.quizzesPassed,
+                        streak: stats.streak,
+                        totalLessons: stats.totalLessons,
+                        modulesCompleted: stats.modulesCompleted,
+                        totalModules: stats.totalModules,
+                      });
+                      return (
+                        <div key={badge.name} className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${unlocked ? "bg-amber-50 border border-amber-200" : "bg-gray-50 border border-dashed border-gray-200 grayscale opacity-30"}`} title={`${badge.name} — ${badge.desc}`}>
+                          {badge.icon}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -184,7 +219,7 @@ function ProfileContent() {
                   { label: "Nom", value: session?.user?.name || "\u2014" },
                   { label: "Email", value: session?.user?.email || "\u2014" },
                   { label: "Mot de passe", value: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" },
-                  { label: "Membre depuis", value: "Mars 2026" },
+                  { label: "Membre depuis", value: stats.memberSince || new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) },
                 ].map((item) => (
                   <div key={item.label} className="px-5 py-3.5 flex items-center justify-between">
                     <span className="text-xs text-gray-400 w-28">{item.label}</span>

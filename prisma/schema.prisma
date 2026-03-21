@@ -21,6 +21,8 @@ model User {
   profession          String?
   onboardingCompleted Boolean  @default(false)
   referralCode        String?  @unique
+  resetToken          String?
+  resetTokenExpiry    DateTime?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 

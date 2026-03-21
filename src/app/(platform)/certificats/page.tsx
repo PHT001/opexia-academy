@@ -3,93 +3,123 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-interface ProgressData {
-  completedLessons: string[];
-  completedModules: number[];
+interface ModuleProgress {
+  id: string;
+  title: string;
+  order: number;
+  totalLessons: number;
+  completedLessons: number;
 }
 
-const STORAGE_KEY = "opexia-progress";
+interface ProgressData {
+  modules: ModuleProgress[];
+}
 
 const certificates = [
   {
     title: "Fondations IA",
     desc: "Tu maitrises les bases de l'IA et du prompt engineering.",
-    modules: [1, 2, 3, 4],
-    modulesLabel: "Modules 1-4",
-    icon: "🧠",
+    modules: [1],
+    modulesLabel: "Phase 1 — Module 1",
+    icon: "\u{1F9E0}",
     color: "#10B981",
     colorLight: "rgba(16,185,129,0.08)",
   },
   {
-    title: "Builder : Apps & Projets",
-    desc: "Tu sais construire des apps, automatiser et creer des chatbots.",
-    modules: [5, 6, 7, 8],
-    modulesLabel: "Modules 5-8",
-    icon: "⚡",
+    title: "Développeur IA",
+    desc: "Tu sais développer avec l'IA, automatiser et construire des apps.",
+    modules: [2, 3, 4, 5, 6],
+    modulesLabel: "Phase 2 — Modules 2-6",
+    icon: "\u26A1",
     color: "#3B82F6",
     colorLight: "rgba(59,130,246,0.08)",
   },
   {
-    title: "Business & MVP",
-    desc: "Tu sais creer une offre, fixer tes prix et livrer un MVP.",
-    modules: [9, 10, 11, 12],
-    modulesLabel: "Modules 9-12",
-    icon: "💼",
+    title: "Architecte Solutions",
+    desc: "Tu maitrises l'architecture de solutions IA complexes.",
+    modules: [7, 8, 9, 10, 11, 12, 13],
+    modulesLabel: "Phase 3 — Modules 7-13",
+    icon: "\u{1F4BC}",
     color: "#F59E0B",
     colorLight: "rgba(245,158,11,0.08)",
   },
   {
-    title: "Scaling & Juridique",
-    desc: "Tu connais le scaling, la gestion et le cadre legal.",
-    modules: [13, 14],
-    modulesLabel: "Modules 13-14",
-    icon: "🚀",
+    title: "Sécurité & Production",
+    desc: "Tu connais la sécurité, la conformité et le déploiement en production.",
+    modules: [14, 15],
+    modulesLabel: "Phase 4 — Modules 14-15",
+    icon: "\u{1F6E1}\uFE0F",
     color: "#A855F7",
     colorLight: "rgba(168,85,247,0.08)",
   },
   {
-    title: "Masterclasses",
-    desc: "Tu as complete les masterclasses bonus avancees.",
-    modules: [15, 16],
-    modulesLabel: "Masterclasses",
-    icon: "🔧",
+    title: "Entrepreneur IA",
+    desc: "Tu sais créer une offre, fixer tes prix et livrer un MVP.",
+    modules: [16, 17, 18, 19],
+    modulesLabel: "Phase 5 — Modules 16-19",
+    icon: "\u{1F680}",
     color: "#EF4444",
     colorLight: "rgba(239,68,68,0.08)",
   },
   {
-    title: "Diplome Opexia Academy",
-    desc: "Tu as complete l'integralite de la formation. Bravo !",
-    modules: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    title: "Scale & Mastery",
+    desc: "Tu maitrises le scaling, la gestion avancée et les stratégies de croissance.",
+    modules: [20, 21, 22],
+    modulesLabel: "Phase 6 — Modules 20-22",
+    icon: "\u{1F527}",
+    color: "#06B6D4",
+    colorLight: "rgba(6,182,212,0.08)",
+  },
+  {
+    title: "Diplôme OpexIA Academy",
+    desc: "Tu as complété l'intégralité de la formation. Bravo !",
+    modules: Array.from({ length: 22 }, (_, i) => i + 1),
     modulesLabel: "Tous les modules",
-    icon: "🎓",
+    icon: "\u{1F393}",
     color: "#FF1744",
     colorLight: "rgba(255,23,68,0.08)",
   },
 ];
 
-function getProgress(): ProgressData {
-  if (typeof window === "undefined") return { completedLessons: [], completedModules: [] };
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (!data) return { completedLessons: [], completedModules: [] };
-    return JSON.parse(data);
-  } catch {
-    return { completedLessons: [], completedModules: [] };
-  }
-}
-
 export default function CertificatsPage() {
-  const [progress, setProgress] = useState<ProgressData>({ completedLessons: [], completedModules: [] });
+  const [completedModuleOrders, setCompletedModuleOrders] = useState<Set<number>>(new Set());
+  const [totalModules, setTotalModules] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setProgress(getProgress());
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((data: ProgressData) => {
+        if (data?.modules) {
+          const completed = new Set<number>();
+          let total = 0;
+          for (const mod of data.modules) {
+            total++;
+            if (mod.totalLessons > 0 && mod.completedLessons >= mod.totalLessons) {
+              completed.add(mod.order);
+            }
+          }
+          setCompletedModuleOrders(completed);
+          setTotalModules(total);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
-  const completedModules = new Set(progress.completedModules);
+  const completedModules = completedModuleOrders;
 
   const unlockedCount = certificates.filter((cert) =>
     cert.modules.every((m) => completedModules.has(m))
   ).length;
+
+  if (loading) {
+    return (
+      <div className="w-full flex items-center justify-center py-20">
+        <div className="w-6 h-6 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -98,7 +128,7 @@ export default function CertificatsPage() {
           Certificats
         </h1>
         <p className="text-sm text-gray-500">
-          Complete des modules pour debloquer tes certificats et diplomes.
+          Complète des modules pour débloquer tes certificats et diplômes.
         </p>
       </div>
 
@@ -106,7 +136,7 @@ export default function CertificatsPage() {
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 mb-6 flex flex-wrap items-center gap-6">
         <div>
           <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
-            Certificats debloques
+            Certificats débloqués
           </p>
           <p className="text-2xl font-black text-gray-900">
             {unlockedCount}
@@ -118,11 +148,11 @@ export default function CertificatsPage() {
         <div className="h-10 w-px bg-gray-100 hidden sm:block" />
         <div>
           <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
-            Modules completes
+            Modules complétés
           </p>
           <p className="text-2xl font-black text-gray-900">
             {completedModules.size}
-            <span className="text-sm font-normal text-gray-400">/16</span>
+            <span className="text-sm font-normal text-gray-400">/22</span>
           </p>
         </div>
         <div className="flex-1" />
@@ -131,12 +161,12 @@ export default function CertificatsPage() {
             <motion.div
               className="h-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] rounded-full"
               initial={{ width: 0 }}
-              animate={{ width: `${(completedModules.size / 16) * 100}%` }}
+              animate={{ width: `${(completedModules.size / 22) * 100}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
           </div>
           <p className="text-[9px] text-gray-400 mt-1 text-right">
-            {Math.round((completedModules.size / 16) * 100)}% de la formation
+            {Math.round((completedModules.size / 22) * 100)}% de la formation
           </p>
         </div>
       </div>
@@ -213,7 +243,7 @@ export default function CertificatsPage() {
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="text-[10px] font-semibold">Complete</span>
+                      <span className="text-[10px] font-semibold">Complété</span>
                     </div>
                     <a
                       href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://opexia.fr")}&title=${encodeURIComponent(`J'ai obtenu le certificat "${cert.title}" sur OpexIA Academy !`)}`}
@@ -232,7 +262,7 @@ export default function CertificatsPage() {
                       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                     </svg>
-                    <span className="text-[10px] text-gray-400">Verrouille</span>
+                    <span className="text-[10px] text-gray-400">Verrouillé</span>
                   </div>
                 )}
               </div>

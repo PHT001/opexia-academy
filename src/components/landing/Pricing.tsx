@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
 
 interface Plan {
   name: string;
+  slug: string;
   price: string;
   oldPrice: string;
   period: string;
@@ -15,7 +17,7 @@ interface Plan {
   features: string[];
   notIncluded: string[];
   cta: string;
-  href: string;
+  href?: string;
   external?: boolean;
   limited?: boolean;
 }
@@ -23,6 +25,7 @@ interface Plan {
 const plans: Plan[] = [
   {
     name: "Starter",
+    slug: "starter",
     price: "47",
     oldPrice: "97",
     period: "paiement unique",
@@ -41,10 +44,10 @@ const plans: Plan[] = [
       "Visios individuelles",
     ],
     cta: "Obtenir le Starter \u2014 47\u20ac",
-    href: "/api/checkout?plan=starter",
   },
   {
     name: "Academy",
+    slug: "academy",
     price: "397",
     oldPrice: "697",
     period: "ou 3x 139\u20ac sans frais",
@@ -52,7 +55,7 @@ const plans: Plan[] = [
     popular: true,
     features: [
       "Tout le pack Starter",
-      "100+ le\u00e7ons vid\u00e9o & texte",
+      "130+ le\u00e7ons vid\u00e9o & texte",
       "Quiz & exercices pratiques",
       "Assistant IA int\u00e9gr\u00e9",
       "Plateforme compl\u00e8te",
@@ -64,10 +67,10 @@ const plans: Plan[] = [
     ],
     notIncluded: ["Visios individuelles"],
     cta: "Rejoindre l\u2019Academy \u2014 397\u20ac",
-    href: "/api/checkout?plan=academy",
   },
   {
     name: "One-to-One",
+    slug: "one_to_one",
     price: "3 997",
     oldPrice: "5 997",
     period: "ou 4x 999\u20ac sans frais",
@@ -121,6 +124,33 @@ function CountdownTimer() {
 }
 
 export default function Pricing() {
+  const router = useRouter();
+  const [loading, setLoading] = useState<string | null>(null);
+
+  async function handleCheckout(slug: string) {
+    setLoading(slug);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: slug }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        if (res.status === 401) {
+          router.push("/login?redirect=checkout&plan=" + slug);
+          return;
+        }
+        throw new Error(data.error || "Erreur lors du checkout");
+      }
+      window.location.href = data.url;
+    } catch {
+      alert("Une erreur est survenue. Veuillez r\u00e9essayer.");
+    } finally {
+      setLoading(null);
+    }
+  }
+
   return (
     <section id="pricing" className="py-16 lg:py-20 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -187,25 +217,31 @@ export default function Pricing() {
                 <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>
               </div>
 
-              <a
-                href={plan.href}
-                target={plan.external ? "_blank" : undefined}
-                rel={plan.external ? "noopener noreferrer" : undefined}
-                className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all ${
-                  plan.popular
-                    ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200"
-                    : plan.external
-                    ? "bg-[#25D366] text-white hover:bg-[#1da851] hover:shadow-lg hover:shadow-green-200"
-                    : "bg-[#111] text-white hover:bg-[#333]"
-                }`}
-              >
-                {plan.external && (
+              {plan.external ? (
+                <a
+                  href={plan.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all bg-[#25D366] text-white hover:bg-[#1da851] hover:shadow-lg hover:shadow-green-200"
+                >
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                   </svg>
-                )}
-                {plan.cta}
-              </a>
+                  {plan.cta}
+                </a>
+              ) : (
+                <button
+                  onClick={() => handleCheckout(plan.slug)}
+                  disabled={loading === plan.slug}
+                  className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${
+                    plan.popular
+                      ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200"
+                      : "bg-[#111] text-white hover:bg-[#333]"
+                  }`}
+                >
+                  {loading === plan.slug ? "Redirection..." : plan.cta}
+                </button>
+              )}
 
               {plan.limited && (
                 <div className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-red-50 border border-red-200 px-3 py-2">

@@ -11,6 +11,11 @@ export async function GET() {
 
   const userId = session.user.id;
 
+  const currentUser = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { createdAt: true },
+  });
+
   const modules = await prisma.module.findMany({
     orderBy: { order: "asc" },
     include: {
@@ -152,6 +157,9 @@ export async function GET() {
     recentActivity: recentActivityTop5,
     quizzesCompleted,
     averageScore,
+    memberSince: currentUser?.createdAt
+      ? new Date(currentUser.createdAt).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+      : "",
     modules: modules.map((m) => ({
       id: m.id,
       title: m.title,

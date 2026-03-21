@@ -356,10 +356,10 @@ export default function DashboardPage() {
             <div className="p-4 rounded-xl bg-[#F8F9FA] border border-gray-100 mb-5">
               <div className="flex items-center justify-between mb-2.5">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Acc&egrave;s aux modules</span>
-                <span className="text-[10px] text-gray-400 font-semibold">{accessibleModules.length}/14</span>
+                <span className="text-[10px] text-gray-400 font-semibold">{accessibleModules.length}/22</span>
               </div>
               <div className="flex gap-1">
-                {Array.from({ length: 14 }, (_, i) => i + 1).map((m) => (
+                {Array.from({ length: 22 }, (_, i) => i + 1).map((m) => (
                   <div key={m} className={cn("flex-1 h-2.5 rounded-full", accessibleModules.includes(m) ? "bg-gradient-to-r from-[#FF1744] to-[#FF5252]" : "bg-gray-200")} />
                 ))}
               </div>

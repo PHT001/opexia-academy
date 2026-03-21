@@ -262,6 +262,7 @@ export default function NotesPage() {
   }
 
   function deleteNote(id: string) {
+    if (!window.confirm("Supprimer cette note ?")) return;
     setNotes((prev) => {
       const remaining = prev.filter((n) => n.id !== id);
       if (activeNoteId === id) {

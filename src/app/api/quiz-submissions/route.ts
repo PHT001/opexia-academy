@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 
     // Unlock next lesson
     const allLessons = await prisma.lesson.findMany({
-      orderBy: [{ moduleId: "asc" }, { order: "asc" }],
+      orderBy: [{ module: { order: "asc" } }, { order: "asc" }],
       select: { id: true, slug: true },
     });
     const idx = allLessons.findIndex((l) => l.id === lesson.id);

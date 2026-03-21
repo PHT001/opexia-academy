@@ -292,7 +292,7 @@ export default function ParrainagePage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { tier: "Starter", price: "47\u20AC", commission: "+9,40\u20AC", pct: "20%", desc: "Fondamentaux", ring: "ring-gray-200", bg: "bg-white", commColor: "text-gray-700", highlight: false },
-            { tier: "Academy", price: "397\u20AC", commission: "+59,55\u20AC", pct: "15%", desc: "13 modules + 2 masterclasses", ring: "ring-emerald-300", bg: "bg-gradient-to-b from-emerald-50/80 to-white", commColor: "text-emerald-600", highlight: true },
+            { tier: "Academy", price: "397\u20AC", commission: "+59,55\u20AC", pct: "15%", desc: "22 modules complets", ring: "ring-emerald-300", bg: "bg-gradient-to-b from-emerald-50/80 to-white", commColor: "text-emerald-600", highlight: true },
             { tier: "One-to-One", price: "3 997\u20AC", commission: "+399,70\u20AC", pct: "10%", desc: "Coaching inclus", ring: "ring-amber-300", bg: "bg-gradient-to-b from-amber-50/60 to-white", commColor: "text-amber-600", highlight: false },
           ].map((t, i) => (
             <motion.div

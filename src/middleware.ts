@@ -1,7 +1,7 @@
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
-// DEV BYPASS — remove before deploying to production
+// WARNING: DEV_BYPASS disables all auth middleware in development — remove before deploying to production
 const DEV_BYPASS = process.env.NODE_ENV === "development";
 
 function devMiddleware(req: NextRequest) {
@@ -45,5 +45,8 @@ export const config = {
     "/generateur/:path*",
     "/marketplace/:path*",
     "/certificats/:path*",
+    "/pipeline/:path*",
+    "/parrainage/:path*",
+    "/leaderboard/:path*",
   ],
 };

@@ -38,6 +38,8 @@ export type UserMinAggregateOutputType = {
   profession: string | null
   onboardingCompleted: boolean | null
   referralCode: string | null
+  resetToken: string | null
+  resetTokenExpiry: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +58,8 @@ export type UserMaxAggregateOutputType = {
   profession: string | null
   onboardingCompleted: boolean | null
   referralCode: string | null
+  resetToken: string | null
+  resetTokenExpiry: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -74,6 +78,8 @@ export type UserCountAggregateOutputType = {
   profession: number
   onboardingCompleted: number
   referralCode: number
+  resetToken: number
+  resetTokenExpiry: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -94,6 +100,8 @@ export type UserMinAggregateInputType = {
   profession?: true
   onboardingCompleted?: true
   referralCode?: true
+  resetToken?: true
+  resetTokenExpiry?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +120,8 @@ export type UserMaxAggregateInputType = {
   profession?: true
   onboardingCompleted?: true
   referralCode?: true
+  resetToken?: true
+  resetTokenExpiry?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -130,6 +140,8 @@ export type UserCountAggregateInputType = {
   profession?: true
   onboardingCompleted?: true
   referralCode?: true
+  resetToken?: true
+  resetTokenExpiry?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -221,6 +233,8 @@ export type UserGroupByOutputType = {
   profession: string | null
   onboardingCompleted: boolean
   referralCode: string | null
+  resetToken: string | null
+  resetTokenExpiry: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -260,6 +274,8 @@ export type UserWhereInput = {
   profession?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
   referralCode?: Prisma.StringNullableFilter<"User"> | string | null
+  resetToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetTokenExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   progress?: Prisma.LessonProgressListRelationFilter
@@ -286,6 +302,8 @@ export type UserOrderByWithRelationInput = {
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetTokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   progress?: Prisma.LessonProgressOrderByRelationAggregateInput
@@ -315,6 +333,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   age?: Prisma.StringNullableFilter<"User"> | string | null
   profession?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
+  resetToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetTokenExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   progress?: Prisma.LessonProgressListRelationFilter
@@ -341,6 +361,8 @@ export type UserOrderByWithAggregationInput = {
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetTokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -365,6 +387,8 @@ export type UserScalarWhereWithAggregatesInput = {
   profession?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   referralCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  resetToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  resetTokenExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -383,6 +407,8 @@ export type UserCreateInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -409,6 +435,8 @@ export type UserUncheckedCreateInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -435,6 +463,8 @@ export type UserUpdateInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -461,6 +491,8 @@ export type UserUncheckedUpdateInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -487,6 +519,8 @@ export type UserCreateManyInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -505,6 +539,8 @@ export type UserUpdateManyMutationInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -523,6 +559,8 @@ export type UserUncheckedUpdateManyInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -541,6 +579,8 @@ export type UserCountOrderByAggregateInput = {
   profession?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
+  resetToken?: Prisma.SortOrder
+  resetTokenExpiry?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -559,6 +599,8 @@ export type UserMaxOrderByAggregateInput = {
   profession?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
+  resetToken?: Prisma.SortOrder
+  resetTokenExpiry?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -577,6 +619,8 @@ export type UserMinOrderByAggregateInput = {
   profession?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
+  resetToken?: Prisma.SortOrder
+  resetTokenExpiry?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -596,6 +640,10 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -728,6 +776,8 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -753,6 +803,8 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -794,6 +846,8 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -819,6 +873,8 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -844,6 +900,8 @@ export type UserCreateWithoutProgressInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   quizSubmissions?: Prisma.QuizSubmissionCreateNestedManyWithoutUserInput
@@ -869,6 +927,8 @@ export type UserUncheckedCreateWithoutProgressInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   quizSubmissions?: Prisma.QuizSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -910,6 +970,8 @@ export type UserUpdateWithoutProgressInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quizSubmissions?: Prisma.QuizSubmissionUpdateManyWithoutUserNestedInput
@@ -935,6 +997,8 @@ export type UserUncheckedUpdateWithoutProgressInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quizSubmissions?: Prisma.QuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -960,6 +1024,8 @@ export type UserCreateWithoutStreaksInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -985,6 +1051,8 @@ export type UserUncheckedCreateWithoutStreaksInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1026,6 +1094,8 @@ export type UserUpdateWithoutStreaksInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1051,6 +1121,8 @@ export type UserUncheckedUpdateWithoutStreaksInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1076,6 +1148,8 @@ export type UserCreateWithoutEnrollmentsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1101,6 +1175,8 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1142,6 +1218,8 @@ export type UserUpdateWithoutEnrollmentsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1167,6 +1245,8 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1192,6 +1272,8 @@ export type UserCreateWithoutCoachingSessionsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1217,6 +1299,8 @@ export type UserUncheckedCreateWithoutCoachingSessionsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1258,6 +1342,8 @@ export type UserUpdateWithoutCoachingSessionsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1283,6 +1369,8 @@ export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1308,6 +1396,8 @@ export type UserCreateWithoutDealsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1333,6 +1423,8 @@ export type UserUncheckedCreateWithoutDealsInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1374,6 +1466,8 @@ export type UserUpdateWithoutDealsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1399,6 +1493,8 @@ export type UserUncheckedUpdateWithoutDealsInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1424,6 +1520,8 @@ export type UserCreateWithoutReferralsMadeInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1449,6 +1547,8 @@ export type UserUncheckedCreateWithoutReferralsMadeInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1479,6 +1579,8 @@ export type UserCreateWithoutReferredByInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1504,6 +1606,8 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   profession?: string | null
   onboardingCompleted?: boolean
   referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1545,6 +1649,8 @@ export type UserUpdateWithoutReferralsMadeInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1570,6 +1676,8 @@ export type UserUncheckedUpdateWithoutReferralsMadeInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1606,6 +1714,8 @@ export type UserUpdateWithoutReferredByInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1631,6 +1741,8 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1750,6 +1862,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   profession?: boolean
   onboardingCompleted?: boolean
   referralCode?: boolean
+  resetToken?: boolean
+  resetTokenExpiry?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   progress?: boolean | Prisma.User$progressArgs<ExtArgs>
@@ -1777,6 +1891,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   profession?: boolean
   onboardingCompleted?: boolean
   referralCode?: boolean
+  resetToken?: boolean
+  resetTokenExpiry?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1795,6 +1911,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   profession?: boolean
   onboardingCompleted?: boolean
   referralCode?: boolean
+  resetToken?: boolean
+  resetTokenExpiry?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1813,11 +1931,13 @@ export type UserSelectScalar = {
   profession?: boolean
   onboardingCompleted?: boolean
   referralCode?: boolean
+  resetToken?: boolean
+  resetTokenExpiry?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "emailVerified" | "verificationCode" | "phone" | "discordUsername" | "age" | "profession" | "onboardingCompleted" | "referralCode" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "emailVerified" | "verificationCode" | "phone" | "discordUsername" | "age" | "profession" | "onboardingCompleted" | "referralCode" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   progress?: boolean | Prisma.User$progressArgs<ExtArgs>
   quizSubmissions?: boolean | Prisma.User$quizSubmissionsArgs<ExtArgs>
@@ -1858,6 +1978,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     profession: string | null
     onboardingCompleted: boolean
     referralCode: string | null
+    resetToken: string | null
+    resetTokenExpiry: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2304,6 +2426,8 @@ export interface UserFieldRefs {
   readonly profession: Prisma.FieldRef<"User", 'String'>
   readonly onboardingCompleted: Prisma.FieldRef<"User", 'Boolean'>
   readonly referralCode: Prisma.FieldRef<"User", 'String'>
+  readonly resetToken: Prisma.FieldRef<"User", 'String'>
+  readonly resetTokenExpiry: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

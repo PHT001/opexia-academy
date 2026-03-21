@@ -70,7 +70,8 @@ export const authOptions: NextAuthOptions = {
               email,
               name: user.name || email.split("@")[0],
               hashedPassword: "",
-              role: "user",
+              role: "student",
+              emailVerified: true,
             },
           });
           user.id = created.id;

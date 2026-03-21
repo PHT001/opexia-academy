@@ -95,6 +95,8 @@ export const UserScalarFieldEnum = {
   profession: 'profession',
   onboardingCompleted: 'onboardingCompleted',
   referralCode: 'referralCode',
+  resetToken: 'resetToken',
+  resetTokenExpiry: 'resetTokenExpiry',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
