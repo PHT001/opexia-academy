@@ -2,48 +2,79 @@ import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 
-// Import lesson data — 13 formation modules (new structure)
-import { MODULE_1_LESSONS } from "./data/new_module_01";   // M1: Découvrir l'IA
-import { MODULE_2_LESSONS } from "./data/new_module_02";   // M2: Prompt Engineering
-import { MODULE_3_LESSONS } from "./data/new_module_03";   // M3: Sites web
-import { MODULE_4_LESSONS } from "./data/new_module_04";   // M4: Backend + APIs
-import { MODULE_5_LESSONS } from "./data/new_module_05";   // M5: APIs avancées, Stripe, Webhooks
-import { MODULE_6_LESSONS } from "./data/new_module_06";   // M6: Automatisations
-import { MODULE_7_LESSONS } from "./data/new_module_07";   // M7: Chatbots IA
-import { MODULE_8_LESSONS } from "./data/new_module_08";   // M8: Agents IA
-import { MODULE_10_LESSONS } from "./data/new_module_10";  // M9: Offre et prix
-import { MODULE_11_LESSONS } from "./data/new_module_11";  // M10: Trouver des clients (+ closing)
-import { MODULE_12_LESSONS } from "./data/new_module_12";  // M11: Livrer et fidéliser (+ support)
-import { MODULE_9_LESSONS } from "./data/new_module_09";   // M12: Construire un MVP
-import { MODULE_13_SCALER_LESSONS } from "./data/new_module_13_scaler";  // M13: Scaler à 10K€/mois
-import { MODULE_14_LESSONS } from "./data/new_module_14";  // M14: Juridique, contrats et admin
+// ═══════════════════════════════════════════════════
+// IMPORTS — 22 modules (formation + masterclass)
+// ═══════════════════════════════════════════════════
 
-// Import masterclass data
-import { MASTERCLASS_CLAUDE_CODE_LESSONS } from "./data/masterclass_claude_code";
-import { MASTERCLASS_OPENCLAW_LESSONS } from "./data/masterclass_openclaw";
+// Phase 1 — Fondations
+import { MODULE_1_LESSONS } from "./data/new_module_01";                     // M1: Découvrir l'IA
+
+// Phase 2 — Développeur IA
+import { MODULE_2_LESSONS } from "./data/new_module_02";                     // M2: Prompt Engineering
+import { MODULE_3_LESSONS } from "./data/new_module_03";                     // M3: Sites web
+import { MODULE_4_DESIGN_LESSONS } from "./data/new_module_04_design";       // M4: Design & UI (NEW)
+import { MODULE_4_LESSONS } from "./data/new_module_04";                     // M5: Backend Supabase
+import { MODULE_5_LESSONS } from "./data/new_module_05";                     // M6: APIs, Stripe, Webhooks
+
+// Phase 3 — Architecte Solutions
+import { MODULE_6_LESSONS } from "./data/new_module_06";                     // M7: Automatisations
+import { MODULE_7_LESSONS } from "./data/new_module_07";                     // M8: Chatbots IA
+import { MODULE_9_MULTICHANNEL_LESSONS } from "./data/new_module_09_multichannel"; // M9: Multi-canal (NEW)
+import { MODULE_8_LESSONS } from "./data/new_module_08";                     // M10: Agents IA
+import { MODULE_11_VOICE_LESSONS } from "./data/new_module_11_voice";        // M11: Voice AI (NEW)
+import { MODULE_9_LESSONS } from "./data/new_module_09";                     // M12: Construire un MVP
+import { MODULE_13_DOCUMENTS_LESSONS } from "./data/new_module_13_documents"; // M13: IA documents (NEW)
+
+// Phase 4 — Sécurité & Production
+import { MODULE_14_SECURITY_LESSONS } from "./data/new_module_14_security";  // M14: Sécurité (NEW)
+import { MODULE_15_DEVOPS_LESSONS } from "./data/new_module_15_devops";      // M15: DevOps (NEW)
+
+// Phase 5 — Entrepreneur
+import { MODULE_10_LESSONS } from "./data/new_module_10";                    // M16: Offre et prix
+import { MODULE_11_LESSONS } from "./data/new_module_11";                    // M17: Trouver des clients
+import { MODULE_12_LESSONS } from "./data/new_module_12";                    // M18: Livrer et fidéliser
+import { MODULE_14_LESSONS } from "./data/new_module_14";                    // M19: Juridique
+
+// Phase 6 — Scale & Mastery
+import { MODULE_13_SCALER_LESSONS } from "./data/new_module_13_scaler";      // M20: Scaler à 10K€
+import { MODULE_21_MULTITENANT_LESSONS } from "./data/new_module_21_multitenant"; // M21: Multi-tenant (NEW)
+import { MODULE_22_MASTERCLASS_TOOLS_LESSONS } from "./data/new_module_22_masterclass_tools"; // M22: Masterclass (NEW)
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
-// Map file imports to NEW module order (1-13 formation + 14-15 masterclass)
-// Each array is [lessons, targetModuleIndex (0-based)]
+// ═══════════════════════════════════════════════════
+// MODULE MAP — [lessons array, target module index (0-based)]
+// ═══════════════════════════════════════════════════
 const MODULE_MAP: [any[], number][] = [
-  [MODULE_1_LESSONS, 0],     // M1: Découvrir l'IA
-  [MODULE_2_LESSONS, 1],     // M2: Prompt Engineering
-  [MODULE_3_LESSONS, 2],     // M3: Sites web
-  [MODULE_4_LESSONS, 3],     // M4: Backend + Supabase
-  [MODULE_5_LESSONS, 4],     // M5: APIs avancées, Stripe, Webhooks
-  [MODULE_6_LESSONS, 5],     // M6: Automatisations
-  [MODULE_7_LESSONS, 6],     // M7: Chatbots
-  [MODULE_8_LESSONS, 7],     // M8: Agents IA
-  [MODULE_10_LESSONS, 8],    // M9: Offre et prix
-  [MODULE_11_LESSONS, 9],    // M10: Trouver des clients
-  [MODULE_12_LESSONS, 10],   // M11: Livrer et fidéliser
-  [MODULE_9_LESSONS, 11],    // M12: Construire un MVP
-  [MODULE_13_SCALER_LESSONS, 12],   // M13: Scaler à 10K€/mois
-  [MODULE_14_LESSONS, 13],   // M14: Juridique
-  [MASTERCLASS_CLAUDE_CODE_LESSONS, 14], // M15: Claude Code
-  [MASTERCLASS_OPENCLAW_LESSONS, 15],    // M16: OpenClaw
+  // Phase 1
+  [MODULE_1_LESSONS, 0],                   // M1: Découvrir l'IA
+  // Phase 2
+  [MODULE_2_LESSONS, 1],                   // M2: Prompt Engineering
+  [MODULE_3_LESSONS, 2],                   // M3: Sites web
+  [MODULE_4_DESIGN_LESSONS, 3],            // M4: Design & UI (NEW)
+  [MODULE_4_LESSONS, 4],                   // M5: Backend Supabase
+  [MODULE_5_LESSONS, 5],                   // M6: APIs, Stripe
+  // Phase 3
+  [MODULE_6_LESSONS, 6],                   // M7: Automatisations
+  [MODULE_7_LESSONS, 7],                   // M8: Chatbots IA
+  [MODULE_9_MULTICHANNEL_LESSONS, 8],      // M9: Multi-canal (NEW)
+  [MODULE_8_LESSONS, 9],                   // M10: Agents IA
+  [MODULE_11_VOICE_LESSONS, 10],           // M11: Voice AI (NEW)
+  [MODULE_9_LESSONS, 11],                  // M12: Construire un MVP
+  [MODULE_13_DOCUMENTS_LESSONS, 12],       // M13: IA documents (NEW)
+  // Phase 4
+  [MODULE_14_SECURITY_LESSONS, 13],        // M14: Sécurité (NEW)
+  [MODULE_15_DEVOPS_LESSONS, 14],          // M15: DevOps (NEW)
+  // Phase 5
+  [MODULE_10_LESSONS, 15],                 // M16: Offre et prix
+  [MODULE_11_LESSONS, 16],                 // M17: Trouver des clients
+  [MODULE_12_LESSONS, 17],                 // M18: Livrer et fidéliser
+  [MODULE_14_LESSONS, 18],                 // M19: Juridique
+  // Phase 6
+  [MODULE_13_SCALER_LESSONS, 19],          // M20: Scaler à 10K€
+  [MODULE_21_MULTITENANT_LESSONS, 20],     // M21: Multi-tenant (NEW)
+  [MODULE_22_MASTERCLASS_TOOLS_LESSONS, 21], // M22: Masterclass outils (NEW)
 ];
 
 function makeQuiz(lessonOrder: number): Array<{ type: string; question: string; options: string; correctAnswer: string; explanation: string; order: number }> {
@@ -66,7 +97,7 @@ function makeQuiz(lessonOrder: number): Array<{ type: string; question: string; 
 }
 
 async function main() {
-  const totalModules = 14 + 2; // 14 formation + 2 masterclasses
+  const totalModules = 22;
   console.log(`Seeding database with ${MODULE_MAP.reduce((s, [l]) => s + l.length, 0)} lessons across ${totalModules} modules...`);
 
   // Clean all data — use TRUNCATE CASCADE for PostgreSQL
@@ -91,26 +122,38 @@ async function main() {
   console.log(`Student: ${student.email} / test123`);
 
   // ═══════════════════════════════════════════════════
-  // 13 FORMATION MODULES + 2 MASTERCLASSES
+  // 22 MODULES
   // ═══════════════════════════════════════════════════
   const modules = [];
   const moduleDefinitions = [
-    { title: "Découvrir l'IA et lancer ton agence", description: "Comprendre l'IA, les outils, et poser les bases de ton business", order: 1 },
+    // Phase 1 — Fondations
+    { title: "Découvrir l'IA et poser les bases", description: "Comprendre l'IA, les outils, et créer ton premier agent", order: 1 },
+    // Phase 2 — Développeur IA
     { title: "Prompt Engineering avancé", description: "Maîtriser Claude comme outil de travail quotidien", order: 2 },
-    { title: "Créer des sites web avec l'IA", description: "De zéro à un site en ligne + ton portfolio", order: 3 },
-    { title: "Backend, Supabase et APIs", description: "Base de données, auth et premiers pas avec Supabase", order: 4 },
-    { title: "APIs avancées, Stripe et Webhooks", description: "Paiements en ligne, webhooks et intégration IA", order: 5 },
-    { title: "Automatisations", description: "Make, n8n : créer des machines qui bossent pour toi", order: 6 },
-    { title: "Chatbots IA", description: "Le service le plus demandé et le plus facile à vendre", order: 7 },
-    { title: "Agents IA", description: "Des IA autonomes : veille, analyse et actions", order: 8 },
-    { title: "Ton offre et tes prix", description: "De \"je sais faire\" à \"je vends\" — ton premier client", order: 9 },
-    { title: "Trouver des clients", description: "Prospection LinkedIn, cold email, closing et upselling", order: 10 },
-    { title: "Livrer et fidéliser", description: "Process de livraison, retainers et témoignages", order: 11 },
-    { title: "Construire un MVP", description: "Ton premier vrai produit de A à Z", order: 12 },
-    { title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", order: 13 },
-    { title: "Juridique, contrats et admin", description: "Statuts, contrats, RGPD et facturation", order: 14 },
-    { title: "Masterclass Claude Code", description: "Coder avec Claude directement dans ton terminal", order: 15 },
-    { title: "Masterclass OpenClaw", description: "Assistant IA personnel self-hosted multi-canal", order: 16 },
+    { title: "Créer des sites web professionnels", description: "De zéro à un site en ligne avec Next.js + Tailwind", order: 3 },
+    { title: "Design & UI pour développeurs", description: "Figma, principes de design et UI kits pour livrer du pro", order: 4 },
+    { title: "Backend & Supabase", description: "Base de données, auth, storage et CRUD complet", order: 5 },
+    { title: "APIs, Intégrations & Paiements", description: "API Routes, Stripe, webhooks et intégration Claude", order: 6 },
+    // Phase 3 — Architecte Solutions
+    { title: "Automatisations & Workflows", description: "Make, n8n : créer des machines qui bossent pour toi", order: 7 },
+    { title: "Chatbots IA professionnels", description: "RAG, pgvector, widget embarquable et analytics", order: 8 },
+    { title: "Chatbots multi-canal", description: "WhatsApp, Instagram, Messenger : là où sont les clients", order: 9 },
+    { title: "Agents IA autonomes", description: "Tool use, ReAct, MCP et agents multi-step", order: 10 },
+    { title: "Voice AI & Agents téléphoniques", description: "Vapi, ElevenLabs : l'IA qui décroche le téléphone", order: 11 },
+    { title: "Construire un MVP", description: "Ton premier vrai produit de A à Z en 48h", order: 12 },
+    { title: "IA pour documents & data", description: "PDF, OCR, Excel : traitement de données pour entreprises", order: 13 },
+    // Phase 4 — Sécurité & Production
+    { title: "Sécurité Supabase & bonnes pratiques", description: "RLS, validation, secrets et checklist production", order: 14 },
+    { title: "DevOps & Monitoring", description: "Git avancé, CI/CD, Sentry et maintenance pro", order: 15 },
+    // Phase 5 — Entrepreneur
+    { title: "Créer ton offre irrésistible", description: "De \"je sais faire\" à \"je vends\" — pricing et positionnement", order: 16 },
+    { title: "Trouver des clients", description: "LinkedIn, cold email, closing et système de prospection", order: 17 },
+    { title: "Livrer et fidéliser", description: "Process de livraison, retainers et referrals", order: 18 },
+    { title: "Juridique, fiscalité & admin", description: "Statuts, contrats, RGPD, facturation et assurances", order: 19 },
+    // Phase 6 — Scale & Mastery
+    { title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", order: 20 },
+    { title: "Architecture multi-tenant & white-label", description: "Build once, sell many : le vrai scale technique", order: 21 },
+    { title: "Masterclass outils : Claude Code, Cursor & Antigravity", description: "Maîtrise avancée des outils de développement IA", order: 22 },
   ];
 
   for (const def of moduleDefinitions) {
@@ -177,41 +220,29 @@ async function main() {
         lessonId: firstLessons[i].id,
         status: "completed",
         completedAt: new Date(),
-        xpEarned: 150,
+        xpEarned: 50,
       },
     });
   }
 
-  // 4th lesson in progress
-  await prisma.lessonProgress.create({
-    data: {
-      userId: student.id,
-      lessonId: firstLessons[3].id,
-      status: "in_progress",
-    },
-  });
-
-  // Sample streak
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  for (let i = 0; i < 3; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    await prisma.streak.create({ data: { userId: student.id, date: d } });
+  if (firstLessons[3]) {
+    await prisma.lessonProgress.create({
+      data: {
+        userId: student.id,
+        lessonId: firstLessons[3].id,
+        status: "in_progress",
+        xpEarned: 0,
+      },
+    });
   }
 
-  // Enrollment
-  await prisma.enrollment.create({
-    data: { userId: student.id, tier: "starter", status: "active" },
-  });
-
-  console.log("Seed complete!");
-  console.log(`${lessonCount} lessons across ${modules.length} modules`);
-  console.log(`  → 14 formation modules`);
-  console.log(`  → 2 masterclass modules`);
-  console.log("Test student has 3 completed lessons, 1 in progress, 3-day streak");
+  console.log("Sample progress created for test student");
+  console.log("Seeding complete!");
 }
 
 main()
-  .catch(console.error)
+  .catch((e) => {
+    console.error("Seeding error:", e);
+    process.exit(1);
+  })
   .finally(() => prisma.$disconnect());

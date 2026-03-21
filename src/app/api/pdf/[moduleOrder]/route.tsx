@@ -23,7 +23,7 @@ export async function GET(
 
   const { moduleOrder: orderStr } = await params;
   const moduleOrder = parseInt(orderStr, 10);
-  if (isNaN(moduleOrder) || moduleOrder < 1 || moduleOrder > 16) {
+  if (isNaN(moduleOrder) || moduleOrder < 1 || moduleOrder > 22) {
     return NextResponse.json({ error: "Module invalide" }, { status: 400 });
   }
 
