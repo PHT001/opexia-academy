@@ -98,7 +98,7 @@ export default function Hero() {
 
               <a
                 href="#pricing"
-                className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200"
+                className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#1E88E5] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#1565C0] hover:shadow-xl hover:shadow-blue-200"
               >
                 Commencer maintenant
                 <svg
