@@ -58,6 +58,8 @@ const WEEK_THEMES = [
   { accent: "text-blue-600", accentBg: "bg-blue-50", border: "border-blue-200", bar: "bg-blue-500", ring: "stroke-blue-500", leftBorder: "border-l-blue-500", lightBg: "bg-blue-50" },
   { accent: "text-violet-600", accentBg: "bg-violet-50", border: "border-violet-200", bar: "bg-violet-500", ring: "stroke-violet-500", leftBorder: "border-l-violet-500", lightBg: "bg-violet-50" },
   { accent: "text-amber-600", accentBg: "bg-amber-50", border: "border-amber-200", bar: "bg-amber-500", ring: "stroke-amber-500", leftBorder: "border-l-amber-500", lightBg: "bg-amber-50" },
+  { accent: "text-rose-600", accentBg: "bg-rose-50", border: "border-rose-200", bar: "bg-rose-500", ring: "stroke-rose-500", leftBorder: "border-l-rose-500", lightBg: "bg-rose-50" },
+  { accent: "text-cyan-600", accentBg: "bg-cyan-50", border: "border-cyan-200", bar: "bg-cyan-500", ring: "stroke-cyan-500", leftBorder: "border-l-cyan-500", lightBg: "bg-cyan-50" },
 ];
 
 const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -428,7 +430,7 @@ export default function LessonsPage() {
               {[
                 { icon: IconBook, text: `${totalLessons} le\u00e7ons` },
                 { icon: IconLayers, text: `${totalModules} modules` },
-                { icon: IconClock, text: "4 semaines" },
+                { icon: IconClock, text: "6 phases" },
               ].map((pill) => (
                 <span key={pill.text} className="flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
                   <pill.icon className="w-3.5 h-3.5 text-[#FF1744]" />
