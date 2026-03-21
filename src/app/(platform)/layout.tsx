@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
-import OnboardingModal from "@/components/platform/OnboardingModal";
+import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter" });
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [loadingOnboarding, setLoadingOnboarding] = useState(true);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -18,14 +20,27 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         if (data?.xp !== undefined) {
           setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "starter" });
         }
+        // Show onboarding if user has enrollment but hasn't completed onboarding
+        if (data?.tier && data?.onboardingCompleted === false) {
+          setShowOnboarding(true);
+        }
+        setLoadingOnboarding(false);
       })
-      .catch(() => {});
+      .catch(() => setLoadingOnboarding(false));
   }, []);
+
+  if (showOnboarding && !loadingOnboarding) {
+    return (
+      <PostPurchaseOnboarding
+        userName={session?.user?.name || undefined}
+        onComplete={() => setShowOnboarding(false)}
+      />
+    );
+  }
 
   return (
     <XPToastProvider>
     <div className="min-h-screen bg-[#F8F9FA]">
-      <OnboardingModal />
       <Sidebar
         userName={session?.user?.name}
         role={session?.user?.role}

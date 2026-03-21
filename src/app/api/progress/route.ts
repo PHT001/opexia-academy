@@ -66,8 +66,14 @@ export async function GET() {
     }
   }
 
-  // Get user enrollment tier (admin = academy)
+  // Get user enrollment tier (admin = academy) + onboarding status
   const isAdmin = session.user.role === "admin";
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { onboardingCompleted: true },
+  });
+  const onboardingCompleted = user?.onboardingCompleted ?? true;
+
   let tier: string | null = null;
   if (isAdmin) {
     tier = "academy";
@@ -142,6 +148,7 @@ export async function GET() {
     streak,
     xp,
     tier,
+    onboardingCompleted,
     recentActivity: recentActivityTop5,
     quizzesCompleted,
     averageScore,

@@ -13,11 +13,16 @@ model User {
   name             String?
   hashedPassword   String
   role             String   @default("student")
-  emailVerified    Boolean  @default(false)
-  verificationCode String?
-  referralCode     String?  @unique
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  emailVerified       Boolean  @default(false)
+  verificationCode    String?
+  phone               String?
+  discordUsername      String?
+  age                 String?
+  profession          String?
+  onboardingCompleted Boolean  @default(false)
+  referralCode        String?  @unique
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   progress         LessonProgress[]
   quizSubmissions  QuizSubmission[]
