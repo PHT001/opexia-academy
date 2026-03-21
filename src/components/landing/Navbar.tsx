@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const navLinks = [
   { label: "Comment ça marche", href: "#process" },
   { label: "Témoignages", href: "#testimonials" },
-  { label: "Tarifs", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ];
 
 export default function Navbar() {
+  const { data: session, status } = useSession();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -79,16 +81,37 @@ export default function Navbar() {
               </svg>
               Contact
             </a>
-            <a
-              href="#pricing"
-              className="inline-flex items-center justify-center rounded-full px-5 py-2 text-[13px] font-semibold text-white transition-all hover:opacity-90"
-              style={{
-                background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-                boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
-              }}
-            >
-              Voir les tarifs
-            </a>
+            {session ? (
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center justify-center rounded-full px-5 py-2 text-[13px] font-semibold text-white transition-all hover:opacity-90"
+                style={{
+                  background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
+                  boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
+                }}
+              >
+                Mon compte
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="inline-flex items-center justify-center rounded-full px-4 py-2 text-[13px] font-medium text-white/50 hover:text-white transition-colors"
+                >
+                  Se connecter
+                </Link>
+                <Link
+                  href="/register"
+                  className="inline-flex items-center justify-center rounded-full px-5 py-2 text-[13px] font-semibold text-white transition-all hover:opacity-90"
+                  style={{
+                    background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
+                    boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
+                  }}
+                >
+                  S&apos;inscrire
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile hamburger */}
@@ -155,17 +178,40 @@ export default function Navbar() {
                 </svg>
                 Contact
               </a>
-              <a
-                href="#pricing"
-                onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white"
-                style={{
-                  background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-                  boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
-                }}
-              >
-                Voir les tarifs
-              </a>
+              {session ? (
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white"
+                  style={{
+                    background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
+                    boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
+                  }}
+                >
+                  Mon compte
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-base font-medium text-white/60 hover:text-white transition-colors"
+                  >
+                    Se connecter
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setMobileOpen(false)}
+                    className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white"
+                    style={{
+                      background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
+                      boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
+                    }}
+                  >
+                    S&apos;inscrire
+                  </Link>
+                </>
+              )}
             </div>
           </motion.div>
         )}
