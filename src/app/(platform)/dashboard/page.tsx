@@ -115,6 +115,7 @@ export default function DashboardPage() {
     );
   }
 
+  const hasEnrollment = !!data?.tier;
   const userTier = data?.tier || "starter";
   const currentPlan = TIERS.find((t) => t.id === userTier) || TIERS[0];
   const currentIndex = TIERS.findIndex((t) => t.id === userTier);
@@ -123,6 +124,45 @@ export default function DashboardPage() {
 
   return (
     <div className="w-full space-y-5">
+
+      {/* ════ NO ENROLLMENT BANNER ════ */}
+      {!hasEnrollment && !isAdmin && (
+        <motion.div
+          className="relative overflow-hidden rounded-2xl border-2 border-[#FF1744]/20"
+          style={{ background: "linear-gradient(135deg, #FFF5F5 0%, #FFF 50%, #FFF5F5 100%)" }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="absolute top-0 right-0 w-60 h-60 bg-[#FF1744]/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+          <div className="relative z-10 p-6 sm:p-8 text-center">
+            <div className="w-14 h-14 rounded-full bg-[#FF1744]/10 flex items-center justify-center mx-auto mb-4">
+              <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-[#1A1A2E] mb-2">
+              Ton compte est cr&eacute;&eacute; !
+            </h2>
+            <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">
+              Choisis ton offre pour d&eacute;bloquer tes modules de formation et commencer ton parcours.
+            </p>
+            <a
+              href="/#pricing"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
+              style={{
+                background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
+                boxShadow: "0 4px 16px rgba(255,23,68,0.3)",
+              }}
+            >
+              Voir les offres
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+          </div>
+        </motion.div>
+      )}
 
       {/* ════ WELCOME BANNER ════ */}
       <motion.div

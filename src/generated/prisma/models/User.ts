@@ -30,6 +30,8 @@ export type UserMinAggregateOutputType = {
   name: string | null
   hashedPassword: string | null
   role: string | null
+  emailVerified: boolean | null
+  verificationCode: string | null
   referralCode: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -41,6 +43,8 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   hashedPassword: string | null
   role: string | null
+  emailVerified: boolean | null
+  verificationCode: string | null
   referralCode: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,6 +56,8 @@ export type UserCountAggregateOutputType = {
   name: number
   hashedPassword: number
   role: number
+  emailVerified: number
+  verificationCode: number
   referralCode: number
   createdAt: number
   updatedAt: number
@@ -65,6 +71,8 @@ export type UserMinAggregateInputType = {
   name?: true
   hashedPassword?: true
   role?: true
+  emailVerified?: true
+  verificationCode?: true
   referralCode?: true
   createdAt?: true
   updatedAt?: true
@@ -76,6 +84,8 @@ export type UserMaxAggregateInputType = {
   name?: true
   hashedPassword?: true
   role?: true
+  emailVerified?: true
+  verificationCode?: true
   referralCode?: true
   createdAt?: true
   updatedAt?: true
@@ -87,6 +97,8 @@ export type UserCountAggregateInputType = {
   name?: true
   hashedPassword?: true
   role?: true
+  emailVerified?: true
+  verificationCode?: true
   referralCode?: true
   createdAt?: true
   updatedAt?: true
@@ -171,6 +183,8 @@ export type UserGroupByOutputType = {
   name: string | null
   hashedPassword: string
   role: string
+  emailVerified: boolean
+  verificationCode: string | null
   referralCode: string | null
   createdAt: Date
   updatedAt: Date
@@ -203,6 +217,8 @@ export type UserWhereInput = {
   name?: Prisma.StringNullableFilter<"User"> | string | null
   hashedPassword?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
+  verificationCode?: Prisma.StringNullableFilter<"User"> | string | null
   referralCode?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -222,6 +238,8 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrderInput | Prisma.SortOrder
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -245,6 +263,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringNullableFilter<"User"> | string | null
   hashedPassword?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
+  verificationCode?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   progress?: Prisma.LessonProgressListRelationFilter
@@ -263,6 +283,8 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrderInput | Prisma.SortOrder
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -280,6 +302,8 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   hashedPassword?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
+  emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  verificationCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   referralCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -291,6 +315,8 @@ export type UserCreateInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -310,6 +336,8 @@ export type UserUncheckedCreateInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -329,6 +357,8 @@ export type UserUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,6 +378,8 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -367,6 +399,8 @@ export type UserCreateManyInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -378,6 +412,8 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -389,6 +425,8 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -400,6 +438,8 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -411,6 +451,8 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -422,6 +464,8 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -438,6 +482,10 @@ export type StringFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -562,6 +610,8 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -580,6 +630,8 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -614,6 +666,8 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -632,6 +686,8 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -650,6 +706,8 @@ export type UserCreateWithoutProgressInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -668,6 +726,8 @@ export type UserUncheckedCreateWithoutProgressInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -702,6 +762,8 @@ export type UserUpdateWithoutProgressInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -720,6 +782,8 @@ export type UserUncheckedUpdateWithoutProgressInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -738,6 +802,8 @@ export type UserCreateWithoutStreaksInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -756,6 +822,8 @@ export type UserUncheckedCreateWithoutStreaksInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -790,6 +858,8 @@ export type UserUpdateWithoutStreaksInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -808,6 +878,8 @@ export type UserUncheckedUpdateWithoutStreaksInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -826,6 +898,8 @@ export type UserCreateWithoutEnrollmentsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -844,6 +918,8 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -878,6 +954,8 @@ export type UserUpdateWithoutEnrollmentsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -896,6 +974,8 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -914,6 +994,8 @@ export type UserCreateWithoutCoachingSessionsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -932,6 +1014,8 @@ export type UserUncheckedCreateWithoutCoachingSessionsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -966,6 +1050,8 @@ export type UserUpdateWithoutCoachingSessionsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -984,6 +1070,8 @@ export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1002,6 +1090,8 @@ export type UserCreateWithoutDealsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1020,6 +1110,8 @@ export type UserUncheckedCreateWithoutDealsInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1054,6 +1146,8 @@ export type UserUpdateWithoutDealsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1072,6 +1166,8 @@ export type UserUncheckedUpdateWithoutDealsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1090,6 +1186,8 @@ export type UserCreateWithoutReferralsMadeInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1108,6 +1206,8 @@ export type UserUncheckedCreateWithoutReferralsMadeInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1131,6 +1231,8 @@ export type UserCreateWithoutReferredByInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1149,6 +1251,8 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   name?: string | null
   hashedPassword: string
   role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
   referralCode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1183,6 +1287,8 @@ export type UserUpdateWithoutReferralsMadeInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1201,6 +1307,8 @@ export type UserUncheckedUpdateWithoutReferralsMadeInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1230,6 +1338,8 @@ export type UserUpdateWithoutReferredByInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1248,6 +1358,8 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1360,6 +1472,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   hashedPassword?: boolean
   role?: boolean
+  emailVerified?: boolean
+  verificationCode?: boolean
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1380,6 +1494,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   hashedPassword?: boolean
   role?: boolean
+  emailVerified?: boolean
+  verificationCode?: boolean
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1391,6 +1507,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   hashedPassword?: boolean
   role?: boolean
+  emailVerified?: boolean
+  verificationCode?: boolean
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1402,12 +1520,14 @@ export type UserSelectScalar = {
   name?: boolean
   hashedPassword?: boolean
   role?: boolean
+  emailVerified?: boolean
+  verificationCode?: boolean
   referralCode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "referralCode" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "emailVerified" | "verificationCode" | "referralCode" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   progress?: boolean | Prisma.User$progressArgs<ExtArgs>
   quizSubmissions?: boolean | Prisma.User$quizSubmissionsArgs<ExtArgs>
@@ -1440,6 +1560,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string | null
     hashedPassword: string
     role: string
+    emailVerified: boolean
+    verificationCode: string | null
     referralCode: string | null
     createdAt: Date
     updatedAt: Date
@@ -1879,6 +2001,8 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly hashedPassword: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'String'>
+  readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly verificationCode: Prisma.FieldRef<"User", 'String'>
   readonly referralCode: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>

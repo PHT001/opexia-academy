@@ -8,14 +8,16 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(cuid())
-  email          String   @unique
-  name           String?
-  hashedPassword String
-  role           String   @default("student")
-  referralCode   String?  @unique
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id               String   @id @default(cuid())
+  email            String   @unique
+  name             String?
+  hashedPassword   String
+  role             String   @default("student")
+  emailVerified    Boolean  @default(false)
+  verificationCode String?
+  referralCode     String?  @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   progress         LessonProgress[]
   quizSubmissions  QuizSubmission[]

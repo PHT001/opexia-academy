@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { Resend } from "resend";
+
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 const registerSchema = z.object({
   name: z.string().min(2, "Le nom doit contenir au moins 2 caracteres"),
@@ -9,6 +14,10 @@ const registerSchema = z.object({
   password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caracteres"),
   referralCode: z.string().optional(),
 });
+
+function generateCode(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 export async function POST(request: Request) {
   try {
@@ -20,10 +29,37 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Cet email est deja utilise" }, { status: 400 });
     }
 
+    const verificationCode = generateCode();
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({
-      data: { name, email, hashedPassword, role: "student" },
+      data: {
+        name,
+        email,
+        hashedPassword,
+        role: "student",
+        emailVerified: false,
+        verificationCode,
+      },
     });
+
+    // Send verification email
+    if (resend) {
+      await resend.emails.send({
+        from: "OpexIA Academy <noreply@opexia-formation.com>",
+        to: email,
+        subject: `${verificationCode} - Ton code de vérification OpexIA`,
+        html: `
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
+            <h2 style="color: #1A1A2E; margin-bottom: 8px;">Bienvenue sur OpexIA Academy !</h2>
+            <p style="color: #6B7280; font-size: 14px; margin-bottom: 32px;">Confirme ton adresse email avec ce code :</p>
+            <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 32px;">
+              <span style="font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #1A1A2E;">${verificationCode}</span>
+            </div>
+            <p style="color: #9CA3AF; font-size: 12px;">Ce code expire dans 24h. Si tu n'as pas créé de compte, ignore cet email.</p>
+          </div>
+        `,
+      });
+    }
 
     // Handle referral if a code was provided
     if (referralCode) {
