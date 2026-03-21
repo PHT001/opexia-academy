@@ -14,13 +14,13 @@ import { MODULE_2_LESSONS } from "./data/new_module_02";                     // 
 import { MODULE_3_LESSONS } from "./data/new_module_03";                     // M3: Sites web
 import { MODULE_4_DESIGN_LESSONS } from "./data/new_module_04_design";       // M4: Design & UI (NEW)
 import { MODULE_4_LESSONS } from "./data/new_module_04";                     // M5: Backend Supabase
-import { MODULE_5_LESSONS } from "./data/new_module_05";                     // M6: APIs, Stripe, Webhooks
+import { MODULE_5_LESSONS as MODULE_5_API_LESSONS } from "./data/new_module_05"; // M6: APIs, Stripe, Webhooks
 
 // Phase 3 — Architecte Solutions
-import { MODULE_6_LESSONS } from "./data/new_module_06";                     // M7: Automatisations
-import { MODULE_7_LESSONS } from "./data/new_module_07";                     // M8: Chatbots IA
+import { MODULE_5_LESSONS as MODULE_6_AUTO_LESSONS } from "./data/new_module_06"; // M7: Automatisations (file exports MODULE_5_LESSONS)
+import { MODULE_6_LESSONS as MODULE_7_CHATBOT_LESSONS } from "./data/new_module_07"; // M8: Chatbots IA (file exports MODULE_6_LESSONS)
 import { MODULE_9_MULTICHANNEL_LESSONS } from "./data/new_module_09_multichannel"; // M9: Multi-canal (NEW)
-import { MODULE_8_LESSONS } from "./data/new_module_08";                     // M10: Agents IA
+import { MODULE_7_LESSONS as MODULE_8_AGENT_LESSONS } from "./data/new_module_08"; // M10: Agents IA (file exports MODULE_7_LESSONS)
 import { MODULE_11_VOICE_LESSONS } from "./data/new_module_11_voice";        // M11: Voice AI (NEW)
 import { MODULE_9_LESSONS } from "./data/new_module_09";                     // M12: Construire un MVP
 import { MODULE_13_DOCUMENTS_LESSONS } from "./data/new_module_13_documents"; // M13: IA documents (NEW)
@@ -54,12 +54,12 @@ const MODULE_MAP: [any[], number][] = [
   [MODULE_3_LESSONS, 2],                   // M3: Sites web
   [MODULE_4_DESIGN_LESSONS, 3],            // M4: Design & UI (NEW)
   [MODULE_4_LESSONS, 4],                   // M5: Backend Supabase
-  [MODULE_5_LESSONS, 5],                   // M6: APIs, Stripe
+  [MODULE_5_API_LESSONS, 5],               // M6: APIs, Stripe
   // Phase 3
-  [MODULE_6_LESSONS, 6],                   // M7: Automatisations
-  [MODULE_7_LESSONS, 7],                   // M8: Chatbots IA
+  [MODULE_6_AUTO_LESSONS, 6],              // M7: Automatisations
+  [MODULE_7_CHATBOT_LESSONS, 7],           // M8: Chatbots IA
   [MODULE_9_MULTICHANNEL_LESSONS, 8],      // M9: Multi-canal (NEW)
-  [MODULE_8_LESSONS, 9],                   // M10: Agents IA
+  [MODULE_8_AGENT_LESSONS, 9],             // M10: Agents IA
   [MODULE_11_VOICE_LESSONS, 10],           // M11: Voice AI (NEW)
   [MODULE_9_LESSONS, 11],                  // M12: Construire un MVP
   [MODULE_13_DOCUMENTS_LESSONS, 12],       // M13: IA documents (NEW)
