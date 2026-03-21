@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     // Send verification email
     if (resend) {
       await resend.emails.send({
-        from: "OpexIA Academy <noreply@opexia-formation.com>",
+        from: "OpexIA Academy <support@opexia-formation.com>",
         to: email,
         subject: `${verificationCode} - Ton code de vérification OpexIA`,
         html: `
