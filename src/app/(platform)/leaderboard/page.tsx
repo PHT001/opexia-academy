@@ -67,12 +67,12 @@ interface LeaderboardData {
 type TabKey = "xp" | "streak" | "quiz";
 
 /* ═══════════════════════════════════════════════════════════
-   ICONS (inline SVG)
+   ICONS
    ═══════════════════════════════════════════════════════════ */
 
 function IconTrophy({ className }: { className?: string }) {
   return (
-    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
       <path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22" />
       <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22" />
@@ -81,73 +81,65 @@ function IconTrophy({ className }: { className?: string }) {
   );
 }
 
-function IconFlame({ className }: { className?: string }) {
+function IconBolt({ className }: { className?: string }) {
   return (
-    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 23c-3.866 0-7-3.134-7-7 0-3.084 2.262-5.564 4-7.5.722-.806 1.5-1.7 2-2.5.5.8 1.278 1.694 2 2.5 1.738 1.936 4 4.416 4 7.5 0 3.866-3.134 7-7 7zm0-12.5c-.944 1.121-3 3.672-3 5.5a3 3 0 0 0 6 0c0-1.828-2.056-4.379-3-5.5z" />
+    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
     </svg>
   );
 }
 
-function IconBolt({ className }: { className?: string }) {
+function IconFlame({ className }: { className?: string }) {
   return (
-    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 23c-3.866 0-7-3.134-7-7 0-3.084 2.262-5.564 4-7.5.722-.806 1.5-1.7 2-2.5.5.8 1.278 1.694 2 2.5 1.738 1.936 4 4.416 4 7.5 0 3.866-3.134 7-7 7zm0-12.5c-.944 1.121-3 3.672-3 5.5a3 3 0 0 0 6 0c0-1.828-2.056-4.379-3-5.5z" />
     </svg>
   );
 }
 
 function IconTarget({ className }: { className?: string }) {
   return (
-    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
     </svg>
   );
 }
 
-function IconTrendUp({ className }: { className?: string }) {
+function IconArrowUp({ className }: { className?: string }) {
   return (
-    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
+    <svg className={className} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 19V5" /><path d="M5 12l7-7 7 7" />
     </svg>
   );
 }
 
-function IconTrendDown({ className }: { className?: string }) {
+function IconArrowDown({ className }: { className?: string }) {
   return (
-    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" /><polyline points="17 18 23 18 23 12" />
-    </svg>
-  );
-}
-
-function IconBook({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-    </svg>
-  );
-}
-
-function IconStar({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    <svg className={className} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 5v14" /><path d="M19 12l-7 7-7-7" />
     </svg>
   );
 }
 
 function IconLock({ className }: { className?: string }) {
   return (
-    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+
+function IconCheck({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
     </svg>
   );
 }
 
 function IconClock({ className }: { className?: string }) {
   return (
-    <svg className={className} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
     </svg>
   );
@@ -157,140 +149,113 @@ function IconClock({ className }: { className?: string }) {
    ANIMATED COUNTER
    ═══════════════════════════════════════════════════════════ */
 
-function CountUp({ target, duration = 1200, className }: { target: number; duration?: number; className?: string }) {
+function CountUp({ target, duration = 1000 }: { target: number; duration?: number }) {
   const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (target === 0) return;
+    if (target === 0) { setCount(0); return; }
     const start = performance.now();
     const step = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-      setCount(Math.round(eased * target));
-      if (progress < 1) requestAnimationFrame(step);
+      const p = Math.min((now - start) / duration, 1);
+      setCount(Math.round((1 - Math.pow(1 - p, 3)) * target));
+      if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
   }, [target, duration]);
 
-  return <span ref={ref} className={className}>{count.toLocaleString("fr-FR")}</span>;
+  return <>{count.toLocaleString("fr-FR")}</>;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   MEDAL COMPONENT
+   PODIUM
    ═══════════════════════════════════════════════════════════ */
 
-const MEDAL_CONFIG = {
-  1: { color: "#FFD700", glow: "shadow-[0_0_30px_rgba(255,215,0,0.4)]", label: "1er", bg: "bg-amber-50", border: "border-amber-200" },
-  2: { color: "#C0C0C0", glow: "shadow-[0_0_20px_rgba(192,192,192,0.3)]", label: "2e", bg: "bg-gray-50", border: "border-gray-200" },
-  3: { color: "#CD7F32", glow: "shadow-[0_0_20px_rgba(205,127,50,0.3)]", label: "3e", bg: "bg-orange-50", border: "border-orange-200" },
-} as const;
-
-/* ═══════════════════════════════════════════════════════════
-   PODIUM (Top 3)
-   ═══════════════════════════════════════════════════════════ */
+const PODIUM_HEIGHTS = ["h-24", "h-32", "h-20"];
+const PODIUM_SIZES = [
+  { avatar: "h-12 w-12 text-base", name: "text-sm" },
+  { avatar: "h-16 w-16 text-xl", name: "text-base" },
+  { avatar: "h-12 w-12 text-base", name: "text-sm" },
+];
 
 function Podium({ users, currentUserId }: { users: RankedUser[]; currentUserId: string }) {
   if (users.length < 3) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="flex flex-col items-center justify-center py-16 text-center"
-      >
-        <div className="relative mb-6">
-          <div className="h-20 w-20 rounded-full bg-gray-100 flex items-center justify-center">
-            <IconTrophy className="text-gray-300 h-10 w-10" />
-          </div>
-          <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-[#FF1744] flex items-center justify-center">
-            <span className="text-white text-[10px] font-bold">?</span>
-          </div>
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+          <IconTrophy className="text-gray-300" />
         </div>
-        <h3 className="text-lg font-semibold text-[#111]">Le podium se prepare...</h3>
-        <p className="mt-1 text-sm text-gray-400 max-w-xs">
-          Complete des lecons et passe des quiz pour apparaitre dans le classement !
+        <p className="text-sm font-medium text-[#111]">Le podium se prepare...</p>
+        <p className="mt-1 text-xs text-gray-400 max-w-[240px]">
+          Complete des lecons et passe des quiz pour apparaitre dans le classement.
         </p>
-      </motion.div>
+      </div>
     );
   }
 
-  // Display order: 2nd, 1st, 3rd
+  // Order: 2nd, 1st, 3rd
   const order = [users[1], users[0], users[2]];
-  const heights = ["h-28", "h-36", "h-24"];
-  const delays = [0.2, 0.1, 0.3];
+  const ranks = [2, 1, 3];
 
   return (
-    <div className="flex items-end justify-center gap-3 md:gap-5 pt-8 pb-4">
+    <div className="flex items-end justify-center gap-4 md:gap-6 pt-6 pb-2">
       {order.map((user, i) => {
-        const rank = (i === 1 ? 1 : i === 0 ? 2 : 3) as 1 | 2 | 3;
-        const medal = MEDAL_CONFIG[rank];
-        const isMe = user.id === currentUserId;
+        const rank = ranks[i];
         const isFirst = rank === 1;
+        const isMe = user.id === currentUserId;
+        const size = PODIUM_SIZES[i];
 
         return (
           <motion.div
             key={user.id}
-            initial={{ opacity: 0, y: 60, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: delays[i], duration: 0.6, type: "spring", stiffness: 120 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 + 0.15, duration: 0.5, type: "spring", stiffness: 140 }}
             className="flex flex-col items-center"
           >
             {/* Avatar */}
-            <motion.div
-              className={cn(
-                "relative rounded-full flex items-center justify-center font-bold text-white mb-3",
-                isFirst ? "h-20 w-20 text-2xl" : "h-14 w-14 text-lg",
-                medal.glow,
-                isMe && "ring-2 ring-[#FF1744] ring-offset-2"
-              )}
-              style={{ backgroundColor: medal.color }}
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              {user.name.charAt(0).toUpperCase()}
-              {isFirst && (
-                <motion.div
-                  className="absolute -top-3 -right-1"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                >
-                  <span className="text-xl">👑</span>
-                </motion.div>
-              )}
-            </motion.div>
+            <div className="relative mb-2">
+              <div
+                className={cn(
+                  "rounded-full flex items-center justify-center font-semibold shrink-0",
+                  size.avatar,
+                  isMe ? "bg-[#FF1744] text-white" : "bg-[#111] text-white",
+                  isFirst && "ring-2 ring-[#FF1744]/30 ring-offset-2"
+                )}
+              >
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+              {/* Rank badge */}
+              <div className={cn(
+                "absolute -bottom-1 -right-1 flex items-center justify-center rounded-full text-[10px] font-bold",
+                "h-5 w-5 border-2 border-white",
+                isFirst ? "bg-[#FF1744] text-white" : "bg-gray-200 text-gray-600"
+              )}>
+                {rank}
+              </div>
+            </div>
 
             {/* Name */}
-            <p className={cn(
-              "font-semibold text-[#111] truncate max-w-[100px] text-center",
-              isFirst ? "text-base" : "text-sm"
-            )}>
+            <p className={cn("font-medium text-[#111] truncate max-w-[90px] text-center", size.name)}>
               {user.name}
             </p>
 
             {/* XP */}
-            <div className="flex items-center gap-1 mt-1">
-              <IconBolt className="text-amber-500" />
-              <span className="text-xs font-semibold text-gray-600">
-                <CountUp target={user.xp} /> XP
-              </span>
-            </div>
+            <p className="text-xs text-gray-400 mt-0.5">
+              <CountUp target={user.xp} /> XP
+            </p>
 
             {/* Pillar */}
             <motion.div
-              initial={{ height: 0 }}
-              animate={{ height: "auto" }}
-              transition={{ delay: delays[i] + 0.3, duration: 0.5, ease: "easeOut" }}
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ delay: i * 0.1 + 0.4, duration: 0.4, ease: "easeOut" }}
+              style={{ transformOrigin: "bottom" }}
               className={cn(
-                "mt-3 w-20 md:w-24 rounded-t-xl flex items-center justify-center border-t-2",
-                heights[i],
-                medal.bg, medal.border
+                "mt-3 w-20 md:w-24 rounded-t-lg",
+                PODIUM_HEIGHTS[i],
+                isFirst ? "bg-[#FF1744]/8 border-t-2 border-[#FF1744]" : "bg-gray-50 border-t-2 border-gray-200"
               )}
-              style={{ borderTopColor: medal.color }}
-            >
-              <span className="text-2xl font-black" style={{ color: medal.color }}>
-                {medal.label}
-              </span>
-            </motion.div>
+            />
           </motion.div>
         );
       })}
@@ -299,82 +264,64 @@ function Podium({ users, currentUserId }: { users: RankedUser[]; currentUserId: 
 }
 
 /* ═══════════════════════════════════════════════════════════
-   STATS CARDS (personal competitive stats)
+   STATS CARDS
    ═══════════════════════════════════════════════════════════ */
 
 function StatsCards({ user, totalStudents }: { user: CurrentUser; totalStudents: number }) {
-  const cards = [
+  const stats = [
     {
-      label: "Mon Rang",
+      label: "Rang",
       value: user.rank ? `#${user.rank}` : "-",
-      sub: `sur ${totalStudents} eleves`,
-      icon: <IconTrophy className="h-5 w-5 text-[#FF1744]" />,
-      color: "text-[#FF1744]",
-      bg: "bg-red-50",
+      sub: `/ ${totalStudents}`,
       trend: user.rankTrend,
     },
     {
-      label: "XP Total",
+      label: "XP",
       value: user.xp,
-      sub: `Niveau ${user.level} • ${user.levelProgress}%`,
-      icon: <IconBolt className="h-5 w-5 text-amber-500" />,
-      color: "text-amber-600",
-      bg: "bg-amber-50",
+      sub: `Niv. ${user.level}`,
       progress: user.levelProgress,
     },
     {
       label: "Serie",
       value: `${user.streak}j`,
-      sub: `Record : ${user.bestStreak} jours`,
-      icon: <IconFlame className="h-5 w-5 text-orange-500" />,
-      color: "text-orange-600",
-      bg: "bg-orange-50",
+      sub: `Record ${user.bestStreak}j`,
     },
     {
-      label: "Quiz Score",
+      label: "Quiz",
       value: `${user.quizAverage}%`,
-      sub: `${user.perfectQuizzes} quiz parfait${user.perfectQuizzes !== 1 ? "s" : ""}`,
-      icon: <IconTarget className="h-5 w-5 text-emerald-500" />,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
+      sub: `${user.perfectQuizzes} parfait${user.perfectQuizzes !== 1 ? "s" : ""}`,
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      {cards.map((card, i) => (
+    <div className="grid grid-cols-4 gap-2">
+      {stats.map((s, i) => (
         <motion.div
-          key={card.label}
-          initial={{ opacity: 0, y: 20 }}
+          key={s.label}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 + i * 0.08, duration: 0.4 }}
-          whileHover={{ scale: 1.03, y: -2 }}
-          className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow cursor-default"
+          transition={{ delay: 0.5 + i * 0.06 }}
+          className="rounded-xl border border-gray-200 bg-white p-3 shadow-sm"
         >
-          <div className="flex items-center justify-between mb-2">
-            <div className={cn("flex items-center justify-center h-8 w-8 rounded-lg", card.bg)}>
-              {card.icon}
-            </div>
-            {card.trend && card.trend !== "same" && (
-              <div className={cn(
-                "flex items-center gap-0.5 text-xs font-medium px-1.5 py-0.5 rounded-full",
-                card.trend === "up" ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"
-              )}>
-                {card.trend === "up" ? <IconTrendUp /> : <IconTrendDown />}
-              </div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">{s.label}</span>
+            {s.trend && s.trend !== "same" && (
+              s.trend === "up"
+                ? <IconArrowUp className="text-[#FF1744]" />
+                : <IconArrowDown className="text-gray-400" />
             )}
           </div>
-          <p className={cn("text-xl font-bold", card.color)}>
-            {typeof card.value === "number" ? <CountUp target={card.value} /> : card.value}
+          <p className="text-lg font-bold text-[#111]">
+            {typeof s.value === "number" ? <CountUp target={s.value} /> : s.value}
           </p>
-          <p className="text-[11px] text-gray-400 mt-0.5">{card.sub}</p>
-          {card.progress !== undefined && (
-            <div className="mt-2 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+          <p className="text-[10px] text-gray-400">{s.sub}</p>
+          {s.progress !== undefined && (
+            <div className="mt-1.5 h-1 rounded-full bg-gray-100 overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
-                animate={{ width: `${card.progress}%` }}
-                transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-                className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-500"
+                animate={{ width: `${s.progress}%` }}
+                transition={{ delay: 0.9, duration: 0.6 }}
+                className="h-full rounded-full bg-[#FF1744]"
               />
             </div>
           )}
@@ -385,16 +332,16 @@ function StatsCards({ user, totalStudents }: { user: CurrentUser; totalStudents:
 }
 
 /* ═══════════════════════════════════════════════════════════
-   TABS
+   RANKING TABS + LIST
    ═══════════════════════════════════════════════════════════ */
 
-const TABS: { key: TabKey; label: string; icon: React.ReactNode; metricLabel: string; metricKey: string; color: string }[] = [
-  { key: "xp", label: "XP Total", icon: <IconBolt className="h-4 w-4" />, metricLabel: "XP", metricKey: "xp", color: "text-amber-500" },
-  { key: "streak", label: "Serie", icon: <IconFlame className="h-4 w-4" />, metricLabel: "jours", metricKey: "streak", color: "text-orange-500" },
-  { key: "quiz", label: "Quiz Master", icon: <IconTarget className="h-4 w-4" />, metricLabel: "% moy.", metricKey: "quizAverage", color: "text-emerald-500" },
+const TABS: { key: TabKey; label: string; icon: React.ReactNode; metric: (u: RankedUser) => string }[] = [
+  { key: "xp", label: "XP", icon: <IconBolt />, metric: (u) => `${u.xp.toLocaleString("fr-FR")} XP` },
+  { key: "streak", label: "Serie", icon: <IconFlame />, metric: (u) => `${u.streak}j` },
+  { key: "quiz", label: "Quiz", icon: <IconTarget />, metric: (u) => `${u.quizAverage}%` },
 ];
 
-function RankingTabs({
+function RankingSection({
   activeTab,
   onTabChange,
   rankings,
@@ -405,32 +352,36 @@ function RankingTabs({
   rankings: LeaderboardData["rankings"];
   currentUserId: string;
 }) {
-  const tab = TABS.find((t) => t.key === activeTab)!;
+  const currentTab = TABS.find((t) => t.key === activeTab)!;
   const list = rankings[activeTab];
 
   return (
-    <div>
-      {/* Tab bar */}
-      <div className="flex gap-1 p-1 bg-gray-100 rounded-xl mb-4">
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.55 }}
+    >
+      {/* Tabs */}
+      <div className="flex gap-0.5 p-0.5 bg-gray-100 rounded-lg mb-3">
         {TABS.map((t) => (
           <button
             key={t.key}
             onClick={() => onTabChange(t.key)}
             className={cn(
-              "relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-sm font-medium transition-colors",
-              activeTab === t.key ? "text-[#111]" : "text-gray-400 hover:text-gray-600"
+              "relative flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-medium transition-colors",
+              activeTab === t.key ? "text-[#111]" : "text-gray-400 hover:text-gray-500"
             )}
           >
             {activeTab === t.key && (
               <motion.div
-                layoutId="activeTab"
-                className="absolute inset-0 bg-white rounded-lg shadow-sm"
+                layoutId="tab"
+                className="absolute inset-0 bg-white rounded-md shadow-sm"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
-            <span className={cn("relative z-10 flex items-center gap-1.5", activeTab === t.key && t.color)}>
+            <span className="relative z-10 flex items-center gap-1">
               {t.icon}
-              <span className="hidden sm:inline">{t.label}</span>
+              {t.label}
             </span>
           </button>
         ))}
@@ -440,68 +391,63 @@ function RankingTabs({
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.2 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.15 }}
           className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
         >
           {list.length === 0 ? (
-            <div className="py-12 text-center">
-              <p className="text-sm text-gray-400">Pas encore de donnees pour ce classement</p>
+            <div className="py-10 text-center">
+              <p className="text-xs text-gray-400">Pas encore de donnees</p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-gray-100/60">
               {list.map((user, i) => {
                 const isMe = user.id === currentUserId;
-                const metricValue =
-                  activeTab === "xp" ? `${user.xp.toLocaleString("fr-FR")} XP` :
-                  activeTab === "streak" ? `${user.streak} jours` :
-                  `${user.quizAverage}% moy.`;
-
                 return (
                   <motion.div
                     key={user.id}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.03, duration: 0.3 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: i * 0.025 }}
                     className={cn(
-                      "flex items-center gap-3 px-4 py-3 transition-colors",
-                      isMe ? "bg-red-50/60" : "hover:bg-gray-50/50"
+                      "flex items-center gap-3 px-4 py-2.5 transition-colors",
+                      isMe ? "bg-[#FF1744]/[0.04]" : "hover:bg-gray-50/60"
                     )}
                   >
                     {/* Rank */}
                     <span className={cn(
-                      "flex h-7 w-7 items-center justify-center rounded-lg text-xs font-bold shrink-0",
-                      user.rank <= 3
-                        ? "text-white"
-                        : isMe ? "bg-[#FF1744] text-white" : "bg-gray-100 text-gray-500"
-                    )} style={user.rank <= 3 ? { backgroundColor: MEDAL_CONFIG[user.rank as 1 | 2 | 3]?.color } : undefined}>
+                      "flex h-6 w-6 items-center justify-center rounded text-[11px] font-bold shrink-0",
+                      isMe ? "bg-[#FF1744] text-white" : user.rank <= 3 ? "bg-[#111] text-white" : "text-gray-400"
+                    )}>
                       {user.rank}
                     </span>
 
                     {/* Avatar */}
                     <div className={cn(
-                      "flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold shrink-0",
-                      isMe ? "bg-[#FF1744] text-white" : "bg-gray-100 text-gray-600"
+                      "flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold shrink-0",
+                      isMe ? "bg-[#FF1744] text-white" : "bg-gray-100 text-gray-500"
                     )}>
                       {user.name.charAt(0).toUpperCase()}
                     </div>
 
                     {/* Name */}
                     <div className="flex-1 min-w-0">
-                      <p className={cn("text-sm font-medium text-[#111] truncate", isMe && "font-semibold")}>
-                        {user.name}
-                        {isMe && <span className="ml-1.5 text-[10px] text-[#FF1744] font-normal">(vous)</span>}
+                      <p className="text-sm text-[#111] truncate">
+                        <span className={cn(isMe && "font-semibold")}>{user.name}</span>
+                        {isMe && <span className="ml-1 text-[10px] text-[#FF1744]">(vous)</span>}
                       </p>
-                      <p className="text-[11px] text-gray-400">Niv. {user.level} • {user.lessonsCompleted} lecons</p>
+                      <p className="text-[10px] text-gray-400">Niv. {user.level}</p>
                     </div>
 
                     {/* Metric */}
-                    <div className={cn("flex items-center gap-1 text-sm font-semibold min-w-[90px] justify-end", tab.color)}>
-                      {tab.icon}
-                      {metricValue}
-                    </div>
+                    <span className={cn(
+                      "text-sm font-semibold tabular-nums shrink-0",
+                      isMe ? "text-[#FF1744]" : "text-[#111]"
+                    )}>
+                      {currentTab.metric(user)}
+                    </span>
                   </motion.div>
                 );
               })}
@@ -509,7 +455,7 @@ function RankingTabs({
           )}
         </motion.div>
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
@@ -517,47 +463,34 @@ function RankingTabs({
    BADGES
    ═══════════════════════════════════════════════════════════ */
 
-const BADGE_ICONS: Record<string, React.ReactNode> = {
-  target: <IconTarget className="h-5 w-5" />,
-  cpu: <IconBolt className="h-5 w-5" />,
-  flame: <IconFlame className="h-5 w-5" />,
-  bolt: <IconBolt className="h-5 w-5" />,
-  award: <IconStar className="h-5 w-5" />,
-};
-
-function BadgesShowcase({ allBadges, earned }: { allBadges: Badge[]; earned: string[] }) {
+function BadgesRow({ allBadges, earned }: { allBadges: Badge[]; earned: string[] }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.6, duration: 0.4 }}
+      transition={{ delay: 0.65 }}
     >
-      <h3 className="text-sm font-semibold text-[#111] mb-3 flex items-center gap-2">
-        <IconStar className="text-amber-500" />
-        Badges
-      </h3>
-      <div className="grid grid-cols-5 gap-2">
+      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Badges</p>
+      <div className="flex gap-2">
         {allBadges.map((badge) => {
           const isEarned = earned.includes(badge.id);
           return (
-            <motion.div
+            <div
               key={badge.id}
-              whileHover={{ scale: 1.08 }}
+              title={`${badge.name} — ${badge.description}`}
               className={cn(
-                "flex flex-col items-center gap-1.5 rounded-xl border p-3 text-center transition-colors",
-                isEarned
-                  ? "border-amber-200 bg-amber-50"
-                  : "border-gray-100 bg-gray-50 opacity-40"
+                "flex flex-col items-center gap-1 rounded-lg border p-2.5 flex-1 transition-opacity",
+                isEarned ? "border-gray-200 bg-white" : "border-gray-100 bg-gray-50 opacity-30"
               )}
             >
               <div className={cn(
-                "flex h-10 w-10 items-center justify-center rounded-full",
-                isEarned ? "bg-amber-100 text-amber-600" : "bg-gray-100 text-gray-400"
+                "flex h-8 w-8 items-center justify-center rounded-full",
+                isEarned ? "bg-[#FF1744]/10 text-[#FF1744]" : "bg-gray-100 text-gray-300"
               )}>
-                {isEarned ? (BADGE_ICONS[badge.icon] || <IconStar />) : <IconLock />}
+                {isEarned ? <IconCheck /> : <IconLock />}
               </div>
-              <p className="text-[10px] font-semibold text-[#111] leading-tight">{badge.name}</p>
-            </motion.div>
+              <p className="text-[9px] font-medium text-[#111] text-center leading-tight">{badge.name}</p>
+            </div>
           );
         })}
       </div>
@@ -573,11 +506,10 @@ function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diff / 60000);
   if (mins < 1) return "a l'instant";
-  if (mins < 60) return `il y a ${mins}min`;
+  if (mins < 60) return `${mins}min`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `il y a ${hours}h`;
-  const days = Math.floor(hours / 24);
-  return `il y a ${days}j`;
+  if (hours < 24) return `${hours}h`;
+  return `${Math.floor(hours / 24)}j`;
 }
 
 function ActivityFeed({ activities }: { activities: Activity[] }) {
@@ -585,39 +517,31 @@ function ActivityFeed({ activities }: { activities: Activity[] }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.7, duration: 0.4 }}
+      transition={{ delay: 0.7 }}
     >
-      <h3 className="text-sm font-semibold text-[#111] mb-3 flex items-center gap-2">
-        <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-        Activite recente
-      </h3>
-      <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden divide-y divide-gray-50">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="h-1.5 w-1.5 rounded-full bg-[#FF1744] animate-pulse" />
+        <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">Activite</p>
+      </div>
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden divide-y divide-gray-100/60">
         {activities.slice(0, 5).map((a, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 + i * 0.05 }}
-            className="flex items-center gap-3 px-4 py-2.5"
-          >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-[10px] font-bold text-gray-500 shrink-0">
+          <div key={i} className="flex items-center gap-3 px-4 py-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 text-[9px] font-bold text-gray-500 shrink-0">
               {a.userName.charAt(0).toUpperCase()}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-gray-600 truncate">
-                <span className="font-semibold text-[#111]">{a.userName}</span> {a.action}
-              </p>
-            </div>
+            <p className="flex-1 text-xs text-gray-500 truncate">
+              <span className="font-medium text-[#111]">{a.userName}</span>{" "}{a.action}
+            </p>
             {a.xp > 0 && (
-              <span className="text-[10px] font-semibold text-amber-500 shrink-0">+{a.xp} XP</span>
+              <span className="text-[10px] font-medium text-[#FF1744] shrink-0">+{a.xp}</span>
             )}
             <span className="text-[10px] text-gray-300 shrink-0 flex items-center gap-0.5">
               <IconClock />
               {timeAgo(a.time)}
             </span>
-          </motion.div>
+          </div>
         ))}
       </div>
     </motion.div>
@@ -636,54 +560,45 @@ export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("xp");
 
   useEffect(() => {
-    async function fetchLeaderboard() {
+    (async () => {
       try {
         setLoading(true);
         const res = await fetch("/api/leaderboard");
-        if (!res.ok) throw new Error("Erreur lors du chargement du classement");
-        const json = await res.json();
-        setData(json);
+        if (!res.ok) throw new Error("Erreur lors du chargement");
+        setData(await res.json());
       } catch (err) {
         setError(err instanceof Error ? err.message : "Erreur inconnue");
       } finally {
         setLoading(false);
       }
-    }
-    fetchLeaderboard();
+    })();
   }, []);
 
-  const currentUserId = session?.user?.id ?? "";
+  const uid = session?.user?.id ?? "";
 
-  /* Loading */
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F8F9FA] px-4 py-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 w-48 rounded-lg bg-gray-200" />
-            <div className="h-48 rounded-2xl bg-gray-200" />
-            <div className="grid grid-cols-4 gap-3">
-              {[1, 2, 3, 4].map((i) => <div key={i} className="h-24 rounded-xl bg-gray-200" />)}
-            </div>
-            <div className="h-10 rounded-xl bg-gray-200" />
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-14 rounded-xl bg-gray-200" />
-            ))}
+        <div className="mx-auto max-w-2xl animate-pulse space-y-3">
+          <div className="h-7 w-40 rounded bg-gray-200" />
+          <div className="h-44 rounded-xl bg-gray-200" />
+          <div className="grid grid-cols-4 gap-2">
+            {[1, 2, 3, 4].map((i) => <div key={i} className="h-20 rounded-xl bg-gray-200" />)}
           </div>
+          {[1, 2, 3, 4, 5].map((i) => <div key={i} className="h-12 rounded-lg bg-gray-200" />)}
         </div>
       </div>
     );
   }
 
-  /* Error */
   if (error || !data) {
     return (
       <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center px-4">
-        <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm max-w-md">
+        <div className="rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm max-w-sm">
           <p className="text-sm text-gray-500">{error ?? "Impossible de charger le classement."}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 rounded-lg bg-[#FF1744] px-4 py-2 text-sm font-medium text-white hover:bg-[#D50000] transition-colors"
+            className="mt-3 rounded-lg bg-[#FF1744] px-4 py-2 text-sm font-medium text-white hover:bg-[#D50000] transition-colors"
           >
             Reessayer
           </button>
@@ -693,29 +608,17 @@ export default function LeaderboardPage() {
   }
 
   const { rankings, currentUser, totalStudents, recentActivity, allBadges } = data;
-  const top3 = rankings.xp.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] px-4 py-6 md:py-10">
-      <div className="mx-auto max-w-3xl space-y-6">
+      <div className="mx-auto max-w-2xl space-y-5">
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-[#FF1744]/10">
-              <IconTrophy className="text-[#FF1744]" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-[#111]">Classement</h1>
-              <p className="text-sm text-gray-400">
-                {totalStudents} eleve{totalStudents > 1 ? "s" : ""} dans l&apos;arene
-              </p>
-            </div>
-          </div>
+        <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
+          <h1 className="text-xl font-bold text-[#111]">Classement</h1>
+          <p className="text-xs text-gray-400 mt-0.5">
+            {totalStudents} eleve{totalStudents > 1 ? "s" : ""} dans l&apos;arene
+          </p>
         </motion.div>
 
         {/* Podium */}
@@ -723,32 +626,29 @@ export default function LeaderboardPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="rounded-2xl border border-gray-200 bg-white shadow-sm p-4 md:p-6 overflow-hidden"
+          className="rounded-xl border border-gray-200 bg-white shadow-sm p-4 overflow-hidden"
         >
-          <Podium users={top3} currentUserId={currentUserId} />
+          <Podium users={rankings.xp.slice(0, 3)} currentUserId={uid} />
         </motion.div>
 
-        {/* Personal Stats */}
-        {currentUser && (
-          <StatsCards user={currentUser} totalStudents={totalStudents} />
-        )}
+        {/* Stats */}
+        {currentUser && <StatsCards user={currentUser} totalStudents={totalStudents} />}
 
-        {/* Rankings with Tabs */}
-        <RankingTabs
+        {/* Rankings */}
+        <RankingSection
           activeTab={activeTab}
           onTabChange={setActiveTab}
           rankings={rankings}
-          currentUserId={currentUserId}
+          currentUserId={uid}
         />
 
         {/* Badges */}
         {currentUser && allBadges && (
-          <BadgesShowcase allBadges={allBadges} earned={currentUser.badges} />
+          <BadgesRow allBadges={allBadges} earned={currentUser.badges} />
         )}
 
-        {/* Activity Feed */}
+        {/* Activity */}
         <ActivityFeed activities={recentActivity} />
-
       </div>
     </div>
   );
