@@ -56,6 +56,7 @@ export default function StickyFloatingCTA() {
                     OpexIA Academy
                   </span>
                   <span className="text-gray-400 text-sm hidden lg:inline">
+                    Formation compl&egrave;te &mdash;{" "}
                     <span className="line-through text-gray-500">697&euro;</span>{" "}
                     <span className="text-[#FF1744] font-bold">397&euro;</span>{" "}
                     &mdash; ou 3x 139&euro; sans frais

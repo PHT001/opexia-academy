@@ -27,7 +27,7 @@ export default function FinalCTA() {
           </h2>
 
           <p className="mt-6 text-lg text-gray-400 max-w-xl mx-auto leading-relaxed">
-            Pendant que tu h&eacute;sites, d&apos;autres lancent leur agence IA.
+            Pendant que tu h&eacute;sites, d&apos;autres lancent leur agence&nbsp;IA.
             <br />
             La vraie question : c&apos;est toi ou eux ?
           </p>

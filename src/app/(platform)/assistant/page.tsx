@@ -46,6 +46,8 @@ export default function AssistantPage() {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [remaining, setRemaining] = useState<number | null>(null);
+  const [limitReached, setLimitReached] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -72,27 +74,59 @@ export default function AssistantPage() {
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response (replace with real API call later)
-    setTimeout(() => {
-      const responses = [
-        "C'est une excellente question ! Pour créer ton premier agent IA, commence par définir clairement son objectif. Utilise un outil comme ChatGPT API ou Claude API, puis structure tes prompts avec un system prompt précis. Je te recommande de suivre le Module 3 de la formation qui couvre ce sujet en détail. 🚀",
-        "Pour automatiser ta prospection, je te recommande de combiner Make.com (ou n8n) avec LinkedIn Sales Navigator et un CRM comme HubSpot. Le Module 5 de la formation te montre étape par étape comment mettre en place ce workflow. Tu peux aussi utiliser des outils comme Instantly pour l'email outreach. 📧",
-        "Structurer ton offre est crucial ! Je te conseille de proposer 3 tiers : un pack starter (audit + recommandations), un pack business (implémentation), et un pack premium (accompagnement continu). Check le Module 7 sur le pricing et le positionnement. 💡",
-        "GPT et Claude ont des forces différentes. GPT-4 excelle en créativité et génération de contenu, tandis que Claude est meilleur pour l'analyse longue, le respect des instructions complexes et le raisonnement. En pratique, beaucoup de pros utilisent les deux selon le cas d'usage. Le Module 2 compare les modèles en détail. 🧠",
-        "Pour fixer tes tarifs en freelance IA, base-toi sur la valeur apportée plutôt que sur le temps passé. Un chatbot qui fait économiser 20h/mois à un client vaut bien 2000-5000€. Commence par des projets à 500-1500€ pour te faire la main, puis monte progressivement. Le Module 8 approfondit ce sujet. 💰",
-        "Les meilleurs outils no-code IA actuellement : Make.com pour les automatisations, Voiceflow pour les chatbots, Relevance AI pour les agents, et Bubble + GPT-4 pour les apps. Chacun a ses forces — je détaille tout ça dans les Modules 4 et 5 de la formation. ⚡",
-      ];
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [...messages, userMsg].map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.status === 429) {
+        setLimitReached(true);
+        setRemaining(0);
+        const limitMsg: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: data.error || "Tu as atteint la limite de 20 messages par jour. Reviens demain !",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, limitMsg]);
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur serveur");
+      }
+
+      if (data.remaining !== undefined) {
+        setRemaining(data.remaining);
+      }
 
       const botMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: randomResponse,
+        content: data.content,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, botMsg]);
+    } catch {
+      const errorMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "Desole, une erreur est survenue. Reessaie dans quelques instants.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+    } finally {
       setIsTyping(false);
-    }, 1500 + Math.random() * 1500);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -134,9 +168,14 @@ export default function AssistantPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-medium text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full">
-                {messages.length - 1} message{messages.length - 1 !== 1 ? "s" : ""}
-              </span>
+              {remaining !== null && (
+                <span className={cn(
+                  "text-[10px] font-medium px-2.5 py-1 rounded-full",
+                  remaining <= 3 ? "bg-red-50 text-[#FF1744]" : "bg-gray-50 text-gray-400"
+                )}>
+                  {remaining} message{remaining !== 1 ? "s" : ""} restant{remaining !== 1 ? "s" : ""}
+                </span>
+              )}
             </div>
           </div>
 
@@ -255,12 +294,12 @@ export default function AssistantPage() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Pose ta question..."
-                disabled={isTyping}
+                disabled={isTyping || limitReached}
                 className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744]/30 transition-all disabled:opacity-50"
               />
               <button
                 onClick={() => handleSend()}
-                disabled={!input.trim() || isTyping}
+                disabled={!input.trim() || isTyping || limitReached}
                 className={cn(
                   "p-2.5 rounded-xl transition-all flex-shrink-0",
                   input.trim() && !isTyping

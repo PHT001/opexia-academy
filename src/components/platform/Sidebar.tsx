@@ -124,6 +124,28 @@ function IconStore({ className }: { className?: string }) {
   );
 }
 
+function IconTrophy({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22" />
+      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22" />
+      <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+    </svg>
+  );
+}
+
+function IconCertificate({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="6" />
+      <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+    </svg>
+  );
+}
+
 function IconProfile({ className }: { className?: string }) {
   return (
     <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -205,8 +227,8 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     label: "Vue d'ensemble",
     items: [
       { href: "/dashboard", label: "Accueil", icon: IconHome },
-      { href: "/notes", label: "Mes notes", icon: IconNotes, badge: "Bientôt" },
-      { href: "/ressources", label: "Ressources", icon: IconFolder, badge: "Bientôt" },
+      { href: "/notes", label: "Mes notes", icon: IconNotes },
+      { href: "/ressources", label: "Ressources", icon: IconFolder },
     ],
   },
   {
@@ -214,6 +236,8 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     label: "Academy",
     items: [
       { href: "/lessons", label: "Formation", icon: IconLessons },
+      { href: "/leaderboard", label: "Classement", icon: IconTrophy },
+      { href: "/certificats", label: "Certificats", icon: IconCertificate },
       { href: "/masterclass", label: "Masterclass", icon: IconVideo, lockedForStarter: true, lockedTeaser: "Masterclass vidéo exclusives avec études de cas réelles et stratégies avancées pour lancer ton business IA." },
     ],
   },

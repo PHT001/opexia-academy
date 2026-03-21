@@ -5,7 +5,6 @@ import LogosBar from "@/components/landing/LogosBar";
 import PainSection from "@/components/landing/PainSection";
 import UrgenceIA from "@/components/landing/UrgenceIA";
 import DreamSection from "@/components/landing/DreamSection";
-import DarkStats from "@/components/landing/DarkStats";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Features from "@/components/landing/Features";
 import VideoBlock from "@/components/landing/VideoBlock";
@@ -27,7 +26,6 @@ export default function FormationPage() {
       <PainSection />
       <DreamSection />
       <UrgenceIA />
-      <DarkStats />
       <HowItWorks />
       <Features />
       <VideoBlock />

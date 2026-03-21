@@ -79,6 +79,60 @@ export async function GET() {
     tier = enrollment?.tier || null;
   }
 
+  // Build recent activity from completed lessons and quizzes
+  const recentActivity: {
+    type: "lesson" | "quiz";
+    title: string;
+    lessonOrder: number;
+    moduleOrder: number;
+    xpEarned: number;
+    completedAt: string;
+  }[] = [];
+
+  for (const mod of modules) {
+    for (const lesson of mod.lessons) {
+      const prog = lesson.progress[0];
+      if (prog?.status === "completed" && prog.completedAt) {
+        recentActivity.push({
+          type: "lesson",
+          title: lesson.title,
+          lessonOrder: lesson.order,
+          moduleOrder: mod.order,
+          xpEarned: prog.xpEarned || 0,
+          completedAt: new Date(prog.completedAt).toISOString(),
+        });
+        // If the lesson has a quiz with a passed submission, add a quiz entry
+        if (lesson.quiz?.submissions && lesson.quiz.submissions.length > 0) {
+          recentActivity.push({
+            type: "quiz",
+            title: lesson.title,
+            lessonOrder: lesson.order,
+            moduleOrder: mod.order,
+            xpEarned: 0,
+            completedAt: new Date(prog.completedAt).toISOString(),
+          });
+        }
+      }
+    }
+  }
+
+  recentActivity.sort(
+    (a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+  );
+  const recentActivityTop5 = recentActivity.slice(0, 5);
+
+  // Count quizzes completed (passed)
+  const quizzesCompleted = await prisma.quizSubmission.count({
+    where: { userId, passed: true },
+  });
+
+  // Average quiz score
+  const scoreAgg = await prisma.quizSubmission.aggregate({
+    where: { userId, passed: true },
+    _avg: { score: true },
+  });
+  const averageScore = scoreAgg._avg.score ?? 0;
+
   return NextResponse.json({
     totalLessons,
     completedLessons,
@@ -88,6 +142,9 @@ export async function GET() {
     streak,
     xp,
     tier,
+    recentActivity: recentActivityTop5,
+    quizzesCompleted,
+    averageScore,
     modules: modules.map((m) => ({
       id: m.id,
       title: m.title,
