@@ -29,8 +29,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Right — form area */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <Link href="/" className="mb-8 lg:hidden">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-6 lg:py-12">
+        <Link href="/" className="mb-6 lg:mb-8 lg:hidden">
           <span className="text-2xl font-bold tracking-tight">
             <span className="text-[#1A1A2E]">Opex</span>
             <span className="text-[#FF1744]">IA</span>
