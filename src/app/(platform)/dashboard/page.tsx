@@ -6,6 +6,7 @@ import { motion, useMotionValue, useTransform, animate, useInView } from "framer
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { TIERS, TIER_MODULE_ACCESS } from "@/lib/constants";
+import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
 
 interface RecentActivityItem {
   type: "lesson" | "quiz";
@@ -92,6 +93,7 @@ export default function DashboardPage() {
   const { data: session } = useSession();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showOnboardingTest, setShowOnboardingTest] = useState(false);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -122,8 +124,27 @@ export default function DashboardPage() {
   const nextPlan = currentIndex < TIERS.length - 1 ? TIERS[currentIndex + 1] : null;
   const accessibleModules = TIER_MODULE_ACCESS[userTier] || [1];
 
+  if (showOnboardingTest) {
+    return (
+      <PostPurchaseOnboarding
+        userName={session?.user?.name || undefined}
+        onComplete={() => setShowOnboardingTest(false)}
+      />
+    );
+  }
+
   return (
     <div className="w-full space-y-5">
+
+      {/* ════ ADMIN: TEST ONBOARDING ════ */}
+      {isAdmin && (
+        <button
+          onClick={() => setShowOnboardingTest(true)}
+          className="text-xs text-gray-400 hover:text-[#FF1744] transition-colors border border-gray-200 rounded-lg px-3 py-1.5 hover:border-[#FF1744]/30"
+        >
+          Tester l&apos;onboarding
+        </button>
+      )}
 
       {/* ════ NO ENROLLMENT BANNER ════ */}
       {!hasEnrollment && !isAdmin && (
