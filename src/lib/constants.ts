@@ -58,7 +58,7 @@ export interface ModuleMetadata {
 
 export const MODULE_METADATA: Record<number, ModuleMetadata> = {
   // Phase 1 — Fondations
-  1:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h30",  lessonCount: 7  },
+  1:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~3h25",  lessonCount: 8  },
   // Phase 2 — Développeur IA
   2:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h",    lessonCount: 5  },
   3:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h30",  lessonCount: 6  },
