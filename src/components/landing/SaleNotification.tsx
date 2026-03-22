@@ -22,7 +22,7 @@ export default function SaleNotification() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="fixed bottom-24 md:bottom-6 left-4 z-40"
+          className="fixed bottom-20 md:bottom-6 lg:bottom-6 left-4 z-40"
         >
           <div className="flex items-center gap-3 bg-[#0A0A0A] rounded-full pl-3 pr-5 py-2.5 shadow-2xl shadow-black/20">
             <div className="relative flex -space-x-1.5">

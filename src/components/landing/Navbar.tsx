@@ -10,6 +10,7 @@ const navLinks = [
   { label: "Comment ça marche", href: "#process" },
   { label: "Témoignages", href: "#testimonials" },
   { label: "FAQ", href: "#faq" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export default function Navbar() {
@@ -57,15 +58,25 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-[13px] font-medium text-white/50 hover:text-white transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.href.startsWith("#") ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-[13px] font-medium text-white/50 hover:text-white transition-colors"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[13px] font-medium text-white/50 hover:text-white transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </div>
 
           {/* CTA buttons */}
@@ -156,16 +167,27 @@ export default function Navbar() {
             }}
           >
             <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-base font-medium text-white/60 hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.href.startsWith("#") ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-base font-medium text-white/60 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-base font-medium text-white/60 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
               <a
                 href="https://wa.me/message/DUQV2FBF3TF2H1"
                 target="_blank"

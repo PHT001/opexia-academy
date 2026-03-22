@@ -414,6 +414,50 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
+      {/* ════ WELCOME CHECKLIST (new users only) ════ */}
+      {data?.completedLessons === 0 && hasEnrollment && (
+        <Card variants={fadeUp} className="p-6 sm:p-8 border-[#FF1744]/20 bg-gradient-to-br from-white to-red-50/30">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-10 h-10 rounded-xl bg-[#FF1744]/10 flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1744" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-[#111]">Bienvenue ! Voici tes premiers pas</h2>
+              <p className="text-xs text-gray-400">3 actions pour bien d&eacute;marrer ta formation</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <a href="/lessons" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF1744] text-white text-sm font-bold shrink-0">1</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-[#111] group-hover:text-[#FF1744] transition-colors">Commence la le&ccedil;on 1</p>
+                <p className="text-xs text-gray-400">D&eacute;couvre les bases de l&apos;IA pour ton business</p>
+              </div>
+              <IconArrowRight className="text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" />
+            </a>
+            <a href="https://discord.gg/opexia" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#1A1A2E] text-white text-sm font-bold shrink-0">2</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-[#111] group-hover:text-[#FF1744] transition-colors">Rejoins le Discord</p>
+                <p className="text-xs text-gray-400">Connecte-toi avec la communaut&eacute; OpexIA</p>
+              </div>
+              <IconArrowRight className="text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" />
+            </a>
+            <a href="/profile" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-600 text-sm font-bold shrink-0">3</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-[#111] group-hover:text-[#FF1744] transition-colors">Compl&egrave;te ton profil</p>
+                <p className="text-xs text-gray-400">Ajoute ta photo et tes infos</p>
+              </div>
+              <IconArrowRight className="text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" />
+            </a>
+          </div>
+        </Card>
+      )}
+
       {/* ════ STATS CARDS ════ */}
       <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-4" variants={stagger}>
         {[

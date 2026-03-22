@@ -11,7 +11,6 @@ const row1 = [
     role: "Fondateur, AgenceAI Pro",
     result: "3 200\u20ac/mois",
     platform: "google" as const,
-    proof: "Facture Stripe v\u00e9rifi\u00e9e",
   },
   {
     quote: "J\u2019avais peur de la technique, mais les le\u00e7ons sont tellement bien structur\u00e9es que j\u2019ai cr\u00e9\u00e9 mon premier chatbot en 3 jours.",
@@ -19,7 +18,6 @@ const row1 = [
     role: "Freelance IA",
     result: "Premier client en 10 jours",
     platform: "twitter" as const,
-    proof: "Capture d\u2019\u00e9cran fournie",
   },
   {
     quote: "Le pipeline CRM int\u00e9gr\u00e9 change tout. Je g\u00e8re mes prospects, mes projets et ma facturation depuis la m\u00eame plateforme.",
@@ -27,7 +25,6 @@ const row1 = [
     role: "Consultant IA",
     result: "5 clients en 2 mois",
     platform: "google" as const,
-    proof: "Profil LinkedIn v\u00e9rifi\u00e9",
   },
   {
     quote: "Les templates de prospection m\u2019ont permis de d\u00e9crocher mon premier contrat \u00e0 1 500\u20ac en moins de 2 semaines. ROI imm\u00e9diat.",
@@ -35,7 +32,6 @@ const row1 = [
     role: "Cr\u00e9atrice d\u2019agence IA",
     result: "1 500\u20ac en semaine 2",
     platform: "twitter" as const,
-    proof: "T\u00e9moignage vid\u00e9o",
   },
   {
     quote: "J\u2019ai automatis\u00e9 la prospection d\u2019un cabinet comptable. R\u00e9sultat : 2 300\u20ac factur\u00e9s pour 4h de travail. La formation m\u2019a tout appris.",
@@ -43,7 +39,6 @@ const row1 = [
     role: "Freelance Automatisation IA",
     result: "2 300\u20ac en 4h de travail",
     platform: "google" as const,
-    proof: "Facture client fournie",
   },
 ];
 
@@ -54,7 +49,6 @@ const row2 = [
     role: "Agence AutomatIA",
     result: "4 800\u20ac/mois",
     platform: "twitter" as const,
-    proof: "Dashboard Stripe partag\u00e9",
   },
   {
     quote: "Gr\u00e2ce aux modules sur n8n et les automatisations, j\u2019ai vendu 3 automatisations \u00e0 des PME en un mois. Le contenu est ultra concret.",
@@ -62,7 +56,6 @@ const row2 = [
     role: "Consultant IA, ind\u00e9pendant",
     result: "3 contrats en 1 mois",
     platform: "google" as const,
-    proof: "Capture Discord",
   },
   {
     quote: "Le programme est top. J\u2019utilise depuis plus de 3 mois et je suis satisfait. Le support r\u00e9pond en moins de 24h.",
@@ -70,7 +63,6 @@ const row2 = [
     role: "Fondateur, BoostIA Agency",
     result: "Satisfait depuis 3 mois",
     platform: "google" as const,
-    proof: "Avis Google v\u00e9rifi\u00e9",
   },
   {
     quote: "J\u2019avais 0 comp\u00e9tence technique. En 3 semaines j\u2019ai d\u00e9croch\u00e9 un contrat \u00e0 2 000\u20ac pour un chatbot. Merci OpexIA !",
@@ -78,7 +70,6 @@ const row2 = [
     role: "\u00c9tudiante \u2192 Freelance IA",
     result: "2 000\u20ac en semaine 3",
     platform: "twitter" as const,
-    proof: "T\u00e9moignage vid\u00e9o",
   },
   {
     quote: "La communaut\u00e9 Discord est incroyable. On s\u2019entraide, on partage des leads, et les fondateurs sont super r\u00e9actifs.",
@@ -86,7 +77,6 @@ const row2 = [
     role: "Agence IA locale",
     result: "R\u00e9seau de +150 entrepreneurs",
     platform: "google" as const,
-    proof: "Membre Discord actif",
   },
 ];
 
@@ -139,15 +129,9 @@ function TestimonialCard({ t }: { t: typeof row1[0] }) {
       <p className="mt-3 text-sm text-[#374151] leading-relaxed">
         {t.quote}
       </p>
-      <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between">
+      <div className="mt-4 pt-3 border-t border-gray-50">
         <span className="text-xs font-semibold text-[#FF1744]">
           {t.result}
-        </span>
-        <span className="inline-flex items-center gap-1 text-[10px] text-green-600 bg-green-50 rounded-full px-2 py-0.5">
-          <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          {t.proof}
         </span>
       </div>
     </div>
@@ -175,7 +159,7 @@ export default function Testimonials() {
             Ce qu&apos;ils en disent
           </h2>
           <p className="mt-3 text-sm text-[#6B7280]">
-            Tous les r&eacute;sultats sont v&eacute;rifi&eacute;s et document&eacute;s.
+            Les retours de nos premiers utilisateurs
           </p>
         </motion.div>
       </div>
@@ -214,6 +198,11 @@ export default function Testimonials() {
           ))}
         </div>
       </div>
+
+      {/* Disclaimer */}
+      <p className="text-center text-xs text-[#9CA3AF] mt-8 px-6">
+        R&eacute;sultats bas&eacute;s sur les retours de nos premiers utilisateurs. Les r&eacute;sultats individuels peuvent varier.
+      </p>
 
       {/* Founders trust */}
       <motion.div

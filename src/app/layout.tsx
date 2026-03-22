@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Outfit, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import "./globals.css";
 
@@ -50,6 +51,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="scroll-smooth">
+      <head>
+        <Script
+          defer
+          data-domain="opexia-formation.com"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body
         className={`${dmSans.variable} ${outfit.variable} ${jetbrains.variable} antialiased`}
         style={{ fontFamily: "var(--font-dm), system-ui, sans-serif" }}
