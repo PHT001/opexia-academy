@@ -2,54 +2,44 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { COACHING_SLOTS } from "@/lib/constants";
+import { COACHING_HOURS } from "@/lib/constants";
 import { getCalendarEvents } from "@/lib/google-calendar";
-
-// Map French day names to JS day numbers (0=Sun, 1=Mon, ...)
-const DAY_MAP: Record<string, number> = {
-  Dimanche: 0,
-  Lundi: 1,
-  Mardi: 2,
-  Mercredi: 3,
-  Jeudi: 4,
-  Vendredi: 5,
-  Samedi: 6,
-};
 
 function generateUpcomingSlots(weeksAhead: number = 4) {
   const slots: { date: string; label: string; dayLabel: string; time: string }[] = [];
   const now = new Date();
+  const { startHour, endHour, daysOff } = COACHING_HOURS;
 
   for (let d = 1; d <= weeksAhead * 7; d++) {
     const date = new Date(now);
     date.setDate(now.getDate() + d);
     const dayOfWeek = date.getDay();
 
-    for (const slot of COACHING_SLOTS) {
-      if (DAY_MAP[slot.day] === dayOfWeek) {
-        const [hours, minutes] = slot.time.split(":").map(Number);
-        const slotDate = new Date(date);
-        slotDate.setHours(hours, minutes, 0, 0);
+    // Skip days off (dimanche = 0)
+    if (daysOff.includes(dayOfWeek)) continue;
 
-        // Format: "2026-03-15T14:00"
-        const isoSlot = slotDate.toISOString();
-        const dayLabel = slotDate.toLocaleDateString("fr-FR", {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-        });
+    // Generate a slot for every hour from startHour to endHour-1
+    for (let hour = startHour; hour < endHour; hour++) {
+      const slotDate = new Date(date);
+      slotDate.setHours(hour, 0, 0, 0);
 
-        slots.push({
-          date: isoSlot,
-          label: `${dayLabel} a ${slot.time}`,
-          dayLabel,
-          time: slot.time,
-        });
-      }
+      const timeStr = `${hour.toString().padStart(2, "0")}:00`;
+      const isoSlot = slotDate.toISOString();
+      const dayLabel = slotDate.toLocaleDateString("fr-FR", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      });
+
+      slots.push({
+        date: isoSlot,
+        label: `${dayLabel} a ${timeStr}`,
+        dayLabel,
+        time: timeStr,
+      });
     }
   }
 
-  // Sort by date
   slots.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   return slots;
 }

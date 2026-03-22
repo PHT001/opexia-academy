@@ -170,11 +170,22 @@ export const TIERS = [
 
 /* ——— Coaching slots & pricing ——— */
 
+// Horaires de dispo coaching : lundi-samedi, 10h-20h, créneaux de 1h
+export const COACHING_HOURS = {
+  startHour: 10,
+  endHour: 20, // dernier créneau à 19h (19h-20h)
+  slotDuration: 1, // 1 heure
+  daysOff: [0] as number[], // 0 = dimanche
+} as const;
+
+// Legacy — kept for compatibility but no longer used for slot generation
 export const COACHING_SLOTS = [
-  { day: "Lundi",    time: "14:00", duration: "1h" },
+  { day: "Lundi",    time: "10:00", duration: "1h" },
+  { day: "Mardi",    time: "10:00", duration: "1h" },
   { day: "Mercredi", time: "10:00", duration: "1h" },
-  { day: "Mercredi", time: "14:00", duration: "1h" },
+  { day: "Jeudi",    time: "10:00", duration: "1h" },
   { day: "Vendredi", time: "10:00", duration: "1h" },
+  { day: "Samedi",   time: "10:00", duration: "1h" },
 ] as const;
 
 export const COACHING_PRICE = 7000; // 70e en centimes
