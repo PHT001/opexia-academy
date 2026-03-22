@@ -11,10 +11,11 @@ function getCalendarClient() {
     return null;
   }
 
-  const auth = new google.auth.JWT({
-    email,
-    // The private key comes from env with literal \n — replace them with real newlines
-    key: privateKey.replace(/\\n/g, "\n"),
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: email,
+      private_key: privateKey.replace(/\\n/g, "\n"),
+    },
     scopes: ["https://www.googleapis.com/auth/calendar"],
   });
 
