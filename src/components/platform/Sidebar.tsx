@@ -212,6 +212,7 @@ interface NavItem {
   icon: IconComponent;
   badge?: string;
   lockedForStarter?: boolean;
+  requiredTier?: string;
   lockedTeaser?: string;
 }
 
@@ -255,7 +256,7 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     items: [
       { href: "/pipeline", label: "Pipeline", icon: IconPipeline },
 
-      { href: "/generateur", label: "Générateur", icon: IconWand, lockedForStarter: true, lockedTeaser: "Génère des livrables complets en un clic : landing pages, emails, scripts de vente, propositions commerciales." },
+      { href: "/generateur", label: "Générateur", icon: IconWand, requiredTier: "one_to_one", lockedTeaser: "Génère des livrables complets en un clic. Exclusif au plan One-to-One." },
     ],
   },
   {
@@ -444,7 +445,9 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
 
               <div className="flex flex-col gap-0.5">
                 {section.items.map((item) => {
-                  const isLocked = item.lockedForStarter && tier === "starter" && (role !== "admin" || previewTier !== null);
+                  const tierLocked = item.lockedForStarter && tier === "starter";
+                  const requiredTierLocked = item.requiredTier && tier !== item.requiredTier;
+                  const isLocked = (tierLocked || requiredTierLocked) && (role !== "admin" || previewTier !== null);
                   const active = !isLocked && (pathname === item.href || pathname.startsWith(item.href + "/"));
                   const Icon = item.icon;
 
