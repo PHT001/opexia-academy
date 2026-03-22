@@ -5,6 +5,33 @@ import { prisma } from "@/lib/prisma";
 import { COACHING_HOURS } from "@/lib/constants";
 import { getCalendarEvents } from "@/lib/google-calendar";
 
+/**
+ * Get the current UTC offset for Europe/Paris (handles CET/CEST automatically).
+ */
+function getParisOffset(date: Date): string {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Paris",
+    timeZoneName: "shortOffset",
+  });
+  const parts = formatter.formatToParts(date);
+  const tzPart = parts.find((p) => p.type === "timeZoneName");
+  // e.g. "GMT+1" or "GMT+2"
+  const match = tzPart?.value?.match(/GMT([+-]\d+)/);
+  if (!match) return "+01:00";
+  const hours = parseInt(match[1]);
+  const sign = hours >= 0 ? "+" : "-";
+  return `${sign}${String(Math.abs(hours)).padStart(2, "0")}:00`;
+}
+
+/**
+ * Get the day of week for a date in Paris timezone.
+ */
+function getParisDayOfWeek(date: Date): number {
+  const parisStr = date.toLocaleDateString("en-US", { timeZone: "Europe/Paris", weekday: "short" });
+  const map: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  return map[parisStr] ?? 0;
+}
+
 function generateUpcomingSlots(weeksAhead: number = 4) {
   const slots: { date: string; label: string; dayLabel: string; time: string }[] = [];
   const now = new Date();
@@ -13,22 +40,25 @@ function generateUpcomingSlots(weeksAhead: number = 4) {
   for (let d = 1; d <= weeksAhead * 7; d++) {
     const date = new Date(now);
     date.setDate(now.getDate() + d);
-    const dayOfWeek = date.getDay();
 
-    // Skip days off (dimanche = 0)
+    const dayOfWeek = getParisDayOfWeek(date);
     if (daysOff.includes(dayOfWeek)) continue;
 
-    // Generate a slot for every hour from startHour to endHour-1
-    for (let hour = startHour; hour < endHour; hour++) {
-      const slotDate = new Date(date);
-      slotDate.setHours(hour, 0, 0, 0);
+    // Get the date string in Paris timezone (YYYY-MM-DD)
+    const parisDate = date.toLocaleDateString("sv-SE", { timeZone: "Europe/Paris" }); // "2026-03-25"
+    const offset = getParisOffset(date);
 
+    for (let hour = startHour; hour < endHour; hour++) {
       const timeStr = `${hour.toString().padStart(2, "0")}:00`;
-      const isoSlot = slotDate.toISOString();
+      // Build an ISO string explicitly in Paris timezone
+      const isoSlot = new Date(`${parisDate}T${timeStr}:00${offset}`).toISOString();
+
+      const slotDate = new Date(isoSlot);
       const dayLabel = slotDate.toLocaleDateString("fr-FR", {
         weekday: "long",
         day: "numeric",
         month: "long",
+        timeZone: "Europe/Paris",
       });
 
       slots.push({
