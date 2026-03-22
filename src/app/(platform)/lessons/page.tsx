@@ -382,7 +382,10 @@ export default function LessonsPage() {
       .then((r) => r.json())
       .then((data) => {
         const mods = Array.isArray(data) ? data : (data.modules ?? []);
-        const tier = Array.isArray(data) ? "academy" : (data.userTier ?? "starter");
+        const apiTier = Array.isArray(data) ? "academy" : (data.userTier ?? "starter");
+        // Check for admin preview tier override
+        const previewTier = localStorage.getItem("admin-preview-tier");
+        const tier = previewTier || apiTier;
         setModules(mods);
         setUserTier(tier);
         const activeModule = mods.find((m: ModuleGroup) => m.lessons.some((l: LessonItem) => l.status === "in_progress"));
@@ -393,12 +396,22 @@ export default function LessonsPage() {
       .catch(() => setLoading(false));
   }, []);
 
+  // Listen for admin preview tier changes
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const tier = (e as CustomEvent).detail;
+      setUserTier(tier || "admin");
+    };
+    window.addEventListener("preview-tier-change", handler);
+    return () => window.removeEventListener("preview-tier-change", handler);
+  }, []);
+
   // Cleanup body overflow on unmount
   useEffect(() => {
     return () => { document.body.style.overflow = ""; };
   }, []);
 
-  const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
+  const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.one_to_one;
   const totalCompleted = modules.reduce((sum, m) => sum + m.lessons.filter((l) => l.status === "completed").length, 0);
   const totalLessons = modules.reduce((sum, m) => sum + m.lessons.length, 0);
   const totalProgress = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
