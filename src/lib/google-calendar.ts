@@ -25,7 +25,7 @@ function getCalendarClient() {
   }
 }
 
-const CALENDAR_ID = () => process.env.GOOGLE_CALENDAR_ID || "primary";
+const CALENDAR_ID = () => (process.env.GOOGLE_CALENDAR_ID || "primary").trim();
 
 /**
  * Fetch Google Calendar events in a date range.
