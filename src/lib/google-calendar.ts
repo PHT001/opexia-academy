@@ -11,10 +11,16 @@ function getCalendarClient() {
     return null;
   }
 
-  // Handle both literal \n (from env) and real newlines
-  const formattedKey = privateKey.includes("\\n")
-    ? privateKey.replace(/\\n/g, "\n")
-    : privateKey;
+  // Private key is stored as base64 in env to avoid newline issues
+  let formattedKey: string;
+  if (privateKey.startsWith("LS0t")) {
+    // Base64 encoded
+    formattedKey = Buffer.from(privateKey, "base64").toString("utf-8");
+  } else if (privateKey.includes("\\n")) {
+    formattedKey = privateKey.replace(/\\n/g, "\n");
+  } else {
+    formattedKey = privateKey;
+  }
 
   const auth = new google.auth.GoogleAuth({
     credentials: {
