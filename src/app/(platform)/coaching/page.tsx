@@ -540,28 +540,6 @@ function CoachingContent() {
         </div>
       )}
 
-      {/* ═══════════════ WHAT'S INCLUDED ═══════════════ */}
-      <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Ce qui est inclus</h2>
-        <p className="text-xs text-gray-500 mb-5">Chaque session est conçue pour maximiser ton temps et tes résultats.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {INCLUDES.map((item, i) => (
-            <motion.div
-              key={i}
-              className="bg-white rounded-xl border border-gray-200 p-4 flex items-start gap-3 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              transition={{ delay: i * 0.05 }}
-            >
-              <span className="text-lg flex-shrink-0 mt-0.5">{item.icon}</span>
-              <span className="text-sm text-gray-700">{item.text}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
       {/* ═══════════════ HOW IT WORKS ═══════════════ */}
       <div>
         <h2 className="text-lg font-bold text-gray-900 mb-1">Comment ça marche</h2>
@@ -630,25 +608,6 @@ function CoachingContent() {
           </div>
         </div>
       )}
-
-      {/* ═══════════════ TRUST BADGES ═══════════════ */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {[
-          { icon: <IconShield className="text-emerald-500" />, title: "Satisfait ou remboursé", desc: "Si la session ne te convient pas, on te rembourse intégralement." },
-          { icon: <IconZap className="text-amber-500" />, title: "Résultats immédiats", desc: "Tu repars avec des actions concrètes applicables dès la fin de la session." },
-          { icon: <IconVideo className="text-blue-500" />, title: "Replay inclus", desc: "Reçois l'enregistrement complet de ta session sous 24h par email." },
-        ].map((badge, i) => (
-          <div key={i} className="bg-white rounded-xl border border-gray-200 p-4 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0">
-              {badge.icon}
-            </div>
-            <div>
-              <p className="text-xs font-bold text-gray-800 mb-0.5">{badge.title}</p>
-              <p className="text-[10px] text-gray-500 leading-relaxed">{badge.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
 
       {/* ═══════════════ PAST SESSIONS ═══════════════ */}
       {pastSessions.length > 0 && (
