@@ -146,5 +146,14 @@ export async function GET() {
     take: 10,
   });
 
-  return NextResponse.json({ slots: availableSlots, sessions: userSessions });
+  return NextResponse.json({
+    slots: availableSlots,
+    sessions: userSessions,
+    _debug: {
+      totalGenerated: allSlots.length,
+      calendarEventsFound: calendarEvents.length,
+      bookedInDb: bookedSessions.length,
+      filtered: allSlots.length - availableSlots.length,
+    },
+  });
 }
