@@ -10,6 +10,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   const { data: session } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter" });
+  const [previewTier, setPreviewTier] = useState<string | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [loadingOnboarding, setLoadingOnboarding] = useState(true);
 
@@ -46,9 +47,11 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         role={session?.user?.role}
         xp={stats.xp}
         streak={stats.streak}
-        tier={stats.tier}
+        tier={previewTier || stats.tier}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        previewTier={previewTier}
+        onPreviewTierChange={session?.user?.role === "admin" ? setPreviewTier : undefined}
       />
 
       {/* Mobile topbar */}

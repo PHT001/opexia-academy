@@ -276,7 +276,7 @@ export const module06: AllLessonAnimations = {
     },
 
     // Section 4: "Les outils d'automatisation no-code"
-    // → Comparison Grid: Zapier vs Make vs n8n
+    // → Comparison Grid: Zapier vs n8n
     4: {
       template: "comparison-grid",
       props: {
@@ -284,8 +284,8 @@ export const module06: AllLessonAnimations = {
         subtitle: "Automatiser sans écrire de code",
         items: [
           { label: "Zapier", description: "5000+ apps, le plus simple", icon: "⚡" },
-          { label: "Make", description: "Visuel et puissant, bon prix", icon: "🔧" },
-          { label: "n8n", description: "Open source, auto-hébergeable", icon: "🔗" },
+          { label: "n8n Cloud", description: "Visuel et puissant, bon prix", icon: "🔧" },
+          { label: "n8n Self-hosted", description: "Open source, auto-hébergeable", icon: "🔗" },
           { label: "OpenClaw", description: "Automatisation IA native", icon: "🤖" },
         ],
       },

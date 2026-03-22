@@ -278,6 +278,8 @@ interface SidebarProps {
   role?: string;
   open?: boolean;
   onClose?: () => void;
+  previewTier?: string | null;
+  onPreviewTierChange?: (tier: string | null) => void;
 }
 
 function TierBadge({ tier, role }: { tier: string; role?: string }) {
@@ -301,7 +303,7 @@ function TierBadge({ tier, role }: { tier: string; role?: string }) {
   );
 }
 
-export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, open, onClose }: SidebarProps) {
+export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, open, onClose, previewTier, onPreviewTierChange }: SidebarProps) {
   const pathname = usePathname();
   const [lockedItem, setLockedItem] = useState<NavItem | null>(null);
 
@@ -392,14 +394,43 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
           </Link>
           <div className="h-px bg-gradient-to-r from-transparent via-white/8 to-transparent mt-4 mb-3" />
           <div className="flex items-center justify-between">
-            <TierBadge tier={tier} role={role} />
-            {tier === "starter" && role !== "admin" && (
+            <TierBadge tier={tier} role={previewTier ? undefined : role} />
+            {tier === "starter" && (role !== "admin" || previewTier !== null) && (
               <a href="/profile?tab=subscription" className="text-[9px] text-[#FF1744]/60 hover:text-[#FF1744] transition-colors font-semibold uppercase tracking-wider">
                 Upgrade
               </a>
             )}
           </div>
         </div>
+
+        {/* Admin: Tier Preview */}
+        {role === "admin" && onPreviewTierChange && (
+          <div className="px-4 pb-3 shrink-0">
+            <p className="text-[9px] uppercase tracking-[0.15em] text-white/20 font-semibold mb-2">Simuler un abonnement</p>
+            <div className="flex flex-col gap-1">
+              {[
+                { id: null, label: "Admin", icon: "👑" },
+                { id: "starter", label: "Starter" },
+                { id: "academy", label: "Academy" },
+                { id: "one_to_one", label: "One-to-One" },
+              ].map((t) => (
+                <button
+                  key={t.id || "admin"}
+                  onClick={() => onPreviewTierChange(t.id)}
+                  className={cn(
+                    "text-[11px] font-medium px-3 py-1.5 rounded-lg transition-all text-left",
+                    previewTier === t.id
+                      ? "bg-[#FF1744]/15 text-[#FF1744] border border-[#FF1744]/25"
+                      : "text-white/40 hover:text-white/60 hover:bg-white/5 border border-transparent"
+                  )}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            <div className="h-px bg-gradient-to-r from-transparent via-white/8 to-transparent mt-3" />
+          </div>
+        )}
 
         {/* Navigation */}
         <nav className="flex-1 px-3 pb-3 flex flex-col gap-0.5 overflow-y-auto sidebar-scroll">
@@ -413,7 +444,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
 
               <div className="flex flex-col gap-0.5">
                 {section.items.map((item) => {
-                  const isLocked = item.lockedForStarter && tier === "starter" && role !== "admin";
+                  const isLocked = item.lockedForStarter && tier === "starter" && (role !== "admin" || previewTier !== null);
                   const active = !isLocked && (pathname === item.href || pathname.startsWith(item.href + "/"));
                   const Icon = item.icon;
 
@@ -503,7 +534,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-medium text-white/80 truncate">{userName || "Élève"}</p>
               <p className="text-[10px] text-white/30">
-                {role === "admin" ? "Administrateur" : tier === "one_to_one" ? "Membre Premium" : tier === "academy" ? "Membre Academy" : "Membre Starter"}
+                {role === "admin" && !previewTier ? "Administrateur" : tier === "one_to_one" ? "Membre Premium" : tier === "academy" ? "Membre Academy" : "Membre Starter"}
               </p>
             </div>
             <button

@@ -336,7 +336,7 @@ export const module13: AllLessonAnimations = {
         subtitle: "Les couches de ton infrastructure operationnelle",
         items: [
           { label: "Couche IA", description: "Claude API, OpenClaw, agents autonomes", icon: "🧠", color: "#8B5CF6" },
-          { label: "Couche Automation", description: "Make, Zapier, n8n pour les workflows", icon: "⚡", color: "#F59E0B" },
+          { label: "Couche Automation", description: "n8n, Zapier pour les workflows", icon: "⚡", color: "#F59E0B" },
           { label: "Couche Outils", description: "CRM, facturation, gestion projet", icon: "🛠️", color: "#3B82F6" },
           { label: "Couche Communication", description: "Slack, email, visio pour l'equipe", icon: "💬", color: "#10B981" },
         ],

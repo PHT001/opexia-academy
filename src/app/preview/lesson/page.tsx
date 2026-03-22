@@ -94,7 +94,7 @@ const DEMO_LESSONS = [
       { id: "2-13", type: "steps", steps: [
         { title: "Cursor / Windsurf", description: "Éditeurs de code boostés à l'IA — tu codes 10x plus vite." },
         { title: "v0.dev / Bolt", description: "Générateurs d'interfaces — tu décris, ça code le frontend." },
-        { title: "Make / n8n", description: "Automatisation no-code — tu connectes les outils entre eux." },
+        { title: "n8n", description: "Automatisation no-code — tu connectes les outils entre eux." },
         { title: "Supabase", description: "Backend as a service — base de données + auth + API en 5 min." },
       ]},
       { id: "2-14", type: "text", html: "<p>Tu n'as pas besoin de tous les maîtriser maintenant. On les découvrira <strong>un par un</strong> dans les modules suivants, avec des projets concrets à chaque fois.</p>" },

@@ -45,7 +45,7 @@ const INITIAL_NOTES: Note[] = [
     id: "3",
     title: "Services à vendre",
     content:
-      "## Les 3 services les plus rentables\n\n### 1. Chatbot IA — 1500-3000€\nSupport client, prise de RDV, qualification de leads.\nOutils : Botpress, Voiceflow, Make\n\n### 2. Automatisation Make/n8n — 800-2000€\nFacturation, relances, reporting.\nROI immédiat pour le client.\n\n### 3. Site web avec IA — 1000-2500€\nLanding pages, chatbot intégré.\nOutils : Cursor, V0, Vercel\n\n> Commencer par les chatbots → plus facile à vendre et démontrer.",
+      "## Les 3 services les plus rentables\n\n### 1. Chatbot IA — 1500-3000€\nSupport client, prise de RDV, qualification de leads.\nOutils : Botpress, Voiceflow, n8n\n\n### 2. Automatisation n8n — 800-2000€\nFacturation, relances, reporting.\nROI immédiat pour le client.\n\n### 3. Site web avec IA — 1000-2500€\nLanding pages, chatbot intégré.\nOutils : Cursor, V0, Vercel\n\n> Commencer par les chatbots → plus facile à vendre et démontrer.",
     folder: "Idées business",
     color: "#00C853",
     icon: "💰",

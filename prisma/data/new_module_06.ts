@@ -115,21 +115,21 @@ export const MODULE_5_LESSONS = [
       ]},
       { id: "2-7", type: "separator", style: "line" },
 
-      { id: "2-8", type: "heading", level: 2, text: "Construire le scénario : Google Sheets → Email" },
-      { id: "2-9", type: "text", html: "<p>On va créer un scénario <strong>concret et vendable</strong> : dès qu'une nouvelle ligne est ajoutée dans un Google Sheet (ex: un formulaire de contact), un email personnalisé est envoyé automatiquement au client potentiel.</p><p>Ce type de scénario se vend 400-800€ à des e-commerçants, coachs, ou toute entreprise qui collecte des leads.</p>" },
+      { id: "2-8", type: "heading", level: 2, text: "Construire le workflow : Google Sheets → Email" },
+      { id: "2-9", type: "text", html: "<p>On va créer un workflow <strong>concret et vendable</strong> : dès qu'une nouvelle ligne est ajoutée dans un Google Sheet (ex: un formulaire de contact), un email personnalisé est envoyé automatiquement au client potentiel.</p><p>Ce type de workflow se vend 400-800€ à des e-commerçants, coachs, ou toute entreprise qui collecte des leads.</p>" },
       { id: "2-10", type: "steps", steps: [
-        { title: "Créer un nouveau scénario", description: "Dans Make, clique sur 'Create a new scenario'. Tu arrives sur l'éditeur visuel (canvas blanc)." },
-        { title: "Ajouter le module déclencheur", description: "Clique sur le grand + au centre. Cherche 'Google Sheets', sélectionne 'Watch Rows'. Connecte ton compte Google, choisis le spreadsheet et la feuille à surveiller. Interval : toutes les 15 minutes." },
-        { title: "Tester le déclencheur", description: "Clique sur 'Run once' en bas à gauche, puis ajoute une ligne dans ton Google Sheet. Make va capturer cette ligne — tu verras les données (nom, email, etc.) apparaître dans les bulles." },
-        { title: "Ajouter un filtre", description: "Clique sur la petite clé entre les deux modules → Add filter. Condition : la colonne 'Statut' doit être égale à 'Nouveau'. Ainsi, si quelqu'un met à jour une ligne existante, ça ne se redéclenche pas." },
-        { title: "Ajouter le module Gmail", description: "Clique sur + après le filtre. Cherche 'Gmail', sélectionne 'Send an Email'. Dans le champ 'To', mappe la colonne Email de ton Google Sheet en cliquant sur la variable." },
-        { title: "Personnaliser l'email", description: "Sujet : 'Merci {{1.Prénom}}, on a bien reçu ta demande'. Corps : un message HTML avec les variables mappées depuis le Sheet." },
-        { title: "Activer le scénario", description: "Bascule le switch 'Scheduling' en bas à gauche. Le scénario tourne maintenant en autonome." },
+        { title: "Créer un nouveau workflow", description: "Dans n8n, clique sur 'New Workflow'. Tu arrives sur l'éditeur visuel (canvas blanc)." },
+        { title: "Ajouter le nœud déclencheur", description: "Clique sur le + au centre. Cherche 'Google Sheets', sélectionne le trigger 'On Row Added'. Connecte ton compte Google, choisis le spreadsheet et la feuille à surveiller." },
+        { title: "Tester le déclencheur", description: "Clique sur 'Test workflow', puis ajoute une ligne dans ton Google Sheet. n8n va capturer cette ligne — tu verras les données (nom, email, etc.) apparaître dans le panneau de sortie." },
+        { title: "Ajouter un nœud IF (filtre)", description: "Ajoute un nœud 'IF' après le trigger. Condition : la colonne 'Statut' doit être égale à 'Nouveau'. Ainsi, si quelqu'un met à jour une ligne existante, ça ne se redéclenche pas." },
+        { title: "Ajouter le nœud Gmail", description: "Après le nœud IF (branche true), ajoute un nœud 'Gmail'. Sélectionne 'Send Email'. Dans le champ 'To', mappe la colonne Email de ton Google Sheet via les expressions." },
+        { title: "Personnaliser l'email", description: "Sujet : 'Merci {{ $json.Prénom }}, on a bien reçu ta demande'. Corps : un message HTML avec les variables mappées depuis le Sheet." },
+        { title: "Activer le workflow", description: "Bascule le toggle 'Active' en haut à droite. Le workflow tourne maintenant en autonome." },
       ]},
       { id: "2-11", type: "separator", style: "dots" },
 
-      { id: "2-12", type: "heading", level: 2, text: "Les données dans Make : mapping et transformations" },
-      { id: "2-13", type: "code", language: "json", filename: "exemple-donnees-make.json", code: `{
+      { id: "2-12", type: "heading", level: 2, text: "Les données dans n8n : mapping et expressions" },
+      { id: "2-13", type: "code", language: "json", filename: "exemple-donnees-n8n.json", code: `{
   "Row Number": 42,
   "Prénom": "Marie",
   "Nom": "Dupont",
@@ -139,31 +139,31 @@ export const MODULE_5_LESSONS = [
   "Date": "2025-03-13T10:30:00.000Z",
   "Statut": "Nouveau"
 }` },
-      { id: "2-14", type: "text", html: "<p>Ces données sont accessibles dans Make via les <strong>variables mappées</strong>. Dans n'importe quel champ texte, tu cliques et tu choisis la variable à insérer. Make gère la transformation automatiquement (ex: formater la date, mettre en majuscule, extraire un domaine email).</p><p>Les <strong>fonctions intégrées</strong> de Make permettent aussi des transformations avancées sans code : <code>formatDate()</code>, <code>toString()</code>, <code>parseDate()</code>, <code>if()</code>, etc.</p>" },
-      { id: "2-15", type: "callout", variant: "warning", html: "Pense toujours à gérer les <strong>erreurs</strong> dans tes scénarios. Dans Make, tu peux définir ce qui se passe si un module échoue : arrêt, retry automatique, ou notification dans Slack. Un scénario pro gère ses erreurs." },
+      { id: "2-14", type: "text", html: "<p>Ces données sont accessibles dans n8n via les <strong>expressions</strong>. Dans n'importe quel champ, tu cliques et tu utilises <code>{{ $json.champ }}</code> pour insérer une variable. n8n supporte aussi le JavaScript dans les expressions pour les transformations avancées.</p><p>Le nœud <strong>Code</strong> intégré permet des transformations complexes en JavaScript : formater des dates, manipuler des chaînes, faire des calculs — directement dans le workflow.</p>" },
+      { id: "2-15", type: "callout", variant: "warning", html: "Pense toujours à gérer les <strong>erreurs</strong> dans tes workflows. Dans n8n, tu peux ajouter un nœud 'Error Trigger' qui se déclenche quand un nœud échoue : notification Slack, retry, ou alerte email. Un workflow pro gère ses erreurs." },
       { id: "2-16", type: "separator", style: "space" },
 
-      { id: "2-17", type: "quiz-inline", question: "Dans Make, qu'est-ce qu'une 'opération' ?", options: [
-        { id: "a", text: "Un scénario complet exécuté de bout en bout" },
-        { id: "b", text: "Le traitement d'un seul bundle de données par un module" },
+      { id: "2-17", type: "quiz-inline", question: "Dans n8n, qu'est-ce qu'une 'exécution' ?", options: [
+        { id: "a", text: "Un nœud individuel qui traite des données" },
+        { id: "b", text: "Un run complet du workflow du début à la fin" },
         { id: "c", text: "Une connexion à une application externe" },
-      ], correctId: "b", explanation: "Une opération = 1 module traitant 1 bundle. Si ton scénario a 3 modules et traite 10 lignes, ça consomme 30 opérations. C'est la base pour estimer le plan dont ton client a besoin." },
+      ], correctId: "b", explanation: "Une exécution = 1 run complet du workflow. En n8n Cloud, le quota est basé sur le nombre d'exécutions. En self-hosted, les exécutions sont illimitées — c'est l'un des gros avantages." },
 
       { id: "2-18", type: "separator", style: "dots" },
       { id: "2-19", type: "checklist", title: "Acquis de cette leçon", items: [
-        { id: "c1", text: "Je comprends la structure d'un scénario Make (déclencheur, filtres, actions)" },
-        { id: "c2", text: "J'ai créé mon premier scénario Google Sheets → Gmail" },
-        { id: "c3", text: "Je sais mapper des variables et utiliser les filtres" },
-        { id: "c4", text: "Je sais activer un scénario et gérer les erreurs de base" },
-        { id: "c5", text: "Je comprends le système d'opérations pour estimer les coûts client" },
+        { id: "c1", text: "Je comprends la structure d'un workflow n8n (déclencheur, nœuds IF, actions)" },
+        { id: "c2", text: "J'ai créé mon premier workflow Google Sheets → Gmail" },
+        { id: "c3", text: "Je sais utiliser les expressions et les nœuds IF pour filtrer" },
+        { id: "c4", text: "Je sais activer un workflow et gérer les erreurs de base" },
+        { id: "c5", text: "Je comprends le système d'exécutions pour estimer les coûts client" },
       ]},
     ]),
-    exercise: "<h3>Construis et vends</h3><p>Crée le scénario Google Sheets → Gmail vu dans cette leçon avec un vrai compte Make (gratuit). Ensuite, <strong>généralise-le</strong> : ajoute un 2ème module action qui crée aussi une tâche dans Notion ou un contact dans HubSpot. Documente le scénario avec des captures d'écran. Tu as maintenant un portfolio à montrer à des clients. Bonus : calcule combien tu pourrais le vendre si un client reçoit 50 leads/mois — quelle offre proposes-tu ?</p>",
+    exercise: "<h3>Construis et vends</h3><p>Crée le workflow Google Sheets → Gmail vu dans cette leçon avec n8n (en local via npx n8n ou sur n8n Cloud). Ensuite, <strong>généralise-le</strong> : ajoute un 2ème nœud action qui crée aussi une tâche dans Notion ou un contact dans HubSpot. Documente le workflow avec des captures d'écran. Tu as maintenant un portfolio à montrer à des clients. Bonus : calcule combien tu pourrais le vendre si un client reçoit 50 leads/mois — quelle offre proposes-tu ?</p>",
     quiz: [
-      { type: "true_false", question: "Le plan gratuit de Make offre 1 000 opérations par mois, ce qui suffit pour tester et faire des démos.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Make propose un plan gratuit avec 1 000 opérations/mois, suffisant pour le prototypage et les démonstrations. Pour les clients en production, le plan Core à 9€/mois ou Pro à 16€/mois couvre la majorité des besoins." },
-      { type: "mcq", question: "Dans un scénario Make, quel est le rôle du filtre placé entre deux modules ?", options: JSON.stringify(["Accélérer l'exécution du scénario", "Définir une condition pour ne traiter que certaines données", "Transformer le format des données", "Connecter deux applications différentes"]), correctAnswer: "Définir une condition pour ne traiter que certaines données", explanation: "Le filtre permet de poser des conditions entre les modules. Par exemple, ne continuer que si la colonne 'Statut' = 'Nouveau'. Cela évite de traiter des données déjà traitées ou non pertinentes." },
-      { type: "true_false", question: "Un scénario Make livré sans gestion des erreurs peut fonctionner correctement pendant des semaines avant de planter silencieusement.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "C'est le piège classique : un scénario fonctionne en test et en début de production, mais quand une API change ou qu'une donnée inattendue arrive, il plante sans prévenir personne. La gestion des erreurs (retry, notification) est indispensable pour un livrable professionnel." },
-      { type: "mcq", question: "Un client fleuriste vous demande d'automatiser l'envoi d'un email de remerciement personnalisé à chaque nouveau client ajouté dans son Google Sheet. Quel est le premier module que vous ajoutez dans Make ?", options: JSON.stringify(["Un module Gmail pour préparer l'email", "Un module Google Sheets Watch Rows pour détecter chaque nouvelle ligne", "Un module filtre pour vérifier l'adresse email", "Un module HTTP Request pour appeler une API externe"]), correctAnswer: "Un module Google Sheets Watch Rows pour détecter chaque nouvelle ligne", explanation: "Tout scénario commence par un déclencheur. Ici, Google Sheets Watch Rows surveille les nouvelles lignes ajoutées et démarre le scénario automatiquement. Sans déclencheur, le scénario ne se lance jamais." },
+      { type: "true_false", question: "n8n self-hosted permet des exécutions illimitées sans coût d'abonnement supplémentaire.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "En self-hosted, n8n n'a pas de limite d'exécutions. Le seul coût est l'hébergement du serveur (5-10€/mois). C'est un énorme avantage pour les clients avec beaucoup de volume ou pour maximiser tes marges." },
+      { type: "mcq", question: "Dans un workflow n8n, quel est le rôle du nœud IF placé entre deux nœuds ?", options: JSON.stringify(["Accélérer l'exécution du workflow", "Définir une condition pour ne traiter que certaines données", "Transformer le format des données", "Connecter deux applications différentes"]), correctAnswer: "Définir une condition pour ne traiter que certaines données", explanation: "Le nœud IF permet de poser des conditions dans le workflow. Par exemple, ne continuer que si la colonne 'Statut' = 'Nouveau'. Cela évite de traiter des données déjà traitées ou non pertinentes." },
+      { type: "true_false", question: "Un workflow n8n livré sans gestion des erreurs peut fonctionner correctement pendant des semaines avant de planter silencieusement.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "C'est le piège classique : un workflow fonctionne en test et en début de production, mais quand une API change ou qu'une donnée inattendue arrive, il plante sans prévenir personne. La gestion des erreurs (Error Trigger, notification) est indispensable pour un livrable professionnel." },
+      { type: "mcq", question: "Un client fleuriste vous demande d'automatiser l'envoi d'un email de remerciement personnalisé à chaque nouveau client ajouté dans son Google Sheet. Quel est le premier nœud que vous ajoutez dans n8n ?", options: JSON.stringify(["Un nœud Gmail pour préparer l'email", "Un nœud Google Sheets Trigger pour détecter chaque nouvelle ligne", "Un nœud IF pour vérifier l'adresse email", "Un nœud HTTP Request pour appeler une API externe"]), correctAnswer: "Un nœud Google Sheets Trigger pour détecter chaque nouvelle ligne", explanation: "Tout workflow commence par un déclencheur (trigger). Ici, le Google Sheets Trigger surveille les nouvelles lignes ajoutées et démarre le workflow automatiquement. Sans déclencheur, le workflow ne se lance jamais." },
     ],
   },
 
@@ -171,12 +171,12 @@ export const MODULE_5_LESSONS = [
   {
     order: 3,
     module: 5,
-    title: "n8n : l'alternative open-source puissante",
-    slug: "n8n-alternative-open-source-workflows",
+    title: "n8n self-hosted : contrôle total et marges maximales",
+    slug: "n8n-self-hosted-controle-total",
     duration: "25 min",
-    description: "Installer n8n en local et en cloud, créer ton premier workflow, et comprendre pourquoi certains clients préfèrent n8n à Make pour des raisons de coûts et de contrôle des données.",
+    description: "Installer n8n en local et sur un VPS, créer ton premier workflow avancé, et comprendre pourquoi le self-hosting est un avantage concurrentiel pour les clients avec contraintes de données.",
     content: blocks([
-      { id: "3-1", type: "heading", level: 2, text: "n8n : la liberté que Make ne peut pas offrir" },
+      { id: "3-1", type: "heading", level: 2, text: "n8n self-hosted : la liberté totale" },
       { id: "3-2", type: "text", html: "<p><strong>n8n</strong> est un outil d'automatisation open-source. Tu peux l'héberger toi-même sur un serveur, ce qui signifie <strong>zéro limite d'opérations, zéro coût d'abonnement</strong> (hors hébergement), et une confidentialité totale des données — aucune donnée client ne transite par un serveur tiers.</p><p>Pour tes clients dans la santé, la finance, ou le juridique, c'est souvent <strong>non-négociable</strong>. Et toi, tu peux facturer le setup initial 1 500-3 000€ et une maintenance mensuelle sans payer de licence.</p>" },
       { id: "3-3", type: "callout", variant: "success", html: "n8n Cloud existe aussi à 20€/mois pour ceux qui ne veulent pas gérer un serveur. Mais le vrai avantage concurrentiel est le <strong>self-hosting</strong> : pas de limite d'exécutions, données locales, personnalisation totale." },
       { id: "3-4", type: "separator", style: "dots" },
@@ -207,7 +207,7 @@ docker run -d \\
       { id: "3-8", type: "separator", style: "line" },
 
       { id: "3-9", type: "heading", level: 2, text: "Créer ton premier workflow n8n" },
-      { id: "3-10", type: "text", html: "<p>On va créer le même type de workflow qu'avec Make, mais dans n8n. L'interface est différente mais la logique est identique : <strong>nœuds connectés</strong> (nodes) au lieu de modules.</p><p>Exemple concret : surveillance d'un webhook (ex: formulaire Typeform) → enrichissement avec l'IA → enregistrement dans Airtable + notification Slack.</p>" },
+      { id: "3-10", type: "text", html: "<p>On va créer un workflow avancé dans n8n self-hosted avec des <strong>nœuds connectés</strong> (nodes).</p><p>Exemple concret : surveillance d'un webhook (ex: formulaire Typeform) → enrichissement avec l'IA → enregistrement dans Airtable + notification Slack.</p>" },
       { id: "3-11", type: "steps", steps: [
         { title: "Créer un nouveau workflow", description: "Clic sur 'New Workflow'. Canvas blanc. L'interface ressemble à un éditeur de code visuel." },
         { title: "Ajouter un nœud Webhook", description: "Cherche 'Webhook' dans les nœuds. C'est le déclencheur HTTP universel. Copie l'URL générée — elle acceptera les POST depuis n'importe quelle source." },
@@ -233,7 +233,7 @@ docker run -d \\
     }
   }
 }` },
-      { id: "3-13", type: "callout", variant: "tip", html: "n8n a un nœud <strong>Code</strong> intégré qui accepte du JavaScript. Tu peux transformer les données, faire des boucles complexes, appeler des API custom — tout ça directement dans le workflow. C'est un énorme avantage sur Make." },
+      { id: "3-13", type: "callout", variant: "tip", html: "n8n a un nœud <strong>Code</strong> intégré qui accepte du JavaScript. Tu peux transformer les données, faire des boucles complexes, appeler des API custom — tout ça directement dans le workflow. C'est un énorme avantage pour les workflows complexes." },
       { id: "3-14", type: "separator", style: "dots" },
 
       { id: "3-15", type: "heading", level: 2, text: "L'architecture pour un client professionnel" },
@@ -249,13 +249,13 @@ docker run -d \\
       { id: "3-19", type: "quiz-inline", question: "Quel est l'avantage principal du self-hosting n8n pour des clients dans des secteurs réglementés (santé, finance) ?", options: [
         { id: "a", text: "C'est gratuit donc moins cher pour le client" },
         { id: "b", text: "Les données ne transitent jamais par un serveur tiers — conformité RGPD totale" },
-        { id: "c", text: "L'interface est plus facile à utiliser que Make" },
+        { id: "c", text: "L'interface cloud est plus facile à utiliser" },
       ], correctId: "b", explanation: "En self-hosting, toutes les données restent sur le serveur du client. Aucune donnée ne passe par les serveurs de n8n Inc. C'est souvent obligatoire dans la santé (données patients) ou la finance (données sensibles)." },
 
       { id: "3-20", type: "separator", style: "dots" },
       { id: "3-21", type: "checklist", title: "Acquis de cette leçon", items: [
         { id: "c1", text: "J'ai installé n8n en local via npx ou Docker" },
-        { id: "c2", text: "Je comprends la différence nœuds n8n vs modules Make" },
+        { id: "c2", text: "Je comprends l'architecture nœuds et workflows n8n" },
         { id: "c3", text: "J'ai créé un workflow avec un déclencheur Webhook" },
         { id: "c4", text: "Je sais expliquer l'avantage du self-hosting à un client" },
         { id: "c5", text: "J'ai compris l'architecture VPS pour facturer de la maintenance mensuelle" },
@@ -263,11 +263,11 @@ docker run -d \\
     ]),
     exercise: "<h3>n8n en action</h3><p>Installe n8n en local et crée un workflow qui : (1) reçoit un webhook avec un nom et email, (2) utilise le nœud 'Set' pour formater un message de bienvenue personnalisé, (3) affiche le résultat dans le nœud de sortie. Ensuite, explore les nœuds disponibles et note <strong>5 intégrations</strong> pertinentes pour des clients que tu connais (CRM, outils comptabilité, e-commerce...). Partage ta liste dans la communauté.</p>",
     quiz: [
-      { type: "mcq", question: "Quel est l'avantage principal de n8n self-hosted par rapport à Make pour des clients en santé ou finance ?", options: JSON.stringify(["Une interface plus simple à utiliser", "Les données ne transitent jamais par un serveur tiers — conformité RGPD totale", "Un nombre d'intégrations plus élevé", "Un coût d'abonnement mensuel plus faible"]), correctAnswer: "Les données ne transitent jamais par un serveur tiers — conformité RGPD totale", explanation: "En self-hosting, toutes les données restent sur le serveur du client. Aucune donnée ne passe par les serveurs de n8n Inc. C'est souvent obligatoire dans la santé (données patients) ou la finance (données sensibles)." },
+      { type: "mcq", question: "Quel est l'avantage principal de n8n self-hosted pour des clients en santé ou finance ?", options: JSON.stringify(["Une interface plus simple à utiliser", "Les données ne transitent jamais par un serveur tiers — conformité RGPD totale", "Un nombre d'intégrations plus élevé", "Un coût d'abonnement mensuel plus faible"]), correctAnswer: "Les données ne transitent jamais par un serveur tiers — conformité RGPD totale", explanation: "En self-hosting, toutes les données restent sur le serveur du client. Aucune donnée ne passe par les serveurs de n8n Inc. C'est souvent obligatoire dans la santé (données patients) ou la finance (données sensibles)." },
       { type: "true_false", question: "n8n peut être installé en local avec la simple commande 'npx n8n'.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "La commande 'npx n8n' télécharge et lance n8n automatiquement. Il suffit d'avoir Node.js 18+ installé. L'interface est ensuite accessible sur http://localhost:5678." },
       { type: "mcq", question: "Avec l'architecture VPS + n8n self-hosted, quelle est la marge brute approximative sur une prestation facturée 150€/mois ?", options: JSON.stringify(["Environ 50%", "Environ 70%", "Plus de 90%", "Environ 30%"]), correctAnswer: "Plus de 90%", explanation: "Le coût réel est d'environ 5€/mois de VPS + 30 min de maintenance. Sur une facturation de 150€/mois, la marge brute dépasse 90%. C'est l'un des modèles les plus rentables pour une agence IA." },
-      { type: "true_false", question: "Dans n8n, le nœud Code permet d'exécuter du JavaScript directement dans le workflow.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Le nœud Code intégré à n8n accepte du JavaScript. Tu peux transformer des données, faire des boucles complexes, ou appeler des API custom directement dans le workflow. C'est un avantage majeur par rapport à Make." },
-      { type: "mcq", question: "Une clinique vétérinaire vous demande d'automatiser les rappels de vaccination par SMS. Elle insiste sur le fait que les données des clients sont sensibles et ne doivent pas quitter leurs serveurs. Quel outil et quelle architecture lui proposez-vous ?", options: JSON.stringify(["Zapier car c'est le plus simple et le plus connu", "Make avec le plan gratuit pour réduire les coûts", "n8n self-hosted sur un VPS Docker avec reverse proxy Nginx + SSL", "Un script Python lancé manuellement chaque matin"]), correctAnswer: "n8n self-hosted sur un VPS Docker avec reverse proxy Nginx + SSL", explanation: "Les données de santé animale (et les données clients associées) sont sensibles. Le self-hosting n8n sur un VPS dédié garantit qu'aucune donnée ne transite par des serveurs tiers. Docker + Nginx + SSL offrent une infrastructure professionnelle et sécurisée." },
+      { type: "true_false", question: "Dans n8n, le nœud Code permet d'exécuter du JavaScript directement dans le workflow.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Le nœud Code intégré à n8n accepte du JavaScript. Tu peux transformer des données, faire des boucles complexes, ou appeler des API custom directement dans le workflow. C'est un avantage majeur pour les workflows complexes." },
+      { type: "mcq", question: "Une clinique vétérinaire vous demande d'automatiser les rappels de vaccination par SMS. Elle insiste sur le fait que les données des clients sont sensibles et ne doivent pas quitter leurs serveurs. Quel outil et quelle architecture lui proposez-vous ?", options: JSON.stringify(["Zapier car c'est le plus simple et le plus connu", "n8n Cloud avec le plan basique pour réduire les coûts", "n8n self-hosted sur un VPS Docker avec reverse proxy Nginx + SSL", "Un script Python lancé manuellement chaque matin"]), correctAnswer: "n8n self-hosted sur un VPS Docker avec reverse proxy Nginx + SSL", explanation: "Les données de santé animale (et les données clients associées) sont sensibles. Le self-hosting n8n sur un VPS dédié garantit qu'aucune donnée ne transite par des serveurs tiers. Docker + Nginx + SSL offrent une infrastructure professionnelle et sécurisée." },
     ],
   },
 
@@ -278,7 +278,7 @@ docker run -d \\
     title: "Automatiser avec l'IA : le combo gagnant",
     slug: "automatiser-avec-ia-combo-gagnant",
     duration: "30 min",
-    description: "Intègre Claude ou GPT-4 dans tes workflows Make et n8n. Analyse automatique de documents, classification de leads, réponses intelligentes : les automatisations IA que les clients paient le plus cher.",
+    description: "Intègre Claude ou GPT-4 dans tes workflows n8n. Analyse automatique de documents, classification de leads, réponses intelligentes : les automatisations IA que les clients paient le plus cher.",
     content: blocks([
       { id: "4-1", type: "heading", level: 2, text: "Pourquoi l'IA transforme l'automatisation" },
       { id: "4-2", type: "text", html: "<p>Une automatisation classique suit des règles fixes : <em>si A alors B</em>. C'est utile, mais limité. Dès qu'il faut <strong>comprendre du texte libre, prendre une décision nuancée, ou générer du contenu</strong>, les règles rigides échouent.</p><p>L'IA dans les workflows change tout : tu peux maintenant automatiser des tâches qui semblaient impossibles à automatiser. Un email client qui arrive et qui est <strong>automatiquement classifié, priorisé, et auquel une réponse pertinente est suggérée</strong> — sans intervention humaine. C'est ça le combo gagnant.</p>" },
@@ -294,15 +294,15 @@ docker run -d \\
       ]},
       { id: "5-7", type: "separator", style: "line" },
 
-      { id: "5-8", type: "heading", level: 2, text: "Intégrer Claude API dans Make" },
-      { id: "5-9", type: "text", html: "<p>Make n'a pas de module natif Claude (à ce jour), mais le module <strong>HTTP Request</strong> permet d'appeler n'importe quelle API. Voici comment appeler Claude depuis Make :</p>" },
+      { id: "5-8", type: "heading", level: 2, text: "Intégrer Claude API dans n8n" },
+      { id: "5-9", type: "text", html: "<p>n8n dispose d'un nœud <strong>HTTP Request</strong> qui permet d'appeler n'importe quelle API. Voici comment appeler Claude depuis n8n :</p>" },
       { id: "5-10", type: "steps", steps: [
-        { title: "Récupérer ta clé API Claude", description: "Crée un compte sur console.anthropic.com, génère une API key. Stocke-la dans Make → Tools → Data Stores ou dans les variables d'environnement." },
-        { title: "Ajouter un module HTTP Request", description: "URL : https://api.anthropic.com/v1/messages. Méthode : POST. Headers : anthropic-version: 2023-06-01, x-api-key: {{ta_clé}}, content-type: application/json." },
+        { title: "Récupérer ta clé API Claude", description: "Crée un compte sur console.anthropic.com, génère une API key. Stocke-la dans les credentials n8n (Settings → Credentials) pour la réutiliser dans tous tes workflows." },
+        { title: "Ajouter un nœud HTTP Request", description: "URL : https://api.anthropic.com/v1/messages. Méthode : POST. Headers : anthropic-version: 2023-06-01, x-api-key: {{ta_clé}}, content-type: application/json." },
         { title: "Construire le body JSON", description: "Dans le body, construis le payload avec les données mappées du déclencheur précédent." },
-        { title: "Parser la réponse", description: "Claude renvoie un JSON. Utilise le module JSON → Parse JSON pour extraire le texte de réponse et l'utiliser dans les modules suivants." },
+        { title: "Parser la réponse", description: "Claude renvoie un JSON. Utilise un nœud Code ou les expressions pour extraire le texte de réponse et l'utiliser dans les modules suivants." },
       ]},
-      { id: "5-11", type: "code", language: "json", filename: "make-claude-request-body.json", code: `{
+      { id: "5-11", type: "code", language: "json", filename: "n8n-claude-request-body.json", code: `{
   "model": "claude-opus-4-5",
   "max_tokens": 1024,
   "messages": [
@@ -334,7 +334,7 @@ docker run -d \\
       { id: "5-17", type: "steps", steps: [
         { title: "Déclencheur : nouveau formulaire Typeform", description: "Le lead remplit nom, email, entreprise, besoin, budget estimé." },
         { title: "Claude analyse le lead", description: "Prompt : \"Analyse ce profil de prospect et détermine son potentiel. Score de 1 à 10, segment (Grand compte / PME / TPE), recommandation d'approche commerciale.\"" },
-        { title: "Routage automatique", description: "Make router basé sur la réponse Claude : score 8-10 → commercial senior, score 4-7 → commercial junior, score 1-3 → séquence email nurturing automatique." },
+        { title: "Routage automatique", description: "Nœud Switch n8n basé sur la réponse Claude : score 8-10 → commercial senior, score 4-7 → commercial junior, score 1-3 → séquence email nurturing automatique." },
         { title: "Notification Slack au commercial", description: "Message Slack avec le résumé IA : score, segment, et suggestion d'approche. Le commercial arrive au call déjà briefé." },
         { title: "Enregistrement CRM enrichi", description: "Création d'un contact dans HubSpot avec tous les champs remplis + les champs IA ajoutés (score, segment, notes)." },
       ]},
@@ -350,19 +350,19 @@ docker run -d \\
       { id: "5-21", type: "separator", style: "dots" },
       { id: "5-22", type: "checklist", title: "Acquis de cette leçon", items: [
         { id: "c1", text: "Je comprends les 4 patterns d'IA dans les workflows (classifier, extraire, générer, décider)" },
-        { id: "c2", text: "Je sais appeler l'API Claude depuis Make avec un module HTTP Request" },
+        { id: "c2", text: "Je sais appeler l'API Claude depuis n8n avec un nœud HTTP Request" },
         { id: "c3", text: "Je sais construire un prompt qui retourne du JSON parsable" },
         { id: "c4", text: "J'ai compris le workflow de qualification de leads IA de bout en bout" },
         { id: "c5", text: "Je sais estimer et intégrer les coûts API dans ma tarification" },
       ]},
     ]),
-    exercise: "<h3>Construis le workflow de qualification</h3><p>Crée dans Make (ou n8n) un mini-workflow de qualification de leads : (1) déclencheur webhook qui reçoit nom + email + message libre, (2) appel Claude API qui analyse le message et retourne un JSON avec score (1-10) et catégorie, (3) condition : si score ≥ 7, envoie une notification à ton email. Teste avec 3 leads fictifs différents (un chaud, un tiède, un froid). <strong>Bonus</strong> : ajoute une étape qui enregistre les résultats dans un Google Sheet pour avoir un historique des qualifications.</p>",
+    exercise: "<h3>Construis le workflow de qualification</h3><p>Crée dans n8n un mini-workflow de qualification de leads : (1) déclencheur webhook qui reçoit nom + email + message libre, (2) appel Claude API qui analyse le message et retourne un JSON avec score (1-10) et catégorie, (3) condition : si score ≥ 7, envoie une notification à ton email. Teste avec 3 leads fictifs différents (un chaud, un tiède, un froid). <strong>Bonus</strong> : ajoute une étape qui enregistre les résultats dans un Google Sheet pour avoir un historique des qualifications.</p>",
     quiz: [
       { type: "mcq", question: "Quels sont les 4 patterns principaux d'utilisation de l'IA dans les workflows d'automatisation ?", options: JSON.stringify(["Lecture, écriture, calcul, stockage", "Classification, extraction, génération, décision", "Copier, coller, formater, envoyer", "Créer, modifier, supprimer, archiver"]), correctAnswer: "Classification, extraction, génération, décision", explanation: "Les 4 patterns sont : Classification (catégoriser un texte), Extraction (extraire des données structurées), Génération (créer du contenu), et Décision (prendre une décision basée sur un contexte complexe). Chaque workflow IA utilise un ou plusieurs de ces patterns." },
       { type: "true_false", question: "Les workflows avec IA se vendent 2 à 5 fois plus cher que les automatisations classiques.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Un client comprend qu'une surveillance de Google Sheet vaut 500€. Mais analyser automatiquement ses emails et créer des tickets priorisés vaut 3 000€. L'IA ajoute une couche d'intelligence qui justifie un prix bien supérieur." },
       { type: "mcq", question: "Pourquoi est-il crucial de demander à Claude de répondre en JSON strict dans un workflow automatisé ?", options: JSON.stringify(["Pour réduire les coûts d'API", "Pour que le module de parsing puisse extraire les données sans erreur", "Pour accélérer la vitesse de réponse de Claude", "Pour que Claude comprenne mieux le contexte"]), correctAnswer: "Pour que le module de parsing puisse extraire les données sans erreur", explanation: "Si Claude ajoute du texte avant ou après le JSON (comme 'Voici mon analyse :'), le module JSON Parse va planter. Il faut toujours inclure dans le prompt : 'Réponds UNIQUEMENT avec un JSON valide.' C'est la cause principale de bugs dans les workflows IA." },
       { type: "true_false", question: "Un appel à l'API Claude Haiku pour qualifier un lead coûte environ 1€.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Un appel Claude Haiku coûte environ 0,001€. Qualifier 1 000 leads par mois revient à environ 1€ de coût API total. Les coûts IA dans les workflows sont généralement négligeables, mais doivent être intégrés dans la tarification." },
-      { type: "mcq", question: "Un prospect agence immobilière reçoit 80 demandes par semaine via son site. Il veut que les demandes urgentes (achat immédiat) soient traitées en priorité par ses meilleurs agents. Comment structurez-vous le workflow IA ?", options: JSON.stringify(["Vous envoyez toutes les demandes au même agent par email", "Vous utilisez Claude pour scorer chaque demande et un router Make pour diriger les leads chauds vers les agents seniors et les autres vers une séquence email automatique", "Vous supprimez les demandes avec un score faible pour ne pas perdre de temps", "Vous demandez au client de trier manuellement ses demandes comme avant"]), correctAnswer: "Vous utilisez Claude pour scorer chaque demande et un router Make pour diriger les leads chauds vers les agents seniors et les autres vers une séquence email automatique", explanation: "Le workflow IA optimal : Claude analyse chaque demande et attribue un score de 1 à 10. Le router Make dirige les scores 8-10 vers les agents seniors avec un briefing IA, les 4-7 vers des agents juniors, et les 1-3 vers une séquence email nurturing. Aucun lead n'est perdu." },
+      { type: "mcq", question: "Un prospect agence immobilière reçoit 80 demandes par semaine via son site. Il veut que les demandes urgentes (achat immédiat) soient traitées en priorité par ses meilleurs agents. Comment structurez-vous le workflow IA ?", options: JSON.stringify(["Vous envoyez toutes les demandes au même agent par email", "Vous utilisez Claude pour scorer chaque demande et un nœud Switch n8n pour diriger les leads chauds vers les agents seniors et les autres vers une séquence email automatique", "Vous supprimez les demandes avec un score faible pour ne pas perdre de temps", "Vous demandez au client de trier manuellement ses demandes comme avant"]), correctAnswer: "Vous utilisez Claude pour scorer chaque demande et un nœud Switch n8n pour diriger les leads chauds vers les agents seniors et les autres vers une séquence email automatique", explanation: "Le workflow IA optimal : Claude analyse chaque demande et attribue un score de 1 à 10. Le nœud Switch n8n dirige les scores 8-10 vers les agents seniors avec un briefing IA, les 4-7 vers des agents juniors, et les 1-3 vers une séquence email nurturing. Aucun lead n'est perdu." },
     ],
   },
 
@@ -376,15 +376,15 @@ docker run -d \\
     description: "Construis de A à Z un système de veille automatisée : collecte de sources, analyse IA, digest quotidien envoyé par email. Un projet complet que tu peux vendre 1 500-3 000€ à des clients.",
     content: blocks([
       { id: "6-1", type: "heading", level: 2, text: "Le projet final : une veille IA automatisée" },
-      { id: "6-2", type: "text", html: "<p>Ce projet est le <strong>cas d'usage le plus vendable</strong> que tu puisses créer avec Make/n8n + IA. Pourquoi ? Parce que chaque dirigeant, consultant, investisseur, ou responsable marketing a besoin de rester informé — et personne n'a le temps de lire 50 sources par jour.</p><p>Tu vas construire un système qui :</p><ul><li>Surveille des sources d'information (RSS, Reddit, Google Alerts, etc.)</li><li>Collecte les nouvelles entrées chaque matin</li><li>Les analyse et les résume avec Claude</li><li>Envoie un email digest synthétique et actionnable</li></ul><p>Ce système se vend entre <strong>1 500 et 3 000€ en setup</strong>, avec 150-300€/mois de maintenance.</p>" },
+      { id: "6-2", type: "text", html: "<p>Ce projet est le <strong>cas d'usage le plus vendable</strong> que tu puisses créer avec n8n + IA. Pourquoi ? Parce que chaque dirigeant, consultant, investisseur, ou responsable marketing a besoin de rester informé — et personne n'a le temps de lire 50 sources par jour.</p><p>Tu vas construire un système qui :</p><ul><li>Surveille des sources d'information (RSS, Reddit, Google Alerts, etc.)</li><li>Collecte les nouvelles entrées chaque matin</li><li>Les analyse et les résume avec Claude</li><li>Envoie un email digest synthétique et actionnable</li></ul><p>Ce système se vend entre <strong>1 500 et 3 000€ en setup</strong>, avec 150-300€/mois de maintenance.</p>" },
       { id: "6-3", type: "callout", variant: "success", html: "Ce type de solution est particulièrement apprécié des cabinets de conseil, fonds d'investissement, agences marketing et journalistes. Ce sont des clients qui ont <strong>du budget</strong> et comprennent immédiatement la valeur." },
       { id: "6-4", type: "separator", style: "dots" },
 
       { id: "6-5", type: "heading", level: 2, text: "Architecture du système" },
       { id: "6-6", type: "diagram", variant: "flow", nodes: [
-        { id: "n1", label: "Sources (RSS/API)", description: "TechCrunch RSS, Reddit API, Google News RSS, LinkedIn RSS — configurés dans Make" },
-        { id: "n2", label: "Collecte (07h00)", description: "Scénario Make déclenché chaque matin, collecte les articles des dernières 24h" },
-        { id: "n3", label: "Déduplication", description: "Filtre Make : exclusion des URLs déjà vus (stockage dans un Data Store)" },
+        { id: "n1", label: "Sources (RSS/API)", description: "TechCrunch RSS, Reddit API, Google News RSS, LinkedIn RSS — configurés dans n8n" },
+        { id: "n2", label: "Collecte (07h00)", description: "Workflow n8n déclenché chaque matin, collecte les articles des dernières 24h" },
+        { id: "n3", label: "Déduplication", description: "Nœud IF n8n : exclusion des URLs déjà vus (stockage dans une base de données)" },
         { id: "n4", label: "Analyse IA (Claude)", description: "Pour chaque article : pertinence (1-10), résumé 50 mots, insight clé, action recommandée" },
         { id: "n5", label: "Sélection", description: "Filtre : garder seulement les articles avec score ≥ 7" },
         { id: "n6", label: "Génération du digest", description: "Claude génère un email HTML formaté avec tous les articles sélectionnés" },
@@ -394,11 +394,11 @@ docker run -d \\
 
       { id: "6-8", type: "heading", level: 2, text: "Construction étape par étape" },
       { id: "6-9", type: "steps", steps: [
-        { title: "Configurer les sources RSS", description: "Dans Make, module 'RSS' → Watch RSS Feed. Exemple : https://techcrunch.com/feed/. Interval : 1 fois par jour à 7h00. Ajoute autant de modules RSS que de sources (elles tournent en parallèle avec les routers Make)." },
-        { title: "Stocker les articles vus", description: "Module Make Data Store → Add a Record pour chaque URL traitée. Avant traitement : vérifier si l'URL existe déjà → si oui, ignorer. Cette déduplication évite les doublons entre les exécutions." },
+        { title: "Configurer les sources RSS", description: "Dans n8n, nœud 'RSS Feed Read'. Exemple : https://techcrunch.com/feed/. Utilise un nœud Schedule Trigger pour déclencher chaque matin à 7h00. Ajoute autant de nœuds RSS que de sources (utilise un nœud Merge pour combiner les résultats)." },
+        { title: "Stocker les articles vus", description: "Utilise un nœud Supabase ou SQLite pour stocker chaque URL traitée. Avant traitement : vérifier si l'URL existe déjà → si oui, ignorer. Cette déduplication évite les doublons entre les exécutions." },
         { title: "Appeler Claude pour chaque article", description: "Module HTTP Request → API Claude. Prompt : extraire titre, résumé 50 mots, score de pertinence par rapport au secteur défini, insight clé en 1 phrase." },
-        { title: "Filtrer par score", description: "Router Make → Branche 1 : score ≥ 7 (continuer). Branche 2 : score < 7 (stop). Cela réduit le nombre d'articles dans le digest final à 5-15 articles pertinents." },
-        { title: "Agréger les résultats", description: "Module Array aggregator → rassemble tous les articles analysés dans un seul tableau JSON. Ce tableau servira de contexte pour la génération du digest." },
+        { title: "Filtrer par score", description: "Nœud IF n8n → Branche true : score ≥ 7 (continuer). Branche false : score < 7 (stop). Cela réduit le nombre d'articles dans le digest final à 5-15 articles pertinents." },
+        { title: "Agréger les résultats", description: "Nœud Code → rassemble tous les articles analysés dans un seul tableau JSON. Ce tableau servira de contexte pour la génération du digest." },
         { title: "Générer le digest HTML avec Claude", description: "Appel Claude avec le tableau JSON en input. Prompt : générer un email HTML professionnel avec titre, date, liste des articles formatés en sections." },
         { title: "Envoyer par email", description: "Module Gmail ou SendGrid → envoyer le contenu HTML généré. Objet : 'Veille IA du [date] — X articles sélectionnés'." },
       ]},
@@ -452,7 +452,7 @@ IMPORTANT : Retourne UNIQUEMENT le code HTML complet, sans backticks ni commenta
       { id: "6-22", type: "separator", style: "space" },
 
       { id: "6-23", type: "quiz-inline", question: "Pourquoi le module de déduplication (vérifier si l'URL a déjà été traitée) est-il indispensable dans ce système de veille ?", options: [
-        { id: "a", text: "Pour économiser des opérations Make et réduire les coûts" },
+        { id: "a", text: "Pour économiser des exécutions n8n et réduire les coûts" },
         { id: "b", text: "Pour éviter que le même article apparaisse plusieurs fois dans le digest et épuiser le quota API Claude inutilement" },
         { id: "c", text: "Pour que le système fonctionne plus rapidement" },
       ], correctId: "b", explanation: "Sans déduplication, un article posté un lundi apparaîtrait dans le digest du lundi, du mardi (encore dans le feed RSS), du mercredi... Le client recevrait des doublons. Et chaque analyse Claude = coût API. La déduplication protège la qualité du digest ET les coûts." },
@@ -460,19 +460,19 @@ IMPORTANT : Retourne UNIQUEMENT le code HTML complet, sans backticks ni commenta
       { id: "6-24", type: "separator", style: "dots" },
       { id: "6-25", type: "checklist", title: "Acquis de cette leçon — et du module Automatisations", items: [
         { id: "c1", text: "J'ai compris l'architecture complète d'un système de veille automatisée" },
-        { id: "c2", text: "Je sais construire les 7 étapes du workflow Make/n8n" },
+        { id: "c2", text: "Je sais construire les 7 étapes du workflow n8n" },
         { id: "c3", text: "Je maîtrise le prompt de génération d'un digest HTML professionnel" },
         { id: "c4", text: "Je sais présenter et vendre ce projet à un client (démo → proposition → upsell)" },
         { id: "c5", text: "Je peux calculer le ROI et justifier un tarif de 2 000€ setup + 200€/mois" },
-        { id: "c6", text: "J'ai les bases pour construire n'importe quel workflow Make/n8n avec ou sans IA" },
+        { id: "c6", text: "J'ai les bases pour construire n'importe quel workflow n8n avec ou sans IA" },
       ]},
     ]),
-    exercise: "<h3>Construis ta démo portfolio</h3><p>C'est le projet final du module. Construis un système de veille fonctionnel sur un secteur de ton choix :</p><ol><li>Choisis 3-5 sources RSS gratuites pertinentes</li><li>Construis le scénario Make complet (collecte → analyse Claude → digest HTML)</li><li>Envoie le digest à ta propre adresse email pendant 3 jours consécutifs</li><li>Ajuste le prompt de génération jusqu'à obtenir un rendu que tu montrerais fièrement à un client</li></ol><p>Ce workflow <strong>devient ton portfolio</strong>. Screenshot l'interface Make, screenshot un exemple de digest, et publie dans la communauté avec le titre de ton secteur. C'est aussi ta démo commerciale pour les prospects de ce secteur.</p>",
+    exercise: "<h3>Construis ta démo portfolio</h3><p>C'est le projet final du module. Construis un système de veille fonctionnel sur un secteur de ton choix :</p><ol><li>Choisis 3-5 sources RSS gratuites pertinentes</li><li>Construis le workflow n8n complet (collecte → analyse Claude → digest HTML)</li><li>Envoie le digest à ta propre adresse email pendant 3 jours consécutifs</li><li>Ajuste le prompt de génération jusqu'à obtenir un rendu que tu montrerais fièrement à un client</li></ol><p>Ce workflow <strong>devient ton portfolio</strong>. Screenshot l'interface n8n, screenshot un exemple de digest, et publie dans la communauté avec le titre de ton secteur. C'est aussi ta démo commerciale pour les prospects de ce secteur.</p>",
     quiz: [
-      { type: "mcq", question: "Pourquoi le module de déduplication est-il indispensable dans un système de veille automatisé ?", options: JSON.stringify(["Pour accélérer le traitement des articles", "Pour éviter les doublons dans le digest et les coûts API inutiles", "Pour augmenter le nombre d'articles collectés", "Pour formater les articles en HTML"]), correctAnswer: "Pour éviter les doublons dans le digest et les coûts API inutiles", explanation: "Sans déduplication, un article resté dans le feed RSS apparaîtrait dans plusieurs digests consécutifs. Le client recevrait des doublons et chaque analyse Claude inutile coûte de l'argent. Le Data Store Make stocke les URLs déjà traitées." },
+      { type: "mcq", question: "Pourquoi le module de déduplication est-il indispensable dans un système de veille automatisé ?", options: JSON.stringify(["Pour accélérer le traitement des articles", "Pour éviter les doublons dans le digest et les coûts API inutiles", "Pour augmenter le nombre d'articles collectés", "Pour formater les articles en HTML"]), correctAnswer: "Pour éviter les doublons dans le digest et les coûts API inutiles", explanation: "Sans déduplication, un article resté dans le feed RSS apparaîtrait dans plusieurs digests consécutifs. Le client recevrait des doublons et chaque analyse Claude inutile coûte de l'argent. La base de données stocke les URLs déjà traitées." },
       { type: "true_false", question: "Un système de veille automatisé peut se vendre entre 1 500 et 3 000€ en setup avec 150-300€/mois de maintenance.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "C'est un des projets les plus vendables : chaque dirigeant, consultant ou investisseur a besoin de rester informé. Le setup couvre la configuration des sources et du workflow. La maintenance mensuelle couvre l'ajustement des sources et le monitoring." },
-      { type: "mcq", question: "Quel élément est le plus important pour convaincre un client lors de la démo d'un système de veille ?", options: JSON.stringify(["Montrer l'interface technique de Make", "Présenter un digest personnalisé avec les vraies sources de son secteur", "Expliquer en détail le fonctionnement des flux RSS", "Montrer le coût de l'API Claude"]), correctAnswer: "Présenter un digest personnalisé avec les vraies sources de son secteur", explanation: "Une démo générique ne convainc personne. Il faut personnaliser avec les vrais médias du secteur du client et ses mots-clés. Quand le client voit ses sources analysées et résumées, il comprend immédiatement la valeur." },
-      { type: "true_false", question: "Le module Array Aggregator dans Make sert à rassembler tous les articles analysés en un seul tableau JSON avant de générer le digest.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "L'Array Aggregator collecte les résultats individuels de chaque article analysé et les regroupe dans un tableau JSON unique. Ce tableau sert ensuite de contexte à Claude pour générer le digest HTML complet en une seule requête." },
+      { type: "mcq", question: "Quel élément est le plus important pour convaincre un client lors de la démo d'un système de veille ?", options: JSON.stringify(["Montrer l'interface technique de n8n", "Présenter un digest personnalisé avec les vraies sources de son secteur", "Expliquer en détail le fonctionnement des flux RSS", "Montrer le coût de l'API Claude"]), correctAnswer: "Présenter un digest personnalisé avec les vraies sources de son secteur", explanation: "Une démo générique ne convainc personne. Il faut personnaliser avec les vrais médias du secteur du client et ses mots-clés. Quand le client voit ses sources analysées et résumées, il comprend immédiatement la valeur." },
+      { type: "true_false", question: "Un nœud Code dans n8n peut rassembler tous les articles analysés en un seul tableau JSON avant de générer le digest.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Le nœud Code collecte les résultats individuels de chaque article analysé et les regroupe dans un tableau JSON unique. Ce tableau sert ensuite de contexte à Claude pour générer le digest HTML complet en une seule requête." },
       { type: "mcq", question: "Un client investisseur vous demande un système de veille automatisé sur le secteur immobilier. Lors de la démo, il trouve le digest trop long avec trop d'articles peu pertinents. Que faites-vous ?", options: JSON.stringify(["Vous réduisez le nombre de sources RSS à une seule", "Vous augmentez le seuil de pertinence IA (de score ≥ 5 à score ≥ 7) et vous ajustez le prompt pour mieux cibler son secteur", "Vous supprimez l'analyse IA pour aller plus vite", "Vous envoyez le digest une seule fois par mois au lieu de quotidiennement"]), correctAnswer: "Vous augmentez le seuil de pertinence IA (de score ≥ 5 à score ≥ 7) et vous ajustez le prompt pour mieux cibler son secteur", explanation: "Le seuil ≥ 7 sur 10 filtre les articles les plus pertinents (5-15 par digest). Ajuster le prompt avec les mots-clés spécifiques du client améliore la précision du scoring. Le résultat : un digest concis et ultra-ciblé que le client lit réellement chaque matin." },
     ],
   },
