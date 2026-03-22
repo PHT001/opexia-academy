@@ -563,11 +563,11 @@ Soir :
 3. Mettre à jour les notes d'appels` },
       { id: "6-11", type: "separator", style: "dots" },
 
-      { id: "6-12", type: "heading", level: 2, text: "Les relances automatiques avec Make ou n8n" },
+      { id: "6-12", type: "heading", level: 2, text: "Les relances automatiques avec n8n" },
       { id: "6-13", type: "steps", steps: [
         { title: "Relance LinkedIn automatique (Phantombuster)", description: "Configurer Phantombuster pour envoyer automatiquement des DMs de relance J+3 si pas de réponse. Limite : 10-20/jour pour rester dans les CGU LinkedIn." },
         { title: "Relance email automatique (Lemlist / Instantly)", description: "La séquence de 3 emails est déjà automatisée dans ces outils. Configure les délais une fois et laisse tourner." },
-        { title: "Rappel de relance CRM (Notion + Make)", description: "Connecte Notion à Make. Quand la date 'Prochain contact' est atteinte, reçois une notification sur ton téléphone ou dans Slack." },
+        { title: "Rappel de relance CRM (Notion + n8n)", description: "Connecte Notion à n8n. Quand la date 'Prochain contact' est atteinte, reçois une notification sur ton téléphone ou dans Slack." },
         { title: "Email de nurturing mensuel (Brevo)", description: "Une newsletter mensuelle envoyée à tous tes prospects 'Froids' avec un article utile. Automatisée, zéro effort, maintient la relation." },
       ]},
       { id: "6-14", type: "callout", variant: "tip", html: "<strong>Règle des relances :</strong> pour un prospect 'Chaud' (a répondu positivement), relance dans 48h. Pour un prospect 'Tiède' (pas de réponse), relance à J+4 et J+9. Après 3 tentatives sans réponse, classe en 'Froid' et planifie une relance dans 2 mois." },

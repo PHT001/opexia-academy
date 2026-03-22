@@ -261,6 +261,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showOnboardingTest, setShowOnboardingTest] = useState(false);
+  const [previewTier, setPreviewTier] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -289,7 +290,7 @@ export default function DashboardPage() {
   }
 
   const hasEnrollment = !!data?.tier;
-  const userTier = data?.tier || "starter";
+  const userTier = previewTier || data?.tier || "starter";
 
   if (showOnboardingTest) {
     return (
@@ -308,14 +309,42 @@ export default function DashboardPage() {
       variants={stagger}
     >
 
-      {/* ════ ADMIN: TEST ONBOARDING ════ */}
+      {/* ════ ADMIN: PREVIEW TIERS + TEST ONBOARDING ════ */}
       {isAdmin && (
-        <button
-          onClick={() => setShowOnboardingTest(true)}
-          className="text-xs text-gray-400 hover:text-[#FF1744] transition-colors border border-gray-200 rounded-lg px-3 py-1.5 hover:border-[#FF1744]/30"
-        >
-          Tester l&apos;onboarding
-        </button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mr-1">Vue :</span>
+          {[
+            { id: null, label: "Admin", color: "bg-gray-900 text-white" },
+            { id: "starter", label: "Starter (49\u20ac)", color: "bg-gray-100 text-gray-600" },
+            { id: "academy", label: "Academy (397\u20ac)", color: "bg-[#FF1744]/10 text-[#FF1744]" },
+            { id: "one_to_one", label: "One-to-One (3997\u20ac)", color: "bg-amber-50 text-amber-600" },
+          ].map((tier) => (
+            <button
+              key={tier.id || "admin"}
+              onClick={() => setPreviewTier(tier.id)}
+              className={cn(
+                "text-[11px] font-semibold px-3 py-1.5 rounded-lg border transition-all",
+                previewTier === tier.id
+                  ? `${tier.color} border-transparent shadow-sm`
+                  : "bg-white text-gray-400 border-gray-200 hover:border-gray-300"
+              )}
+            >
+              {tier.label}
+            </button>
+          ))}
+          <div className="w-px h-5 bg-gray-200 mx-1" />
+          <button
+            onClick={() => setShowOnboardingTest(true)}
+            className="text-[11px] text-gray-400 hover:text-[#FF1744] transition-colors border border-gray-200 rounded-lg px-3 py-1.5 hover:border-[#FF1744]/30"
+          >
+            Tester l&apos;onboarding
+          </button>
+          {previewTier && (
+            <span className="text-[10px] text-amber-500 font-medium ml-2">
+              Pr\u00e9visualisation {previewTier}
+            </span>
+          )}
+        </div>
       )}
 
       {/* ════ NO ENROLLMENT BANNER ════ */}

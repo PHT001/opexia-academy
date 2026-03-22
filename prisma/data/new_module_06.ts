@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════
-// MODULE 5 — Automatisations (Make, n8n, Zapier, IA)
+// MODULE 5 — Automatisations (n8n, Zapier, IA)
 // 5 leçons — Format JSON blocs
 // ═══════════════════════════════════════════════════
 
@@ -52,19 +52,19 @@ export const MODULE_5_LESSONS = [
         { id: "n3", label: "Action(s)", description: "Créer un enregistrement CRM, envoyer un email, notifier Slack, générer un PDF" },
         { id: "n4", label: "Résultat", description: "Temps libéré, zéro oubli, traitement immédiat" },
       ]},
-      { id: "1-16", type: "callout", variant: "info", html: "Les outils qu'on va utiliser dans ce module (Make, n8n, Zapier) ne nécessitent <strong>aucune compétence en code</strong> pour les cas basiques. Pour les cas avancés avec IA, on verra comment intégrer du code JavaScript simple." },
+      { id: "1-16", type: "callout", variant: "info", html: "Les outils qu'on va utiliser dans ce module (n8n, Zapier) ne nécessitent <strong>aucune compétence en code</strong> pour les cas basiques. Pour les cas avancés avec IA, on verra comment intégrer du code JavaScript simple." },
       { id: "1-16b", type: "separator", style: "line" },
 
-      { id: "1-16c", type: "heading", level: 2, text: "Make, n8n ou Zapier : lequel choisir ?" },
-      { id: "1-16d", type: "text", html: "<p>Tu vas apprendre Make et n8n dans les leçons suivantes. Mais avant de plonger, voici le <strong>résumé exécutif</strong> pour savoir quel outil recommander à quel client :</p>" },
-      { id: "1-16e", type: "comparison", headers: ["Critère", "Zapier", "Make", "n8n (self-hosted)"], rows: [
-        { cells: ["Prix de base", "Gratuit (100 tâches)", "Gratuit (1000 ops)", "Hébergement ~5-10€/mois"] },
+      { id: "1-16c", type: "heading", level: 2, text: "n8n ou Zapier : lequel choisir ?" },
+      { id: "1-16d", type: "text", html: "<p>Tu vas apprendre n8n dans les leçons suivantes. Mais avant de plonger, voici le <strong>résumé exécutif</strong> pour savoir quel outil recommander à quel client :</p>" },
+      { id: "1-16e", type: "comparison", headers: ["Critère", "Zapier", "n8n Cloud", "n8n (self-hosted)"], rows: [
+        { cells: ["Prix de base", "Gratuit (100 tâches)", "À partir de 20€/mois", "Hébergement ~5-10€/mois"] },
         { cells: ["Courbe d'apprentissage", "Très facile", "Moyenne", "Avancée"] },
-        { cells: ["Logique avancée", "Limitée", "Très puissante", "Puissante + code JS"] },
+        { cells: ["Logique avancée", "Limitée", "Puissante + code JS", "Puissante + code JS"] },
         { cells: ["Self-hosting / RGPD", "Non (serveurs US)", "Non (serveurs EU)", "Oui (ton serveur)"] },
         { cells: ["Idéal pour", "Client non-technique, PME simple", "80% des projets agence", "Santé, finance, gros volume"] },
       ]},
-      { id: "1-16f", type: "callout", variant: "tip", html: "<strong>Règle pratique :</strong> commence avec <strong>Make</strong> pour 80% des projets. Utilise <strong>n8n self-hosted</strong> pour les clients avec contraintes de données (santé, finance). Utilise <strong>Zapier</strong> uniquement si le client veut gérer lui-même ou si une intégration critique manque dans Make." },
+      { id: "1-16f", type: "callout", variant: "tip", html: "<strong>Règle pratique :</strong> commence avec <strong>n8n Cloud</strong> pour 80% des projets. Utilise <strong>n8n self-hosted</strong> pour les clients avec contraintes de données (santé, finance). Utilise <strong>Zapier</strong> uniquement si le client veut gérer lui-même et a besoin d'une interface ultra-simple." },
       { id: "1-17", type: "separator", style: "space" },
 
       { id: "1-18", type: "quiz-inline", question: "Un client passe 4h/semaine à saisir manuellement des données dans son CRM. Son coût horaire chargé est de 35€. Quel est le coût annuel de cette tâche ?", options: [
@@ -95,23 +95,23 @@ export const MODULE_5_LESSONS = [
   {
     order: 2,
     module: 5,
-    title: "Make (ex-Integromat) : ton premier scénario",
-    slug: "make-premier-scenario-automatisation",
+    title: "n8n : ton premier workflow d'automatisation",
+    slug: "n8n-premier-workflow-automatisation",
     duration: "30 min",
-    description: "Maîtrise l'interface Make, comprends les modules et les connexions, et construis un scénario concret : surveillance d'un Google Sheet qui déclenche un email automatique.",
+    description: "Maîtrise l'interface n8n, comprends les nœuds et les connexions, et construis un workflow concret : surveillance d'un Google Sheet qui déclenche un email automatique.",
     content: blocks([
-      { id: "2-1", type: "heading", level: 2, text: "Pourquoi Make est l'outil n°1 pour les agences" },
-      { id: "2-2", type: "text", html: "<p><strong>Make</strong> (anciennement Integromat) est l'outil d'automatisation visuel le plus puissant du marché pour le rapport fonctionnalités/prix. Contrairement à Zapier, il te permet de créer des <strong>logiques complexes</strong> (boucles, filtres, gestion d'erreurs, transformations de données) sans écrire de code.</p><p>Pour une agence IA, Make est souvent le premier outil à maîtriser car il couvre 80% des besoins clients et son plan gratuit est généreux (1 000 opérations/mois).</p>" },
-      { id: "2-3", type: "callout", variant: "info", html: "Make propose un <strong>plan gratuit</strong> qui suffit pour tester et démo. Pour les clients, le plan Core à 9€/mois ou Pro à 16€/mois couvre la grande majorité des besoins. Tu peux facturer la mise en place ET le plan au client." },
+      { id: "2-1", type: "heading", level: 2, text: "Pourquoi n8n est l'outil n°1 pour les agences" },
+      { id: "2-2", type: "text", html: "<p><strong>n8n</strong> est l'outil d'automatisation visuel open-source le plus puissant du marché. Contrairement à Zapier, il te permet de créer des <strong>logiques complexes</strong> (boucles, filtres, gestion d'erreurs, transformations de données, code JavaScript intégré) et de l'héberger toi-même.</p><p>Pour une agence IA, n8n est l'outil à maîtriser car il couvre 80% des besoins clients, offre un contrôle total sur les données, et permet des marges élevées grâce au self-hosting.</p>" },
+      { id: "2-3", type: "callout", variant: "info", html: "n8n propose un <strong>plan cloud</strong> à partir de 20€/mois pour démarrer rapidement, et tu peux aussi le self-hoster sur un VPS à 5-10€/mois pour des exécutions illimitées. Tu peux facturer la mise en place ET la maintenance au client." },
       { id: "2-4", type: "separator", style: "dots" },
 
-      { id: "2-5", type: "heading", level: 2, text: "Comprendre l'interface Make" },
+      { id: "2-5", type: "heading", level: 2, text: "Comprendre l'interface n8n" },
       { id: "2-6", type: "diagram", variant: "tree", nodes: [
-        { id: "n1", label: "Scénario", description: "Un flux d'automatisation composé de modules connectés" },
-        { id: "n2", label: "Module déclencheur", description: "Le point de départ (watch, webhook, schedule). Ex: 'Google Sheets – Watch Rows'" },
-        { id: "n3", label: "Module action", description: "Ce qui se passe après le déclencheur. Ex: 'Gmail – Send an Email'" },
-        { id: "n4", label: "Filtres", description: "Conditions entre modules. Ex: seulement si la colonne 'Statut' = 'Nouveau'" },
-        { id: "n5", label: "Opérations", description: "Chaque donnée traitée = 1 opération. Le quota mensuel est basé sur ça." },
+        { id: "n1", label: "Workflow", description: "Un flux d'automatisation composé de nœuds (nodes) connectés" },
+        { id: "n2", label: "Nœud déclencheur (trigger)", description: "Le point de départ (webhook, schedule, watch). Ex: 'Google Sheets – On Row Added'" },
+        { id: "n3", label: "Nœud action", description: "Ce qui se passe après le déclencheur. Ex: 'Gmail – Send Email'" },
+        { id: "n4", label: "Conditions (IF)", description: "Nœud IF pour filtrer les données. Ex: seulement si la colonne 'Statut' = 'Nouveau'" },
+        { id: "n5", label: "Exécutions", description: "Chaque run du workflow = 1 exécution. En self-hosted, pas de limite." },
       ]},
       { id: "2-7", type: "separator", style: "line" },
 

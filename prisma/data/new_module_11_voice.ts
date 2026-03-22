@@ -228,11 +228,11 @@ export const MODULE_11_VOICE_LESSONS = [
     title: "Intégrer un agent vocal dans un workflow business",
     slug: "integrer-agent-vocal-workflow-business",
     duration: "25 min",
-    description: "Connecter ton agent vocal à Supabase, Make/n8n, Google Calendar, Slack et email. Transformer un simple agent téléphonique en un système business complet qui déclenche des actions automatiques après chaque appel.",
+    description: "Connecter ton agent vocal à Supabase, n8n, Google Calendar, Slack et email. Transformer un simple agent téléphonique en un système business complet qui déclenche des actions automatiques après chaque appel.",
     content: blocks([
       { id: "4-1", type: "heading", level: 2, text: "Un agent vocal seul ne suffit pas" },
       { id: "4-2", type: "text", html: "<p>Ton agent décroche, parle au client, prend les infos… et ensuite ? Si ces infos restent dans le vide, ton agent est un gadget. Ce qui fait la différence entre un gadget à 500€ et un système à 5 000€, c'est <strong>ce qui se passe après l'appel</strong>.</p><p>Un agent vocal professionnel, c'est un agent qui :</p><ul><li>Stocke les données de l'appel dans une base de données</li><li>Crée automatiquement un événement dans Google Calendar</li><li>Envoie un email ou SMS de confirmation</li><li>Notifie l'équipe sur Slack ou Teams</li><li>Met à jour le CRM</li></ul><p>C'est exactement ce qu'on va construire dans cette leçon.</p>" },
-      { id: "4-3", type: "callout", variant: "info", html: "C'est ici que tes compétences en automatisation (n8n, Make) prennent tout leur sens. Tu combines Voice AI + automatisation = un système complet que tu peux vendre cher." },
+      { id: "4-3", type: "callout", variant: "info", html: "C'est ici que tes compétences en automatisation (n8n) prennent tout leur sens. Tu combines Voice AI + automatisation = un système complet que tu peux vendre cher." },
       { id: "4-4", type: "separator", style: "dots" },
 
       { id: "4-5", type: "heading", level: 2, text: "Architecture d'un système vocal complet" },
@@ -240,7 +240,7 @@ export const MODULE_11_VOICE_LESSONS = [
         { id: "n1", label: "Appel entrant", description: "Le client appelle le numéro de téléphone connecté à Vapi." },
         { id: "n2", label: "Agent Vapi", description: "L'agent vocal répond, discute avec le client, collecte les informations (nom, date, heure, etc.)." },
         { id: "n3", label: "Function Call", description: "Vapi envoie les données collectées à un webhook via une function call." },
-        { id: "n4", label: "Webhook n8n/Make", description: "Le webhook reçoit les données et déclenche un workflow d'automatisation." },
+        { id: "n4", label: "Webhook n8n", description: "Le webhook reçoit les données et déclenche un workflow d'automatisation." },
         { id: "n5", label: "Actions automatiques", description: "Stocker en BDD, créer un RDV Google Calendar, envoyer un SMS, notifier sur Slack." },
       ]},
 
@@ -249,7 +249,7 @@ export const MODULE_11_VOICE_LESSONS = [
       { id: "4-9", type: "text", html: "<p>Les <strong>function calls</strong> (ou tools) dans Vapi permettent à ton agent vocal d'exécuter des actions pendant ou après l'appel. Concrètement, tu définis une fonction avec des paramètres, et quand l'agent détecte qu'il doit l'utiliser, il envoie une requête HTTP à ton endpoint.</p><p>Par exemple, tu définis une function <code>book_appointment</code> avec les paramètres <code>name</code>, <code>date</code>, <code>time</code>, <code>phone</code>. Quand le client donne toutes ces infos, l'agent appelle automatiquement ta function, qui envoie les données à ton webhook n8n.</p>" },
       { id: "4-10", type: "steps", steps: [
         { title: "Définis ta function dans Vapi", description: "Va dans les settings de ton assistant > Tools > Add Tool. Donne un nom (book_appointment), une description claire pour le LLM, et les paramètres attendus (name: string, date: string, time: string, phone: string)." },
-        { title: "Configure le server URL", description: "Vapi enverra les appels de function à l'URL de ton serveur. Tu peux utiliser un webhook n8n ou Make comme endpoint. Copie l'URL du webhook et colle-la dans Vapi." },
+        { title: "Configure le server URL", description: "Vapi enverra les appels de function à l'URL de ton serveur. Tu peux utiliser un webhook n8n comme endpoint. Copie l'URL du webhook et colle-la dans Vapi." },
         { title: "Teste le flux", description: "Appelle ton agent, donne les infos de RDV. Vérifie que le webhook reçoit bien les données. Debug si nécessaire avec les logs Vapi." },
       ]},
 
@@ -280,7 +280,7 @@ export const MODULE_11_VOICE_LESSONS = [
 
       { id: "4-21", type: "checklist", title: "Ton système vocal est complet quand...", items: [
         { id: "c1", text: "Les function calls sont configurées dans Vapi avec les bons paramètres" },
-        { id: "c2", text: "Le webhook n8n/Make reçoit les données correctement" },
+        { id: "c2", text: "Le webhook n8n reçoit les données correctement" },
         { id: "c3", text: "Les données sont stockées dans Supabase" },
         { id: "c4", text: "Un RDV est créé dans Google Calendar automatiquement" },
         { id: "c5", text: "Un SMS/email de confirmation est envoyé au client" },

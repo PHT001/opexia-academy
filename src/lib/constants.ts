@@ -23,7 +23,7 @@ export const MODULES = [
   { order: 5,  title: "Backend & Supabase", description: "Base de données, auth, storage et CRUD complet", category: "formation" },
   { order: 6,  title: "APIs, Intégrations & Paiements", description: "API Routes, Stripe, webhooks et intégration Claude", category: "formation" },
   // ── Phase 3 — Architecte Solutions ──
-  { order: 7,  title: "Automatisations & Workflows", description: "Make, n8n : créer des machines qui bossent pour toi", category: "formation" },
+  { order: 7,  title: "Automatisations & Workflows", description: "n8n & Workflows : créer des machines qui bossent pour toi", category: "formation" },
   { order: 8,  title: "Chatbots IA professionnels", description: "RAG, pgvector, widget embarquable et analytics", category: "formation" },
   { order: 9,  title: "Chatbots multi-canal", description: "WhatsApp, Instagram, Messenger : là où sont les clients", category: "formation" },
   { order: 10, title: "Agents IA autonomes", description: "Tool use, ReAct, MCP et agents multi-step", category: "formation" },

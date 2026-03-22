@@ -57,7 +57,7 @@ const row2 = [
     proof: "Dashboard Stripe partag\u00e9",
   },
   {
-    quote: "Gr\u00e2ce aux modules sur n8n et Make, j\u2019ai vendu 3 automatisations \u00e0 des PME en un mois. Le contenu est ultra concret.",
+    quote: "Gr\u00e2ce aux modules sur n8n et les automatisations, j\u2019ai vendu 3 automatisations \u00e0 des PME en un mois. Le contenu est ultra concret.",
     name: "Yassine B.",
     role: "Consultant IA, ind\u00e9pendant",
     result: "3 contrats en 1 mois",

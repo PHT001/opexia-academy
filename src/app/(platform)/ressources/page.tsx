@@ -69,18 +69,9 @@ const RESOURCES: Resource[] = [
 
   // ── Plateformes ──
   {
-    id: "5",
-    title: "Make (Integromat)",
-    desc: "Automatisation no-code. Connecte tes apps entre elles avec des scénarios visuels.",
-    section: "plateformes",
-    category: "plateformes",
-    type: "platform",
-    url: "https://www.make.com",
-  },
-  {
     id: "6",
     title: "n8n",
-    desc: "Alternative open-source à Make. Self-hosted possible, plus de 400 intégrations.",
+    desc: "Outil d'automatisation open-source. Self-hosted possible, plus de 400 intégrations.",
     section: "plateformes",
     category: "plateformes",
     type: "platform",
@@ -131,7 +122,7 @@ Entre :
 Article 1 — Objet
 Le Prestataire s'engage à réaliser pour le Client les prestations suivantes :
 ☐ Création d'un chatbot IA
-☐ Automatisation de processus (Make / n8n)
+☐ Automatisation de processus (n8n)
 ☐ Développement de site web avec IA intégrée
 ☐ Autre : _______________
 
@@ -188,7 +179,7 @@ Validité : 30 jours
 
 ━━━ FORMULE BUSINESS ━━━
 • Chatbot IA avancé + base de connaissances
-• 2 automatisations Make/n8n
+• 2 automatisations n8n
 • Intégration CRM
 • 3 révisions incluses
 • Support 30 jours
@@ -320,7 +311,7 @@ Bonne continuation,
 
 ━━━ OUTILS ━━━
 ☐ Claude Pro ou ChatGPT Plus (outil principal)
-☐ Make.com ou n8n (automatisations)
+☐ n8n (automatisations)
 ☐ Voiceflow (chatbots)
 ☐ Vercel (déploiement)
 ☐ Supabase (backend si besoin)

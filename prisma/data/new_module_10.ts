@@ -103,7 +103,7 @@ export const MODULE_10_LESSONS = [
         { cells: ["Standard", "Automatisation multi-étapes (CRM + facturation + notification Slack)", "800€ – 2 000€", "3-7 jours"] },
         { cells: ["Premium", "Système complet (onboarding client automatisé, reporting auto, alertes IA)", "2 000€ – 5 000€", "2-3 semaines"] },
       ]},
-      { id: "2-11", type: "text", html: "<p><strong>Pour qui ?</strong> Agences, cabinets, PME avec des process répétitifs. Si quelqu'un fait la même chose à la main plus de 3 fois par semaine, c'est une automatisation potentielle.</p><p><strong>Outils :</strong> n8n, Make, Zapier, et du code Python pour les cas avancés.</p>" },
+      { id: "2-11", type: "text", html: "<p><strong>Pour qui ?</strong> Agences, cabinets, PME avec des process répétitifs. Si quelqu'un fait la même chose à la main plus de 3 fois par semaine, c'est une automatisation potentielle.</p><p><strong>Outils :</strong> n8n, Zapier, et du code Python pour les cas avancés.</p>" },
 
       { id: "2-12", type: "separator", style: "line" },
       { id: "2-13", type: "heading", level: 2, text: "Service #3 — Sites web avec IA intégrée" },
@@ -688,7 +688,7 @@ POUR LE TÉMOIGNAGE VIDÉO :
       { id: "7-6", type: "text", html: "<p>Un bon case study suit toujours la même structure en 3 actes. C'est une histoire — et les histoires vendent mieux que les arguments.</p>" },
       { id: "7-7", type: "steps", steps: [
         { title: "Acte 1 : Le problème (contexte + douleur)", description: "Qui est le client ? Quel était son problème concret ? Quelles étaient les conséquences (temps perdu, argent perdu, stress, clients mécontents) ? Tu dois peindre la situation AVANT ton intervention de manière vivante et spécifique. Pas 'il avait un problème de communication' mais 'il recevait 40 messages par jour sur Instagram et n'arrivait pas à répondre — il perdait 3 à 5 réservations par semaine'." },
-        { title: "Acte 2 : La solution (ce que tu as fait)", description: "Quel livrable tu as créé ? Comment ça fonctionne en 2-3 phrases simples ? Quel outil tu as utilisé (Voiceflow, n8n, Make, etc.) ? Combien de temps ça t'a pris ? Inclus une capture d'écran ou un GIF du livrable en action. Le prospect doit pouvoir visualiser ce que tu as construit." },
+        { title: "Acte 2 : La solution (ce que tu as fait)", description: "Quel livrable tu as créé ? Comment ça fonctionne en 2-3 phrases simples ? Quel outil tu as utilisé (Voiceflow, n8n, etc.) ? Combien de temps ça t'a pris ? Inclus une capture d'écran ou un GIF du livrable en action. Le prospect doit pouvoir visualiser ce que tu as construit." },
         { title: "Acte 3 : Les résultats (avec des chiffres)", description: "C'est la partie la plus importante. Pas de 'le client est content'. Des chiffres. '40 messages/jour traités automatiquement. 0 réservation perdue depuis l'installation. 12h/semaine économisées.' Si tu n'as pas de chiffres exacts, demande-les à ton client ou estime-les avec lui." },
       ]},
       { id: "7-8", type: "callout", variant: "warning", html: "<strong>Les chiffres sont non négociables.</strong> Un case study sans chiffres est un témoignage déguisé. Avant de livrer ton projet, mets en place des métriques simples : nombre de conversations du chatbot, temps économisé par semaine, nombre de tâches automatisées. Demande à ton client les chiffres 'avant' pour pouvoir comparer." },
@@ -718,7 +718,7 @@ LE PROBLÈME :
 LA SOLUTION :
 - Ce que j'ai livré : [1 phrase claire]
 - Comment ça marche : [2-3 phrases simples]
-- Outils utilisés : [Voiceflow, n8n, Make, etc.]
+- Outils utilisés : [Voiceflow, n8n, etc.]
 - Temps de réalisation : [ex: 2 jours]
 - [CAPTURE D'ÉCRAN ou GIF du livrable en action]
 
