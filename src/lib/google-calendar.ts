@@ -1,36 +1,28 @@
 import { google } from "googleapis";
 
 function getCalendarClient() {
-  const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
+  const jsonB64 = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
 
-  if (!email || !privateKey) {
-    console.warn(
-      "[Google Calendar] Missing GOOGLE_SERVICE_ACCOUNT_EMAIL or GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY"
-    );
+  if (!jsonB64) {
+    console.warn("[Google Calendar] Missing GOOGLE_SERVICE_ACCOUNT_JSON");
     return null;
   }
 
-  // Private key is stored as base64 in env to avoid newline issues
-  let formattedKey: string;
-  if (privateKey.startsWith("LS0t")) {
-    // Base64 encoded
-    formattedKey = Buffer.from(privateKey, "base64").toString("utf-8");
-  } else if (privateKey.includes("\\n")) {
-    formattedKey = privateKey.replace(/\\n/g, "\n");
-  } else {
-    formattedKey = privateKey;
+  try {
+    const credentials = JSON.parse(
+      Buffer.from(jsonB64, "base64").toString("utf-8")
+    );
+
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ["https://www.googleapis.com/auth/calendar"],
+    });
+
+    return google.calendar({ version: "v3", auth });
+  } catch (error) {
+    console.error("[Google Calendar] Failed to parse credentials:", error);
+    return null;
   }
-
-  const auth = new google.auth.GoogleAuth({
-    credentials: {
-      client_email: email,
-      private_key: formattedKey,
-    },
-    scopes: ["https://www.googleapis.com/auth/calendar"],
-  });
-
-  return google.calendar({ version: "v3", auth });
 }
 
 const CALENDAR_ID = () => process.env.GOOGLE_CALENDAR_ID || "primary";
