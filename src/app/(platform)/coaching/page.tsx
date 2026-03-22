@@ -448,7 +448,7 @@ function CoachingContent() {
                 </div>
                 <div className="flex items-center gap-2">
                   <IconShield className="text-emerald-400 w-4 h-4" />
-                  <span className="text-xs text-white/40"><span className="font-bold text-white/70">Satisfait</span> ou remboursé</span>
+                  <span className="text-xs text-white/40"><span className="font-bold text-white/70">100%</span> personnalisé</span>
                 </div>
               </div>
             </div>
