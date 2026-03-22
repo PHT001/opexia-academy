@@ -34,6 +34,7 @@ model User {
   referralsMade    Referral[] @relation("referrerReferrals")
   referredBy       Referral[] @relation("referredReferrals")
   deals            PipelineDeal[]
+  notes            Note[]
 }
 
 model Module {
@@ -175,4 +176,20 @@ model Referral {
 
   referrer User @relation("referrerReferrals", fields: [referrerId], references: [id])
   referred User @relation("referredReferrals", fields: [referredId], references: [id])
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  folder    String   @default("General")
+  color     String   @default("#ffffff")
+  icon      String   @default("")
+  pinned    Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }

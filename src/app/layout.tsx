@@ -23,24 +23,62 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://opexia-formation.com"),
   title: {
     default: "OpexIA Academy — Formation IA | Lance ton agence IA en 90 jours",
     template: "%s | OpexIA Academy",
   },
   description:
-    "Formation complète pour lancer ton agence IA : chatbots, automatisations, sites web, prospection. De zéro à 10K€/mois en 90 jours.",
+    "OpexIA Academy - La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 130+ leçons, chatbots, automatisations, sites web, prospection.",
   keywords: [
     "formation IA",
     "agence IA",
     "chatbot IA",
     "formation en ligne",
     "lancer son agence",
+    "intelligence artificielle",
+    "automatisation IA",
+    "créer agence IA",
+    "formation en ligne IA",
+    "OpexIA Academy",
   ],
   openGraph: {
-    title: "OpexIA Academy — Lance ton agence IA en 90 jours",
-    description: "Formation complète pour lancer ton agence IA : chatbots, automatisations, sites web, prospection.",
+    title: "OpexIA Academy — La formation pour lancer ton agence IA et générer 10K/mois",
+    description:
+      "22 modules, 130+ leçons pour maîtriser l'IA : chatbots, automatisations, sites web, prospection. De zéro à 10K€/mois en 90 jours.",
     type: "website",
     locale: "fr_FR",
+    url: "https://opexia-formation.com",
+    siteName: "OpexIA Academy",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "OpexIA Academy - Formation IA",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OpexIA Academy — Lance ton agence IA en 90 jours",
+    description:
+      "La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 130+ leçons.",
+    images: ["/images/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://opexia-formation.com",
   },
 };
 

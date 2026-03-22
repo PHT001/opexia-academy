@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 
 interface ModuleProgress {
@@ -85,6 +85,34 @@ export default function CertificatsPage() {
   const [completedModuleOrders, setCompletedModuleOrders] = useState<Set<number>>(new Set());
   const [totalModules, setTotalModules] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [downloadingPhase, setDownloadingPhase] = useState<number | null>(null);
+
+  const handleDownload = useCallback(async (phase: number) => {
+    setDownloadingPhase(phase);
+    try {
+      const res = await fetch(`/api/certificate?phase=${phase}`);
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        alert(data?.error || "Erreur lors du telechargement.");
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const disposition = res.headers.get("Content-Disposition");
+      const match = disposition?.match(/filename="(.+)"/);
+      a.download = match?.[1] || `certificat-phase-${phase}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      alert("Erreur lors du telechargement du certificat.");
+    } finally {
+      setDownloadingPhase(null);
+    }
+  }, []);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -238,13 +266,30 @@ export default function CertificatsPage() {
                   {completedCount}/{totalCount} modules
                 </p>
                 {isUnlocked ? (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <div className="flex items-center gap-1" style={{ color: cert.color }}>
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                       <span className="text-[10px] font-semibold">Complété</span>
                     </div>
+                    <button
+                      onClick={() => handleDownload(i + 1)}
+                      disabled={downloadingPhase === i + 1}
+                      className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] font-semibold text-[#FF1744] bg-[#FF1744]/10 hover:bg-[#FF1744]/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      title="Télécharger le certificat PDF"
+                    >
+                      {downloadingPhase === i + 1 ? (
+                        <div className="w-2.5 h-2.5 border border-[#FF1744] border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                          <polyline points="7 10 12 15 17 10" />
+                          <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                      )}
+                      {downloadingPhase === i + 1 ? "..." : "PDF"}
+                    </button>
                     <a
                       href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://opexia.fr")}&title=${encodeURIComponent(`J'ai obtenu le certificat "${cert.title}" sur OpexIA Academy !`)}`}
                       target="_blank"

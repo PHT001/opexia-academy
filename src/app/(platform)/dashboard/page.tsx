@@ -438,7 +438,7 @@ export default function DashboardPage() {
               </div>
               <IconArrowRight className="text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" />
             </a>
-            <a href="https://discord.gg/XwPUx6fm" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
+            <a href="https://discord.gg/uNc2jwBsr8" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#1A1A2E] text-white text-sm font-bold shrink-0">2</span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-[#111] group-hover:text-[#FF1744] transition-colors">Rejoins le Discord</p>

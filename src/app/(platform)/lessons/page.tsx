@@ -256,7 +256,7 @@ function LessonReaderPanel({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 30 }}
         transition={{ type: "spring", damping: 28, stiffness: 280 }}
-        className="fixed inset-0 md:left-[260px] md:top-0 z-50 bg-white flex flex-col"
+        className="fixed inset-0 lg:left-[260px] lg:top-0 z-50 bg-white flex flex-col"
       >
         {/* Top bar */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-white/80 backdrop-blur-sm flex-shrink-0">

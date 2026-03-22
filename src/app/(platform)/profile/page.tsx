@@ -98,13 +98,13 @@ function ProfileContent() {
           </div>
         </div>
         <div className="px-6 pb-5 -mt-8 relative">
-          <div className="flex items-end gap-4 mb-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-2xl font-bold text-white shadow-lg ring-4 ring-white flex-shrink-0">
+          <div className="flex items-end gap-3 sm:gap-4 mb-4">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-xl sm:text-2xl font-bold text-white shadow-lg ring-4 ring-white flex-shrink-0">
               {session?.user?.name?.[0]?.toUpperCase() || "?"}
             </div>
-            <div className="flex-1 pt-8">
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg font-bold text-[#111]">{session?.user?.name || "\u00c9l\u00e8ve"}</h1>
+            <div className="flex-1 min-w-0 pt-8">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-base sm:text-lg font-bold text-[#111] truncate">{session?.user?.name || "\u00c9l\u00e8ve"}</h1>
                 {isAdmin && (
                   <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF1744]/10 text-[#FF1744]">Admin</span>
                 )}
@@ -116,10 +116,10 @@ function ProfileContent() {
             </div>
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium text-gray-400 border border-gray-200 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all"
+              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-[10px] font-medium text-gray-400 border border-gray-200 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all flex-shrink-0"
             >
               <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
-              D\u00e9connexion
+              <span className="hidden sm:inline">D\u00e9connexion</span>
             </button>
           </div>
         </div>
@@ -149,7 +149,7 @@ function ProfileContent() {
         {activeTab === "profile" ? (
           <motion.div key="profile" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
             {/* Stats */}
-            <div className="grid grid-cols-4 gap-3 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
               {[
                 { label: "XP Total", value: stats.xp.toLocaleString(), icon: "\u26A1" },
                 { label: "Streak", value: `${stats.streak}j`, icon: "\u{1F525}" },
@@ -182,13 +182,13 @@ function ProfileContent() {
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
                 <h3 className="text-sm font-bold text-[#111] mb-3">Badges</h3>
                 {badgesLoading ? (
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {Array.from({ length: 6 }).map((_, i) => (
                       <div key={i} className="w-10 h-10 rounded-xl bg-gray-100 animate-pulse" />
                     ))}
                   </div>
                 ) : (
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {BADGE_DEFS.map((badge) => {
                       const unlocked = badge.check({
                         lessonsCompleted: stats.lessonsCompleted,
@@ -221,9 +221,9 @@ function ProfileContent() {
                   { label: "Mot de passe", value: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" },
                   { label: "Membre depuis", value: stats.memberSince || new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) },
                 ].map((item) => (
-                  <div key={item.label} className="px-5 py-3.5 flex items-center justify-between">
-                    <span className="text-xs text-gray-400 w-28">{item.label}</span>
-                    <span className="text-xs text-gray-700 font-medium">{item.value}</span>
+                  <div key={item.label} className="px-5 py-3.5 flex items-center justify-between gap-2">
+                    <span className="text-xs text-gray-400 w-28 flex-shrink-0">{item.label}</span>
+                    <span className="text-xs text-gray-700 font-medium truncate">{item.value}</span>
                   </div>
                 ))}
               </div>
@@ -233,7 +233,7 @@ function ProfileContent() {
           <motion.div key="subscription" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
             {/* Current plan */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-6">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Ton abonnement actuel</p>
                   <div className="flex items-center gap-2">

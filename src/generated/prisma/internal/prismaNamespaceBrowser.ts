@@ -62,7 +62,8 @@ export const ModelName = {
   Enrollment: 'Enrollment',
   CoachingSession: 'CoachingSession',
   PipelineDeal: 'PipelineDeal',
-  Referral: 'Referral'
+  Referral: 'Referral',
+  Note: 'Note'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -243,6 +244,22 @@ export const ReferralScalarFieldEnum = {
 } as const
 
 export type ReferralScalarFieldEnum = (typeof ReferralScalarFieldEnum)[keyof typeof ReferralScalarFieldEnum]
+
+
+export const NoteScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  folder: 'folder',
+  color: 'color',
+  icon: 'icon',
+  pinned: 'pinned',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
 
 
 export const SortOrder = {

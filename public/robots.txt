@@ -1,0 +1,31 @@
+# robots.txt for opexia-formation.com
+User-agent: *
+Allow: /
+
+# Disallow admin and platform-internal pages
+Disallow: /admin
+Disallow: /formation/dashboard
+Disallow: /dashboard
+Disallow: /lessons/
+Disallow: /quiz/
+Disallow: /generateur
+Disallow: /pipeline
+Disallow: /templates
+Disallow: /masterclass
+Disallow: /coaching
+Disallow: /assistant
+Disallow: /marketplace
+Disallow: /favoris
+Disallow: /notes
+Disallow: /certificats
+Disallow: /parrainage
+Disallow: /leaderboard
+Disallow: /intervenants
+Disallow: /ressources
+Disallow: /congratulations
+Disallow: /profile
+Disallow: /preview/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://opexia-formation.com/sitemap.xml

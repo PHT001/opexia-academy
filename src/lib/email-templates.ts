@@ -100,6 +100,91 @@ export function dayOneEmail(name: string): { subject: string; html: string } {
  * Day 3 email — social proof / success story.
  * Sent ~72h after purchase.
  */
+/**
+ * Weekly recap email — sent every Monday.
+ * Summarises the learner's progress over the past 7 days.
+ */
+export function weeklyRecapEmail(
+  name: string,
+  stats: {
+    lessonsThisWeek: number;
+    totalLessons: number;
+    xpThisWeek: number;
+    totalXP: number;
+    streak: number;
+    nextLesson: string | null;
+  },
+): { subject: string; html: string } {
+  const firstName = name.split(" ")[0];
+
+  const streakLabel =
+    stats.streak >= 7
+      ? "🔥 Impressionnant !"
+      : stats.streak >= 3
+        ? "💪 Bien joué !"
+        : "🚀 Continue !";
+
+  const encouragement =
+    stats.lessonsThisWeek > 0
+      ? `Tu as termin&eacute; <strong>${stats.lessonsThisWeek} le&ccedil;on${stats.lessonsThisWeek > 1 ? "s" : ""}</strong> cette semaine et gagn&eacute; <strong>${stats.xpThisWeek} XP</strong>. Continue sur cette lanc&eacute;e !`
+      : "Tu n&rsquo;as pas termin&eacute; de le&ccedil;on cette semaine &mdash; pas de souci, l&rsquo;important c&rsquo;est de reprendre. M&ecirc;me 15 minutes suffisent !";
+
+  const nextLessonBlock = stats.nextLesson
+    ? `<p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        📘 <strong>Prochaine &eacute;tape :</strong> ${stats.nextLesson}
+      </p>`
+    : "";
+
+  return {
+    subject: `${firstName}, ton récap de la semaine 📊`,
+    html: layout(`
+      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Ton r&eacute;cap hebdomadaire, ${firstName}</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        ${encouragement}
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">Le&ccedil;ons cette semaine</td>
+            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.lessonsThisWeek}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">Le&ccedil;ons totales</td>
+            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.totalLessons}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">XP cette semaine</td>
+            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">+${stats.xpThisWeek}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">XP total</td>
+            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.totalXP}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">S&eacute;rie en cours</td>
+            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.streak} jour${stats.streak > 1 ? "s" : ""} ${streakLabel}</td>
+          </tr>
+        </table>
+      </div>
+
+      ${nextLessonBlock}
+
+      <a href="https://opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        Continuer ma formation
+      </a>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Tu re&ccedil;ois cet email chaque lundi. Une question ? R&eacute;ponds directement &agrave; cet email.
+      </p>
+    `),
+  };
+}
+
+/**
+ * Day 3 email — social proof / success story.
+ * Sent ~72h after purchase.
+ */
 export function dayThreeEmail(name: string): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
 

@@ -18,63 +18,6 @@ const ICONS = ["📝", "💡", "🚀", "🎯", "📊", "⚡", "🔥", "📌", "�
 
 const DEFAULT_FOLDERS = ["Général", "Module 1", "Module 2", "Idées business"];
 
-const INITIAL_NOTES: Note[] = [
-  {
-    id: "1",
-    title: "Opportunité PME",
-    content:
-      "Les PME n'ont pas encore adopté l'IA → énorme opportunité.\n\n72% des grandes entreprises l'utilisent mais les TPE/PME sont massivement sous-équipées.\n\n## Actions\n- Lister 10 PME locales qui pourraient bénéficier de l'IA\n- Préparer un pitch de 30 secondes\n- Contacter 3 PME cette semaine\n\n> Idée : cibler les PME locales en premier.",
-    folder: "Module 1",
-    color: "#FF1744",
-    icon: "🎯",
-    updatedAt: new Date("2026-03-18T10:30:00").toISOString(),
-    pinned: true,
-  },
-  {
-    id: "2",
-    title: "Framework CRAFT",
-    content:
-      "Le framework CRAFT est le plus efficace :\n\n- **Context** — donne le contexte\n- **Role** — assigne un rôle à l'IA\n- **Action** — décris ce que tu veux\n- **Format** — précise le format attendu\n- **Tone** — indique le ton\n\n> Toujours donner un rôle avant de poser la question.\n\n## Exemple\n\"Tu es un expert en copywriting B2B. Rédige un email de prospection pour une agence IA ciblant les cabinets comptables. Format : email court (5 lignes max). Ton : professionnel mais humain.\"",
-    folder: "Module 2",
-    color: "#2979FF",
-    icon: "🧠",
-    updatedAt: new Date("2026-03-17T14:20:00").toISOString(),
-    pinned: false,
-  },
-  {
-    id: "3",
-    title: "Services à vendre",
-    content:
-      "## Les 3 services les plus rentables\n\n### 1. Chatbot IA — 1500-3000€\nSupport client, prise de RDV, qualification de leads.\nOutils : Botpress, Voiceflow, n8n\n\n### 2. Automatisation n8n — 800-2000€\nFacturation, relances, reporting.\nROI immédiat pour le client.\n\n### 3. Site web avec IA — 1000-2500€\nLanding pages, chatbot intégré.\nOutils : Cursor, V0, Vercel\n\n> Commencer par les chatbots → plus facile à vendre et démontrer.",
-    folder: "Idées business",
-    color: "#00C853",
-    icon: "💰",
-    updatedAt: new Date("2026-03-16T09:00:00").toISOString(),
-    pinned: false,
-  },
-];
-
-const STORAGE_KEY = "opexia-notes-v2";
-
-function loadNotes(): Note[] {
-  if (typeof window === "undefined") return INITIAL_NOTES;
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch {}
-  return INITIAL_NOTES;
-}
-
-function saveNotes(notes: Note[]) {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
-  } catch {}
-}
-
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);
   const now = new Date();
@@ -196,24 +139,31 @@ export default function NotesPage() {
   const [activeFolder, setActiveFolder] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [mobileView, setMobileView] = useState<"list" | "editor">("list");
-  const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [showIconPicker, setShowIconPicker] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const debounceTimers = useRef<Record<string, NodeJS.Timeout>>({});
 
+  // Fetch notes from API on mount
   useEffect(() => {
-    const loaded = loadNotes();
-    setNotes(loaded);
-    if (loaded.length > 0) setActiveNoteId(loaded[0].id);
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted && notes.length > 0) {
-      saveNotes(notes);
+    async function fetchNotes() {
+      try {
+        const res = await fetch("/api/notes");
+        if (res.ok) {
+          const data = await res.json();
+          setNotes(data);
+          if (data.length > 0) setActiveNoteId(data[0].id);
+        }
+      } catch {
+        // silently fail
+      } finally {
+        setLoading(false);
+      }
     }
-  }, [notes, mounted]);
+    fetchNotes();
+  }, []);
 
   const activeNote = notes.find((n) => n.id === activeNoteId) || null;
 
@@ -237,44 +187,88 @@ export default function NotesPage() {
     return acc;
   }, {} as Record<string, number>);
 
-  const createNote = useCallback(() => {
-    const newNote: Note = {
-      id: Date.now().toString(),
+  const createNote = useCallback(async () => {
+    const noteData = {
       title: "",
       content: "",
       folder: activeFolder || "Général",
       color: COLORS[notes.length % COLORS.length],
       icon: ICONS[notes.length % ICONS.length],
-      updatedAt: new Date().toISOString(),
       pinned: false,
     };
-    setNotes((prev) => [newNote, ...prev]);
-    setActiveNoteId(newNote.id);
-    setEditing(true);
-    setMobileView("editor");
-    setTimeout(() => titleRef.current?.focus(), 100);
+
+    try {
+      const res = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(noteData),
+      });
+      if (res.ok) {
+        const newNote = await res.json();
+        setNotes((prev) => [newNote, ...prev]);
+        setActiveNoteId(newNote.id);
+        setEditing(true);
+        setMobileView("editor");
+        setTimeout(() => titleRef.current?.focus(), 100);
+      }
+    } catch {
+      // silently fail
+    }
   }, [activeFolder, notes.length]);
 
+  // Debounced PATCH for note updates
   function updateNote(field: keyof Note, value: string | boolean) {
     if (!activeNote) return;
     const updated = { ...activeNote, [field]: value, updatedAt: new Date().toISOString() };
     setNotes((prev) => prev.map((n) => (n.id === updated.id ? updated : n)));
+
+    // Debounce the API call
+    const timerId = `${activeNote.id}-${field}`;
+    if (debounceTimers.current[timerId]) {
+      clearTimeout(debounceTimers.current[timerId]);
+    }
+    debounceTimers.current[timerId] = setTimeout(async () => {
+      try {
+        await fetch(`/api/notes/${activeNote.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ [field]: value }),
+        });
+      } catch {
+        // silently fail
+      }
+    }, 500);
   }
 
-  function deleteNote(id: string) {
+  async function deleteNote(id: string) {
     if (!window.confirm("Supprimer cette note ?")) return;
-    setNotes((prev) => {
-      const remaining = prev.filter((n) => n.id !== id);
-      if (activeNoteId === id) {
-        setActiveNoteId(remaining[0]?.id || null);
-        setMobileView("list");
+    try {
+      const res = await fetch(`/api/notes/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setNotes((prev) => {
+          const remaining = prev.filter((n) => n.id !== id);
+          if (activeNoteId === id) {
+            setActiveNoteId(remaining[0]?.id || null);
+            setMobileView("list");
+          }
+          return remaining;
+        });
       }
-      return remaining;
-    });
+    } catch {
+      // silently fail
+    }
   }
 
   function togglePin(id: string) {
-    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, pinned: !n.pinned, updatedAt: new Date().toISOString() } : n)));
+    const note = notes.find((n) => n.id === id);
+    if (!note) return;
+    const newPinned = !note.pinned;
+    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, pinned: newPinned, updatedAt: new Date().toISOString() } : n)));
+    fetch(`/api/notes/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pinned: newPinned }),
+    }).catch(() => {});
   }
 
   function selectNote(note: Note) {
@@ -290,7 +284,7 @@ export default function NotesPage() {
     }
   }, [activeNote?.content]);
 
-  if (!mounted) {
+  if (loading) {
     return (
       <div className="w-full h-[calc(100vh-2rem)] flex items-center justify-center bg-white rounded-2xl border border-gray-200">
         <div className="w-5 h-5 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />

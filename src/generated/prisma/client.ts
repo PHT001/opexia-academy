@@ -101,3 +101,8 @@ export type PipelineDeal = Prisma.PipelineDealModel
  * 
  */
 export type Referral = Prisma.ReferralModel
+/**
+ * Model Note
+ * 
+ */
+export type Note = Prisma.NoteModel

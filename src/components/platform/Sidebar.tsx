@@ -531,7 +531,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
         {/* Discord Community */}
         <div className="px-4 pb-2 shrink-0">
           <a
-            href="https://discord.gg/XwPUx6fm"
+            href="https://discord.gg/uNc2jwBsr8"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.04] transition-all duration-150"

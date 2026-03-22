@@ -1,3 +1,11 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Mentions l\u00e9gales",
+  description:
+    "Mentions l\u00e9gales du site OpexIA Academy - opexia-formation.com",
+};
+
 export default function MentionsLegalesPage() {
   return (
     <section className="py-20 lg:py-28">
@@ -16,20 +24,23 @@ export default function MentionsLegalesPage() {
         </p>
         <ul className="list-none space-y-1 text-[#6B7280] leading-relaxed mb-6">
           <li><strong>Raison sociale :</strong> OpexIA Academy</li>
-          <li><strong>Forme juridique :</strong> [&Agrave; compl&eacute;ter]</li>
-          <li><strong>Si&egrave;ge social :</strong> [&Agrave; compl&eacute;ter]</li>
-          <li><strong>SIRET :</strong> [&Agrave; compl&eacute;ter]</li>
-          <li><strong>Num&eacute;ro TVA intracommunautaire :</strong> [&Agrave; compl&eacute;ter]</li>
-          <li><strong>Capital social :</strong> [&Agrave; compl&eacute;ter]</li>
+          <li><strong>Forme juridique :</strong> Micro-entreprise</li>
+          <li><strong>Si&egrave;ge social :</strong> [Adresse &agrave; compl&eacute;ter]</li>
+          <li><strong>SIRET :</strong> [SIRET &agrave; compl&eacute;ter]</li>
           <li><strong>Email :</strong> support@opexia-formation.com</li>
-          <li><strong>T&eacute;l&eacute;phone :</strong> [&Agrave; compl&eacute;ter]</li>
+          <li><strong>T&eacute;l&eacute;phone :</strong> [T&eacute;l&eacute;phone &agrave; compl&eacute;ter]</li>
         </ul>
+        <p className="text-[#6B7280] leading-relaxed mb-6 text-sm italic">
+          En tant que micro-entreprise, OpexIA Academy est exon&eacute;r&eacute;e de TVA
+          (article 293 B du Code g&eacute;n&eacute;ral des imp&ocirc;ts). Num&eacute;ro de TVA
+          intracommunautaire : non applicable.
+        </p>
 
         {/* Responsable de publication */}
         <h2 className="text-xl font-semibold mt-10 mb-4">2. Responsable de publication</h2>
         <p className="text-[#6B7280] leading-relaxed mb-6">
-          Le responsable de la publication est : <strong>[&Agrave; compl&eacute;ter &mdash; Nom et pr&eacute;nom]</strong>,
-          en qualit&eacute; de [&Agrave; compl&eacute;ter &mdash; fonction].
+          Le responsable de la publication est : <strong>Marius AUGEREAU</strong>,
+          en qualit&eacute; de dirigeant de la micro-entreprise OpexIA Academy.
         </p>
 
         {/* Hébergeur */}
@@ -60,7 +71,8 @@ export default function MentionsLegalesPage() {
         <p className="text-[#6B7280] leading-relaxed mb-6">
           Les contenus de formation accessibles via la plateforme sont r&eacute;serv&eacute;s &agrave;
           l&apos;usage strictement personnel de l&apos;utilisateur inscrit. Tout partage, redistribution
-          ou mise &agrave; disposition &agrave; des tiers est formellement interdit.
+          ou mise &agrave; disposition &agrave; des tiers est formellement interdit et pourra donner lieu
+          &agrave; des poursuites judiciaires.
         </p>
 
         {/* Responsabilité */}
@@ -71,10 +83,15 @@ export default function MentionsLegalesPage() {
           l&apos;exactitude, la pr&eacute;cision ou l&apos;exhaustivit&eacute; des informations mises
           &agrave; disposition sur le site.
         </p>
-        <p className="text-[#6B7280] leading-relaxed mb-6">
+        <p className="text-[#6B7280] leading-relaxed mb-4">
           OpexIA Academy d&eacute;cline toute responsabilit&eacute; en cas d&apos;interruption ou
           d&apos;inaccessibilit&eacute; du site, de survenance de bugs, ou de tout dommage r&eacute;sultant
           d&apos;une intrusion frauduleuse d&apos;un tiers.
+        </p>
+        <p className="text-[#6B7280] leading-relaxed mb-6">
+          Les informations et formations propos&eacute;es sur le site ne constituent en aucun cas des
+          conseils juridiques, financiers ou professionnels. L&apos;utilisateur reste seul responsable
+          de l&apos;utilisation qu&apos;il fait des connaissances acquises via la Plateforme.
         </p>
 
         {/* Liens hypertextes */}
@@ -82,18 +99,38 @@ export default function MentionsLegalesPage() {
         <p className="text-[#6B7280] leading-relaxed mb-4">
           Le site opexia-formation.com peut contenir des liens hypertextes vers d&apos;autres sites
           internet. OpexIA Academy n&apos;exerce aucun contr&ocirc;le sur ces sites et d&eacute;cline
-          toute responsabilit&eacute; quant &agrave; leur contenu.
+          toute responsabilit&eacute; quant &agrave; leur contenu ou leurs pratiques en mati&egrave;re
+          de protection des donn&eacute;es personnelles.
         </p>
         <p className="text-[#6B7280] leading-relaxed mb-6">
           La cr&eacute;ation de liens hypertextes vers le site opexia-formation.com est soumise &agrave;
           l&apos;accord pr&eacute;alable d&apos;OpexIA Academy.
         </p>
 
+        {/* Cookies */}
+        <h2 className="text-xl font-semibold mt-10 mb-4">7. Cookies</h2>
+        <p className="text-[#6B7280] leading-relaxed mb-4">
+          Le site opexia-formation.com utilise des cookies pour assurer le bon fonctionnement de ses
+          services. Pour en savoir plus sur l&apos;utilisation des cookies et la gestion de vos
+          pr&eacute;f&eacute;rences, veuillez consulter notre{" "}
+          <a href="/confidentialite" className="text-[#1A1A2E] underline hover:no-underline">
+            Politique de confidentialit&eacute;
+          </a>.
+        </p>
+
+        {/* Crédits */}
+        <h2 className="text-xl font-semibold mt-10 mb-4">8. Cr&eacute;dits</h2>
+        <p className="text-[#6B7280] leading-relaxed mb-6">
+          Conception et d&eacute;veloppement du site : OpexIA Academy.
+        </p>
+
         {/* Droit applicable */}
-        <h2 className="text-xl font-semibold mt-10 mb-4">7. Droit applicable</h2>
+        <h2 className="text-xl font-semibold mt-10 mb-4">9. Droit applicable et juridiction comp&eacute;tente</h2>
+        <p className="text-[#6B7280] leading-relaxed mb-4">
+          Les pr&eacute;sentes mentions l&eacute;gales sont soumises au droit fran&ccedil;ais.
+        </p>
         <p className="text-[#6B7280] leading-relaxed">
-          Les pr&eacute;sentes mentions l&eacute;gales sont soumises au droit fran&ccedil;ais. En cas de
-          litige, et apr&egrave;s tentative de r&eacute;solution amiable, comp&eacute;tence est
+          En cas de litige, et apr&egrave;s tentative de r&eacute;solution amiable, comp&eacute;tence est
           attribu&eacute;e aux tribunaux fran&ccedil;ais comp&eacute;tents.
         </p>
       </div>
