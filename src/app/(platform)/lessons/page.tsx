@@ -475,6 +475,36 @@ export default function LessonsPage() {
 
             return (
               <motion.div key={week.week} variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }}>
+
+                {/* ── Upgrade CTA — shown once before first locked phase ── */}
+                {!weekAccessible && weekIdx === 1 && (
+                  <motion.div variants={cardVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="relative pl-14 md:pl-16 pb-6">
+                    <div className="absolute left-[12px] md:left-[16px] z-10 mt-6">
+                      <div className="w-[12px] h-[12px] rounded-full bg-[#FF1744] shadow-sm shadow-[#FF1744]/30" />
+                    </div>
+                    <div className="rounded-2xl border-2 border-[#FF1744]/20 bg-gradient-to-r from-red-50/80 to-white p-5 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                          <p className="text-sm font-bold text-[#111] mb-1">
+                            Passe {"\u00e0"} Academy pour d{"\u00e9"}bloquer les 22 modules
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Acc{"\u00e8"}de {"\u00e0"} 130+ le{"\u00e7"}ons, projets concrets, coaching et certificats.
+                          </p>
+                        </div>
+                        <a
+                          href="/#pricing"
+                          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white flex-shrink-0 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
+                          style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
+                        >
+                          D{"\u00e9"}bloquer Academy {"\u2014"} 397{"\u20ac"}
+                          <IconArrowRight className="w-4 h-4" />
+                        </a>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
                 {/* ── Week Header Node ── */}
                 <div className={cn("relative pl-14 md:pl-16 py-5", !weekAccessible && "opacity-60")}>
                   {/* Big dot */}
@@ -735,34 +765,6 @@ export default function LessonsPage() {
                   );
                 })}
 
-                {/* Upgrade CTA on timeline */}
-                {!weekAccessible && weekIdx === 1 && (
-                  <motion.div variants={cardVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="relative pl-14 md:pl-16 pb-6">
-                    <div className="absolute left-[12px] md:left-[16px] z-10 mt-6">
-                      <div className="w-[12px] h-[12px] rounded-full bg-[#FF1744] shadow-sm shadow-[#FF1744]/30" />
-                    </div>
-                    <div className="rounded-2xl border-2 border-[#FF1744]/20 bg-gradient-to-r from-red-50/80 to-white p-5 sm:p-6">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div>
-                          <p className="text-sm font-bold text-[#111] mb-1">
-                            Passe {"\u00e0"} Academy pour d{"\u00e9"}bloquer les 22 modules
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            Acc{"\u00e8"}de {"\u00e0"} 130+ le{"\u00e7"}ons, projets concrets, coaching et certificats.
-                          </p>
-                        </div>
-                        <a
-                          href="/#pricing"
-                          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white flex-shrink-0 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
-                          style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
-                        >
-                          D{"\u00e9"}bloquer Academy {"\u2014"} 397{"\u20ac"}
-                          <IconArrowRight className="w-4 h-4" />
-                        </a>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
               </motion.div>
             );
           })}
