@@ -483,6 +483,63 @@ function CoachingContent() {
         </motion.div>
       )}
 
+      {/* ═══════════════ SLOT SELECTION — CALENDAR ═══════════════ */}
+      <CalendarSlotPicker
+        slots={slots}
+        selectedSlot={selectedSlot}
+        onSelect={(date) => setSelectedSlot(selectedSlot === date ? null : date)}
+      />
+
+      {/* ═══════════════ BOOKING BAR ═══════════════ */}
+      {slots.length > 0 && (
+        <div className="sticky bottom-4 z-10">
+          <motion.div
+            className="p-4 rounded-2xl bg-white/90 backdrop-blur-xl border border-gray-200 shadow-xl shadow-black/5"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+          >
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                {selectedSlot ? (
+                  <>
+                    <div className="w-10 h-10 rounded-xl bg-[#FF1744]/10 flex items-center justify-center flex-shrink-0">
+                      <IconCalendar className="text-[#FF1744]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">
+                        {new Date(selectedSlot).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {new Date(selectedSlot).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — Session de 1h
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                      <IconCalendar className="text-gray-400" />
+                    </div>
+                    <p className="text-sm text-gray-400">Sélectionne un créneau ci-dessus</p>
+                  </>
+                )}
+              </div>
+              <button
+                disabled={!selectedSlot || booking}
+                onClick={handleBooking}
+                className={cn(
+                  "flex-shrink-0 px-6 py-3 rounded-xl font-bold text-sm transition-all w-full sm:w-auto text-center",
+                  selectedSlot && !booking
+                    ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
+                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                )}
+              >
+                {booking ? "Redirection..." : `Réserver & Payer — ${COACHING_PRICE_DISPLAY}€`}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* ═══════════════ WHAT'S INCLUDED ═══════════════ */}
       <div>
         <h2 className="text-lg font-bold text-gray-900 mb-1">Ce qui est inclus</h2>
@@ -573,65 +630,6 @@ function CoachingContent() {
           </div>
         </div>
       )}
-
-      {/* ═══════════════ SLOT SELECTION — CALENDAR ═══════════════ */}
-      <CalendarSlotPicker
-        slots={slots}
-        selectedSlot={selectedSlot}
-        onSelect={(date) => setSelectedSlot(selectedSlot === date ? null : date)}
-      />
-
-      {/* ═══════════════ BOOKING BAR ═══════════════ */}
-      {slots.length > 0 && (
-        <div className="sticky bottom-4 z-10">
-          <motion.div
-            className="p-4 rounded-2xl bg-white/90 backdrop-blur-xl border border-gray-200 shadow-xl shadow-black/5"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-          >
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                {selectedSlot ? (
-                  <>
-                    <div className="w-10 h-10 rounded-xl bg-[#FF1744]/10 flex items-center justify-center flex-shrink-0">
-                      <IconCalendar className="text-[#FF1744]" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">
-                        {new Date(selectedSlot).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(selectedSlot).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — Session de 1h
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                      <IconCalendar className="text-gray-400" />
-                    </div>
-                    <p className="text-sm text-gray-400">Sélectionne un créneau ci-dessus</p>
-                  </>
-                )}
-              </div>
-              <button
-                disabled={!selectedSlot || booking}
-                onClick={handleBooking}
-                className={cn(
-                  "flex-shrink-0 px-6 py-3 rounded-xl font-bold text-sm transition-all w-full sm:w-auto text-center",
-                  selectedSlot && !booking
-                    ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
-                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                )}
-              >
-                {booking ? "Redirection..." : `Réserver & Payer — ${COACHING_PRICE_DISPLAY}€`}
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      )}
-
-      {/* Testimonials supprimés */}
 
       {/* ═══════════════ TRUST BADGES ═══════════════ */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
