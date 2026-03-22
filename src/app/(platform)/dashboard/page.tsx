@@ -7,6 +7,38 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { TIERS, TIER_MODULE_ACCESS } from "@/lib/constants";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
+import Link from "next/link";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from "recharts";
+
+/* ——— Admin Stats Types ——— */
+interface AdminMonthlyRevenue { month: string; revenue: number; }
+interface AdminEnrollmentsByTier { starter: number; academy: number; one_to_one: number; }
+interface AdminRecentEnrollment { id: string; userName: string; userEmail: string; tier: string; date: string; }
+interface AdminRecentActivity { type: string; userName: string; detail: string; createdAt: string; }
+interface AdminUserGrowth { month: string; count: number; }
+interface AdminStats {
+  totalStudents: number;
+  activeStudents: number;
+  avgCompletion: number;
+  avgQuizScore: number;
+  totalLessons: number;
+  completionsToday: number;
+  totalRevenue: number;
+  monthlyRevenue: AdminMonthlyRevenue[];
+  enrollmentsByTier: AdminEnrollmentsByTier;
+  recentEnrollments: AdminRecentEnrollment[];
+  recentActivity: AdminRecentActivity[];
+  userGrowth: AdminUserGrowth[];
+}
 
 interface RecentActivityItem {
   type: "lesson" | "quiz";
@@ -262,6 +294,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [showOnboardingTest, setShowOnboardingTest] = useState(false);
   const [previewTier, setPreviewTier] = useState<string | null>(null);
+  const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
+  const [adminLoading, setAdminLoading] = useState(false);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -269,6 +303,17 @@ export default function DashboardPage() {
       .then((d) => { setData(d); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
+
+  /* Fetch admin stats when user is admin */
+  useEffect(() => {
+    if (session?.user?.role === "admin") {
+      setAdminLoading(true);
+      fetch("/api/admin/stats")
+        .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .then((d) => { setAdminStats(d); setAdminLoading(false); })
+        .catch(() => setAdminLoading(false));
+    }
+  }, [session?.user?.role]);
 
   const progress = data ? Math.round((data.completedLessons / data.totalLessons) * 100) : 0;
   const firstName = session?.user?.name?.split(" ")[0] || "\u00c9l\u00e8ve";
@@ -793,6 +838,342 @@ export default function DashboardPage() {
           </div>
         </Card>
       </div>
+
+      {/* ════════════════════════════════════════════════════════════════ */}
+      {/*  ADMIN PANEL — only visible for admin, hidden during preview   */}
+      {/* ════════════════════════════════════════════════════════════════ */}
+      {isAdmin && !previewTier && (
+        <AdminDashboardSection stats={adminStats} loading={adminLoading} />
+      )}
     </motion.div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════ */
+/*  Admin Dashboard Section (light theme)                                */
+/* ══════════════════════════════════════════════════════════════════════ */
+
+const adminTierConfig: Record<string, { label: string; color: string; bg: string; bar: string }> = {
+  starter:    { label: "Starter",  color: "text-emerald-600", bg: "bg-emerald-50",  bar: "bg-emerald-500" },
+  academy:    { label: "Academy",  color: "text-blue-600",    bg: "bg-blue-50",     bar: "bg-blue-500" },
+  one_to_one: { label: "1-to-1",   color: "text-amber-600",   bg: "bg-amber-50",    bar: "bg-amber-500" },
+};
+
+function formatEuro(n: number) {
+  if (n >= 1000) return `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}k \u20ac`;
+  return `${n} \u20ac`;
+}
+
+function adminRelativeTime(dateStr: string) {
+  const now = Date.now();
+  const then = new Date(dateStr).getTime();
+  const diff = Math.max(0, now - then);
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return "\u00e0 l\u2019instant";
+  if (minutes < 60) return `il y a ${minutes}min`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `il y a ${hours}h`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `il y a ${days}j`;
+  return new Date(dateStr).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+}
+
+function AdminChartTooltip({ active, payload, label, valueSuffix }: {
+  active?: boolean; payload?: Array<{ value: number }>; label?: string; valueSuffix?: string;
+}) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-[#111] border border-gray-200 rounded-lg px-3 py-2 text-xs shadow-lg">
+      <p className="text-gray-400 mb-1">{label}</p>
+      <p className="text-white font-semibold">
+        {payload[0].value.toLocaleString("fr-FR")}{valueSuffix || ""}
+      </p>
+    </div>
+  );
+}
+
+function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; loading: boolean }) {
+  if (loading) {
+    return (
+      <div className="mt-8 space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="h-px flex-1 bg-gray-200" />
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Panel Administrateur</span>
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-28 bg-gray-100 rounded-2xl animate-pulse" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="h-72 bg-gray-100 rounded-2xl animate-pulse" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!stats) return null;
+
+  const totalTier =
+    (stats.enrollmentsByTier.starter || 0) +
+    (stats.enrollmentsByTier.academy || 0) +
+    (stats.enrollmentsByTier.one_to_one || 0);
+
+  const tierData = [
+    { key: "starter", count: stats.enrollmentsByTier.starter || 0 },
+    { key: "academy", count: stats.enrollmentsByTier.academy || 0 },
+    { key: "one_to_one", count: stats.enrollmentsByTier.one_to_one || 0 },
+  ];
+
+  return (
+    <div className="mt-8 space-y-6">
+      {/* Section Divider */}
+      <div className="flex items-center gap-3">
+        <div className="h-px flex-1 bg-gray-200" />
+        <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Panel Administrateur</span>
+        <div className="h-px flex-1 bg-gray-200" />
+      </div>
+
+      {/* ── KPI Cards ── */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Total Eleves */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Total Eleves</span>
+            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-[#111] tracking-tight">{stats.totalStudents}</p>
+          <p className="text-[11px] text-gray-400 mt-1">inscrits au total</p>
+        </div>
+
+        {/* Revenue */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Revenue</span>
+            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 7.756a4.5 4.5 0 1 0 0 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-[#111] tracking-tight">{formatEuro(stats.totalRevenue)}</p>
+          <p className="text-[11px] text-gray-400 mt-1">revenue total</p>
+        </div>
+
+        {/* Actifs 7j */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Actifs 7j</span>
+            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-[#111] tracking-tight">{stats.activeStudents}</p>
+          <p className="text-[11px] text-gray-400 mt-1">eleves actifs</p>
+        </div>
+
+        {/* Taux Completion */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Completion</span>
+            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-[#111] tracking-tight">{stats.avgCompletion}%</p>
+          <p className="text-[11px] text-gray-400 mt-1">taux moyen</p>
+        </div>
+      </div>
+
+      {/* ── Revenue Chart + Tier Breakdown ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Revenue Chart */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
+          <h3 className="text-sm font-semibold text-[#111] mb-1">Revenue Mensuel</h3>
+          <p className="text-xs text-gray-400 mb-6">Evolution sur les derniers mois</p>
+          <div className="h-56">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={stats.monthlyRevenue}>
+                <defs>
+                  <linearGradient id="adminRevenueGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#FF1744" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="#FF1744" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} tickFormatter={(v: number) => `${v >= 1000 ? `${v / 1000}k` : v}`} width={40} />
+                <Tooltip content={<AdminChartTooltip valueSuffix=" \u20ac" />} cursor={{ stroke: "#e5e7eb" }} />
+                <Area type="monotone" dataKey="revenue" stroke="#FF1744" strokeWidth={2} fill="url(#adminRevenueGradient)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Tier Breakdown */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
+          <h3 className="text-sm font-semibold text-[#111] mb-1">Repartition par Offre</h3>
+          <p className="text-xs text-gray-400 mb-6">{totalTier} inscriptions totales</p>
+          <div className="space-y-5">
+            {tierData.map(({ key, count }) => {
+              const cfg = adminTierConfig[key];
+              const pct = totalTier > 0 ? Math.round((count / totalTier) * 100) : 0;
+              return (
+                <div key={key}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${cfg.color} ${cfg.bg}`}>
+                      {cfg.label}
+                    </span>
+                    <span className="text-sm text-[#111] font-semibold">
+                      {count} <span className="text-gray-400 font-normal">({pct}%)</span>
+                    </span>
+                  </div>
+                  <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                    <div className={`h-full rounded-full transition-all duration-700 ${cfg.bar}`} style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Activity Feed + Recent Enrollments ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Activity Feed */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
+          <h3 className="text-sm font-semibold text-[#111] mb-1">Activite Recente</h3>
+          <p className="text-xs text-gray-400 mb-4">Dernieres actions des eleves</p>
+          <div className="space-y-1 max-h-[400px] overflow-y-auto pr-1">
+            {stats.recentActivity.length === 0 && (
+              <p className="text-gray-400 text-xs py-4 text-center">Aucune activite recente</p>
+            )}
+            {stats.recentActivity.slice(0, 20).map((item, i) => (
+              <div key={i} className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+                  item.type === "lesson_completion" ? "bg-emerald-50 text-emerald-500"
+                    : item.type === "quiz_submission" ? "bg-blue-50 text-blue-500"
+                    : "bg-gray-50 text-gray-400"
+                }`}>
+                  {item.type === "lesson_completion" ? (
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                    </svg>
+                  ) : item.type === "quiz_submission" ? (
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-[#111] leading-snug">
+                    <span className="font-medium">{item.userName}</span>{" "}
+                    <span className="text-gray-500">{item.detail}</span>
+                  </p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">{adminRelativeTime(item.createdAt)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Enrollments */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
+          <h3 className="text-sm font-semibold text-[#111] mb-1">Inscriptions Recentes</h3>
+          <p className="text-xs text-gray-400 mb-4">Derniers eleves inscrits</p>
+          <div className="max-h-[400px] overflow-y-auto pr-1">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-gray-400 text-[10px] uppercase tracking-wider">
+                  <th className="text-left pb-3 font-medium">Nom</th>
+                  <th className="text-left pb-3 font-medium hidden sm:table-cell">Email</th>
+                  <th className="text-left pb-3 font-medium">Offre</th>
+                  <th className="text-right pb-3 font-medium">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.recentEnrollments.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="text-gray-400 text-xs py-4 text-center">Aucune inscription recente</td>
+                  </tr>
+                )}
+                {stats.recentEnrollments.map((enrollment) => {
+                  const cfg = adminTierConfig[enrollment.tier] || adminTierConfig.starter;
+                  return (
+                    <tr key={enrollment.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                      <td className="py-3">
+                        <Link href={`/admin/students/${enrollment.id}`} className="text-[#111] hover:text-[#FF1744] transition-colors font-medium">
+                          {enrollment.userName}
+                        </Link>
+                      </td>
+                      <td className="py-3 text-gray-400 hidden sm:table-cell truncate max-w-[140px]">{enrollment.userEmail}</td>
+                      <td className="py-3">
+                        <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${cfg.color} ${cfg.bg}`}>
+                          {cfg.label}
+                        </span>
+                      </td>
+                      <td className="py-3 text-right text-gray-400 text-xs">{adminRelativeTime(enrollment.date)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Growth Chart ── */}
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
+        <h3 className="text-sm font-semibold text-[#111] mb-1">Croissance Utilisateurs</h3>
+        <p className="text-xs text-gray-400 mb-6">Nouveaux inscrits par mois</p>
+        <div className="h-56">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={stats.userGrowth}>
+              <defs>
+                <linearGradient id="adminBarGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#FF1744" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="#FF1744" stopOpacity={0.2} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} width={30} allowDecimals={false} />
+              <Tooltip content={<AdminChartTooltip valueSuffix=" inscrits" />} cursor={{ fill: "rgba(0,0,0,0.03)" }} />
+              <Bar dataKey="count" fill="url(#adminBarGradient)" radius={[4, 4, 0, 0]} maxBarSize={40} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* ── Quick Link to Full Admin ── */}
+      <div className="flex justify-center">
+        <Link
+          href="/admin/students"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:text-[#FF1744] hover:border-[#FF1744]/30 transition-all"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+          </svg>
+          Gestion complete des eleves
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+          </svg>
+        </Link>
+      </div>
+    </div>
   );
 }
