@@ -424,7 +424,7 @@ export default function LessonsPage() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-[#111] mb-2">Formation</h1>
             <p className="text-sm text-gray-400 mb-5 max-w-md">
-              Progresse {"\u00e0"} ton rythme et deviens un expert IA. Chaque semaine te rapproche de l&apos;autonomie compl{"\u00e8"}te.
+              Progresse {"\u00e0"} ton rythme et deviens un expert IA. Chaque phase te rapproche de l&apos;autonomie compl{"\u00e8"}te.
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               {[
@@ -470,7 +470,7 @@ export default function LessonsPage() {
                     <div>
                       <div className="flex items-center gap-3 mb-1">
                         <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", theme.accent)}>
-                          Semaine {week.week}
+                          Phase {week.week}
                         </span>
                         {weekAccessible ? (
                           <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full border", theme.accentBg, theme.accent, theme.border)}>
