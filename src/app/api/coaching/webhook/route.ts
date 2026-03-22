@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import { createCalendarEvent } from "@/lib/google-calendar";
 import Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -30,13 +31,32 @@ export async function POST(req: NextRequest) {
       const coachingSessionId = session.metadata?.coachingSessionId;
 
       if (coachingSessionId) {
-        await prisma.coachingSession.update({
+        const coachingData = await prisma.coachingSession.update({
           where: { id: coachingSessionId },
           data: {
             status: "confirmed",
             stripePaymentId: session.payment_intent as string,
           },
+          include: { user: { select: { name: true, email: true } } },
         });
+
+        // Create a Google Calendar event for the confirmed session
+        try {
+          const slotDate = new Date(coachingData.date);
+          const endDate = new Date(slotDate.getTime() + 60 * 60 * 1000); // +1 hour
+          const studentName = coachingData.user?.name || "Etudiant";
+          const studentEmail = coachingData.user?.email || undefined;
+
+          await createCalendarEvent(
+            `Coaching OpexIA - ${studentName}`,
+            slotDate.toISOString(),
+            endDate.toISOString(),
+            studentEmail
+          );
+        } catch (calendarError) {
+          // Log but don't fail the webhook — payment is already confirmed
+          console.error("[Webhook] Failed to create calendar event:", calendarError);
+        }
       }
       break;
     }
