@@ -50,7 +50,6 @@ export async function getCalendarEvents(startDate: Date, endDate: Date) {
     const events = (response.data.items || []).filter(
       (event) => event.status !== "cancelled"
     );
-    console.log(`[Google Calendar] Found ${events.length} events`);
     return events;
   } catch (error) {
     console.error("[Google Calendar] Error fetching events:", error);
