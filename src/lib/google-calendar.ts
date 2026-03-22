@@ -11,10 +11,15 @@ function getCalendarClient() {
     return null;
   }
 
+  // Handle both literal \n (from env) and real newlines
+  const formattedKey = privateKey.includes("\\n")
+    ? privateKey.replace(/\\n/g, "\n")
+    : privateKey;
+
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email: email,
-      private_key: privateKey.replace(/\\n/g, "\n"),
+      private_key: formattedKey,
     },
     scopes: ["https://www.googleapis.com/auth/calendar"],
   });
@@ -44,9 +49,11 @@ export async function getCalendarEvents(startDate: Date, endDate: Date) {
     });
 
     // Filter out cancelled events
-    return (response.data.items || []).filter(
+    const events = (response.data.items || []).filter(
       (event) => event.status !== "cancelled"
     );
+    console.log(`[Google Calendar] Found ${events.length} events`);
+    return events;
   } catch (error) {
     console.error("[Google Calendar] Error fetching events:", error);
     return [];
