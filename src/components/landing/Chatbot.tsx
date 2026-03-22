@@ -22,7 +22,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["temps", "dur\u00e9e", "combien de temps", "semaine", "heure", "parall\u00e8le", "travail"],
     answer:
-      "Le programme dure 4 semaines. Tu peux le suivre en parall\u00e8le de ton travail, \u00e0 raison de 1-2h par jour. Certains \u00e9l\u00e8ves ont d\u00e9croch\u00e9 leur premier client en 10 jours.",
+      "Le programme comprend 6 phases compl\u00e8tes. Tu peux le suivre en parall\u00e8le de ton travail, \u00e0 raison de 1-2h par jour. Certains \u00e9l\u00e8ves ont d\u00e9croch\u00e9 leur premier client en 10 jours.",
   },
   {
     keywords: ["r\u00e9sultat", "10k", "gagner", "revenu", "argent", "facturer", "client"],
@@ -47,7 +47,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["contenu", "programme", "module", "le\u00e7on", "apprendre"],
     answer:
-      "74 le\u00e7ons r\u00e9parties en 4 semaines : Fondations IA, Construction d'infrastructures, Packaging de ton offre, et Acquisition clients. Plus des templates, un CRM, et un g\u00e9n\u00e9rateur de projets.",
+      "130+ le\u00e7ons r\u00e9parties en 6 phases : Fondations IA, Construction d'infrastructures, Packaging de ton offre, Acquisition clients, et bien plus. Plus des templates, un CRM, et un g\u00e9n\u00e9rateur de projets.",
   },
 ];
 

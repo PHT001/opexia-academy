@@ -20,13 +20,13 @@ export default function AdminLessonsPage() {
   useEffect(() => {
     fetch("/api/lessons")
       .then((r) => r.json())
-      .then((modules: Array<{ title: string; order: number; lessons: Array<{ id: string; title: string; slug: string; order: number }> }>) => {
-        const flat = modules.flatMap((m) =>
+      .then((data: { modules: Array<{ title: string; order: number; lessons: Array<{ id: string; title: string; slug: string; order: number; hasQuiz: boolean }> }> }) => {
+        const flat = data.modules.flatMap((m) =>
           m.lessons.map((l) => ({
             ...l,
             moduleTitle: m.title,
             moduleOrder: m.order,
-            hasQuiz: true,
+            hasQuiz: l.hasQuiz,
           }))
         );
         setLessons(flat);

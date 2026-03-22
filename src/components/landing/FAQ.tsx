@@ -10,11 +10,11 @@ const faqs = [
   },
   {
     q: "Combien de temps faut-il pour voir des r\u00e9sultats ?",
-    a: "La formation dure 4 semaines. La plupart de nos \u00e9l\u00e8ves signent leur premier client entre la semaine 2 et la semaine 4. En moyenne, 14 jours suffisent pour d\u00e9crocher un premier contrat gr\u00e2ce aux scripts et templates fournis.",
+    a: "La formation comprend 6 phases compl\u00e8tes, \u00e0 suivre \u00e0 ton rythme. La plupart de nos \u00e9l\u00e8ves signent leur premier client rapidement. En moyenne, 14 jours suffisent pour d\u00e9crocher un premier contrat gr\u00e2ce aux scripts et templates fournis.",
   },
   {
     q: "C\u2019est quoi la diff\u00e9rence entre Starter, Academy et One-to-One ?",
-    a: "Le Starter \u00e0 47\u20ac te donne les guides PDF et templates pour comprendre l\u2019IA. L\u2019Academy \u00e0 397\u20ac (ou 3x139\u20ac), c\u2019est la formation compl\u00e8te avec 100+ le\u00e7ons, la plateforme interactive, l\u2019assistant IA, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 3 997\u20ac (ou 4x999\u20ac), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
+    a: "Le Starter \u00e0 47\u20ac te donne les guides PDF et templates pour comprendre l\u2019IA. L\u2019Academy \u00e0 397\u20ac (ou 3x139\u20ac), c\u2019est la formation compl\u00e8te avec 130+ le\u00e7ons, la plateforme interactive, l\u2019assistant IA, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 3 997\u20ac (ou 4x999\u20ac), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
   },
   {
     q: "Est-ce que je peux payer en plusieurs fois ?",

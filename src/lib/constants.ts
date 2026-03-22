@@ -122,7 +122,7 @@ export const TIERS = [
     period: "one-shot",
     description: "Pour les curieux qui veulent comprendre avant de se lancer",
     features: [
-      { text: "Module 1 complet (7 leçons)", included: true },
+      { text: "Module 1 complet (8 leçons)", included: true },
       { text: "Checklist de démarrage", included: true },
       { text: "Accès au Discord communautaire", included: true },
       { text: "Formation complète (22 modules)", included: false },
@@ -158,7 +158,7 @@ export const TIERS = [
     features: [
       { text: "Tout ce qui est dans Academy", included: true },
       { text: "Accompagnement personnalisé", included: true },
-      { text: "4 sessions en visio (1h)", included: true },
+      { text: "8 sessions en visio (1h)", included: true },
       { text: "Review de projets personnalisée", included: true },
       { text: "Accès prioritaire au support", included: true },
       { text: "Réseau privé d'entrepreneurs IA", included: true },

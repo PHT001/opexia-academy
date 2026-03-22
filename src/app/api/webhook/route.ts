@@ -51,13 +51,25 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      await prisma.enrollment.create({
-        data: {
-          userId,
-          tier,
-          status: "active",
-        },
+      // Avoid duplicate enrollments — check if one already exists for this user+tier
+      const existing = await prisma.enrollment.findFirst({
+        where: { userId, tier },
       });
+
+      if (existing) {
+        await prisma.enrollment.update({
+          where: { id: existing.id },
+          data: { status: "active" },
+        });
+      } else {
+        await prisma.enrollment.create({
+          data: {
+            userId,
+            tier,
+            status: "active",
+          },
+        });
+      }
 
       await prisma.user.update({
         where: { id: userId },

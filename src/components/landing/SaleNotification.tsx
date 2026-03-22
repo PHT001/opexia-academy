@@ -38,7 +38,7 @@ export default function SaleNotification() {
             </div>
             <div>
               <p className="text-white text-xs font-semibold">
-                <span className="text-[#FF1744]">34</span> nouveaux membres ce mois
+                Des nouveaux membres rejoignent chaque jour
               </p>
             </div>
             <button

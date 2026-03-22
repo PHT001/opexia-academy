@@ -50,7 +50,7 @@ const plans: Plan[] = [
     slug: "academy",
     price: "397",
     oldPrice: "697",
-    period: "ou 3x 139\u20ac sans frais",
+    period: "ou paiement en 3x disponible",
     description: "La formation compl\u00e8te pour lancer ton agence IA",
     popular: true,
     features: [

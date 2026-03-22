@@ -28,18 +28,6 @@ function ClaudeLogo() {
   );
 }
 
-function OpenClawLogo() {
-  return (
-    <svg className="h-7 w-7" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-      <path d="M60 10 C30 10 15 35 15 55 C15 75 30 95 45 100 L45 110 L55 110 L55 100 C55 100 60 102 65 100 L65 110 L75 110 L75 100 C90 95 105 75 105 55 C105 35 90 10 60 10Z" fill="#E53935" />
-      <path d="M20 45 C5 40 0 50 5 60 C10 70 20 65 25 55 C28 48 25 45 20 45Z" fill="#E53935" />
-      <path d="M100 45 C115 40 120 50 115 60 C110 70 100 65 95 55 C92 48 95 45 100 45Z" fill="#E53935" />
-      <circle cx="45" cy="45" r="6" fill="white" />
-      <circle cx="75" cy="45" r="6" fill="white" />
-    </svg>
-  );
-}
-
 function N8nLogo() {
   return (
     <svg className="h-7 w-7" viewBox="0 0 24 24" fill="#EA4B71" xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +48,7 @@ const tools = [
   { name: "ChatGPT", Logo: ChatGPTLogo },
   { name: "Gemini", Logo: GeminiLogo },
   { name: "Claude", Logo: ClaudeLogo },
-  { name: "OpenClaw", Logo: OpenClawLogo },
+
   { name: "n8n", Logo: N8nLogo },
   { name: "Perplexity", Logo: PerplexityLogo },
 ];
