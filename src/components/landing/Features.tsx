@@ -93,8 +93,8 @@ function ServiceCard({ service, i }: { service: typeof services[0]; i: number })
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.4, delay: i * 0.08 }}
-      className="group relative flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto rounded-2xl border border-gray-100 bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-      style={{ borderColor: "rgb(243 244 246)" }}
+      className="group relative flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto rounded-2xl border p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 snap-center"
+      style={{ borderColor: service.accent + "25", backgroundColor: service.accentLight }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = service.accent + "40";
       }}
@@ -134,7 +134,7 @@ function GhostCard() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      className="flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-6 flex flex-col items-center justify-center text-center"
+      className="flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-6 flex flex-col items-center justify-center text-center snap-center"
     >
       <div className="h-12 w-12 rounded-full bg-[#FF1744]/10 flex items-center justify-center mb-4">
         <svg className="h-6 w-6 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -239,7 +239,7 @@ export default function Features() {
       {/* Mobile: horizontal scroll */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth px-6 pb-4 pt-2 -mt-1 lg:hidden"
+        className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-6 pb-4 pt-2 -mt-1 lg:hidden"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
