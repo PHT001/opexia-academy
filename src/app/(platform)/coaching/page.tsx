@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useMemo, useState } from "react";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { COACHING_PRICE_DISPLAY } from "@/lib/constants";
@@ -320,6 +321,7 @@ export default function CoachingPage() {
 }
 
 function CoachingContent() {
+  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const [slots, setSlots] = useState<Slot[]>([]);
   const [sessions, setSessions] = useState<CoachingSession[]>([]);
@@ -390,6 +392,124 @@ function CoachingContent() {
         <div className="h-48 bg-gray-200 rounded-2xl" />
         <div className="h-64 bg-gray-100 rounded-xl" />
         <div className="h-48 bg-gray-100 rounded-xl" />
+      </div>
+    );
+  }
+
+  /* ─── Admin View ─────────────────────────────────── */
+  if ((session?.user as any)?.role === "admin") {
+    const allSessions = sessions.filter((s) => s.status === "confirmed");
+    const upcomingSessions = allSessions.filter((s) => new Date(s.date) >= new Date());
+    const pastAdminSessions = allSessions.filter((s) => new Date(s.date) < new Date());
+
+    return (
+      <div className="w-full space-y-8">
+        {/* Header */}
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
+              <IconCalendar className="text-white" />
+            </div>
+            Coaching — Planning
+          </h1>
+          <p className="text-sm text-gray-500 mt-1 ml-[52px]">
+            Vue administrateur : calendrier et sessions de coaching.
+          </p>
+        </div>
+
+        {/* Google Calendar Embed */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+            <IconCalendar className="text-[#FF1744]" />
+            <h2 className="text-sm font-bold text-gray-900">Calendrier Google</h2>
+          </div>
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
+            style={{ border: 0 }}
+            width="100%"
+            height="600"
+            title="Google Calendar OpexIA"
+          />
+        </div>
+
+        {/* Upcoming Sessions */}
+        <div>
+          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <IconCalendar className="text-emerald-500" />
+            Sessions à venir
+            {upcomingSessions.length > 0 && (
+              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                {upcomingSessions.length}
+              </span>
+            )}
+          </h2>
+          {upcomingSessions.length === 0 ? (
+            <div className="bg-white rounded-xl border border-dashed border-gray-200 p-8 text-center">
+              <p className="text-sm text-gray-400">Aucune session à venir pour le moment.</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {upcomingSessions.map((s) => {
+                const d = new Date(s.date);
+                return (
+                  <motion.div
+                    key={s.id}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
+                      <span className="text-[9px] font-bold text-emerald-500 uppercase">
+                        {d.toLocaleDateString("fr-FR", { weekday: "short" })}
+                      </span>
+                      <span className="text-lg font-black text-emerald-700 leading-none">{d.getDate()}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-800">
+                        {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                      </p>
+                      <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                        <IconClock className="w-3 h-3" />
+                        {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2.5 py-1 rounded-full">
+                      Confirmée
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Past Sessions */}
+        {pastAdminSessions.length > 0 && (
+          <div>
+            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Sessions passées</h3>
+            <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+              {pastAdminSessions.map((s) => {
+                const d = new Date(s.date);
+                return (
+                  <div key={s.id} className="flex items-center gap-4 px-4 py-3">
+                    <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                      <IconVideo className="text-gray-400 w-3.5 h-3.5" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-700">Session de coaching</p>
+                      <p className="text-[10px] text-gray-400">
+                        {d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                      Terminée
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
