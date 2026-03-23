@@ -185,6 +185,136 @@ export function weeklyRecapEmail(
  * Day 3 email — social proof / success story.
  * Sent ~72h after purchase.
  */
+/**
+ * Nurture Day 1 — sent ~24h after registration to users who haven't purchased.
+ */
+export function nurtureDayOne(name: string): { subject: string; html: string } {
+  const firstName = name.split(" ")[0];
+
+  return {
+    subject: "Tu as fait le premier pas, ne t'arrête pas là",
+    html: layout(`
+      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Hey ${firstName} !</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Tu as cr&eacute;&eacute; ton compte sur OpexIA Academy &mdash; f&eacute;licitations, c&rsquo;est le premier pas.
+        Mais ton parcours n&rsquo;a pas encore vraiment commenc&eacute;.
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
+          Ce qui t&rsquo;attend dans la formation :
+        </p>
+        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
+          <li>Ma&icirc;triser l&rsquo;excellence op&eacute;rationnelle et l&rsquo;IA appliqu&eacute;e</li>
+          <li>Des modules progressifs, du d&eacute;butant &agrave; l&rsquo;expert</li>
+          <li>Des exercices pratiques pour appliquer imm&eacute;diatement</li>
+        </ul>
+      </div>
+
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Le pack <strong>Starter</strong> d&eacute;marre &agrave; seulement <strong>47&euro;</strong> et inclut
+        le Module 1 complet pour poser les fondations. C&rsquo;est le meilleur moyen de commencer.
+      </p>
+
+      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        Voir les offres
+      </a>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Une question avant de te lancer ? R&eacute;ponds directement &agrave; cet email.
+      </p>
+    `),
+  };
+}
+
+/**
+ * Nurture Day 3 — sent ~72h after registration to users who haven't purchased.
+ * Social proof angle.
+ */
+export function nurtureDayThree(name: string): { subject: string; html: string } {
+  const firstName = name.split(" ")[0];
+
+  return {
+    subject: "Ce que nos élèves ont accompli en 3 jours",
+    html: layout(`
+      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, regarde ce qui est possible</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Il y a 3 jours, tu as cr&eacute;&eacute; ton compte. Pendant ce temps, d&rsquo;autres apprenants
+        ont d&eacute;j&agrave; commenc&eacute; &agrave; transformer leur quotidien professionnel.
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #6B7280; font-size: 14px; line-height: 1.6; font-style: italic; margin: 0 0 12px 0;">
+          &laquo; J&rsquo;ai d&eacute;croch&eacute; mon premier client en consulting OpEx trois jours apr&egrave;s
+          avoir termin&eacute; le Module 3. La formation m&rsquo;a donn&eacute; la m&eacute;thodologie et la
+          confiance pour me lancer. &raquo;
+        </p>
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 13px; margin: 0;">
+          &mdash; Karim L., Consultant ind&eacute;pendant
+        </p>
+      </div>
+
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Karim &eacute;tait exactement comme toi il y a quelques semaines. La diff&eacute;rence ?
+        Il a d&eacute;cid&eacute; de passer &agrave; l&rsquo;action.
+      </p>
+
+      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        Rejoindre la formation
+      </a>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Des questions sur le contenu ? R&eacute;ponds &agrave; cet email, on est l&agrave; pour t&rsquo;aider.
+      </p>
+    `),
+  };
+}
+
+/**
+ * Nurture Day 7 — sent ~168h after registration to users who haven't purchased.
+ * Urgency / last chance angle.
+ */
+export function nurtureDaySeven(name: string): { subject: string; html: string } {
+  const firstName = name.split(" ")[0];
+
+  return {
+    subject: "Dernière chance — ta place t'attend",
+    html: layout(`
+      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, ta place t&rsquo;attend encore</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        &Ccedil;a fait une semaine que tu as cr&eacute;&eacute; ton compte. On ne veut pas te voir
+        passer &agrave; c&ocirc;t&eacute; de cette opportunit&eacute;.
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
+          Ce que tu obtiens avec la formation :
+        </p>
+        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
+          <li><strong>22 modules</strong> structur&eacute;s du d&eacute;butant &agrave; l&rsquo;expert</li>
+          <li><strong>130+ le&ccedil;ons</strong> avec exercices pratiques</li>
+          <li>Acc&egrave;s &agrave; la communaut&eacute; <strong>Discord</strong> priv&eacute;e</li>
+          <li>Sessions de <strong>coaching</strong> en direct</li>
+        </ul>
+      </div>
+
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Chaque jour qui passe est un jour de retard sur ceux qui se forment d&eacute;j&agrave;.
+        Ne laisse pas la procrastination d&eacute;cider &agrave; ta place.
+      </p>
+
+      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        Choisir mon offre maintenant
+      </a>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Tu re&ccedil;ois cet email car tu as cr&eacute;&eacute; un compte sur OpexIA Academy.
+        R&eacute;ponds &agrave; cet email si tu as la moindre question.
+      </p>
+    `),
+  };
+}
+
 export function dayThreeEmail(name: string): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
 
