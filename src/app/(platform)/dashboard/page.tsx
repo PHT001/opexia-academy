@@ -389,12 +389,6 @@ export default function DashboardPage() {
       {/* ════ ADMIN-ONLY VIEW: show admin panel directly ════ */}
       {isAdmin && !previewTier && (
         <>
-          <button
-            onClick={() => setShowOnboardingTest(true)}
-            className="text-xs text-gray-400 hover:text-[#FF1744] transition-colors border border-gray-200 rounded-lg px-3 py-1.5 hover:border-[#FF1744]/30"
-          >
-            Tester l&apos;onboarding
-          </button>
           <AdminDashboardSection stats={adminStats} loading={adminLoading} />
         </>
       )}
@@ -883,14 +877,15 @@ export default function DashboardPage() {
   );
 }
 
+
 /* ══════════════════════════════════════════════════════════════════════ */
-/*  Admin Dashboard Section (light theme)                                */
+/*  Admin Dashboard Section (premium light theme)                        */
 /* ══════════════════════════════════════════════════════════════════════ */
 
-const adminTierConfig: Record<string, { label: string; color: string; bg: string; bar: string }> = {
-  starter:    { label: "Starter",  color: "text-emerald-600", bg: "bg-emerald-50",  bar: "bg-emerald-500" },
-  academy:    { label: "Academy",  color: "text-blue-600",    bg: "bg-blue-50",     bar: "bg-blue-500" },
-  one_to_one: { label: "1-to-1",   color: "text-amber-600",   bg: "bg-amber-50",    bar: "bg-amber-500" },
+const adminTierConfig: Record<string, { label: string; color: string; bg: string; bar: string; border: string; dot: string }> = {
+  starter:    { label: "Starter",  color: "text-emerald-700", bg: "bg-emerald-50",  bar: "bg-emerald-500", border: "border-emerald-200", dot: "bg-emerald-500" },
+  academy:    { label: "Academy",  color: "text-blue-700",    bg: "bg-blue-50",     bar: "bg-blue-500",    border: "border-blue-200",    dot: "bg-blue-500" },
+  one_to_one: { label: "1-to-1",   color: "text-amber-700",   bg: "bg-amber-50",    bar: "bg-amber-500",   border: "border-amber-200",   dot: "bg-amber-500" },
 };
 
 function formatEuro(n: number) {
@@ -917,29 +912,40 @@ function AdminChartTooltip({ active, payload, label, valueSuffix }: {
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[#111] border border-gray-200 rounded-lg px-3 py-2 text-xs shadow-lg">
-      <p className="text-gray-400 mb-1">{label}</p>
-      <p className="text-white font-semibold">
+    <div className="bg-[#111] rounded-xl px-4 py-2.5 text-xs shadow-xl border border-white/10">
+      <p className="text-gray-400 mb-0.5">{label}</p>
+      <p className="text-white font-bold tabular-nums">
         {payload[0].value.toLocaleString("fr-FR")}{valueSuffix || ""}
       </p>
     </div>
   );
 }
 
+function AdminAvatarCircle({ name, size = "md" }: { name: string; size?: "sm" | "md" }) {
+  const letter = (name || "?").charAt(0).toUpperCase();
+  const colors = ["bg-[#FF1744]", "bg-blue-500", "bg-emerald-500", "bg-amber-500", "bg-purple-500", "bg-pink-500", "bg-cyan-500"];
+  const colorIndex = name ? name.charCodeAt(0) % colors.length : 0;
+  const sizeClass = size === "sm" ? "w-7 h-7 text-[10px]" : "w-8 h-8 text-xs";
+  return (
+    <div className={cn(sizeClass, "rounded-full flex items-center justify-center text-white font-bold shrink-0 shadow-sm", colors[colorIndex])}>
+      {letter}
+    </div>
+  );
+}
+
+const adminFadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, } } };
+const adminStagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
+
 function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; loading: boolean }) {
   const [adminTab, setAdminTab] = useState<"overview" | "students">("overview");
 
   if (loading) {
     return (
-      <div id="admin-panel" className="mt-8 space-y-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="h-px flex-1 bg-gray-200" />
-          <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Panel Administrateur</span>
-          <div className="h-px flex-1 bg-gray-200" />
-        </div>
+      <motion.div id="admin-panel" className="space-y-6" initial="hidden" animate="visible" variants={adminStagger}>
+        <div className="h-44 rounded-2xl bg-gradient-to-r from-gray-100 to-gray-50 animate-pulse" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-28 bg-gray-100 rounded-2xl animate-pulse" />
+            <div key={i} className="h-32 bg-gray-100 rounded-2xl animate-pulse" />
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -947,7 +953,7 @@ function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; l
             <div key={i} className="h-72 bg-gray-100 rounded-2xl animate-pulse" />
           ))}
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -964,53 +970,114 @@ function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; l
     { key: "one_to_one", count: stats.enrollmentsByTier.one_to_one || 0 },
   ];
 
-  return (
-    <div id="admin-panel" className="mt-8 space-y-6">
-      {/* Section Divider */}
-      <div className="flex items-center gap-3">
-        <div className="h-px flex-1 bg-gray-200" />
-        <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Panel Administrateur</span>
-        <div className="h-px flex-1 bg-gray-200" />
-      </div>
+  const todayStr = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
-      {/* ── Tab Switcher ── */}
-      <div className="flex items-center gap-1 bg-gray-100 rounded-xl p-1 w-fit">
+  return (
+    <motion.div id="admin-panel" className="space-y-6" initial="hidden" animate="visible" variants={adminStagger}>
+      {/* Dark Hero Banner */}
+      <motion.div
+        className="relative overflow-hidden rounded-2xl p-6 sm:p-8 shadow-lg"
+        style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #16162A 60%, #0F0F1A 100%)" }}
+        variants={adminFadeUp}
+      >
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF1744]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-48 h-48 bg-[#FF1744]/5 rounded-full translate-y-1/2 blur-2xl" />
+        <div className="absolute top-4 right-8 w-20 h-20 bg-white/[0.02] rounded-full blur-xl" />
+
+        <div className="relative z-10">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-[#FF1744] font-semibold mb-2">Administration</p>
+              <motion.h1
+                className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-1"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                {getGreeting()}, Admin
+              </motion.h1>
+              <motion.p
+                className="text-white/40 text-sm capitalize"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {todayStr}
+              </motion.p>
+            </div>
+
+            <motion.div
+              className="flex items-center gap-4 sm:gap-6"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white tabular-nums">{stats.totalStudents}</p>
+                <p className="text-[10px] text-white/30 uppercase tracking-wider font-medium">Eleves</p>
+              </div>
+              <div className="w-px h-8 bg-white/10" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-[#FF1744] tabular-nums">{formatEuro(stats.totalRevenue)}</p>
+                <p className="text-[10px] text-white/30 uppercase tracking-wider font-medium">Revenue</p>
+              </div>
+              <div className="w-px h-8 bg-white/10" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white tabular-nums">{stats.activeStudents}</p>
+                <p className="text-[10px] text-white/30 uppercase tracking-wider font-medium">Actifs</p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Tab Switcher */}
+      <motion.div variants={adminFadeUp} className="flex items-center gap-1.5 bg-gray-100/80 rounded-xl p-1 w-fit backdrop-blur-sm">
         <button
           onClick={() => setAdminTab("overview")}
           className={cn(
-            "px-4 py-2 rounded-lg text-sm font-medium transition-all",
+            "px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
             adminTab === "overview"
-              ? "bg-white text-[#111] shadow-sm"
-              : "text-gray-500 hover:text-[#111]"
+              ? "bg-white text-[#111] shadow-sm ring-1 ring-black/5"
+              : "text-gray-500 hover:text-[#111] hover:bg-white/50"
           )}
         >
-          Vue d&apos;ensemble
+          <span className="flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+            </svg>
+            Vue d&apos;ensemble
+          </span>
         </button>
         <button
           onClick={() => setAdminTab("students")}
           className={cn(
-            "px-4 py-2 rounded-lg text-sm font-medium transition-all",
+            "px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
             adminTab === "students"
-              ? "bg-white text-[#111] shadow-sm"
-              : "text-gray-500 hover:text-[#111]"
+              ? "bg-white text-[#111] shadow-sm ring-1 ring-black/5"
+              : "text-gray-500 hover:text-[#111] hover:bg-white/50"
           )}
         >
-          Gestion Eleves
+          <span className="flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+            </svg>
+            Gestion Eleves
+          </span>
         </button>
-      </div>
+      </motion.div>
 
-      {/* ── Tab Content ── */}
       {adminTab === "overview" ? (
         <AdminOverviewTab stats={stats} totalTier={totalTier} tierData={tierData} />
       ) : (
         <AdminStudentsTab />
       )}
-    </div>
+    </motion.div>
   );
 }
 
 /* ══════════════════════════════════════════════════════════════════════ */
-/*  Admin Overview Tab (original KPI/charts view)                        */
+/*  Admin Overview Tab (premium KPIs/charts view)                        */
 /* ══════════════════════════════════════════════════════════════════════ */
 
 function AdminOverviewTab({ stats, totalTier, tierData }: {
@@ -1019,234 +1086,245 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
   tierData: Array<{ key: string; count: number }>;
 }) {
   return (
-    <div className="space-y-6">
-      {/* ── KPI Cards ── */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {/* Total Eleves */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Total Eleves</span>
-            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-              </svg>
+    <motion.div className="space-y-6" initial="hidden" animate="visible" variants={adminStagger}>
+      {/* KPI Cards */}
+      <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-4" variants={adminStagger}>
+        {[
+          {
+            label: "Total Eleves", value: stats.totalStudents, suffix: "", sub: "inscrits au total",
+            borderColor: "border-l-blue-500", iconBg: "bg-blue-50", iconColor: "text-blue-500",
+            icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>),
+          },
+          {
+            label: "Revenue Total", value: stats.totalRevenue, suffix: " \u20ac", sub: "revenue cumul\u00e9",
+            borderColor: "border-l-[#FF1744]", iconBg: "bg-red-50", iconColor: "text-[#FF1744]",
+            icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M14.25 7.756a4.5 4.5 0 100 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>),
+          },
+          {
+            label: "Actifs 7j", value: stats.activeStudents, suffix: "", sub: "\u00e9l\u00e8ves actifs",
+            borderColor: "border-l-emerald-500", iconBg: "bg-emerald-50", iconColor: "text-emerald-500",
+            icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>),
+          },
+          {
+            label: "Completion", value: stats.avgCompletion, suffix: "%", sub: "taux moyen",
+            borderColor: "border-l-purple-500", iconBg: "bg-purple-50", iconColor: "text-purple-500",
+            icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" /><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" /></svg>),
+          },
+        ].map((kpi) => (
+          <motion.div
+            key={kpi.label}
+            variants={adminFadeUp}
+            className={cn("bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 p-5 group border-l-4", kpi.borderColor)}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">{kpi.label}</span>
+              <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300", kpi.iconBg, kpi.iconColor)}>
+                {kpi.icon}
+              </div>
             </div>
-          </div>
-          <p className="text-2xl font-bold text-[#111] tracking-tight">{stats.totalStudents}</p>
-          <p className="text-[11px] text-gray-400 mt-1">inscrits au total</p>
-        </div>
+            <p className="text-3xl font-bold text-[#111] tracking-tight tabular-nums">
+              {kpi.suffix === " \u20ac" ? formatEuro(kpi.value) : <><AnimatedNumber value={kpi.value} className="" />{kpi.suffix}</>}
+            </p>
+            <p className="text-[11px] text-gray-400 mt-1.5">{kpi.sub}</p>
+          </motion.div>
+        ))}
+      </motion.div>
 
-        {/* Revenue */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Revenue</span>
-            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 7.756a4.5 4.5 0 1 0 0 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-            </div>
+      {/* Revenue Chart + Tier Breakdown */}
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={adminStagger}>
+        <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-sm font-semibold text-[#111]">Revenue Mensuel</h3>
+            <span className="text-[10px] font-medium text-[#FF1744] bg-red-50 px-2.5 py-1 rounded-lg">{formatEuro(stats.totalRevenue)}</span>
           </div>
-          <p className="text-2xl font-bold text-[#111] tracking-tight">{formatEuro(stats.totalRevenue)}</p>
-          <p className="text-[11px] text-gray-400 mt-1">revenue total</p>
-        </div>
-
-        {/* Actifs 7j */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Actifs 7j</span>
-            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
-              </svg>
-            </div>
-          </div>
-          <p className="text-2xl font-bold text-[#111] tracking-tight">{stats.activeStudents}</p>
-          <p className="text-[11px] text-gray-400 mt-1">eleves actifs</p>
-        </div>
-
-        {/* Taux Completion */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 group hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Completion</span>
-            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-              <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-              </svg>
-            </div>
-          </div>
-          <p className="text-2xl font-bold text-[#111] tracking-tight">{stats.avgCompletion}%</p>
-          <p className="text-[11px] text-gray-400 mt-1">taux moyen</p>
-        </div>
-      </div>
-
-      {/* ── Revenue Chart + Tier Breakdown ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Revenue Chart */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
-          <h3 className="text-sm font-semibold text-[#111] mb-1">Revenue Mensuel</h3>
           <p className="text-xs text-gray-400 mb-6">Evolution sur les derniers mois</p>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={stats.monthlyRevenue}>
                 <defs>
                   <linearGradient id="adminRevenueGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#FF1744" stopOpacity={0.15} />
+                    <stop offset="0%" stopColor="#FF1744" stopOpacity={0.2} />
+                    <stop offset="60%" stopColor="#FF1744" stopOpacity={0.05} />
                     <stop offset="100%" stopColor="#FF1744" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} tickFormatter={(v: number) => `${v >= 1000 ? `${v / 1000}k` : v}`} width={40} />
-                <Tooltip content={<AdminChartTooltip valueSuffix=" \u20ac" />} cursor={{ stroke: "#e5e7eb" }} />
-                <Area type="monotone" dataKey="revenue" stroke="#FF1744" strokeWidth={2} fill="url(#adminRevenueGradient)" />
+                <Tooltip content={<AdminChartTooltip valueSuffix=" \u20ac" />} cursor={{ stroke: "#FF1744", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.3 }} />
+                <Area type="monotone" dataKey="revenue" stroke="#FF1744" strokeWidth={2.5} fill="url(#adminRevenueGradient)" dot={false} activeDot={{ r: 5, fill: "#FF1744", stroke: "#fff", strokeWidth: 2 }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Tier Breakdown */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
-          <h3 className="text-sm font-semibold text-[#111] mb-1">Repartition par Offre</h3>
-          <p className="text-xs text-gray-400 mb-6">{totalTier} inscriptions totales</p>
+        <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-sm font-semibold text-[#111]">R&eacute;partition par Offre</h3>
+            <span className="text-[10px] font-medium text-gray-500 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100">{totalTier} inscrits</span>
+          </div>
+          <p className="text-xs text-gray-400 mb-6">Distribution des formules</p>
           <div className="space-y-5">
             {tierData.map(({ key, count }) => {
               const cfg = adminTierConfig[key];
               const pct = totalTier > 0 ? Math.round((count / totalTier) * 100) : 0;
               return (
                 <div key={key}>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${cfg.color} ${cfg.bg}`}>
+                  <div className="flex items-center justify-between mb-2.5">
+                    <span className={cn("inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border", cfg.color, cfg.bg, cfg.border)}>
+                      <span className={cn("w-2 h-2 rounded-full", cfg.dot)} />
                       {cfg.label}
                     </span>
-                    <span className="text-sm text-[#111] font-semibold">
-                      {count} <span className="text-gray-400 font-normal">({pct}%)</span>
+                    <span className="text-sm text-[#111] font-bold tabular-nums">
+                      {count} <span className="text-gray-400 font-normal text-xs">({pct}%)</span>
                     </span>
                   </div>
-                  <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                    <div className={`h-full rounded-full transition-all duration-700 ${cfg.bar}`} style={{ width: `${pct}%` }} />
+                  <div className="h-2.5 rounded-full bg-gray-100 overflow-hidden">
+                    <motion.div className={cn("h-full rounded-full", cfg.bar)} initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} />
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {/* ── Activity Feed + Recent Enrollments ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Activity Feed */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
-          <h3 className="text-sm font-semibold text-[#111] mb-1">Activite Recente</h3>
-          <p className="text-xs text-gray-400 mb-4">Dernieres actions des eleves</p>
-          <div className="space-y-1 max-h-[400px] overflow-y-auto pr-1">
+      {/* Activity Feed + Recent Enrollments */}
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={adminStagger}>
+        <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-sm font-semibold text-[#111]">Activit&eacute; R&eacute;cente</h3>
+            <span className="text-[10px] font-medium text-gray-500 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100">{stats.recentActivity.length} actions</span>
+          </div>
+          <p className="text-xs text-gray-400 mb-4">Derni&egrave;res actions des &eacute;l&egrave;ves</p>
+          <div className="space-y-0.5 max-h-[420px] overflow-y-auto pr-1 -mr-1">
             {stats.recentActivity.length === 0 && (
-              <p className="text-gray-400 text-xs py-4 text-center">Aucune activite recente</p>
+              <p className="text-gray-400 text-xs py-8 text-center">Aucune activit&eacute; r&eacute;cente</p>
             )}
             {stats.recentActivity.slice(0, 20).map((item, i) => (
-              <div key={i} className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+              <motion.div
+                key={i}
+                className="flex items-start gap-3 py-3 border-b border-gray-50 last:border-0 rounded-lg hover:bg-gray-50/50 px-2 -mx-2 transition-colors"
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.03 * i, duration: 0.3 }}
+              >
+                <AdminAvatarCircle name={item.userName} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-[#111] leading-snug">
+                    <span className="font-semibold">{item.userName}</span>
+                  </p>
+                  <p className="text-xs text-gray-500 mt-0.5">{item.detail}</p>
+                  <p className="text-[10px] text-gray-300 mt-1 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {adminRelativeTime(item.createdAt)}
+                  </p>
+                </div>
+                <div className={cn(
+                  "w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5",
                   item.type === "lesson_completion" ? "bg-emerald-50 text-emerald-500"
                     : item.type === "quiz_submission" ? "bg-blue-50 text-blue-500"
                     : "bg-gray-50 text-gray-400"
-                }`}>
+                )}>
                   {item.type === "lesson_completion" ? (
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                    </svg>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                   ) : item.type === "quiz_submission" ? (
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                    </svg>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>
                   ) : (
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-[#111] leading-snug">
-                    <span className="font-medium">{item.userName}</span>{" "}
-                    <span className="text-gray-500">{item.detail}</span>
-                  </p>
-                  <p className="text-[10px] text-gray-400 mt-0.5">{adminRelativeTime(item.createdAt)}</p>
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Recent Enrollments */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
-          <h3 className="text-sm font-semibold text-[#111] mb-1">Inscriptions Recentes</h3>
-          <p className="text-xs text-gray-400 mb-4">Derniers eleves inscrits</p>
-          <div className="max-h-[400px] overflow-y-auto pr-1">
+        <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-sm font-semibold text-[#111]">Inscriptions R&eacute;centes</h3>
+            <span className="text-[10px] font-medium text-gray-500 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100">{stats.recentEnrollments.length} derniers</span>
+          </div>
+          <p className="text-xs text-gray-400 mb-4">Derniers &eacute;l&egrave;ves inscrits</p>
+          <div className="max-h-[420px] overflow-y-auto pr-1 -mr-1">
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-gray-400 text-[10px] uppercase tracking-wider">
-                  <th className="text-left pb-3 font-medium">Nom</th>
-                  <th className="text-left pb-3 font-medium hidden sm:table-cell">Email</th>
-                  <th className="text-left pb-3 font-medium">Offre</th>
-                  <th className="text-right pb-3 font-medium">Date</th>
+                  <th className="text-left pb-3 font-semibold">Nom</th>
+                  <th className="text-left pb-3 font-semibold hidden sm:table-cell">Email</th>
+                  <th className="text-left pb-3 font-semibold">Offre</th>
+                  <th className="text-right pb-3 font-semibold">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {stats.recentEnrollments.length === 0 && (
-                  <tr>
-                    <td colSpan={4} className="text-gray-400 text-xs py-4 text-center">Aucune inscription recente</td>
-                  </tr>
+                  <tr><td colSpan={4} className="text-gray-400 text-xs py-8 text-center">Aucune inscription r&eacute;cente</td></tr>
                 )}
-                {stats.recentEnrollments.map((enrollment) => {
+                {stats.recentEnrollments.map((enrollment, i) => {
                   const cfg = adminTierConfig[enrollment.tier] || adminTierConfig.starter;
                   return (
-                    <tr key={enrollment.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
-                      <td className="py-3">
-                        <Link href={`/admin/students/${enrollment.id}`} className="text-[#111] hover:text-[#FF1744] transition-colors font-medium">
-                          {enrollment.userName}
-                        </Link>
+                    <motion.tr
+                      key={enrollment.id}
+                      className="border-b border-gray-50 last:border-0 hover:bg-gray-50/80 transition-colors group"
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.03 * i, duration: 0.3 }}
+                    >
+                      <td className="py-3.5">
+                        <div className="flex items-center gap-2.5">
+                          <AdminAvatarCircle name={enrollment.userName} size="sm" />
+                          <Link href={`/admin/students/${enrollment.id}`} className="text-[#111] hover:text-[#FF1744] transition-colors font-medium group-hover:text-[#FF1744]">{enrollment.userName}</Link>
+                        </div>
                       </td>
-                      <td className="py-3 text-gray-400 hidden sm:table-cell truncate max-w-[140px]">{enrollment.userEmail}</td>
-                      <td className="py-3">
-                        <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${cfg.color} ${cfg.bg}`}>
+                      <td className="py-3.5 text-gray-400 hidden sm:table-cell truncate max-w-[140px] text-xs">{enrollment.userEmail}</td>
+                      <td className="py-3.5">
+                        <span className={cn("inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border", cfg.color, cfg.bg, cfg.border)}>
+                          <span className={cn("w-1.5 h-1.5 rounded-full", cfg.dot)} />
                           {cfg.label}
                         </span>
                       </td>
-                      <td className="py-3 text-right text-gray-400 text-xs">{adminRelativeTime(enrollment.date)}</td>
-                    </tr>
+                      <td className="py-3.5 text-right text-gray-400 text-xs tabular-nums">{adminRelativeTime(enrollment.date)}</td>
+                    </motion.tr>
                   );
                 })}
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {/* ── Growth Chart ── */}
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow">
-        <h3 className="text-sm font-semibold text-[#111] mb-1">Croissance Utilisateurs</h3>
+      {/* Growth Chart */}
+      <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="text-sm font-semibold text-[#111]">Croissance Utilisateurs</h3>
+          <span className="text-[10px] font-medium text-[#FF1744] bg-red-50 px-2.5 py-1 rounded-lg">
+            {stats.userGrowth.length > 0 ? `+${stats.userGrowth[stats.userGrowth.length - 1]?.count || 0} ce mois` : ""}
+          </span>
+        </div>
         <p className="text-xs text-gray-400 mb-6">Nouveaux inscrits par mois</p>
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={stats.userGrowth}>
               <defs>
                 <linearGradient id="adminBarGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FF1744" stopOpacity={0.8} />
-                  <stop offset="100%" stopColor="#FF1744" stopOpacity={0.2} />
+                  <stop offset="0%" stopColor="#FF1744" stopOpacity={0.9} />
+                  <stop offset="100%" stopColor="#FF1744" stopOpacity={0.3} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} width={30} allowDecimals={false} />
-              <Tooltip content={<AdminChartTooltip valueSuffix=" inscrits" />} cursor={{ fill: "rgba(0,0,0,0.03)" }} />
-              <Bar dataKey="count" fill="url(#adminBarGradient)" radius={[4, 4, 0, 0]} maxBarSize={40} />
+              <Tooltip content={<AdminChartTooltip valueSuffix=" inscrits" />} cursor={{ fill: "rgba(255,23,68,0.04)" }} />
+              <Bar dataKey="count" fill="url(#adminBarGradient)" radius={[6, 6, 0, 0]} maxBarSize={44} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
 /* ══════════════════════════════════════════════════════════════════════ */
-/*  Admin Students Tab (inline student management)                       */
+/*  Admin Students Tab (premium inline student management)               */
 /* ══════════════════════════════════════════════════════════════════════ */
 
 function AdminStudentsTab() {
@@ -1325,9 +1403,7 @@ function AdminStudentsTab() {
       .then((r) => r.json())
       .then(() => {
         setSavingTier(false);
-        // Refresh list to reflect tier change
         fetchStudents(search, tierFilter, page);
-        // Update detail
         if (studentDetail) {
           setStudentDetail({
             ...studentDetail,
@@ -1341,26 +1417,26 @@ function AdminStudentsTab() {
   };
 
   return (
-    <div className="space-y-4">
+    <motion.div className="space-y-4" initial="hidden" animate="visible" variants={adminStagger}>
       {/* Search + Filter Bar */}
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+      <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
             <input
               type="text"
               placeholder="Rechercher par nom ou email..."
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all bg-gray-50/50 hover:bg-white"
             />
           </div>
           <select
             value={tierFilter}
             onChange={(e) => { setTierFilter(e.target.value); setPage(1); }}
-            className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-white focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+            className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-gray-50/50 hover:bg-white focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all cursor-pointer"
           >
             <option value="">Toutes les offres</option>
             <option value="starter">Starter</option>
@@ -1369,128 +1445,138 @@ function AdminStudentsTab() {
           </select>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <p className="text-xs text-gray-400">{total} eleve{total !== 1 ? "s" : ""} trouves</p>
+          <p className="text-xs text-gray-400 font-medium tabular-nums">{total} &eacute;l&egrave;ve{total !== 1 ? "s" : ""} trouv&eacute;{total !== 1 ? "s" : ""}</p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Students Table */}
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         {studentsLoading ? (
           <div className="p-6 space-y-3">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-12 bg-gray-100 rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-gray-50 rounded-xl animate-pulse" />
             ))}
           </div>
         ) : students.length === 0 ? (
-          <div className="p-12 text-center">
-            <svg className="w-10 h-10 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-            </svg>
-            <p className="text-sm text-gray-400">Aucun eleve trouve</p>
+          <div className="p-16 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+              </svg>
+            </div>
+            <p className="text-sm text-gray-400 font-medium">Aucun &eacute;l&egrave;ve trouv&eacute;</p>
+            <p className="text-xs text-gray-300 mt-1">Essayez de modifier vos filtres</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-gray-400 text-[10px] uppercase tracking-wider border-b border-gray-100">
-                  <th className="text-left py-3 px-4 font-medium">Nom</th>
-                  <th className="text-left py-3 px-4 font-medium hidden md:table-cell">Email</th>
-                  <th className="text-left py-3 px-4 font-medium">Offre</th>
-                  <th className="text-left py-3 px-4 font-medium">Progression</th>
-                  <th className="text-right py-3 px-4 font-medium">XP</th>
-                  <th className="text-right py-3 px-4 font-medium hidden sm:table-cell">Derniere activite</th>
-                  <th className="w-8 py-3 px-4"></th>
+                <tr className="text-gray-400 text-[10px] uppercase tracking-wider border-b border-gray-100 bg-gray-50/50">
+                  <th className="text-left py-3.5 px-5 font-semibold">Nom</th>
+                  <th className="text-left py-3.5 px-4 font-semibold hidden md:table-cell">Email</th>
+                  <th className="text-left py-3.5 px-4 font-semibold">Offre</th>
+                  <th className="text-left py-3.5 px-4 font-semibold">Progression</th>
+                  <th className="text-right py-3.5 px-4 font-semibold">XP</th>
+                  <th className="text-right py-3.5 px-4 font-semibold hidden sm:table-cell">Derni&egrave;re activit&eacute;</th>
+                  <th className="w-10 py-3.5 px-4"></th>
                 </tr>
               </thead>
               <tbody>
-                {students.map((student) => {
+                {students.map((student, i) => {
                   const isExpanded = expandedId === student.id;
                   const cfg = adminTierConfig[student.tier || "starter"] || adminTierConfig.starter;
                   const pct = student.totalLessons > 0 ? Math.round((student.completedLessons / student.totalLessons) * 100) : 0;
                   return (
                     <React.Fragment key={student.id}>
-                      <tr
+                      <motion.tr
                         onClick={() => handleExpand(student.id)}
                         className={cn(
-                          "border-b border-gray-100 cursor-pointer transition-colors",
-                          isExpanded ? "bg-gray-50" : "hover:bg-gray-50/50"
+                          "border-b border-gray-50 cursor-pointer transition-all duration-200",
+                          isExpanded ? "bg-gray-50" : "hover:bg-gray-50/60"
                         )}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.02 * i, duration: 0.3 }}
                       >
-                        <td className="py-3 px-4">
-                          <span className="text-[#111] font-medium">{student.name || "Sans nom"}</span>
+                        <td className="py-3.5 px-5">
+                          <div className="flex items-center gap-2.5">
+                            <AdminAvatarCircle name={student.name || "?"} size="sm" />
+                            <span className="text-[#111] font-medium">{student.name || "Sans nom"}</span>
+                          </div>
                         </td>
-                        <td className="py-3 px-4 text-gray-400 hidden md:table-cell truncate max-w-[180px]">{student.email}</td>
-                        <td className="py-3 px-4">
+                        <td className="py-3.5 px-4 text-gray-400 hidden md:table-cell truncate max-w-[180px] text-xs">{student.email}</td>
+                        <td className="py-3.5 px-4">
                           {student.tier ? (
-                            <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${cfg.color} ${cfg.bg}`}>
+                            <span className={cn("inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border", cfg.color, cfg.bg, cfg.border)}>
+                              <span className={cn("w-1.5 h-1.5 rounded-full", cfg.dot)} />
                               {cfg.label}
                             </span>
                           ) : (
                             <span className="text-gray-300 text-xs">--</span>
                           )}
                         </td>
-                        <td className="py-3 px-4">
-                          <div className="flex items-center gap-2">
-                            <div className="w-20 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                              <div className="h-full rounded-full bg-[#FF1744] transition-all duration-500" style={{ width: `${pct}%` }} />
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-20 h-2 rounded-full bg-gray-100 overflow-hidden">
+                              <div className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] transition-all duration-500" style={{ width: `${pct}%` }} />
                             </div>
-                            <span className="text-xs text-gray-500 font-medium">{pct}%</span>
+                            <span className="text-xs text-gray-500 font-medium tabular-nums">{pct}%</span>
                           </div>
                         </td>
-                        <td className="py-3 px-4 text-right">
-                          <span className="text-[#111] font-semibold text-xs">{student.totalXP.toLocaleString("fr-FR")}</span>
+                        <td className="py-3.5 px-4 text-right">
+                          <span className="text-[#111] font-bold text-xs tabular-nums">{student.totalXP.toLocaleString("fr-FR")}</span>
                         </td>
-                        <td className="py-3 px-4 text-right text-gray-400 text-xs hidden sm:table-cell">
+                        <td className="py-3.5 px-4 text-right text-gray-400 text-xs hidden sm:table-cell tabular-nums">
                           {student.lastActive ? adminRelativeTime(student.lastActive) : "--"}
                         </td>
-                        <td className="py-3 px-4 text-center">
-                          <svg
-                            className={cn("w-4 h-4 text-gray-400 transition-transform duration-200", isExpanded && "rotate-180")}
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                          </svg>
+                        <td className="py-3.5 px-4 text-center">
+                          <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-200", isExpanded ? "bg-[#FF1744]/10" : "bg-gray-50")}>
+                            <svg
+                              className={cn("w-3.5 h-3.5 transition-all duration-200", isExpanded ? "rotate-180 text-[#FF1744]" : "text-gray-400")}
+                              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                          </div>
                         </td>
-                      </tr>
-                      {/* Expanded Detail Panel */}
+                      </motion.tr>
                       {isExpanded && (
                         <tr>
                           <td colSpan={7} className="p-0">
-                            <div className="bg-gray-50 border-b border-gray-200 px-6 py-5">
+                            <motion.div
+                              className="bg-gradient-to-b from-gray-50 to-white border-b border-gray-100 px-6 py-6"
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              transition={{ duration: 0.3 }}
+                            >
                               {detailLoading ? (
                                 <div className="space-y-3">
-                                  {[...Array(3)].map((_, i) => (
-                                    <div key={i} className="h-8 bg-gray-100 rounded-lg animate-pulse" />
+                                  {[...Array(3)].map((_, idx) => (
+                                    <div key={idx} className="h-10 bg-gray-100 rounded-xl animate-pulse" />
                                   ))}
                                 </div>
                               ) : studentDetail ? (
                                 <div className="space-y-5">
-                                  {/* Top row: Discord + Streak + Tier changer */}
                                   <div className="flex flex-wrap gap-4 items-start">
-                                    {/* Discord */}
-                                    <div className="bg-white rounded-xl border border-gray-200 p-3 min-w-[180px]">
-                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-1">Discord</p>
+                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 min-w-[180px]">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Discord</p>
                                       <p className="text-sm text-[#111] font-medium">
-                                        {studentDetail.discordUsername || <span className="text-gray-300">Non renseigne</span>}
+                                        {studentDetail.discordUsername || <span className="text-gray-300 italic">Non renseign&eacute;</span>}
                                       </p>
                                     </div>
-
-                                    {/* Streak */}
-                                    <div className="bg-white rounded-xl border border-gray-200 p-3 min-w-[140px]">
-                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-1">Streak</p>
-                                      <p className="text-sm text-[#111] font-medium">
+                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 min-w-[140px]">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Streak</p>
+                                      <p className="text-sm text-[#111] font-medium tabular-nums">
                                         {studentDetail.streaks.length} jour{studentDetail.streaks.length !== 1 ? "s" : ""}
                                       </p>
                                     </div>
-
-                                    {/* Tier Changer */}
-                                    <div className="bg-white rounded-xl border border-gray-200 p-3 flex items-end gap-2">
+                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-end gap-3">
                                       <div>
-                                        <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-1">Offre</p>
+                                        <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Offre</p>
                                         <select
                                           value={editTier}
                                           onChange={(e) => setEditTier(e.target.value)}
-                                          className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-[#111] bg-white focus:outline-none focus:border-[#FF1744]/40 transition-colors"
+                                          className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/10 transition-all cursor-pointer"
                                         >
                                           <option value="starter">Starter</option>
                                           <option value="academy">Academy</option>
@@ -1501,9 +1587,9 @@ function AdminStudentsTab() {
                                         onClick={(e) => { e.stopPropagation(); handleSaveTier(); }}
                                         disabled={savingTier || editTier === (studentDetail.enrollment?.tier || "starter")}
                                         className={cn(
-                                          "px-3 py-1.5 rounded-lg text-xs font-medium transition-all",
+                                          "px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200",
                                           editTier !== (studentDetail.enrollment?.tier || "starter")
-                                            ? "bg-[#FF1744] text-white hover:bg-[#E01440]"
+                                            ? "bg-[#FF1744] text-white hover:bg-[#E01440] shadow-sm hover:shadow-md"
                                             : "bg-gray-100 text-gray-400 cursor-not-allowed"
                                         )}
                                       >
@@ -1512,21 +1598,20 @@ function AdminStudentsTab() {
                                     </div>
                                   </div>
 
-                                  {/* Module Progress */}
                                   {studentDetail.moduleProgress.length > 0 && (
-                                    <div className="bg-white rounded-xl border border-gray-200 p-4">
-                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-3">Progression par module</p>
-                                      <div className="space-y-3">
+                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-4">Progression par module</p>
+                                      <div className="space-y-3.5">
                                         {studentDetail.moduleProgress.map((mod) => {
                                           const modPct = mod.totalLessons > 0 ? Math.round((mod.completedLessons / mod.totalLessons) * 100) : 0;
                                           return (
                                             <div key={mod.moduleId}>
-                                              <div className="flex items-center justify-between mb-1">
+                                              <div className="flex items-center justify-between mb-1.5">
                                                 <span className="text-xs text-[#111] font-medium">{mod.moduleTitle}</span>
-                                                <span className="text-[10px] text-gray-400">{mod.completedLessons}/{mod.totalLessons} lecons</span>
+                                                <span className="text-[10px] text-gray-400 tabular-nums">{mod.completedLessons}/{mod.totalLessons} le&ccedil;ons</span>
                                               </div>
-                                              <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                                                <div className="h-full rounded-full bg-[#FF1744] transition-all duration-500" style={{ width: `${modPct}%` }} />
+                                              <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                                                <div className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] transition-all duration-500" style={{ width: `${modPct}%` }} />
                                               </div>
                                             </div>
                                           );
@@ -1535,26 +1620,17 @@ function AdminStudentsTab() {
                                     </div>
                                   )}
 
-                                  {/* Quiz Scores */}
                                   {studentDetail.quizHistory.length > 0 && (
-                                    <div className="bg-white rounded-xl border border-gray-200 p-4">
-                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-3">Scores des quiz</p>
+                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-4">Scores des quiz</p>
                                       <div className="space-y-2 max-h-[200px] overflow-y-auto">
                                         {studentDetail.quizHistory.map((q) => (
-                                          <div key={q.id} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
-                                            <span className="text-xs text-[#111]">{q.lessonTitle}</span>
-                                            <div className="flex items-center gap-2">
-                                              <span className={cn(
-                                                "text-xs font-semibold",
-                                                q.passed ? "text-emerald-600" : "text-red-500"
-                                              )}>
-                                                {q.score}%
-                                              </span>
-                                              <span className={cn(
-                                                "inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold",
-                                                q.passed ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"
-                                              )}>
-                                                {q.passed ? "Reussi" : "Echoue"}
+                                          <div key={q.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0 rounded-lg hover:bg-gray-50/50 px-2 -mx-2 transition-colors">
+                                            <span className="text-xs text-[#111] font-medium">{q.lessonTitle}</span>
+                                            <div className="flex items-center gap-2.5">
+                                              <span className={cn("text-xs font-bold tabular-nums", q.passed ? "text-emerald-600" : "text-red-500")}>{q.score}%</span>
+                                              <span className={cn("inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-semibold border", q.passed ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-red-50 text-red-600 border-red-200")}>
+                                                {q.passed ? "R\u00e9ussi" : "\u00c9chou\u00e9"}
                                               </span>
                                             </div>
                                           </div>
@@ -1564,9 +1640,9 @@ function AdminStudentsTab() {
                                   )}
                                 </div>
                               ) : (
-                                <p className="text-sm text-gray-400 text-center py-4">Impossible de charger les details</p>
+                                <p className="text-sm text-gray-400 text-center py-6">Impossible de charger les d&eacute;tails</p>
                               )}
-                            </div>
+                            </motion.div>
                           </td>
                         </tr>
                       )}
@@ -1578,29 +1654,28 @@ function AdminStudentsTab() {
           </div>
         )}
 
-        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100">
+          <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 bg-gray-50/30">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
-              Precedent
+              Pr&eacute;c&eacute;dent
             </button>
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-gray-400 font-medium tabular-nums">
               Page {page} sur {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               Suivant
             </button>
           </div>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
