@@ -329,9 +329,24 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showOnboardingTest, setShowOnboardingTest] = useState(false);
-  const [previewTier, setPreviewTier] = useState<string | null>(null);
+  const [previewTier, setPreviewTier] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("admin-preview-tier") || null;
+    }
+    return null;
+  });
   const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
   const [adminLoading, setAdminLoading] = useState(false);
+
+  // Listen for preview tier changes from sidebar
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const tier = (e as CustomEvent).detail;
+      setPreviewTier(tier);
+    };
+    window.addEventListener("preview-tier-change", handler);
+    return () => window.removeEventListener("preview-tier-change", handler);
+  }, []);
 
   useEffect(() => {
     fetch("/api/progress")
