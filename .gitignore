@@ -41,3 +41,4 @@ yarn-error.log*
 next-env.d.ts
 .env*.local
 prisma/data/_truncate.py
+images/video hero.mov
