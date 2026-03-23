@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -6,15 +6,9 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
-          <a href="#" className="flex items-center">
-            <Image
-              src="/images/logo-opexia.png"
-              alt="OpexIA"
-              width={100}
-              height={32}
-              className="h-7 w-auto"
-            />
-          </a>
+          <Link href="/" className="flex items-center">
+            <span className="text-xl font-bold text-[#111]">Opex<span className="text-[#FF1744]">IA</span></span>
+          </Link>
 
           {/* Links */}
           <div className="flex items-center gap-6 text-sm text-[#6B7280]">
