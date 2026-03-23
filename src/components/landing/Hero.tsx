@@ -9,17 +9,42 @@ export default function Hero() {
   const [muted, setMuted] = useState(true);
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(true);
+  const [showControls, setShowControls] = useState(true);
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
   const [duration, setDuration] = useState("0:00");
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+  const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
+
+  const scheduleHideControls = useCallback(() => {
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    setShowControls(true);
+    hideTimerRef.current = setTimeout(() => setShowControls(false), 2500);
+  }, []);
+
+  const handleVideoClick = useCallback(() => {
+    if (!started) return;
+    if (showControls) {
+      // Toggle play/pause on tap
+      if (videoRef.current) {
+        if (videoRef.current.paused) {
+          videoRef.current.play();
+          setPlaying(true);
+        } else {
+          videoRef.current.pause();
+          setPlaying(false);
+        }
+      }
+    }
+    scheduleHideControls();
+  }, [started, showControls, scheduleHideControls]);
 
   const startVideo = useCallback(() => {
     if (videoRef.current) {
@@ -28,8 +53,9 @@ export default function Hero() {
       videoRef.current.play();
       setMuted(false);
       setStarted(true);
+      scheduleHideControls();
     }
-  }, []);
+  }, [scheduleHideControls]);
 
   const togglePlay = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -150,7 +176,7 @@ export default function Hero() {
           >
             <div className="absolute -inset-4 bg-[#FF1744]/15 rounded-3xl blur-2xl pointer-events-none" />
             <div className="absolute -inset-8 bg-[#FF1744]/5 rounded-[2rem] blur-3xl pointer-events-none" />
-            <div ref={videoContainerRef} className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 border border-gray-200/50 group">
+            <div ref={videoContainerRef} className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 border border-gray-200/50 cursor-pointer" onClick={handleVideoClick}>
               <video
                 ref={videoRef}
                 src="/videos/hero.mp4"
@@ -177,7 +203,7 @@ export default function Hero() {
               )}
               {/* Controls overlay */}
               {started && (
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 pt-8">
+              <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 pt-8 transition-opacity duration-500 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
                 {/* Progress bar */}
                 <div className="w-full h-1 bg-white/20 rounded-full mb-2 cursor-pointer" onClick={(e) => {
                   if (videoRef.current) {
