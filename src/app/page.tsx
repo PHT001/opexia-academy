@@ -1,7 +1,6 @@
 import Navbar from "@/components/landing/Navbar";
 
 import Hero from "@/components/landing/Hero";
-import VideoBlock from "@/components/landing/VideoBlock";
 import LogosBar from "@/components/landing/LogosBar";
 import PainSection from "@/components/landing/PainSection";
 import UrgenceIA from "@/components/landing/UrgenceIA";
@@ -25,7 +24,6 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
-      <VideoBlock />
       <LogosBar />
       <PainSection />
       <UrgenceIA />

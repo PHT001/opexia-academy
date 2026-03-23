@@ -54,8 +54,6 @@ const tools = [
 ];
 
 export default function LogosBar() {
-  const doubled = [...tools, ...tools];
-
   return (
     <section className="bg-white py-10 border-y border-gray-100 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -65,19 +63,19 @@ export default function LogosBar() {
           viewport={{ once: true }}
           className="text-center text-sm font-medium text-gray-400 mb-8 uppercase tracking-widest"
         >
-          Les outils que tu vas maîtriser
+          Les outils que tu vas ma&icirc;triser
         </motion.p>
       </div>
 
-      {/* Marquee logos */}
+      {/* Seamless marquee */}
       <div className="relative">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-        <div className="flex animate-marquee-right md:[animation-duration:20s] [animation-duration:12s] items-center">
-          {doubled.map((tool, i) => (
+        <div className="flex w-max animate-marquee-right [animation-duration:25s]">
+          {[...tools, ...tools, ...tools, ...tools].map((tool, i) => (
             <div
               key={`${tool.name}-${i}`}
-              className="flex-shrink-0 mx-4 lg:mx-8 flex items-center gap-3 bg-gray-50 rounded-xl px-6 py-3.5 border border-gray-200 hover:border-[#007AFF]/30 transition-colors"
+              className="flex-shrink-0 mx-4 flex items-center gap-3 bg-gray-50 rounded-xl px-6 py-3.5 border border-gray-200"
             >
               <tool.Logo />
               <span className="text-sm font-semibold text-gray-800 whitespace-nowrap">
@@ -87,6 +85,7 @@ export default function LogosBar() {
           ))}
         </div>
       </div>
+
     </section>
   );
 }

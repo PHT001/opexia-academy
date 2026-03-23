@@ -1,10 +1,108 @@
 "use client";
 
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import NextImage from "next/image";
 
 export default function Hero() {
+  const [muted, setMuted] = useState(true);
+  const [started, setStarted] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState("0:00");
+  const [duration, setDuration] = useState("0:00");
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s.toString().padStart(2, "0")}`;
+  };
+
+  const startVideo = useCallback(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+      setMuted(false);
+      setStarted(true);
+    }
+  }, []);
+
+  const togglePlay = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setPlaying(false);
+      }
+    }
+  }, []);
+
+  const toggleMute = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      const newMuted = !videoRef.current.muted;
+      videoRef.current.muted = newMuted;
+      setMuted(newMuted);
+    }
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const onTimeUpdate = () => {
+      if (video.duration) {
+        setProgress((video.currentTime / video.duration) * 100);
+        setCurrentTime(formatTime(video.currentTime));
+      }
+    };
+
+    const onLoadedMetadata = () => {
+      setDuration(formatTime(video.duration));
+    };
+
+    video.addEventListener("timeupdate", onTimeUpdate);
+    video.addEventListener("loadedmetadata", onLoadedMetadata);
+    return () => {
+      video.removeEventListener("timeupdate", onTimeUpdate);
+      video.removeEventListener("loadedmetadata", onLoadedMetadata);
+    };
+  }, []);
+
+  // Auto pause/play when scrolling in/out of view
+  useEffect(() => {
+    const container = videoContainerRef.current;
+    const video = videoRef.current;
+    if (!container || !video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (started) {
+            video.play();
+            setPlaying(true);
+          }
+        } else {
+          if (!video.paused) {
+            video.pause();
+            setPlaying(false);
+          }
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [started]);
+
   return (
     <section className="relative flex items-center pt-28 pb-4 overflow-hidden">
       {/* Subtle background gradient */}
@@ -42,6 +140,94 @@ export default function Hero() {
           >
             Ma&icirc;trise l&apos;IA, vends des services d&apos;automatisation aux PME, et vis de ton activit&eacute; — m&ecirc;me en partant de z&eacute;ro.
           </motion.p>
+
+          {/* Hero Video */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mb-10 relative max-w-3xl mx-auto"
+          >
+            <div className="absolute -inset-4 bg-[#FF1744]/15 rounded-3xl blur-2xl pointer-events-none" />
+            <div className="absolute -inset-8 bg-[#FF1744]/5 rounded-[2rem] blur-3xl pointer-events-none" />
+            <div ref={videoContainerRef} className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 border border-gray-200/50 group">
+              <video
+                ref={videoRef}
+                src="/videos/hero.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full aspect-video object-cover"
+              />
+              {/* Play overlay — shown before user clicks */}
+              {!started && (
+                <div
+                  onClick={startVideo}
+                  className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] cursor-pointer transition-all hover:bg-black/30"
+                >
+                  <div className="h-20 w-20 rounded-full bg-[#FF1744] flex items-center justify-center shadow-[0_0_30px_8px_rgba(255,23,68,0.4)] transition-transform hover:scale-110">
+                    <svg className="h-9 w-9 text-white ml-1" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                  <p className="mt-4 text-white font-semibold text-sm">Regarder la pr&eacute;sentation</p>
+                  <p className="text-white/60 text-xs mt-1">Clique pour lancer avec le son</p>
+                </div>
+              )}
+              {/* Controls overlay */}
+              {started && (
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 pt-8">
+                {/* Progress bar */}
+                <div className="w-full h-1 bg-white/20 rounded-full mb-2 cursor-pointer" onClick={(e) => {
+                  if (videoRef.current) {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width;
+                    videoRef.current.currentTime = x * videoRef.current.duration;
+                  }
+                }}>
+                  <div className="h-full bg-[#FF1744] rounded-full transition-all" style={{ width: `${progress}%` }} />
+                </div>
+                {/* Controls */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={togglePlay}
+                      className="flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm h-7 w-7 text-white transition-all hover:bg-white/20"
+                    >
+                      {playing ? (
+                        <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                        </svg>
+                      ) : (
+                        <svg className="h-3.5 w-3.5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      )}
+                    </button>
+                  <button
+                    onClick={toggleMute}
+                    className="flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-sm px-3 py-1 text-white text-xs font-medium transition-all hover:bg-white/20"
+                  >
+                    {muted ? (
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                      </svg>
+                    ) : (
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                      </svg>
+                    )}
+                    {muted ? "Activer le son" : "Couper le son"}
+                  </button>
+                  </div>
+                  <span className="text-white/70 text-xs font-mono">{currentTime} / {duration}</span>
+                </div>
+              </div>
+              )}
+            </div>
+          </motion.div>
 
           {/* Social proof — avatars + rating */}
           <motion.div
@@ -144,6 +330,7 @@ export default function Hero() {
               Acc&egrave;s imm&eacute;diat
             </span>
           </motion.div>
+
         </div>
 
         {/* Founders Badge — 3D Floating Liquid Glass */}

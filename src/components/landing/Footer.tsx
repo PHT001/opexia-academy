@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <span className="text-xl font-bold text-[#111]">Opex<span className="text-[#FF1744]">IA</span></span>
+            <span className="text-xl font-bold text-[#111]">Opex<span className="bg-gradient-to-r from-[#FF8A80] to-[#FF1744] bg-clip-text text-transparent">IA</span></span>
           </Link>
 
           {/* Links */}

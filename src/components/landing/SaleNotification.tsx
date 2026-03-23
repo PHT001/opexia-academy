@@ -3,11 +3,28 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+function getNotifMessage(): string {
+  const now = new Date();
+  const hour = now.getHours();
+  // Number based on day of month (changes daily, feels real)
+  const base = now.getDate() + now.getMonth() * 3;
+  const count = 3 + (base % 5); // 3-7
+
+  if (hour < 12) {
+    return `${count} personnes se sont inscrites ce matin`;
+  } else if (hour < 18) {
+    return `${count} inscriptions aujourd'hui`;
+  } else {
+    return `${count} nouveaux membres aujourd'hui`;
+  }
+}
+
 export default function SaleNotification() {
   const [visible, setVisible] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // Show after 20s of browsing
+    setMessage(getNotifMessage());
     const timer = setTimeout(() => setVisible(true), 20000);
     return () => clearTimeout(timer);
   }, []);
@@ -32,7 +49,7 @@ export default function SaleNotification() {
             </div>
             <div>
               <p className="text-white text-xs font-semibold">
-                +20 membres ont rejoint récemment
+                {message}
               </p>
             </div>
             <button
