@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -38,6 +38,38 @@ interface AdminStats {
   recentEnrollments: AdminRecentEnrollment[];
   recentActivity: AdminRecentActivity[];
   userGrowth: AdminUserGrowth[];
+}
+
+/* ——— Admin Students Types ——— */
+interface AdminStudentListItem {
+  id: string;
+  name: string | null;
+  email: string | null;
+  createdAt: string;
+  completedLessons: number;
+  totalLessons: number;
+  tier: string | null;
+  lastActive: string | null;
+  discordUsername: string | null;
+  totalXP: number;
+}
+interface AdminStudentDetail {
+  id: string;
+  name: string | null;
+  email: string | null;
+  discordUsername: string | null;
+  enrollment: { id: string; tier: string; status: string; createdAt: string } | null;
+  totalXP: number;
+  moduleProgress: Array<{
+    moduleId: string;
+    moduleTitle: string;
+    moduleOrder: number;
+    totalLessons: number;
+    completedLessons: number;
+    lessons: Array<{ lessonId: string; title: string; status: string; xpEarned: number; completedAt: string | null }>;
+  }>;
+  quizHistory: Array<{ id: string; lessonTitle: string; lessonSlug: string; score: number; passed: boolean; createdAt: string }>;
+  streaks: Array<{ id: string; date: string }>;
 }
 
 interface RecentActivityItem {
@@ -893,9 +925,11 @@ function AdminChartTooltip({ active, payload, label, valueSuffix }: {
 }
 
 function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; loading: boolean }) {
+  const [adminTab, setAdminTab] = useState<"overview" | "students">("overview");
+
   if (loading) {
     return (
-      <div className="mt-8 space-y-6">
+      <div id="admin-panel" className="mt-8 space-y-6">
         <div className="flex items-center gap-3 mb-2">
           <div className="h-px flex-1 bg-gray-200" />
           <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Panel Administrateur</span>
@@ -929,7 +963,7 @@ function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; l
   ];
 
   return (
-    <div className="mt-8 space-y-6">
+    <div id="admin-panel" className="mt-8 space-y-6">
       {/* Section Divider */}
       <div className="flex items-center gap-3">
         <div className="h-px flex-1 bg-gray-200" />
@@ -937,6 +971,53 @@ function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; l
         <div className="h-px flex-1 bg-gray-200" />
       </div>
 
+      {/* ── Tab Switcher ── */}
+      <div className="flex items-center gap-1 bg-gray-100 rounded-xl p-1 w-fit">
+        <button
+          onClick={() => setAdminTab("overview")}
+          className={cn(
+            "px-4 py-2 rounded-lg text-sm font-medium transition-all",
+            adminTab === "overview"
+              ? "bg-white text-[#111] shadow-sm"
+              : "text-gray-500 hover:text-[#111]"
+          )}
+        >
+          Vue d&apos;ensemble
+        </button>
+        <button
+          onClick={() => setAdminTab("students")}
+          className={cn(
+            "px-4 py-2 rounded-lg text-sm font-medium transition-all",
+            adminTab === "students"
+              ? "bg-white text-[#111] shadow-sm"
+              : "text-gray-500 hover:text-[#111]"
+          )}
+        >
+          Gestion Eleves
+        </button>
+      </div>
+
+      {/* ── Tab Content ── */}
+      {adminTab === "overview" ? (
+        <AdminOverviewTab stats={stats} totalTier={totalTier} tierData={tierData} />
+      ) : (
+        <AdminStudentsTab />
+      )}
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════ */
+/*  Admin Overview Tab (original KPI/charts view)                        */
+/* ══════════════════════════════════════════════════════════════════════ */
+
+function AdminOverviewTab({ stats, totalTier, tierData }: {
+  stats: AdminStats;
+  totalTier: number;
+  tierData: Array<{ key: string; count: number }>;
+}) {
+  return (
+    <div className="space-y-6">
       {/* ── KPI Cards ── */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {/* Total Eleves */}
@@ -1158,21 +1239,365 @@ function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; l
           </ResponsiveContainer>
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* ── Quick Link to Full Admin ── */}
-      <div className="flex justify-center">
-        <Link
-          href="/admin/students"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:text-[#FF1744] hover:border-[#FF1744]/30 transition-all"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-          </svg>
-          Gestion complete des eleves
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-          </svg>
-        </Link>
+/* ══════════════════════════════════════════════════════════════════════ */
+/*  Admin Students Tab (inline student management)                       */
+/* ══════════════════════════════════════════════════════════════════════ */
+
+function AdminStudentsTab() {
+  const [students, setStudents] = useState<AdminStudentListItem[]>([]);
+  const [studentsLoading, setStudentsLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [tierFilter, setTierFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [studentDetail, setStudentDetail] = useState<AdminStudentDetail | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [editTier, setEditTier] = useState<string>("");
+  const [savingTier, setSavingTier] = useState(false);
+  const searchTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const fetchStudents = useCallback((s: string, t: string, p: number) => {
+    setStudentsLoading(true);
+    const params = new URLSearchParams();
+    if (s) params.set("search", s);
+    if (t) params.set("tier", t);
+    params.set("page", String(p));
+    params.set("limit", "15");
+    fetch(`/api/admin/students?${params.toString()}`)
+      .then((r) => r.json())
+      .then((d) => {
+        setStudents(d.students || []);
+        setTotalPages(d.totalPages || 1);
+        setTotal(d.total || 0);
+        setStudentsLoading(false);
+      })
+      .catch(() => setStudentsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetchStudents(search, tierFilter, page);
+  }, [tierFilter, page, fetchStudents]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    if (searchTimeout.current) clearTimeout(searchTimeout.current);
+    searchTimeout.current = setTimeout(() => {
+      setPage(1);
+      fetchStudents(value, tierFilter, 1);
+    }, 400);
+  };
+
+  const handleExpand = (studentId: string) => {
+    if (expandedId === studentId) {
+      setExpandedId(null);
+      setStudentDetail(null);
+      return;
+    }
+    setExpandedId(studentId);
+    setDetailLoading(true);
+    setStudentDetail(null);
+    fetch(`/api/admin/students/${studentId}`)
+      .then((r) => r.json())
+      .then((d) => {
+        setStudentDetail(d);
+        setEditTier(d.enrollment?.tier || "starter");
+        setDetailLoading(false);
+      })
+      .catch(() => setDetailLoading(false));
+  };
+
+  const handleSaveTier = () => {
+    if (!expandedId || !editTier) return;
+    setSavingTier(true);
+    fetch(`/api/admin/students/${expandedId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tier: editTier }),
+    })
+      .then((r) => r.json())
+      .then(() => {
+        setSavingTier(false);
+        // Refresh list to reflect tier change
+        fetchStudents(search, tierFilter, page);
+        // Update detail
+        if (studentDetail) {
+          setStudentDetail({
+            ...studentDetail,
+            enrollment: studentDetail.enrollment
+              ? { ...studentDetail.enrollment, tier: editTier }
+              : { id: "", tier: editTier, status: "active", createdAt: new Date().toISOString() },
+          });
+        }
+      })
+      .catch(() => setSavingTier(false));
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Search + Filter Bar */}
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Rechercher par nom ou email..."
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+            />
+          </div>
+          <select
+            value={tierFilter}
+            onChange={(e) => { setTierFilter(e.target.value); setPage(1); }}
+            className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-white focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+          >
+            <option value="">Toutes les offres</option>
+            <option value="starter">Starter</option>
+            <option value="academy">Academy</option>
+            <option value="one_to_one">1-to-1</option>
+          </select>
+        </div>
+        <div className="flex items-center justify-between mt-3">
+          <p className="text-xs text-gray-400">{total} eleve{total !== 1 ? "s" : ""} trouves</p>
+        </div>
+      </div>
+
+      {/* Students Table */}
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        {studentsLoading ? (
+          <div className="p-6 space-y-3">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="h-12 bg-gray-100 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : students.length === 0 ? (
+          <div className="p-12 text-center">
+            <svg className="w-10 h-10 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+            </svg>
+            <p className="text-sm text-gray-400">Aucun eleve trouve</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-gray-400 text-[10px] uppercase tracking-wider border-b border-gray-100">
+                  <th className="text-left py-3 px-4 font-medium">Nom</th>
+                  <th className="text-left py-3 px-4 font-medium hidden md:table-cell">Email</th>
+                  <th className="text-left py-3 px-4 font-medium">Offre</th>
+                  <th className="text-left py-3 px-4 font-medium">Progression</th>
+                  <th className="text-right py-3 px-4 font-medium">XP</th>
+                  <th className="text-right py-3 px-4 font-medium hidden sm:table-cell">Derniere activite</th>
+                  <th className="w-8 py-3 px-4"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student) => {
+                  const isExpanded = expandedId === student.id;
+                  const cfg = adminTierConfig[student.tier || "starter"] || adminTierConfig.starter;
+                  const pct = student.totalLessons > 0 ? Math.round((student.completedLessons / student.totalLessons) * 100) : 0;
+                  return (
+                    <React.Fragment key={student.id}>
+                      <tr
+                        onClick={() => handleExpand(student.id)}
+                        className={cn(
+                          "border-b border-gray-100 cursor-pointer transition-colors",
+                          isExpanded ? "bg-gray-50" : "hover:bg-gray-50/50"
+                        )}
+                      >
+                        <td className="py-3 px-4">
+                          <span className="text-[#111] font-medium">{student.name || "Sans nom"}</span>
+                        </td>
+                        <td className="py-3 px-4 text-gray-400 hidden md:table-cell truncate max-w-[180px]">{student.email}</td>
+                        <td className="py-3 px-4">
+                          {student.tier ? (
+                            <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${cfg.color} ${cfg.bg}`}>
+                              {cfg.label}
+                            </span>
+                          ) : (
+                            <span className="text-gray-300 text-xs">--</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex items-center gap-2">
+                            <div className="w-20 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                              <div className="h-full rounded-full bg-[#FF1744] transition-all duration-500" style={{ width: `${pct}%` }} />
+                            </div>
+                            <span className="text-xs text-gray-500 font-medium">{pct}%</span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          <span className="text-[#111] font-semibold text-xs">{student.totalXP.toLocaleString("fr-FR")}</span>
+                        </td>
+                        <td className="py-3 px-4 text-right text-gray-400 text-xs hidden sm:table-cell">
+                          {student.lastActive ? adminRelativeTime(student.lastActive) : "--"}
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          <svg
+                            className={cn("w-4 h-4 text-gray-400 transition-transform duration-200", isExpanded && "rotate-180")}
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                          </svg>
+                        </td>
+                      </tr>
+                      {/* Expanded Detail Panel */}
+                      {isExpanded && (
+                        <tr>
+                          <td colSpan={7} className="p-0">
+                            <div className="bg-gray-50 border-b border-gray-200 px-6 py-5">
+                              {detailLoading ? (
+                                <div className="space-y-3">
+                                  {[...Array(3)].map((_, i) => (
+                                    <div key={i} className="h-8 bg-gray-100 rounded-lg animate-pulse" />
+                                  ))}
+                                </div>
+                              ) : studentDetail ? (
+                                <div className="space-y-5">
+                                  {/* Top row: Discord + Streak + Tier changer */}
+                                  <div className="flex flex-wrap gap-4 items-start">
+                                    {/* Discord */}
+                                    <div className="bg-white rounded-xl border border-gray-200 p-3 min-w-[180px]">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-1">Discord</p>
+                                      <p className="text-sm text-[#111] font-medium">
+                                        {studentDetail.discordUsername || <span className="text-gray-300">Non renseigne</span>}
+                                      </p>
+                                    </div>
+
+                                    {/* Streak */}
+                                    <div className="bg-white rounded-xl border border-gray-200 p-3 min-w-[140px]">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-1">Streak</p>
+                                      <p className="text-sm text-[#111] font-medium">
+                                        {studentDetail.streaks.length} jour{studentDetail.streaks.length !== 1 ? "s" : ""}
+                                      </p>
+                                    </div>
+
+                                    {/* Tier Changer */}
+                                    <div className="bg-white rounded-xl border border-gray-200 p-3 flex items-end gap-2">
+                                      <div>
+                                        <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-1">Offre</p>
+                                        <select
+                                          value={editTier}
+                                          onChange={(e) => setEditTier(e.target.value)}
+                                          className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-[#111] bg-white focus:outline-none focus:border-[#FF1744]/40 transition-colors"
+                                        >
+                                          <option value="starter">Starter</option>
+                                          <option value="academy">Academy</option>
+                                          <option value="one_to_one">1-to-1</option>
+                                        </select>
+                                      </div>
+                                      <button
+                                        onClick={(e) => { e.stopPropagation(); handleSaveTier(); }}
+                                        disabled={savingTier || editTier === (studentDetail.enrollment?.tier || "starter")}
+                                        className={cn(
+                                          "px-3 py-1.5 rounded-lg text-xs font-medium transition-all",
+                                          editTier !== (studentDetail.enrollment?.tier || "starter")
+                                            ? "bg-[#FF1744] text-white hover:bg-[#E01440]"
+                                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                        )}
+                                      >
+                                        {savingTier ? "..." : "Sauvegarder"}
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  {/* Module Progress */}
+                                  {studentDetail.moduleProgress.length > 0 && (
+                                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-3">Progression par module</p>
+                                      <div className="space-y-3">
+                                        {studentDetail.moduleProgress.map((mod) => {
+                                          const modPct = mod.totalLessons > 0 ? Math.round((mod.completedLessons / mod.totalLessons) * 100) : 0;
+                                          return (
+                                            <div key={mod.moduleId}>
+                                              <div className="flex items-center justify-between mb-1">
+                                                <span className="text-xs text-[#111] font-medium">{mod.moduleTitle}</span>
+                                                <span className="text-[10px] text-gray-400">{mod.completedLessons}/{mod.totalLessons} lecons</span>
+                                              </div>
+                                              <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                                                <div className="h-full rounded-full bg-[#FF1744] transition-all duration-500" style={{ width: `${modPct}%` }} />
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Quiz Scores */}
+                                  {studentDetail.quizHistory.length > 0 && (
+                                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium mb-3">Scores des quiz</p>
+                                      <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                                        {studentDetail.quizHistory.map((q) => (
+                                          <div key={q.id} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
+                                            <span className="text-xs text-[#111]">{q.lessonTitle}</span>
+                                            <div className="flex items-center gap-2">
+                                              <span className={cn(
+                                                "text-xs font-semibold",
+                                                q.passed ? "text-emerald-600" : "text-red-500"
+                                              )}>
+                                                {q.score}%
+                                              </span>
+                                              <span className={cn(
+                                                "inline-block px-1.5 py-0.5 rounded text-[9px] font-semibold",
+                                                q.passed ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"
+                                              )}>
+                                                {q.passed ? "Reussi" : "Echoue"}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              ) : (
+                                <p className="text-sm text-gray-400 text-center py-4">Impossible de charger les details</p>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page <= 1}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              Precedent
+            </button>
+            <span className="text-xs text-gray-400">
+              Page {page} sur {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              Suivant
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
