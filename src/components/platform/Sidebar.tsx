@@ -377,7 +377,12 @@ function AdminNotificationBell() {
   return (
     <div className="relative" ref={ref}>
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          setOpen(!open);
+          if (!open && unreadCount > 0) {
+            setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+          }
+        }}
         className="relative w-7 h-7 rounded-lg flex items-center justify-center text-white/50 hover:text-white/80 hover:bg-white/[0.06] transition-all"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -563,10 +568,30 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
               <div className="flex flex-col gap-0.5">
                 {[
                   { href: "/dashboard", label: "Dashboard", icon: IconHome },
+                  { href: "/coaching", label: "Coaching", icon: IconPhone },
+                ].map((item) => {
+                  const active = pathname === item.href || pathname.startsWith(item.href + "/");
+                  const Icon = item.icon;
+                  return (
+                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
+                      <Icon className={active ? "text-[#FF1744]" : "text-white/35"} />
+                      <span className="truncate">{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="mb-1.5">
+              <div className="px-3 py-1.5">
+                <span className="text-[10px] uppercase tracking-[0.12em] text-white/20 font-semibold">Contenu</span>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                {[
                   { href: "/lessons", label: "Formation", icon: IconLessons },
                   { href: "/leaderboard", label: "Classement", icon: IconTrophy },
-                  { href: "/coaching", label: "Coaching", icon: IconPhone },
+                  { href: "/certificats", label: "Certificats", icon: IconCertificate },
                   { href: "/ressources", label: "Ressources", icon: IconFolder },
+                  { href: "/blog", label: "Blog", icon: IconNotes },
                 ].map((item) => {
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
