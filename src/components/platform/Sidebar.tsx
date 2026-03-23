@@ -330,12 +330,18 @@ function AdminNotificationBell() {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const STORAGE_KEY = "admin-notif-last-seen";
 
   useEffect(() => {
+    const lastSeen = localStorage.getItem(STORAGE_KEY) || "1970-01-01T00:00:00Z";
     fetch("/api/admin/notifications")
       .then((r) => r.json())
       .then((d) => {
-        setNotifications(d.notifications || []);
+        const notifs = (d.notifications || []).map((n: AdminNotification) => ({
+          ...n,
+          read: new Date(n.date) <= new Date(lastSeen),
+        }));
+        setNotifications(notifs);
         setLoaded(true);
       })
       .catch(() => setLoaded(true));
@@ -392,6 +398,7 @@ function AdminNotificationBell() {
         onClick={() => {
           setOpen(!open);
           if (!open && unreadCount > 0) {
+            localStorage.setItem(STORAGE_KEY, new Date().toISOString());
             setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
           }
         }}
