@@ -32,11 +32,10 @@ const plans: Plan[] = [
     description: "Pour d\u00e9couvrir le monde de l\u2019IA",
     popular: false,
     features: [
-      "Guide PDF complet (50+ pages)",
-      "Checklist de lancement",
-      "Templates de prospection",
+      "Module 1 complet (8 le\u00e7ons)",
+      "Quiz de validation",
       "Acc\u00e8s Discord communautaire",
-      "Mises \u00e0 jour gratuites \u00e0 vie",
+      "Checklist de d\u00e9marrage",
     ],
     notIncluded: [
       "Acc\u00e8s plateforme de cours",
@@ -73,7 +72,7 @@ const plans: Plan[] = [
     slug: "one_to_one",
     price: "3 997",
     oldPrice: "5 997",
-    period: "ou 4x 999\u20ac sans frais",
+    period: "ou paiement en 4x disponible",
     description: "Accompagnement premium avec Marius & Igor",
     popular: false,
     limited: true,

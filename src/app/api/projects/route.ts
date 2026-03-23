@@ -9,15 +9,20 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const isAdmin = (session.user as { role?: string }).role === "admin";
+  try {
+    const isAdmin = (session.user as { role?: string }).role === "admin";
 
-  const projects = await prisma.project.findMany({
-    where: isAdmin ? {} : { userId: session.user.id },
-    include: { user: { select: { id: true, name: true, email: true } } },
-    orderBy: { createdAt: "desc" },
-  });
+    const projects = await prisma.project.findMany({
+      where: isAdmin ? {} : { userId: session.user.id },
+      include: { user: { select: { id: true, name: true, email: true } } },
+      orderBy: { createdAt: "desc" },
+    });
 
-  return NextResponse.json(projects);
+    return NextResponse.json(projects);
+  } catch (error) {
+    console.error("GET /api/projects error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }
 
 export async function POST(req: Request) {
@@ -26,24 +31,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const { title, description, url } = body;
+  try {
+    const body = await req.json();
+    const { title, description, url } = body;
 
-  if (!title || !description) {
-    return NextResponse.json(
-      { error: "Le titre et la description sont requis" },
-      { status: 400 }
-    );
+    if (!title || !description) {
+      return NextResponse.json(
+        { error: "Le titre et la description sont requis" },
+        { status: 400 }
+      );
+    }
+
+    const project = await prisma.project.create({
+      data: {
+        userId: session.user.id,
+        title,
+        description,
+        url: url || null,
+      },
+    });
+
+    return NextResponse.json(project, { status: 201 });
+  } catch (error) {
+    console.error("POST /api/projects error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  const project = await prisma.project.create({
-    data: {
-      userId: session.user.id,
-      title,
-      description,
-      url: url || null,
-    },
-  });
-
-  return NextResponse.json(project, { status: 201 });
 }

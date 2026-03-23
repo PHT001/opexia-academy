@@ -92,6 +92,7 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
+  try {
   // Fetch all users with progress, streaks, and quiz submissions
   const users = await prisma.user.findMany({
     where: { progress: { some: {} } },
@@ -231,4 +232,8 @@ export async function GET() {
     recentActivity,
     allBadges: BADGES,
   });
+  } catch (error) {
+    console.error("GET /api/leaderboard error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

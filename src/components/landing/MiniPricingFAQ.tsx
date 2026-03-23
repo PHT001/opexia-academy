@@ -14,7 +14,7 @@ const miniFaqs = [
   },
   {
     q: "Je peux payer en plusieurs fois ?",
-    a: "Oui ! L\u2019Academy est payable en 3x 139\u20ac sans frais. Le One-to-One en 4x 999\u20ac sans frais. Paiement 100% s\u00e9curis\u00e9.",
+    a: "Oui ! L\u2019Academy est disponible en paiement en 3x sans frais. Le One-to-One en paiement en 4x sans frais. Paiement 100% s\u00e9curis\u00e9.",
   },
 ];
 

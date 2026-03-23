@@ -12,6 +12,7 @@ export async function GET(
     return NextResponse.json({ error: "Non autorise" }, { status: 403 });
   }
 
+  try {
   const { id } = await params;
 
   const user = await prisma.user.findUnique({
@@ -155,6 +156,10 @@ export async function GET(
     })),
     xpTimeline,
   });
+  } catch (error) {
+    console.error("GET /api/admin/students/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }
 
 export async function PATCH(
@@ -166,42 +171,47 @@ export async function PATCH(
     return NextResponse.json({ error: "Non autorise" }, { status: 403 });
   }
 
-  const { id } = await params;
-  const body = await req.json();
-  const { tier } = body;
+  try {
+    const { id } = await params;
+    const body = await req.json();
+    const { tier } = body;
 
-  if (!tier || !["starter", "academy", "one_to_one"].includes(tier)) {
-    return NextResponse.json({ error: "Tier invalide" }, { status: 400 });
-  }
+    if (!tier || !["starter", "academy", "one_to_one"].includes(tier)) {
+      return NextResponse.json({ error: "Tier invalide" }, { status: 400 });
+    }
 
-  // Check user exists
-  const user = await prisma.user.findUnique({ where: { id } });
-  if (!user || user.role !== "student") {
-    return NextResponse.json({ error: "Etudiant introuvable" }, { status: 404 });
-  }
+    // Check user exists
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user || user.role !== "student") {
+      return NextResponse.json({ error: "Etudiant introuvable" }, { status: 404 });
+    }
 
-  // Find existing enrollment
-  const existingEnrollment = await prisma.enrollment.findFirst({
-    where: { userId: id },
-    orderBy: { createdAt: "desc" },
-  });
-
-  let enrollment;
-  if (existingEnrollment) {
-    enrollment = await prisma.enrollment.update({
-      where: { id: existingEnrollment.id },
-      data: { tier },
+    // Find existing enrollment
+    const existingEnrollment = await prisma.enrollment.findFirst({
+      where: { userId: id },
+      orderBy: { createdAt: "desc" },
     });
-  } else {
-    enrollment = await prisma.enrollment.create({
-      data: { userId: id, tier },
-    });
-  }
 
-  return NextResponse.json({
-    id: enrollment.id,
-    tier: enrollment.tier,
-    status: enrollment.status,
-    createdAt: enrollment.createdAt.toISOString(),
-  });
+    let enrollment;
+    if (existingEnrollment) {
+      enrollment = await prisma.enrollment.update({
+        where: { id: existingEnrollment.id },
+        data: { tier },
+      });
+    } else {
+      enrollment = await prisma.enrollment.create({
+        data: { userId: id, tier },
+      });
+    }
+
+    return NextResponse.json({
+      id: enrollment.id,
+      tier: enrollment.tier,
+      status: enrollment.status,
+      createdAt: enrollment.createdAt.toISOString(),
+    });
+  } catch (error) {
+    console.error("PATCH /api/admin/students/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

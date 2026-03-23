@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
+  try {
   const userId = session.user.id;
   const body = await request.json();
   const { lessonSlug, answers } = body as {
@@ -122,4 +123,8 @@ export async function POST(request: Request) {
     xpEarned,
     questions: details,
   });
+  } catch (error) {
+    console.error("POST /api/quiz-submissions error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

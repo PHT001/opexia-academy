@@ -14,11 +14,11 @@ const faqs = [
   },
   {
     q: "C\u2019est quoi la diff\u00e9rence entre Starter, Academy et One-to-One ?",
-    a: "Le Starter \u00e0 47\u20ac te donne les guides PDF et templates pour comprendre l\u2019IA. L\u2019Academy \u00e0 397\u20ac (ou 3x139\u20ac), c\u2019est la formation compl\u00e8te avec 130+ le\u00e7ons, la plateforme interactive, l\u2019assistant IA, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 3 997\u20ac (ou 4x999\u20ac), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
+    a: "Le Starter \u00e0 47\u20ac te donne le Module 1 complet (8 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 397\u20ac (paiement en 3x disponible), c\u2019est la formation compl\u00e8te avec 130+ le\u00e7ons, la plateforme interactive, l\u2019assistant IA, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 3 997\u20ac (paiement en 4x disponible), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
   },
   {
     q: "Est-ce que je peux payer en plusieurs fois ?",
-    a: "Oui ! L\u2019Academy est payable en 3x139\u20ac sans frais, et le One-to-One en 4x999\u20ac sans frais. Le Starter est \u00e0 47\u20ac en une seule fois. Tous les paiements sont s\u00e9curis\u00e9s.",
+    a: "Oui ! L\u2019Academy est disponible en paiement en 3x sans frais, et le One-to-One en paiement en 4x sans frais. Le Starter est \u00e0 47\u20ac en une seule fois. Tous les paiements sont s\u00e9curis\u00e9s.",
   },
   {
     q: "Est-ce que je peux faire \u00e7a en parall\u00e8le de mon travail ?",

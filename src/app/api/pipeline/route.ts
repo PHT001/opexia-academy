@@ -9,12 +9,17 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const deals = await prisma.pipelineDeal.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    const deals = await prisma.pipelineDeal.findMany({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
+    });
 
-  return NextResponse.json(deals);
+    return NextResponse.json(deals);
+  } catch (error) {
+    console.error("GET /api/pipeline error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }
 
 export async function POST(req: Request) {
@@ -23,23 +28,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const { name, company, value, stage, notes } = body;
+  try {
+    const body = await req.json();
+    const { name, company, value, stage, notes } = body;
 
-  if (!name || typeof name !== "string") {
-    return NextResponse.json({ error: "Nom requis" }, { status: 400 });
+    if (!name || typeof name !== "string") {
+      return NextResponse.json({ error: "Nom requis" }, { status: 400 });
+    }
+
+    const deal = await prisma.pipelineDeal.create({
+      data: {
+        userId: session.user.id,
+        name: name.trim(),
+        company: company?.trim() || null,
+        value: Number(value) || 0,
+        stage: stage || "lead",
+        notes: notes?.trim() || null,
+      },
+    });
+
+    return NextResponse.json(deal, { status: 201 });
+  } catch (error) {
+    console.error("POST /api/pipeline error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  const deal = await prisma.pipelineDeal.create({
-    data: {
-      userId: session.user.id,
-      name: name.trim(),
-      company: company?.trim() || null,
-      value: Number(value) || 0,
-      stage: stage || "lead",
-      notes: notes?.trim() || null,
-    },
-  });
-
-  return NextResponse.json(deal, { status: 201 });
 }

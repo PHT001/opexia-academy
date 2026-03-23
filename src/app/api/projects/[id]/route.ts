@@ -18,26 +18,31 @@ export async function PATCH(
     return NextResponse.json({ error: "Acces interdit" }, { status: 403 });
   }
 
-  const body = await req.json();
-  const { status, feedback } = body;
+  try {
+    const body = await req.json();
+    const { status, feedback } = body;
 
-  const validStatuses = ["submitted", "reviewing", "approved", "needs_revision"];
-  if (status && !validStatuses.includes(status)) {
-    return NextResponse.json(
-      { error: "Statut invalide" },
-      { status: 400 }
-    );
+    const validStatuses = ["submitted", "reviewing", "approved", "needs_revision"];
+    if (status && !validStatuses.includes(status)) {
+      return NextResponse.json(
+        { error: "Statut invalide" },
+        { status: 400 }
+      );
+    }
+
+    const data: Record<string, string> = {};
+    if (status) data.status = status;
+    if (feedback !== undefined) data.feedback = feedback;
+
+    const project = await prisma.project.update({
+      where: { id },
+      data,
+      include: { user: { select: { id: true, name: true, email: true } } },
+    });
+
+    return NextResponse.json(project);
+  } catch (error) {
+    console.error("PATCH /api/projects/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  const data: Record<string, string> = {};
-  if (status) data.status = status;
-  if (feedback !== undefined) data.feedback = feedback;
-
-  const project = await prisma.project.update({
-    where: { id },
-    data,
-    include: { user: { select: { id: true, name: true, email: true } } },
-  });
-
-  return NextResponse.json(project);
 }

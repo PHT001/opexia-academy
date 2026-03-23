@@ -108,43 +108,48 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  // Generate all possible slots for the next 4 weeks
-  const allSlots = generateUpcomingSlots(4);
+  try {
+    // Generate all possible slots for the next 4 weeks
+    const allSlots = generateUpcomingSlots(4);
 
-  // Determine the date range for calendar lookup
-  const now = new Date();
-  const fourWeeksLater = new Date(now);
-  fourWeeksLater.setDate(now.getDate() + 28 + 1);
+    // Determine the date range for calendar lookup
+    const now = new Date();
+    const fourWeeksLater = new Date(now);
+    fourWeeksLater.setDate(now.getDate() + 28 + 1);
 
-  // Fetch Google Calendar events and booked sessions in parallel
-  const [calendarEvents, bookedSessions] = await Promise.all([
-    getCalendarEvents(now, fourWeeksLater),
-    prisma.coachingSession.findMany({
-      where: {
-        status: { in: ["pending", "confirmed"] },
-        date: { gte: new Date() },
-      },
-      select: { slot: true },
-    }),
-  ]);
+    // Fetch Google Calendar events and booked sessions in parallel
+    const [calendarEvents, bookedSessions] = await Promise.all([
+      getCalendarEvents(now, fourWeeksLater),
+      prisma.coachingSession.findMany({
+        where: {
+          status: { in: ["pending", "confirmed"] },
+          date: { gte: new Date() },
+        },
+        select: { slot: true },
+      }),
+    ]);
 
-  const bookedSlotSet = new Set(bookedSessions.map((s) => s.slot));
+    const bookedSlotSet = new Set(bookedSessions.map((s) => s.slot));
 
-  // Filter out slots that are booked in DB OR busy in Google Calendar
-  const availableSlots = allSlots.filter((s) => {
-    // Already booked in DB
-    if (bookedSlotSet.has(s.date)) return false;
-    // Conflicts with a Google Calendar event
-    if (isSlotBusyInCalendar(new Date(s.date), calendarEvents)) return false;
-    return true;
-  });
+    // Filter out slots that are booked in DB OR busy in Google Calendar
+    const availableSlots = allSlots.filter((s) => {
+      // Already booked in DB
+      if (bookedSlotSet.has(s.date)) return false;
+      // Conflicts with a Google Calendar event
+      if (isSlotBusyInCalendar(new Date(s.date), calendarEvents)) return false;
+      return true;
+    });
 
-  // Also get user's own sessions
-  const userSessions = await prisma.coachingSession.findMany({
-    where: { userId: session.user.id },
-    orderBy: { date: "desc" },
-    take: 10,
-  });
+    // Also get user's own sessions
+    const userSessions = await prisma.coachingSession.findMany({
+      where: { userId: session.user.id },
+      orderBy: { date: "desc" },
+      take: 10,
+    });
 
-  return NextResponse.json({ slots: availableSlots, sessions: userSessions });
+    return NextResponse.json({ slots: availableSlots, sessions: userSessions });
+  } catch (error) {
+    console.error("GET /api/coaching/slots error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

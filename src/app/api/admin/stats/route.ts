@@ -15,6 +15,7 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 403 });
   }
 
+  try {
   // ── Existing stats ──
   const totalStudents = await prisma.user.count({ where: { role: "student" } });
 
@@ -204,4 +205,8 @@ export async function GET() {
       activeUsers: funnelActiveUsers,
     },
   });
+  } catch (error) {
+    console.error("GET /api/admin/stats error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

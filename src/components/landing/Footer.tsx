@@ -12,18 +12,18 @@ export default function Footer() {
 
           {/* Links */}
           <div className="flex items-center gap-6 text-sm text-[#6B7280]">
-            <a href="/mentions-legales" className="hover:text-[#111] transition-colors">
+            <Link href="/mentions-legales" className="hover:text-[#111] transition-colors">
               Mentions légales
-            </a>
-            <a href="/cgu" className="hover:text-[#111] transition-colors">
+            </Link>
+            <Link href="/cgu" className="hover:text-[#111] transition-colors">
               CGU
-            </a>
-            <a href="/confidentialite" className="hover:text-[#111] transition-colors">
+            </Link>
+            <Link href="/confidentialite" className="hover:text-[#111] transition-colors">
               Confidentialité
-            </a>
-            <a href="/contact" className="hover:text-[#111] transition-colors">
+            </Link>
+            <Link href="/contact" className="hover:text-[#111] transition-colors">
               Contact
-            </a>
+            </Link>
           </div>
 
           {/* Copyright */}

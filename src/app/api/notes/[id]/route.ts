@@ -9,32 +9,37 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const { id } = await params;
+  try {
+    const { id } = await params;
 
-  const existing = await prisma.note.findFirst({
-    where: { id, userId: session.user.id },
-  });
+    const existing = await prisma.note.findFirst({
+      where: { id, userId: session.user.id },
+    });
 
-  if (!existing) {
-    return NextResponse.json({ error: "Note introuvable" }, { status: 404 });
+    if (!existing) {
+      return NextResponse.json({ error: "Note introuvable" }, { status: 404 });
+    }
+
+    const body = await req.json();
+    const { title, content, folder, color, icon, pinned } = body;
+
+    const note = await prisma.note.update({
+      where: { id },
+      data: {
+        ...(title !== undefined && { title }),
+        ...(content !== undefined && { content }),
+        ...(folder !== undefined && { folder }),
+        ...(color !== undefined && { color }),
+        ...(icon !== undefined && { icon }),
+        ...(pinned !== undefined && { pinned }),
+      },
+    });
+
+    return NextResponse.json(note);
+  } catch (error) {
+    console.error("PATCH /api/notes/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  const body = await req.json();
-  const { title, content, folder, color, icon, pinned } = body;
-
-  const note = await prisma.note.update({
-    where: { id },
-    data: {
-      ...(title !== undefined && { title }),
-      ...(content !== undefined && { content }),
-      ...(folder !== undefined && { folder }),
-      ...(color !== undefined && { color }),
-      ...(icon !== undefined && { icon }),
-      ...(pinned !== undefined && { pinned }),
-    },
-  });
-
-  return NextResponse.json(note);
 }
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -43,17 +48,22 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const { id } = await params;
+  try {
+    const { id } = await params;
 
-  const existing = await prisma.note.findFirst({
-    where: { id, userId: session.user.id },
-  });
+    const existing = await prisma.note.findFirst({
+      where: { id, userId: session.user.id },
+    });
 
-  if (!existing) {
-    return NextResponse.json({ error: "Note introuvable" }, { status: 404 });
+    if (!existing) {
+      return NextResponse.json({ error: "Note introuvable" }, { status: 404 });
+    }
+
+    await prisma.note.delete({ where: { id } });
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("DELETE /api/notes/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  await prisma.note.delete({ where: { id } });
-
-  return NextResponse.json({ ok: true });
 }

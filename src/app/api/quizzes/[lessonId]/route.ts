@@ -13,57 +13,62 @@ export async function GET(
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const { lessonId: slug } = await params;
-  const userId = session.user.id;
+  try {
+    const { lessonId: slug } = await params;
+    const userId = session.user.id;
 
-  const lesson = await prisma.lesson.findUnique({
-    where: { slug },
-    include: {
-      module: true,
-      quiz: {
-        include: {
-          questions: {
-            orderBy: { order: "asc" },
+    const lesson = await prisma.lesson.findUnique({
+      where: { slug },
+      include: {
+        module: true,
+        quiz: {
+          include: {
+            questions: {
+              orderBy: { order: "asc" },
+            },
           },
         },
       },
-    },
-  });
-
-  if (!lesson?.quiz) {
-    return NextResponse.json({ error: "Quiz introuvable" }, { status: 404 });
-  }
-
-  // Tier/access check
-  const isAdmin = session.user.role === "admin";
-  if (!isAdmin) {
-    let userTier = "starter";
-    const enrollment = await prisma.enrollment.findFirst({
-      where: { userId, status: "active" },
-      orderBy: { createdAt: "desc" },
     });
-    if (enrollment) {
-      userTier = enrollment.tier;
+
+    if (!lesson?.quiz) {
+      return NextResponse.json({ error: "Quiz introuvable" }, { status: 404 });
     }
-    const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
-    if (!accessibleModules.includes(lesson.module.order)) {
-      return NextResponse.json({ error: "Acces non autorise pour votre forfait" }, { status: 403 });
+
+    // Tier/access check
+    const isAdmin = session.user.role === "admin";
+    if (!isAdmin) {
+      let userTier = "starter";
+      const enrollment = await prisma.enrollment.findFirst({
+        where: { userId, status: "active" },
+        orderBy: { createdAt: "desc" },
+      });
+      if (enrollment) {
+        userTier = enrollment.tier;
+      }
+      const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
+      if (!accessibleModules.includes(lesson.module.order)) {
+        return NextResponse.json({ error: "Acces non autorise pour votre forfait" }, { status: 403 });
+      }
     }
+
+    // Don't send correct answers to client
+    const questions = lesson.quiz.questions.map((q) => ({
+      id: q.id,
+      type: q.type,
+      question: q.question,
+      options: JSON.parse(q.options),
+      order: q.order,
+    }));
+
+    return NextResponse.json({
+      quizId: lesson.quiz.id,
+      lessonTitle: lesson.title,
+      passingScore: lesson.quiz.passingScore,
+      questions,
+    });
+  } catch (error) {
+    console.error("GET /api/quizzes/[lessonId] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  // Don't send correct answers to client
-  const questions = lesson.quiz.questions.map((q) => ({
-    id: q.id,
-    type: q.type,
-    question: q.question,
-    options: JSON.parse(q.options),
-    order: q.order,
-  }));
-
-  return NextResponse.json({
-    quizId: lesson.quiz.id,
-    lessonTitle: lesson.title,
-    passingScore: lesson.quiz.passingScore,
-    questions,
-  });
 }

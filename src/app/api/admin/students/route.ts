@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Non autorise" }, { status: 403 });
   }
 
+  try {
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search") || "";
   const tier = searchParams.get("tier") || "";
@@ -85,4 +86,8 @@ export async function GET(req: NextRequest) {
     page,
     totalPages,
   });
+  } catch (error) {
+    console.error("GET /api/admin/students error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

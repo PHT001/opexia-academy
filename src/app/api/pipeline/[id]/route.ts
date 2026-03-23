@@ -9,31 +9,36 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const { id } = await params;
+  try {
+    const { id } = await params;
 
-  const existing = await prisma.pipelineDeal.findFirst({
-    where: { id, userId: session.user.id },
-  });
+    const existing = await prisma.pipelineDeal.findFirst({
+      where: { id, userId: session.user.id },
+    });
 
-  if (!existing) {
-    return NextResponse.json({ error: "Deal introuvable" }, { status: 404 });
+    if (!existing) {
+      return NextResponse.json({ error: "Deal introuvable" }, { status: 404 });
+    }
+
+    const body = await req.json();
+    const { name, company, value, stage, notes } = body;
+
+    const deal = await prisma.pipelineDeal.update({
+      where: { id },
+      data: {
+        ...(name !== undefined && { name: name.trim() }),
+        ...(company !== undefined && { company: company?.trim() || null }),
+        ...(value !== undefined && { value: Number(value) || 0 }),
+        ...(stage !== undefined && { stage }),
+        ...(notes !== undefined && { notes: notes?.trim() || null }),
+      },
+    });
+
+    return NextResponse.json(deal);
+  } catch (error) {
+    console.error("PATCH /api/pipeline/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  const body = await req.json();
-  const { name, company, value, stage, notes } = body;
-
-  const deal = await prisma.pipelineDeal.update({
-    where: { id },
-    data: {
-      ...(name !== undefined && { name: name.trim() }),
-      ...(company !== undefined && { company: company?.trim() || null }),
-      ...(value !== undefined && { value: Number(value) || 0 }),
-      ...(stage !== undefined && { stage }),
-      ...(notes !== undefined && { notes: notes?.trim() || null }),
-    },
-  });
-
-  return NextResponse.json(deal);
 }
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -42,17 +47,22 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const { id } = await params;
+  try {
+    const { id } = await params;
 
-  const existing = await prisma.pipelineDeal.findFirst({
-    where: { id, userId: session.user.id },
-  });
+    const existing = await prisma.pipelineDeal.findFirst({
+      where: { id, userId: session.user.id },
+    });
 
-  if (!existing) {
-    return NextResponse.json({ error: "Deal introuvable" }, { status: 404 });
+    if (!existing) {
+      return NextResponse.json({ error: "Deal introuvable" }, { status: 404 });
+    }
+
+    await prisma.pipelineDeal.delete({ where: { id } });
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("DELETE /api/pipeline/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  await prisma.pipelineDeal.delete({ where: { id } });
-
-  return NextResponse.json({ ok: true });
 }

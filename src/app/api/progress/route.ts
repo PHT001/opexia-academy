@@ -9,6 +9,7 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
+  try {
   const userId = session.user.id;
 
   const currentUser = await prisma.user.findUnique({
@@ -168,4 +169,8 @@ export async function GET() {
       completedLessons: m.lessons.filter((l) => l.progress[0]?.status === "completed").length,
     })),
   });
+  } catch (error) {
+    console.error("GET /api/progress error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

@@ -6,51 +6,75 @@ import LazyVideo from "@/components/ui/LazyVideo";
 const weeks = [
   {
     num: 1,
-    title: "Fondations IA & Stack Technique",
-    lessons: "7 le\u00e7ons",
+    title: "Fondations",
+    lessons: "8 le\u00e7ons \u00b7 1 module",
     points: [
-      "Comprendre l\u2019\u00e9cosyst\u00e8me : LLMs, APIs, agents, prompting avanc\u00e9",
+      "Comprendre l\u2019IA, les LLMs, APIs et agents",
       "Choisir les bons outils selon chaque cas client",
       "Premiers prompts efficaces",
-      "Cas d\u2019usage pour entreprises locales",
+      "Cr\u00e9er ton premier agent IA",
     ],
     result: "Tu comprends l\u2019IA et tu ma\u00eetrises les fondamentaux",
   },
   {
     num: 2,
-    title: "Construire des Infrastructures IA",
-    lessons: "7 le\u00e7ons",
+    title: "D\u00e9veloppeur IA",
+    lessons: "28 le\u00e7ons \u00b7 5 modules",
     points: [
-      "Techniques avanc\u00e9es de prompt engineering",
-      "Cr\u00e9er des workflows complexes et agents autonomes",
-      "Automatiser des processus business complets",
-      "Optimiser la qualit\u00e9 des outputs",
+      "Prompt engineering avanc\u00e9 avec Claude",
+      "Cr\u00e9er des sites web pro (Next.js + Tailwind)",
+      "Design & UI avec Figma",
+      "Backend Supabase, APIs, Stripe & paiements",
     ],
-    result: "Tu cr\u00e9es des syst\u00e8mes IA qui produisent des r\u00e9sultats pro",
+    result: "Tu ma\u00eetrises la stack technique compl\u00e8te",
   },
   {
     num: 3,
-    title: "D\u00e9finir & Packager ton Offre",
-    lessons: "8 le\u00e7ons",
+    title: "Architecte Solutions",
+    lessons: "44 le\u00e7ons \u00b7 7 modules",
     points: [
-      "Trouver ta niche et cr\u00e9er des offres productis\u00e9es",
-      "Cr\u00e9er tes premiers projets clients",
-      "D\u00e9ployer des chatbots et sites web",
-      "Int\u00e9grer les APIs et automatisations",
+      "Automatisations & workflows avec n8n",
+      "Chatbots IA (RAG, multi-canal, WhatsApp)",
+      "Agents IA autonomes et Voice AI",
+      "Construire un MVP de A \u00e0 Z",
     ],
-    result: "Tu as un portfolio de projets pr\u00eats \u00e0 vendre",
+    result: "Tu cr\u00e9es des solutions IA compl\u00e8tes pour tes clients",
   },
   {
     num: 4,
-    title: "Trouver tes Clients & Scaler",
-    lessons: "6 le\u00e7ons",
+    title: "S\u00e9curit\u00e9 & Production",
+    lessons: "12 le\u00e7ons \u00b7 2 modules",
     points: [
-      "Scripts de prospection test\u00e9s",
-      "Strat\u00e9gies de prospection client",
-      "Pricing et n\u00e9gociation",
-      "Scaler ton agence IA",
+      "S\u00e9curit\u00e9 Supabase & bonnes pratiques (RLS)",
+      "DevOps, CI/CD et monitoring",
+      "Checklist production et maintenance",
+      "D\u00e9ploiement professionnel",
     ],
-    result: "Tu es pr\u00eat \u00e0 signer tes premiers clients",
+    result: "Tu d\u00e9ploies des projets solides et s\u00e9curis\u00e9s",
+  },
+  {
+    num: 5,
+    title: "Entrepreneur",
+    lessons: "26 le\u00e7ons \u00b7 4 modules",
+    points: [
+      "Cr\u00e9er ton offre irr\u00e9sistible et ton pricing",
+      "Prospection : LinkedIn, cold email, closing",
+      "Livraison, fid\u00e9lisation et referrals",
+      "Juridique, fiscalit\u00e9, RGPD et admin",
+    ],
+    result: "Tu es pr\u00eat \u00e0 signer et livrer tes premiers clients",
+  },
+  {
+    num: 6,
+    title: "Scale & Mastery",
+    lessons: "19 le\u00e7ons \u00b7 3 modules",
+    points: [
+      "Scaler de freelance solo \u00e0 agence rentable",
+      "Architecture multi-tenant & white-label",
+      "Masterclass Claude Code, Cursor & Antigravity",
+      "Atteindre 10K\u20ac/mois et au-del\u00e0",
+    ],
+    result: "Tu as une agence IA rentable et scalable",
   },
 ];
 
@@ -68,10 +92,10 @@ export default function Program() {
             Programme
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-            4 semaines pour tout changer
+            6 phases pour tout changer
           </h2>
           <p className="mt-4 text-lg text-[#6B7280] max-w-2xl mx-auto">
-            86 leçons, 15 modules — du débutant complet au freelance IA rentable
+            130+ le\u00e7ons, 22 modules \u2014 du d\u00e9butant complet au freelance IA rentable
           </p>
         </motion.div>
 
@@ -100,7 +124,7 @@ export default function Program() {
                 <div>
                   <div className="flex items-center gap-3 mb-3">
                     <h3 className="text-xl lg:text-2xl font-bold">
-                      Semaine {week.num}
+                      Phase {week.num}
                     </h3>
                     <span className="text-xs font-medium text-[#6B7280] bg-gray-100 px-3 py-1 rounded-full">
                       {week.lessons}

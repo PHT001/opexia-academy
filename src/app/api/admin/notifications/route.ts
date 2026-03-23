@@ -9,6 +9,7 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 403 });
   }
 
+  try {
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -80,4 +81,8 @@ export async function GET() {
   notifications.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return NextResponse.json({ notifications });
+  } catch (error) {
+    console.error("GET /api/admin/notifications error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

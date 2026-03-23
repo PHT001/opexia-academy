@@ -59,7 +59,7 @@ export default function StickyFloatingCTA() {
                     Formation compl&egrave;te &mdash;{" "}
                     <span className="line-through text-gray-500">697&euro;</span>{" "}
                     <span className="text-[#FF1744] font-bold">397&euro;</span>{" "}
-                    &mdash; ou 3x 139&euro; sans frais
+                    &mdash; paiement en 3x disponible
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-xs text-green-400">
                     <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />

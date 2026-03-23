@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { MODULES } from "@/lib/constants";
+import { MODULES, TIER_MODULE_ACCESS } from "@/lib/constants";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { ModuleRecapPDF } from "@/lib/pdf/ModuleRecapPDF";
 import {
@@ -21,6 +21,8 @@ export async function GET(
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
+  const userId = session.user.id;
+
   const { moduleOrder: orderStr } = await params;
   const moduleOrder = parseInt(orderStr, 10);
   if (isNaN(moduleOrder) || moduleOrder < 1 || moduleOrder > 22) {
@@ -30,6 +32,23 @@ export async function GET(
   const moduleInfo = MODULES[moduleOrder - 1];
   if (!moduleInfo) {
     return NextResponse.json({ error: "Module introuvable" }, { status: 404 });
+  }
+
+  // Tier/access check — admin bypasses
+  const isAdmin = session.user.role === "admin";
+  if (!isAdmin) {
+    let userTier = "starter";
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId, status: "active" },
+      orderBy: { createdAt: "desc" },
+    });
+    if (enrollment) {
+      userTier = enrollment.tier;
+    }
+    const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
+    if (!accessibleModules.includes(moduleOrder)) {
+      return NextResponse.json({ error: "Acces non autorise pour votre forfait" }, { status: 403 });
+    }
   }
 
   // Fetch module with lessons from DB

@@ -28,44 +28,49 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const plan = body.plan as string | undefined;
+  try {
+    const body = await req.json();
+    const plan = body.plan as string | undefined;
 
-  if (!plan || !PLANS[plan]) {
-    return NextResponse.json({ error: "Plan invalide" }, { status: 400 });
-  }
+    if (!plan || !PLANS[plan]) {
+      return NextResponse.json({ error: "Plan invalide" }, { status: 400 });
+    }
 
-  const p = PLANS[plan];
-  const origin = req.headers.get("origin") || req.nextUrl.origin;
+    const p = PLANS[plan];
+    const origin = req.headers.get("origin") || req.nextUrl.origin;
 
-  const checkoutSession = await stripe.checkout.sessions.create({
-    mode: "payment",
-    customer_email: session.user.email ?? undefined,
-    metadata: {
-      userId: session.user.id,
-      plan: plan,
-    },
-    line_items: [
-      {
-        price_data: {
-          currency: "eur",
-          product_data: {
-            name: p.name,
-            description: p.description,
-          },
-          unit_amount: p.price,
-        },
-        quantity: 1,
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: "payment",
+      customer_email: session.user.email ?? undefined,
+      metadata: {
+        userId: session.user.id,
+        plan: plan,
       },
-    ],
-    success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
-    cancel_url: `${origin}/#pricing`,
-    allow_promotion_codes: true,
-  });
+      line_items: [
+        {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: p.name,
+              description: p.description,
+            },
+            unit_amount: p.price,
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
+      cancel_url: `${origin}/#pricing`,
+      allow_promotion_codes: true,
+    });
 
-  if (!checkoutSession.url) {
-    return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
+    if (!checkoutSession.url) {
+      return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
+    }
+
+    return NextResponse.json({ url: checkoutSession.url });
+  } catch (error) {
+    console.error("POST /api/checkout error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-
-  return NextResponse.json({ url: checkoutSession.url });
 }

@@ -117,7 +117,7 @@ export default function ContactPage() {
                 Tu veux en savoir plus sur la formule One-to-One ?
                 R&eacute;serve un cr&eacute;neau directement avec un des fondateurs.
               </p>
-              <Button href="#" variant="secondary" className="w-full">
+              <Button href="/coaching" variant="secondary" className="w-full">
                 R&eacute;server un cr&eacute;neau &rarr;
               </Button>
             </GlassCard>
@@ -128,13 +128,13 @@ export default function ContactPage() {
                 &Eacute;change avec les autres &eacute;l&egrave;ves et les fondateurs sur notre Discord.
               </p>
               <div className="flex gap-4">
-                <Button href="#" variant="ghost" size="sm">
+                <Button href="https://discord.gg/uNc2jwBsr8" variant="ghost" size="sm">
                   Discord
                 </Button>
-                <Button href="#" variant="ghost" size="sm">
+                <Button href="https://twitter.com/opexia_agency" variant="ghost" size="sm">
                   Twitter/X
                 </Button>
-                <Button href="#" variant="ghost" size="sm">
+                <Button href="https://linkedin.com/company/opexia" variant="ghost" size="sm">
                   LinkedIn
                 </Button>
               </div>

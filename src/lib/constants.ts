@@ -10,7 +10,7 @@ export const BADGES = [
   { id: "module_1", name: "Fondations IA", description: "Termine le Module 1", icon: "cpu" },
   { id: "streak_7", name: "Régularité", description: "7 jours consécutifs", icon: "flame" },
   { id: "halfway", name: "Mi-parcours", description: "65 leçons complétées", icon: "bolt" },
-  { id: "graduate", name: "Diplôme Opexia", description: "130 leçons complétées", icon: "award" },
+  { id: "graduate", name: "Diplôme Opexia", description: "129 leçons complétées", icon: "award" },
 ] as const;
 
 export const MODULES = [

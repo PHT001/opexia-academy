@@ -38,12 +38,10 @@ export const config = {
     "/notes/:path*",
     "/ressources/:path*",
     "/masterclass/:path*",
-    "/intervenants/:path*",
     "/assistant/:path*",
     "/coaching/:path*",
     "/templates/:path*",
     "/generateur/:path*",
-    "/marketplace/:path*",
     "/certificats/:path*",
 
     "/pipeline/:path*",
