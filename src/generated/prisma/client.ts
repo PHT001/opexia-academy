@@ -106,3 +106,8 @@ export type Referral = Prisma.ReferralModel
  * 
  */
 export type Note = Prisma.NoteModel
+/**
+ * Model Project
+ * 
+ */
+export type Project = Prisma.ProjectModel

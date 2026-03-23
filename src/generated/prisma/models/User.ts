@@ -287,6 +287,7 @@ export type UserWhereInput = {
   referredBy?: Prisma.ReferralListRelationFilter
   deals?: Prisma.PipelineDealListRelationFilter
   notes?: Prisma.NoteListRelationFilter
+  projects?: Prisma.ProjectListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -316,6 +317,7 @@ export type UserOrderByWithRelationInput = {
   referredBy?: Prisma.ReferralOrderByRelationAggregateInput
   deals?: Prisma.PipelineDealOrderByRelationAggregateInput
   notes?: Prisma.NoteOrderByRelationAggregateInput
+  projects?: Prisma.ProjectOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -348,6 +350,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   referredBy?: Prisma.ReferralListRelationFilter
   deals?: Prisma.PipelineDealListRelationFilter
   notes?: Prisma.NoteListRelationFilter
+  projects?: Prisma.ProjectListRelationFilter
 }, "id" | "email" | "referralCode">
 
 export type UserOrderByWithAggregationInput = {
@@ -423,6 +426,7 @@ export type UserCreateInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -452,6 +456,7 @@ export type UserUncheckedCreateInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -481,6 +486,7 @@ export type UserUpdateInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -510,6 +516,7 @@ export type UserUncheckedUpdateInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -783,6 +790,20 @@ export type UserUpdateOneRequiredWithoutNotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotesInput, Prisma.UserUpdateWithoutNotesInput>, Prisma.UserUncheckedUpdateWithoutNotesInput>
 }
 
+export type UserCreateNestedOneWithoutProjectsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProjectsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProjectsInput
+  upsert?: Prisma.UserUpsertWithoutProjectsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProjectsInput, Prisma.UserUpdateWithoutProjectsInput>, Prisma.UserUncheckedUpdateWithoutProjectsInput>
+}
+
 export type UserCreateWithoutQuizSubmissionsInput = {
   id?: string
   email: string
@@ -809,6 +830,7 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
@@ -837,6 +859,7 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutQuizSubmissionsInput = {
@@ -881,6 +904,7 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
@@ -909,6 +933,7 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProgressInput = {
@@ -937,6 +962,7 @@ export type UserCreateWithoutProgressInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProgressInput = {
@@ -965,6 +991,7 @@ export type UserUncheckedCreateWithoutProgressInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProgressInput = {
@@ -1009,6 +1036,7 @@ export type UserUpdateWithoutProgressInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProgressInput = {
@@ -1037,6 +1065,7 @@ export type UserUncheckedUpdateWithoutProgressInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStreaksInput = {
@@ -1065,6 +1094,7 @@ export type UserCreateWithoutStreaksInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStreaksInput = {
@@ -1093,6 +1123,7 @@ export type UserUncheckedCreateWithoutStreaksInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStreaksInput = {
@@ -1137,6 +1168,7 @@ export type UserUpdateWithoutStreaksInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStreaksInput = {
@@ -1165,6 +1197,7 @@ export type UserUncheckedUpdateWithoutStreaksInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEnrollmentsInput = {
@@ -1193,6 +1226,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -1221,6 +1255,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -1265,6 +1300,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -1293,6 +1329,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCoachingSessionsInput = {
@@ -1321,6 +1358,7 @@ export type UserCreateWithoutCoachingSessionsInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCoachingSessionsInput = {
@@ -1349,6 +1387,7 @@ export type UserUncheckedCreateWithoutCoachingSessionsInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCoachingSessionsInput = {
@@ -1393,6 +1432,7 @@ export type UserUpdateWithoutCoachingSessionsInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
@@ -1421,6 +1461,7 @@ export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDealsInput = {
@@ -1449,6 +1490,7 @@ export type UserCreateWithoutDealsInput = {
   referralsMade?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDealsInput = {
@@ -1477,6 +1519,7 @@ export type UserUncheckedCreateWithoutDealsInput = {
   referralsMade?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDealsInput = {
@@ -1521,6 +1564,7 @@ export type UserUpdateWithoutDealsInput = {
   referralsMade?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDealsInput = {
@@ -1549,6 +1593,7 @@ export type UserUncheckedUpdateWithoutDealsInput = {
   referralsMade?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsMadeInput = {
@@ -1577,6 +1622,7 @@ export type UserCreateWithoutReferralsMadeInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsMadeInput = {
@@ -1605,6 +1651,7 @@ export type UserUncheckedCreateWithoutReferralsMadeInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsMadeInput = {
@@ -1638,6 +1685,7 @@ export type UserCreateWithoutReferredByInput = {
   referralsMade?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferredByInput = {
@@ -1666,6 +1714,7 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   referralsMade?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferredByInput = {
@@ -1710,6 +1759,7 @@ export type UserUpdateWithoutReferralsMadeInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsMadeInput = {
@@ -1738,6 +1788,7 @@ export type UserUncheckedUpdateWithoutReferralsMadeInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferredByInput = {
@@ -1777,6 +1828,7 @@ export type UserUpdateWithoutReferredByInput = {
   referralsMade?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferredByInput = {
@@ -1805,6 +1857,7 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   referralsMade?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotesInput = {
@@ -1833,6 +1886,7 @@ export type UserCreateWithoutNotesInput = {
   referralsMade?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotesInput = {
@@ -1861,6 +1915,7 @@ export type UserUncheckedCreateWithoutNotesInput = {
   referralsMade?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotesInput = {
@@ -1905,6 +1960,7 @@ export type UserUpdateWithoutNotesInput = {
   referralsMade?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotesInput = {
@@ -1933,6 +1989,139 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   referralsMade?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutProjectsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  hashedPassword: string
+  role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
+  phone?: string | null
+  discordUsername?: string | null
+  age?: string | null
+  profession?: string | null
+  onboardingCompleted?: boolean
+  referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
+  quizSubmissions?: Prisma.QuizSubmissionCreateNestedManyWithoutUserInput
+  streaks?: Prisma.StreakCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
+  coachingSessions?: Prisma.CoachingSessionCreateNestedManyWithoutUserInput
+  referralsMade?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutProjectsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  hashedPassword: string
+  role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
+  phone?: string | null
+  discordUsername?: string | null
+  age?: string | null
+  profession?: string | null
+  onboardingCompleted?: boolean
+  referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
+  quizSubmissions?: Prisma.QuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+  streaks?: Prisma.StreakUncheckedCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
+  coachingSessions?: Prisma.CoachingSessionUncheckedCreateNestedManyWithoutUserInput
+  referralsMade?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutProjectsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
+}
+
+export type UserUpsertWithoutProjectsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProjectsInput, Prisma.UserUncheckedUpdateWithoutProjectsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProjectsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProjectsInput, Prisma.UserUncheckedUpdateWithoutProjectsInput>
+}
+
+export type UserUpdateWithoutProjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
+  quizSubmissions?: Prisma.QuizSubmissionUpdateManyWithoutUserNestedInput
+  streaks?: Prisma.StreakUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
+  coachingSessions?: Prisma.CoachingSessionUpdateManyWithoutUserNestedInput
+  referralsMade?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  quizSubmissions?: Prisma.QuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  streaks?: Prisma.StreakUncheckedUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+  coachingSessions?: Prisma.CoachingSessionUncheckedUpdateManyWithoutUserNestedInput
+  referralsMade?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1950,6 +2139,7 @@ export type UserCountOutputType = {
   referredBy: number
   deals: number
   notes: number
+  projects: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1962,6 +2152,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   referredBy?: boolean | UserCountOutputTypeCountReferredByArgs
   deals?: boolean | UserCountOutputTypeCountDealsArgs
   notes?: boolean | UserCountOutputTypeCountNotesArgs
+  projects?: boolean | UserCountOutputTypeCountProjectsArgs
 }
 
 /**
@@ -2037,6 +2228,13 @@ export type UserCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.NoteWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2065,6 +2263,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
   deals?: boolean | Prisma.User$dealsArgs<ExtArgs>
   notes?: boolean | Prisma.User$notesArgs<ExtArgs>
+  projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2139,6 +2338,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
   deals?: boolean | Prisma.User$dealsArgs<ExtArgs>
   notes?: boolean | Prisma.User$notesArgs<ExtArgs>
+  projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2156,6 +2356,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     referredBy: Prisma.$ReferralPayload<ExtArgs>[]
     deals: Prisma.$PipelineDealPayload<ExtArgs>[]
     notes: Prisma.$NotePayload<ExtArgs>[]
+    projects: Prisma.$ProjectPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2578,6 +2779,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   referredBy<T extends Prisma.User$referredByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$referredByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deals<T extends Prisma.User$dealsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PipelineDealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notes<T extends Prisma.User$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  projects<T extends Prisma.User$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3230,6 +3432,30 @@ export type User$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.NoteScalarFieldEnum | Prisma.NoteScalarFieldEnum[]
+}
+
+/**
+ * User.projects
+ */
+export type User$projectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Project
+   */
+  select?: Prisma.ProjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Project
+   */
+  omit?: Prisma.ProjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectInclude<ExtArgs> | null
+  where?: Prisma.ProjectWhereInput
+  orderBy?: Prisma.ProjectOrderByWithRelationInput | Prisma.ProjectOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
 }
 
 /**
