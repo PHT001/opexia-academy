@@ -24,21 +24,15 @@ export default function SaleNotification() {
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           className="fixed bottom-20 md:bottom-6 lg:bottom-6 left-4 z-40"
         >
-          <div className="flex items-center gap-3 bg-[#0A0A0A] rounded-full pl-3 pr-5 py-2.5 shadow-2xl shadow-black/20">
-            <div className="relative flex -space-x-1.5">
-              <div className="h-7 w-7 rounded-full bg-[#FF1744] flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-[#0A0A0A]">
-                T
-              </div>
-              <div className="h-7 w-7 rounded-full bg-[#7C3AED] flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-[#0A0A0A]">
-                S
-              </div>
-              <div className="h-7 w-7 rounded-full bg-[#3B82F6] flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-[#0A0A0A]">
-                M
-              </div>
+          <div className="flex items-center gap-3 bg-[#0A0A0A] rounded-full pl-4 pr-5 py-2.5 shadow-2xl shadow-black/20">
+            <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#FF1744]/10">
+              <svg className="h-4 w-4 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
             </div>
             <div>
               <p className="text-white text-xs font-semibold">
-                Des nouveaux membres rejoignent chaque jour
+                +20 membres ont rejoint récemment
               </p>
             </div>
             <button
