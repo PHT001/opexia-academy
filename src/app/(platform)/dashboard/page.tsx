@@ -921,11 +921,11 @@ function AdminChartTooltip({ active, payload, label, valueSuffix }: {
   );
 }
 
-function AdminAvatarCircle({ name, size = "md" }: { name: string; size?: "sm" | "md" }) {
+function AdminAvatarCircle({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" }) {
   const letter = (name || "?").charAt(0).toUpperCase();
   const colors = ["bg-[#FF1744]", "bg-blue-500", "bg-emerald-500", "bg-amber-500", "bg-purple-500", "bg-pink-500", "bg-cyan-500"];
   const colorIndex = name ? name.charCodeAt(0) % colors.length : 0;
-  const sizeClass = size === "sm" ? "w-7 h-7 text-[10px]" : "w-8 h-8 text-xs";
+  const sizeClass = size === "sm" ? "w-7 h-7 text-[10px]" : size === "lg" ? "w-12 h-12 text-lg" : "w-8 h-8 text-xs";
   return (
     <div className={cn(sizeClass, "rounded-full flex items-center justify-center text-white font-bold shrink-0 shadow-sm", colors[colorIndex])}>
       {letter}
@@ -1557,61 +1557,97 @@ function AdminStudentsTab() {
                                 </div>
                               ) : studentDetail ? (
                                 <div className="space-y-5">
-                                  <div className="flex flex-wrap gap-4 items-start">
-                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 min-w-[180px]">
-                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Discord</p>
-                                      <p className="text-sm text-[#111] font-medium">
-                                        {studentDetail.discordUsername || <span className="text-gray-300 italic">Non renseign&eacute;</span>}
-                                      </p>
-                                    </div>
-                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 min-w-[140px]">
-                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Streak</p>
-                                      <p className="text-sm text-[#111] font-medium tabular-nums">
-                                        {studentDetail.streaks.length} jour{studentDetail.streaks.length !== 1 ? "s" : ""}
-                                      </p>
-                                    </div>
-                                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-end gap-3">
-                                      <div>
-                                        <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1.5">Offre</p>
-                                        <select
-                                          value={editTier}
-                                          onChange={(e) => setEditTier(e.target.value)}
-                                          className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/10 transition-all cursor-pointer"
-                                        >
-                                          <option value="starter">Starter</option>
-                                          <option value="academy">Academy</option>
-                                          <option value="one_to_one">1-to-1</option>
-                                        </select>
+                                  {/* ——— Header: Name, email, date, tier badge, discord ——— */}
+                                  <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                                      <AdminAvatarCircle name={studentDetail.name || "?"} size="lg" />
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex flex-wrap items-center gap-2.5 mb-1">
+                                          <h3 className="text-lg font-bold text-[#111] truncate">{studentDetail.name || "Sans nom"}</h3>
+                                          {(() => {
+                                            const tierKey = studentDetail.enrollment?.tier || "starter";
+                                            const cfg = adminTierConfig[tierKey] || adminTierConfig.starter;
+                                            return (
+                                              <span className={cn("inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border", cfg.color, cfg.bg, cfg.border)}>
+                                                <span className={cn("w-1.5 h-1.5 rounded-full", cfg.dot)} />
+                                                {cfg.label}
+                                              </span>
+                                            );
+                                          })()}
+                                        </div>
+                                        <p className="text-xs text-gray-400 truncate">{studentDetail.email || "Pas d\u2019email"}</p>
+                                        <div className="flex flex-wrap items-center gap-3 mt-1.5">
+                                          <span className="text-[11px] text-gray-400">
+                                            Membre depuis {studentDetail.enrollment?.createdAt ? new Date(studentDetail.enrollment.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "--"}
+                                          </span>
+                                          {studentDetail.discordUsername && (
+                                            <span className="inline-flex items-center gap-1 text-[11px] text-indigo-500 font-medium">
+                                              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z" /></svg>
+                                              {studentDetail.discordUsername}
+                                            </span>
+                                          )}
+                                        </div>
                                       </div>
-                                      <button
-                                        onClick={(e) => { e.stopPropagation(); handleSaveTier(); }}
-                                        disabled={savingTier || editTier === (studentDetail.enrollment?.tier || "starter")}
-                                        className={cn(
-                                          "px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200",
-                                          editTier !== (studentDetail.enrollment?.tier || "starter")
-                                            ? "bg-[#FF1744] text-white hover:bg-[#E01440] shadow-sm hover:shadow-md"
-                                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                        )}
-                                      >
-                                        {savingTier ? "..." : "Sauvegarder"}
-                                      </button>
                                     </div>
                                   </div>
 
+                                  {/* ——— Stats Row: 4 mini cards ——— */}
+                                  {(() => {
+                                    const totalLessons = studentDetail.moduleProgress.reduce((sum, m) => sum + m.totalLessons, 0);
+                                    const completedLessons = studentDetail.moduleProgress.reduce((sum, m) => sum + m.completedLessons, 0);
+                                    const progressPct = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+                                    const avgQuizScore = studentDetail.quizHistory.length > 0
+                                      ? Math.round(studentDetail.quizHistory.reduce((sum, q) => sum + q.score, 0) / studentDetail.quizHistory.length)
+                                      : 0;
+                                    const statCards = [
+                                      { label: "Progression", value: `${completedLessons}/${totalLessons}`, sub: `${progressPct}% compl\u00e9t\u00e9`, icon: (<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>) },
+                                      { label: "XP Total", value: studentDetail.totalXP.toLocaleString("fr-FR"), sub: "points", icon: (<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>) },
+                                      { label: "Streak actuel", value: `${studentDetail.streaks.length}`, sub: `jour${studentDetail.streaks.length !== 1 ? "s" : ""}`, icon: (<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" /></svg>) },
+                                      { label: "Score moyen quiz", value: `${avgQuizScore}%`, sub: `${studentDetail.quizHistory.length} quiz`, icon: (<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342" /></svg>) },
+                                    ];
+                                    return (
+                                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                                        {statCards.map((card, idx) => (
+                                          <div key={idx} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+                                            <div className="flex items-center gap-2 mb-2">
+                                              <div className="w-7 h-7 rounded-lg bg-[#FF1744]/10 text-[#FF1744] flex items-center justify-center">{card.icon}</div>
+                                              <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">{card.label}</p>
+                                            </div>
+                                            <p className="text-xl font-bold text-[#111] tabular-nums">{card.value}</p>
+                                            <p className="text-[11px] text-gray-400 mt-0.5">{card.sub}</p>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    );
+                                  })()}
+
+                                  {/* ——— Module Progress ——— */}
                                   {studentDetail.moduleProgress.length > 0 && (
                                     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
                                       <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-4">Progression par module</p>
                                       <div className="space-y-3.5">
-                                        {studentDetail.moduleProgress.map((mod) => {
+                                        {studentDetail.moduleProgress
+                                          .sort((a, b) => a.moduleOrder - b.moduleOrder)
+                                          .map((mod) => {
                                           const modPct = mod.totalLessons > 0 ? Math.round((mod.completedLessons / mod.totalLessons) * 100) : 0;
+                                          const barColor = modPct === 100
+                                            ? "bg-emerald-500"
+                                            : modPct > 0
+                                              ? "bg-[#FF1744]"
+                                              : "bg-gray-300";
                                           return (
                                             <div key={mod.moduleId}>
                                               <div className="flex items-center justify-between mb-1.5">
                                                 <span className="text-xs text-[#111] font-medium">{mod.moduleTitle}</span>
-                                                <span className="text-[10px] text-gray-400 tabular-nums">{mod.completedLessons}/{mod.totalLessons} le&ccedil;ons</span>
+                                                <span className="text-[10px] text-gray-400 tabular-nums font-medium">{mod.completedLessons}/{mod.totalLessons} le&ccedil;ons</span>
                                               </div>
                                               <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                                                <div className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] transition-all duration-500" style={{ width: `${modPct}%` }} />
+                                                <motion.div
+                                                  className={cn("h-full rounded-full transition-all", barColor)}
+                                                  initial={{ width: 0 }}
+                                                  animate={{ width: `${modPct}%` }}
+                                                  transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
+                                                />
                                               </div>
                                             </div>
                                           );
@@ -1620,16 +1656,20 @@ function AdminStudentsTab() {
                                     </div>
                                   )}
 
+                                  {/* ——— Recent Quiz Scores (last 5) ——— */}
                                   {studentDetail.quizHistory.length > 0 && (
                                     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-4">Scores des quiz</p>
-                                      <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                                        {studentDetail.quizHistory.map((q) => (
-                                          <div key={q.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0 rounded-lg hover:bg-gray-50/50 px-2 -mx-2 transition-colors">
-                                            <span className="text-xs text-[#111] font-medium">{q.lessonTitle}</span>
-                                            <div className="flex items-center gap-2.5">
-                                              <span className={cn("text-xs font-bold tabular-nums", q.passed ? "text-emerald-600" : "text-red-500")}>{q.score}%</span>
-                                              <span className={cn("inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-semibold border", q.passed ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-red-50 text-red-600 border-red-200")}>
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-4">Derniers r&eacute;sultats quiz</p>
+                                      <div className="space-y-2">
+                                        {studentDetail.quizHistory.slice(0, 5).map((q) => (
+                                          <div key={q.id} className="flex items-center justify-between py-2.5 px-3 -mx-1 rounded-lg border border-gray-50 hover:bg-gray-50/60 transition-colors">
+                                            <div className="flex-1 min-w-0 mr-3">
+                                              <span className="text-xs text-[#111] font-medium block truncate">{q.lessonTitle}</span>
+                                              <span className="text-[10px] text-gray-400">{new Date(q.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2.5 flex-shrink-0">
+                                              <span className={cn("text-sm font-bold tabular-nums", q.passed ? "text-emerald-600" : "text-red-500")}>{q.score}%</span>
+                                              <span className={cn("inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-semibold border", q.passed ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-red-50 text-red-600 border-red-200")}>
                                                 {q.passed ? "R\u00e9ussi" : "\u00c9chou\u00e9"}
                                               </span>
                                             </div>
@@ -1638,6 +1678,35 @@ function AdminStudentsTab() {
                                       </div>
                                     </div>
                                   )}
+
+                                  {/* ——— Actions Row: Tier changer + Save ——— */}
+                                  <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+                                    <div className="flex flex-wrap items-center gap-3">
+                                      <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mr-1">Changer l&apos;offre</p>
+                                      <select
+                                        value={editTier}
+                                        onChange={(e) => setEditTier(e.target.value)}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/10 transition-all cursor-pointer"
+                                      >
+                                        <option value="starter">Starter</option>
+                                        <option value="academy">Academy</option>
+                                        <option value="one_to_one">1-to-1</option>
+                                      </select>
+                                      <button
+                                        onClick={(e) => { e.stopPropagation(); handleSaveTier(); }}
+                                        disabled={savingTier || editTier === (studentDetail.enrollment?.tier || "starter")}
+                                        className={cn(
+                                          "px-5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200",
+                                          editTier !== (studentDetail.enrollment?.tier || "starter")
+                                            ? "bg-[#FF1744] text-white hover:bg-[#E01440] shadow-sm hover:shadow-md"
+                                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                        )}
+                                      >
+                                        {savingTier ? "Sauvegarde..." : "Sauvegarder"}
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                               ) : (
                                 <p className="text-sm text-gray-400 text-center py-6">Impossible de charger les d&eacute;tails</p>
