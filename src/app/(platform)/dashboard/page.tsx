@@ -385,14 +385,9 @@ export default function DashboardPage() {
   const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
   const [adminLoading, setAdminLoading] = useState(false);
 
-  // Project state
+  // Project state (used by admin dashboard section)
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectsLoading, setProjectsLoading] = useState(true);
-  const [projectSubmitting, setProjectSubmitting] = useState(false);
-  const [showProjectForm, setShowProjectForm] = useState(false);
-  const [projectTitle, setProjectTitle] = useState("");
-  const [projectDescription, setProjectDescription] = useState("");
-  const [projectUrl, setProjectUrl] = useState("");
 
   const fetchProjects = useCallback(() => {
     setProjectsLoading(true);
@@ -406,30 +401,6 @@ export default function DashboardPage() {
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
-
-  const handleProjectSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!projectTitle.trim() || !projectDescription.trim()) return;
-    setProjectSubmitting(true);
-    try {
-      const res = await fetch("/api/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: projectTitle.trim(), description: projectDescription.trim(), url: projectUrl.trim() || null }),
-      });
-      if (res.ok) {
-        setProjectTitle("");
-        setProjectDescription("");
-        setProjectUrl("");
-        setShowProjectForm(false);
-        fetchProjects();
-      }
-    } catch {
-      // silent
-    } finally {
-      setProjectSubmitting(false);
-    }
-  };
 
   const handleProjectUpdate = async (projectId: string, status: string, feedback: string) => {
     try {
@@ -973,166 +944,6 @@ export default function DashboardPage() {
           </Card>
         </div>
       </div>
-
-        {/* ════ MES PROJETS (Student) ════ */}
-        <Card id="projets" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-              </svg>
-              <h3 className="text-sm font-medium text-[#111]">Mes Projets</h3>
-            </div>
-            {!showProjectForm && (
-              <button
-                onClick={() => setShowProjectForm(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:scale-[1.02]"
-                style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)", boxShadow: "0 2px 10px rgba(255,23,68,0.2)" }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                Soumettre un projet
-              </button>
-            )}
-          </div>
-
-          {/* Inline submit form */}
-          {showProjectForm && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              className="mb-5 p-5 bg-gray-50 border border-gray-200 rounded-xl"
-            >
-              <h4 className="text-sm font-semibold text-[#111] mb-3">Nouveau projet</h4>
-              <form onSubmit={handleProjectSubmit} className="space-y-3">
-                <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1">Titre du projet *</label>
-                  <input
-                    type="text"
-                    value={projectTitle}
-                    onChange={(e) => setProjectTitle(e.target.value)}
-                    placeholder="Ex: SaaS de gestion de factures"
-                    className="w-full px-3.5 py-2 rounded-lg bg-white border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-1 focus:ring-[#FF1744]/25 transition-all"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1">Description *</label>
-                  <textarea
-                    value={projectDescription}
-                    onChange={(e) => setProjectDescription(e.target.value)}
-                    placeholder="D&eacute;cris ton projet, les technologies utilis&eacute;es, le probl&egrave;me r&eacute;solu..."
-                    rows={3}
-                    className="w-full px-3.5 py-2 rounded-lg bg-white border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-1 focus:ring-[#FF1744]/25 transition-all resize-none"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1">Lien (GitHub, demo, site)</label>
-                  <input
-                    type="url"
-                    value={projectUrl}
-                    onChange={(e) => setProjectUrl(e.target.value)}
-                    placeholder="https://github.com/..."
-                    className="w-full px-3.5 py-2 rounded-lg bg-white border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-1 focus:ring-[#FF1744]/25 transition-all"
-                  />
-                </div>
-                <div className="flex items-center gap-2 pt-1">
-                  <button
-                    type="submit"
-                    disabled={projectSubmitting}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all disabled:opacity-50"
-                    style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
-                  >
-                    {projectSubmitting ? (
-                      <>
-                        <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Envoi...
-                      </>
-                    ) : (
-                      "Soumettre"
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowProjectForm(false)}
-                    className="px-3 py-2 rounded-lg text-xs font-medium text-gray-500 hover:text-[#111] hover:bg-gray-100 transition-all"
-                  >
-                    Annuler
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          )}
-
-          {/* Projects list */}
-          {projectsLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="w-5 h-5 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
-            </div>
-          ) : projects.length === 0 ? (
-            <div className="text-center py-8">
-              <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto mb-3">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-                </svg>
-              </div>
-              <p className="text-xs text-gray-400">Soumets ton premier projet MVP !</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {projects.map((project, i) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.04 }}
-                  className="p-4 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-200 transition-all"
-                >
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <h4 className="text-xs font-semibold text-[#111] truncate">{project.title}</h4>
-                        <ProjectStatusBadge status={project.status} />
-                      </div>
-                      <p className="text-[10px] text-gray-400">
-                        Soumis le {new Date(project.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}
-                      </p>
-                    </div>
-                    {project.url && (
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-white border border-gray-200 text-[10px] font-medium text-gray-500 hover:text-[#111] hover:border-gray-300 transition-all"
-                      >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                          <polyline points="15 3 21 3 21 9" />
-                          <line x1="10" y1="14" x2="21" y2="3" />
-                        </svg>
-                        Lien
-                      </a>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{project.description}</p>
-                  {project.feedback && (
-                    <div className="mt-2.5 p-3 bg-white border border-gray-100 rounded-lg">
-                      <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Retour de l&apos;&eacute;quipe</p>
-                      <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-wrap">{project.feedback}</p>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </Card>
 
         {/* Discord Community */}
         <Card initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="p-6">

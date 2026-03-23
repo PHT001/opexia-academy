@@ -49,5 +49,6 @@ export const config = {
     "/pipeline/:path*",
     "/parrainage/:path*",
     "/leaderboard/:path*",
+    "/projets/:path*",
   ],
 };
