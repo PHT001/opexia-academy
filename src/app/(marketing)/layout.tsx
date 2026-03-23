@@ -1,10 +1,10 @@
-import { Header } from "@/components/formaopex-landing/Header";
-import { Footer } from "@/components/formaopex-landing/Footer";
+import Navbar from "@/components/landing/Navbar";
+import Footer from "@/components/landing/Footer";
 
 export default function LandingLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen">{children}</main>
       <Footer />
     </>
