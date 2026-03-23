@@ -49,7 +49,7 @@ export default function StickyFloatingCTA() {
             transition={{ duration: 0.3 }}
             className="fixed bottom-0 left-0 right-0 z-50 hidden md:block"
           >
-            <div className="flex justify-end px-8 py-3">
+            <div className="flex justify-center px-8 py-4">
                 <a
                   href="#pricing"
                   className="inline-flex items-center rounded-full bg-[#FF1744] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-900/30"
