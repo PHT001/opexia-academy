@@ -239,11 +239,12 @@ export default function Features() {
       {/* Mobile: horizontal scroll */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-6 pb-4 pt-2 -mt-1 lg:hidden"
+        className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory px-6 pb-4 pt-2 -mt-1 lg:hidden touch-pan-x"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
           WebkitOverflowScrolling: "touch",
+          overscrollBehaviorY: "none",
         }}
       >
         {services.map((service, i) => (
