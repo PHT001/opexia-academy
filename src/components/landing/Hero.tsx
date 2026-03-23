@@ -104,7 +104,7 @@ export default function Hero() {
   }, [started]);
 
   return (
-    <section className="relative flex items-center pt-28 pb-4 overflow-hidden">
+    <section className="relative flex items-center pt-20 md:pt-28 pb-4 overflow-hidden">
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-red-50/30 pointer-events-none" />
 

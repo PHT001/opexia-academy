@@ -28,7 +28,7 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-8 left-0 right-0 z-50 flex justify-center px-4 pt-3"
+      className="fixed top-2 md:top-8 left-0 right-0 z-50 flex justify-center px-3 md:px-4 pt-1 md:pt-3"
     >
       {/* Glass pill container */}
       <div
