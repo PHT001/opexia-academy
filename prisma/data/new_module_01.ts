@@ -135,55 +135,96 @@ export const MODULE_1_LESSONS = [
   {
     order: 3,
     module: 1,
-    title: "Installer et configurer Claude Code",
-    slug: "installer-configurer-claude-code",
-    duration: "30 min",
-    description: "Installation pas à pas de Claude Code, premiers pas dans le terminal, création du fichier CLAUDE.md et commandes de base.",
+    title: "Installer Claude et créer ton premier projet",
+    slug: "installer-claude-premier-projet",
+    duration: "20 min",
+    description: "Télécharger l'application Claude, créer ton compte, découvrir l'interface et créer ta première page web en quelques clics.",
     content: blocks([
-      { id: "3-1", type: "heading", level: 2, text: "Claude Code : ton copilote de développement" },
-      { id: "3-2", type: "text", html: "<p>Claude Code, c'est l'outil qui va changer ta façon de travailler. Imagine : tu ouvres ton terminal, tu décris ce que tu veux en français, et Claude écrit le code pour toi, crée les fichiers, installe les dépendances, corrige les bugs. Pas besoin d'interface graphique, pas besoin de copier-coller depuis un chat. Tout se passe directement dans ton environnement de travail.</p><p>C'est <strong>l'outil principal</strong> qu'on va utiliser tout au long de cette formation. Alors on va prendre le temps de bien l'installer et le configurer.</p>" },
-      { id: "3-3", type: "callout", variant: "info", html: "<strong>Prérequis :</strong> Tu as besoin d'un ordinateur (Mac, Windows ou Linux), d'une connexion Internet et d'un compte Anthropic. Pas besoin de savoir coder — c'est justement ce qu'on va apprendre ensemble avec l'aide de Claude." },
-      { id: "3-4", type: "heading", level: 2, text: "Étape 1 : Installer Node.js" },
-      { id: "3-5", type: "steps", steps: [
-        { title: "Télécharge Node.js", description: "Va sur nodejs.org et télécharge la version LTS (Long Term Support). C'est la version stable recommandée. Clique sur le gros bouton vert." },
-        { title: "Installe Node.js", description: "Lance l'installateur et suis les étapes. Laisse tout par défaut. Sur Mac, tu peux aussi utiliser Homebrew : brew install node. Sur Windows, l'installateur fait tout." },
-        { title: "Vérifie l'installation", description: "Ouvre un terminal (Terminal sur Mac, PowerShell ou Git Bash sur Windows) et tape : node --version. Tu devrais voir un numéro de version (v20.x.x ou plus). Tape aussi npm --version pour vérifier que npm est installé." },
-        { title: "C'est quoi npm ?", description: "npm (Node Package Manager) est le gestionnaire de paquets de Node.js. C'est lui qui va nous permettre d'installer Claude Code et toutes les dépendances de nos projets. Pense à npm comme un App Store pour les développeurs." }
+      { id: "3-1", type: "heading", level: 2, text: "Claude : ton assistant qui crée des choses pour toi" },
+      { id: "3-2", type: "text", html: "<p>Dans la leçon précédente, on a comparé les outils IA du marché. Maintenant, on passe à l'action : on va <strong>installer Claude sur ton ordinateur</strong> et lui demander de créer ta première page web. Oui, dès aujourd'hui, tu vas avoir un résultat concret que tu peux ouvrir dans ton navigateur.</p><p>Pas besoin de savoir coder. Pas besoin de connaître le terminal. Tu vas simplement télécharger une application, lui parler en français, et elle va créer des fichiers pour toi. C'est aussi simple que ça.</p>" },
+      { id: "3-3", type: "callout", variant: "info", html: "<strong>Ce dont tu as besoin :</strong> Un ordinateur (Windows, Mac ou Linux), une connexion Internet, et 20 minutes devant toi. C'est tout." },
+      { id: "3-4", type: "separator", style: "dots" },
+
+      { id: "3-5", type: "heading", level: 2, text: "Étape 1 : Télécharger l'application Claude" },
+      { id: "3-6", type: "steps", steps: [
+        { title: "Va sur le site de Claude", description: "Ouvre ton navigateur (Chrome, Firefox, Edge...) et va sur claude.ai/download. C'est la page officielle pour télécharger l'application de bureau." },
+        { title: "Clique sur le bouton de téléchargement", description: "Le site détecte automatiquement ton système (Windows, Mac...). Clique sur le bouton \"Télécharger pour Windows\" (ou Mac selon ton ordinateur). Un fichier d'installation va se télécharger." },
+        { title: "C'est rapide", description: "Le fichier fait quelques dizaines de Mo. En quelques secondes, c'est téléchargé. Tu le retrouves dans ton dossier Téléchargements." }
       ]},
-      { id: "3-6", type: "heading", level: 2, text: "Étape 2 : Installer Claude Code" },
-      { id: "3-7", type: "text", html: "<p>Maintenant que Node.js est installé, on va installer Claude Code. Ouvre ton terminal et tape :</p><p><code>npm install -g @anthropic-ai/claude-code</code></p><p>Le <code>-g</code> signifie \"global\" — ça installe Claude Code pour tout ton système, pas juste pour un projet. Attends quelques secondes que l'installation se termine. Ensuite, vérifie avec :</p><p><code>claude --version</code></p><p>Si tu vois un numéro de version, c'est bon, Claude Code est installé.</p>" },
-      { id: "3-8", type: "callout", variant: "warning", html: "<strong>Erreur courante sur Windows :</strong> Si tu as une erreur de permissions, lance PowerShell en tant qu'administrateur (clic droit > Exécuter en tant qu'administrateur). Sur Mac/Linux, ajoute <code>sudo</code> devant la commande." },
-      { id: "3-9", type: "heading", level: 2, text: "Étape 3 : Premiers pas dans le terminal" },
-      { id: "3-10", type: "text", html: "<p>Le terminal peut sembler intimidant au début, mais c'est ton meilleur ami. Voici les commandes de base dont tu as besoin :</p><ul><li><code>cd mon-dossier</code> — Se déplacer dans un dossier</li><li><code>cd ..</code> — Remonter d'un niveau</li><li><code>ls</code> (Mac/Linux) ou <code>dir</code> (Windows) — Lister les fichiers</li><li><code>mkdir mon-projet</code> — Créer un nouveau dossier</li><li><code>pwd</code> — Voir où tu es actuellement</li></ul><p>Pas besoin de plus pour commencer. Le reste, Claude Code le fera pour toi.</p>" },
-      { id: "3-11", type: "heading", level: 2, text: "Étape 4 : Le fichier CLAUDE.md" },
-      { id: "3-12", type: "text", html: "<p>Le fichier <code>CLAUDE.md</code> est le cerveau de tes projets avec Claude Code. C'est un fichier que tu places à la racine de ton projet et qui donne à Claude le contexte de ton projet : les technologies utilisées, les conventions de code, les règles à suivre. C'est comme un brief que tu donnes à un développeur avant qu'il commence à bosser.</p><p>Voici un exemple minimal :</p><pre><code># Mon Projet\n\n## Stack technique\n- Next.js 14 (App Router)\n- Tailwind CSS\n- TypeScript\n- Supabase pour la base de données\n\n## Conventions\n- Composants React en PascalCase\n- Fichiers en kebab-case\n- Toujours utiliser les Server Components par défaut\n\n## Structure du projet\n- /src/app — Routes et pages\n- /src/components — Composants réutilisables\n- /src/lib — Utilitaires et helpers</code></pre>" },
-      { id: "3-13", type: "callout", variant: "success", html: "<strong>Pro tip :</strong> Plus ton CLAUDE.md est détaillé, meilleur sera le code que Claude produit. Ajoute les patterns que tu utilises, les erreurs à éviter, les conventions de nommage. C'est un investissement de 10 minutes qui te fait gagner des heures." },
-      { id: "3-14", type: "heading", level: 2, text: "Les commandes de base de Claude Code" },
-      { id: "3-15", type: "comparison", headers: ["Commande", "Ce que ça fait"], rows: [
-        { cells: ["claude", "Lance Claude Code en mode interactif dans le dossier courant"] },
-        { cells: ["claude \"crée un composant Button\"", "Exécute directement une instruction"] },
-        { cells: ["/help", "Affiche l'aide et les commandes disponibles (dans Claude Code)"] },
-        { cells: ["/clear", "Efface le contexte de la conversation"] },
-        { cells: ["Ctrl+C", "Annuler / quitter Claude Code"] }
+      { id: "3-7", type: "callout", variant: "tip", html: "<strong>Astuce :</strong> Si tu ne trouves pas la page de téléchargement, tu peux aussi chercher \"Claude desktop app download\" sur Google. Le premier résultat sera le bon." },
+
+      { id: "3-8", type: "heading", level: 2, text: "Étape 2 : Installer l'application" },
+      { id: "3-9", type: "steps", steps: [
+        { title: "Lance le fichier d'installation", description: "Double-clique sur le fichier que tu viens de télécharger (il s'appelle quelque chose comme Claude-Setup.exe sur Windows ou Claude.dmg sur Mac)." },
+        { title: "Suis les étapes d'installation", description: "C'est comme installer n'importe quelle application. Sur Windows : clique sur \"Installer\" et laisse faire. Sur Mac : glisse l'icône Claude dans le dossier Applications." },
+        { title: "L'application se lance automatiquement", description: "Une fois installée, Claude s'ouvre tout seul. Tu vas voir un écran de connexion. Si l'app ne s'ouvre pas, cherche \"Claude\" dans ton menu Démarrer (Windows) ou dans tes Applications (Mac)." }
       ]},
-      { id: "3-16", type: "heading", level: 2, text: "Cursor et Antigravity : les alternatives" },
-      { id: "3-17", type: "text", html: "<p><strong>Cursor</strong> est un éditeur de code basé sur VS Code avec l'IA intégrée. Tu codes comme d'habitude, mais l'IA t'aide en temps réel : auto-complétion intelligente, chat intégré, édition par instruction. C'est excellent en complément de Claude Code.</p><p><strong>Antigravity</strong> est un outil plus récent qui permet de créer des applications complètes via une interface visuelle + IA. Idéal pour le prototypage rapide et les clients qui veulent voir un résultat vite.</p><p>On reviendra en détail sur ces deux outils dans le <strong>module 22 (Masterclass outils)</strong>. Pour l'instant, concentre-toi sur Claude Code — c'est la fondation.</p>" },
-      { id: "3-18", type: "checklist", title: "Checklist d'installation", items: [
-        { id: "c1", text: "Node.js installé (node --version fonctionne)" },
-        { id: "c2", text: "npm installé (npm --version fonctionne)" },
-        { id: "c3", text: "Claude Code installé (claude --version fonctionne)" },
-        { id: "c4", text: "J'ai compris comment naviguer dans le terminal (cd, ls, mkdir)" },
-        { id: "c5", text: "Je sais ce qu'est un fichier CLAUDE.md et à quoi il sert" },
-        { id: "c6", text: "Je connais les commandes de base de Claude Code" }
+
+      { id: "3-10", type: "heading", level: 2, text: "Étape 3 : Créer ton compte ou te connecter" },
+      { id: "3-11", type: "steps", steps: [
+        { title: "Nouveau sur Claude ? Crée un compte", description: "Clique sur \"Sign up\" (S'inscrire). Tu peux te créer un compte avec ton adresse email ou te connecter avec ton compte Google. Suis les étapes : email, mot de passe, vérification." },
+        { title: "Tu as déjà un compte Anthropic ? Connecte-toi", description: "Si tu as déjà utilisé Claude sur le web (claude.ai), clique sur \"Log in\" (Se connecter) et utilise les mêmes identifiants. Ton compte fonctionne partout." },
+        { title: "Choisis ton plan", description: "L'application fonctionne avec un abonnement Claude Pro (20$/mois). C'est l'investissement de base pour cette formation. Si tu veux d'abord tester, la version gratuite te permet quelques messages par jour." }
+      ]},
+      { id: "3-12", type: "callout", variant: "warning", html: "<strong>Important :</strong> Pour suivre cette formation confortablement, l'abonnement Claude Pro est recommandé. La version gratuite limite le nombre de messages. 20$/mois pour un outil qui va te permettre de facturer des centaines ou des milliers d'euros, c'est le meilleur investissement que tu feras." },
+      { id: "3-13", type: "separator", style: "dots" },
+
+      { id: "3-14", type: "heading", level: 2, text: "Étape 4 : Découvrir l'interface" },
+      { id: "3-15", type: "text", html: "<p>L'application Claude est très simple. Voici ce que tu vois quand tu l'ouvres :</p><ul><li><strong>La zone de chat (au centre) :</strong> c'est ici que tu parles à Claude. Tu tapes ta demande, il te répond.</li><li><strong>Le bouton \"New Chat\" (en haut) :</strong> pour démarrer une nouvelle conversation.</li><li><strong>L'historique (à gauche) :</strong> toutes tes conversations précédentes sont listées ici.</li><li><strong>Le sélecteur de modèle :</strong> tu peux choisir entre différentes versions de Claude (Sonnet, Opus...). Pour cette formation, le modèle par défaut convient très bien.</li></ul><p>C'est tout. Pas de menus compliqués, pas de paramètres obscurs. Tu parles, Claude répond.</p>" },
+
+      { id: "3-16", type: "heading", level: 2, text: "Étape 5 : Accéder à la section Projets" },
+      { id: "3-17", type: "text", html: "<p>Claude a une fonctionnalité super pratique : les <strong>Projets</strong>. Un projet, c'est un espace dédié où Claude comprend le contexte de ce que tu fais. Tu peux y ajouter des instructions personnalisées et des fichiers de référence.</p>" },
+      { id: "3-18", type: "steps", steps: [
+        { title: "Trouve la section Projets", description: "Dans l'application, cherche l'icône ou le menu \"Projects\" (Projets). C'est généralement accessible depuis la barre latérale gauche ou le menu principal." },
+        { title: "Crée un nouveau projet", description: "Clique sur \"Create Project\" (Créer un projet). Donne-lui un nom simple, par exemple \"Mon premier site\". Tu peux ajouter une description si tu veux." },
+        { title: "C'est quoi l'intérêt ?", description: "Quand tu travailles dans un projet, Claude garde le contexte. Il se souvient de ce que tu as fait avant et peut modifier les fichiers existants. C'est beaucoup mieux que de tout refaire à chaque conversation." }
+      ]},
+      { id: "3-19", type: "callout", variant: "info", html: "<strong>Projets vs Chat simple :</strong> Le chat simple, c'est pour poser des questions rapides. Les Projets, c'est pour construire quelque chose. Dès que tu crées un site, un chatbot ou une automatisation, utilise un Projet." },
+      { id: "3-20", type: "separator", style: "dots" },
+
+      { id: "3-21", type: "heading", level: 2, text: "Étape 6 : Préparer ton dossier de travail" },
+      { id: "3-22", type: "steps", steps: [
+        { title: "Crée un dossier sur ton Bureau", description: "Sur ton Bureau (l'écran principal de ton ordinateur), fais un clic droit > Nouveau > Dossier. Appelle-le \"mes-projets-ia\". C'est ici que Claude va créer tous tes fichiers." },
+        { title: "Pourquoi un dossier dédié ?", description: "Quand Claude crée des fichiers (pages web, scripts, etc.), il les enregistre quelque part sur ton ordinateur. En ayant un dossier dédié, tu sais toujours où retrouver ton travail. C'est comme avoir un classeur bien rangé." },
+        { title: "Ouvre le dossier pour vérifier", description: "Double-clique sur le dossier pour l'ouvrir. Il est vide pour l'instant, c'est normal. Dans quelques minutes, Claude va y créer ta première page web." }
+      ]},
+      { id: "3-23", type: "callout", variant: "tip", html: "<strong>Bonne habitude :</strong> Crée un sous-dossier pour chaque projet. Par exemple : mes-projets-ia/mon-premier-site, mes-projets-ia/chatbot-client, etc. Ça t'évitera de tout mélanger quand tu auras plusieurs projets." },
+
+      { id: "3-24", type: "heading", level: 2, text: "Étape 7 : Ton premier test — une page web en 30 secondes" },
+      { id: "3-25", type: "text", html: "<p>C'est le moment de vérité. Tu vas demander à Claude de créer une vraie page web pour toi. Pas besoin de savoir ce qu'est du HTML, pas besoin de comprendre le code. Tu demandes, Claude fait.</p>" },
+      { id: "3-26", type: "steps", steps: [
+        { title: "Ouvre Claude et tape cette demande", description: "Dans la zone de chat, tape : \"Crée-moi une page web de bienvenue pour mon agence IA. La page doit avoir un titre accrocheur, un petit texte de présentation et un bouton. Utilise un design moderne avec un fond sombre et des couleurs vives. Donne-moi le fichier HTML complet.\"" },
+        { title: "Claude génère le code", description: "En quelques secondes, Claude va te répondre avec un bloc de code HTML complet. Tu vas voir du texte qui ressemble à du code — c'est normal, c'est le langage que comprennent les navigateurs web." },
+        { title: "Copie le code dans un fichier", description: "Clique sur le bouton \"Copy\" (Copier) qui apparaît en haut du bloc de code. Ensuite, ouvre le Bloc-notes (Windows) ou TextEdit (Mac), colle le code (Ctrl+V), et enregistre le fichier dans ton dossier mes-projets-ia sous le nom \"index.html\". Attention : choisis bien \"Tous les fichiers\" comme type, pas \".txt\"." },
+        { title: "Ouvre le résultat dans ton navigateur", description: "Va dans ton dossier mes-projets-ia et double-clique sur le fichier index.html. Ton navigateur s'ouvre et... ta page web apparaît. Avec le design, les couleurs, le bouton. Tu viens de créer ton premier site web grâce à l'IA." }
+      ]},
+      { id: "3-27", type: "callout", variant: "success", html: "<strong>Bravo !</strong> Tu viens de créer ta première page web en parlant en français à une IA. Pas une seule ligne de code écrite par toi. C'est exactement comme ça qu'on va travailler tout au long de la formation — et c'est comme ça que tu vas créer des choses pour tes futurs clients." },
+      { id: "3-28", type: "separator", style: "line" },
+
+      { id: "3-29", type: "heading", level: 2, text: "Pour aller plus loin : Claude Code et les alternatives" },
+      { id: "3-30", type: "text", html: "<p>L'application de bureau qu'on vient d'installer est parfaite pour débuter. Mais sache que Claude existe aussi sous forme de <strong>Claude Code</strong>, un outil en ligne de commande (terminal) qui permet de créer et modifier des fichiers directement sans copier-coller. C'est encore plus puissant — et on l'utilisera dans les modules suivants quand tu seras plus à l'aise.</p><p>Il existe aussi d'autres outils comme <strong>Cursor</strong> (un éditeur de code avec IA intégrée) et <strong>Antigravity</strong> (une interface visuelle pour créer des apps). On les verra en détail dans le <strong>module 22 (Masterclass outils)</strong>. Pour l'instant, l'application Claude suffit largement.</p>" },
+      { id: "3-31", type: "comparison", headers: ["Outil", "C'est quoi", "Quand on l'utilise"], rows: [
+        { cells: ["Application Claude (bureau)", "L'app qu'on vient d'installer, simple et visuelle", "Maintenant — pour démarrer et pour les premiers projets"] },
+        { cells: ["Claude Code (terminal)", "Version en ligne de commande, plus puissante", "À partir du module 3 — pour les projets plus avancés"] },
+        { cells: ["Cursor / Antigravity", "Éditeurs de code avec IA intégrée", "Module 22 — pour aller encore plus vite"] }
+      ]},
+
+      { id: "3-32", type: "checklist", title: "Ce que tu as accompli dans cette leçon", items: [
+        { id: "c1", text: "L'application Claude est installée sur mon ordinateur" },
+        { id: "c2", text: "J'ai créé mon compte (ou je me suis connecté)" },
+        { id: "c3", text: "Je connais l'interface : zone de chat, historique, projets" },
+        { id: "c4", text: "J'ai créé un dossier \"mes-projets-ia\" sur mon Bureau" },
+        { id: "c5", text: "J'ai demandé à Claude de créer une page web et ça a marché" },
+        { id: "c6", text: "J'ai ouvert ma page web dans le navigateur — premier résultat concret" }
       ]}
     ]),
-    exercise: "<h3>Exercice : Installe Claude Code et crée ton premier projet</h3><p>Suis ces étapes dans l'ordre :</p><ol><li>Installe Node.js depuis nodejs.org (vérifie avec <code>node --version</code>)</li><li>Installe Claude Code : <code>npm install -g @anthropic-ai/claude-code</code></li><li>Crée un dossier pour ton premier projet : <code>mkdir mon-premier-projet && cd mon-premier-projet</code></li><li>Crée un fichier CLAUDE.md avec le template vu dans la leçon (tu peux le faire avec n'importe quel éditeur de texte)</li><li>Lance Claude Code : <code>claude</code></li><li>Demande-lui : \"Crée un fichier index.html avec une page d'accueil simple qui dit Bienvenue dans mon agence IA\"</li><li>Ouvre le fichier créé dans ton navigateur et admire le résultat</li></ol><p>Bravo, tu viens de créer ta première chose avec l'IA. C'est le début de l'aventure.</p>",
+    exercise: "<h3>Exercice : Personnalise ta page de bienvenue</h3><p>Tu as créé une page web basique. Maintenant, on va plus loin :</p><ol><li>Retourne dans Claude et demande-lui : \"Améliore ma page web d'agence IA. Ajoute une section 'Nos services' avec 3 cartes : Chatbots, Automatisation et Sites web. Chaque carte doit avoir un emoji, un titre et une courte description. Garde le même style que la page précédente.\"</li><li>Copie le nouveau code et remplace le contenu de ton fichier index.html</li><li>Rafraîchis la page dans ton navigateur (F5) et admire le résultat</li><li>Essaie une troisième demande de ton choix : change les couleurs, ajoute une section contact, modifie les textes...</li><li>Enregistre ta version finale — c'est ta première réalisation avec l'IA !</li></ol><p>L'objectif n'est pas de faire un site parfait, c'est de comprendre le processus : tu demandes en français, Claude crée, tu vois le résultat. Simple.</p>",
     quiz: [
-      { type: "mcq", question: "Quelle commande installe Claude Code globalement ?", options: JSON.stringify(["npm install claude-code", "npm install -g @anthropic-ai/claude-code", "pip install claude-code", "brew install claude-code"]), correctAnswer: "npm install -g @anthropic-ai/claude-code", explanation: "La commande npm install -g @anthropic-ai/claude-code installe Claude Code globalement sur ton système. Le -g est pour 'global', ce qui permet de l'utiliser dans n'importe quel dossier." },
-      { type: "true_false", question: "Le fichier CLAUDE.md sert à donner du contexte à Claude Code sur ton projet.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Le fichier CLAUDE.md est placé à la racine de ton projet et donne à Claude le contexte nécessaire : stack technique, conventions de code, structure du projet. Plus il est détaillé, meilleur sera le code généré." },
-      { type: "mcq", question: "Qu'est-ce que npm ?", options: JSON.stringify(["Un langage de programmation", "Un navigateur web", "Le gestionnaire de paquets de Node.js", "Un éditeur de code"]), correctAnswer: "Le gestionnaire de paquets de Node.js", explanation: "npm (Node Package Manager) est le gestionnaire de paquets de Node.js. Il permet d'installer des outils et des librairies comme Claude Code. C'est comme un App Store pour les développeurs." },
-      { type: "mcq", question: "Quelle commande permet de lancer Claude Code dans le dossier courant ?", options: JSON.stringify(["start claude", "run claude-code", "claude", "npm start claude"]), correctAnswer: "claude", explanation: "Il suffit de taper 'claude' dans ton terminal pour lancer Claude Code en mode interactif. Il prendra automatiquement en compte le contexte du dossier et le fichier CLAUDE.md s'il existe." },
-      { type: "true_false", question: "Cursor et Antigravity seront étudiés en détail dans le module 22 de la formation.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Cursor et Antigravity sont mentionnés dans cette leçon pour que tu saches qu'ils existent, mais on y reviendra en détail dans le module 22 (Masterclass outils). Pour l'instant, Claude Code est la priorité." }
+      { type: "mcq", question: "Où télécharge-t-on l'application Claude ?", options: JSON.stringify(["Sur l'App Store uniquement", "Sur claude.ai/download", "Sur GitHub", "Sur le Microsoft Store"]), correctAnswer: "Sur claude.ai/download", explanation: "L'application de bureau Claude se télécharge directement sur claude.ai/download. Le site détecte ton système d'exploitation et te propose le bon fichier d'installation." },
+      { type: "true_false", question: "Pour utiliser Claude, il faut savoir coder.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Pas du tout ! L'application Claude fonctionne en conversation. Tu décris ce que tu veux en français, et Claude génère le code pour toi. C'est justement la force de cet outil : rendre la création accessible à tous." },
+      { type: "mcq", question: "Pourquoi créer un dossier dédié sur le Bureau pour tes projets ?", options: JSON.stringify(["C'est obligatoire pour que Claude fonctionne", "Pour retrouver facilement les fichiers créés par Claude", "Pour que Claude aille plus vite", "Parce que Claude ne fonctionne pas sans dossier"]), correctAnswer: "Pour retrouver facilement les fichiers créés par Claude", explanation: "Créer un dossier dédié comme \"mes-projets-ia\" sur ton Bureau est une bonne habitude d'organisation. Ça te permet de toujours savoir où sont tes fichiers et de garder ton travail bien rangé." },
+      { type: "mcq", question: "Quelle est la différence entre le Chat simple et les Projets dans Claude ?", options: JSON.stringify(["Il n'y a aucune différence", "Les Projets gardent le contexte et sont faits pour construire quelque chose", "Le Chat simple est plus puissant que les Projets", "Les Projets sont réservés aux utilisateurs payants"]), correctAnswer: "Les Projets gardent le contexte et sont faits pour construire quelque chose", explanation: "Le chat simple est idéal pour des questions rapides. Les Projets permettent de garder le contexte, d'ajouter des instructions personnalisées et de travailler sur quelque chose de plus structuré comme un site ou un chatbot." },
+      { type: "true_false", question: "Claude Code (version terminal) et les outils comme Cursor seront abordés plus tard dans la formation.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Claude Code (terminal) sera utilisé à partir du module 3 pour les projets plus avancés. Cursor et Antigravity seront vus en détail dans le module 22 (Masterclass outils). Pour l'instant, l'application de bureau est parfaite pour démarrer." }
     ],
   },
 
