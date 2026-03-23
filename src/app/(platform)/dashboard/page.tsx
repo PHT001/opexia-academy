@@ -972,6 +972,7 @@ export default function DashboardPage() {
             </div>
           </Card>
         </div>
+      </div>
 
         {/* ════ MES PROJETS (Student) ════ */}
         <Card initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="p-6">
@@ -1157,7 +1158,6 @@ export default function DashboardPage() {
             </a>
           </div>
         </Card>
-      </div>
 
       {/* End of student dashboard */}
       </>)}
