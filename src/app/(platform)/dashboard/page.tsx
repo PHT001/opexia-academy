@@ -98,6 +98,53 @@ interface DashboardData {
   modules: Array<{ id: string; title: string; order: number; totalLessons: number; completedLessons: number; }>;
 }
 
+/* ——— Project Types ——— */
+interface ProjectUser {
+  id: string;
+  name: string | null;
+  email: string;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  url: string | null;
+  status: string;
+  feedback: string | null;
+  userId: string;
+  user?: ProjectUser;
+  createdAt: string;
+  updatedAt: string;
+}
+
+type ProjectTabFilter = "all" | "submitted" | "reviewing" | "approved" | "needs_revision";
+
+const PROJECT_STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
+  submitted: { label: "En attente", color: "text-yellow-600", bg: "bg-yellow-50", border: "border-yellow-200" },
+  reviewing: { label: "En revue", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200" },
+  approved: { label: "Approuv\u00e9", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" },
+  needs_revision: { label: "\u00c0 r\u00e9viser", color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-200" },
+};
+
+function ProjectStatusBadge({ status }: { status: string }) {
+  const cfg = PROJECT_STATUS_CONFIG[status] || PROJECT_STATUS_CONFIG.submitted;
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${cfg.color} ${cfg.bg} ${cfg.border}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${cfg.color.replace("text-", "bg-")}`} />
+      {cfg.label}
+    </span>
+  );
+}
+
+const PROJECT_TABS: { id: ProjectTabFilter; label: string }[] = [
+  { id: "all", label: "Tous" },
+  { id: "submitted", label: "En attente" },
+  { id: "reviewing", label: "En revue" },
+  { id: "approved", label: "Approuv\u00e9s" },
+  { id: "needs_revision", label: "\u00c0 r\u00e9viser" },
+];
+
 /* ——— Animated Counter ——— */
 function AnimatedNumber({ value, suffix = "", className = "" }: { value: number; suffix?: string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -338,6 +385,68 @@ export default function DashboardPage() {
   const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
   const [adminLoading, setAdminLoading] = useState(false);
 
+  // Project state
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [projectSubmitting, setProjectSubmitting] = useState(false);
+  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [projectTitle, setProjectTitle] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [projectUrl, setProjectUrl] = useState("");
+
+  const fetchProjects = useCallback(() => {
+    setProjectsLoading(true);
+    fetch("/api/projects")
+      .then((r) => r.json())
+      .then((d) => { if (Array.isArray(d)) setProjects(d); })
+      .catch(() => {})
+      .finally(() => setProjectsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
+
+  const handleProjectSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!projectTitle.trim() || !projectDescription.trim()) return;
+    setProjectSubmitting(true);
+    try {
+      const res = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: projectTitle.trim(), description: projectDescription.trim(), url: projectUrl.trim() || null }),
+      });
+      if (res.ok) {
+        setProjectTitle("");
+        setProjectDescription("");
+        setProjectUrl("");
+        setShowProjectForm(false);
+        fetchProjects();
+      }
+    } catch {
+      // silent
+    } finally {
+      setProjectSubmitting(false);
+    }
+  };
+
+  const handleProjectUpdate = async (projectId: string, status: string, feedback: string) => {
+    try {
+      const res = await fetch(`/api/projects/${projectId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status, feedback }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setProjects((prev) => prev.map((p) => (p.id === projectId ? updated : p)));
+      }
+    } catch {
+      // silent
+    }
+  };
+
   // Listen for preview tier changes from sidebar
   useEffect(() => {
     const handler = (e: Event) => {
@@ -408,7 +517,7 @@ export default function DashboardPage() {
       {/* ════ ADMIN-ONLY VIEW: show admin panel directly ════ */}
       {isAdmin && !previewTier && (
         <>
-          <AdminDashboardSection stats={adminStats} loading={adminLoading} />
+          <AdminDashboardSection stats={adminStats} loading={adminLoading} projects={projects} onProjectUpdate={handleProjectUpdate} />
         </>
       )}
 
@@ -864,6 +973,166 @@ export default function DashboardPage() {
           </Card>
         </div>
 
+        {/* ════ MES PROJETS (Student) ════ */}
+        <Card initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+              </svg>
+              <h3 className="text-sm font-medium text-[#111]">Mes Projets</h3>
+            </div>
+            {!showProjectForm && (
+              <button
+                onClick={() => setShowProjectForm(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:scale-[1.02]"
+                style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)", boxShadow: "0 2px 10px rgba(255,23,68,0.2)" }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Soumettre un projet
+              </button>
+            )}
+          </div>
+
+          {/* Inline submit form */}
+          {showProjectForm && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              className="mb-5 p-5 bg-gray-50 border border-gray-200 rounded-xl"
+            >
+              <h4 className="text-sm font-semibold text-[#111] mb-3">Nouveau projet</h4>
+              <form onSubmit={handleProjectSubmit} className="space-y-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Titre du projet *</label>
+                  <input
+                    type="text"
+                    value={projectTitle}
+                    onChange={(e) => setProjectTitle(e.target.value)}
+                    placeholder="Ex: SaaS de gestion de factures"
+                    className="w-full px-3.5 py-2 rounded-lg bg-white border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-1 focus:ring-[#FF1744]/25 transition-all"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Description *</label>
+                  <textarea
+                    value={projectDescription}
+                    onChange={(e) => setProjectDescription(e.target.value)}
+                    placeholder="D&eacute;cris ton projet, les technologies utilis&eacute;es, le probl&egrave;me r&eacute;solu..."
+                    rows={3}
+                    className="w-full px-3.5 py-2 rounded-lg bg-white border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-1 focus:ring-[#FF1744]/25 transition-all resize-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Lien (GitHub, demo, site)</label>
+                  <input
+                    type="url"
+                    value={projectUrl}
+                    onChange={(e) => setProjectUrl(e.target.value)}
+                    placeholder="https://github.com/..."
+                    className="w-full px-3.5 py-2 rounded-lg bg-white border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-1 focus:ring-[#FF1744]/25 transition-all"
+                  />
+                </div>
+                <div className="flex items-center gap-2 pt-1">
+                  <button
+                    type="submit"
+                    disabled={projectSubmitting}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all disabled:opacity-50"
+                    style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
+                  >
+                    {projectSubmitting ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Envoi...
+                      </>
+                    ) : (
+                      "Soumettre"
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowProjectForm(false)}
+                    className="px-3 py-2 rounded-lg text-xs font-medium text-gray-500 hover:text-[#111] hover:bg-gray-100 transition-all"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          )}
+
+          {/* Projects list */}
+          {projectsLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="w-5 h-5 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+            </div>
+          ) : projects.length === 0 ? (
+            <div className="text-center py-8">
+              <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto mb-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <p className="text-xs text-gray-400">Soumets ton premier projet MVP !</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {projects.map((project, i) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.04 }}
+                  className="p-4 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-200 transition-all"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <h4 className="text-xs font-semibold text-[#111] truncate">{project.title}</h4>
+                        <ProjectStatusBadge status={project.status} />
+                      </div>
+                      <p className="text-[10px] text-gray-400">
+                        Soumis le {new Date(project.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}
+                      </p>
+                    </div>
+                    {project.url && (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-white border border-gray-200 text-[10px] font-medium text-gray-500 hover:text-[#111] hover:border-gray-300 transition-all"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                        Lien
+                      </a>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{project.description}</p>
+                  {project.feedback && (
+                    <div className="mt-2.5 p-3 bg-white border border-gray-100 rounded-lg">
+                      <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Retour de l&apos;&eacute;quipe</p>
+                      <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-wrap">{project.feedback}</p>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </Card>
+
         {/* Discord Community */}
         <Card initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="p-6">
           <div className="flex items-center justify-between">
@@ -955,8 +1224,8 @@ function AdminAvatarCircle({ name, size = "md" }: { name: string; size?: "sm" | 
 const adminFadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, } } };
 const adminStagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
 
-function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; loading: boolean }) {
-  const [adminTab, setAdminTab] = useState<"overview" | "students">("overview");
+function AdminDashboardSection({ stats, loading, projects, onProjectUpdate }: { stats: AdminStats | null; loading: boolean; projects: Project[]; onProjectUpdate: (id: string, status: string, feedback: string) => Promise<void> }) {
+  const [adminTab, setAdminTab] = useState<"overview" | "students" | "projects">("overview");
 
   if (loading) {
     return (
@@ -1084,12 +1353,31 @@ function AdminDashboardSection({ stats, loading }: { stats: AdminStats | null; l
             Gestion Eleves
           </span>
         </button>
+        <button
+          onClick={() => setAdminTab("projects")}
+          className={cn(
+            "px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+            adminTab === "projects"
+              ? "bg-white text-[#111] shadow-sm ring-1 ring-black/5"
+              : "text-gray-500 hover:text-[#111] hover:bg-white/50"
+          )}
+        >
+          <span className="flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="m12 15-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
+            </svg>
+            Projets
+          </span>
+        </button>
       </motion.div>
 
       {adminTab === "overview" ? (
         <AdminOverviewTab stats={stats} totalTier={totalTier} tierData={tierData} />
-      ) : (
+      ) : adminTab === "students" ? (
         <AdminStudentsTab />
+      ) : (
+        <AdminProjectsTab projects={projects} onUpdate={onProjectUpdate} />
       )}
     </motion.div>
   );
@@ -2002,6 +2290,177 @@ function AdminStudentsTab() {
           </div>
         )}
       </motion.div>
+    </motion.div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════ */
+/*  Admin Projects Tab                                                    */
+/* ══════════════════════════════════════════════════════════════════════ */
+
+function AdminProjectsTab({ projects, onUpdate }: { projects: Project[]; onUpdate: (id: string, status: string, feedback: string) => Promise<void> }) {
+  const [activeFilter, setActiveFilter] = useState<ProjectTabFilter>("all");
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  const filtered = activeFilter === "all" ? projects : projects.filter((p) => p.status === activeFilter);
+
+  return (
+    <motion.div className="space-y-5" initial="hidden" animate="visible" variants={adminStagger}>
+      {/* Filter tabs */}
+      <motion.div variants={adminFadeUp} className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl border border-gray-100 w-fit">
+        {PROJECT_TABS.map((tab) => {
+          const count = tab.id === "all" ? projects.length : projects.filter((p) => p.status === tab.id).length;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveFilter(tab.id)}
+              className={cn(
+                "px-4 py-2 rounded-lg text-xs font-medium transition-all",
+                activeFilter === tab.id
+                  ? "bg-white text-[#111] shadow-sm ring-1 ring-black/5"
+                  : "text-gray-500 hover:text-[#111] hover:bg-white/50"
+              )}
+            >
+              {tab.label} ({count})
+            </button>
+          );
+        })}
+      </motion.div>
+
+      {/* Project cards */}
+      {filtered.length === 0 ? (
+        <motion.div variants={adminFadeUp} className="text-center py-16">
+          <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto mb-4">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <p className="text-sm text-gray-400">Aucun projet soumis pour le moment.</p>
+        </motion.div>
+      ) : (
+        <div className="space-y-4">
+          {filtered.map((project, i) => (
+            <AdminProjectCard
+              key={project.id}
+              project={project}
+              index={i}
+              updating={updatingId === project.id}
+              onUpdate={async (id, status, feedback) => {
+                setUpdatingId(id);
+                await onUpdate(id, status, feedback);
+                setUpdatingId(null);
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+function AdminProjectCard({ project, index, updating, onUpdate }: {
+  project: Project;
+  index: number;
+  updating: boolean;
+  onUpdate: (id: string, status: string, feedback: string) => Promise<void>;
+}) {
+  const [editStatus, setEditStatus] = useState(project.status);
+  const [editFeedback, setEditFeedback] = useState(project.feedback || "");
+  const [expanded, setExpanded] = useState(false);
+
+  const date = new Date(project.createdAt).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.04 }}
+      className="bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-md transition-all"
+    >
+      <div className="flex items-start justify-between gap-4 mb-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-3 mb-1">
+            <h3 className="text-[15px] font-semibold text-[#111] truncate">{project.title}</h3>
+            <ProjectStatusBadge status={project.status} />
+          </div>
+          {project.user && (
+            <p className="text-xs text-gray-400">
+              par {project.user.name || project.user.email} &mdash; {date}
+            </p>
+          )}
+        </div>
+        {project.url && (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-xs font-medium text-gray-500 hover:text-[#111] hover:bg-gray-100 transition-all"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            Lien
+          </a>
+        )}
+      </div>
+
+      <p className="text-sm text-gray-500 leading-relaxed mb-3 whitespace-pre-wrap">{project.description}</p>
+
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="text-xs font-medium text-[#FF1744]/70 hover:text-[#FF1744] transition-colors mt-1"
+      >
+        {expanded ? "Fermer" : "G\u00e9rer"}
+      </button>
+
+      {expanded && (
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mt-4 space-y-3 border-t border-gray-100 pt-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1.5">Statut</label>
+            <select
+              value={editStatus}
+              onChange={(e) => setEditStatus(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#111] text-sm focus:outline-none focus:border-[#FF1744]/50 transition-all appearance-none"
+            >
+              <option value="submitted">En attente</option>
+              <option value="reviewing">En revue</option>
+              <option value="approved">Approuv&eacute;</option>
+              <option value="needs_revision">&Agrave; r&eacute;viser</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1.5">Feedback</label>
+            <textarea
+              value={editFeedback}
+              onChange={(e) => setEditFeedback(e.target.value)}
+              placeholder="Ajouter un retour pour l'&eacute;tudiant..."
+              rows={3}
+              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#111] text-sm placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 transition-all resize-none"
+            />
+          </div>
+          <button
+            onClick={() => onUpdate(project.id, editStatus, editFeedback)}
+            disabled={updating}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white transition-all disabled:opacity-50"
+            style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
+          >
+            {updating ? (
+              <>
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Mise &agrave; jour...
+              </>
+            ) : (
+              "Enregistrer"
+            )}
+          </button>
+        </motion.div>
+      )}
     </motion.div>
   );
 }

@@ -45,7 +45,7 @@ export const config = {
     "/generateur/:path*",
     "/marketplace/:path*",
     "/certificats/:path*",
-    "/projets/:path*",
+
     "/pipeline/:path*",
     "/parrainage/:path*",
     "/leaderboard/:path*",
