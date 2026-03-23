@@ -57,7 +57,7 @@ providers.push(
 
 export const authOptions: NextAuthOptions = {
   providers,
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 3 * 24 * 60 * 60 },
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
