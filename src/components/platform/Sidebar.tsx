@@ -532,8 +532,8 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             </div>
           )}
 
-          {/* Streak & XP */}
-          <div className="mt-auto mx-1 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+          {/* Streak & XP - hidden for admin */}
+          {role !== "admin" && <div className="mt-auto mx-1 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center", streak > 0 ? "bg-amber-500/15" : "bg-white/[0.06]")}>
@@ -566,7 +566,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
                 <p className="text-sm font-bold text-white/90 mt-0.5">{xp.toLocaleString()} XP</p>
               </div>
             </div>
-          </div>
+          </div>}
         </nav>
 
         {/* Discord Community */}
