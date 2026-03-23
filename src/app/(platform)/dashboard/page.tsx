@@ -25,6 +25,7 @@ interface AdminEnrollmentsByTier { starter: number; academy: number; one_to_one:
 interface AdminRecentEnrollment { id: string; userName: string; userEmail: string; tier: string; date: string; }
 interface AdminRecentActivity { type: string; userName: string; detail: string; createdAt: string; }
 interface AdminUserGrowth { month: string; count: number; }
+interface AdminFunnel { totalUsers: number; verifiedUsers: number; enrolledUsers: number; activeUsers: number; }
 interface AdminStats {
   totalStudents: number;
   activeStudents: number;
@@ -38,6 +39,9 @@ interface AdminStats {
   recentEnrollments: AdminRecentEnrollment[];
   recentActivity: AdminRecentActivity[];
   userGrowth: AdminUserGrowth[];
+  churnRate: number;
+  atRiskStudents: number;
+  funnel: AdminFunnel;
 }
 
 /* ——— Admin Students Types ——— */
@@ -1130,6 +1134,36 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
         ))}
       </motion.div>
 
+      {/* Churn Rate Card */}
+      <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 p-5 border-l-4 border-l-amber-500">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Taux d&apos;inactivité</span>
+              <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+            </div>
+            <div className="flex items-baseline gap-4">
+              <div>
+                <p className="text-3xl font-bold text-amber-600 tracking-tight tabular-nums">
+                  <AnimatedNumber value={stats.churnRate || 0} className="" />%
+                </p>
+                <p className="text-[11px] text-gray-400 mt-1">inscrits 30j+ sans activité 14j</p>
+              </div>
+              <div className="pl-4 border-l border-gray-100">
+                <p className="text-2xl font-bold text-[#111] tabular-nums">
+                  <AnimatedNumber value={stats.atRiskStudents || 0} className="" />
+                </p>
+                <p className="text-[11px] text-gray-400 mt-1">élèves à risque</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Revenue Chart + Tier Breakdown */}
       <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={adminStagger}>
         <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
@@ -1319,6 +1353,58 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
           </ResponsiveContainer>
         </div>
       </motion.div>
+
+      {/* Conversion Funnel */}
+      {stats.funnel && (
+        <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-sm font-semibold text-[#111]">Funnel de Conversion</h3>
+            <span className="text-[10px] font-medium text-gray-500 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100">Entonnoir</span>
+          </div>
+          <p className="text-xs text-gray-400 mb-6">Drop-off à chaque étape du parcours utilisateur</p>
+          <div className="space-y-4">
+            {(() => {
+              const f = stats.funnel;
+              const stages = [
+                { label: "Inscrits", value: f.totalUsers, color: "bg-blue-500" },
+                { label: "Email vérifié", value: f.verifiedUsers, color: "bg-emerald-500" },
+                { label: "Abonnés", value: f.enrolledUsers, color: "bg-[#FF1744]" },
+                { label: "Actifs 7j", value: f.activeUsers, color: "bg-purple-500" },
+              ];
+              const max = Math.max(f.totalUsers, 1);
+              return stages.map((stage, i) => {
+                const pct = Math.round((stage.value / max) * 100);
+                const dropOff = i > 0 ? Math.round(((stages[i - 1].value - stage.value) / Math.max(stages[i - 1].value, 1)) * 100) : 0;
+                return (
+                  <div key={stage.label}>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className={cn("w-2.5 h-2.5 rounded-full", stage.color)} />
+                        <span className="text-xs font-medium text-[#111]">{stage.label}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {i > 0 && dropOff > 0 && (
+                          <span className="text-[10px] font-medium text-red-400">-{dropOff}%</span>
+                        )}
+                        <span className="text-sm font-bold text-[#111] tabular-nums">{stage.value}</span>
+                        <span className="text-[10px] text-gray-400 tabular-nums w-10 text-right">{pct}%</span>
+                      </div>
+                    </div>
+                    <div className="h-3 rounded-full bg-gray-100 overflow-hidden">
+                      <motion.div
+                        className={cn("h-full rounded-full", stage.color)}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${pct}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 + i * 0.15 }}
+                      />
+                    </div>
+                  </div>
+                );
+              });
+            })()}
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 }
@@ -1341,6 +1427,13 @@ function AdminStudentsTab() {
   const [editTier, setEditTier] = useState<string>("");
   const [savingTier, setSavingTier] = useState(false);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [csvExporting, setCsvExporting] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [emailTier, setEmailTier] = useState("tous");
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [emailSending, setEmailSending] = useState(false);
+  const [emailSent, setEmailSent] = useState<number | null>(null);
 
   const fetchStudents = useCallback((s: string, t: string, p: number) => {
     setStudentsLoading(true);
@@ -1416,8 +1509,142 @@ function AdminStudentsTab() {
       .catch(() => setSavingTier(false));
   };
 
+  const handleExportCSV = async () => {
+    setCsvExporting(true);
+    try {
+      const res = await fetch("/api/admin/students?limit=1000");
+      const data = await res.json();
+      const allStudents: AdminStudentListItem[] = data.students || [];
+      const tierLabel = (t: string | null) => t === "one_to_one" ? "One-to-One" : t === "academy" ? "Academy" : t === "starter" ? "Starter" : "--";
+      const csvRows = [
+        ["Nom", "Email", "Offre", "Progression", "XP", "Discord", "Date inscription"].join(","),
+        ...allStudents.map((s) => [
+          `"${(s.name || "").replace(/"/g, '""')}"`,
+          `"${(s.email || "").replace(/"/g, '""')}"`,
+          tierLabel(s.tier),
+          s.totalLessons > 0 ? `${Math.round((s.completedLessons / s.totalLessons) * 100)}%` : "0%",
+          s.totalXP,
+          `"${(s.discordUsername || "").replace(/"/g, '""')}"`,
+          new Date(s.createdAt).toLocaleDateString("fr-FR"),
+        ].join(",")),
+      ];
+      const csvContent = "\uFEFF" + csvRows.join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const today = new Date().toISOString().split("T")[0];
+      a.download = `eleves-opexia-${today}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("CSV export error", err);
+    }
+    setCsvExporting(false);
+  };
+
+  const handleSendEmail = async () => {
+    if (!emailSubject.trim() || !emailMessage.trim()) return;
+    setEmailSending(true);
+    try {
+      const res = await fetch("/api/admin/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tier: emailTier, subject: emailSubject, message: emailMessage }),
+      });
+      const data = await res.json();
+      setEmailSent(data.sent || 0);
+      setTimeout(() => {
+        setEmailModalOpen(false);
+        setEmailSent(null);
+        setEmailSubject("");
+        setEmailMessage("");
+        setEmailTier("tous");
+      }, 2500);
+    } catch {
+      setEmailSent(-1);
+    }
+    setEmailSending(false);
+  };
+
   return (
     <motion.div className="space-y-4" initial="hidden" animate="visible" variants={adminStagger}>
+      {/* Email Modal */}
+      {emailModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center" onClick={() => setEmailModalOpen(false)}>
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          <div className="relative z-10 bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-lg mx-4 p-6" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-[#111] mb-1">Envoyer un email groupé</h3>
+            <p className="text-xs text-gray-400 mb-5">Envoyez un message à vos élèves</p>
+
+            <div className="space-y-4">
+              <div>
+                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">Destinataires</label>
+                <select
+                  value={emailTier}
+                  onChange={(e) => setEmailTier(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                >
+                  <option value="tous">Tous les élèves</option>
+                  <option value="starter">Starter uniquement</option>
+                  <option value="academy">Academy uniquement</option>
+                  <option value="one_to_one">One-to-One uniquement</option>
+                </select>
+                <p className="text-[10px] text-gray-400 mt-1.5">
+                  Cet email sera envoyé à {emailTier === "tous" ? total : "tous les"} élève{emailTier !== "tous" ? `s ${emailTier === "one_to_one" ? "One-to-One" : emailTier === "academy" ? "Academy" : "Starter"}` : `s`}
+                </p>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">Objet</label>
+                <input
+                  type="text"
+                  value={emailSubject}
+                  onChange={(e) => setEmailSubject(e.target.value)}
+                  placeholder="Objet de l'email..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all bg-gray-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">Message</label>
+                <textarea
+                  value={emailMessage}
+                  onChange={(e) => setEmailMessage(e.target.value)}
+                  placeholder="Contenu de l'email..."
+                  rows={5}
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all bg-gray-50/50 resize-none"
+                />
+              </div>
+            </div>
+
+            {emailSent !== null && (
+              <div className={cn("mt-4 px-4 py-3 rounded-xl text-sm font-medium", emailSent >= 0 ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-red-50 text-red-600 border border-red-200")}>
+                {emailSent >= 0 ? `Email envoyé à ${emailSent} élève${emailSent !== 1 ? "s" : ""}` : "Erreur lors de l'envoi"}
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-3 mt-5">
+              <button
+                onClick={() => setEmailModalOpen(false)}
+                className="px-5 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:text-[#111] hover:bg-gray-50 transition-all"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={handleSendEmail}
+                disabled={emailSending || !emailSubject.trim() || !emailMessage.trim()}
+                className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#E01440] transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {emailSending ? "Envoi en cours..." : "Envoyer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Search + Filter Bar */}
       <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
         <div className="flex flex-col sm:flex-row gap-3">
@@ -1443,6 +1670,21 @@ function AdminStudentsTab() {
             <option value="academy">Academy</option>
             <option value="one_to_one">1-to-1</option>
           </select>
+          <button
+            onClick={handleExportCSV}
+            disabled={csvExporting}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 bg-gray-50/50 hover:bg-white hover:border-gray-300 hover:shadow-sm transition-all disabled:opacity-50"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+            {csvExporting ? "Export..." : "Exporter CSV"}
+          </button>
+          <button
+            onClick={() => setEmailModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white bg-[#FF1744] hover:bg-[#E01440] transition-all shadow-sm hover:shadow-md"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+            Envoyer un email
+          </button>
         </div>
         <div className="flex items-center justify-between mt-3">
           <p className="text-xs text-gray-400 font-medium tabular-nums">{total} &eacute;l&egrave;ve{total !== 1 ? "s" : ""} trouv&eacute;{total !== 1 ? "s" : ""}</p>

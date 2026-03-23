@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -304,6 +304,120 @@ function TierBadge({ tier, role }: { tier: string; role?: string }) {
   );
 }
 
+/* ——— Admin Notification Bell ——— */
+
+interface AdminNotification {
+  type: "registration" | "payment" | "completion";
+  message: string;
+  date: string;
+  read: boolean;
+}
+
+function AdminNotificationBell() {
+  const [notifications, setNotifications] = useState<AdminNotification[]>([]);
+  const [open, setOpen] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/notifications")
+      .then((r) => r.json())
+      .then((d) => {
+        setNotifications(d.notifications || []);
+        setLoaded(true);
+      })
+      .catch(() => setLoaded(true));
+  }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
+  const displayNotifs = notifications.slice(0, 10);
+
+  const typeIcon = (type: string) => {
+    if (type === "registration") return (
+      <div className="w-6 h-6 rounded-full bg-blue-500/15 flex items-center justify-center shrink-0">
+        <svg className="w-3 h-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM3 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 019.374 21c-2.331 0-4.512-.645-6.374-1.766z" /></svg>
+      </div>
+    );
+    if (type === "payment") return (
+      <div className="w-6 h-6 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0">
+        <svg className="w-3 h-3 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+      </div>
+    );
+    return (
+      <div className="w-6 h-6 rounded-full bg-[#FF1744]/15 flex items-center justify-center shrink-0">
+        <svg className="w-3 h-3 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+      </div>
+    );
+  };
+
+  const formatTime = (dateStr: string) => {
+    const now = Date.now();
+    const then = new Date(dateStr).getTime();
+    const diff = Math.max(0, now - then);
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return "maintenant";
+    if (minutes < 60) return `${minutes}min`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h`;
+    const days = Math.floor(hours / 24);
+    return `${days}j`;
+  };
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen(!open)}
+        className="relative w-7 h-7 rounded-lg flex items-center justify-center text-white/50 hover:text-white/80 hover:bg-white/[0.06] transition-all"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+        </svg>
+        {loaded && unreadCount > 0 && (
+          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#FF1744] text-[8px] font-bold text-white flex items-center justify-center ring-2 ring-[#1A1A2E]">
+            {unreadCount > 9 ? "9+" : unreadCount}
+          </span>
+        )}
+      </button>
+
+      {open && (
+        <div className="absolute top-full left-0 mt-2 w-80 bg-[#1E1E36] border border-white/10 rounded-xl shadow-2xl z-[999] overflow-hidden">
+          <div className="px-4 py-3 border-b border-white/[0.06]">
+            <p className="text-xs font-semibold text-white/80">Notifications</p>
+            <p className="text-[10px] text-white/30">{unreadCount} non lue{unreadCount !== 1 ? "s" : ""} cette semaine</p>
+          </div>
+          <div className="max-h-[340px] overflow-y-auto">
+            {displayNotifs.length === 0 ? (
+              <p className="text-xs text-white/30 text-center py-8">Aucune notification</p>
+            ) : (
+              displayNotifs.map((n, i) => (
+                <div key={i} className="flex items-start gap-2.5 px-4 py-3 hover:bg-white/[0.03] transition-colors border-b border-white/[0.04] last:border-0">
+                  {typeIcon(n.type)}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] text-white/70 leading-snug">{n.message}</p>
+                    <p className="text-[9px] text-white/25 mt-0.5">{formatTime(n.date)}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, open, onClose, previewTier, onPreviewTierChange }: SidebarProps) {
   const pathname = usePathname();
   const [lockedItem, setLockedItem] = useState<NavItem | null>(null);
@@ -395,7 +509,12 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
           </Link>
           <div className="h-px bg-gradient-to-r from-transparent via-white/8 to-transparent mt-4 mb-3" />
           <div className="flex items-center justify-between">
-            <TierBadge tier={tier} role={previewTier ? undefined : role} />
+            <div className="flex items-center gap-2">
+              <TierBadge tier={tier} role={previewTier ? undefined : role} />
+              {role === "admin" && !previewTier && (
+                <AdminNotificationBell />
+              )}
+            </div>
             {tier === "starter" && (role !== "admin" || previewTier !== null) && (
               <a href="/profile?tab=subscription" className="text-[9px] text-[#FF1744]/60 hover:text-[#FF1744] transition-colors font-semibold uppercase tracking-wider">
                 Upgrade

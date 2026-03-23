@@ -147,6 +147,41 @@ export async function GET() {
     }
   }
 
+  // ── Churn Rate (Feature 4) ──
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const fourteenDaysAgo = new Date();
+  fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
+  // Users registered 30+ days ago
+  const oldStudents = await prisma.user.findMany({
+    where: { role: "student", createdAt: { lte: thirtyDaysAgo } },
+    select: { id: true },
+  });
+
+  // Among those, find who has completions in the last 14 days
+  const recentActiveIds = await prisma.lessonProgress.findMany({
+    where: {
+      userId: { in: oldStudents.map((s) => s.id) },
+      status: "completed",
+      completedAt: { gte: fourteenDaysAgo },
+    },
+    select: { userId: true },
+    distinct: ["userId"],
+  });
+
+  const recentActiveIdSet = new Set(recentActiveIds.map((r) => r.userId));
+  const atRiskStudents = oldStudents.filter((s) => !recentActiveIdSet.has(s.id)).length;
+  const churnRate = oldStudents.length > 0 ? Math.round((atRiskStudents / oldStudents.length) * 100) : 0;
+
+  // ── Conversion Funnel (Feature 5) ──
+  const funnelTotalUsers = totalStudents;
+  const funnelVerifiedUsers = await prisma.user.count({ where: { role: "student", emailVerified: true } });
+  const funnelEnrolledUsers = await prisma.user.count({
+    where: { role: "student", enrollments: { some: {} } },
+  });
+  const funnelActiveUsers = activeStudents.length; // users with streak in last 7 days
+
   return NextResponse.json({
     totalStudents,
     activeStudents: activeStudents.length,
@@ -160,5 +195,13 @@ export async function GET() {
     recentEnrollments,
     recentActivity,
     userGrowth,
+    churnRate,
+    atRiskStudents,
+    funnel: {
+      totalUsers: funnelTotalUsers,
+      verifiedUsers: funnelVerifiedUsers,
+      enrolledUsers: funnelEnrolledUsers,
+      activeUsers: funnelActiveUsers,
+    },
   });
 }
