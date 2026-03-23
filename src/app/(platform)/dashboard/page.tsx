@@ -386,15 +386,21 @@ export default function DashboardPage() {
       variants={stagger}
     >
 
-      {/* ════ ADMIN: TEST ONBOARDING ════ */}
-      {isAdmin && (
-        <button
-          onClick={() => setShowOnboardingTest(true)}
-          className="text-xs text-gray-400 hover:text-[#FF1744] transition-colors border border-gray-200 rounded-lg px-3 py-1.5 hover:border-[#FF1744]/30"
-        >
-          Tester l&apos;onboarding
-        </button>
+      {/* ════ ADMIN-ONLY VIEW: show admin panel directly ════ */}
+      {isAdmin && !previewTier && (
+        <>
+          <button
+            onClick={() => setShowOnboardingTest(true)}
+            className="text-xs text-gray-400 hover:text-[#FF1744] transition-colors border border-gray-200 rounded-lg px-3 py-1.5 hover:border-[#FF1744]/30"
+          >
+            Tester l&apos;onboarding
+          </button>
+          <AdminDashboardSection stats={adminStats} loading={adminLoading} />
+        </>
       )}
+
+      {/* ════ STUDENT DASHBOARD — hidden for admin (shown during tier preview) ════ */}
+      {(!isAdmin || previewTier) && (<>
 
       {/* ════ NO ENROLLMENT BANNER ════ */}
       {!hasEnrollment && !isAdmin && (
@@ -871,12 +877,8 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* ════════════════════════════════════════════════════════════════ */}
-      {/*  ADMIN PANEL — only visible for admin, hidden during preview   */}
-      {/* ════════════════════════════════════════════════════════════════ */}
-      {isAdmin && !previewTier && (
-        <AdminDashboardSection stats={adminStats} loading={adminLoading} />
-      )}
+      {/* End of student dashboard */}
+      </>)}
     </motion.div>
   );
 }
