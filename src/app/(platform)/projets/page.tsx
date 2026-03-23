@@ -31,16 +31,16 @@ type ProjectTabFilter = "all" | "submitted" | "reviewing" | "approved" | "needs_
 const PROJECT_STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
   submitted: { label: "En attente", color: "text-yellow-600", bg: "bg-yellow-50", border: "border-yellow-200" },
   reviewing: { label: "En revue", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200" },
-  approved: { label: "Approuv\u00e9", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" },
-  needs_revision: { label: "\u00c0 r\u00e9viser", color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-200" },
+  approved: { label: "Approuvé", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" },
+  needs_revision: { label: "\u00c0 réviser", color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-200" },
 };
 
 const PROJECT_TABS: { id: ProjectTabFilter; label: string }[] = [
   { id: "all", label: "Tous" },
   { id: "submitted", label: "En attente" },
   { id: "reviewing", label: "En revue" },
-  { id: "approved", label: "Approuv\u00e9s" },
-  { id: "needs_revision", label: "\u00c0 r\u00e9viser" },
+  { id: "approved", label: "Approuvés" },
+  { id: "needs_revision", label: "\u00c0 réviser" },
 ];
 
 /* ——— Animations ——— */
@@ -63,7 +63,12 @@ function ProjectStatusBadge({ status }: { status: string }) {
    ═══════════════════════════════════════════════════════════ */
 export default function ProjetsPage() {
   const { data: session } = useSession();
-  const isAdmin = (session?.user as { role?: string } | undefined)?.role === "admin";
+  const isRealAdmin = (session?.user as { role?: string } | undefined)?.role === "admin";
+  const [previewTier] = useState<string | null>(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("admin-preview-tier") || null;
+    return null;
+  });
+  const isAdmin = isRealAdmin && !previewTier;
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -218,7 +223,7 @@ function StudentView({
       <motion.div variants={fadeUp} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#111]">Mes Projets</h1>
-          <p className="text-sm text-gray-500 mt-1">Soumets tes projets MVP et re\u00e7ois des retours de l&apos;\u00e9quipe.</p>
+          <p className="text-sm text-gray-500 mt-1">Soumets tes projets MVP et reçois des retours de l&apos;équipe.</p>
         </div>
         {!showForm && (
           <button
@@ -361,7 +366,7 @@ function StudentView({
               <p className="text-sm text-gray-600 leading-relaxed">{project.description}</p>
               {project.feedback && (
                 <div className="mt-3 p-4 bg-[#f8f9fb] border border-gray-100 rounded-xl">
-                  <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1.5">Retour de l&apos;\u00e9quipe</p>
+                  <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1.5">Retour de l&apos;équipe</p>
                   <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{project.feedback}</p>
                 </div>
               )}
@@ -448,7 +453,7 @@ function AdminView({
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
             </svg>
           </div>
-          <p className="text-sm text-gray-400">Aucun projet dans cette cat\u00e9gorie.</p>
+          <p className="text-sm text-gray-400">Aucun projet dans cette catégorie.</p>
         </motion.div>
       ) : (
         <div className="space-y-4">
@@ -546,8 +551,8 @@ function AdminView({
                           >
                             <option value="submitted">En attente</option>
                             <option value="reviewing">En revue</option>
-                            <option value="approved">Approuv\u00e9</option>
-                            <option value="needs_revision">\u00c0 r\u00e9viser</option>
+                            <option value="approved">Approuvé</option>
+                            <option value="needs_revision">\u00c0 réviser</option>
                           </select>
                         </div>
 
@@ -558,7 +563,7 @@ function AdminView({
                             value={reviewFeedback[project.id] ?? project.feedback ?? ""}
                             onChange={(e) => setReviewFeedback((prev) => ({ ...prev, [project.id]: e.target.value }))}
                             rows={3}
-                            placeholder="Ajoute un retour pour l&apos;\u00e9l\u00e8ve..."
+                            placeholder="Ajoute un retour pour l&apos;élève..."
                             className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all resize-none"
                           />
                         </div>
