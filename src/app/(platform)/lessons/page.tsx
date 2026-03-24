@@ -435,7 +435,7 @@ export default function LessonsPage() {
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative py-4 mb-10">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-[#111] mb-2">Formation</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-[#111] mb-2">Formation v4</h1>
             <p className="text-sm text-gray-400 mb-5 max-w-md">
               Progresse {"\u00e0"} ton rythme et deviens un expert IA. Chaque phase te rapproche de l&apos;autonomie compl{"\u00e8"}te.
             </p>
