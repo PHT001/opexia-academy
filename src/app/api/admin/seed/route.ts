@@ -88,70 +88,74 @@ export async function POST() {
   }
 
   try {
-    // v4 - use raw SQL TRUNCATE for clean slate
-    await prisma.$executeRawUnsafe(`
-      DO $$ DECLARE r RECORD;
-      BEGIN
-        FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
-          EXECUTE 'TRUNCATE TABLE "' || r.tablename || '" CASCADE';
-        END LOOP;
-      END $$;
-    `);
-
-    // Users
+    // v6 - everything in a single $transaction for pgbouncer compatibility
     const adminPassword = await bcrypt.hash("admin123", 12);
     const studentPassword = await bcrypt.hash("test123", 12);
-    const admin = await prisma.user.create({
-      data: { name: "Admin Opexia", email: "admin@opexia.com", hashedPassword: adminPassword, role: "admin" },
-    });
-    const student = await prisma.user.create({
-      data: { name: "Élève Test", email: "etudiant@test.com", hashedPassword: studentPassword, role: "student" },
-    });
 
-    // 22 Modules
-    const modules = [];
-    for (const def of MODULE_DEFINITIONS) {
-      const mod = await prisma.module.create({ data: { title: def.title, description: def.description, order: def.order } });
-      modules.push(mod);
-    }
+    const result = await prisma.$transaction(async (tx) => {
+      // Clean all tables
+      await tx.$executeRawUnsafe(`
+        DO $$ DECLARE r RECORD;
+        BEGIN
+          FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename != '_prisma_migrations') LOOP
+            EXECUTE 'TRUNCATE TABLE "' || r.tablename || '" CASCADE';
+          END LOOP;
+        END $$;
+      `);
 
-    // Lessons + Quizzes — fully nested create (lesson → quiz → questions in one call)
-    let lessonCount = 0;
-    for (const [lessons, moduleIdx] of MODULE_MAP) {
-      for (const lessonData of lessons) {
-        const ld = lessonData as any;
-        const questions = ld.quiz
-          ? ld.quiz.map((q: any, i: number) => ({
-              type: q.type, question: q.question, options: q.options,
-              correctAnswer: q.correctAnswer, explanation: q.explanation, order: i + 1,
-            }))
-          : makeQuiz(lessonData.order);
+      // Users
+      const admin = await tx.user.create({
+        data: { name: "Admin Opexia", email: "admin@opexia.com", hashedPassword: adminPassword, role: "admin" },
+      });
+      const student = await tx.user.create({
+        data: { name: "Élève Test", email: "etudiant@test.com", hashedPassword: studentPassword, role: "student" },
+      });
 
-        await prisma.lesson.create({
-          data: {
-            title: lessonData.title, slug: lessonData.slug, description: lessonData.description,
-            content: lessonData.content, exercise: lessonData.exercise, duration: lessonData.duration,
-            order: lessonData.order, moduleId: modules[moduleIdx].id,
-            quiz: {
-              create: {
-                passingScore: 80,
-                questions: {
-                  create: questions,
+      // 22 Modules
+      const modules = [];
+      for (const def of MODULE_DEFINITIONS) {
+        const mod = await tx.module.create({ data: { title: def.title, description: def.description, order: def.order } });
+        modules.push(mod);
+      }
+
+      // Lessons + Quizzes
+      let lessonCount = 0;
+      for (const [lessons, moduleIdx] of MODULE_MAP) {
+        for (const lessonData of lessons) {
+          const ld = lessonData as any;
+          const questions = ld.quiz
+            ? ld.quiz.map((q: any, i: number) => ({
+                type: q.type, question: q.question, options: q.options,
+                correctAnswer: q.correctAnswer, explanation: q.explanation, order: i + 1,
+              }))
+            : makeQuiz(lessonData.order);
+
+          await tx.lesson.create({
+            data: {
+              title: lessonData.title, slug: lessonData.slug, description: lessonData.description,
+              content: lessonData.content, exercise: lessonData.exercise, duration: lessonData.duration,
+              order: lessonData.order, moduleId: modules[moduleIdx].id,
+              quiz: {
+                create: {
+                  passingScore: 80,
+                  questions: { create: questions },
                 },
               },
             },
-          },
-        });
-        lessonCount++;
+          });
+          lessonCount++;
+        }
       }
-    }
+
+      return { moduleCount: modules.length, lessonCount, admin: admin.email, student: student.email };
+    }, { timeout: 120000 });
 
     return NextResponse.json({
       success: true,
-      version: "v5",
-      message: `Seed terminé : ${modules.length} modules, ${lessonCount} leçons`,
-      admin: admin.email,
-      student: student.email,
+      version: "v6",
+      message: `Seed terminé : ${result.moduleCount} modules, ${result.lessonCount} leçons`,
+      admin: result.admin,
+      student: result.student,
     });
   } catch (error: any) {
     console.error("Seed error:", error);
