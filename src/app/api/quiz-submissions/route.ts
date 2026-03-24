@@ -21,7 +21,10 @@ export async function POST(request: Request) {
   // Get quiz with correct answers
   const lesson = await prisma.lesson.findUnique({
     where: { slug: lessonSlug },
-    include: {
+    select: {
+      id: true,
+      slug: true,
+      moduleId: true,
       quiz: {
         include: {
           questions: { orderBy: { order: "asc" } },
@@ -73,20 +76,25 @@ export async function POST(request: Request) {
     xpEarned = XP_VALUES.QUIZ_PASS;
     if (score === 100) xpEarned += XP_VALUES.QUIZ_PERFECT;
 
-    // Mark lesson as completed
+    // Mark lesson as completed — keep highest XP on retake
+    const newXp = XP_VALUES.LESSON_COMPLETE + xpEarned;
+    const existing = await prisma.lessonProgress.findUnique({
+      where: { userId_lessonId: { userId, lessonId: lesson.id } },
+    });
+    const bestXp = existing ? Math.max(existing.xpEarned, newXp) : newXp;
     await prisma.lessonProgress.upsert({
       where: { userId_lessonId: { userId, lessonId: lesson.id } },
       update: {
         status: "completed",
         completedAt: new Date(),
-        xpEarned: XP_VALUES.LESSON_COMPLETE + xpEarned,
+        xpEarned: bestXp,
       },
       create: {
         userId,
         lessonId: lesson.id,
         status: "completed",
         completedAt: new Date(),
-        xpEarned: XP_VALUES.LESSON_COMPLETE + xpEarned,
+        xpEarned: newXp,
       },
     });
 
@@ -102,6 +110,20 @@ export async function POST(request: Request) {
         where: { userId_lessonId: { userId, lessonId: nextLesson.id } },
         update: { status: "in_progress" },
         create: { userId, lessonId: nextLesson.id, status: "in_progress" },
+      });
+    }
+
+    // Check if module is now complete — award MODULE_COMPLETE bonus
+    const moduleId = lesson.moduleId;
+    const moduleLessons = await prisma.lesson.findMany({ where: { moduleId }, select: { id: true } });
+    const completedInModule = await prisma.lessonProgress.count({
+      where: { userId, lessonId: { in: moduleLessons.map((l) => l.id) }, status: "completed" },
+    });
+    if (completedInModule === moduleLessons.length) {
+      // All lessons in module completed — award bonus XP to last lesson
+      await prisma.lessonProgress.update({
+        where: { userId_lessonId: { userId, lessonId: lesson.id } },
+        data: { xpEarned: { increment: XP_VALUES.MODULE_COMPLETE } },
       });
     }
 

@@ -380,7 +380,10 @@ export default function LessonsPage() {
 
   useEffect(() => {
     fetch("/api/lessons")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((data) => {
         const mods = Array.isArray(data) ? data : (data.modules ?? []);
         const apiTier = Array.isArray(data) ? "academy" : (data.userTier ?? "starter");
@@ -444,7 +447,7 @@ export default function LessonsPage() {
               {[
                 { icon: IconBook, text: `${totalLessons} le\u00e7ons` },
                 { icon: IconLayers, text: `${totalModules} modules` },
-                { icon: IconClock, text: "6 phases" },
+                { icon: IconClock, text: `${WEEKS.length} phases` },
               ].map((pill) => (
                 <span key={pill.text} className="flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
                   <pill.icon className="w-3.5 h-3.5 text-[#FF1744]" />
@@ -490,7 +493,7 @@ export default function LessonsPage() {
                             Passe {"\u00e0"} Academy pour d{"\u00e9"}bloquer les 22 modules
                           </p>
                           <p className="text-xs text-gray-500">
-                            Acc{"\u00e8"}de {"\u00e0"} 130+ le{"\u00e7"}ons, projets concrets, coaching et certificats.
+                            Acc{"\u00e8"}de {"\u00e0"} 85 le{"\u00e7"}ons, projets concrets, coaching et certificats.
                           </p>
                         </div>
                         <a

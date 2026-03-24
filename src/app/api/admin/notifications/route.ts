@@ -38,9 +38,16 @@ export async function GET() {
     take: 50,
   });
 
+  // Projects pending review
+  const pendingProjects = await prisma.project.findMany({
+    where: { status: "submitted", createdAt: { gte: sevenDaysAgo } },
+    include: { user: { select: { name: true, email: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+
   // Build unified notifications array
   type Notification = {
-    type: "registration" | "payment" | "completion";
+    type: "registration" | "payment" | "completion" | "project";
     message: string;
     date: string;
     read: boolean;
@@ -73,6 +80,15 @@ export async function GET() {
       type: "completion",
       message: `${c.user.name || "Un eleve"} a termine "${c.lesson.title}"`,
       date: c.completedAt?.toISOString() || "",
+      read: false,
+    });
+  }
+
+  for (const p of pendingProjects) {
+    notifications.push({
+      type: "project",
+      message: `${p.user.name || p.user.email || "Un élève"} a soumis le projet "${p.title}"`,
+      date: p.createdAt.toISOString(),
       read: false,
     });
   }

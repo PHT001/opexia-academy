@@ -12,7 +12,7 @@ const PLANS: Record<string, { name: string; price: number; description: string }
   academy: {
     name: "OpexIA Academy",
     price: 39700, // in cents
-    description: "Formation complète : 130+ leçons, plateforme, CRM, assistant IA, templates premium",
+    description: "Formation complète : 85 leçons, plateforme, CRM, assistant IA, templates premium",
   },
   one_to_one: {
     name: "OpexIA One-to-One",

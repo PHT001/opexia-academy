@@ -40,7 +40,10 @@ export default function LessonPage() {
 
   useEffect(() => {
     fetch(`/api/lessons/${params.lessonId}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((data) => {
         setLesson(data);
         setLoading(false);

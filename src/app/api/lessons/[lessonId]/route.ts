@@ -92,7 +92,7 @@ export async function GET(
 
   const idx = allLessons.findIndex((l) => l.slug === slug);
   const prevSlug = idx > 0 ? allLessons[idx - 1].slug : null;
-  const nextSlug = idx < allLessons.length - 1 ? allLessons[idx + 1].slug : null;
+  const nextSlug = idx > -1 && idx < allLessons.length - 1 ? allLessons[idx + 1].slug : null;
 
   return NextResponse.json({
     id: lesson.id,

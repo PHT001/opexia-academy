@@ -76,11 +76,12 @@ function calcBestStreak(dates: Date[]): number {
 function calcBadges(lessonsCompleted: number, streak: number): string[] {
   const earned: string[] = [];
   if (lessonsCompleted >= 1) earned.push("first_lesson");
-  // Module 1 has 8 lessons (order 1)
-  if (lessonsCompleted >= 8) earned.push("module_1");
+  // Module 1 has 3 lessons
+  if (lessonsCompleted >= 3) earned.push("module_1");
   if (streak >= 7) earned.push("streak_7");
-  if (lessonsCompleted >= 65) earned.push("halfway");
-  if (lessonsCompleted >= 130) earned.push("graduate");
+  // 85 total lessons — halfway = 43
+  if (lessonsCompleted >= 43) earned.push("halfway");
+  if (lessonsCompleted >= 85) earned.push("graduate");
   return earned;
 }
 

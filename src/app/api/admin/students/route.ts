@@ -40,14 +40,16 @@ export async function GET(req: NextRequest) {
   const totalPages = Math.ceil(total / limit);
 
   // Determine sort field
-  const allowedSorts = ["createdAt", "name", "email"];
-  const sortField = allowedSorts.includes(sort) ? sort : "createdAt";
+  const dbSorts = ["createdAt", "name", "email"];
+  const needsPostSort = ["xp_desc", "xp_asc", "progress_desc"];
+  const isPostSort = needsPostSort.includes(sort);
+  const sortField = dbSorts.includes(sort) ? sort : "createdAt";
 
   const students = await prisma.user.findMany({
     where,
-    orderBy: { [sortField]: order },
-    skip: (page - 1) * limit,
-    take: limit,
+    orderBy: isPostSort ? { createdAt: "desc" } : { [sortField]: order },
+    skip: isPostSort ? 0 : (page - 1) * limit,
+    take: isPostSort ? undefined : limit,
     include: {
       progress: { where: { status: "completed" } },
       streaks: { orderBy: { date: "desc" }, take: 1 },
@@ -67,7 +69,7 @@ export async function GET(req: NextRequest) {
     xpMap[agg.userId] = agg._sum.xpEarned || 0;
   }
 
-  const result = students.map((s) => ({
+  let result = students.map((s) => ({
     id: s.id,
     name: s.name,
     email: s.email,
@@ -79,6 +81,14 @@ export async function GET(req: NextRequest) {
     discordUsername: s.discordUsername || null,
     totalXP: xpMap[s.id] || 0,
   }));
+
+  // Post-sort by XP or progress if needed
+  if (sort === "xp_desc") result.sort((a, b) => b.totalXP - a.totalXP);
+  else if (sort === "xp_asc") result.sort((a, b) => a.totalXP - b.totalXP);
+  else if (sort === "progress_desc") result.sort((a, b) => b.completedLessons - a.completedLessons);
+
+  // Paginate post-sorted results
+  if (isPostSort) result = result.slice((page - 1) * limit, page * limit);
 
   return NextResponse.json({
     students: result,
