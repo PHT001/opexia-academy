@@ -9,39 +9,40 @@ export const BADGES = [
   { id: "first_lesson", name: "Premier pas", description: "Complète ta première leçon", icon: "target" },
   { id: "module_1", name: "Fondations IA", description: "Termine le Module 1", icon: "cpu" },
   { id: "streak_7", name: "Régularité", description: "7 jours consécutifs", icon: "flame" },
-  { id: "halfway", name: "Mi-parcours", description: "65 leçons complétées", icon: "bolt" },
-  { id: "graduate", name: "Diplôme Opexia", description: "129 leçons complétées", icon: "award" },
+  { id: "halfway", name: "Mi-parcours", description: "42 leçons complétées", icon: "bolt" },
+  { id: "graduate", name: "Diplôme Opexia", description: "85 leçons complétées", icon: "award" },
 ] as const;
 
 export const MODULES = [
-  // ── Phase 1 — Fondations (Starter) ──
-  { order: 1,  title: "Découvrir l'IA et poser les bases", description: "Comprendre l'IA, les outils, et créer ton premier agent", category: "formation" },
-  // ── Phase 2 — Développeur IA ──
-  { order: 2,  title: "Prompt Engineering avancé", description: "Maîtriser Claude comme outil de travail quotidien", category: "formation" },
-  { order: 3,  title: "Créer des sites web professionnels", description: "De zéro à un site en ligne avec Next.js + Tailwind", category: "formation" },
-  { order: 4,  title: "Design & UI pour développeurs", description: "Figma, principes de design et UI kits pour livrer du pro", category: "formation" },
-  { order: 5,  title: "Backend & Supabase", description: "Base de données, auth, storage et CRUD complet", category: "formation" },
-  { order: 6,  title: "APIs, Intégrations & Paiements", description: "API Routes, Stripe, webhooks et intégration Claude", category: "formation" },
-  // ── Phase 3 — Architecte Solutions ──
-  { order: 7,  title: "Automatisations & Workflows", description: "n8n & Workflows : créer des machines qui bossent pour toi", category: "formation" },
-  { order: 8,  title: "Chatbots IA professionnels", description: "RAG, pgvector, widget embarquable et analytics", category: "formation" },
-  { order: 9,  title: "Chatbots multi-canal", description: "WhatsApp, Instagram, Messenger : là où sont les clients", category: "formation" },
-  { order: 10, title: "Agents IA autonomes", description: "Tool use, ReAct, MCP et agents multi-step", category: "formation" },
-  { order: 11, title: "Voice AI & Agents téléphoniques", description: "Vapi, ElevenLabs : l'IA qui décroche le téléphone", category: "formation" },
-  { order: 12, title: "Construire un MVP", description: "Ton premier vrai produit de A à Z en 48h", category: "formation" },
-  { order: 13, title: "IA pour documents & data", description: "PDF, OCR, Excel : traitement de données pour entreprises", category: "formation" },
-  // ── Phase 4 — Sécurité & Production ──
-  { order: 14, title: "Sécurité Supabase & bonnes pratiques", description: "RLS, validation, secrets et checklist production", category: "formation" },
+  // ── Bloc 1 — Le cadre ──
+  { order: 1,  title: "Bienvenue & Objectif", description: "Ce que tu vas apprendre, le marché de l'IA et ta roadmap", category: "formation" },
+  { order: 2,  title: "Découvrir les IA", description: "ChatGPT, Claude, Gemini — les IA qu'on va utiliser et pourquoi", category: "formation" },
+  // ── Bloc 2 — Tes outils de travail ──
+  { order: 3,  title: "Apprendre à prompter", description: "Les bases et techniques avancées pour des résultats précis", category: "formation" },
+  { order: 4,  title: "Les IDE IA : Claude Code & Cursor", description: "Installer, configurer et coder avec les IDE augmentés par l'IA", category: "formation" },
+  { order: 5,  title: "Git, GitHub & le workflow développeur", description: "Versionner ton code et collaborer comme un pro", category: "formation" },
+  // ── Bloc 3 — Construire un site web ──
+  { order: 6,  title: "Frontend : Next.js + Tailwind", description: "Créer des interfaces web modernes et responsive", category: "formation" },
+  { order: 7,  title: "Backend & Déploiement", description: "Supabase, SQL, API Routes, Stripe et Vercel", category: "formation" },
+  // ── Bloc 4 — Les services que tu vas vendre ──
+  { order: 8,  title: "Chatbots IA", description: "Créer et déployer des chatbots sur site web et réseaux sociaux", category: "formation" },
+  { order: 9,  title: "Agents vocaux IA", description: "Créer des agents téléphoniques avec Vapi & ElevenLabs", category: "formation" },
+  { order: 10, title: "Automatisations IA pour entreprises", description: "Automatiser des process métier avec l'IA — cas concrets par secteur", category: "formation" },
+  { order: 11, title: "Génération de leads avec l'IA", description: "Scraping, enrichissement et séquences outbound automatisées", category: "formation" },
+  { order: 12, title: "IA pour documents & data", description: "PDF, OCR, Excel : traitement de données pour entreprises", category: "formation" },
+  // ── Bloc 5 — Industrialiser ──
+  { order: 13, title: "Construire un MVP complet", description: "Ton premier vrai produit de A à Z en 48h", category: "formation" },
+  { order: 14, title: "Sécurité & bonnes pratiques", description: "RLS, validation, secrets et checklist production", category: "formation" },
   { order: 15, title: "DevOps & Monitoring", description: "Git avancé, CI/CD, Sentry et maintenance pro", category: "formation" },
-  // ── Phase 5 — Entrepreneur ──
-  { order: 16, title: "Créer ton offre irrésistible", description: "De \"je sais faire\" à \"je vends\" — pricing et positionnement", category: "formation" },
-  { order: 17, title: "Trouver des clients", description: "LinkedIn, cold email, closing et système de prospection", category: "formation" },
-  { order: 18, title: "Livrer et fidéliser", description: "Process de livraison, retainers et referrals", category: "formation" },
-  { order: 19, title: "Juridique, fiscalité & admin", description: "Statuts, contrats, RGPD, facturation et assurances", category: "formation" },
-  // ── Phase 6 — Scale & Mastery ──
-  { order: 20, title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", category: "formation" },
-  { order: 21, title: "Architecture multi-tenant & white-label", description: "Build once, sell many : le vrai scale technique", category: "formation" },
-  { order: 22, title: "Masterclass outils : Claude Code, Cursor & Antigravity", description: "Maîtrise avancée des outils de développement IA", category: "masterclass" },
+  // ── Bloc 6 — Vendre ──
+  { order: 16, title: "Se structurer pour réussir", description: "Organisation, outils, CRM et image professionnelle", category: "formation" },
+  { order: 17, title: "Créer ton offre", description: "Les services IA rentables, pricing et supports de vente", category: "formation" },
+  { order: 18, title: "Prospection", description: "Réseau, LinkedIn, cold email, cold call et automatisation", category: "formation" },
+  { order: 19, title: "Closer", description: "L'appel de closing, objections et signature du deal", category: "formation" },
+  { order: 20, title: "Livrer & Fidéliser", description: "Process de livraison, retainers et referrals", category: "formation" },
+  // ── Bloc 7 — Scaler ──
+  { order: 21, title: "Juridique & Admin", description: "Statuts, contrats, RGPD, facturation et assurances", category: "formation" },
+  { order: 22, title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", category: "formation" },
 ] as const;
 
 /* ——— Module metadata (brand, difficulty, estimated time) ——— */
@@ -57,34 +58,35 @@ export interface ModuleMetadata {
 }
 
 export const MODULE_METADATA: Record<number, ModuleMetadata> = {
-  // Phase 1 — Fondations
-  1:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~3h25",  lessonCount: 8  },
-  // Phase 2 — Développeur IA
-  2:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h",    lessonCount: 5  },
-  3:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h30",  lessonCount: 6  },
-  4:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h",    lessonCount: 5  },
-  5:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 6  },
-  6:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 6  },
-  // Phase 3 — Architecte Solutions
-  7:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 6  },
-  8:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 6  },
-  9:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 5  },
-  10: { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 6  },
-  11: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 5  },
-  12: { brands: ["claude"],    difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 5  },
-  13: { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 5  },
-  // Phase 4 — Sécurité & Production
-  14: { brands: [],            difficulty: "avance",         estimatedTime: "~3h",    lessonCount: 7  },
-  15: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 5  },
-  // Phase 5 — Entrepreneur
-  16: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 6  },
-  17: { brands: [],            difficulty: "avance",         estimatedTime: "~3h",    lessonCount: 7  },
-  18: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 6  },
-  19: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 7  },
-  // Phase 6 — Scale & Mastery
-  20: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 6  },
-  21: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 5  },
-  22: { brands: ["claude"],    difficulty: "avance",         estimatedTime: "~3h",    lessonCount: 8  },
+  // Bloc 1 — Le cadre
+  1:  { brands: [],            difficulty: "debutant",       estimatedTime: "~1h",    lessonCount: 3  },
+  2:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~1h30",  lessonCount: 4  },
+  // Bloc 2 — Tes outils de travail
+  3:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h",    lessonCount: 4  },
+  4:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h",    lessonCount: 4  },
+  5:  { brands: [],            difficulty: "debutant",       estimatedTime: "~1h30",  lessonCount: 3  },
+  // Bloc 3 — Construire un site web
+  6:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  7:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h30",  lessonCount: 5  },
+  // Bloc 4 — Les services que tu vas vendre
+  8:  { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  9:  { brands: [],            difficulty: "intermediaire",  estimatedTime: "~1h30",  lessonCount: 3  },
+  10: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  11: { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  12: { brands: ["claude"],    difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  // Bloc 5 — Industrialiser
+  13: { brands: ["claude"],    difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 4  },
+  14: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 5  },
+  15: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 4  },
+  // Bloc 6 — Vendre
+  16: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  17: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~1h30",  lessonCount: 3  },
+  18: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 5  },
+  19: { brands: [],            difficulty: "avance",         estimatedTime: "~1h30",  lessonCount: 3  },
+  20: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  // Bloc 7 — Scaler
+  21: { brands: [],            difficulty: "avance",         estimatedTime: "~1h30",  lessonCount: 3  },
+  22: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 4  },
 };
 
 export const DIFFICULTY_CONFIG = {
@@ -96,15 +98,16 @@ export const DIFFICULTY_CONFIG = {
 /* ——— Phases structure (6 phases) ——— */
 
 export const WEEKS = [
-  { week: 1, title: "Fondations",              subtitle: "Découvrir l'IA et poser les bases",                              modules: [1] },
-  { week: 2, title: "Développeur IA",          subtitle: "Prompting, sites web, design, backend et APIs",                  modules: [2, 3, 4, 5, 6] },
-  { week: 3, title: "Architecte Solutions",    subtitle: "Automatisations, chatbots, agents, voice AI et MVP",             modules: [7, 8, 9, 10, 11, 12, 13] },
-  { week: 4, title: "Sécurité & Production",   subtitle: "Sécuriser, déployer et monitorer comme un pro",                  modules: [14, 15] },
-  { week: 5, title: "Entrepreneur",             subtitle: "Offre, clients, livraison, juridique et fiscalité",              modules: [16, 17, 18, 19] },
-  { week: 6, title: "Scale & Mastery",          subtitle: "Scaling, multi-tenant et masterclass outils",                    modules: [20, 21, 22] },
+  { week: 1, title: "Le cadre",                subtitle: "Comprendre l'IA et poser les bases",                              modules: [1, 2] },
+  { week: 2, title: "Tes outils de travail",   subtitle: "Prompting, IDE IA et workflow développeur",                       modules: [3, 4, 5] },
+  { week: 3, title: "Construire un site web",  subtitle: "Frontend, backend et déploiement",                                modules: [6, 7] },
+  { week: 4, title: "Les services à vendre",   subtitle: "Chatbots, agents vocaux, automatisations, leads et documents",    modules: [8, 9, 10, 11, 12] },
+  { week: 5, title: "Industrialiser",           subtitle: "MVP, sécurité et DevOps",                                        modules: [13, 14, 15] },
+  { week: 6, title: "Vendre",                   subtitle: "Structure, offre, prospection, closing et fidélisation",          modules: [16, 17, 18, 19, 20] },
+  { week: 7, title: "Scaler",                   subtitle: "Juridique et passage à l'agence",                                modules: [21, 22] },
 ] as const;
 
-export const MASTERCLASS_MODULES = [22] as const;
+export const MASTERCLASS_MODULES = [] as const;
 
 /* ——— Tier-based module access ——— */
 
@@ -140,7 +143,7 @@ export const TIERS = [
     description: "La formation complète pour lancer ton agence IA",
     features: [
       { text: "Tout ce qui est dans Starter", included: true },
-      { text: "130+ leçons progressives en 22 modules", included: true },
+      { text: "85 leçons progressives en 22 modules", included: true },
       { text: "Quiz de validation par leçon", included: true },
       { text: "Exercices pratiques + projets fil rouge", included: true },
       { text: "Assistant IA intégré", included: true },

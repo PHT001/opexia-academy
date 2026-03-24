@@ -3,42 +3,44 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 
 // ═══════════════════════════════════════════════════
-// IMPORTS — 22 modules (formation + masterclass)
+// IMPORTS — 22 modules v2
 // ═══════════════════════════════════════════════════
 
-// Phase 1 — Fondations
-import { MODULE_1_LESSONS } from "./data/new_module_01";                     // M1: Découvrir l'IA
+// Bloc 1 — Le cadre
+import { V2_MODULE_01_LESSONS } from "./data/v2_module_01";   // M1: Bienvenue & Objectif
+import { V2_MODULE_02_LESSONS } from "./data/v2_module_02";   // M2: Découvrir les IA
 
-// Phase 2 — Développeur IA
-import { MODULE_2_LESSONS } from "./data/new_module_02";                     // M2: Prompt Engineering
-import { MODULE_3_LESSONS } from "./data/new_module_03";                     // M3: Sites web
-import { MODULE_4_DESIGN_LESSONS } from "./data/new_module_04_design";       // M4: Design & UI (NEW)
-import { MODULE_4_LESSONS } from "./data/new_module_04";                     // M5: Backend Supabase
-import { MODULE_5_LESSONS as MODULE_5_API_LESSONS } from "./data/new_module_05"; // M6: APIs, Stripe, Webhooks
+// Bloc 2 — Tes outils de travail
+import { V2_MODULE_03_LESSONS } from "./data/v2_module_03";   // M3: Apprendre à prompter
+import { V2_MODULE_04_LESSONS } from "./data/v2_module_04";   // M4: IDE IA (Claude Code & Cursor)
+import { V2_MODULE_05_LESSONS } from "./data/v2_module_05";   // M5: Git, GitHub & workflow
 
-// Phase 3 — Architecte Solutions
-import { MODULE_5_LESSONS as MODULE_6_AUTO_LESSONS } from "./data/new_module_06"; // M7: Automatisations (file exports MODULE_5_LESSONS)
-import { MODULE_6_LESSONS as MODULE_7_CHATBOT_LESSONS } from "./data/new_module_07"; // M8: Chatbots IA (file exports MODULE_6_LESSONS)
-import { MODULE_9_MULTICHANNEL_LESSONS } from "./data/new_module_09_multichannel"; // M9: Multi-canal (NEW)
-import { MODULE_7_LESSONS as MODULE_8_AGENT_LESSONS } from "./data/new_module_08"; // M10: Agents IA (file exports MODULE_7_LESSONS)
-import { MODULE_11_VOICE_LESSONS } from "./data/new_module_11_voice";        // M11: Voice AI (NEW)
-import { MODULE_9_LESSONS } from "./data/new_module_09";                     // M12: Construire un MVP
-import { MODULE_13_DOCUMENTS_LESSONS } from "./data/new_module_13_documents"; // M13: IA documents (NEW)
+// Bloc 3 — Construire un site web
+import { V2_MODULE_06_LESSONS } from "./data/v2_module_06";   // M6: Frontend (Next.js + Tailwind)
+import { V2_MODULE_07_LESSONS } from "./data/v2_module_07";   // M7: Backend & Déploiement
 
-// Phase 4 — Sécurité & Production
-import { MODULE_14_SECURITY_LESSONS } from "./data/new_module_14_security";  // M14: Sécurité (NEW)
-import { MODULE_15_DEVOPS_LESSONS } from "./data/new_module_15_devops";      // M15: DevOps (NEW)
+// Bloc 4 — Les services que tu vas vendre
+import { V2_MODULE_08_LESSONS } from "./data/v2_module_08";   // M8: Chatbots IA
+import { V2_MODULE_09_LESSONS } from "./data/v2_module_09";   // M9: Agents vocaux IA
+import { V2_MODULE_10_LESSONS } from "./data/v2_module_10";   // M10: Automatisations IA
+import { V2_MODULE_11_LESSONS } from "./data/v2_module_11";   // M11: Génération de leads
+import { V2_MODULE_12_LESSONS } from "./data/v2_module_12";   // M12: IA pour documents & data
 
-// Phase 5 — Entrepreneur
-import { MODULE_10_LESSONS } from "./data/new_module_10";                    // M16: Offre et prix
-import { MODULE_11_LESSONS } from "./data/new_module_11";                    // M17: Trouver des clients
-import { MODULE_12_LESSONS } from "./data/new_module_12";                    // M18: Livrer et fidéliser
-import { MODULE_14_LESSONS } from "./data/new_module_14";                    // M19: Juridique
+// Bloc 5 — Industrialiser
+import { V2_MODULE_13_LESSONS } from "./data/v2_module_13";   // M13: Construire un MVP
+import { V2_MODULE_14_LESSONS } from "./data/v2_module_14";   // M14: Sécurité & bonnes pratiques
+import { V2_MODULE_15_LESSONS } from "./data/v2_module_15";   // M15: DevOps & Monitoring
 
-// Phase 6 — Scale & Mastery
-import { MODULE_13_SCALER_LESSONS } from "./data/new_module_13_scaler";      // M20: Scaler à 10K€
-import { MODULE_21_MULTITENANT_LESSONS } from "./data/new_module_21_multitenant"; // M21: Multi-tenant (NEW)
-import { MODULE_22_MASTERCLASS_TOOLS_LESSONS } from "./data/new_module_22_masterclass_tools"; // M22: Masterclass (NEW)
+// Bloc 6 — Vendre
+import { V2_MODULE_16_LESSONS } from "./data/v2_module_16";   // M16: Se structurer
+import { V2_MODULE_17_LESSONS } from "./data/v2_module_17";   // M17: Créer ton offre
+import { V2_MODULE_18_LESSONS } from "./data/v2_module_18";   // M18: Prospection
+import { V2_MODULE_19_LESSONS } from "./data/v2_module_19";   // M19: Closer
+import { V2_MODULE_20_LESSONS } from "./data/v2_module_20";   // M20: Livrer & Fidéliser
+
+// Bloc 7 — Scaler
+import { V2_MODULE_21_LESSONS } from "./data/v2_module_21";   // M21: Juridique & Admin
+import { V2_MODULE_22_LESSONS } from "./data/v2_module_22";   // M22: Scaler à 10K€/mois
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -47,34 +49,35 @@ const prisma = new PrismaClient({ adapter });
 // MODULE MAP — [lessons array, target module index (0-based)]
 // ═══════════════════════════════════════════════════
 const MODULE_MAP: [any[], number][] = [
-  // Phase 1
-  [MODULE_1_LESSONS, 0],                   // M1: Découvrir l'IA
-  // Phase 2
-  [MODULE_2_LESSONS, 1],                   // M2: Prompt Engineering
-  [MODULE_3_LESSONS, 2],                   // M3: Sites web
-  [MODULE_4_DESIGN_LESSONS, 3],            // M4: Design & UI (NEW)
-  [MODULE_4_LESSONS, 4],                   // M5: Backend Supabase
-  [MODULE_5_API_LESSONS, 5],               // M6: APIs, Stripe
-  // Phase 3
-  [MODULE_6_AUTO_LESSONS, 6],              // M7: Automatisations
-  [MODULE_7_CHATBOT_LESSONS, 7],           // M8: Chatbots IA
-  [MODULE_9_MULTICHANNEL_LESSONS, 8],      // M9: Multi-canal (NEW)
-  [MODULE_8_AGENT_LESSONS, 9],             // M10: Agents IA
-  [MODULE_11_VOICE_LESSONS, 10],           // M11: Voice AI (NEW)
-  [MODULE_9_LESSONS, 11],                  // M12: Construire un MVP
-  [MODULE_13_DOCUMENTS_LESSONS, 12],       // M13: IA documents (NEW)
-  // Phase 4
-  [MODULE_14_SECURITY_LESSONS, 13],        // M14: Sécurité (NEW)
-  [MODULE_15_DEVOPS_LESSONS, 14],          // M15: DevOps (NEW)
-  // Phase 5
-  [MODULE_10_LESSONS, 15],                 // M16: Offre et prix
-  [MODULE_11_LESSONS, 16],                 // M17: Trouver des clients
-  [MODULE_12_LESSONS, 17],                 // M18: Livrer et fidéliser
-  [MODULE_14_LESSONS, 18],                 // M19: Juridique
-  // Phase 6
-  [MODULE_13_SCALER_LESSONS, 19],          // M20: Scaler à 10K€
-  [MODULE_21_MULTITENANT_LESSONS, 20],     // M21: Multi-tenant (NEW)
-  [MODULE_22_MASTERCLASS_TOOLS_LESSONS, 21], // M22: Masterclass outils (NEW)
+  // Bloc 1 — Le cadre
+  [V2_MODULE_01_LESSONS, 0],    // M1: Bienvenue & Objectif
+  [V2_MODULE_02_LESSONS, 1],    // M2: Découvrir les IA
+  // Bloc 2 — Tes outils de travail
+  [V2_MODULE_03_LESSONS, 2],    // M3: Apprendre à prompter
+  [V2_MODULE_04_LESSONS, 3],    // M4: IDE IA
+  [V2_MODULE_05_LESSONS, 4],    // M5: Git & GitHub
+  // Bloc 3 — Construire un site web
+  [V2_MODULE_06_LESSONS, 5],    // M6: Frontend
+  [V2_MODULE_07_LESSONS, 6],    // M7: Backend & Déploiement
+  // Bloc 4 — Les services à vendre
+  [V2_MODULE_08_LESSONS, 7],    // M8: Chatbots IA
+  [V2_MODULE_09_LESSONS, 8],    // M9: Agents vocaux
+  [V2_MODULE_10_LESSONS, 9],    // M10: Automatisations
+  [V2_MODULE_11_LESSONS, 10],   // M11: Génération de leads
+  [V2_MODULE_12_LESSONS, 11],   // M12: Documents & data
+  // Bloc 5 — Industrialiser
+  [V2_MODULE_13_LESSONS, 12],   // M13: MVP
+  [V2_MODULE_14_LESSONS, 13],   // M14: Sécurité
+  [V2_MODULE_15_LESSONS, 14],   // M15: DevOps
+  // Bloc 6 — Vendre
+  [V2_MODULE_16_LESSONS, 15],   // M16: Se structurer
+  [V2_MODULE_17_LESSONS, 16],   // M17: Créer ton offre
+  [V2_MODULE_18_LESSONS, 17],   // M18: Prospection
+  [V2_MODULE_19_LESSONS, 18],   // M19: Closer
+  [V2_MODULE_20_LESSONS, 19],   // M20: Livrer & Fidéliser
+  // Bloc 7 — Scaler
+  [V2_MODULE_21_LESSONS, 20],   // M21: Juridique
+  [V2_MODULE_22_LESSONS, 21],   // M22: Scaler à 10K€
 ];
 
 function makeQuiz(lessonOrder: number): Array<{ type: string; question: string; options: string; correctAnswer: string; explanation: string; order: number }> {
@@ -126,34 +129,35 @@ async function main() {
   // ═══════════════════════════════════════════════════
   const modules = [];
   const moduleDefinitions = [
-    // Phase 1 — Fondations
-    { title: "Découvrir l'IA et poser les bases", description: "Comprendre l'IA, les outils, et créer ton premier agent", order: 1 },
-    // Phase 2 — Développeur IA
-    { title: "Prompt Engineering avancé", description: "Maîtriser Claude comme outil de travail quotidien", order: 2 },
-    { title: "Créer des sites web professionnels", description: "De zéro à un site en ligne avec Next.js + Tailwind", order: 3 },
-    { title: "Design & UI pour développeurs", description: "Figma, principes de design et UI kits pour livrer du pro", order: 4 },
-    { title: "Backend & Supabase", description: "Base de données, auth, storage et CRUD complet", order: 5 },
-    { title: "APIs, Intégrations & Paiements", description: "API Routes, Stripe, webhooks et intégration Claude", order: 6 },
-    // Phase 3 — Architecte Solutions
-    { title: "Automatisations & Workflows", description: "Make, n8n : créer des machines qui bossent pour toi", order: 7 },
-    { title: "Chatbots IA professionnels", description: "RAG, pgvector, widget embarquable et analytics", order: 8 },
-    { title: "Chatbots multi-canal", description: "WhatsApp, Instagram, Messenger : là où sont les clients", order: 9 },
-    { title: "Agents IA autonomes", description: "Tool use, ReAct, MCP et agents multi-step", order: 10 },
-    { title: "Voice AI & Agents téléphoniques", description: "Vapi, ElevenLabs : l'IA qui décroche le téléphone", order: 11 },
-    { title: "Construire un MVP", description: "Ton premier vrai produit de A à Z en 48h", order: 12 },
-    { title: "IA pour documents & data", description: "PDF, OCR, Excel : traitement de données pour entreprises", order: 13 },
-    // Phase 4 — Sécurité & Production
-    { title: "Sécurité Supabase & bonnes pratiques", description: "RLS, validation, secrets et checklist production", order: 14 },
+    // Bloc 1 — Le cadre
+    { title: "Bienvenue & Objectif", description: "Ce que tu vas apprendre, le marché de l'IA et ta roadmap", order: 1 },
+    { title: "Découvrir les IA", description: "ChatGPT, Claude, Gemini — les IA qu'on va utiliser et pourquoi", order: 2 },
+    // Bloc 2 — Tes outils de travail
+    { title: "Apprendre à prompter", description: "Les bases et techniques avancées pour des résultats précis", order: 3 },
+    { title: "Les IDE IA : Claude Code & Cursor", description: "Installer, configurer et coder avec les IDE augmentés par l'IA", order: 4 },
+    { title: "Git, GitHub & le workflow développeur", description: "Versionner ton code et collaborer comme un pro", order: 5 },
+    // Bloc 3 — Construire un site web
+    { title: "Frontend : Next.js + Tailwind", description: "Créer des interfaces web modernes et responsive", order: 6 },
+    { title: "Backend & Déploiement", description: "Supabase, SQL, API Routes, Stripe et Vercel", order: 7 },
+    // Bloc 4 — Les services que tu vas vendre
+    { title: "Chatbots IA", description: "Créer et déployer des chatbots sur site web et réseaux sociaux", order: 8 },
+    { title: "Agents vocaux IA", description: "Créer des agents téléphoniques avec Vapi & ElevenLabs", order: 9 },
+    { title: "Automatisations IA pour entreprises", description: "Automatiser des process métier avec l'IA — cas concrets par secteur", order: 10 },
+    { title: "Génération de leads avec l'IA", description: "Scraping, enrichissement et séquences outbound automatisées", order: 11 },
+    { title: "IA pour documents & data", description: "PDF, OCR, Excel : traitement de données pour entreprises", order: 12 },
+    // Bloc 5 — Industrialiser
+    { title: "Construire un MVP complet", description: "Ton premier vrai produit de A à Z en 48h", order: 13 },
+    { title: "Sécurité & bonnes pratiques", description: "RLS, validation, secrets et checklist production", order: 14 },
     { title: "DevOps & Monitoring", description: "Git avancé, CI/CD, Sentry et maintenance pro", order: 15 },
-    // Phase 5 — Entrepreneur
-    { title: "Créer ton offre irrésistible", description: "De \"je sais faire\" à \"je vends\" — pricing et positionnement", order: 16 },
-    { title: "Trouver des clients", description: "LinkedIn, cold email, closing et système de prospection", order: 17 },
-    { title: "Livrer et fidéliser", description: "Process de livraison, retainers et referrals", order: 18 },
-    { title: "Juridique, fiscalité & admin", description: "Statuts, contrats, RGPD, facturation et assurances", order: 19 },
-    // Phase 6 — Scale & Mastery
-    { title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", order: 20 },
-    { title: "Architecture multi-tenant & white-label", description: "Build once, sell many : le vrai scale technique", order: 21 },
-    { title: "Masterclass outils : Claude Code, Cursor & Antigravity", description: "Maîtrise avancée des outils de développement IA", order: 22 },
+    // Bloc 6 — Vendre
+    { title: "Se structurer pour réussir", description: "Organisation, outils, CRM et image professionnelle", order: 16 },
+    { title: "Créer ton offre", description: "Les services IA rentables, pricing et supports de vente", order: 17 },
+    { title: "Prospection", description: "Réseau, LinkedIn, cold email, cold call et automatisation", order: 18 },
+    { title: "Closer", description: "L'appel de closing, objections et signature du deal", order: 19 },
+    { title: "Livrer & Fidéliser", description: "Process de livraison, retainers et referrals", order: 20 },
+    // Bloc 7 — Scaler
+    { title: "Juridique & Admin", description: "Statuts, contrats, RGPD, facturation et assurances", order: 21 },
+    { title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", order: 22 },
   ];
 
   for (const def of moduleDefinitions) {
