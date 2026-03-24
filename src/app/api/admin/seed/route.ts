@@ -119,7 +119,7 @@ export async function POST() {
       modules.push(mod);
     }
 
-    // Lessons + Quizzes
+    // Lessons + Quizzes (nested create to avoid FK issues with pgbouncer)
     let lessonCount = 0;
     for (const [lessons, moduleIdx] of MODULE_MAP) {
       for (const lessonData of lessons) {
@@ -130,7 +130,6 @@ export async function POST() {
             order: lessonData.order, moduleId: modules[moduleIdx].id,
           },
         });
-        const quiz = await prisma.quiz.create({ data: { lessonId: lesson.id, passingScore: 80 } });
         const ld = lessonData as any;
         const questions = ld.quiz
           ? ld.quiz.map((q: any, i: number) => ({
@@ -138,9 +137,16 @@ export async function POST() {
               correctAnswer: q.correctAnswer, explanation: q.explanation, order: i + 1,
             }))
           : makeQuiz(lessonData.order);
-        for (const q of questions) {
-          await prisma.quizQuestion.create({ data: { ...q, quizId: quiz.id } });
-        }
+        // Use nested create to avoid FK timing issues
+        await prisma.quiz.create({
+          data: {
+            lessonId: lesson.id,
+            passingScore: 80,
+            questions: {
+              create: questions,
+            },
+          },
+        });
         lessonCount++;
       }
     }
