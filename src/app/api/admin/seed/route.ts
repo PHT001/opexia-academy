@@ -115,17 +115,10 @@ export async function POST() {
       modules.push(mod);
     }
 
-    // Lessons + Quizzes (nested create to avoid FK issues with pgbouncer)
+    // Lessons + Quizzes — fully nested create (lesson → quiz → questions in one call)
     let lessonCount = 0;
     for (const [lessons, moduleIdx] of MODULE_MAP) {
       for (const lessonData of lessons) {
-        const lesson = await prisma.lesson.create({
-          data: {
-            title: lessonData.title, slug: lessonData.slug, description: lessonData.description,
-            content: lessonData.content, exercise: lessonData.exercise, duration: lessonData.duration,
-            order: lessonData.order, moduleId: modules[moduleIdx].id,
-          },
-        });
         const ld = lessonData as any;
         const questions = ld.quiz
           ? ld.quiz.map((q: any, i: number) => ({
@@ -133,13 +126,19 @@ export async function POST() {
               correctAnswer: q.correctAnswer, explanation: q.explanation, order: i + 1,
             }))
           : makeQuiz(lessonData.order);
-        // Use nested create to avoid FK timing issues
-        await prisma.quiz.create({
+
+        await prisma.lesson.create({
           data: {
-            lessonId: lesson.id,
-            passingScore: 80,
-            questions: {
-              create: questions,
+            title: lessonData.title, slug: lessonData.slug, description: lessonData.description,
+            content: lessonData.content, exercise: lessonData.exercise, duration: lessonData.duration,
+            order: lessonData.order, moduleId: modules[moduleIdx].id,
+            quiz: {
+              create: {
+                passingScore: 80,
+                questions: {
+                  create: questions,
+                },
+              },
             },
           },
         });
@@ -149,7 +148,7 @@ export async function POST() {
 
     return NextResponse.json({
       success: true,
-      version: "v4",
+      version: "v5",
       message: `Seed terminé : ${modules.length} modules, ${lessonCount} leçons`,
       admin: admin.email,
       student: student.email,
