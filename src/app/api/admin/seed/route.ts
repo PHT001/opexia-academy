@@ -88,6 +88,7 @@ export async function POST() {
   }
 
   try {
+    // v3 - nested create + deleteMany
     // Clean all data - delete in order to respect foreign keys
     await prisma.quizQuestion.deleteMany();
     await prisma.quizSubmission.deleteMany();
@@ -153,6 +154,7 @@ export async function POST() {
 
     return NextResponse.json({
       success: true,
+      version: "v3",
       message: `Seed terminé : ${modules.length} modules, ${lessonCount} leçons`,
       admin: admin.email,
       student: student.email,
