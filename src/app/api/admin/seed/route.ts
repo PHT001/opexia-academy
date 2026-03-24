@@ -88,20 +88,15 @@ export async function POST() {
   }
 
   try {
-    // v3 - nested create + deleteMany
-    // Clean all data - delete in order to respect foreign keys
-    await prisma.quizQuestion.deleteMany();
-    await prisma.quizSubmission.deleteMany();
-    await prisma.quiz.deleteMany();
-    await prisma.lessonProgress.deleteMany();
-    await prisma.lesson.deleteMany();
-    await prisma.module.deleteMany();
-    await prisma.enrollment.deleteMany();
-    await prisma.streak.deleteMany();
-    await prisma.coachingSession.deleteMany();
-    try { await prisma.pipelineDeal.deleteMany(); } catch {}
-    try { await prisma.referral.deleteMany(); } catch {}
-    await prisma.user.deleteMany();
+    // v4 - use raw SQL TRUNCATE for clean slate
+    await prisma.$executeRawUnsafe(`
+      DO $$ DECLARE r RECORD;
+      BEGIN
+        FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+          EXECUTE 'TRUNCATE TABLE "' || r.tablename || '" CASCADE';
+        END LOOP;
+      END $$;
+    `);
 
     // Users
     const adminPassword = await bcrypt.hash("admin123", 12);
@@ -154,7 +149,7 @@ export async function POST() {
 
     return NextResponse.json({
       success: true,
-      version: "v3",
+      version: "v4",
       message: `Seed terminé : ${modules.length} modules, ${lessonCount} leçons`,
       admin: admin.email,
       student: student.email,
