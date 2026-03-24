@@ -155,17 +155,17 @@ function CalendarSlotPicker({
       </h2>
       <p className="text-xs text-gray-500 mb-5">Sélectionne un jour pour voir les horaires disponibles.</p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-4">
-        {/* Compact calendar */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Calendar */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           {/* Month nav */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
             <button onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
             <div className="text-center">
-              <h3 className="text-xs font-bold text-gray-900 capitalize">{MONTHS_FR[viewMonth]} {viewYear}</h3>
-              <p className="text-[9px] text-gray-400 mt-0.5">{slotsInMonth} créneau{slotsInMonth > 1 ? "x" : ""}</p>
+              <h3 className="text-sm font-bold text-gray-900 capitalize">{MONTHS_FR[viewMonth]} {viewYear}</h3>
+              <p className="text-[10px] text-gray-400 mt-0.5">{slotsInMonth} créneau{slotsInMonth > 1 ? "x" : ""}</p>
             </div>
             <button onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
@@ -173,19 +173,19 @@ function CalendarSlotPicker({
           </div>
 
           {/* Day headers */}
-          <div className="grid grid-cols-7 px-2 pt-2">
+          <div className="grid grid-cols-7 px-3 pt-3">
             {DAYS_FR.map((d) => (
-              <div key={d} className="py-1 text-center text-[9px] font-bold text-gray-400 uppercase">
+              <div key={d} className="py-2 text-center text-[11px] font-bold text-gray-400 uppercase">
                 {d}
               </div>
             ))}
           </div>
 
-          {/* Calendar grid — compact */}
-          <div className="grid grid-cols-7 gap-px px-2 pb-3 pt-1">
+          {/* Calendar grid */}
+          <div className="grid grid-cols-7 gap-1 px-3 pb-4 pt-1">
             {calendarDays.map((day, i) => {
               if (day === null) {
-                return <div key={`empty-${i}`} className="h-8" />;
+                return <div key={`empty-${i}`} className="h-11" />;
               }
 
               const dateKey = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
@@ -211,7 +211,7 @@ function CalendarSlotPicker({
                     }
                   }}
                   className={cn(
-                    "relative h-8 rounded-lg flex flex-col items-center justify-center transition-all text-xs",
+                    "relative h-11 rounded-lg flex flex-col items-center justify-center transition-all text-sm",
                     hasSlots && !isPast ? "cursor-pointer hover:bg-[#FF1744]/[0.06]" : "",
                     isPast && "opacity-30",
                     !hasSlots && !isPast && "text-gray-300",
@@ -220,8 +220,8 @@ function CalendarSlotPicker({
                   )}
                 >
                   <span className={cn(
-                    "text-[11px] font-semibold leading-none",
-                    isToday ? "w-5.5 h-5.5 rounded-full bg-gray-900 text-white flex items-center justify-center text-[10px]" : "",
+                    "text-[13px] font-semibold leading-none",
+                    isToday ? "w-7 h-7 rounded-full bg-gray-900 text-white flex items-center justify-center text-[12px]" : "",
                     hasSelectedSlot && !isToday ? "text-[#FF1744] font-black" : "",
                     hasSlots && !hasSelectedSlot && !isToday ? "text-gray-700" : "",
                   )}>
@@ -397,7 +397,8 @@ function CoachingContent() {
   }
 
   /* ─── Admin View ─────────────────────────────────── */
-  if ((session?.user as any)?.role === "admin") {
+  const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
+  if ((session?.user as any)?.role === "admin" && !previewTier) {
     const allSessions = sessions.filter((s) => s.status === "confirmed");
     const upcomingSessions = allSessions.filter((s) => new Date(s.date) >= new Date());
     const pastAdminSessions = allSessions.filter((s) => new Date(s.date) < new Date());

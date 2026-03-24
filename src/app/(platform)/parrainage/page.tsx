@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
+import { useTierGate } from "@/hooks/useTierGate";
 
 /* --- Icons --- */
 function IconCopy({ className }: { className?: string }) {
@@ -63,6 +64,7 @@ function statusBadge(status: string) {
 }
 
 export default function ParrainagePage() {
+  const { isLocked } = useTierGate();
   const [data, setData] = useState<ReferralData | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -90,9 +92,43 @@ export default function ParrainagePage() {
     </div>
   );
 
+  if (isLocked) {
+    return (
+      <div className="relative w-full">
+        <div className="blur-[4px] pointer-events-none select-none opacity-70">
+          <ParrainageContent d={defaultData} copied={copied} setCopied={setCopied} loading={loading} />
+        </div>
+        <div className="absolute inset-0 flex items-start justify-center pt-40 z-10">
+          <div className="text-center bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md mx-4">
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-4">
+              <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-[#111] mb-2">Programme Partenaire</h3>
+            <p className="text-sm text-[#6B7280] mb-6">Recommande Opexia et gagne jusqu&apos;à 20% de commission. Disponible avec un abonnement.</p>
+            <a href="/#pricing" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
+              Voir les offres &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
+      <ParrainageContent d={defaultData} copied={copied} setCopied={setCopied} loading={loading} />
+    </div>
+  );
+}
 
+function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: ReferralData; copied: boolean; setCopied: (v: boolean) => void; loading: boolean }) {
+  const data = defaultData;
+  const referralLink = `${typeof window !== "undefined" ? window.location.origin : ""}/register?ref=${defaultData.referralCode}`;
+  function copyLink() { navigator.clipboard.writeText(referralLink); setCopied(true); setTimeout(() => setCopied(false), 2000); }
+  return (
+    <>
       {/* ═══════════════════════════════════════════
           HERO BANNER — dark gradient with diagonal slice
       ═══════════════════════════════════════════ */}
@@ -422,6 +458,6 @@ export default function ParrainagePage() {
         ))}
       </div>
 
-    </div>
+    </>
   );
 }

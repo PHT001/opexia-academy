@@ -92,10 +92,10 @@ export default function WindowClosing() {
             Les autres regarderont.
           </p>
           <a
-            href="#pricing"
+            href="/register"
             className="inline-flex items-center gap-2 rounded-full bg-[#FF1744] px-8 py-4 text-base font-semibold text-white hover:bg-[#D50000] transition-all hover:shadow-xl hover:shadow-red-900/30"
           >
-            Prendre ma place
+            Tester gratuitement
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

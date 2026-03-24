@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTierGate } from "@/hooks/useTierGate";
 
 /* ─── Icons ─────────────────────────────── */
 function IconSend({ className }: { className?: string }) {
@@ -36,6 +37,7 @@ const CAPABILITIES = [
 ];
 
 export default function AssistantPage() {
+  const { isLocked } = useTierGate();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -140,6 +142,19 @@ export default function AssistantPage() {
 
   return (
     <div className="w-full">
+      {/* Upgrade banner for free users */}
+      {isLocked && (
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+          <div>
+            <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
+            <p className="text-xs text-[#6B7280]">L&apos;assistant IA est r&eacute;serv&eacute; aux abonn&eacute;s. Upgrade pour poser tes questions.</p>
+          </div>
+          <a href="/#pricing" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+            Voir les offres
+          </a>
+        </div>
+      )}
+
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight text-gray-900 mb-1">
@@ -261,7 +276,7 @@ export default function AssistantPage() {
                 className="pt-2"
               >
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3">Questions suggérées</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className={cn("grid grid-cols-1 sm:grid-cols-2 gap-2", isLocked && "pointer-events-none opacity-60")}>
                   {SUGGESTIONS.map((s, i) => (
                     <motion.button
                       key={i}
@@ -285,8 +300,18 @@ export default function AssistantPage() {
           </div>
 
           {/* Input */}
-          <div className="px-5 py-3.5 border-t border-gray-100 flex-shrink-0 bg-white">
-            <div className="flex items-center gap-2">
+          <div className="px-5 py-3.5 border-t border-gray-100 flex-shrink-0 bg-white relative">
+            {isLocked && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-b-2xl">
+                <div className="flex items-center gap-3">
+                  <p className="text-sm font-medium text-gray-500">Disponible avec un abonnement</p>
+                  <a href="/#pricing" className="rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+                    Voir les offres
+                  </a>
+                </div>
+              </div>
+            )}
+            <div className={cn("flex items-center gap-2", isLocked && "pointer-events-none opacity-60")}>
               <input
                 ref={inputRef}
                 type="text"
@@ -294,12 +319,12 @@ export default function AssistantPage() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Pose ta question..."
-                disabled={isTyping || limitReached}
+                disabled={isTyping || limitReached || isLocked}
                 className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744]/30 transition-all disabled:opacity-50"
               />
               <button
                 onClick={() => handleSend()}
-                disabled={!input.trim() || isTyping || limitReached}
+                disabled={!input.trim() || isTyping || limitReached || isLocked}
                 className={cn(
                   "p-2.5 rounded-xl transition-all flex-shrink-0",
                   input.trim() && !isTyping

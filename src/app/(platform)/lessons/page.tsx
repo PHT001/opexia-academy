@@ -135,6 +135,43 @@ function CircularProgress({ percentage, size = 56, strokeWidth = 4, strokeColor 
 
 const DEFAULT_META: ModuleMetadata = { brands: [], difficulty: "debutant", estimatedTime: "~2h", lessonCount: 6 };
 
+/* ——— Content type helpers ——— */
+function IconVideoSmall({ className }: { className?: string }) {
+  return <svg className={className} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3" /></svg>;
+}
+function IconText({ className }: { className?: string }) {
+  return <svg className={className} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="17" y1="10" x2="3" y2="10" /><line x1="21" y1="6" x2="3" y2="6" /><line x1="21" y1="14" x2="3" y2="14" /><line x1="17" y1="18" x2="3" y2="18" /></svg>;
+}
+function IconExercise({ className }: { className?: string }) {
+  return <svg className={className} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>;
+}
+
+/* Estimated video count per module (rough, based on lesson count) */
+const MODULE_VIDEO_COUNT: Record<number, number> = {
+  1: 2, 2: 3, 3: 3, 4: 3, 5: 2, 6: 3, 7: 4, 8: 3, 9: 2, 10: 3, 11: 3, 12: 3,
+  13: 3, 14: 4, 15: 3, 16: 3, 17: 2, 18: 4, 19: 2, 20: 3, 21: 2, 22: 3,
+};
+
+/* Content type tags for lessons based on order within module */
+function getLessonContentTypes(lessonOrder: number, hasQuiz: boolean): { label: string; icon: React.ComponentType<{ className?: string }>; color: string }[] {
+  const types: { label: string; icon: React.ComponentType<{ className?: string }>; color: string }[] = [];
+  // All lessons have text content
+  types.push({ label: "Texte", icon: IconText, color: "text-blue-500 bg-blue-50 border-blue-200" });
+  // Most lessons have video (assume ~75%)
+  if (lessonOrder % 4 !== 0) {
+    types.push({ label: "Vid\u00e9o", icon: IconVideoSmall, color: "text-purple-500 bg-purple-50 border-purple-200" });
+  }
+  // Some lessons have exercises (every 2nd lesson)
+  if (lessonOrder % 2 === 0) {
+    types.push({ label: "Exercice", icon: IconExercise, color: "text-orange-500 bg-orange-50 border-orange-200" });
+  }
+  // Quiz badge if applicable
+  if (hasQuiz) {
+    types.push({ label: "Quiz", icon: IconQuiz, color: "text-emerald-500 bg-emerald-50 border-emerald-200" });
+  }
+  return types;
+}
+
 /* ═══════════════════════════════════════════════════════
    LESSON READER PANEL — Inline drawer
    ═══════════════════════════════════════════════════════ */
@@ -356,7 +393,7 @@ function LessonReaderPanel({
    ═══════════════════════════════════════════════════════ */
 export default function LessonsPage() {
   const [modules, setModules] = useState<ModuleGroup[]>([]);
-  const [userTier, setUserTier] = useState<string>("starter");
+  const [userTier, setUserTier] = useState<string>("free");
   const [expandedModule, setExpandedModule] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -386,7 +423,7 @@ export default function LessonsPage() {
       })
       .then((data) => {
         const mods = Array.isArray(data) ? data : (data.modules ?? []);
-        const apiTier = Array.isArray(data) ? "academy" : (data.userTier ?? "starter");
+        const apiTier = Array.isArray(data) ? "academy" : (data.userTier ?? "free");
         // Check for admin preview tier override
         const previewTier = localStorage.getItem("admin-preview-tier");
         const tier = previewTier || apiTier;
@@ -501,7 +538,7 @@ export default function LessonsPage() {
                           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white flex-shrink-0 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
                           style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
                         >
-                          D{"\u00e9"}bloquer Academy {"\u2014"} 397{"\u20ac"}
+                          D{"\u00e9"}bloquer Academy {"\u2014"} 497{"\u20ac"}
                           <IconArrowRight className="w-4 h-4" />
                         </a>
                       </div>
@@ -510,7 +547,7 @@ export default function LessonsPage() {
                 )}
 
                 {/* ── Week Header Node ── */}
-                <div className={cn("relative pl-14 md:pl-16 py-5", !weekAccessible && "opacity-60")}>
+                <div className={cn("relative pl-14 md:pl-16 py-5", !weekAccessible && userTier !== "free" && "opacity-60")}>
                   {/* Big dot */}
                   <div className={cn("absolute left-2.5 md:left-3 w-[22px] h-[22px] rounded-full border-4 border-white shadow-sm z-10", theme.bar)} />
                   <div className="flex items-center justify-between gap-4">
@@ -521,7 +558,11 @@ export default function LessonsPage() {
                         </span>
                         {weekAccessible ? (
                           <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full border", theme.accentBg, theme.accent, theme.border)}>
-                            {userTier === "starter" && week.week === 1 ? "Starter" : "Academy"}
+                            {userTier === "free" ? "Gratuit" : userTier === "starter" && week.week === 1 ? "Starter" : "Academy"}
+                          </span>
+                        ) : userTier === "free" ? (
+                          <span className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full border border-gray-200">
+                            <IconLock className="w-2.5 h-2.5" /> Premium
                           </span>
                         ) : (
                           <span className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full border border-gray-200">
@@ -548,7 +589,7 @@ export default function LessonsPage() {
                   const modAccessible = accessibleModules.includes(mod.order);
                   const completed = mod.lessons.filter((l) => l.status === "completed").length;
                   const pct = mod.lessons.length > 0 ? Math.round((completed / mod.lessons.length) * 100) : 0;
-                  const isExpanded = expandedModule === mod.order;
+                  const isExpanded = userTier === "free" ? true : expandedModule === mod.order;
                   const hasActive = mod.lessons.some((l) => l.status === "in_progress");
                   const isModuleCompleted = completed === mod.lessons.length && mod.lessons.length > 0;
                   const meta = MODULE_METADATA[mod.order] ?? DEFAULT_META;
@@ -588,22 +629,22 @@ export default function LessonsPage() {
                       <div className={cn(
                         "rounded-2xl border overflow-hidden transition-all duration-300 bg-white",
                         isExpanded ? "shadow-lg border-gray-300" : "shadow-sm",
-                        modAccessible
+                        (modAccessible || userTier === "free")
                           ? "border-gray-200 hover:shadow-md hover:border-gray-300"
                           : "border-gray-100 bg-gray-50/50",
                       )}>
                         <button
-                          onClick={() => { if (!modAccessible) return; setExpandedModule(isExpanded ? null : mod.order); }}
-                          disabled={!modAccessible}
-                          className={cn("w-full flex items-center gap-4 p-4 md:p-5 text-left transition-colors", modAccessible ? "cursor-pointer" : "cursor-default")}
+                          onClick={() => { if (!modAccessible && userTier !== "free") return; setExpandedModule(isExpanded ? null : mod.order); }}
+                          disabled={!modAccessible && userTier !== "free"}
+                          className={cn("w-full flex items-center gap-4 p-4 md:p-5 text-left transition-colors", (modAccessible || userTier === "free") ? "cursor-pointer" : "cursor-default")}
                         >
                           <div className={cn(
                             "w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 border",
-                            modAccessible
+                            (modAccessible || userTier === "free")
                               ? cn(theme.lightBg, theme.border, hasActive && "ring-2 ring-offset-1 ring-[#FF1744]/20")
                               : "bg-gray-100 border-gray-200"
                           )}>
-                            {modAccessible ? (
+                            {(modAccessible || userTier === "free") ? (
                               <span className={cn("text-base font-black", theme.accent)}>{String(mod.order).padStart(2, "0")}</span>
                             ) : (
                               <IconLock className="text-gray-300 w-4 h-4" />
@@ -612,7 +653,7 @@ export default function LessonsPage() {
 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                              <h3 className={cn("text-sm font-bold", modAccessible ? "text-[#111]" : "text-gray-400")}>{mod.title}</h3>
+                              <h3 className={cn("text-sm font-bold", (modAccessible || userTier === "free") ? "text-[#111]" : "text-gray-400")}>{mod.title}</h3>
                               {hasClaude && (
                                 <span className="flex items-center justify-center w-5 h-5 rounded-md bg-orange-50 border border-orange-200 flex-shrink-0" title="Claude">
                                   <IconClaude className="text-orange-500 w-3 h-3" />
@@ -635,11 +676,19 @@ export default function LessonsPage() {
                               )}
                             </div>
                             <div className="flex items-center gap-3 mt-1">
-                              <span className={cn("flex items-center gap-1 text-[10px]", modAccessible ? "text-gray-400" : "text-gray-300")}>
+                              <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || userTier === "free") ? "text-gray-400" : "text-gray-300")}>
                                 <IconClock /> {meta.estimatedTime}
                               </span>
                               <span className="w-0.5 h-0.5 rounded-full bg-gray-300" />
-                              <span className={cn("text-[10px]", modAccessible ? "text-gray-400" : "text-gray-300")}>{meta.lessonCount} le{"\u00e7"}ons</span>
+                              <span className={cn("text-[10px]", (modAccessible || userTier === "free") ? "text-gray-400" : "text-gray-300")}>{meta.lessonCount} le{"\u00e7"}ons</span>
+                              {(MODULE_VIDEO_COUNT[mod.order] ?? 0) > 0 && (
+                                <>
+                                  <span className="w-0.5 h-0.5 rounded-full bg-gray-300" />
+                                  <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || userTier === "free") ? "text-purple-500" : "text-gray-300")}>
+                                    <IconVideoSmall /> {MODULE_VIDEO_COUNT[mod.order]} vid{"\u00e9"}os
+                                  </span>
+                                </>
+                              )}
                               {modAccessible && pct > 0 && (
                                 <>
                                   <span className="w-0.5 h-0.5 rounded-full bg-gray-300" />
@@ -649,20 +698,22 @@ export default function LessonsPage() {
                             </div>
                           </div>
 
-                          {modAccessible && (
+                          {(modAccessible || userTier === "free") && (
                             <div className="flex items-center gap-3 flex-shrink-0">
-                              <div className="hidden sm:block">
-                                <div className="w-16 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                                  <div className={cn("h-full rounded-full transition-all duration-700", theme.bar)} style={{ width: `${pct}%`, opacity: pct > 0 ? 1 : 0 }} />
+                              {modAccessible && (
+                                <div className="hidden sm:block">
+                                  <div className="w-16 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                                    <div className={cn("h-full rounded-full transition-all duration-700", theme.bar)} style={{ width: `${pct}%`, opacity: pct > 0 ? 1 : 0 }} />
+                                  </div>
                                 </div>
-                              </div>
+                              )}
                               <IconChevron className={cn("text-gray-300 transition-transform duration-200", isExpanded && "rotate-90")} />
                             </div>
                           )}
                         </button>
 
                         {/* Lock overlay */}
-                        {!modAccessible && (
+                        {!modAccessible && userTier !== "free" && (
                           <div className="absolute inset-0 flex items-end rounded-2xl bg-gradient-to-t from-white/90 via-white/40 to-transparent pointer-events-none">
                             <div className="w-full p-4 pt-10 rounded-b-2xl">
                               <div className="flex items-center gap-2">
@@ -675,7 +726,7 @@ export default function LessonsPage() {
 
                         {/* Lessons list */}
                         <AnimatePresence>
-                          {modAccessible && isExpanded && (
+                          {(modAccessible || userTier === "free") && isExpanded && (
                             <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
@@ -684,6 +735,7 @@ export default function LessonsPage() {
                               className="border-t border-gray-100"
                             >
                               {mod.lessons.map((lesson, idx) => {
+                                const isFreeUser = userTier === "free";
                                 const isLocked = lesson.status === "locked";
                                 const isActive = lesson.status === "in_progress";
                                 const isCompleted = lesson.status === "completed";
@@ -693,17 +745,17 @@ export default function LessonsPage() {
                                 const innerContent = (
                                   <>
                                     <div className="flex-shrink-0 mt-0.5">
-                                      {isCompleted && (
+                                      {!isFreeUser && isCompleted && (
                                         <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center">
                                           <IconCheck className="text-emerald-500 w-3 h-3" />
                                         </div>
                                       )}
-                                      {isActive && (
+                                      {!isFreeUser && isActive && (
                                         <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center border", theme.accentBg, theme.border)}>
                                           <IconPlay className={cn(theme.accent, "w-3 h-3")} />
                                         </div>
                                       )}
-                                      {isLocked && (
+                                      {(isFreeUser || isLocked) && !(!isFreeUser && isCompleted) && !(!isFreeUser && isActive) && (
                                         <div className="w-7 h-7 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center">
                                           <IconLock className="text-gray-300 w-3 h-3" />
                                         </div>
@@ -711,10 +763,10 @@ export default function LessonsPage() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <div className="flex items-center gap-2 mb-0.5">
-                                        <span className="text-[10px] font-bold text-gray-300 uppercase tracking-wide">{String(lesson.order).padStart(2, "0")}</span>
-                                        <h4 className={cn("text-sm font-semibold truncate", isLocked ? "text-gray-300" : "text-[#111]")}>{lesson.title}</h4>
+                                        <span className={cn("text-[10px] font-bold text-gray-300 uppercase tracking-wide", isFreeUser && "blur-[6px] select-none")}>{String(lesson.order).padStart(2, "0")}</span>
+                                        <h4 className={cn("text-sm font-semibold truncate", isFreeUser ? "blur-[6px] select-none text-[#111]" : isLocked ? "text-gray-300" : "text-[#111]")}>{lesson.title}</h4>
                                       </div>
-                                      <div className="flex items-center gap-3 mt-1">
+                                      <div className={cn("flex items-center gap-3 mt-1", isFreeUser && "blur-[6px] select-none")}>
                                         <span className={cn("flex items-center gap-1 text-[10px]", isLocked ? "text-gray-300" : "text-gray-400")}><IconClock /> {lesson.duration}</span>
                                         {lesson.hasQuiz && (
                                           <span className={cn("flex items-center gap-1 text-[10px]", lesson.quizPassed ? "text-emerald-500" : isLocked ? "text-gray-300" : "text-gray-400")}>
@@ -725,8 +777,17 @@ export default function LessonsPage() {
                                           <span className="text-[10px] text-[#FF1744] font-semibold">+{lesson.xpEarned} XP</span>
                                         )}
                                       </div>
+                                      {/* Content type badges — always visible, even for free users */}
+                                      <div className="flex items-center gap-1.5 mt-1.5">
+                                        {getLessonContentTypes(lesson.order, lesson.hasQuiz).map((ct) => (
+                                          <span key={ct.label} className={cn("inline-flex items-center gap-0.5 text-[9px] font-medium px-1.5 py-0.5 rounded border", ct.color)}>
+                                            <ct.icon className="w-2.5 h-2.5" />
+                                            {ct.label}
+                                          </span>
+                                        ))}
+                                      </div>
                                     </div>
-                                    {!isLocked && (
+                                    {!isFreeUser && !isLocked && (
                                       <div className="flex-shrink-0 self-center">
                                         <IconChevron className={cn("text-gray-300 transition-colors", isActive && theme.accent)} />
                                       </div>
@@ -737,30 +798,32 @@ export default function LessonsPage() {
                                 const sharedClassName = cn(
                                   "flex items-center gap-3 px-4 py-3 transition-all relative",
                                   !isLast && "border-b border-gray-50",
-                                  isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-gray-50/50",
-                                  isActive && "bg-gray-50/30",
-                                  isSelected && "bg-[#FF1744]/5 border-l-2 border-l-[#FF1744]"
+                                  isFreeUser ? "cursor-default" : isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-gray-50/50",
+                                  !isFreeUser && isActive && "bg-gray-50/30",
+                                  !isFreeUser && isSelected && "bg-[#FF1744]/5 border-l-2 border-l-[#FF1744]"
                                 );
 
-                                return isLocked ? (
+                                return (isFreeUser || isLocked) ? (
                                   <div key={lesson.id} className={sharedClassName}>{innerContent}</div>
                                 ) : (
                                   <button key={lesson.id} onClick={() => openLesson(lesson.slug)} className={cn(sharedClassName, "w-full text-left")}>{innerContent}</button>
                                 );
                               })}
-                              {/* PDF Download button */}
-                              <div className="px-4 py-3 border-t border-gray-100 bg-gray-50/30">
-                                <a
-                                  href={`/api/pdf/${mod.order}`}
-                                  download
-                                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:border-[#FF1744]/30 hover:text-[#FF1744] hover:bg-[#FF1744]/[0.02] transition-all"
-                                >
-                                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                  </svg>
-                                  T{"\u00e9"}l{"\u00e9"}charger le r{"\u00e9"}cap PDF
-                                </a>
-                              </div>
+                              {/* PDF Download button — hidden for free users */}
+                              {userTier !== "free" && (
+                                <div className="px-4 py-3 border-t border-gray-100 bg-gray-50/30">
+                                  <a
+                                    href={`/api/pdf/${mod.order}`}
+                                    download
+                                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:border-[#FF1744]/30 hover:text-[#FF1744] hover:bg-[#FF1744]/[0.02] transition-all"
+                                  >
+                                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    T{"\u00e9"}l{"\u00e9"}charger le r{"\u00e9"}cap PDF
+                                  </a>
+                                </div>
+                              )}
                             </motion.div>
                           )}
                         </AnimatePresence>
@@ -773,6 +836,37 @@ export default function LessonsPage() {
             );
           })}
         </div>
+
+        {/* ── Upgrade CTA for free users ── */}
+        {userTier === "free" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-10"
+          >
+            <div className="rounded-2xl border-2 border-[#FF1744]/20 bg-gradient-to-br from-red-50/80 via-white to-red-50/40 p-8 sm:p-10 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mx-auto mb-4">
+                <IconLock className="text-[#FF1744] w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-[#111] mb-2">
+                D{"\u00e9"}bloque toute la formation
+              </h3>
+              <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto">
+                Acc{"\u00e8"}de aux 22 modules, 85 le{"\u00e7"}ons, quiz, exercices pratiques et bien plus encore.
+              </p>
+              <a
+                href="/#pricing"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
+                style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
+              >
+                Voir les offres
+                <IconArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
+        )}
       </div>
 
       {/* ══ Lesson Reader Panel ══ */}

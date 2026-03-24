@@ -77,6 +77,10 @@ export const authOptions: NextAuthOptions = {
           user.id = created.id;
           (user as any).role = created.role;
           (user as any).createdAt = created.createdAt.toISOString();
+          // Create free enrollment for new Google users
+          await prisma.enrollment.create({
+            data: { userId: created.id, tier: "free", status: "active" },
+          });
         } else {
           user.id = existing.id;
           (user as any).role = existing.role;

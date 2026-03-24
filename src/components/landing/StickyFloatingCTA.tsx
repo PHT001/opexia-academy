@@ -51,10 +51,10 @@ export default function StickyFloatingCTA() {
           >
             <div className="flex justify-center px-8 py-4">
                 <a
-                  href="#pricing"
+                  href="/register"
                   className="inline-flex items-center rounded-full bg-[#FF1744] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-900/30"
                 >
-                  Rejoindre maintenant
+                  Tester gratuitement
                   <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

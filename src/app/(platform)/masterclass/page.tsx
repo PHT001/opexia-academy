@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTierGate } from "@/hooks/useTierGate";
 
 const MASTERCLASSES = [
   {
@@ -55,6 +56,7 @@ const UPCOMING = [
 ];
 
 export default function MasterclassPage() {
+  const { isLocked } = useTierGate();
   const [notified, setNotified] = useState<Record<string, boolean>>({});
   const [sujet, setSujet] = useState("");
   const [sujetSent, setSujetSent] = useState(false);
@@ -70,8 +72,42 @@ export default function MasterclassPage() {
     setTimeout(() => setSujetSent(false), 3000);
   };
 
+  if (isLocked) {
+    return (
+      <div className="relative w-full max-w-5xl mx-auto pb-12">
+        {/* Blurred content */}
+        <div className="blur-[4px] pointer-events-none select-none opacity-70">
+          <MasterclassContent notified={notified} toggleNotify={toggleNotify} sujet={sujet} setSujet={setSujet} sujetSent={sujetSent} handleSujet={handleSujet} />
+        </div>
+        {/* Overlay CTA */}
+        <div className="absolute inset-0 flex items-start justify-center pt-32 z-10">
+          <div className="text-center bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md mx-4">
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-4">
+              <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-[#111] mb-2">Masterclass exclusives</h3>
+            <p className="text-sm text-[#6B7280] mb-6">Accède aux masterclass vidéo et sessions live pour développer ton agence IA.</p>
+            <a href="/#pricing" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
+              Voir les offres <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-5xl mx-auto pb-12">
+      <MasterclassContent notified={notified} toggleNotify={toggleNotify} sujet={sujet} setSujet={setSujet} sujetSent={sujetSent} handleSujet={handleSujet} />
+    </div>
+  );
+}
+
+function MasterclassContent({ notified, toggleNotify, sujet, setSujet, sujetSent, handleSujet }: { notified: Record<string, boolean>; toggleNotify: (id: string) => void; sujet: string; setSujet: (v: string) => void; sujetSent: boolean; handleSujet: () => void }) {
+  return (
+    <>
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-[#111] mb-1">
@@ -332,6 +368,6 @@ export default function MasterclassPage() {
           )}
         </div>
       </section>
-    </div>
+    </>
   );
 }

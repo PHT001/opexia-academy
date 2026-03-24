@@ -12,7 +12,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["prix", "tarif", "combien", "co\u00fbt", "cher", "gratuit", "payer", "paiement", "plusieurs fois"],
     answer:
-      "On a 3 formules : Starter \u00e0 47\u20ac (PDF + templates), Academy \u00e0 397\u20ac (formation compl\u00e8te + plateforme + CRM \u2014 payable en 3x139\u20ac), et One-to-One \u00e0 3 997\u20ac (accompagnement premium avec Marius & Igor \u2014 payable en 4x999\u20ac). Garantie 14 jours satisfait ou rembours\u00e9.",
+      "Tu peux d\u00e9couvrir la plateforme gratuitement en cr\u00e9ant un compte ! Ensuite on a 3 formules : Starter \u00e0 47\u20ac (Module 1 complet), Academy \u00e0 497\u20ac (formation compl\u00e8te + plateforme + CRM \u2014 payable en 3x), et One-to-One d\u00e8s 1 997\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor). Garantie 14 jours satisfait ou rembours\u00e9.",
   },
   {
     keywords: ["d\u00e9butant", "z\u00e9ro", "aucune", "connaissance", "niveau", "pr\u00e9requis", "base"],

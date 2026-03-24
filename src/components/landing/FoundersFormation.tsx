@@ -57,10 +57,10 @@ export default function FoundersFormation() {
           {/* Personal message */}
           <div className="text-left space-y-4 text-[#6B7280] leading-relaxed">
             <p>
-              On a cr&eacute;&eacute; cette formation parce qu&apos;on en avait <strong className="text-[#111]">marre de voir des gens galérer</strong> à comprendre l&apos;IA alors que les opportunités sont <strong className="text-[#111]">énormes</strong>. On a accompagn&eacute; <strong className="text-[#111]">+200 entreprises</strong> dans leur transformation IA — et on a compil&eacute; tout ce qu&apos;on sait dans un seul programme.
+              Cette formation est n&eacute;e d&apos;un constat simple&nbsp;: trop de professionnels passent &agrave; c&ocirc;t&eacute; des <strong className="text-[#111]">opportunit&eacute;s offertes par l&apos;IA</strong>, faute d&apos;un accompagnement adapt&eacute;. Forts de notre exp&eacute;rience aupr&egrave;s de <strong className="text-[#111]">plus de 200&nbsp;entreprises</strong> dans leur transformation digitale, nous avons structur&eacute; l&apos;ensemble de notre expertise en un programme complet.
             </p>
             <p>
-              Pas de th&eacute;orie inutile, pas de blabla. Que du <strong className="text-[#111]">concret</strong>, des <strong className="text-[#111]">cas r&eacute;els</strong>, et une m&eacute;thode &eacute;prouv&eacute;e pour <strong className="text-[#111]">lancer ton agence IA</strong> ou <strong className="text-[#111]">booster ta carri&egrave;re</strong> avec l&apos;intelligence artificielle.
+              Notre approche est <strong className="text-[#111]">100&nbsp;% pratique</strong>&nbsp;: des <strong className="text-[#111]">cas concrets</strong>, des m&eacute;thodes &eacute;prouv&eacute;es et un cadre p&eacute;dagogique con&ccedil;u pour vous permettre de <strong className="text-[#111]">lancer votre agence IA</strong> ou d&apos;<strong className="text-[#111]">acc&eacute;l&eacute;rer votre carri&egrave;re</strong> gr&acirc;ce &agrave; l&apos;intelligence artificielle.
             </p>
           </div>
         </motion.div>

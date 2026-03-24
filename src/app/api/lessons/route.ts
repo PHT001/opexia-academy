@@ -15,7 +15,7 @@ export async function GET() {
     const isAdmin = session.user.role === "admin";
 
     // Fetch user's enrollment tier
-    let userTier = "starter";
+    let userTier = "free";
     if (isAdmin) {
       userTier = "academy";
     } else {
@@ -28,7 +28,7 @@ export async function GET() {
       }
     }
 
-    const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
+    const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
 
     const modules = await prisma.module.findMany({
       orderBy: { order: "asc" },

@@ -119,7 +119,7 @@ function ProfileContent() {
               className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-[10px] font-medium text-gray-400 border border-gray-200 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all flex-shrink-0"
             >
               <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
-              <span className="hidden sm:inline">D\u00e9connexion</span>
+              <span className="hidden sm:inline">Déconnexion</span>
             </button>
           </div>
         </div>
@@ -151,13 +151,15 @@ function ProfileContent() {
             {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
               {[
-                { label: "XP Total", value: stats.xp.toLocaleString(), icon: "\u26A1" },
-                { label: "Streak", value: `${stats.streak}j`, icon: "\u{1F525}" },
-                { label: "Le\u00e7ons", value: String(stats.lessonsCompleted), icon: "\u{1F4DA}" },
-                { label: "Quiz", value: String(stats.quizzesPassed), icon: "\u2705" },
+                { label: "XP Total", value: stats.xp.toLocaleString(), color: "text-amber-500", bg: "bg-amber-50", icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg> },
+                { label: "Streak", value: `${stats.streak}j`, color: "text-orange-500", bg: "bg-orange-50", icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg> },
+                { label: "Leçons", value: String(stats.lessonsCompleted), color: "text-blue-500", bg: "bg-blue-50", icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> },
+                { label: "Quiz", value: String(stats.quizzesPassed), color: "text-emerald-500", bg: "bg-emerald-50", icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
               ].map((s) => (
-                <div key={s.label} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center">
-                  <p className="text-2xl mb-1">{s.icon}</p>
+                <div key={s.label} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center flex flex-col items-center">
+                  <div className={`w-10 h-10 rounded-xl ${s.bg} ${s.color} flex items-center justify-center mb-2`}>
+                    {s.icon}
+                  </div>
                   <p className="text-xl font-black text-[#111]">{s.value}</p>
                   <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">{s.label}</p>
                 </div>
@@ -247,7 +249,7 @@ function ProfileContent() {
                 </div>
                 <div className="text-right">
                   <p className="text-2xl font-black text-[#111]">
-                    {isAdmin ? "\u221E" : stats.tier === "starter" ? "47\u20ac" : stats.tier === "academy" ? "397\u20ac" : "3 997\u20ac"}
+                    {isAdmin ? "\u221E" : stats.tier === "starter" ? "47\u20ac" : stats.tier === "academy" ? "497\u20ac" : "3 997\u20ac"}
                   </p>
                   <p className="text-[10px] text-gray-400">paiement unique</p>
                 </div>

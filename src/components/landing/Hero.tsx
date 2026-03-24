@@ -270,7 +270,7 @@ export default function Hero() {
               className="h-8 w-auto"
             />
             <span className="text-sm text-[#111] font-medium">
-              <strong>4.7</strong>/5 par <strong>+50 clients</strong>
+              <strong>4.8</strong>/5 par <strong>+50 clients</strong>
             </span>
             <NextImage
               src="/images/blue-badge.svg"
@@ -309,10 +309,10 @@ export default function Hero() {
               </motion.div>
 
               <a
-                href="#pricing"
+                href="/register"
                 className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200"
               >
-                Commencer maintenant
+                Commencer gratuitement
                 <svg
                   className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
                   fill="none"
@@ -322,6 +322,12 @@ export default function Hero() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
+              </a>
+              <a
+                href="#pricing"
+                className="relative z-10 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-6 py-4 text-sm font-medium text-[#111] transition-all hover:border-[#FF1744] hover:text-[#FF1744]"
+              >
+                Voir les tarifs
               </a>
             </div>
 

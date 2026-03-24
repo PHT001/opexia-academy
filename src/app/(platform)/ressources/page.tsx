@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTierGate } from "@/hooks/useTierGate";
 
 interface Resource {
   id: string;
@@ -462,6 +463,7 @@ const SECTION_COLORS: Record<string, string> = {
 };
 
 export default function RessourcesPage() {
+  const { isLocked } = useTierGate();
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [modalResource, setModalResource] = useState<Resource | null>(null);
@@ -484,6 +486,7 @@ export default function RessourcesPage() {
   const totalCategories = SECTIONS.length;
 
   function handleCardClick(resource: Resource) {
+    if (isLocked) return;
     if (resource.url) {
       window.open(resource.url, "_blank", "noopener,noreferrer");
     } else if (resource.content) {
@@ -493,6 +496,19 @@ export default function RessourcesPage() {
 
   return (
     <div className="w-full max-w-5xl mx-auto">
+      {/* Upgrade banner for free users */}
+      {isLocked && (
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+          <div>
+            <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
+            <p className="text-xs text-[#6B7280]">Les ressources sont visibles mais l&apos;acc&egrave;s complet n&eacute;cessite un abonnement.</p>
+          </div>
+          <a href="/#pricing" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+            Voir les offres
+          </a>
+        </div>
+      )}
+
       {/* Header */}
       <div className="mb-6">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-1">
@@ -594,9 +610,11 @@ export default function RessourcesPage() {
                     key={r.id}
                     onClick={() => handleCardClick(r)}
                     className={`group bg-white rounded-xl border border-gray-200 p-4 transition-all ${
-                      hasAction
-                        ? "cursor-pointer hover:shadow-md hover:border-gray-300 hover:-translate-y-[1px]"
-                        : "opacity-60"
+                      isLocked
+                        ? "pointer-events-none opacity-60"
+                        : hasAction
+                          ? "cursor-pointer hover:shadow-md hover:border-gray-300 hover:-translate-y-[1px]"
+                          : "opacity-60"
                     }`}
                   >
                     <div className="flex items-start gap-3">

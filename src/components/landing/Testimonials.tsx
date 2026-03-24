@@ -1,32 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { motion } from "framer-motion";
 
-const SCREENSHOTS_PAGE1 = [
-  "/images/testimonials/screen-01.jpg",
+const ALL_SCREENSHOTS = [
   "/images/testimonials/screen-02.jpg",
   "/images/testimonials/screen-03.jpg",
-  "/images/testimonials/screen-04.jpg",
   "/images/testimonials/screen-05.jpg",
-];
-
-const SCREENSHOTS_PAGE2 = [
-  "/images/testimonials/screen-06.jpg",
+  "/images/testimonials/screen-01.jpg",
+  "/images/testimonials/screen-04.jpg",
   "/images/testimonials/screen-07.jpg",
+  "/images/testimonials/screen-06.jpg",
   "/images/testimonials/screen-08.jpg",
   "/images/testimonials/screen-09.jpg",
   "/images/testimonials/screen-10.jpg",
 ];
 
+const COLLAPSED_HEIGHT = 780; // px — height before fade kicks in
+
 export default function Testimonials() {
-  const [showMore, setShowMore] = useState(false);
-  const current = showMore ? SCREENSHOTS_PAGE2 : SCREENSHOTS_PAGE1;
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpand = () => {
+    setExpanded(true);
+  };
+
+  const handleCollapse = () => {
+    const section = document.getElementById("testimonials");
+    if (section) section.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => setExpanded(false), 400);
+  };
 
   return (
-    <section id="testimonials" className="py-16 lg:py-24 bg-[#F8F9FA]">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section id="testimonials" className="py-16 lg:py-24 bg-[#F8F9FA] overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -45,84 +52,86 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* 5 screenshots grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={showMore ? "page2" : "page1"}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
-          >
-            {current.map((src, i) => (
-              <motion.div
-                key={src}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.08 }}
-              >
-                <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg hover:scale-[1.03] transition-all duration-300 bg-white">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={src}
-                    alt={`Retour élève ${showMore ? i + 6 : i + 1}`}
-                    className="w-full h-auto block"
-                    loading="lazy"
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Toggle button */}
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={() => setShowMore(!showMore)}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gray-200 bg-white text-sm font-semibold text-[#111] hover:border-[#FF1744] hover:text-[#FF1744] transition-all duration-200 shadow-sm hover:shadow-md"
-          >
-            {showMore ? (
-              <>
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-                Retour
-              </>
-            ) : (
-              <>
-                Voir plus de retours
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Disclaimer */}
-        <p className="text-center text-xs text-[#9CA3AF] mt-6">
-          Captures d&apos;&eacute;cran r&eacute;elles de nos &eacute;l&egrave;ves. Les r&eacute;sultats individuels peuvent varier.
-        </p>
-
-        {/* Founders trust */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-10 flex justify-center"
+        {/* Mobile: horizontal scroll */}
+        <div
+          className="lg:hidden flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          <div className="inline-flex items-center gap-3 bg-[#0A0A0A] rounded-full px-5 py-2.5">
-            <div className="flex -space-x-2 flex-shrink-0">
-              <div className="h-8 w-8 rounded-full border-2 border-[#333] overflow-hidden">
-                <Image src="/images/founder-marius.png" alt="Marius" width={32} height={32} className="h-full w-full object-cover" />
-              </div>
-              <div className="h-8 w-8 rounded-full border-2 border-[#333] overflow-hidden">
-                <Image src="/images/founder-igor.jpg" alt="Igor" width={32} height={32} className="h-full w-full object-cover" />
+          {ALL_SCREENSHOTS.map((src, i) => (
+            <div key={src} className="flex-shrink-0 snap-center w-[180px] sm:w-[200px]">
+              <div className="rounded-[16px] overflow-hidden shadow-md">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt={`Retour élève ${i + 1}`} className="w-full h-auto block" loading="lazy" />
               </div>
             </div>
-            <p className="text-white text-xs sm:text-sm font-medium whitespace-nowrap">
-              &ldquo;L&apos;IA accessible &agrave; tous.&rdquo;
-              <span className="text-gray-400 text-xs ml-2">&mdash; Marius &amp; Igor</span>
-            </p>
+          ))}
+        </div>
+
+        {/* Desktop: single masonry, clipped with fade when collapsed */}
+        <div className="hidden lg:block relative">
+          <motion.div
+            animate={{ maxHeight: expanded ? 5000 : COLLAPSED_HEIGHT }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="columns-3 gap-3" style={{ columnFill: "balance" }}>
+              {ALL_SCREENSHOTS.map((src, i) => (
+                <motion.div
+                  key={src}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ delay: i * 0.04, duration: 0.4 }}
+                  className="mb-3 break-inside-avoid"
+                >
+                  <div className="rounded-[16px] overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={src} alt={`Retour élève ${i + 1}`} className="w-full h-auto block" loading="lazy" />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Gradient fade overlay when collapsed */}
+          {!expanded && (
+            <div
+              className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none backdrop-blur-[2px]"
+              style={{
+                background: "linear-gradient(to top, #F8F9FA 0%, rgba(248,249,250,0.6) 50%, transparent 100%)",
+              }}
+            />
+          )}
+
+          {/* Button */}
+          <div className={`flex justify-center ${expanded ? "mt-8" : "-mt-8 relative z-10"}`}>
+            <button
+              onClick={expanded ? handleCollapse : handleExpand}
+              className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 ${
+                expanded
+                  ? "border border-gray-200 bg-white text-[#111] hover:border-[#FF1744] hover:text-[#FF1744]"
+                  : "bg-[#111] text-white hover:bg-[#FF1744]"
+              }`}
+            >
+              {expanded ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+                  </svg>
+                  Voir moins
+                </>
+              ) : (
+                <>
+                  Voir plus de retours
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </>
+              )}
+            </button>
           </div>
-        </motion.div>
+        </div>
+
       </div>
     </section>
   );

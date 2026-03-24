@@ -24,6 +24,29 @@ interface Plan {
 
 const plans: Plan[] = [
   {
+    name: "Gratuit",
+    slug: "free",
+    price: "0",
+    oldPrice: "",
+    period: "aucune carte bancaire requise",
+    description: "D\u00e9couvre la plateforme sans risque",
+    popular: false,
+    features: [
+      "Acc\u00e8s au dashboard complet",
+      "Vue de tous les modules",
+      "Gamification (XP, streaks)",
+      "Acc\u00e8s Discord communautaire",
+    ],
+    notIncluded: [
+      "Acc\u00e8s aux le\u00e7ons",
+      "Assistant IA",
+      "Visios individuelles",
+    ],
+    cta: "D\u00e9couvrir gratuitement",
+    href: "/register",
+    external: false,
+  },
+  {
     name: "Starter",
     slug: "starter",
     price: "47",
@@ -47,9 +70,9 @@ const plans: Plan[] = [
   {
     name: "Academy",
     slug: "academy",
-    price: "397",
-    oldPrice: "697",
-    period: "ou paiement en 3x disponible",
+    price: "497",
+    oldPrice: "897",
+    period: "paiement en plusieurs fois possible",
     description: "La formation compl\u00e8te pour lancer ton agence IA",
     popular: true,
     features: [
@@ -65,15 +88,15 @@ const plans: Plan[] = [
       "Programme de parrainage",
     ],
     notIncluded: ["Visios individuelles"],
-    cta: "Rejoindre l\u2019Academy \u2014 397\u20ac",
+    cta: "Rejoindre l\u2019Academy \u2014 497\u20ac",
   },
   {
     name: "One-to-One",
     slug: "one_to_one",
-    price: "3 997",
-    oldPrice: "5 997",
-    period: "ou paiement en 4x disponible",
-    description: "Accompagnement premium avec Marius & Igor",
+    price: "2\u00A0497",
+    oldPrice: "4\u00A0997",
+    period: "paiement en plusieurs fois possible",
+    description: "Accompagnement premium avec nos experts",
     popular: false,
     limited: true,
     features: [
@@ -85,6 +108,8 @@ const plans: Plan[] = [
       "Acc\u00e8s \u00e0 vie \u00e0 toutes les mises \u00e0 jour",
       "Audit personnalis\u00e9 de ton agence",
       "Strat\u00e9gie de lancement sur-mesure",
+      "Suivi hebdomadaire pendant 3 mois",
+      "Acc\u00e8s direct WhatsApp avec Marius & Igor",
     ],
     notIncluded: [],
     cta: "Postuler via WhatsApp",
@@ -92,6 +117,7 @@ const plans: Plan[] = [
     external: true,
   },
 ];
+
 
 function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
@@ -125,6 +151,7 @@ function CountdownTimer() {
 export default function Pricing() {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
 
   async function handleCheckout(slug: string) {
     setLoading(slug);
@@ -177,18 +204,23 @@ export default function Pricing() {
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
-          {plans.map((plan, i) => (
+        <div className="grid lg:grid-cols-4 gap-6">
+          {plans.map((plan, i) => {
+            const isOneToOne = plan.slug === "one_to_one";
+
+            return (
             <motion.div
               key={plan.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`relative rounded-2xl bg-white p-8 lg:p-10 ${
+              className={`relative rounded-2xl p-8 lg:p-10 ${
                 plan.popular
-                  ? "border-2 border-[#FF1744] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
-                  : "border border-gray-200"
+                  ? "bg-white border-2 border-[#FF1744] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
+                  : plan.slug === "free"
+                    ? "bg-[#F8F9FA] border border-dashed border-gray-300"
+                    : "bg-white border border-gray-200"
               }`}
             >
               {plan.popular && (
@@ -200,23 +232,35 @@ export default function Pricing() {
               )}
 
               <div className="mb-8">
-                <h3 className="text-lg font-bold text-[#111]">{plan.name}</h3>
+                <h3 className="text-lg font-bold text-[#111]">
+                  {plan.name}
+                </h3>
                 <p className="text-sm text-[#6B7280] mt-1">
                   {plan.description}
                 </p>
                 <div className="mt-6 flex items-baseline gap-2">
-                  <span className="text-lg font-medium text-[#6B7280] line-through">
-                    {plan.oldPrice}{"\u20AC"}
-                  </span>
+                  {plan.oldPrice && (
+                    <span className="text-lg font-medium text-[#6B7280] line-through">
+                      {plan.oldPrice}{"\u20AC"}
+                    </span>
+                  )}
                   <span className="text-5xl font-black tracking-tight text-[#111]">
                     {plan.price}
                   </span>
                   <span className="text-lg font-medium text-[#6B7280]">{"\u20AC"}</span>
                 </div>
-                <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>
+                {plan.period && <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>}
               </div>
 
-              {plan.external ? (
+              {plan.slug === "free" ? (
+                <a
+                  href="/register"
+                  className="flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all border-2 border-[#111] text-[#111] hover:bg-[#111] hover:text-white"
+                >
+                  {plan.cta}
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </a>
+              ) : plan.external ? (
                 <a
                   href={plan.href}
                   target="_blank"
@@ -254,45 +298,54 @@ export default function Pricing() {
               )}
 
               <div className="mt-8 space-y-3">
-                {plan.features.map((f) => (
-                  <div key={f} className="flex items-start gap-3">
-                    <svg
-                      className="h-5 w-5 text-[#FF1744] flex-shrink-0 mt-0.5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <span className="text-sm text-[#111]">{f}</span>
-                  </div>
-                ))}
-                {plan.notIncluded.map((f) => (
-                  <div key={f} className="flex items-start gap-3 opacity-40">
-                    <svg
-                      className="h-5 w-5 text-gray-300 flex-shrink-0 mt-0.5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                    <span className="text-sm text-[#6B7280]">{f}</span>
-                  </div>
-                ))}
+                {(() => {
+                  const isExpanded = expandedCards[plan.slug];
+                  const MAX = 4;
+                  const allItems = [
+                    ...plan.features.map(f => ({ text: f, included: true })),
+                    ...plan.notIncluded.map(f => ({ text: f, included: false })),
+                  ];
+                  const visible = isExpanded ? allItems : allItems.slice(0, MAX);
+                  const hasMore = allItems.length > MAX;
+
+                  return (
+                    <>
+                      {visible.map((item) => (
+                        <div key={item.text} className={`flex items-start gap-3 ${!item.included ? "opacity-40" : ""}`}>
+                          <svg
+                            className={`h-5 w-5 flex-shrink-0 mt-0.5 ${item.included ? "text-[#FF1744]" : "text-gray-300"}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d={item.included ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"}
+                            />
+                          </svg>
+                          <span className={`text-sm ${item.included ? "text-[#111]" : "text-[#6B7280]"}`}>{item.text}</span>
+                        </div>
+                      ))}
+                      {hasMore && (
+                        <button
+                          onClick={() => setExpandedCards(prev => ({ ...prev, [plan.slug]: !prev[plan.slug] }))}
+                          className="flex items-center gap-1 text-sm font-medium text-[#FF1744] hover:text-[#D50000] transition-colors pt-1"
+                        >
+                          {isExpanded ? "Voir moins" : `Voir tout (${allItems.length})`}
+                          <svg className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Guarantee */}
@@ -321,6 +374,7 @@ export default function Pricing() {
             </span>
           </div>
         </motion.div>
+
       </div>
     </section>
   );

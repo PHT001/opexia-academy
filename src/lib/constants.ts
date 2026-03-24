@@ -112,6 +112,7 @@ export const MASTERCLASS_MODULES = [] as const;
 /* ——— Tier-based module access ——— */
 
 export const TIER_MODULE_ACCESS: Record<string, number[]> = {
+  free:       [],
   starter:    [1],
   academy:    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
   one_to_one: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
@@ -138,7 +139,7 @@ export const TIERS = [
   {
     id: "academy",
     name: "Academy",
-    price: 397,
+    price: 497,
     period: "one-shot",
     description: "La formation complète pour lancer ton agence IA",
     features: [
@@ -203,6 +204,6 @@ export const REFERRAL_COMMISSION_RATES: Record<string, number> = {
 export const REFERRAL_COMMISSION_RATE = 0.20; // max pour affichage "Gagne jusqu'à 20%"
 export const TIER_PRICES_CENTS: Record<string, number> = {
   starter: 4700,
-  academy: 39700,
+  academy: 49700,
   one_to_one: 399700,
 };

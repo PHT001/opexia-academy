@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useTierGate } from "@/hooks/useTierGate";
 
 const TYPES = [
   {
@@ -99,6 +100,7 @@ function saveHistory(items: HistoryItem[]) {
 }
 
 export default function GenerateurPage() {
+  const { isLocked } = useTierGate();
   const [type, setType] = useState("");
   const [tone, setTone] = useState("professionnel");
   const [length, setLength] = useState("moyen");
@@ -170,6 +172,19 @@ export default function GenerateurPage() {
 
   return (
     <div className="w-full max-w-5xl mx-auto pb-12">
+      {/* Upgrade banner for free users */}
+      {isLocked && (
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+          <div>
+            <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
+            <p className="text-xs text-[#6B7280]">Le g&eacute;n&eacute;rateur est r&eacute;serv&eacute; aux abonn&eacute;s. Upgrade pour d&eacute;bloquer cette fonctionnalit&eacute;.</p>
+          </div>
+          <a href="/#pricing" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+            Voir les offres
+          </a>
+        </div>
+      )}
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-[#111] mb-1">
@@ -180,8 +195,11 @@ export default function GenerateurPage() {
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="p-6 space-y-6">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative">
+        {isLocked && (
+          <div className="absolute inset-0 z-10 pointer-events-none" />
+        )}
+        <div className={cn("p-6 space-y-6", isLocked && "pointer-events-none opacity-60")}>
           {/* ── Step 1: Type de contenu ── */}
           <div>
             <label className="flex items-center gap-2 mb-3">

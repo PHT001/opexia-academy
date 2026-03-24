@@ -47,6 +47,11 @@ export async function POST(request: Request) {
       },
     });
 
+    // Create free enrollment
+    await prisma.enrollment.create({
+      data: { userId: user.id, tier: "free", status: "active" },
+    });
+
     // Send verification email
     if (resend) {
       try {

@@ -315,6 +315,130 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
   };
 }
 
+/**
+ * Free follow-up Day 1 — sent ~24h after free registration.
+ * "Tu as découvert la plateforme ?"
+ */
+export function freeFollowupDayOne(name: string): { subject: string; html: string } {
+  const firstName = name.split(" ")[0];
+
+  return {
+    subject: `${firstName}, tu as découvert la plateforme ?`,
+    html: layout(`
+      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Hey ${firstName} !</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Tu as cr&eacute;&eacute; ton compte gratuit sur OpexIA Academy hier &mdash; super !
+        Tu as d&eacute;j&agrave; pu explorer la plateforme et voir ce qui t&rsquo;attend.
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
+          Voici ce qui t&rsquo;attend avec la formation compl&egrave;te :
+        </p>
+        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
+          <li><strong>22 modules</strong> pour lancer ton agence IA de z&eacute;ro</li>
+          <li><strong>85+ le&ccedil;ons</strong> vid&eacute;o et exercices pratiques</li>
+          <li>CRM int&eacute;gr&eacute;, assistant IA et g&eacute;n&eacute;rateur de projets</li>
+          <li>Acc&egrave;s &agrave; la communaut&eacute; priv&eacute;e</li>
+        </ul>
+      </div>
+
+      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        D&eacute;bloquer ma formation
+      </a>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Une question ? R&eacute;ponds directement &agrave; cet email.
+      </p>
+    `),
+  };
+}
+
+/**
+ * Free follow-up Day 2 — sent ~48h after free registration.
+ * Urgency angle.
+ */
+export function freeFollowupDayTwo(name: string): { subject: string; html: string } {
+  const firstName = name.split(" ")[0];
+
+  return {
+    subject: `${firstName}, tes futurs concurrents avancent déjà`,
+    html: layout(`
+      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, ne reste pas en mode gratuit</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Pendant que tu h&eacute;sites, d&rsquo;autres &eacute;l&egrave;ves avancent d&eacute;j&agrave; dans la formation
+        et construisent leur agence IA. Chaque jour en mode gratuit est un jour perdu.
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
+          Ce que les &eacute;l&egrave;ves accomplissent d&egrave;s la 1&egrave;re semaine :
+        </p>
+        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
+          <li>Ma&icirc;trise des outils IA (ChatGPT, Cursor, Claude&hellip;)</li>
+          <li>Cr&eacute;ation de leur premier site professionnel</li>
+          <li>Premier contact avec un prospect potentiel</li>
+        </ul>
+      </div>
+
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Le march&eacute; de l&rsquo;IA n&rsquo;attend pas. Passe &agrave; l&rsquo;action maintenant.
+      </p>
+
+      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        Choisir mon offre
+      </a>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Des questions ? R&eacute;ponds &agrave; cet email, on te r&eacute;pond sous 24h.
+      </p>
+    `),
+  };
+}
+
+/**
+ * Free follow-up Day 7 — sent ~7 days after free registration.
+ * Last chance with discount code.
+ */
+export function freeFollowupDaySeven(name: string): { subject: string; html: string } {
+  const firstName = name.split(" ")[0];
+
+  return {
+    subject: `Dernière chance : -10% avec le code FREETRIAL`,
+    html: layout(`
+      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, derni&egrave;re chance</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        &Ccedil;a fait une semaine que tu as cr&eacute;&eacute; ton compte gratuit. On t&rsquo;offre
+        une derni&egrave;re opportunit&eacute; pour te lancer :
+      </p>
+
+      <div style="background: linear-gradient(135deg, #1A1A2E 0%, #0F0F1E 100%); border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center;">
+        <p style="color: #FF1744; font-weight: 700; font-size: 24px; margin: 0 0 8px 0; letter-spacing: 2px;">
+          FREETRIAL
+        </p>
+        <p style="color: #ffffff; font-weight: 600; font-size: 16px; margin: 0 0 4px 0;">
+          -10% sur toutes les formules
+        </p>
+        <p style="color: #9CA3AF; font-size: 12px; margin: 0;">
+          Valable 48h &mdash; ne rate pas cette offre
+        </p>
+      </div>
+
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Apr&egrave;s &ccedil;a, le tarif normal s&rsquo;applique. C&rsquo;est le moment ou jamais.
+      </p>
+
+      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        Utiliser mon code -10%
+      </a>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Tu re&ccedil;ois cet email car tu as cr&eacute;&eacute; un compte gratuit sur OpexIA Academy.
+      </p>
+    `),
+  };
+}
+
 export function dayThreeEmail(name: string): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
 

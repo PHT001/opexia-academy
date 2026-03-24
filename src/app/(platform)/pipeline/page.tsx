@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTierGate } from "@/hooks/useTierGate";
 
 /* ─── Types ─────────────────────────────────────────── */
 interface Deal {
@@ -442,6 +443,7 @@ function exportCSV(deals: Deal[]) {
 
 /* ─── Main Page ─────────────────────────────────────── */
 export default function PipelinePage() {
+  const { isLocked } = useTierGate();
   const [deals, setDeals] = useState<Deal[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -540,13 +542,26 @@ export default function PipelinePage() {
 
   return (
     <div className="space-y-5">
+      {/* Upgrade banner for free users */}
+      {isLocked && (
+        <div className="flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+          <div>
+            <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
+            <p className="text-xs text-[#6B7280]">Le pipeline est r&eacute;serv&eacute; aux abonn&eacute;s. Upgrade pour g&eacute;rer tes deals.</p>
+          </div>
+          <a href="/#pricing" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+            Voir les offres
+          </a>
+        </div>
+      )}
+
       {/* ─── Header ─────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Pipeline</h1>
           <p className="text-sm text-gray-500 mt-0.5">Suis tes projets et clients en temps réel</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className={cn("flex items-center gap-2", isLocked && "pointer-events-none opacity-60")}>
           <button
             onClick={() => exportCSV(deals)}
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 text-gray-600 text-xs font-medium hover:bg-gray-200 transition-colors"
@@ -604,7 +619,7 @@ export default function PipelinePage() {
       )}
 
       {/* ─── Toolbar ────────────────────────────────── */}
-      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+      <div className={cn("flex items-center gap-2 sm:gap-3 flex-wrap", isLocked && "pointer-events-none opacity-50")}>
         {/* Search */}
         <div className="relative flex-1 min-w-[200px] max-w-xs">
           <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -699,9 +714,10 @@ export default function PipelinePage() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.9 }}
-                            onClick={() => setDetailDeal(deal)}
+                            onClick={() => { if (!isLocked) setDetailDeal(deal); }}
                             className={cn(
-                              "bg-white rounded-lg p-3 group cursor-pointer border hover:shadow-md transition-all",
+                              "bg-white rounded-lg p-3 group border transition-all",
+                              isLocked ? "pointer-events-none opacity-60" : "cursor-pointer hover:shadow-md",
                               isStale ? "border-orange-200" : "border-gray-200 hover:border-gray-300"
                             )}
                           >
@@ -768,7 +784,7 @@ export default function PipelinePage() {
                     {stageDeals.length === 0 && (
                       <div className="flex flex-col items-center justify-center h-24 gap-1">
                         <p className="text-[10px] text-gray-300">Aucun projet</p>
-                        {stage.id === "lead" && (
+                        {stage.id === "lead" && !isLocked && (
                           <button
                             onClick={() => { setEditingDeal(null); setModalOpen(true); }}
                             className="text-[10px] text-[#FF1744] font-medium hover:underline"
@@ -814,9 +830,10 @@ export default function PipelinePage() {
             return (
               <div
                 key={deal.id}
-                onClick={() => setDetailDeal(deal)}
+                onClick={() => { if (!isLocked) setDetailDeal(deal); }}
                 className={cn(
-                  "grid grid-cols-6 sm:grid-cols-12 gap-2 px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors items-center",
+                  "grid grid-cols-6 sm:grid-cols-12 gap-2 px-4 py-3 border-b border-gray-100 transition-colors items-center",
+                  isLocked ? "pointer-events-none opacity-60" : "hover:bg-gray-50 cursor-pointer",
                   isStale && "bg-orange-50/50"
                 )}
               >
@@ -892,20 +909,29 @@ export default function PipelinePage() {
       {/* ─── Empty state ────────────────────────────── */}
       {deals.length === 0 && !loading && (
         <motion.div
-          className="bg-white border border-gray-200 border-dashed rounded-2xl p-12 flex flex-col items-center text-center"
+          className={cn("bg-white border border-gray-200 border-dashed rounded-2xl p-12 flex flex-col items-center text-center", isLocked && "pointer-events-none")}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center text-3xl mb-4">📊</div>
           <h3 className="text-base font-bold text-gray-800 mb-1">Ton pipeline est vide</h3>
           <p className="text-xs text-gray-500 mb-5 max-w-sm">Commence à ajouter tes deals et prospects pour suivre ta progression commerciale en temps réel.</p>
-          <button
-            onClick={() => { setEditingDeal(null); setModalOpen(true); }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
-          >
-            <IconPlus className="text-white" />
-            Ajouter mon premier deal
-          </button>
+          {isLocked ? (
+            <a
+              href="/#pricing"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all pointer-events-auto"
+            >
+              Voir les offres &rarr;
+            </a>
+          ) : (
+            <button
+              onClick={() => { setEditingDeal(null); setModalOpen(true); }}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
+            >
+              <IconPlus className="text-white" />
+              Ajouter mon premier deal
+            </button>
+          )}
         </motion.div>
       )}
 

@@ -251,14 +251,14 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
       { href: "/leaderboard", label: "Classement", icon: IconTrophy },
       { href: "/certificats", label: "Certificats", icon: IconCertificate },
       { href: "/projets", label: "Mes Projets", icon: IconRocket },
-      { href: "/masterclass", label: "Masterclass", icon: IconVideo, lockedForStarter: true, lockedTeaser: "Masterclass vidéo exclusives avec études de cas réelles et stratégies avancées pour lancer ton business IA." },
+      { href: "/masterclass", label: "Masterclass", icon: IconVideo },
     ],
   },
   {
     id: "coaching",
     label: "Coaching",
     items: [
-      { href: "/assistant", label: "Parler à l'IA", icon: IconBot, lockedForStarter: true, lockedTeaser: "Un assistant IA personnel qui répond à toutes tes questions sur la formation et t'aide à avancer." },
+      { href: "/assistant", label: "Parler à l'IA", icon: IconBot },
       { href: "/coaching", label: "Réserver un appel", icon: IconPhone, badge: "Bientôt" },
     ],
   },
@@ -267,8 +267,7 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     label: "Outils & Services",
     items: [
       { href: "/pipeline", label: "Pipeline", icon: IconPipeline },
-
-      { href: "/generateur", label: "Générateur", icon: IconWand, requiredTier: "one_to_one", lockedTeaser: "Génère des livrables complets en un clic. Exclusif au plan One-to-One." },
+      { href: "/generateur", label: "Générateur", icon: IconWand },
     ],
   },
   {
@@ -307,7 +306,8 @@ function TierBadge({ tier, role }: { tier: string; role?: string }) {
     one_to_one: { label: "Premium", classes: "bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border-amber-500/30" },
     academy: { label: "Academy", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
     starter: { label: "Starter", classes: "bg-white/8 text-white/60 border-white/10" },
-  }[tier] || { label: "Starter", classes: "bg-white/8 text-white/60 border-white/10" };
+    free: { label: "Gratuit", classes: "bg-white/5 text-white/40 border-white/8" },
+  }[tier] || { label: "Gratuit", classes: "bg-white/5 text-white/40 border-white/8" };
 
   return (
     <div className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border", config.classes)}>
@@ -478,7 +478,9 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
               </div>
 
               <h3 className="text-[15px] font-bold text-white mb-1">Accès réservé — {lockedItem.label}</h3>
-              <p className="text-[13px] text-white/35 mb-4">Disponible avec le forfait Academy</p>
+              <p className="text-[13px] text-white/35 mb-4">
+                {tier === "free" ? "Débloque cette fonctionnalité avec un abonnement" : "Disponible avec le forfait Academy"}
+              </p>
 
               {lockedItem.lockedTeaser && (
                 <div className="rounded-lg bg-white/[0.04] border border-white/[0.08] p-3 mb-5 text-left">
@@ -502,7 +504,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
                 className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200"
                 style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
               >
-                Débloquer — 397€
+                Débloquer — 497€
               </a>
 
               <button
@@ -539,12 +541,25 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
                 <AdminNotificationBell />
               )}
             </div>
-            {tier === "starter" && (role !== "admin" || previewTier !== null) && (
+            {(tier === "starter" || tier === "free") && (role !== "admin" || previewTier !== null) && (
               <a href="/profile?tab=subscription" className="text-[9px] text-[#FF1744]/60 hover:text-[#FF1744] transition-colors font-semibold uppercase tracking-wider">
                 Upgrade
               </a>
             )}
           </div>
+
+          {/* Free tier upgrade nudge */}
+          {tier === "free" && (role !== "admin" || previewTier !== null) && (
+            <div className="mt-3 rounded-xl p-3 text-center" style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}>
+              <p className="text-[12px] font-semibold text-white leading-snug mb-2">Débloque ta formation complète</p>
+              <a
+                href="/#pricing"
+                className="inline-block text-[11px] font-bold text-white/90 hover:text-white bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-all"
+              >
+                Voir les offres
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Admin: Tier Preview */}
@@ -554,6 +569,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             <div className="flex flex-col gap-1">
               {[
                 { id: null, label: "Admin", icon: "👑" },
+                { id: "free", label: "Gratuit" },
                 { id: "starter", label: "Starter" },
                 { id: "academy", label: "Academy" },
                 { id: "one_to_one", label: "One-to-One" },
@@ -638,7 +654,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
               <div className="flex flex-col gap-0.5">
                 {section.items.map((item) => {
                   const tierLocked = item.lockedForStarter && tier === "starter";
-                  const requiredTierLocked = item.requiredTier && tier !== item.requiredTier;
+                  const requiredTierLocked = item.requiredTier && tier !== item.requiredTier && tier !== "free";
                   const isLocked = (tierLocked || requiredTierLocked) && (role !== "admin" || previewTier !== null);
                   const active = !isLocked && (pathname === item.href || pathname.startsWith(item.href + "/"));
                   const Icon = item.icon;
@@ -749,7 +765,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-medium text-white/80 truncate">{userName || "Élève"}</p>
               <p className="text-[10px] text-white/30">
-                {role === "admin" && !previewTier ? "Administrateur" : tier === "one_to_one" ? "Membre Premium" : tier === "academy" ? "Membre Academy" : "Membre Starter"}
+                {role === "admin" && !previewTier ? "Administrateur" : tier === "one_to_one" ? "Membre Premium" : tier === "academy" ? "Membre Academy" : tier === "free" ? "Compte Gratuit" : "Membre Starter"}
               </p>
             </div>
             <button

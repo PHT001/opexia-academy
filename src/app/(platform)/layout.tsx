@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
@@ -10,6 +11,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   const { data: session } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter" });
+  const [freeBannerDismissed, setFreeBannerDismissed] = useState(false);
   const [previewTier, setPreviewTier] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("admin-preview-tier") || null;
@@ -89,6 +91,33 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       </div>
 
       <main className="lg:ml-[260px] pt-14 lg:pt-0 min-h-screen overflow-x-hidden">
+        {/* Free tier upgrade banner */}
+        {(previewTier || stats.tier) === "free" && !freeBannerDismissed && session?.user?.role !== "admin" && (
+          <div className="bg-gradient-to-r from-[#FF1744]/8 to-[#FF1744]/4 border-b border-[#FF1744]/10">
+            <div className="flex items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 xl:px-10 py-2.5">
+              <p className="text-sm text-[#111]">
+                Tu utilises le plan <span className="font-semibold text-[#FF1744]">Gratuit</span> — D&eacute;bloque toute la formation
+              </p>
+              <div className="flex items-center gap-2 shrink-0">
+                <Link
+                  href="/#pricing"
+                  className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold bg-[#FF1744] text-white hover:bg-[#D50000] transition-colors shadow-sm"
+                >
+                  Voir les offres
+                </Link>
+                <button
+                  onClick={() => setFreeBannerDismissed(true)}
+                  className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                  aria-label="Fermer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="p-4 sm:p-6 lg:p-8 xl:p-10 w-full">
           {children}
         </div>

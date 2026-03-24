@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { TIERS, TIER_MODULE_ACCESS } from "@/lib/constants";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
+import FreeDashboard from "@/components/platform/FreeDashboard";
 import Link from "next/link";
 import {
   AreaChart,
@@ -465,8 +466,9 @@ export default function DashboardPage() {
     );
   }
 
-  const hasEnrollment = !!data?.tier;
-  const userTier = previewTier || data?.tier || "starter";
+  const hasEnrollment = !!data?.tier && data.tier !== "free";
+  const isFreeUser = data?.tier === "free" || !data?.tier;
+  const userTier = previewTier || data?.tier || "free";
 
   if (showOnboardingTest) {
     return (
@@ -492,34 +494,41 @@ export default function DashboardPage() {
         </>
       )}
 
-      {/* ════ STUDENT DASHBOARD — hidden for admin (shown during tier preview) ════ */}
-      {(!isAdmin || previewTier) && (<>
+      {/* ════ FREE USER — full FOMO dashboard ════ */}
+      {isFreeUser && !isAdmin && !previewTier && (
+        <FreeDashboard firstName={firstName} />
+      )}
 
-      {/* ════ NO ENROLLMENT BANNER ════ */}
-      {!hasEnrollment && !isAdmin && (
+      {/* ════ STUDENT DASHBOARD — hidden for admin (shown during tier preview) ════ */}
+      {((!isAdmin && !isFreeUser) || previewTier) && (<>
+
+      {/* ════ FREE USER UPGRADE BANNER (legacy, kept for tier preview) ════ */}
+      {isFreeUser && !isAdmin && (
         <motion.div
-          className="relative overflow-hidden rounded-2xl border border-gray-200 shadow-sm"
+          className="relative overflow-hidden rounded-2xl border border-[#FF1744]/20 shadow-sm bg-gradient-to-br from-white to-red-50/40"
           variants={fadeUp}
         >
-          <div className="relative z-10 p-6 sm:p-8 text-center">
-            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-              <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-              </svg>
+          <div className="relative z-10 p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-flex items-center rounded-full bg-[#FF1744]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#FF1744] uppercase tracking-wider">Compte gratuit</span>
+                </div>
+                <h2 className="text-lg font-semibold text-[#111] mb-1">
+                  Bienvenue sur OpexIA Academy !
+                </h2>
+                <p className="text-gray-500 text-sm">
+                  Tu as acc&egrave;s &agrave; la plateforme. D&eacute;bloque une formule pour acc&eacute;der aux modules de formation.
+                </p>
+              </div>
+              <a
+                href="/#pricing"
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#E01440] transition-colors shadow-md shadow-red-200 whitespace-nowrap"
+              >
+                D&eacute;bloquer la formation
+                <IconArrowRight className="w-4 h-4" />
+              </a>
             </div>
-            <h2 className="text-lg font-semibold text-[#111] mb-1.5">
-              Ton compte est cr&eacute;&eacute; !
-            </h2>
-            <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">
-              Choisis ton offre pour d&eacute;bloquer tes modules de formation et commencer ton parcours.
-            </p>
-            <a
-              href="/#pricing"
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-2.5 text-sm font-medium text-white bg-[#FF1744] hover:bg-[#E01440] transition-colors"
-            >
-              Voir les offres
-              <IconArrowRight className="w-4 h-4" />
-            </a>
           </div>
         </motion.div>
       )}
