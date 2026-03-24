@@ -1,14 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const SCREENSHOTS = [
+const SCREENSHOTS_PAGE1 = [
   "/images/testimonials/screen-01.jpg",
   "/images/testimonials/screen-02.jpg",
   "/images/testimonials/screen-03.jpg",
   "/images/testimonials/screen-04.jpg",
   "/images/testimonials/screen-05.jpg",
+];
+
+const SCREENSHOTS_PAGE2 = [
   "/images/testimonials/screen-06.jpg",
   "/images/testimonials/screen-07.jpg",
   "/images/testimonials/screen-08.jpg",
@@ -16,16 +20,10 @@ const SCREENSHOTS = [
   "/images/testimonials/screen-10.jpg",
 ];
 
-// Split into 5 columns for masonry layout
-const COLUMNS = [
-  [SCREENSHOTS[0], SCREENSHOTS[5]],
-  [SCREENSHOTS[1], SCREENSHOTS[6]],
-  [SCREENSHOTS[2], SCREENSHOTS[7]],
-  [SCREENSHOTS[3], SCREENSHOTS[8]],
-  [SCREENSHOTS[4], SCREENSHOTS[9]],
-];
-
 export default function Testimonials() {
+  const [showMore, setShowMore] = useState(false);
+  const current = showMore ? SCREENSHOTS_PAGE2 : SCREENSHOTS_PAGE1;
+
   return (
     <section id="testimonials" className="py-16 lg:py-24 bg-[#F8F9FA]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -47,32 +45,59 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* Masonry grid — 5 columns on desktop, 3 on tablet, 2 on mobile */}
-        <div className="columns-2 sm:columns-3 lg:columns-5 gap-3 space-y-3">
-          {SCREENSHOTS.map((src, i) => (
-            <motion.div
-              key={src}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.05 }}
-              className="break-inside-avoid"
-            >
-              <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 bg-white">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={src}
-                  alt={`Retour élève ${i + 1}`}
-                  className="w-full h-auto block"
-                  loading="lazy"
-                />
-              </div>
-            </motion.div>
-          ))}
+        {/* 5 screenshots grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={showMore ? "page2" : "page1"}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
+          >
+            {current.map((src, i) => (
+              <motion.div
+                key={src}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.08 }}
+              >
+                <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg hover:scale-[1.03] transition-all duration-300 bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt={`Retour élève ${showMore ? i + 6 : i + 1}`}
+                    className="w-full h-auto block"
+                    loading="lazy"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Toggle button */}
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setShowMore(!showMore)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gray-200 bg-white text-sm font-semibold text-[#111] hover:border-[#FF1744] hover:text-[#FF1744] transition-all duration-200 shadow-sm hover:shadow-md"
+          >
+            {showMore ? (
+              <>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                Retour
+              </>
+            ) : (
+              <>
+                Voir plus de retours
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+              </>
+            )}
+          </button>
         </div>
 
         {/* Disclaimer */}
-        <p className="text-center text-xs text-[#9CA3AF] mt-8">
+        <p className="text-center text-xs text-[#9CA3AF] mt-6">
           Captures d&apos;&eacute;cran r&eacute;elles de nos &eacute;l&egrave;ves. Les r&eacute;sultats individuels peuvent varier.
         </p>
 
