@@ -88,11 +88,19 @@ export async function POST() {
   }
 
   try {
-    // Clean all data
-    const tables = ["Referral","PipelineDeal","CoachingSession","Streak","QuizSubmission","LessonProgress","Enrollment","QuizQuestion","Quiz","Lesson","Module","User"];
-    for (const t of tables) {
-      await prisma.$executeRawUnsafe(`TRUNCATE TABLE "${t}" CASCADE;`);
-    }
+    // Clean all data - delete in order to respect foreign keys
+    await prisma.quizQuestion.deleteMany();
+    await prisma.quizSubmission.deleteMany();
+    await prisma.quiz.deleteMany();
+    await prisma.lessonProgress.deleteMany();
+    await prisma.lesson.deleteMany();
+    await prisma.module.deleteMany();
+    await prisma.enrollment.deleteMany();
+    await prisma.streak.deleteMany();
+    await prisma.coachingSession.deleteMany();
+    try { await prisma.pipelineDeal.deleteMany(); } catch {}
+    try { await prisma.referral.deleteMany(); } catch {}
+    await prisma.user.deleteMany();
 
     // Users
     const adminPassword = await bcrypt.hash("admin123", 12);
