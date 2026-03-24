@@ -5,19 +5,19 @@ import Image from "next/image";
 import LazyVideo from "@/components/ui/LazyVideo";
 
 const SCREENSHOTS_ROW1 = [
-  "/images/testimonials/screen-01.png",
-  "/images/testimonials/screen-02.png",
-  "/images/testimonials/screen-03.png",
-  "/images/testimonials/screen-04.png",
-  "/images/testimonials/screen-05.png",
+  "/images/testimonials/screen-01.jpg",
+  "/images/testimonials/screen-02.jpg",
+  "/images/testimonials/screen-03.jpg",
+  "/images/testimonials/screen-04.jpg",
+  "/images/testimonials/screen-05.jpg",
 ];
 
 const SCREENSHOTS_ROW2 = [
-  "/images/testimonials/screen-06.png",
-  "/images/testimonials/screen-07.png",
-  "/images/testimonials/screen-08.png",
-  "/images/testimonials/screen-09.png",
-  "/images/testimonials/screen-10.png",
+  "/images/testimonials/screen-06.jpg",
+  "/images/testimonials/screen-07.jpg",
+  "/images/testimonials/screen-08.jpg",
+  "/images/testimonials/screen-09.jpg",
+  "/images/testimonials/screen-10.jpg",
 ];
 
 function ScreenshotCard({ src, idx }: { src: string; idx: number }) {
