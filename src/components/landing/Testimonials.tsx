@@ -22,13 +22,12 @@ const SCREENSHOTS_ROW2 = [
 
 function ScreenshotCard({ src, idx }: { src: string; idx: number }) {
   return (
-    <div className="flex-shrink-0 w-[280px] sm:w-[320px] mx-3">
-      <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white">
-        <Image
+    <div className="flex-shrink-0 w-[200px] sm:w-[240px] mx-2">
+      <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={src}
           alt={`Retour élève ${idx + 1}`}
-          width={640}
-          height={1136}
           className="w-full h-auto"
           loading="lazy"
         />
