@@ -51,7 +51,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="#" className="flex items-center">
             <span className="text-xl font-extrabold text-white tracking-tight">
-              Opex<span className="bg-gradient-to-r from-[#FF8A80] to-[#FF1744] bg-clip-text text-transparent">IA</span>
+              Opex<span className="text-[#FF1744]">IA</span>
             </span>
           </a>
 

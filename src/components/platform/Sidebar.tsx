@@ -528,7 +528,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
           <Link href="/dashboard" className="flex items-center gap-2.5">
             <span className="text-xl font-bold tracking-tight">
               <span className="text-white">Opex</span>
-              <span className="bg-gradient-to-r from-[#FF8A80] to-[#FF1744] bg-clip-text text-transparent">IA</span>
+              <span className="text-[#FF1744]">IA</span>
             </span>
           </Link>
           <div className="h-px bg-gradient-to-r from-transparent via-white/8 to-transparent mt-4 mb-3" />
