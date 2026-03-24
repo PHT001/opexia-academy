@@ -81,10 +81,14 @@ function makeQuiz(lessonOrder: number) {
   }));
 }
 
-export async function POST() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id || session.user.role !== "admin") {
-    return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
+export async function POST(request: Request) {
+  // Auth: either admin session OR secret key in header
+  const secretKey = request.headers.get("x-seed-key");
+  if (secretKey !== "opexia-seed-2026") {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id || session.user.role !== "admin") {
+      return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
+    }
   }
 
   try {
