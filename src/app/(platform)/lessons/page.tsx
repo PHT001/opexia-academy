@@ -54,6 +54,7 @@ interface LessonData {
 
 /* ——— Week Themes ——— */
 const WEEK_THEMES = [
+  { accent: "text-red-600", accentBg: "bg-red-50", border: "border-red-200", bar: "bg-red-500", ring: "stroke-red-500", leftBorder: "border-l-red-500", lightBg: "bg-red-50" },
   { accent: "text-emerald-600", accentBg: "bg-emerald-50", border: "border-emerald-200", bar: "bg-emerald-500", ring: "stroke-emerald-500", leftBorder: "border-l-emerald-500", lightBg: "bg-emerald-50" },
   { accent: "text-blue-600", accentBg: "bg-blue-50", border: "border-blue-200", bar: "bg-blue-500", ring: "stroke-blue-500", leftBorder: "border-l-blue-500", lightBg: "bg-blue-50" },
   { accent: "text-violet-600", accentBg: "bg-violet-50", border: "border-violet-200", bar: "bg-violet-500", ring: "stroke-violet-500", leftBorder: "border-l-violet-500", lightBg: "bg-violet-50" },
