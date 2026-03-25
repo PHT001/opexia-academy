@@ -113,7 +113,7 @@ export const MASTERCLASS_MODULES = [] as const;
 
 export const TIER_MODULE_ACCESS: Record<string, number[]> = {
   free:       [],
-  starter:    [1],
+  starter:    [1, 2],
   academy:    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
   one_to_one: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
 };
@@ -126,8 +126,8 @@ export const TIERS = [
     period: "one-shot",
     description: "Pour les curieux qui veulent comprendre avant de se lancer",
     features: [
-      { text: "Module 1 complet (8 leçons)", included: true },
-      { text: "Checklist de démarrage", included: true },
+      { text: "2 modules complets (7 leçons)", included: true },
+      { text: "Découverte du marché IA + prompting", included: true },
       { text: "Accès au Discord communautaire", included: true },
       { text: "Formation complète (22 modules)", included: false },
       { text: "Accompagnement personnalisé", included: false },

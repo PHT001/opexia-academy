@@ -225,7 +225,19 @@ export const V2_MODULE_02_LESSONS = [
         { id: "c3", text: "J'ai identifié les forces spécifiques de chaque IA" },
         { id: "c4", text: "J'ai créé ma grille de décision personnelle dans mon journal" },
         { id: "c5", text: "J'ai identifié mon IA principale et mes IA de secours selon les tâches" }
-      ]}
+      ]},
+      { id: "4-17", type: "separator", style: "line" },
+      { id: "4-18", type: "heading", level: 2, text: "Tu as les bases. Et maintenant ?" },
+      { id: "4-19", type: "text", html: "<p>Bravo, tu viens de terminer les 2 premiers modules. Tu sais maintenant <strong>ce que l'IA peut faire</strong>, tu connais les outils, et tu as même comparé les IA par toi-même. Tu as vu la puissance du truc.</p><p>Mais soyons honnêtes : <strong>savoir ce que l'IA fait et savoir la vendre comme un service, c'est deux choses complètement différentes.</strong></p>" },
+      { id: "4-20", type: "callout", variant: "warning", html: "<strong>Ce qu'il te manque encore :</strong> Tu ne sais pas encore construire un chatbot. Tu ne sais pas coder un site avec l'IA. Tu ne sais pas créer un agent vocal. Tu ne sais pas closer un client à 2000€. Tu ne sais pas scaler à 10K€/mois. Tout ça, c'est dans la suite." },
+      { id: "4-21", type: "steps", steps: [
+        { title: "Construire des chatbots IA pour tes clients", description: "Module 8 — Tu apprendras à créer et déployer des chatbots intelligents connectés aux données de tes clients." },
+        { title: "Créer des sites et apps avec l'IA", description: "Modules 6-7 — Next.js, Supabase, Stripe : tu construiras de vrais produits deployés." },
+        { title: "Automatiser des process pour les entreprises", description: "Module 10 — Les automatisations IA que les PME sont prêtes à payer cher." },
+        { title: "Trouver et closer tes premiers clients", description: "Modules 16-20 — Prospection, closing, livraison : le système complet pour vendre." },
+        { title: "Passer de 0 à 10K€/mois", description: "Module 22 — La roadmap pour scaler de freelance solo à agence rentable." }
+      ]},
+      { id: "4-22", type: "text", html: "<p><strong>Tu as goûté au potentiel. Il te manque le système complet.</strong> Les 20 modules suivants te donnent tout : les compétences techniques, les outils, et la méthode pour vendre. Pas de théorie inutile, que du concret.</p><p>Ceux qui sont passés à l'Academy ont lancé leur premier service en moins de 4 semaines. La vraie question c'est : <strong>est-ce que tu veux rester spectateur ou est-ce que tu passes à l'action ?</strong></p>" }
     ]),
     exercise: "<h3>Exercice : Crée ta grille de décision finale</h3><p>Après avoir fait les 3 tests, synthétise tes résultats :</p><ol><li>Crée un tableau dans ton journal avec les colonnes : Tâche, ChatGPT (note/10), Claude (note/10), Gemini (note/10)</li><li>Remplis les notes pour les 3 tâches (proposition, code, analyse)</li><li>Ajoute une ligne \"Total\" en bas</li><li>Écris une conclusion de 5 lignes : \"Pour [type de tâche], j'utilise [IA] parce que [raison].\"</li><li>Définis ta \"stack IA\" personnelle : ton IA principale et tes IA secondaires pour des cas spécifiques</li></ol><p>Cette grille de décision est un outil professionnel que tu pourras même montrer à tes clients pour justifier tes choix technologiques.</p>",
     quiz: [
