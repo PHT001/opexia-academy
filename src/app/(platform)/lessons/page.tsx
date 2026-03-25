@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { MODULE_METADATA, WEEKS, TIER_MODULE_ACCESS } from "@/lib/constants";
 import type { ModuleMetadata } from "@/lib/constants";
