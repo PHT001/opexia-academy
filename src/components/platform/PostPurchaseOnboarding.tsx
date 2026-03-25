@@ -10,15 +10,8 @@ interface Props {
   onComplete: () => void;
 }
 
-const STEPS = ["hello", "name", "goal", "contact", "profile", "discover", "ready"] as const;
+const STEPS = ["hello", "name", "contact", "profile", "ready"] as const;
 type Step = (typeof STEPS)[number];
-
-const GOALS = [
-  { id: "agency", emoji: "\uD83C\uDFE2", label: "Lancer mon agence IA" },
-  { id: "freelance", emoji: "\uD83D\uDCBB", label: "Vendre des services IA en freelance" },
-  { id: "learn", emoji: "\uD83E\uDDE0", label: "Apprendre les outils IA" },
-  { id: "revenue", emoji: "\uD83D\uDCB0", label: "G\u00e9n\u00e9rer des revenus avec l\u2019IA" },
-];
 
 const TIER_LABELS: Record<string, string> = {
   free: "Gratuit",
@@ -27,33 +20,7 @@ const TIER_LABELS: Record<string, string> = {
   one_to_one: "One-to-One",
 };
 
-const TIER_FEATURES: Record<string, { icon: string; text: string }[]> = {
-  free: [
-    { icon: "\uD83D\uDD0D", text: "Explorer la plateforme" },
-    { icon: "\uD83D\uDCDD", text: "D\u00e9couvrir les notes" },
-    { icon: "\uD83D\uDCAC", text: "Acc\u00e8s au Discord communautaire" },
-  ],
-  starter: [
-    { icon: "\uD83D\uDCD6", text: "2 modules complets (7 le\u00e7ons)" },
-    { icon: "\uD83E\uDDE0", text: "D\u00e9couverte du march\u00e9 IA" },
-    { icon: "\u2705", text: "Quiz de validation" },
-    { icon: "\uD83D\uDCAC", text: "Acc\u00e8s au Discord communautaire" },
-  ],
-  academy: [
-    { icon: "\uD83D\uDE80", text: "85 le\u00e7ons en 22 modules" },
-    { icon: "\uD83E\uDDE0", text: "Prompting, dev, automatisation, vente" },
-    { icon: "\uD83C\uDFC6", text: "Certificats et badges" },
-    { icon: "\uD83E\uDD16", text: "Assistant IA int\u00e9gr\u00e9" },
-    { icon: "\uD83D\uDCAC", text: "Communaut\u00e9 Discord" },
-  ],
-  one_to_one: [
-    { icon: "\uD83D\uDE80", text: "Tout Academy (85 le\u00e7ons)" },
-    { icon: "\uD83C\uDFA5", text: "8 sessions coaching en visio" },
-    { icon: "\uD83C\uDFAF", text: "Accompagnement personnalis\u00e9" },
-    { icon: "\uD83D\uDCCB", text: "Review de projets d\u00e9di\u00e9e" },
-    { icon: "\u26A1", text: "Support prioritaire" },
-  ],
-};
+const AGE_OPTIONS = ["16-20", "21-25", "26-30", "31-35", "36-40", "41+"];
 
 export default function PostPurchaseOnboarding({ userName, tier = "free", onComplete }: Props) {
   const router = useRouter();
@@ -63,7 +30,6 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
   const [showContent, setShowContent] = useState(false);
 
   const [name, setName] = useState(userName || "");
-  const [goal, setGoal] = useState("");
   const [phone, setPhone] = useState("");
   const [discord, setDiscord] = useState("");
   const [age, setAge] = useState("");
@@ -100,7 +66,7 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
       await fetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, discordUsername: discord, age, profession, goal }),
+        body: JSON.stringify({ name, phone, discordUsername: discord, age, profession }),
       });
       onComplete();
       router.refresh();
@@ -115,7 +81,6 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
     exit: (d: number) => ({ x: d > 0 ? -60 : 60, opacity: 0, filter: "blur(4px)" }),
   };
 
-  const features = TIER_FEATURES[tier] || TIER_FEATURES.free;
   const tierLabel = TIER_LABELS[tier] || "Gratuit";
 
   return (
@@ -197,7 +162,6 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
             {/* ═══ HELLO ═══ */}
             {step === "hello" && (
               <div className="text-center">
-                {/* Animated logo */}
                 <motion.div
                   className="w-20 h-20 rounded-[22px] mx-auto mb-8 flex items-center justify-center shadow-xl"
                   style={{ background: "linear-gradient(135deg, #FF1744, #D50000)" }}
@@ -223,7 +187,7 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8 }}
                 >
-                  Ton espace <span className="text-[#FF1744] font-semibold">Opex<span className="font-black">IA</span></span> {tierLabel !== "Gratuit" && <span className="font-medium text-gray-600">{tierLabel}</span>} est pr{"ê"}t.
+                  Ton espace <span className="text-[#FF1744] font-semibold">Opex<span className="font-black">IA</span></span> {tierLabel !== "Gratuit" && <span className="font-medium text-gray-600">{tierLabel}</span>} est pr&ecirc;t.
                   <br />
                   Quelques secondes pour tout configurer.
                 </motion.p>
@@ -248,15 +212,15 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
               <div>
                 <div className="text-center mb-10">
                   <h2 className="text-[32px] font-bold text-[#1A1A2E] tracking-tight mb-2">
-                    Comment tu t{"'"}appelles ?
+                    Comment tu t&apos;appelles ?
                   </h2>
                   <p className="text-[15px] text-gray-400">
-                    Pour personnaliser ton exp{"é"}rience
+                    Pour personnaliser ton exp&eacute;rience
                   </p>
                 </div>
                 <input
                   type="text"
-                  placeholder="Ton prénom"
+                  placeholder="Ton pr&#233;nom"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   autoFocus
@@ -272,57 +236,6 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
               </div>
             )}
 
-            {/* ═══ GOAL ═══ */}
-            {step === "goal" && (
-              <div>
-                <div className="text-center mb-8">
-                  <h2 className="text-[32px] font-bold text-[#1A1A2E] tracking-tight mb-2">
-                    Ton objectif ?
-                  </h2>
-                  <p className="text-[15px] text-gray-400">
-                    On adapte ton parcours en fonction
-                  </p>
-                </div>
-                <div className="space-y-3">
-                  {GOALS.map((g) => (
-                    <button
-                      key={g.id}
-                      onClick={() => setGoal(g.id)}
-                      className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl border-2 text-left transition-all ${
-                        goal === g.id
-                          ? "border-[#FF1744] bg-[#FF1744]/[0.04] shadow-sm"
-                          : "border-gray-100 bg-white hover:border-gray-200 hover:shadow-sm"
-                      }`}
-                    >
-                      <span className="text-2xl">{g.emoji}</span>
-                      <span className={`text-[15px] font-medium ${goal === g.id ? "text-[#1A1A2E]" : "text-gray-600"}`}>
-                        {g.label}
-                      </span>
-                      {goal === g.id && (
-                        <motion.div
-                          className="ml-auto w-6 h-6 rounded-full bg-[#FF1744] flex items-center justify-center"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: "spring", stiffness: 500 }}
-                        >
-                          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                          </svg>
-                        </motion.div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  onClick={next}
-                  disabled={!goal}
-                  className="mt-8 w-full h-[56px] rounded-2xl bg-[#1A1A2E] text-white text-[17px] font-semibold hover:bg-[#2D2D4E] disabled:opacity-20 disabled:cursor-not-allowed transition-all"
-                >
-                  Continuer
-                </button>
-              </div>
-            )}
-
             {/* ═══ CONTACT ═══ */}
             {step === "contact" && (
               <div>
@@ -331,12 +244,12 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                     Restons en contact
                   </h2>
                   <p className="text-[15px] text-gray-400">
-                    Optionnel — pour la communaut{"é"} et le support
+                    Pour la communaut&eacute; et le support
                   </p>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-[13px] font-medium text-gray-400 mb-2 ml-1">T{"é"}l{"é"}phone</label>
+                    <label className="block text-[13px] font-medium text-gray-400 mb-2 ml-1">T&eacute;l&eacute;phone</label>
                     <input
                       type="tel"
                       placeholder="+33 6 12 34 56 78"
@@ -376,31 +289,33 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                     Parle-nous de toi
                   </h2>
                   <p className="text-[15px] text-gray-400">
-                    Pour adapter ton exp{"é"}rience
+                    Pour adapter ton exp&eacute;rience
                   </p>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-[13px] font-medium text-gray-400 mb-2 ml-1">Tranche d{"'"}{"â"}ge</label>
-                    <select
-                      value={age}
-                      onChange={(e) => setAge(e.target.value)}
-                      className="w-full h-[52px] px-5 rounded-2xl bg-gray-50/80 border-2 border-gray-100 text-[#1A1A2E] text-[16px] focus:outline-none focus:border-[#FF1744]/30 focus:bg-white transition-all appearance-none"
-                    >
-                      <option value="">S{"é"}lectionner</option>
-                      <option value="16-20">16 - 20 ans</option>
-                      <option value="21-25">21 - 25 ans</option>
-                      <option value="26-30">26 - 30 ans</option>
-                      <option value="31-35">31 - 35 ans</option>
-                      <option value="36-40">36 - 40 ans</option>
-                      <option value="41+">41 ans et +</option>
-                    </select>
+                    <label className="block text-[13px] font-medium text-gray-400 mb-2 ml-1">Tranche d&apos;&acirc;ge</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {AGE_OPTIONS.map((opt) => (
+                        <button
+                          key={opt}
+                          onClick={() => setAge(opt)}
+                          className={`py-3 rounded-xl border-2 text-[14px] font-medium transition-all ${
+                            age === opt
+                              ? "border-[#FF1744] bg-[#FF1744]/[0.04] text-[#1A1A2E]"
+                              : "border-gray-100 bg-white text-gray-500 hover:border-gray-200"
+                          }`}
+                        >
+                          {opt} ans
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <div>
                     <label className="block text-[13px] font-medium text-gray-400 mb-2 ml-1">Situation</label>
                     <input
                       type="text"
-                      placeholder="Étudiant, développeur, freelance..."
+                      placeholder="&#201;tudiant, d&#233;veloppeur, freelance..."
                       value={profession}
                       onChange={(e) => setProfession(e.target.value)}
                       className="w-full h-[52px] px-5 rounded-2xl bg-gray-50/80 border-2 border-gray-100 text-[#1A1A2E] text-[16px] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/30 focus:bg-white transition-all"
@@ -419,44 +334,9 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
               </div>
             )}
 
-            {/* ═══ DISCOVER ═══ */}
-            {step === "discover" && (
-              <div>
-                <div className="text-center mb-8">
-                  <h2 className="text-[32px] font-bold text-[#1A1A2E] tracking-tight mb-2">
-                    Ce qui t{"'"}attend
-                  </h2>
-                  <p className="text-[15px] text-gray-400">
-                    Ton acc{"è"}s <span className="font-semibold text-gray-600">{tierLabel}</span> inclut
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  {features.map((f, i) => (
-                    <motion.div
-                      key={i}
-                      className="flex items-center gap-4 px-5 py-3.5 rounded-2xl bg-white border border-gray-100"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                    >
-                      <span className="text-xl">{f.icon}</span>
-                      <span className="text-[15px] text-gray-700 font-medium">{f.text}</span>
-                    </motion.div>
-                  ))}
-                </div>
-                <button
-                  onClick={next}
-                  className="mt-8 w-full h-[56px] rounded-2xl bg-[#1A1A2E] text-white text-[17px] font-semibold hover:bg-[#2D2D4E] transition-all"
-                >
-                  Continuer
-                </button>
-              </div>
-            )}
-
             {/* ═══ READY ═══ */}
             {step === "ready" && (
               <div className="text-center">
-                {/* Animated checkmark circle */}
                 <motion.div
                   className="relative w-24 h-24 mx-auto mb-8"
                   initial={{ scale: 0 }}
@@ -477,9 +357,6 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                       strokeWidth={2.5}
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ delay: 0.5, duration: 0.4 }}
                     >
                       <motion.path
                         strokeLinecap="round"
@@ -508,9 +385,9 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.9 }}
                 >
-                  Ton espace est configur{"é"}.
+                  Ton espace est configur&eacute;.
                   <br />
-                  L{"'"}aventure commence maintenant.
+                  L&apos;aventure commence maintenant.
                 </motion.p>
 
                 <motion.button
@@ -534,10 +411,10 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                         animate={{ rotate: 360 }}
                         transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
                       />
-                      Pr{"é"}paration...
+                      Pr&eacute;paration...
                     </span>
                   ) : (
-                    "Découvrir ma plateforme"
+                    "D\u00e9couvrir ma plateforme"
                   )}
                 </motion.button>
               </div>
