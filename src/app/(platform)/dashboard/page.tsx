@@ -494,13 +494,13 @@ export default function DashboardPage() {
         </>
       )}
 
-      {/* ════ FREE USER — full FOMO dashboard ════ */}
-      {isFreeUser && !isAdmin && !previewTier && (
+      {/* ════ FREE USER dashboard ════ */}
+      {(isFreeUser && !isAdmin && !previewTier) || (previewTier === "free") ? (
         <FreeDashboard firstName={firstName} />
-      )}
+      ) : null}
 
       {/* ════ STUDENT DASHBOARD — hidden for admin (shown during tier preview) ════ */}
-      {((!isAdmin && !isFreeUser) || previewTier) && (<>
+      {((!isAdmin && !isFreeUser && !previewTier) || (previewTier && previewTier !== "free")) && (<>
 
       {/* ════ FREE USER UPGRADE BANNER (legacy, kept for tier preview) ════ */}
       {isFreeUser && !isAdmin && (

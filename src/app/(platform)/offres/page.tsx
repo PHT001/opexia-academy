@@ -1,66 +1,88 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { TIERS } from "@/lib/constants";
 
-const TIER_LABELS: Record<string, { label: string; color: string; bg: string }> = {
-  free: { label: "Gratuit", color: "text-gray-500", bg: "bg-gray-100" },
-  starter: { label: "Starter", color: "text-gray-600", bg: "bg-gray-100" },
-  academy: { label: "Academy", color: "text-[#FF1744]", bg: "bg-[#FF1744]/10" },
-  one_to_one: { label: "Premium", color: "text-amber-700", bg: "bg-amber-50" },
+const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
+
+const TIER_LABELS: Record<string, string> = {
+  free: "Gratuit", starter: "Starter", academy: "Academy", one_to_one: "Premium",
 };
 
-export default function OffresPage() {
-  const { data: session } = useSession();
-  const isRealAdmin = session?.user?.role === "admin";
-  const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
-  const isAdmin = isRealAdmin && !previewTier;
+interface Plan {
+  name: string; slug: string; price: string; oldPrice: string; period: string;
+  description: string; popular: boolean; features: string[]; notIncluded: string[];
+  cta: string; href?: string; external?: boolean; limited?: boolean;
+}
 
+const plans: Plan[] = [
+  {
+    name: "Starter", slug: "starter", price: "47", oldPrice: "97", period: "paiement unique",
+    description: "Pour d\u00e9couvrir le monde de l\u2019IA", popular: false,
+    features: ["Module 1 complet (8 le\u00e7ons)", "Quiz de validation", "Acc\u00e8s Discord communautaire", "Checklist de d\u00e9marrage"],
+    notIncluded: ["Acc\u00e8s plateforme de cours", "Assistant IA int\u00e9gr\u00e9", "Visios individuelles"],
+    cta: "Obtenir le Starter \u2014 47\u20ac",
+  },
+  {
+    name: "Academy", slug: "academy", price: "497", oldPrice: "897", period: "paiement en plusieurs fois possible",
+    description: "La formation compl\u00e8te pour lancer ton agence IA", popular: true,
+    features: ["Tout le pack Starter", "130+ le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Gamification (XP, streaks, badges)", "Programme de parrainage"],
+    notIncluded: ["Visios individuelles"],
+    cta: "Rejoindre l\u2019Academy \u2014 497\u20ac",
+  },
+  {
+    name: "One-to-One", slug: "one_to_one", price: "2\u00A0497", oldPrice: "4\u00A0997", period: "paiement en plusieurs fois possible",
+    description: "Accompagnement premium avec nos experts", popular: false, limited: true,
+    features: ["Tout le pack Academy", "8 visios individuelles (1h)", "Review de tes projets en live", "Support prioritaire illimit\u00e9", "R\u00e9seau priv\u00e9 VIP fondateurs", "Acc\u00e8s \u00e0 vie \u00e0 toutes les mises \u00e0 jour", "Audit personnalis\u00e9 de ton agence", "Strat\u00e9gie de lancement sur-mesure", "Suivi hebdomadaire pendant 3 mois", "Acc\u00e8s direct WhatsApp avec Marius & Igor"],
+    notIncluded: [],
+    cta: "Postuler via WhatsApp", href: WHATSAPP_LINK, external: true,
+  },
+];
+
+export default function OffresPage() {
+  const router = useRouter();
+  const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
   const [userTier, setUserTier] = useState("free");
+  const [loading, setLoading] = useState<string | null>(null);
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    fetch("/api/progress")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data?.tier) setUserTier(data.tier);
-      })
-      .catch(() => {});
+    fetch("/api/progress").then((r) => r.json()).then((d) => { if (d?.tier) setUserTier(d.tier); }).catch(() => {});
   }, []);
 
   const effectiveTier = previewTier || userTier;
-  const tierInfo = TIER_LABELS[effectiveTier] || TIER_LABELS.free;
+
+  async function handleCheckout(slug: string) {
+    setLoading(slug);
+    try {
+      const res = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plan: slug }) });
+      const data = await res.json();
+      if (!res.ok) {
+        if (res.status === 401) { router.push("/login?redirect=checkout&plan=" + slug); return; }
+        throw new Error(data.error || "Erreur");
+      }
+      window.location.href = data.url;
+    } catch { alert("Une erreur est survenue. Veuillez r\u00e9essayer."); }
+    finally { setLoading(null); }
+  }
 
   return (
-    <div className="max-w-5xl mx-auto w-full py-4">
-      {/* Current plan banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl overflow-hidden mb-8"
-        style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}
-      >
+    <div className="max-w-5xl mx-auto w-full py-6">
+      {/* Header */}
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl overflow-hidden mb-10" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
         <div className="relative p-6 sm:p-8">
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#FF1744]/15 blur-[60px]" />
-            <div className="absolute bottom-0 left-1/4 w-32 h-32 rounded-full bg-purple-500/10 blur-[40px]" />
           </div>
           <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <p className="text-[10px] text-white/40 font-semibold uppercase tracking-[0.2em] mb-2">Ton offre actuelle</p>
-              <div className="flex items-center gap-3">
-                <span className="text-xl font-black text-white">
-                  {isAdmin ? "Admin \u2014 Acc\u00e8s complet" : tierInfo.label}
-                </span>
-                {!isAdmin && effectiveTier !== "one_to_one" && (
-                  <span className="text-[10px] font-medium text-white/50 bg-white/10 px-2.5 py-1 rounded-full">Upgrade disponible</span>
-                )}
-              </div>
+              <span className="text-xl font-black text-white">{TIER_LABELS[effectiveTier] || "Gratuit"}</span>
             </div>
             <div className="text-left sm:text-right">
               <p className="text-3xl font-black text-white">
-                {isAdmin ? "\u221E" : effectiveTier === "free" ? "Gratuit" : effectiveTier === "starter" ? "47\u20ac" : effectiveTier === "academy" ? "497\u20ac" : "2 497\u20ac"}
+                {effectiveTier === "free" ? "Gratuit" : effectiveTier === "starter" ? "47\u20ac" : effectiveTier === "academy" ? "497\u20ac" : "2\u00A0497\u20ac"}
               </p>
               <p className="text-[10px] text-white/40">{effectiveTier === "free" ? "aucun engagement" : "paiement unique"}</p>
             </div>
@@ -68,34 +90,34 @@ export default function OffresPage() {
         </div>
       </motion.div>
 
-      {/* Section title */}
-      {!isAdmin && effectiveTier !== "one_to_one" && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="text-center mb-8">
-          <h2 className="text-xl font-bold text-[#111] mb-1">Choisis l&apos;offre qui te correspond</h2>
-          <p className="text-sm text-gray-400">Paiement unique, acc&egrave;s &agrave; vie. Sans engagement.</p>
-        </motion.div>
-      )}
+      {/* Title */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="text-center mb-10">
+        <h2 className="text-2xl font-bold text-[#111] mb-2">Choisis l&apos;offre qui te correspond</h2>
+        <p className="text-sm text-gray-400">Paiement unique, acc&egrave;s &agrave; vie. Sans engagement.</p>
+      </motion.div>
 
-      {/* Plans */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {TIERS.map((tier) => {
-          const isCurrent = effectiveTier === tier.id || (isAdmin && (tier.id === "academy" || tier.id === "one_to_one"));
+      {/* Cards — same style as landing page */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {plans.map((plan, i) => {
+          const isCurrent = effectiveTier === plan.slug;
+
           return (
-            <div
-              key={tier.id}
-              className={`relative rounded-2xl bg-white p-6 sm:p-8 transition-all ${
-                tier.popular
+            <motion.div
+              key={plan.slug}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.08 }}
+              className={`relative rounded-2xl bg-white p-8 ${
+                plan.popular
                   ? "border-2 border-[#FF1744] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
                   : isCurrent
-                  ? "border-2 border-emerald-400 shadow-sm"
-                  : "border border-gray-200 hover:border-gray-300 hover:shadow-md"
+                  ? "border-2 border-emerald-400"
+                  : "border border-gray-200"
               }`}
             >
-              {tier.popular && !isCurrent && (
+              {plan.popular && !isCurrent && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center rounded-full bg-[#FF1744] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider shadow-lg shadow-red-200">
-                    Populaire
-                  </span>
+                  <span className="inline-flex items-center rounded-full bg-[#FF1744] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">Populaire</span>
                 </div>
               )}
               {isCurrent && (
@@ -107,56 +129,72 @@ export default function OffresPage() {
                 </div>
               )}
 
-              <div className="mb-6">
-                <h3 className="text-lg font-bold text-[#111]">{tier.name}</h3>
-                <p className="text-sm text-[#6B7280] mt-1">{tier.description}</p>
-                <div className="mt-5 flex items-baseline gap-2">
-                  <span className="text-4xl font-black tracking-tight text-[#111]">
-                    {tier.price.toLocaleString("fr-FR")}
-                  </span>
-                  <span className="text-lg font-medium text-[#6B7280]">&euro;</span>
+              <div className="mb-8">
+                <h3 className="text-lg font-bold text-[#111]">{plan.name}</h3>
+                <p className="text-sm text-[#6B7280] mt-1">{plan.description}</p>
+                <div className="mt-6 flex items-baseline gap-2">
+                  {plan.oldPrice && <span className="text-lg font-medium text-[#6B7280] line-through">{plan.oldPrice}{"\u20ac"}</span>}
+                  <span className="text-5xl font-black tracking-tight text-[#111]">{plan.price}</span>
+                  <span className="text-lg font-medium text-[#6B7280]">{"\u20ac"}</span>
                 </div>
-                <p className="text-xs text-[#6B7280] mt-1">paiement unique &middot; acc&egrave;s &agrave; vie</p>
+                {plan.period && <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>}
               </div>
 
+              {/* CTA */}
               {isCurrent ? (
-                <div className="w-full py-3 rounded-xl text-center text-sm font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200">
+                <div className="w-full py-3.5 rounded-full text-center text-sm font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200">
                   Ton plan actuel
                 </div>
-              ) : (
-                <a
-                  href="/#pricing"
-                  className={`block w-full text-center rounded-xl py-3 text-sm font-bold transition-all ${
-                    tier.popular
-                      ? "text-white shadow-lg hover:shadow-xl hover:scale-[1.02]"
-                      : "bg-[#111] text-white hover:bg-[#333]"
-                  }`}
-                  style={tier.popular ? { background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" } : undefined}
-                >
-                  {tier.cta}
+              ) : plan.external ? (
+                <a href={plan.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all bg-[#25D366] text-white hover:bg-[#1da851] hover:shadow-lg hover:shadow-green-200">
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                  {plan.cta}
                 </a>
+              ) : (
+                <button onClick={() => handleCheckout(plan.slug)} disabled={loading === plan.slug} className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${plan.popular ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200" : "bg-[#111] text-white hover:bg-[#333]"}`}>
+                  {loading === plan.slug ? "Redirection..." : plan.cta}
+                </button>
               )}
 
-              <div className="mt-6 space-y-2.5">
-                {tier.features.map((f) => (
-                  <div key={f.text} className="flex items-start gap-2.5">
-                    {f.included ? (
-                      <svg className="h-4 w-4 text-[#FF1744] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    ) : (
-                      <svg className="h-4 w-4 text-gray-300 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
-                    )}
-                    <span className={`text-sm ${f.included ? "text-[#111]" : "text-gray-400"}`}>{f.text}</span>
-                  </div>
-                ))}
+              {plan.limited && (
+                <div className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-red-50 border border-red-200 px-3 py-2">
+                  <svg className="h-3.5 w-3.5 text-[#FF1744] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span className="text-xs font-medium text-red-700">Limit&eacute; &agrave; 10 places / mois</span>
+                </div>
+              )}
+
+              {/* Features */}
+              <div className="mt-8 space-y-3">
+                {(() => {
+                  const isExpanded = expandedCards[plan.slug];
+                  const MAX = 4;
+                  const allItems = [...plan.features.map(f => ({ text: f, included: true })), ...plan.notIncluded.map(f => ({ text: f, included: false }))];
+                  const visible = isExpanded ? allItems : allItems.slice(0, MAX);
+                  const hasMore = allItems.length > MAX;
+                  return (
+                    <>
+                      {visible.map((item) => (
+                        <div key={item.text} className={`flex items-start gap-3 ${!item.included ? "opacity-40" : ""}`}>
+                          <svg className={`h-5 w-5 flex-shrink-0 mt-0.5 ${item.included ? "text-[#FF1744]" : "text-gray-300"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d={item.included ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                          </svg>
+                          <span className={`text-sm ${item.included ? "text-[#111]" : "text-[#6B7280]"}`}>{item.text}</span>
+                        </div>
+                      ))}
+                      {hasMore && (
+                        <button onClick={() => setExpandedCards(prev => ({ ...prev, [plan.slug]: !prev[plan.slug] }))} className="flex items-center gap-1 text-sm font-medium text-[#FF1744] hover:text-[#D50000] transition-colors pt-1">
+                          {isExpanded ? "Voir moins" : `Voir tout (${allItems.length})`}
+                          <svg className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </motion.div>
+      </div>
     </div>
   );
 }
