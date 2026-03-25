@@ -10,6 +10,8 @@ import { LessonSectionContent } from "@/components/lesson/LessonSectionContent";
 import LessonArticleLayout from "@/components/lesson-blocks/LessonArticleLayout";
 import LessonBlockRenderer from "@/components/lesson-blocks/LessonBlockRenderer";
 import { detectContentFormat, parseLessonBlocks } from "@/lib/parseLessonContent";
+import { useTierGate } from "@/hooks/useTierGate";
+import Link from "next/link";
 
 interface LessonData {
   id: string;
@@ -35,6 +37,7 @@ export default function LessonPage() {
   const params = useParams();
   const { data: session } = useSession();
   const isAdmin = session?.user?.role === "admin";
+  const { tier } = useTierGate();
   const [lesson, setLesson] = useState<LessonData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -76,6 +79,7 @@ export default function LessonPage() {
   const format = detectContentFormat(lesson.content);
   const isBlocks = format === "blocks";
   const showUpsell = lesson.order === 10 && !isAdmin;
+  const isStarterLastLesson = tier === "starter" && lesson.moduleOrder === 2 && !lesson.nextSlug;
 
   // Navigation footer
   const navigationFooter = (
@@ -111,6 +115,45 @@ export default function LessonPage() {
             className="text-sm text-[#374151] leading-relaxed block-text"
             dangerouslySetInnerHTML={{ __html: lesson.exercise }}
           />
+        </div>
+      )}
+
+      {/* Starter funnel CTA — last lesson of module 2 */}
+      {isStarterLastLesson && (
+        <div className="rounded-2xl overflow-hidden border border-[#FF1744]/20">
+          <div className="bg-gradient-to-br from-[#1A1A2E] to-[#0F0F1E] p-8">
+            <h3 className="text-xl font-bold text-white mb-3">Tu as les bases. Et maintenant ?</h3>
+            <p className="text-sm text-gray-400 mb-5 leading-relaxed">
+              Tu comprends le marché, tu connais les outils, tu as comparé les IA par toi-même.
+              Mais soyons honnêtes : <strong className="text-white">savoir ce que l&apos;IA fait et savoir la vendre, c&apos;est deux choses différentes.</strong>
+            </p>
+            <div className="space-y-3 mb-6">
+              {[
+                { icon: "🤖", text: "Construire des chatbots IA pour tes clients" },
+                { icon: "🌐", text: "Créer des sites et apps avec l'IA (Next.js, Supabase)" },
+                { icon: "⚡", text: "Automatiser des process pour les entreprises" },
+                { icon: "📞", text: "Créer des agents vocaux IA" },
+                { icon: "💰", text: "Trouver et closer tes premiers clients à 2000€+" },
+                { icon: "🚀", text: "Passer de 0 à 10K€/mois avec ton agence" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3 text-sm">
+                  <span className="text-base">{item.icon}</span>
+                  <span className="text-gray-300">{item.text}</span>
+                  <span className="ml-auto text-[10px] text-[#FF1744]/60 font-medium">Academy</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-gray-500 mb-6">
+              Les 20 modules suivants te donnent tout : les compétences techniques, les outils, et la méthode pour vendre.
+            </p>
+            <Link
+              href="/offres"
+              className="inline-flex items-center gap-2 bg-[#FF1744] hover:bg-[#D50000] text-white rounded-xl px-8 py-3.5 text-sm font-bold transition-colors shadow-lg shadow-red-500/20"
+            >
+              Rejoindre l&apos;Academy — 497€
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+            </Link>
+          </div>
         </div>
       )}
 
