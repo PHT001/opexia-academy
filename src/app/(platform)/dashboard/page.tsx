@@ -488,6 +488,16 @@ export default function DashboardPage() {
       variants={stagger}
     >
 
+      {/* ════ ADMIN: Test onboarding button ════ */}
+      {isAdmin && (
+        <button
+          onClick={() => setShowOnboardingTest(true)}
+          className="w-full py-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-600 text-xs font-semibold hover:bg-purple-500/20 transition-colors"
+        >
+          🧪 Tester l{"'"}onboarding ({userTier})
+        </button>
+      )}
+
       {/* ════ ADMIN-ONLY VIEW: show admin panel directly ════ */}
       {isAdmin && !previewTier && (
         <>
