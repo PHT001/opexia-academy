@@ -285,7 +285,6 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     label: "Mon espace",
     items: [
       { href: "/profile", label: "Mon Profil", icon: IconProfile },
-      { href: "/profile?tab=subscription", label: "Mes offres", icon: IconOffers },
       { href: "/parrainage", label: "Parrainage", icon: IconGift },
     ],
   },
@@ -746,6 +745,20 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             </div>
           </div>}
         </nav>
+
+        {/* Mes offres — standalone link */}
+        <div className="px-4 pb-2 shrink-0">
+          <a
+            href="/profile?tab=subscription"
+            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-white/70 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] transition-all duration-150 border border-white/[0.06]"
+          >
+            <IconOffers className="w-[18px] h-[18px] shrink-0" />
+            <span>Mes offres</span>
+            <svg className="ml-auto shrink-0 text-[#FF1744]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </a>
+        </div>
 
         {/* Discord Community */}
         <div className="px-4 pb-2 shrink-0">
