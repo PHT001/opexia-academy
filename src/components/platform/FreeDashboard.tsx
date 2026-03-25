@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 /* ——— Props ——— */
@@ -19,55 +19,7 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-/* ——— Animated Counter ——— */
-function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const motionVal = useMotionValue(0);
-  const display = useTransform(motionVal, (v) => Math.round(v).toString() + suffix);
-  const isInView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (isInView) animate(motionVal, target, { duration: 1.4, ease: "easeOut" });
-  }, [isInView, target, motionVal]);
-  return <motion.span ref={ref}>{display}</motion.span>;
-}
-
 /* ——— Icons ——— */
-function LockIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  );
-}
-
-function BotIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h3a4 4 0 0 1 4 4v1a2 2 0 0 1 0 4v1a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-1a2 2 0 0 1 0-4v-1a4 4 0 0 1 4-4h3V5.73A2 2 0 0 1 12 2z" />
-      <circle cx="9" cy="13" r="1" fill="currentColor" />
-      <circle cx="15" cy="13" r="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-function PipelineIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" />
-      <path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4" />
-    </svg>
-  );
-}
-
-function GeneratorIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" />
-    </svg>
-  );
-}
-
 function ArrowRightIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -76,403 +28,343 @@ function ArrowRightIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-/* ——— Countdown Hook ——— */
-function useCountdown48h() {
-  const [timeLeft, setTimeLeft] = useState<{ h: number; m: number; s: number } | null>(null);
-  const [expired, setExpired] = useState(false);
-
-  useEffect(() => {
-    // Get or set first visit timestamp
-    const STORAGE_KEY = "opexia-free-first-visit";
-    let firstVisit = localStorage.getItem(STORAGE_KEY);
-    if (!firstVisit) {
-      firstVisit = Date.now().toString();
-      localStorage.setItem(STORAGE_KEY, firstVisit);
-    }
-
-    const endTime = parseInt(firstVisit) + 48 * 60 * 60 * 1000;
-
-    function update() {
-      const now = Date.now();
-      const diff = endTime - now;
-      if (diff <= 0) {
-        setExpired(true);
-        setTimeLeft(null);
-        return;
-      }
-      const h = Math.floor(diff / (1000 * 60 * 60));
-      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((diff % (1000 * 60)) / 1000);
-      setTimeLeft({ h, m, s });
-    }
-
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return { timeLeft, expired };
+function CheckCircleIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
 }
 
-/* ——— Formation Data ——— */
-const phases = [
-  {
-    phase: 1,
-    name: "Le cadre",
-    color: "from-blue-500 to-blue-600",
-    modules: ["Bienvenue & Objectif", "D\u00e9couvrir les IA"],
-  },
-  {
-    phase: 2,
-    name: "Tes outils",
-    color: "from-violet-500 to-violet-600",
-    modules: ["Prompter", "IDE IA", "Git & GitHub"],
-  },
-  {
-    phase: 3,
-    name: "Construire un site",
-    color: "from-emerald-500 to-emerald-600",
-    modules: ["Frontend", "Backend & D\u00e9ploiement"],
-  },
-  {
-    phase: 4,
-    name: "Services \u00e0 vendre",
-    color: "from-amber-500 to-amber-600",
-    modules: ["Chatbots", "Agents vocaux", "Automatisations", "Leads", "Documents"],
-  },
-  {
-    phase: 5,
-    name: "Industrialiser",
-    color: "from-rose-500 to-rose-600",
-    modules: ["MVP", "S\u00e9curit\u00e9", "DevOps"],
-  },
-  {
-    phase: 6,
-    name: "Vendre",
-    color: "from-[#FF1744] to-[#D50000]",
-    modules: ["Structure", "Offre", "Prospection", "Closer", "Fid\u00e9liser"],
-  },
-  {
-    phase: 7,
-    name: "Scaler",
-    color: "from-purple-600 to-purple-700",
-    modules: ["Juridique", "Scaler \u00e0 10K\u20ac/mois"],
-  },
-];
+function CircleIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <circle cx="12" cy="12" r="10" />
+    </svg>
+  );
+}
 
-/* ——— Feature Teasers ——— */
-const features = [
-  {
-    icon: BotIcon,
-    title: "Assistant IA",
-    description: "Un assistant personnel pour t\u2019aider dans tous tes projets",
-  },
-  {
-    icon: PipelineIcon,
-    title: "Pipeline CRM",
-    description: "G\u00e8re tes clients et prospects comme une vraie agence",
-  },
-  {
-    icon: GeneratorIcon,
-    title: "G\u00e9n\u00e9rateur de projets",
-    description: "G\u00e9n\u00e8re des livrables complets en quelques clics",
-  },
-];
+function PlayIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
-/* ——— Testimonials Data ——— */
-const testimonials = [
-  {
-    quote: "J\u2019ai sign\u00e9 mon premier client \u00e0 +1200\u20ac la premi\u00e8re semaine",
-    tier: "\u00c9l\u00e8ve Academy",
-  },
-  {
-    quote: "Le CRM int\u00e9gr\u00e9 m\u2019a permis de closer 8K\u20ac de deals",
-    tier: "\u00c9l\u00e8ve Academy",
-  },
-  {
-    quote: "En 3 mois j\u2019ai mont\u00e9 mon agence \u00e0 10K\u20ac/mois de MRR",
-    tier: "\u00c9l\u00e8ve One-to-One",
-  },
-];
+function BookIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+      <path d="M8 7h6" />
+      <path d="M8 11h4" />
+    </svg>
+  );
+}
+
+/* ——— Progress data ——— */
+interface FreeProgress {
+  completedLessons: number;
+  totalFreeLessons: number;
+  xp: number;
+  streak: number;
+  nextLessonSlug: string | null;
+  nextLessonTitle: string | null;
+}
 
 /* ══════════════════════════════════════════════════════════════════════ */
 /*  FreeDashboard Component                                             */
 /* ══════════════════════════════════════════════════════════════════════ */
 
 export default function FreeDashboard({ firstName }: FreeDashboardProps) {
-  const { timeLeft, expired } = useCountdown48h();
+  const [progress, setProgress] = useState<FreeProgress>({
+    completedLessons: 0,
+    totalFreeLessons: 8,
+    xp: 0,
+    streak: 0,
+    nextLessonSlug: null,
+    nextLessonTitle: null,
+  });
+
+  useEffect(() => {
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data) {
+          // Find next incomplete lesson from free modules
+          const modules = data.modules || [];
+          let nextSlug: string | null = null;
+          let nextTitle: string | null = null;
+          let completedCount = 0;
+          let totalFree = 0;
+
+          for (const mod of modules) {
+            const lessons = mod.lessons || [];
+            for (const lesson of lessons) {
+              if (mod.accessible) {
+                totalFree++;
+                if (lesson.status === "completed") {
+                  completedCount++;
+                } else if (!nextSlug) {
+                  nextSlug = lesson.slug;
+                  nextTitle = lesson.title;
+                }
+              }
+            }
+          }
+
+          setProgress({
+            completedLessons: data.completedLessons || completedCount,
+            totalFreeLessons: totalFree || 8,
+            xp: data.xp || 0,
+            streak: data.streak || 0,
+            nextLessonSlug: nextSlug,
+            nextLessonTitle: nextTitle,
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const progressPercent = progress.totalFreeLessons > 0
+    ? Math.round((progress.completedLessons / progress.totalFreeLessons) * 100)
+    : 0;
+  const hasStarted = progress.completedLessons > 0;
+  const hasFinishedFree = progressPercent >= 100;
 
   return (
     <motion.div
-      className="w-full space-y-8"
+      className="w-full space-y-6"
       initial="hidden"
       animate="visible"
       variants={stagger}
     >
-      {/* ════ COUNTDOWN BANNER — 48h welcome offer ════ */}
-      {!expired && timeLeft && (
-        <motion.div
-          className="relative overflow-hidden rounded-2xl shadow-lg"
-          style={{
-            background:
-              "linear-gradient(135deg, #D50000 0%, #1A1A2E 60%, #0F0F1E 100%)",
-          }}
-          variants={fadeUp}
-        >
-          <div className="absolute top-0 right-0 w-60 h-60 bg-[#FF1744]/20 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
-          <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 sm:py-3">
-            <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-              <span className="text-white/90 text-sm font-medium">
-                Offre de bienvenue : <span className="text-white font-bold">-10% sur toutes les formules</span>
-              </span>
-              <div className="flex items-center gap-1.5 text-white font-mono text-sm">
-                <span className="text-white/60">Expire dans :</span>
-                <span className="bg-white/15 backdrop-blur rounded px-2 py-0.5 font-bold tabular-nums">
-                  {String(timeLeft.h).padStart(2, "0")}h
-                </span>
-                <span className="bg-white/15 backdrop-blur rounded px-2 py-0.5 font-bold tabular-nums">
-                  {String(timeLeft.m).padStart(2, "0")}m
-                </span>
-                <span className="bg-white/15 backdrop-blur rounded px-2 py-0.5 font-bold tabular-nums">
-                  {String(timeLeft.s).padStart(2, "0")}s
-                </span>
-              </div>
-            </div>
-            <Link
-              href="/profile?tab=subscription"
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold bg-white text-[#D50000] hover:bg-gray-50 transition-colors shadow"
-            >
-              En profiter maintenant
-              <ArrowRightIcon className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </motion.div>
-      )}
-
-      {/* ════ SECTION 1 — Hero ════ */}
+      {/* ════ HERO ════ */}
       <motion.div
-        className="relative overflow-hidden rounded-2xl p-8 sm:p-10 shadow-lg"
+        className="relative overflow-hidden rounded-2xl p-6 sm:p-8 shadow-lg"
         style={{
-          background:
-            "linear-gradient(135deg, #1A1A2E 0%, #16162A 60%, #0F0F1E 100%)",
+          background: "linear-gradient(135deg, #1A1A2E 0%, #16162A 60%, #0F0F1E 100%)",
         }}
         variants={fadeUp}
       >
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF1744]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-40 h-40 bg-[#FF1744]/5 rounded-full translate-y-1/2 blur-2xl" />
+        <div className="absolute bottom-0 left-1/4 w-40 h-40 bg-purple-500/8 rounded-full translate-y-1/2 blur-2xl" />
 
         <div className="relative z-10">
           <p className="text-[#FF1744] text-sm font-medium mb-1">
-            Bienvenue, {firstName} {"\uD83D\uDC4B"}
+            {hasStarted ? "Content de te revoir" : "Bienvenue"}, {firstName} {"\uD83D\uDC4B"}
           </p>
           <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-            Ta plateforme est pr&ecirc;te. D&eacute;bloque ta formation.
+            {hasFinishedFree
+              ? "Bravo, tu as termin\u00e9 le contenu gratuit\u00a0!"
+              : hasStarted
+              ? "Continue ta progression"
+              : "Commence ta formation gratuite"}
           </h1>
-          <p className="text-gray-400 text-sm sm:text-base max-w-xl">
-            Tu as acc&egrave;s &agrave; la plateforme, maintenant d&eacute;couvre tout ce qui t&rsquo;attend.
+          <p className="text-gray-400 text-sm max-w-xl mb-5">
+            {hasFinishedFree
+              ? "Tu as vu ce que la formation propose. D\u00e9couvre nos offres pour acc\u00e9der \u00e0 tous les modules."
+              : "Tu as acc\u00e8s gratuitement \u00e0 la Phase 1. D\u00e9couvre les bases de l\u2019IA et vois si la formation te correspond."}
           </p>
+
+          {/* Progress bar */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold text-white/60">
+                {progress.completedLessons}/{progress.totalFreeLessons} le\u00e7ons gratuites
+              </span>
+              <span className="text-xs font-bold text-[#FF1744]">{progressPercent}%</span>
+            </div>
+            <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }}
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.max(progressPercent, 2)}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              />
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/lessons"
+              className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white shadow-lg hover:scale-[1.02] transition-transform"
+              style={{
+                background: "linear-gradient(135deg, #FF1744, #D50000)",
+                boxShadow: "0 4px 20px rgba(255,23,68,0.3)",
+              }}
+            >
+              {hasStarted ? (
+                <>
+                  <PlayIcon className="w-4 h-4" />
+                  Reprendre la formation
+                </>
+              ) : (
+                <>
+                  <PlayIcon className="w-4 h-4" />
+                  Commencer la Phase 1
+                </>
+              )}
+            </Link>
+            {hasFinishedFree && (
+              <Link
+                href="/profile?tab=subscription"
+                className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white/80 bg-white/10 hover:bg-white/15 transition-colors"
+              >
+                D\u00e9couvrir nos offres
+                <ArrowRightIcon className="w-4 h-4" />
+              </Link>
+            )}
+          </div>
         </div>
       </motion.div>
 
-      {/* ════ PROGRESS TEASER ════ */}
-      <motion.div
-        className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm"
-        variants={fadeUp}
-      >
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-          <h2 className="text-lg font-bold text-[#111]">Ta progression</h2>
-          <Link
-            href="/profile?tab=subscription"
-            className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:opacity-90 transition-opacity shadow-sm"
-          >
-            D&eacute;bloquer ma formation
-            <ArrowRightIcon className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        {/* Progress bar */}
-        <div className="mb-4">
-          <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#D50000]"
-              style={{ width: "0%" }}
-            />
-          </div>
-        </div>
-
-        {/* Stats row */}
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="text-center">
-            <p className="text-2xl font-bold text-[#111]">0<span className="text-sm font-normal text-[#6B7280]">/22</span></p>
-            <p className="text-xs text-[#6B7280]">Modules compl&eacute;t&eacute;s</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-[#111]">0<span className="text-sm font-normal text-[#6B7280]">/85</span></p>
-            <p className="text-xs text-[#6B7280]">Le&ccedil;ons termin&eacute;es</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-[#111]">0</p>
-            <p className="text-xs text-[#6B7280]">XP gagn&eacute;s</p>
-          </div>
-        </div>
-
-        <p className="text-center text-sm text-[#6B7280]">
-          Commence ta formation pour voir ta progression ici
-        </p>
-      </motion.div>
-
-      {/* ════ SECTION 2 — Animated Stats ════ */}
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-        variants={stagger}
-      >
+      {/* ════ QUICK STATS ════ */}
+      <motion.div className="grid grid-cols-2 sm:grid-cols-4 gap-3" variants={stagger}>
         {[
-          { value: 22, suffix: "", label: "Modules de formation" },
-          { value: 85, suffix: "+", label: "Le\u00e7ons vid\u00e9o & texte" },
-          { value: 500, suffix: "+", label: "\u00c9l\u00e8ves actifs" },
-        ].map((stat) => (
-          <motion.div
-            key={stat.label}
-            className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm"
-            variants={fadeUp}
-          >
-            <p className="text-3xl sm:text-4xl font-bold text-[#111] mb-1">
-              <CountUp target={stat.value} suffix={stat.suffix} />
-            </p>
-            <p className="text-[#6B7280] text-sm">{stat.label}</p>
+          { label: "Le\u00e7ons", value: `${progress.completedLessons}`, sub: `/${progress.totalFreeLessons}`, color: "text-blue-500", bg: "bg-blue-50", icon: <BookIcon className="w-5 h-5" /> },
+          { label: "XP gagn\u00e9s", value: `${progress.xp}`, sub: "", color: "text-amber-500", bg: "bg-amber-50", icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg> },
+          { label: "Streak", value: `${progress.streak}`, sub: "j", color: "text-orange-500", bg: "bg-orange-50", icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /></svg> },
+          { label: "Progression", value: `${progressPercent}`, sub: "%", color: "text-emerald-500", bg: "bg-emerald-50", icon: <CheckCircleIcon className="w-5 h-5" /> },
+        ].map((s) => (
+          <motion.div key={s.label} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center" variants={fadeUp}>
+            <div className={`w-10 h-10 rounded-xl ${s.bg} ${s.color} flex items-center justify-center mx-auto mb-2`}>
+              {s.icon}
+            </div>
+            <p className="text-xl font-black text-[#111]">{s.value}<span className="text-sm font-normal text-gray-400">{s.sub}</span></p>
+            <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">{s.label}</p>
           </motion.div>
         ))}
       </motion.div>
 
-      {/* ════ SECTION 3 — Formation Preview ════ */}
-      <motion.div variants={fadeUp}>
-        <h2 className="text-lg font-bold text-[#111] mb-4">
-          Ce qui t&rsquo;attend dans la formation
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-          {phases.map((p) => (
-            <motion.div
-              key={p.phase}
-              className="group relative rounded-xl border border-gray-100 bg-white p-4 shadow-sm hover:shadow-md transition-shadow"
-              variants={fadeUp}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`inline-flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br ${p.color} text-white text-xs font-bold`}
-                  >
-                    {p.phase}
-                  </span>
-                  <span className="text-xs font-semibold text-[#111] uppercase tracking-wide">
-                    {p.name}
-                  </span>
-                </div>
-                <LockIcon className="w-3.5 h-3.5 text-gray-300" />
-              </div>
-              <div className="space-y-1">
-                {p.modules.map((m) => (
-                  <div
-                    key={m}
-                    className="flex items-center gap-2 text-xs text-[#6B7280]"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-gray-300 shrink-0" />
-                    {m}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-2 pt-2 border-t border-gray-50">
-                <span className="text-[10px] text-[#6B7280]">
-                  {p.modules.length} module{p.modules.length > 1 ? "s" : ""}
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* ════ SOCIAL PROOF — Testimonials ════ */}
-      <motion.div variants={fadeUp}>
-        <h2 className="text-lg font-bold text-[#111] mb-4">
-          Ce que nos &eacute;l&egrave;ves accomplissent
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"
-              variants={fadeUp}
-            >
-              {/* Quote icon */}
-              <svg className="w-6 h-6 text-[#FF1744]/20 mb-2" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-              </svg>
-              <p className="text-sm text-[#111] font-medium leading-relaxed mb-3">
-                &laquo; {t.quote} &raquo;
-              </p>
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-[#FF1744]/10 to-[#D50000]/10 text-[#D50000] text-[10px] font-semibold px-2.5 py-1">
-                {t.tier}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* ════ SECTION 4 — Feature Teasers ════ */}
-      <motion.div variants={fadeUp}>
-        <h2 className="text-lg font-bold text-[#111] mb-4">
-          Outils inclus dans la plateforme
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {features.map((f) => (
-            <motion.div
-              key={f.title}
-              className="relative rounded-2xl border border-gray-100 bg-white p-6 shadow-sm overflow-hidden"
-              variants={fadeUp}
-            >
-              {/* Blurred overlay */}
-              <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-900/80 text-white text-[11px] font-semibold px-3 py-1.5">
-                  <LockIcon className="w-3 h-3" />
-                  Bient&ocirc;t disponible
-                </span>
-              </div>
-              <div className="relative z-0">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF1744]/10 to-[#FF1744]/5 flex items-center justify-center mb-3 text-[#FF1744]">
-                  <f.icon className="w-5 h-5" />
-                </div>
-                <h3 className="text-sm font-semibold text-[#111] mb-1">
-                  {f.title}
-                </h3>
-                <p className="text-xs text-[#6B7280]">{f.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* ════ SECTION 5 — CTA Upgrade ════ */}
-      <motion.div variants={fadeUp}>
-        <div className="relative overflow-hidden rounded-2xl p-8 sm:p-10 shadow-lg bg-gradient-to-r from-[#FF1744] to-[#D50000]">
-          <div className="absolute top-0 right-0 w-60 h-60 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/4 blur-2xl" />
-
-          <div className="relative z-10 text-center max-w-lg mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-              Pr&ecirc;t &agrave; d&eacute;bloquer tout &ccedil;a ?
-            </h2>
-            <p className="text-white/80 text-sm sm:text-base mb-6">
-              Rejoins +500 &eacute;l&egrave;ves qui lancent leur agence IA
-            </p>
-            <Link
-              href="/profile?tab=subscription"
-              className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold bg-white text-[#FF1744] hover:bg-gray-50 transition-colors shadow-lg"
-            >
-              Voir les offres
-              <ArrowRightIcon className="w-4 h-4" />
-            </Link>
+      {/* ════ PREMIERS PAS / CHECKLIST ════ */}
+      <motion.div
+        className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+        variants={fadeUp}
+      >
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+            <CheckCircleIcon className="w-5 h-5 text-emerald-500" />
+          </div>
+          <div>
+            <h2 className="text-base font-bold text-[#111]">Tes premiers pas</h2>
+            <p className="text-xs text-gray-400">3 actions pour bien d{"\u00e9"}marrer</p>
           </div>
         </div>
+        <div className="space-y-1">
+          {[
+            {
+              done: hasStarted,
+              label: "Commence ta premi\u00e8re le\u00e7on",
+              desc: "D\u00e9couvre les bases de l\u2019IA pour ton business",
+              href: "/lessons",
+            },
+            {
+              done: false,
+              label: "Rejoins le Discord",
+              desc: "Connecte-toi avec la communaut\u00e9 OpexIA",
+              href: "https://discord.gg/opexia",
+              external: true,
+            },
+            {
+              done: false,
+              label: "Compl\u00e8te ton profil",
+              desc: "Ajoute ta photo et tes infos",
+              href: "/profile",
+            },
+          ].map((step, i) => (
+            <Link
+              key={i}
+              href={step.href}
+              target={step.external ? "_blank" : undefined}
+              className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group"
+            >
+              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                step.done
+                  ? "bg-emerald-100 text-emerald-600"
+                  : "bg-[#FF1744]/10 text-[#FF1744]"
+              }`}>
+                {step.done ? (
+                  <CheckCircleIcon className="w-4 h-4" />
+                ) : (
+                  <span>{i + 1}</span>
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={`text-sm font-semibold ${step.done ? "text-gray-400 line-through" : "text-[#111]"}`}>
+                  {step.label}
+                </p>
+                <p className="text-xs text-gray-400">{step.desc}</p>
+              </div>
+              <ArrowRightIcon className="w-4 h-4 text-gray-300 group-hover:text-[#FF1744] transition-colors flex-shrink-0" />
+            </Link>
+          ))}
+        </div>
       </motion.div>
+
+      {/* ════ CE QUI T'ATTEND ════ */}
+      <motion.div variants={fadeUp}>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base font-bold text-[#111]">Ce qui t{"\u2019"}attend ensuite</h2>
+          <Link href="/lessons" className="text-xs font-semibold text-[#FF1744] hover:underline">
+            Voir la formation →
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {[
+            { phase: 2, name: "Tes outils de travail", desc: "Prompting, IDE IA et workflow d\u00e9veloppeur", modules: 3 },
+            { phase: 3, name: "Construire un site", desc: "Frontend, backend et d\u00e9ploiement", modules: 2 },
+            { phase: 4, name: "Services \u00e0 vendre", desc: "Chatbots, agents vocaux, automatisations", modules: 5 },
+          ].map((p) => (
+            <div
+              key={p.phase}
+              className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-16 h-16 bg-gray-50 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-300">
+                    Phase {p.phase}
+                  </span>
+                  <span className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">
+                    <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0110 0v4" /></svg>
+                    Premium
+                  </span>
+                </div>
+                <h3 className="text-sm font-bold text-[#111] mb-1">{p.name}</h3>
+                <p className="text-xs text-gray-400 mb-2">{p.desc}</p>
+                <span className="text-[10px] text-gray-300">{p.modules} modules</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* ════ CTA BOTTOM — only if finished free content ════ */}
+      {hasFinishedFree && (
+        <motion.div variants={fadeUp}>
+          <div className="relative overflow-hidden rounded-2xl p-8 sm:p-10 shadow-lg" style={{ background: "linear-gradient(135deg, #FF1744, #D50000)" }}>
+            <div className="absolute top-0 right-0 w-60 h-60 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+            <div className="relative z-10 text-center max-w-lg mx-auto">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                Tu as termin{"\u00e9"} le contenu gratuit
+              </h2>
+              <p className="text-white/80 text-sm mb-6">
+                D{"\u00e9"}couvre nos offres pour acc{"\u00e9"}der aux 22 modules et continuer ta progression.
+              </p>
+              <Link
+                href="/profile?tab=subscription"
+                className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold bg-white text-[#FF1744] hover:bg-gray-50 transition-colors shadow-lg"
+              >
+                D{"\u00e9"}couvrir nos offres
+                <ArrowRightIcon className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 }
