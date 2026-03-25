@@ -66,6 +66,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     return (
       <PostPurchaseOnboarding
         userName={session?.user?.name || undefined}
+        tier={stats.tier}
         onComplete={() => setShowOnboarding(false)}
       />
     );

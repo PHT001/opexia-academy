@@ -474,6 +474,7 @@ export default function DashboardPage() {
     return (
       <PostPurchaseOnboarding
         userName={session?.user?.name || undefined}
+        tier={userTier}
         onComplete={() => setShowOnboardingTest(false)}
       />
     );
