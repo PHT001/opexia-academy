@@ -72,6 +72,13 @@ export default function ProjetsPage() {
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userTier, setUserTier] = useState<string>("academy");
+
+  useEffect(() => {
+    fetch("/api/progress").then(r => r.json()).then(d => {
+      if (d?.tier) setUserTier(d.tier);
+    }).catch(() => {});
+  }, []);
 
   // Student form state
   const [showForm, setShowForm] = useState(false);
@@ -190,6 +197,7 @@ export default function ProjetsPage() {
           setUrl={setUrl}
           submitting={submitting}
           handleSubmit={handleSubmit}
+          userTier={previewTier || userTier}
         />
       )}
     </motion.div>
@@ -202,7 +210,7 @@ export default function ProjetsPage() {
 function StudentView({
   projects, loading, showForm, setShowForm,
   title, setTitle, description, setDescription,
-  url, setUrl, submitting, handleSubmit,
+  url, setUrl, submitting, handleSubmit, userTier,
 }: {
   projects: Project[];
   loading: boolean;
@@ -216,33 +224,90 @@ function StudentView({
   setUrl: (v: string) => void;
   submitting: boolean;
   handleSubmit: (e: React.FormEvent) => void;
+  userTier: string;
 }) {
+  const isFree = userTier === "free";
+
   return (
     <>
-      {/* Header */}
-      <motion.div variants={fadeUp} className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-[#111]">Mes Projets</h1>
-          <p className="text-sm text-gray-500 mt-1">Soumets tes projets MVP et reçois des retours de l&apos;équipe.</p>
+      {/* Hero header */}
+      <motion.div variants={fadeUp} className="rounded-2xl overflow-hidden" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
+        <div className="relative p-6 sm:p-8">
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#FF1744]/15 blur-[60px]" />
+          </div>
+          <div className="relative">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#FF1744]">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <h1 className="text-xl font-bold text-white">Mes Projets</h1>
+            </div>
+            <p className="text-sm text-white/50 max-w-lg mb-5">
+              Soumets tes projets MVP et re{"\u00e7"}ois des retours personnalis{"\u00e9"}s de l{"\u2019"}{"\u00e9"}quipe pour t{"\u2019"}am{"\u00e9"}liorer.
+            </p>
+
+            {/* How it works */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {[
+                { step: "1", title: "Soumets", desc: "D\u00e9cris ton projet et partage ton lien" },
+                { step: "2", title: "Revue", desc: "L\u2019\u00e9quipe analyse et te fait un retour" },
+                { step: "3", title: "Am\u00e9liore", desc: "Int\u00e8gre les feedbacks et progresse" },
+              ].map((s) => (
+                <div key={s.step} className="flex items-start gap-3 bg-white/5 rounded-xl p-3">
+                  <span className="w-6 h-6 rounded-full bg-[#FF1744]/20 text-[#FF1744] text-xs font-bold flex items-center justify-center flex-shrink-0">{s.step}</span>
+                  <div>
+                    <p className="text-xs font-semibold text-white">{s.title}</p>
+                    <p className="text-[10px] text-white/40">{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        {!showForm && (
+      </motion.div>
+
+      {/* Submit button or free tier lock */}
+      <motion.div variants={fadeUp}>
+        {isFree ? (
+          <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50 p-6 text-center">
+            <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center mx-auto mb-3">
+              <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0110 0v4" />
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-gray-500 mb-1">Fonctionnalit{"\u00e9"} r{"\u00e9"}serv{"\u00e9"}e aux membres</p>
+            <p className="text-xs text-gray-400 mb-4 max-w-sm mx-auto">
+              Soumets tes projets MVP et re{"\u00e7"}ois des retours de l{"\u2019"}{"\u00e9"}quipe en passant {"\u00e0"} une offre payante.
+            </p>
+            <a
+              href="/profile?tab=subscription"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:scale-[1.02]"
+              style={{ background: "linear-gradient(135deg, #FF1744, #D50000)" }}
+            >
+              D{"\u00e9"}couvrir nos offres
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        ) : !showForm ? (
           <button
             onClick={() => setShowForm(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] shadow-sm"
-            style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)", boxShadow: "0 2px 12px rgba(255,23,68,0.18)" }}
+            className="w-full p-4 rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#FF1744]/30 hover:bg-red-50/30 transition-all group flex items-center justify-center gap-2"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-[#FF1744] transition-colors">
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
-            Soumettre un projet
+            <span className="text-sm font-semibold text-gray-400 group-hover:text-[#FF1744] transition-colors">Soumettre un nouveau projet</span>
           </button>
-        )}
+        ) : null}
       </motion.div>
 
       {/* Inline form */}
       <AnimatePresence>
-        {showForm && (
+        {showForm && !isFree && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -319,19 +384,19 @@ function StudentView({
         <motion.div variants={fadeUp} className="flex items-center justify-center py-16">
           <div className="w-6 h-6 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
         </motion.div>
-      ) : projects.length === 0 ? (
-        <motion.div variants={fadeUp} className="text-center py-16">
+      ) : projects.length === 0 && !isFree ? (
+        <motion.div variants={fadeUp} className="text-center py-12">
           <div className="w-16 h-16 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto mb-4">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300">
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
             </svg>
           </div>
-          <p className="text-sm text-gray-400">Aucun projet soumis pour le moment.</p>
-          <p className="text-xs text-gray-300 mt-1">Soumets ton premier projet MVP !</p>
+          <p className="text-sm font-medium text-gray-500">Aucun projet soumis</p>
+          <p className="text-xs text-gray-400 mt-1">Soumets ton premier projet MVP pour recevoir un retour de l&apos;{"\u00e9"}quipe !</p>
         </motion.div>
-      ) : (
+      ) : !isFree && projects.length > 0 ? (
         <div className="space-y-4">
-          {projects.map((project, i) => (
+          {projects.map((project) => (
             <motion.div
               key={project.id}
               variants={fadeUp}
@@ -366,14 +431,14 @@ function StudentView({
               <p className="text-sm text-gray-600 leading-relaxed">{project.description}</p>
               {project.feedback && (
                 <div className="mt-3 p-4 bg-[#f8f9fb] border border-gray-100 rounded-xl">
-                  <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1.5">Retour de l&apos;équipe</p>
+                  <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1.5">Retour de l&apos;{"\u00e9"}quipe</p>
                   <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{project.feedback}</p>
                 </div>
               )}
             </motion.div>
           ))}
         </div>
-      )}
+      ) : null}
     </>
   );
 }

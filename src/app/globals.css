@@ -116,6 +116,30 @@ body {
 .theme-dark::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 4px; }
 .theme-dark::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.20); }
 
+/* Dark mode overrides for platform content */
+.theme-dark .bg-white { background-color: #161616 !important; }
+.theme-dark .bg-\[#F8F9FA\] { background-color: #0A0A0A !important; }
+.theme-dark .bg-\[#f8f9fb\] { background-color: #1A1A1A !important; }
+.theme-dark .bg-gray-50 { background-color: #1A1A1A !important; }
+.theme-dark .bg-gray-100 { background-color: #1E1E1E !important; }
+.theme-dark .border-gray-200 { border-color: rgba(255,255,255,0.08) !important; }
+.theme-dark .border-gray-100 { border-color: rgba(255,255,255,0.05) !important; }
+.theme-dark .text-\[#111\] { color: rgba(255,255,255,0.92) !important; }
+.theme-dark .text-\[#111111\] { color: rgba(255,255,255,0.92) !important; }
+.theme-dark .text-gray-500 { color: rgba(255,255,255,0.5) !important; }
+.theme-dark .text-gray-400 { color: rgba(255,255,255,0.35) !important; }
+.theme-dark .text-gray-300 { color: rgba(255,255,255,0.25) !important; }
+.theme-dark .text-gray-600 { color: rgba(255,255,255,0.6) !important; }
+.theme-dark .text-gray-700 { color: rgba(255,255,255,0.7) !important; }
+.theme-dark .text-gray-800 { color: rgba(255,255,255,0.8) !important; }
+.theme-dark .divide-gray-50 > :not(:first-child) { border-color: rgba(255,255,255,0.05) !important; }
+.theme-dark .divide-gray-100 > :not(:first-child) { border-color: rgba(255,255,255,0.06) !important; }
+.theme-dark .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.4) !important; }
+.theme-dark .hover\:bg-gray-50:hover { background-color: #1E1E1E !important; }
+.theme-dark .hover\:bg-gray-100:hover { background-color: #222 !important; }
+.theme-dark .bg-white\/95 { background-color: rgba(10,10,10,0.95) !important; }
+.theme-dark .placeholder\:text-gray-300::placeholder { color: rgba(255,255,255,0.2) !important; }
+
 
 /* ═══════════════════════════════
    PLATFORM ANIMATIONS & EFFECTS

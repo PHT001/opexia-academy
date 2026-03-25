@@ -12,6 +12,20 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter" });
   const [freeBannerDismissed, setFreeBannerDismissed] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("opexia-dark-mode") === "true";
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handler = () => {
+      setDarkMode(localStorage.getItem("opexia-dark-mode") === "true");
+    };
+    window.addEventListener("dark-mode-change", handler);
+    return () => window.removeEventListener("dark-mode-change", handler);
+  }, []);
   const [previewTier, setPreviewTier] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("admin-preview-tier") || null;
@@ -59,7 +73,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
 
   return (
     <XPToastProvider>
-    <div className="min-h-screen bg-[#F8F9FA]">
+    <div className={`min-h-screen ${darkMode ? "theme-dark" : "bg-[#F8F9FA]"}`}>
       <Sidebar
         userName={session?.user?.name}
         role={session?.user?.role}
@@ -73,7 +87,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       />
 
       {/* Mobile topbar */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 h-14 bg-white/95 backdrop-blur-xl border-b border-gray-200 flex items-center px-4 shadow-sm">
+      <div className={`lg:hidden fixed top-0 left-0 right-0 z-30 h-14 backdrop-blur-xl border-b flex items-center px-4 shadow-sm ${darkMode ? "bg-[#0A0A0A]/95 border-white/10" : "bg-white/95 border-gray-200"}`}>
         <button
           onClick={() => setSidebarOpen(true)}
           className="p-2 text-gray-500"

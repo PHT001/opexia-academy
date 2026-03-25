@@ -18,6 +18,86 @@ const ICONS = ["📝", "💡", "🚀", "🎯", "📊", "⚡", "🔥", "📌", "�
 
 const DEFAULT_FOLDERS = ["Général", "Module 1", "Module 2", "Idées business"];
 
+/* ——— Example notes shown when user has no notes yet ——— */
+const EXAMPLE_NOTES: Note[] = [
+  {
+    id: "example-1",
+    title: "Mes objectifs avec l'IA",
+    content: `## Mon plan d'action
+
+**Objectif :** Lancer mon agence IA en 3 mois
+
+### Ce que j'ai appris aujourd'hui
+- Les bases du prompting avancé
+- Comment structurer une offre de service IA
+- Les outils no-code pour créer des chatbots
+
+### Prochaines étapes
+- Finir la Phase 1 de la formation
+- Créer mon premier chatbot pour un client test
+- Préparer mon offre commerciale
+
+> "Le meilleur moment pour commencer, c'est maintenant." — OpexIA`,
+    folder: "Général",
+    color: "#FF1744",
+    icon: "🚀",
+    updatedAt: new Date().toISOString(),
+    pinned: true,
+  },
+  {
+    id: "example-2",
+    title: "Notes Module 1 — Les bases de l'IA",
+    content: `## Les fondamentaux
+
+**3 types d'IA à connaître :**
+- IA générative (ChatGPT, Claude, Midjourney)
+- IA analytique (data, prédictions)
+- IA automatisée (workflows, agents)
+
+### Points clés
+- L'IA ne remplace pas, elle **augmente** tes compétences
+- Le prompting est la compétence n°1 à maîtriser
+- Commencer par des cas concrets, pas de la théorie
+
+### Idées de services à vendre
+- Chatbots pour sites e-commerce
+- Automatisation de la prospection
+- Génération de contenu pour les réseaux sociaux`,
+    folder: "Module 1",
+    color: "#2979FF",
+    icon: "🧠",
+    updatedAt: new Date(Date.now() - 3600000).toISOString(),
+    pinned: false,
+  },
+  {
+    id: "example-3",
+    title: "Idées business à explorer",
+    content: `## Mes idées de services IA
+
+### 💰 Offre 1 — Chatbot e-commerce
+- Prix : 500-1500€
+- Délai : 1 semaine
+- Marge : très bonne
+
+### 💰 Offre 2 — Automatisation prospection
+- Prix : 300-800€/mois
+- Récurrent = revenus stables
+- Facile à scaler
+
+### 💰 Offre 3 — Agent vocal
+- Prix : 1000-3000€
+- Plus technique mais très demandé
+- Peu de concurrence
+
+> Commencer par l'offre la plus simple et itérer ensuite.`,
+    folder: "Idées business",
+    color: "#00C853",
+    icon: "💰",
+    updatedAt: new Date(Date.now() - 7200000).toISOString(),
+    pinned: false,
+  },
+];
+
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);
   const now = new Date();
@@ -146,6 +226,8 @@ export default function NotesPage() {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const debounceTimers = useRef<Record<string, NodeJS.Timeout>>({});
 
+  const [showingExamples, setShowingExamples] = useState(false);
+
   // Fetch notes from API on mount
   useEffect(() => {
     async function fetchNotes() {
@@ -153,8 +235,15 @@ export default function NotesPage() {
         const res = await fetch("/api/notes");
         if (res.ok) {
           const data = await res.json();
-          setNotes(data);
-          if (data.length > 0) setActiveNoteId(data[0].id);
+          if (data.length === 0) {
+            // Show example notes for new users
+            setNotes(EXAMPLE_NOTES);
+            setActiveNoteId(EXAMPLE_NOTES[0].id);
+            setShowingExamples(true);
+          } else {
+            setNotes(data);
+            if (data.length > 0) setActiveNoteId(data[0].id);
+          }
         }
       } catch {
         // silently fail
@@ -205,7 +294,13 @@ export default function NotesPage() {
       });
       if (res.ok) {
         const newNote = await res.json();
-        setNotes((prev) => [newNote, ...prev]);
+        // Clear example notes when user creates their first real note
+        if (showingExamples) {
+          setNotes([newNote]);
+          setShowingExamples(false);
+        } else {
+          setNotes((prev) => [newNote, ...prev]);
+        }
         setActiveNoteId(newNote.id);
         setEditing(true);
         setMobileView("editor");
@@ -214,13 +309,18 @@ export default function NotesPage() {
     } catch {
       // silently fail
     }
-  }, [activeFolder, notes.length]);
+  }, [activeFolder, notes.length, showingExamples]);
+
+  const isExampleNote = (id: string) => id.startsWith("example-");
 
   // Debounced PATCH for note updates
   function updateNote(field: keyof Note, value: string | boolean) {
     if (!activeNote) return;
     const updated = { ...activeNote, [field]: value, updatedAt: new Date().toISOString() };
     setNotes((prev) => prev.map((n) => (n.id === updated.id ? updated : n)));
+
+    // Don't persist example notes
+    if (isExampleNote(activeNote.id)) return;
 
     // Debounce the API call
     const timerId = `${activeNote.id}-${field}`;
@@ -241,6 +341,18 @@ export default function NotesPage() {
   }
 
   async function deleteNote(id: string) {
+    // Example notes: just remove from state
+    if (isExampleNote(id)) {
+      setNotes((prev) => {
+        const remaining = prev.filter((n) => n.id !== id);
+        if (activeNoteId === id) {
+          setActiveNoteId(remaining[0]?.id || null);
+          setMobileView("list");
+        }
+        return remaining;
+      });
+      return;
+    }
     if (!window.confirm("Supprimer cette note ?")) return;
     try {
       const res = await fetch(`/api/notes/${id}`, { method: "DELETE" });
@@ -264,6 +376,7 @@ export default function NotesPage() {
     if (!note) return;
     const newPinned = !note.pinned;
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, pinned: newPinned, updatedAt: new Date().toISOString() } : n)));
+    if (isExampleNote(id)) return;
     fetch(`/api/notes/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -353,6 +466,18 @@ export default function NotesPage() {
             ))}
           </div>
         </div>
+
+        {/* Example notes banner */}
+        {showingExamples && (
+          <div className="mx-3 mb-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200/60">
+            <p className="text-[11px] font-medium text-amber-700">
+              {"\uD83D\uDCA1"} Exemples de notes pour t{"'"}inspirer
+            </p>
+            <p className="text-[10px] text-amber-600/70 mt-0.5">
+              Cr{"\u00e9"}e ta premi{"\u00e8"}re note pour commencer
+            </p>
+          </div>
+        )}
 
         {/* Notes list */}
         <div className="flex-1 overflow-y-auto px-2">
