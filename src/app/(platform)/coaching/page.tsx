@@ -155,7 +155,7 @@ function CalendarSlotPicker({
       </h2>
       <p className="text-xs text-gray-500 mb-5">Sélectionne un jour pour voir les horaires disponibles.</p>
 
-      <div className="max-w-lg mx-auto">
+      <div className="w-full max-w-3xl mx-auto">
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           {/* Month nav */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -265,7 +265,7 @@ function CalendarSlotPicker({
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                   {slotsByDate[expandedDay].map((slot) => {
                     const isSelected = slot.date === selectedSlot;
                     return (
