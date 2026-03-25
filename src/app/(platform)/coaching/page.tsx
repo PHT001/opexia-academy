@@ -155,8 +155,7 @@ function CalendarSlotPicker({
       </h2>
       <p className="text-xs text-gray-500 mb-5">Sélectionne un jour pour voir les horaires disponibles.</p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Calendar */}
+      <div className="max-w-lg mx-auto">
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           {/* Month nav */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -182,7 +181,7 @@ function CalendarSlotPicker({
           </div>
 
           {/* Calendar grid */}
-          <div className="grid grid-cols-7 gap-1 px-3 pb-4 pt-1">
+          <div className="grid grid-cols-7 gap-1 px-3 pb-3 pt-1">
             {calendarDays.map((day, i) => {
               if (day === null) {
                 return <div key={`empty-${i}`} className="h-11" />;
@@ -234,77 +233,84 @@ function CalendarSlotPicker({
               );
             })}
           </div>
-        </div>
 
-        {/* Right panel — time slots for selected day */}
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          {/* Time slots — inline below calendar */}
+          <AnimatePresence mode="wait">
           {expandedDay && slotsByDate[expandedDay] ? (
-            <div className="p-5">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-7 h-7 rounded-lg bg-[#FF1744]/10 flex items-center justify-center">
-                  <IconCalendar className="text-[#FF1744] w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-gray-900 capitalize">
-                    {new Date(expandedDay + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
-                  </p>
-                </div>
-              </div>
-              <p className="text-[10px] text-gray-400 mb-4 ml-9">
-                {slotsByDate[expandedDay].length} créneau{slotsByDate[expandedDay].length > 1 ? "x" : ""} disponible{slotsByDate[expandedDay].length > 1 ? "s" : ""}
-              </p>
-
-              <div className="space-y-2">
-                {slotsByDate[expandedDay].map((slot) => {
-                  const isSelected = slot.date === selectedSlot;
-                  return (
-                    <button
-                      key={slot.date}
-                      onClick={() => onSelect(slot.date)}
-                      className={cn(
-                        "w-full flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all",
-                        isSelected
-                          ? "bg-[#FF1744] text-white border-[#FF1744] shadow-md shadow-red-500/15"
-                          : "bg-gray-50 text-gray-700 border-gray-200 hover:border-[#FF1744]/30 hover:bg-[#FF1744]/[0.03]"
-                      )}
-                    >
-                      <div className={cn(
-                        "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
-                        isSelected ? "bg-white/20" : "bg-white"
-                      )}>
-                        <IconClock className={cn("w-4 h-4", isSelected ? "text-white" : "text-gray-400")} />
-                      </div>
-                      <div className="flex-1">
-                        <p className={cn("text-sm font-semibold", isSelected ? "text-white" : "text-gray-800")}>{slot.time}</p>
-                        <p className={cn("text-[10px]", isSelected ? "text-white/60" : "text-gray-400")}>Session de 1h</p>
-                      </div>
-                      {isSelected && (
-                        <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
-                          <IconCheck className="text-white w-3 h-3" />
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Selected summary */}
-              {selectedSlot && slotsByDate[expandedDay]?.some((s) => s.date === selectedSlot) && (
-                <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <IconCheck className="text-emerald-600 w-3 h-3" />
+            <motion.div
+              key={expandedDay}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="overflow-hidden border-t border-gray-100"
+            >
+              <div className="p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-[#FF1744]/10 flex items-center justify-center">
+                      <IconCalendar className="text-[#FF1744] w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-900 capitalize">
+                        {new Date(expandedDay + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                      </p>
+                      <p className="text-[10px] text-gray-400">
+                        {slotsByDate[expandedDay].length} créneau{slotsByDate[expandedDay].length > 1 ? "x" : ""} disponible{slotsByDate[expandedDay].length > 1 ? "s" : ""}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-xs text-gray-500">Créneau sélectionné — prêt à réserver</p>
+                  <button onClick={() => setExpandedDay(null)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                  </button>
                 </div>
-              )}
-            </div>
-          ) : (
-            <div className="h-full flex flex-col items-center justify-center p-8 text-center min-h-[200px]">
-              <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-xl mb-3">📅</div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">Sélectionne un jour</p>
-              <p className="text-xs text-gray-400 max-w-[200px]">Clique sur un jour marqué d&apos;un point rouge pour voir les créneaux disponibles.</p>
-            </div>
-          )}
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {slotsByDate[expandedDay].map((slot) => {
+                    const isSelected = slot.date === selectedSlot;
+                    return (
+                      <button
+                        key={slot.date}
+                        onClick={() => onSelect(slot.date)}
+                        className={cn(
+                          "flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-center transition-all",
+                          isSelected
+                            ? "bg-[#FF1744] text-white border-[#FF1744] shadow-md shadow-red-500/15"
+                            : "bg-gray-50 text-gray-700 border-gray-200 hover:border-[#FF1744]/30 hover:bg-[#FF1744]/[0.03]"
+                        )}
+                      >
+                        <IconClock className={cn("w-3.5 h-3.5", isSelected ? "text-white" : "text-gray-400")} />
+                        <span className={cn("text-sm font-semibold", isSelected ? "text-white" : "text-gray-800")}>{slot.time}</span>
+                        {isSelected && <IconCheck className="text-white w-3.5 h-3.5" />}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {selectedSlot && slotsByDate[expandedDay]?.some((s) => s.date === selectedSlot) && (
+                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center">
+                      <IconCheck className="text-emerald-600 w-3 h-3" />
+                    </div>
+                    <p className="text-xs text-gray-500">Créneau sélectionné — prêt à réserver</p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ) : !expandedDay ? (
+            <motion.div
+              key="empty"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden border-t border-gray-100"
+            >
+              <div className="flex flex-col items-center justify-center p-6 text-center">
+                <p className="text-xs text-gray-400">Clique sur un jour avec un point rouge pour choisir ton créneau.</p>
+              </div>
+            </motion.div>
+          ) : null}
+          </AnimatePresence>
         </div>
       </div>
     </div>
