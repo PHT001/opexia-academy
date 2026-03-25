@@ -256,7 +256,7 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                 </div>
                 <input
                   type="text"
-                  placeholder="Ton pr{"é"}nom"
+                  placeholder="Ton prénom"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   autoFocus
@@ -400,7 +400,7 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                     <label className="block text-[13px] font-medium text-gray-400 mb-2 ml-1">Situation</label>
                     <input
                       type="text"
-                      placeholder={"É"}tudiant, d{"é"}veloppeur, freelance...
+                      placeholder="Étudiant, développeur, freelance..."
                       value={profession}
                       onChange={(e) => setProfession(e.target.value)}
                       className="w-full h-[52px] px-5 rounded-2xl bg-gray-50/80 border-2 border-gray-100 text-[#1A1A2E] text-[16px] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/30 focus:bg-white transition-all"
@@ -537,7 +537,7 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                       Pr{"é"}paration...
                     </span>
                   ) : (
-                    "D{"é"}couvrir ma plateforme"
+                    "Découvrir ma plateforme"
                   )}
                 </motion.button>
               </div>
