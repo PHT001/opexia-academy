@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useTierGate } from "@/hooks/useTierGate";
 
 interface Note {
   id: string;
@@ -214,6 +215,9 @@ function RenderContent({ content }: { content: string }) {
 }
 
 export default function NotesPage() {
+  const { tier } = useTierGate();
+  const isFreeUser = tier === "free";
+
   const [notes, setNotes] = useState<Note[]>([]);
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const [activeFolder, setActiveFolder] = useState<string | null>(null);
@@ -228,15 +232,21 @@ export default function NotesPage() {
 
   const [showingExamples, setShowingExamples] = useState(false);
 
-  // Fetch notes from API on mount
+  // Fetch notes from API on mount (free users only see examples, read-only)
   useEffect(() => {
+    if (isFreeUser) {
+      setNotes(EXAMPLE_NOTES);
+      setActiveNoteId(EXAMPLE_NOTES[0].id);
+      setShowingExamples(true);
+      setLoading(false);
+      return;
+    }
     async function fetchNotes() {
       try {
         const res = await fetch("/api/notes");
         if (res.ok) {
           const data = await res.json();
           if (data.length === 0) {
-            // Show example notes for new users
             setNotes(EXAMPLE_NOTES);
             setActiveNoteId(EXAMPLE_NOTES[0].id);
             setShowingExamples(true);
@@ -252,7 +262,7 @@ export default function NotesPage() {
       }
     }
     fetchNotes();
-  }, []);
+  }, [isFreeUser]);
 
   const activeNote = notes.find((n) => n.id === activeNoteId) || null;
 
@@ -418,9 +428,10 @@ export default function NotesPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Notes</h2>
             <button
-              onClick={createNote}
-              className="h-7 w-7 rounded-md hover:bg-gray-200/70 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
-              title="Nouvelle note"
+              onClick={isFreeUser ? undefined : createNote}
+              className={`h-7 w-7 rounded-md flex items-center justify-center transition-colors ${isFreeUser ? "text-gray-300 cursor-not-allowed" : "hover:bg-gray-200/70 text-gray-400 hover:text-gray-600"}`}
+              title={isFreeUser ? "Disponible avec un abonnement" : "Nouvelle note"}
+              disabled={isFreeUser}
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
@@ -471,10 +482,10 @@ export default function NotesPage() {
         {showingExamples && (
           <div className="mx-3 mb-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200/60">
             <p className="text-[11px] font-medium text-amber-700">
-              {"\uD83D\uDCA1"} Exemples de notes pour t{"'"}inspirer
+              {"\uD83D\uDCA1"} {isFreeUser ? "Aper\u00e7u des notes" : "Exemples de notes pour t'inspirer"}
             </p>
             <p className="text-[10px] text-amber-600/70 mt-0.5">
-              Cr{"\u00e9"}e ta premi{"\u00e8"}re note pour commencer
+              {isFreeUser ? "Passe \u00e0 Starter pour cr\u00e9er tes propres notes" : "Cr\u00e9e ta premi\u00e8re note pour commencer"}
             </p>
           </div>
         )}
@@ -484,9 +495,11 @@ export default function NotesPage() {
           {sortedNotes.length === 0 && (
             <div className="flex flex-col items-center justify-center h-48 px-6 text-center">
               <p className="text-sm text-gray-400 mb-2">Aucune note</p>
-              <button onClick={createNote} className="text-xs text-[#FF1744] hover:underline">
-                + Créer une note
-              </button>
+              {!isFreeUser && (
+                <button onClick={createNote} className="text-xs text-[#FF1744] hover:underline">
+                  + Créer une note
+                </button>
+              )}
             </div>
           )}
           {sortedNotes.map((note) => {
@@ -557,6 +570,7 @@ export default function NotesPage() {
                   </svg>
                 </button>
                 <div className="hidden md:block" />
+                {!isFreeUser && (
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setEditing(!editing)}
@@ -592,6 +606,10 @@ export default function NotesPage() {
                     </svg>
                   </button>
                 </div>
+                )}
+                {isFreeUser && (
+                  <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-1 rounded-md">Lecture seule</span>
+                )}
               </div>
             </div>
 
@@ -698,16 +716,20 @@ export default function NotesPage() {
               <p className="text-sm text-gray-400 mb-6 leading-relaxed">
                 Choisis une note dans la liste ou crée-en une nouvelle.
               </p>
-              <button
-                onClick={createNote}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#111] hover:bg-[#333] text-white text-sm font-medium rounded-lg transition-colors"
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                Nouvelle note
-              </button>
+              {isFreeUser ? (
+                <p className="text-xs text-gray-400">Sélectionne un exemple pour voir ce que tu pourras faire.</p>
+              ) : (
+                <button
+                  onClick={createNote}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#111] hover:bg-[#333] text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  Nouvelle note
+                </button>
+              )}
             </div>
           </div>
         )}
