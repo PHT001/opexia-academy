@@ -842,6 +842,34 @@ export default function LessonsPage() {
           })}
         </div>
 
+        {/* ── CTA Starter: passe à Academy ── */}
+        {userTier === "starter" && (
+          <motion.div
+            className="mt-8 rounded-2xl overflow-hidden"
+            variants={sectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <div className="bg-gradient-to-br from-[#1A1A2E] to-[#0F0F1E] p-8 md:p-10 text-center">
+              <div className="text-3xl mb-3">🚀</div>
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
+                Prêt à débloquer tous les modules ?
+              </h3>
+              <p className="text-sm text-gray-400 mb-6 max-w-lg mx-auto leading-relaxed">
+                Tu as découvert le potentiel de l{"'"}IA. Passe à Academy pour accéder aux 22 modules complets : chatbots, sites, automatisations, vente et bien plus.
+              </p>
+              <Link
+                href="/offres"
+                className="inline-flex items-center gap-2 bg-[#FF1744] hover:bg-[#D50000] text-white rounded-xl px-8 py-3.5 text-sm font-bold transition-colors shadow-lg shadow-red-500/20"
+              >
+                Rejoindre Academy — 497€
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+              </Link>
+            </div>
+          </motion.div>
+        )}
+
       </div>
 
       {/* ── Floating sticky CTA for free users ── */}
