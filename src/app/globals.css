@@ -125,7 +125,7 @@ body {
 .theme-dark .border-gray-200 { border-color: rgba(255,255,255,0.08) !important; }
 .theme-dark .border-gray-100 { border-color: rgba(255,255,255,0.05) !important; }
 .theme-dark .text-\[#111\] { color: rgba(255,255,255,0.92) !important; }
-.theme-dark .text-\[#111111\] { color: rgba(255,255,255,0.92) !important; }
+/* text-[#111111] covered by text-[#111] rule above */
 .theme-dark .text-gray-500 { color: rgba(255,255,255,0.5) !important; }
 .theme-dark .text-gray-400 { color: rgba(255,255,255,0.35) !important; }
 .theme-dark .text-gray-300 { color: rgba(255,255,255,0.25) !important; }
