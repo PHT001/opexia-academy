@@ -74,23 +74,60 @@ export default function MasterclassPage() {
 
   if (isLocked) {
     return (
-      <div className="relative w-full max-w-5xl mx-auto pb-12">
-        {/* Blurred content */}
-        <div className="blur-[4px] pointer-events-none select-none opacity-70">
-          <MasterclassContent notified={notified} toggleNotify={toggleNotify} sujet={sujet} setSujet={setSujet} sujetSent={sujetSent} handleSujet={handleSujet} />
+      <div className="relative w-full max-w-5xl mx-auto overflow-hidden" style={{ maxHeight: "calc(100vh - 80px)" }}>
+        {/* Blurred content — no scroll */}
+        <div className="blur-[6px] pointer-events-none select-none opacity-60">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold tracking-tight text-[#111] mb-1">Masterclass</h1>
+            <p className="text-sm text-gray-500">Formations vid{"\u00e9"}o compl{"\u00e8"}tes et sessions live exclusives.</p>
+          </div>
+          {/* Fake video cards */}
+          <div className="grid gap-5 md:grid-cols-2 mb-8">
+            {MASTERCLASSES.slice(0, 2).map((mc) => (
+              <div key={mc.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#1a1b2e] via-[#1e1f38] to-[#0d0e1a] flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
+                      <svg className="w-7 h-7 text-white ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                    </div>
+                    <span className="absolute bottom-3 right-3 text-[10px] text-white/70 bg-black/40 px-2.5 py-1 rounded-full">{mc.lessons} le{"\u00e7"}ons {"\u00b7"} {mc.duration}</span>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <h3 className="text-base font-bold text-[#111] mb-1">{mc.title}</h3>
+                  <p className="text-xs text-gray-400 mb-2">{mc.speaker}</p>
+                  <p className="text-sm text-gray-500 line-clamp-2">{mc.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Fake upcoming */}
+          <div className="space-y-3">
+            {UPCOMING.slice(0, 2).map((live) => (
+              <div key={live.id} className="bg-white rounded-xl border border-gray-200 p-4">
+                <h3 className="text-sm font-semibold text-[#111]">{live.title}</h3>
+                <p className="text-xs text-gray-400">{live.date} {"\u00b7"} {live.speaker}</p>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* Gradient fade at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#F8F9FA] to-transparent z-10" />
+
         {/* Overlay CTA */}
-        <div className="absolute inset-0 flex items-start justify-center pt-32 z-10">
-          <div className="text-center bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md mx-4">
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="text-center bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200 p-8 max-w-md mx-4">
             <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-4">
               <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
             </div>
             <h3 className="text-xl font-bold text-[#111] mb-2">Masterclass exclusives</h3>
-            <p className="text-sm text-[#6B7280] mb-6">Accède aux masterclass vidéo et sessions live pour développer ton agence IA.</p>
-            <a href="/profile?tab=subscription" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
-              Voir les offres <span>&rarr;</span>
+            <p className="text-sm text-[#6B7280] mb-6">Acc{"\u00e8"}de aux masterclass vid{"\u00e9"}o et sessions live pour d{"\u00e9"}velopper ton agence IA.</p>
+            <a href="/profile?tab=subscription" className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:scale-[1.02]" style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}>
+              D{"\u00e9"}couvrir nos offres <span>{"\u2192"}</span>
             </a>
           </div>
         </div>

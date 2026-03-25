@@ -30,7 +30,7 @@ const BADGE_DEFS: { icon: string; name: string; desc: string; check: (s: BadgeCh
   { icon: "\u{1F393}", name: "Dipl\u00f4me", desc: "Formation compl\u00e8te", check: (s) => s.totalModules > 0 && s.modulesCompleted >= s.totalModules },
 ];
 
-type Tab = "profile" | "subscription";
+type Tab = "profile" | "security" | "display" | "subscription";
 
 export default function ProfilePage() {
   return (
@@ -58,6 +58,16 @@ function ProfileContent() {
     localStorage.setItem("opexia-dark-mode", String(newValue));
     window.dispatchEvent(new Event("dark-mode-change"));
   };
+  const [nameInput, setNameInput] = useState("");
+  const [savingName, setSavingName] = useState(false);
+  const [nameSaved, setNameSaved] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [savingPassword, setSavingPassword] = useState(false);
+
   const [activeTab, setActiveTab] = useState<Tab>(
     searchParams.get("tab") === "subscription" ? "subscription" : "profile"
   );
@@ -88,7 +98,35 @@ function ProfileContent() {
 
   useEffect(() => {
     if (searchParams.get("tab") === "subscription") setActiveTab("subscription");
+    if (searchParams.get("tab") === "security") setActiveTab("security");
+    if (searchParams.get("tab") === "display") setActiveTab("display");
   }, [searchParams]);
+
+  useEffect(() => {
+    if (session?.user?.name) setNameInput(session.user.name);
+  }, [session?.user?.name]);
+
+  const handleSaveName = async () => {
+    if (!nameInput.trim()) return;
+    setSavingName(true);
+    try {
+      const res = await fetch("/api/user/profile", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: nameInput.trim() }) });
+      if (res.ok) { setNameSaved(true); setTimeout(() => setNameSaved(false), 2000); }
+    } catch {} finally { setSavingName(false); }
+  };
+
+  const handleChangePassword = async () => {
+    setPasswordError("");
+    setPasswordSuccess(false);
+    if (newPassword.length < 6) { setPasswordError("Le mot de passe doit faire au moins 6 caract\u00e8res"); return; }
+    if (newPassword !== confirmPassword) { setPasswordError("Les mots de passe ne correspondent pas"); return; }
+    setSavingPassword(true);
+    try {
+      const res = await fetch("/api/user/password", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ currentPassword, newPassword }) });
+      if (res.ok) { setPasswordSuccess(true); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); setTimeout(() => setPasswordSuccess(false), 3000); }
+      else { const data = await res.json(); setPasswordError(data.error || "Erreur"); }
+    } catch { setPasswordError("Erreur de connexion"); } finally { setSavingPassword(false); }
+  };
 
   const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
   const effectiveTier = previewTier || stats.tier;
@@ -137,9 +175,11 @@ function ProfileContent() {
       </motion.div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 bg-gray-100 rounded-xl p-1">
+      <div className="flex gap-1 mb-6 bg-gray-100 rounded-xl p-1 overflow-x-auto">
         {([
-          { id: "profile" as Tab, label: "Mon profil" },
+          { id: "profile" as Tab, label: "Mon compte" },
+          { id: "security" as Tab, label: "S\u00e9curit\u00e9" },
+          { id: "display" as Tab, label: "Affichage" },
           { id: "subscription" as Tab, label: "Mes offres" },
         ]).map((tab) => (
           <button
@@ -160,30 +200,16 @@ function ProfileContent() {
         {activeTab === "profile" ? (
           <motion.div key="profile" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-4">
 
-            {/* ═══ Section: Progression ═══ */}
+            {/* ═══ Progression ═══ */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-[#111]">Progression</h3>
-                  <p className="text-[10px] text-gray-400">Tes stats et ton niveau</p>
-                </div>
+              <h3 className="text-sm font-bold text-[#111] mb-4">Progression</h3>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-semibold text-gray-500">Niveau {level}</span>
+                <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">{xpInLevel}/500 XP</span>
               </div>
-
-              {/* Level bar */}
-              <div className="mb-5">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-gray-500">Niveau {level}</span>
-                  <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">{xpInLevel}/500 XP</span>
-                </div>
-                <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                  <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
-                </div>
+              <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-4">
+                <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
               </div>
-
-              {/* Stats grid */}
               <div className="grid grid-cols-4 gap-3">
                 {[
                   { label: "XP", value: stats.xp.toLocaleString(), color: "text-amber-500" },
@@ -199,36 +225,17 @@ function ProfileContent() {
               </div>
             </div>
 
-            {/* ═══ Section: Badges ═══ */}
+            {/* ═══ Badges ═══ */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center">
-                  <span className="text-sm">🏆</span>
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-[#111]">Badges</h3>
-                  <p className="text-[10px] text-gray-400">Tes accomplissements</p>
-                </div>
-              </div>
+              <h3 className="text-sm font-bold text-[#111] mb-4">Badges</h3>
               {badgesLoading ? (
-                <div className="flex flex-wrap gap-3">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="w-12 h-12 rounded-xl bg-gray-100 animate-pulse" />
-                  ))}
-                </div>
+                <div className="flex flex-wrap gap-3">{Array.from({ length: 6 }).map((_, i) => <div key={i} className="w-12 h-12 rounded-xl bg-gray-100 animate-pulse" />)}</div>
               ) : (
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
                   {BADGE_DEFS.map((badge) => {
-                    const unlocked = badge.check({
-                      lessonsCompleted: stats.lessonsCompleted,
-                      quizzesPassed: stats.quizzesPassed,
-                      streak: stats.streak,
-                      totalLessons: stats.totalLessons,
-                      modulesCompleted: stats.modulesCompleted,
-                      totalModules: stats.totalModules,
-                    });
+                    const unlocked = badge.check({ lessonsCompleted: stats.lessonsCompleted, quizzesPassed: stats.quizzesPassed, streak: stats.streak, totalLessons: stats.totalLessons, modulesCompleted: stats.modulesCompleted, totalModules: stats.totalModules });
                     return (
-                      <div key={badge.name} className={`flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all ${unlocked ? "bg-amber-50 border border-amber-200" : "bg-gray-50 border border-dashed border-gray-200 opacity-40"}`}>
+                      <div key={badge.name} className={`flex flex-col items-center gap-1.5 p-3 rounded-xl ${unlocked ? "bg-amber-50 border border-amber-200" : "bg-gray-50 border border-dashed border-gray-200 opacity-40"}`}>
                         <span className="text-xl">{badge.icon}</span>
                         <span className="text-[9px] font-semibold text-gray-500 text-center leading-tight">{badge.name}</span>
                       </div>
@@ -238,110 +245,133 @@ function ProfileContent() {
               )}
             </div>
 
-            {/* ═══ Section: Informations personnelles ═══ */}
+            {/* ═══ Informations personnelles ═══ */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                </div>
+              <h3 className="text-sm font-bold text-[#111] mb-4">Informations personnelles</h3>
+              <div className="space-y-4">
                 <div>
-                  <h3 className="text-sm font-bold text-[#111]">Informations personnelles</h3>
-                  <p className="text-[10px] text-gray-400">Ton compte et tes coordonn{"\u00e9"}es</p>
-                </div>
-              </div>
-              <div className="space-y-0 divide-y divide-gray-100 rounded-xl border border-gray-100 overflow-hidden">
-                {[
-                  { label: "Nom", value: session?.user?.name || "\u2014", icon: <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg> },
-                  { label: "Email", value: session?.user?.email || "\u2014", icon: <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
-                  { label: "Membre depuis", value: stats.memberSince || new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }), icon: <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg> },
-                ].map((item) => (
-                  <div key={item.label} className="px-4 py-3 flex items-center gap-3 bg-white">
-                    <span className="text-gray-300 flex-shrink-0">{item.icon}</span>
-                    <span className="text-xs text-gray-400 w-28 flex-shrink-0">{item.label}</span>
-                    <span className="text-xs text-gray-700 font-medium truncate ml-auto">{item.value}</span>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Nom</label>
+                  <div className="flex gap-2">
+                    <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} className="flex-1 px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all" />
+                    <button onClick={handleSaveName} disabled={savingName || nameInput === session?.user?.name} className="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                      {savingName ? "..." : nameSaved ? "\u2713" : "Sauvegarder"}
+                    </button>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ═══ Section: Sécurité ═══ */}
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#111]">S{"\u00e9"}curit{"\u00e9"}</h3>
-                  <p className="text-[10px] text-gray-400">Mot de passe et connexion</p>
-                </div>
-              </div>
-              <div className="space-y-0 divide-y divide-gray-100 rounded-xl border border-gray-100 overflow-hidden">
-                <div className="px-4 py-3 flex items-center gap-3 bg-white">
-                  <svg className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0110 0v4" /></svg>
-                  <span className="text-xs text-gray-400 w-28 flex-shrink-0">Mot de passe</span>
-                  <span className="text-xs text-gray-700 font-medium ml-auto">{"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}</span>
-                </div>
-                <div className="px-4 py-3 flex items-center gap-3 bg-white">
-                  <svg className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                  <span className="text-xs text-gray-400 w-28 flex-shrink-0">Connexion</span>
-                  <span className="text-xs text-emerald-500 font-medium ml-auto flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    Active
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* ═══ Section: Affichage ═══ */}
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Email</label>
+                  <input type="email" value={session?.user?.email || ""} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-400 cursor-not-allowed" />
+                  <p className="text-[10px] text-gray-400 mt-1">L{"'"}email ne peut pas {"\u00ea"}tre modifi{"\u00e9"}</p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#111]">Affichage</h3>
-                  <p className="text-[10px] text-gray-400">Personnalise l{"'"}apparence de la plateforme</p>
-                </div>
-              </div>
-              <div className="space-y-0 divide-y divide-gray-100 rounded-xl border border-gray-100 overflow-hidden">
-                <div className="px-4 py-3.5 flex items-center justify-between bg-white">
-                  <div className="flex items-center gap-3">
-                    <svg className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-                    <div>
-                      <p className="text-xs font-medium text-[#111]">Mode sombre</p>
-                      <p className="text-[10px] text-gray-400">Active le th{"\u00e8"}me nuit sur la plateforme</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={toggleDarkMode}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${darkMode ? "bg-[#FF1744]" : "bg-gray-200"}`}
-                  >
-                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200 ${darkMode ? "translate-x-6" : "translate-x-1"}`} />
-                  </button>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Membre depuis</label>
+                  <p className="text-sm text-gray-700 font-medium">{stats.memberSince || new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}</p>
                 </div>
               </div>
             </div>
 
-            {/* ═══ Section: Zone de danger ═══ */}
+            {/* ═══ Zone de danger ═══ */}
             <div className="bg-white rounded-2xl border border-red-100 shadow-sm p-5">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-red-500">Zone de danger</h3>
-                  <p className="text-[10px] text-gray-400">Actions irr{"\u00e9"}versibles</p>
-                </div>
-              </div>
-              <button
-                onClick={() => signOut({ callbackUrl: "/login" })}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-red-500 bg-red-50 border border-red-100 hover:bg-red-100 transition-colors"
-              >
+              <h3 className="text-sm font-bold text-red-500 mb-3">Zone de danger</h3>
+              <button onClick={() => signOut({ callbackUrl: "/login" })} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-red-500 bg-red-50 border border-red-100 hover:bg-red-100 transition-colors">
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                 Se d{"\u00e9"}connecter
               </button>
             </div>
           </motion.div>
+
+        ) : activeTab === "security" ? (
+          <motion.div key="security" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-4">
+
+            {/* ═══ Changer le mot de passe ═══ */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+              <div className="flex items-center gap-2.5 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                  <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#111]">Changer le mot de passe</h3>
+                  <p className="text-[10px] text-gray-400">Mets {"\u00e0"} jour ton mot de passe r{"\u00e9"}guli{"\u00e8"}rement</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Mot de passe actuel</label>
+                  <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder={"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"} className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Nouveau mot de passe</label>
+                  <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="Minimum 6 caract\u00e8res" className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Confirmer le mot de passe</label>
+                  <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="R{"\u00e9"}p{"\u00e8"}te le mot de passe" className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all" />
+                </div>
+                {passwordError && <p className="text-xs text-red-500 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{passwordError}</p>}
+                {passwordSuccess && <p className="text-xs text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">Mot de passe mis {"\u00e0"} jour avec succ{"\u00e8"}s !</p>}
+                <button onClick={handleChangePassword} disabled={savingPassword || !currentPassword || !newPassword} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                  {savingPassword ? "Modification..." : "Modifier le mot de passe"}
+                </button>
+              </div>
+            </div>
+
+            {/* ═══ Session active ═══ */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+              <h3 className="text-sm font-bold text-[#111] mb-3">Session active</h3>
+              <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <div>
+                    <p className="text-xs font-medium text-[#111]">Connect{"\u00e9"} maintenant</p>
+                    <p className="text-[10px] text-gray-400">{session?.user?.email}</p>
+                  </div>
+                </div>
+                <span className="text-[10px] text-emerald-500 font-semibold">Active</span>
+              </div>
+            </div>
+          </motion.div>
+
+        ) : activeTab === "display" ? (
+          <motion.div key="display" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-4">
+
+            {/* ═══ Thème ═══ */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+              <div className="flex items-center gap-2.5 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
+                  <svg className="w-4 h-4 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#111]">Th{"\u00e8"}me</h3>
+                  <p className="text-[10px] text-gray-400">Choisis entre le mode clair et sombre</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => { if (darkMode) toggleDarkMode(); }} className={`p-4 rounded-xl border-2 transition-all ${!darkMode ? "border-[#FF1744] bg-red-50/30" : "border-gray-200 hover:border-gray-300"}`}>
+                  <div className="w-full h-20 rounded-lg bg-white border border-gray-200 mb-3 flex items-center justify-center">
+                    <div className="space-y-1.5 w-2/3">
+                      <div className="h-2 bg-gray-200 rounded-full" />
+                      <div className="h-2 bg-gray-100 rounded-full w-3/4" />
+                      <div className="h-2 bg-gray-100 rounded-full w-1/2" />
+                    </div>
+                  </div>
+                  <p className="text-xs font-semibold text-[#111]">Clair</p>
+                  {!darkMode && <p className="text-[10px] text-[#FF1744] font-medium mt-0.5">Actif</p>}
+                </button>
+                <button onClick={() => { if (!darkMode) toggleDarkMode(); }} className={`p-4 rounded-xl border-2 transition-all ${darkMode ? "border-[#FF1744] bg-red-50/30" : "border-gray-200 hover:border-gray-300"}`}>
+                  <div className="w-full h-20 rounded-lg bg-[#1A1A2E] border border-gray-700 mb-3 flex items-center justify-center">
+                    <div className="space-y-1.5 w-2/3">
+                      <div className="h-2 bg-white/20 rounded-full" />
+                      <div className="h-2 bg-white/10 rounded-full w-3/4" />
+                      <div className="h-2 bg-white/10 rounded-full w-1/2" />
+                    </div>
+                  </div>
+                  <p className="text-xs font-semibold text-[#111]">Sombre</p>
+                  {darkMode && <p className="text-[10px] text-[#FF1744] font-medium mt-0.5">Actif</p>}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
         ) : (
           <motion.div key="subscription" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
             {/* Current plan banner */}
