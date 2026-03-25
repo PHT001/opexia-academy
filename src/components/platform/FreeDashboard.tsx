@@ -239,7 +239,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
               </div>
             </div>
             <Link
-              href="/#pricing"
+              href="/profile?tab=subscription"
               className="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold bg-white text-[#D50000] hover:bg-gray-50 transition-colors shadow"
             >
               En profiter maintenant
@@ -282,7 +282,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <h2 className="text-lg font-bold text-[#111]">Ta progression</h2>
           <Link
-            href="/#pricing"
+            href="/profile?tab=subscription"
             className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:opacity-90 transition-opacity shadow-sm"
           >
             D&eacute;bloquer ma formation
@@ -464,7 +464,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
               Rejoins +500 &eacute;l&egrave;ves qui lancent leur agence IA
             </p>
             <Link
-              href="/#pricing"
+              href="/profile?tab=subscription"
               className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold bg-white text-[#FF1744] hover:bg-gray-50 transition-colors shadow-lg"
             >
               Voir les offres

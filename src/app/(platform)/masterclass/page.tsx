@@ -89,7 +89,7 @@ export default function MasterclassPage() {
             </div>
             <h3 className="text-xl font-bold text-[#111] mb-2">Masterclass exclusives</h3>
             <p className="text-sm text-[#6B7280] mb-6">Accède aux masterclass vidéo et sessions live pour développer ton agence IA.</p>
-            <a href="/#pricing" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
+            <a href="/profile?tab=subscription" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
               Voir les offres <span>&rarr;</span>
             </a>
           </div>

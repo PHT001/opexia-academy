@@ -474,28 +474,59 @@ export default function LessonsPage() {
     <>
       <div className="mx-auto">
         {/* Hero */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative py-4 mb-10">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-[#111] mb-2">Formation</h1>
-            <p className="text-sm text-gray-400 mb-5 max-w-md">
-              Progresse {"\u00e0"} ton rythme et deviens un expert IA. Chaque phase te rapproche de l&apos;autonomie compl{"\u00e8"}te.
-            </p>
-            <div className="flex items-center gap-3 flex-wrap">
-              {[
-                { icon: IconBook, text: `${totalLessons} le\u00e7ons` },
-                { icon: IconLayers, text: `${totalModules} modules` },
-                { icon: IconClock, text: `${WEEKS.length} phases` },
-              ].map((pill) => (
-                <span key={pill.text} className="flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
-                  <pill.icon className="w-3.5 h-3.5 text-[#FF1744]" />
-                  {pill.text}
-                </span>
-              ))}
-              {totalProgress > 0 && (
-                <span className="flex items-center gap-2 text-xs font-bold text-[#FF1744] bg-red-50 px-3 py-1.5 rounded-full border border-red-200">
-                  {totalProgress}% compl{"\u00e9"}t{"\u00e9"}
-                </span>
-              )}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative mb-10">
+          <div className="rounded-2xl overflow-hidden" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
+            <div className="relative p-6 sm:p-8">
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#FF1744]/15 blur-[60px]" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-purple-500/10 blur-[40px]" />
+              </div>
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                    <IconBook className="w-5 h-5 text-[#FF1744]" />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold tracking-tight text-white">Formation</h1>
+                  </div>
+                </div>
+                <p className="text-sm text-white/50 mb-5 max-w-lg">
+                  {userTier === "free"
+                    ? "Commence ton parcours et d\u00e9couvre les bases de l\u2019IA. Progresse \u00e0 ton rythme."
+                    : totalProgress > 50
+                    ? "Tu avances bien\u00a0! Continue ta progression pour devenir un expert IA."
+                    : "Progresse \u00e0 ton rythme et deviens un expert IA. Chaque phase te rapproche de l\u2019autonomie compl\u00e8te."}
+                </p>
+                <div className="flex items-center gap-3 flex-wrap mb-5">
+                  {[
+                    { icon: IconBook, text: `${totalLessons} le\u00e7ons` },
+                    { icon: IconLayers, text: `${totalModules} modules` },
+                    { icon: IconClock, text: `${WEEKS.length} phases` },
+                  ].map((pill) => (
+                    <span key={pill.text} className="flex items-center gap-1.5 text-xs font-medium text-white/70 bg-white/10 px-3 py-1.5 rounded-full">
+                      <pill.icon className="w-3.5 h-3.5 text-[#FF1744]" />
+                      {pill.text}
+                    </span>
+                  ))}
+                </div>
+                {totalLessons > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-white/60">{totalCompleted}/{totalLessons} le{"\u00e7"}ons compl{"\u00e9"}t{"\u00e9"}es</span>
+                      <span className="text-xs font-bold text-[#FF1744]">{totalProgress}%</span>
+                    </div>
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.max(totalProgress, 2)}%` }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </motion.div>
@@ -527,18 +558,18 @@ export default function LessonsPage() {
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                           <p className="text-sm font-bold text-[#111] mb-1">
-                            Passe {"\u00e0"} Academy pour d{"\u00e9"}bloquer les 22 modules
+                            Envie d{"'"}aller plus loin ?
                           </p>
                           <p className="text-xs text-gray-500">
-                            Acc{"\u00e8"}de {"\u00e0"} 85 le{"\u00e7"}ons, projets concrets, coaching et certificats.
+                            D{"\u00e9"}couvre nos offres et d{"\u00e9"}bloque l{"'"}int{"\u00e9"}gralit{"\u00e9"} de la formation.
                           </p>
                         </div>
                         <a
-                          href="/#pricing"
+                          href="/profile?tab=subscription"
                           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white flex-shrink-0 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
                           style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
                         >
-                          D{"\u00e9"}bloquer Academy {"\u2014"} 497{"\u20ac"}
+                          D{"\u00e9"}couvrir nos offres
                           <IconArrowRight className="w-4 h-4" />
                         </a>
                       </div>
@@ -851,17 +882,17 @@ export default function LessonsPage() {
                 <IconLock className="text-[#FF1744] w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-[#111] mb-2">
-                D{"\u00e9"}bloque toute la formation
+                Tu veux acc{"\u00e9"}der {"\u00e0"} toute la formation ?
               </h3>
               <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto">
-                Acc{"\u00e8"}de aux 22 modules, 85 le{"\u00e7"}ons, quiz, exercices pratiques et bien plus encore.
+                D{"\u00e9"}couvre nos offres et choisis celle qui te correspond pour d{"\u00e9"}bloquer tous les modules.
               </p>
               <a
-                href="/#pricing"
+                href="/profile?tab=subscription"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
                 style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
               >
-                Voir les offres
+                D{"\u00e9"}couvrir nos offres
                 <IconArrowRight className="w-4 h-4" />
               </a>
             </div>

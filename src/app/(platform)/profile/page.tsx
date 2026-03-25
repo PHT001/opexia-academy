@@ -129,7 +129,7 @@ function ProfileContent() {
       <div className="flex gap-1 mb-6 bg-gray-100 rounded-xl p-1">
         {([
           { id: "profile" as Tab, label: "Mon profil" },
-          { id: "subscription" as Tab, label: "Mon abonnement" },
+          { id: "subscription" as Tab, label: "Mes offres" },
         ]).map((tab) => (
           <button
             key={tab.id}
@@ -233,88 +233,113 @@ function ProfileContent() {
           </motion.div>
         ) : (
           <motion.div key="subscription" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-            {/* Current plan */}
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Ton abonnement actuel</p>
-                  <div className="flex items-center gap-2">
-                    <span className={`text-sm font-bold px-3 py-1 rounded-lg ${tierInfo.bg} ${tierInfo.color}`}>
-                      {isAdmin ? "Admin \u2014 Acc\u00e8s complet" : tierInfo.label}
-                    </span>
-                    {!isAdmin && stats.tier !== "one_to_one" && (
-                      <span className="text-[10px] text-gray-400">Upgrade pour d\u00e9bloquer plus de contenu</span>
-                    )}
-                  </div>
+            {/* Current plan banner */}
+            <div className="rounded-2xl overflow-hidden mb-8" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
+              <div className="relative p-6 sm:p-8">
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#FF1744]/15 blur-[60px]" />
+                  <div className="absolute bottom-0 left-1/4 w-32 h-32 rounded-full bg-purple-500/10 blur-[40px]" />
                 </div>
-                <div className="text-right">
-                  <p className="text-2xl font-black text-[#111]">
-                    {isAdmin ? "\u221E" : stats.tier === "starter" ? "47\u20ac" : stats.tier === "academy" ? "497\u20ac" : "3 997\u20ac"}
-                  </p>
-                  <p className="text-[10px] text-gray-400">paiement unique</p>
+                <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] text-white/40 font-semibold uppercase tracking-[0.2em] mb-2">Ton offre actuelle</p>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl font-black text-white">
+                        {isAdmin ? "Admin \u2014 Acc\u00e8s complet" : tierInfo.label}
+                      </span>
+                      {!isAdmin && stats.tier !== "one_to_one" && (
+                        <span className="text-[10px] font-medium text-white/50 bg-white/10 px-2.5 py-1 rounded-full">Upgrade disponible</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-left sm:text-right">
+                    <p className="text-3xl font-black text-white">
+                      {isAdmin ? "\u221E" : stats.tier === "free" ? "Gratuit" : stats.tier === "starter" ? "47\u20ac" : stats.tier === "academy" ? "497\u20ac" : "2 497\u20ac"}
+                    </p>
+                    <p className="text-[10px] text-white/40">{stats.tier === "free" ? "aucun engagement" : "paiement unique"}</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Plans — même style que la landing page formation */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            {/* Section title */}
+            {!isAdmin && stats.tier !== "one_to_one" && (
+              <div className="text-center mb-8">
+                <h2 className="text-xl font-bold text-[#111] mb-1">Choisis l{"'"}offre qui te correspond</h2>
+                <p className="text-sm text-gray-400">Paiement unique, acc{"\u00e8"}s {"\u00e0"} vie. Sans engagement.</p>
+              </div>
+            )}
+
+            {/* Plans */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
               {TIERS.map((tier) => {
                 const isCurrent = stats.tier === tier.id || (isAdmin && (tier.id === "academy" || tier.id === "one_to_one"));
                 return (
                   <div
                     key={tier.id}
-                    className={`relative rounded-2xl bg-white p-8 ${
+                    className={`relative rounded-2xl bg-white p-6 sm:p-8 transition-all ${
                       tier.popular
                         ? "border-2 border-[#FF1744] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
-                        : "border border-gray-200"
+                        : isCurrent
+                        ? "border-2 border-emerald-400 shadow-sm"
+                        : "border border-gray-200 hover:border-gray-300 hover:shadow-md"
                     }`}
                   >
-                    {tier.popular && (
+                    {tier.popular && !isCurrent && (
                       <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                        <span className="inline-flex items-center rounded-full bg-[#FF1744] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">
+                        <span className="inline-flex items-center rounded-full bg-[#FF1744] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider shadow-lg shadow-red-200">
                           Populaire
                         </span>
                       </div>
                     )}
+                    {isCurrent && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">
+                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                          Actif
+                        </span>
+                      </div>
+                    )}
 
-                    <div className="mb-8">
+                    <div className="mb-6">
                       <h3 className="text-lg font-bold text-[#111]">{tier.name}</h3>
                       <p className="text-sm text-[#6B7280] mt-1">{tier.description}</p>
-                      <div className="mt-6 flex items-baseline gap-2">
-                        <span className="text-5xl font-black tracking-tight text-[#111]">
+                      <div className="mt-5 flex items-baseline gap-2">
+                        <span className="text-4xl font-black tracking-tight text-[#111]">
                           {tier.price.toLocaleString("fr-FR")}
                         </span>
                         <span className="text-lg font-medium text-[#6B7280]">&euro;</span>
                       </div>
-                      <p className="text-sm text-[#6B7280] mt-1">paiement unique</p>
+                      <p className="text-xs text-[#6B7280] mt-1">paiement unique &middot; acc{"\u00e8"}s {"\u00e0"} vie</p>
                     </div>
 
                     {isCurrent ? (
-                      <div className="w-full py-3.5 rounded-full text-center text-sm font-semibold text-gray-400 bg-gray-100 border border-gray-200">
+                      <div className="w-full py-3 rounded-xl text-center text-sm font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200">
                         Ton plan actuel
                       </div>
                     ) : (
                       <a
-                        href="/formation#pricing"
-                        className={`block w-full text-center rounded-full py-3.5 text-sm font-semibold transition-all ${
+                        href="/#pricing"
+                        className={`block w-full text-center rounded-xl py-3 text-sm font-bold transition-all ${
                           tier.popular
-                            ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200"
+                            ? "text-white shadow-lg hover:shadow-xl hover:scale-[1.02]"
                             : "bg-[#111] text-white hover:bg-[#333]"
                         }`}
+                        style={tier.popular ? { background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" } : undefined}
                       >
                         {tier.cta}
                       </a>
                     )}
 
-                    <div className="mt-8 space-y-3">
+                    <div className="mt-6 space-y-2.5">
                       {tier.features.map((f) => (
-                        <div key={f.text} className="flex items-start gap-3">
+                        <div key={f.text} className="flex items-start gap-2.5">
                           {f.included ? (
-                            <svg className="h-5 w-5 text-[#FF1744] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="h-4 w-4 text-[#FF1744] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                             </svg>
                           ) : (
-                            <svg className="h-5 w-5 text-gray-300 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="h-4 w-4 text-gray-300 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                             </svg>
                           )}

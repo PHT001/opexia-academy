@@ -549,7 +549,7 @@ export default function PipelinePage() {
             <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
             <p className="text-xs text-[#6B7280]">Le pipeline est r&eacute;serv&eacute; aux abonn&eacute;s. Upgrade pour g&eacute;rer tes deals.</p>
           </div>
-          <a href="/#pricing" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+          <a href="/profile?tab=subscription" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
             Voir les offres
           </a>
         </div>
@@ -918,7 +918,7 @@ export default function PipelinePage() {
           <p className="text-xs text-gray-500 mb-5 max-w-sm">Commence à ajouter tes deals et prospects pour suivre ta progression commerciale en temps réel.</p>
           {isLocked ? (
             <a
-              href="/#pricing"
+              href="/profile?tab=subscription"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all pointer-events-auto"
             >
               Voir les offres &rarr;

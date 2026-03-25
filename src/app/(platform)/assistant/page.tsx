@@ -149,7 +149,7 @@ export default function AssistantPage() {
             <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
             <p className="text-xs text-[#6B7280]">L&apos;assistant IA est r&eacute;serv&eacute; aux abonn&eacute;s. Upgrade pour poser tes questions.</p>
           </div>
-          <a href="/#pricing" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+          <a href="/profile?tab=subscription" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
             Voir les offres
           </a>
         </div>
@@ -305,7 +305,7 @@ export default function AssistantPage() {
               <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-b-2xl">
                 <div className="flex items-center gap-3">
                   <p className="text-sm font-medium text-gray-500">Disponible avec un abonnement</p>
-                  <a href="/#pricing" className="rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+                  <a href="/profile?tab=subscription" className="rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
                     Voir les offres
                   </a>
                 </div>

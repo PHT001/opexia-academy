@@ -178,6 +178,16 @@ function IconGift({ className }: { className?: string }) {
   );
 }
 
+function IconOffers({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+      <path d="M2 17l10 5 10-5" />
+      <path d="M2 12l10 5 10-5" />
+    </svg>
+  );
+}
+
 function IconStreak({ className }: { className?: string }) {
   return (
     <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -275,6 +285,7 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     label: "Mon espace",
     items: [
       { href: "/profile", label: "Mon Profil", icon: IconProfile },
+      { href: "/profile?tab=subscription", label: "Mes offres", icon: IconOffers },
       { href: "/parrainage", label: "Parrainage", icon: IconGift },
     ],
   },
@@ -553,7 +564,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             <div className="mt-3 rounded-xl p-3 text-center" style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}>
               <p className="text-[12px] font-semibold text-white leading-snug mb-2">Débloque ta formation complète</p>
               <a
-                href="/#pricing"
+                href="/profile?tab=subscription"
                 className="inline-block text-[11px] font-bold text-white/90 hover:text-white bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-all"
               >
                 Voir les offres
