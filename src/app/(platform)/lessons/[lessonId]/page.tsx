@@ -79,7 +79,7 @@ export default function LessonPage() {
   const format = detectContentFormat(lesson.content);
   const isBlocks = format === "blocks";
   const showUpsell = lesson.order === 10 && !isAdmin;
-  const isStarterLastLesson = tier === "starter" && lesson.moduleOrder === 2 && !lesson.nextSlug;
+  const isStarterLastLesson = tier === "starter" && lesson.moduleOrder === 24 && !lesson.nextSlug;
 
   // Navigation footer
   const navigationFooter = (

@@ -558,11 +558,11 @@ export default function LessonsPage() {
                     <div>
                       <div className="flex items-center gap-3 mb-1">
                         <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", theme.accent)}>
-                          Phase {week.week}
+                          {week.week === 0 ? "Découverte" : `Phase ${week.week}`}
                         </span>
                         {weekAccessible ? (
                           <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full border", theme.accentBg, theme.accent, theme.border)}>
-                            {userTier === "free" ? "Gratuit" : userTier === "starter" && week.week === 1 ? "Starter" : "Academy"}
+                            {week.week === 0 ? "Starter" : userTier === "free" ? "Gratuit" : userTier === "starter" && week.week <= 1 ? "Starter" : "Academy"}
                           </span>
                         ) : userTier === "free" ? (
                           <span className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full border border-gray-200">
