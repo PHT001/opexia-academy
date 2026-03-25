@@ -842,33 +842,58 @@ export default function LessonsPage() {
           })}
         </div>
 
-        {/* ── CTA Starter: passe à Academy ── */}
-        {userTier === "starter" && (
-          <motion.div
-            className="mt-8 rounded-2xl overflow-hidden"
-            variants={sectionVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <div className="bg-gradient-to-br from-[#1A1A2E] to-[#0F0F1E] p-8 md:p-10 text-center">
-              <div className="text-3xl mb-3">🚀</div>
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
-                Prêt à débloquer tous les modules ?
-              </h3>
-              <p className="text-sm text-gray-400 mb-6 max-w-lg mx-auto leading-relaxed">
-                Tu as découvert le potentiel de l{"'"}IA. Passe à Academy pour accéder aux 22 modules complets : chatbots, sites, automatisations, vente et bien plus.
-              </p>
+        {/* ── CTA Starter: progression + teaser ── */}
+        {userTier === "starter" && (() => {
+          const starterModules = modules.filter((m) => [23, 24].includes(m.order));
+          const starterCompleted = starterModules.reduce((sum, m) => sum + m.lessons.filter((l) => l.status === "completed").length, 0);
+          const starterTotal = starterModules.reduce((sum, m) => sum + m.lessons.length, 0);
+          const starterPct = starterTotal > 0 ? Math.round((starterCompleted / starterTotal) * 100) : 0;
+          return (
+            <motion.div
+              className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm"
+              variants={sectionVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Ta progression Découverte</p>
+                  <p className="text-2xl font-bold text-[#111]">{starterCompleted}<span className="text-gray-300">/{starterTotal}</span> <span className="text-sm font-medium text-gray-400">leçons complétées</span></p>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-black text-[#FF1744]">{starterPct}%</span>
+                </div>
+              </div>
+              <div className="h-3 bg-gray-100 rounded-full overflow-hidden mb-6">
+                <div className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] transition-all duration-700" style={{ width: `${Math.max(starterPct, 2)}%` }} />
+              </div>
+              <div className="bg-gray-50 rounded-xl p-5 mb-6">
+                <p className="text-sm font-semibold text-[#111] mb-3">85 leçons t{"'"}attendent après Découverte :</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {[
+                    { label: "Chatbots IA", icon: "🤖" },
+                    { label: "Sites & Apps", icon: "🌐" },
+                    { label: "Automatisations", icon: "⚡" },
+                    { label: "Vente & Closing", icon: "💰" },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-2 text-xs text-gray-500 bg-white rounded-lg px-3 py-2.5 border border-gray-100">
+                      <span>{item.icon}</span>
+                      <span className="font-medium">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
               <Link
                 href="/offres"
-                className="inline-flex items-center gap-2 bg-[#FF1744] hover:bg-[#D50000] text-white rounded-xl px-8 py-3.5 text-sm font-bold transition-colors shadow-lg shadow-red-500/20"
+                className="flex items-center justify-center gap-2 w-full bg-[#1A1A2E] hover:bg-[#2D2D4E] text-white rounded-xl px-6 py-4 text-sm font-bold transition-colors"
               >
-                Rejoindre Academy — 497€
+                Débloquer les 85 leçons suivantes
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
               </Link>
-            </div>
-          </motion.div>
-        )}
+            </motion.div>
+          );
+        })()}
 
       </div>
 
