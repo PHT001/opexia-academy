@@ -548,34 +548,7 @@ export default function LessonsPage() {
             return (
               <motion.div key={week.week} variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }}>
 
-                {/* ── Upgrade CTA — shown once before first locked phase ── */}
-                {!weekAccessible && weekIdx === 1 && (
-                  <motion.div variants={cardVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="relative pl-14 md:pl-16 pb-6">
-                    <div className="absolute left-[12px] md:left-[16px] z-10 mt-6">
-                      <div className="w-[12px] h-[12px] rounded-full bg-[#FF1744] shadow-sm shadow-[#FF1744]/30" />
-                    </div>
-                    <div className="rounded-2xl border-2 border-[#FF1744]/20 bg-gradient-to-r from-red-50/80 to-white p-5 sm:p-6">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div>
-                          <p className="text-sm font-bold text-[#111] mb-1">
-                            Envie d{"'"}aller plus loin ?
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            D{"\u00e9"}couvre nos offres et d{"\u00e9"}bloque l{"'"}int{"\u00e9"}gralit{"\u00e9"} de la formation.
-                          </p>
-                        </div>
-                        <a
-                          href="/profile?tab=subscription"
-                          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white flex-shrink-0 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
-                          style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
-                        >
-                          D{"\u00e9"}couvrir nos offres
-                          <IconArrowRight className="w-4 h-4" />
-                        </a>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
+                {/* spacer removed — floating CTA below */}
 
                 {/* ── Week Header Node ── */}
                 <div className={cn("relative pl-14 md:pl-16 py-5", !weekAccessible && userTier !== "free" && "opacity-60")}>
@@ -868,37 +841,27 @@ export default function LessonsPage() {
           })}
         </div>
 
-        {/* ── Upgrade CTA for free users ── */}
-        {userTier === "free" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mt-10"
-          >
-            <div className="rounded-2xl border-2 border-[#FF1744]/20 bg-gradient-to-br from-red-50/80 via-white to-red-50/40 p-8 sm:p-10 text-center">
-              <div className="w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mx-auto mb-4">
-                <IconLock className="text-[#FF1744] w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-[#111] mb-2">
-                Tu veux acc{"\u00e9"}der {"\u00e0"} toute la formation ?
-              </h3>
-              <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto">
-                D{"\u00e9"}couvre nos offres et choisis celle qui te correspond pour d{"\u00e9"}bloquer tous les modules.
-              </p>
-              <a
-                href="/profile?tab=subscription"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
-                style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
-              >
-                D{"\u00e9"}couvrir nos offres
-                <IconArrowRight className="w-4 h-4" />
-              </a>
-            </div>
-          </motion.div>
-        )}
       </div>
+
+      {/* ── Floating sticky CTA for free users ── */}
+      {userTier === "free" && (
+        <div className="sticky bottom-6 z-50 flex justify-center pointer-events-none mt-6">
+          <motion.a
+            href="/profile?tab=subscription"
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 1, duration: 0.4, ease: "easeOut" }}
+            className="pointer-events-auto inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform"
+            style={{
+              background: "linear-gradient(135deg, #FF1744, #D50000)",
+              boxShadow: "0 8px 32px rgba(255,23,68,0.4), 0 2px 8px rgba(0,0,0,0.1)",
+            }}
+          >
+            D{"\u00e9"}couvrir nos offres
+            <IconArrowRight className="w-4 h-4" />
+          </motion.a>
+        </div>
+      )}
 
       {/* ══ Lesson Reader Panel ══ */}
       <AnimatePresence>
