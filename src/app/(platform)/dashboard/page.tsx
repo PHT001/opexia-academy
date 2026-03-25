@@ -522,7 +522,7 @@ export default function DashboardPage() {
                 </p>
               </div>
               <a
-                href="/profile?tab=subscription"
+                href="/offres"
                 className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#E01440] transition-colors shadow-md shadow-red-200 whitespace-nowrap"
               >
                 D&eacute;bloquer la formation

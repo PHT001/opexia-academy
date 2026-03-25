@@ -107,7 +107,7 @@ export default function ParrainagePage() {
             </div>
             <h3 className="text-xl font-bold text-[#111] mb-2">Programme Partenaire</h3>
             <p className="text-sm text-[#6B7280] mb-6">Recommande Opexia et gagne jusqu&apos;à 20% de commission. Disponible avec un abonnement.</p>
-            <a href="/profile?tab=subscription" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
+            <a href="/offres" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
               Voir les offres &rarr;
             </a>
           </div>

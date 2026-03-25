@@ -50,7 +50,7 @@ export default function UpgradeOverlay({
           <p className="text-[#6B7280] mb-8">{featureDescription}</p>
 
           <Link
-            href="/profile?tab=subscription"
+            href="/offres"
             className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white transition-all hover:shadow-lg"
             style={{
               background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",

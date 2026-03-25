@@ -210,7 +210,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
             </Link>
             {hasFinishedFree && (
               <Link
-                href="/profile?tab=subscription"
+                href="/offres"
                 className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white/80 bg-white/10 hover:bg-white/15 transition-colors"
               >
                 D\u00e9couvrir nos offres
@@ -355,7 +355,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
                 D{"\u00e9"}couvre nos offres pour acc{"\u00e9"}der aux 22 modules et continuer ta progression.
               </p>
               <Link
-                href="/profile?tab=subscription"
+                href="/offres"
                 className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold bg-white text-[#FF1744] hover:bg-gray-50 transition-colors shadow-lg"
               >
                 D{"\u00e9"}couvrir nos offres

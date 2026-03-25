@@ -218,7 +218,7 @@ export default function CongratulationsPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/profile?tab=subscription" glow>
+              <Button href="/offres" glow>
                 Découvrir le One-to-One
               </Button>
               <Button href="/dashboard" variant="secondary">

@@ -283,7 +283,7 @@ function StudentView({
               Soumets tes projets MVP et re{"\u00e7"}ois des retours de l{"\u2019"}{"\u00e9"}quipe en passant {"\u00e0"} une offre payante.
             </p>
             <a
-              href="/profile?tab=subscription"
+              href="/offres"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:scale-[1.02]"
               style={{ background: "linear-gradient(135deg, #FF1744, #D50000)" }}
             >

@@ -114,7 +114,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
               </p>
               <div className="flex items-center gap-2 shrink-0">
                 <Link
-                  href="/profile?tab=subscription"
+                  href="/offres"
                   className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold bg-[#FF1744] text-white hover:bg-[#D50000] transition-colors shadow-sm"
                 >
                   Voir les offres

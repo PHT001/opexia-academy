@@ -126,7 +126,7 @@ export default function MasterclassPage() {
             </div>
             <h3 className="text-xl font-bold text-[#111] mb-2">Masterclass exclusives</h3>
             <p className="text-sm text-[#6B7280] mb-6">Acc{"\u00e8"}de aux masterclass vid{"\u00e9"}o et sessions live pour d{"\u00e9"}velopper ton agence IA.</p>
-            <a href="/profile?tab=subscription" className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:scale-[1.02]" style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}>
+            <a href="/offres" className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:scale-[1.02]" style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}>
               D{"\u00e9"}couvrir nos offres <span>{"\u2192"}</span>
             </a>
           </div>
