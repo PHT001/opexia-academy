@@ -145,12 +145,6 @@ export default function Hero() {
                 <span className="h-2 w-2 rounded-full bg-[#FF1744] animate-pulse" />
                 La comp&eacute;tence qui va valoir de l&apos;or en 2026
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1.5 text-sm font-medium text-emerald-700">
-                <svg className="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                Aucune comp&eacute;tence technique requise
-              </span>
             </div>
           </motion.div>
 

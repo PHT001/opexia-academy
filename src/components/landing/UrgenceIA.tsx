@@ -240,7 +240,13 @@ export default function UrgenceIA() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1.5 text-sm font-medium text-emerald-700 mb-4">
+              <svg className="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              Aucune comp&eacute;tence technique requise
+            </span>
+            <span className="block text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
               L&apos;opportunit&eacute;
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[44px] font-bold text-gray-900 leading-[1.15] mb-6">
