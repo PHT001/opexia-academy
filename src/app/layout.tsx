@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, Outfit, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "@/components/providers/SessionProvider";
-import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -103,7 +102,6 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-dm), system-ui, sans-serif" }}
       >
         <SessionProvider>{children}</SessionProvider>
-        <CookieBanner />
       </body>
     </html>
   );

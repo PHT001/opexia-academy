@@ -57,10 +57,10 @@ export default function FoundersFormation() {
           {/* Personal message */}
           <div className="text-left space-y-4 text-[#6B7280] leading-relaxed">
             <p>
-              Cette formation est n&eacute;e d&apos;un constat simple&nbsp;: trop de professionnels passent &agrave; c&ocirc;t&eacute; des <strong className="text-[#111]">opportunit&eacute;s offertes par l&apos;IA</strong>, faute d&apos;un accompagnement adapt&eacute;. Forts de notre exp&eacute;rience aupr&egrave;s de <strong className="text-[#111]">plus de 200&nbsp;entreprises</strong> dans leur transformation digitale, nous avons structur&eacute; l&apos;ensemble de notre expertise en un programme complet.
+              Trop de professionnels passent &agrave; c&ocirc;t&eacute; des <strong className="text-[#111]">opportunit&eacute;s de l&apos;IA</strong>, faute d&apos;accompagnement.
             </p>
             <p>
-              Notre approche est <strong className="text-[#111]">100&nbsp;% pratique</strong>&nbsp;: des <strong className="text-[#111]">cas concrets</strong>, des m&eacute;thodes &eacute;prouv&eacute;es et un cadre p&eacute;dagogique con&ccedil;u pour vous permettre de <strong className="text-[#111]">lancer votre agence IA</strong> ou d&apos;<strong className="text-[#111]">acc&eacute;l&eacute;rer votre carri&egrave;re</strong> gr&acirc;ce &agrave; l&apos;intelligence artificielle.
+              On a structur&eacute; notre expertise terrain en un programme <strong className="text-[#111]">100&nbsp;% pratique</strong>&nbsp;: cas concrets et m&eacute;thodes &eacute;prouv&eacute;es pour <strong className="text-[#111]">lancer votre agence IA</strong>.
             </p>
           </div>
         </motion.div>
