@@ -14,7 +14,7 @@ export default function WindowClosing() {
   return (
     <section className="relative py-16 lg:py-24 bg-[#0A0A0A] overflow-hidden">
       {/* Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#FF1744]/5 rounded-full blur-[120px]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#FF1744]/5 rounded-full blur-[80px] will-change-transform" />
 
       <div className="relative mx-auto max-w-3xl px-6 lg:px-8">
         <motion.div
@@ -42,9 +42,9 @@ export default function WindowClosing() {
                 key={item.year}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="relative flex items-start gap-6 py-5"
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.08, duration: 0.4, ease: "easeOut" }}
+                className="relative flex items-start gap-6 py-5 will-change-transform"
               >
                 {/* Dot */}
                 <div className={`relative z-10 flex-shrink-0 w-[45px] flex justify-center`}>

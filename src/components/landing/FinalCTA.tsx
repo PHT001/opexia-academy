@@ -6,7 +6,7 @@ export default function FinalCTA() {
   return (
     <section className="relative py-16 lg:py-20 bg-[#0A0A0A] overflow-hidden">
       {/* Glow effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#FF1744]/8 rounded-full blur-[150px]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#FF1744]/8 rounded-full blur-[80px] will-change-transform" />
 
       <div className="relative mx-auto max-w-4xl px-6 lg:px-8 text-center">
         <motion.div

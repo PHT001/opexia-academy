@@ -119,6 +119,14 @@ export default function Navbar() {
             )}
           </div>
 
+          {/* Mobile login link */}
+          <Link
+            href="/login"
+            className="md:hidden text-xs font-medium text-white/80 hover:text-white transition-colors"
+          >
+            Se connecter
+          </Link>
+
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
