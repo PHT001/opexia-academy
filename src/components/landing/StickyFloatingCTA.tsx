@@ -8,7 +8,7 @@ export default function StickyFloatingCTA() {
 
   useEffect(() => {
     const onScroll = () => {
-      setShow(window.scrollY > 800);
+      setShow(window.scrollY > 300);
     };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
