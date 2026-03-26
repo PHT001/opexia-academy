@@ -343,17 +343,6 @@ export default function UrgenceIA() {
               ))}
             </div>
 
-            <div className="text-center mt-8">
-              <a
-                href="/register"
-                className="inline-flex items-center gap-2 rounded-full bg-[#FF1744] px-7 py-3.5 text-sm font-semibold text-white hover:bg-[#D50000] transition-all hover:shadow-xl hover:shadow-red-900/30"
-              >
-                Tester gratuitement
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            </div>
           </div>
         </motion.div>
       </div>

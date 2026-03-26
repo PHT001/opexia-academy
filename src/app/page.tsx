@@ -16,7 +16,6 @@ import MiniPricingFAQ from "@/components/landing/MiniPricingFAQ";
 import FAQ from "@/components/landing/FAQ";
 import FinalCTA from "@/components/landing/FinalCTA";
 import Footer from "@/components/landing/Footer";
-import StickyFloatingCTA from "@/components/landing/StickyFloatingCTA";
 import Chatbot from "@/components/landing/Chatbot";
 import SaleNotification from "@/components/landing/SaleNotification";
 
@@ -100,7 +99,6 @@ export default async function Home() {
       <FAQ />
       <FinalCTA />
       <Footer />
-      <StickyFloatingCTA />
       <Chatbot />
       <SaleNotification />
     </>
