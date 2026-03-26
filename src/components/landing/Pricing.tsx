@@ -377,15 +377,9 @@ export default function Pricing() {
             </svg>
             <span className="text-sm font-medium">
               {"Garantie satisfait ou rembours\u00e9 \u2014 14 jours"}
-              <span className="text-[#FF1744]">*</span>
             </span>
           </div>
         </motion.div>
-
-        <p className="text-center text-xs text-[#9CA3AF] mt-6 max-w-lg mx-auto">
-          *Conditions : avoir suivi au moins 50% de la formation et r&eacute;alis&eacute; un appel bilan avec l&apos;&eacute;quipe.
-          D&eacute;tails dans nos <a href="/cgu" className="underline hover:text-[#6B7280]">CGU</a>.
-        </p>
 
       </div>
     </section>

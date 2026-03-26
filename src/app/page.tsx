@@ -50,9 +50,6 @@ export default async function Home() {
       {/* Reassurance Section */}
       <section className="py-12 lg:py-16 bg-[#FAFAFA]">
         <div className="mx-auto max-w-5xl px-6 lg:px-8">
-          <p className="text-center text-sm font-semibold text-[#6B7280] mb-6">
-            Rejoint par <span className="text-[#FF1744] font-bold text-base">+{socialProofCount} &eacute;tudiants form&eacute;s</span>
-          </p>
           <div className="grid md:grid-cols-3 gap-6">
             {/* Card 1 */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6 text-center">
