@@ -324,12 +324,6 @@ export default function Hero() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
-              <a
-                href="#pricing"
-                className="relative z-10 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-3 sm:px-6 sm:py-4 text-sm font-medium text-[#111] transition-all hover:border-[#FF1744] hover:text-[#FF1744] whitespace-nowrap"
-              >
-                Voir les tarifs
-              </a>
             </div>
 
             <a href="#testimonials" className="text-[#6B7280] text-sm font-medium hover:text-[#111] transition-colors flex items-center gap-1.5">
