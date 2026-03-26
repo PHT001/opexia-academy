@@ -292,9 +292,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-row items-center justify-center gap-3"
+            className="flex flex-col items-center justify-center gap-3"
           >
-            <div className="relative flex items-center justify-center mt-6">
+            <div className="relative flex flex-wrap items-center justify-center gap-3 mt-6">
               {/* Floating robot video behind the button */}
               <motion.div
                 className="absolute -top-16 lg:-top-20 z-0 w-36 h-36 lg:w-44 lg:h-44 pointer-events-none"
