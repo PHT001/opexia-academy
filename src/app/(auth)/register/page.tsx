@@ -52,7 +52,7 @@ function RegisterForm() {
       }
 
       await signIn("credentials", { email, password, redirect: false });
-      router.push("/offres");
+      router.push("/verify-email");
       router.refresh();
     } catch {
       setError("Erreur serveur");
