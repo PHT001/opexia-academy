@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Create Stripe Checkout session
-    const origin = req.headers.get("origin") || "http://localhost:3000";
+    const origin = req.headers.get("origin") || process.env.NEXTAUTH_URL || "http://localhost:3000";
 
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
-    console.error("POST /api/coaching/checkout error:", error);
+    console.error("POST /api/coaching/checkout error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

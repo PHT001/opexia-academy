@@ -76,7 +76,7 @@ export async function GET() {
   const isAdmin = session.user.role === "admin";
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { onboardingCompleted: true },
+    select: { onboardingCompleted: true, emailVerified: true, discountCode: true, discountPercent: true, discountExpiresAt: true },
   });
   const onboardingCompleted = user?.onboardingCompleted ?? true;
 
@@ -155,6 +155,7 @@ export async function GET() {
     xp,
     tier,
     onboardingCompleted,
+    emailVerified: user?.emailVerified ?? false,
     recentActivity: recentActivityTop5,
     quizzesCompleted,
     averageScore,
@@ -168,6 +169,9 @@ export async function GET() {
       totalLessons: m.lessons.length,
       completedLessons: m.lessons.filter((l) => l.progress[0]?.status === "completed").length,
     })),
+    discountCode: user?.discountCode ?? null,
+    discountPercent: user?.discountPercent ?? null,
+    discountExpiresAt: user?.discountExpiresAt ? new Date(user.discountExpiresAt).toISOString() : null,
   });
   } catch (error) {
     console.error("GET /api/progress error:", error);

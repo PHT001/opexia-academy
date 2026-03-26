@@ -95,7 +95,7 @@ export default function Program() {
             6 phases pour tout changer
           </h2>
           <p className="mt-4 text-lg text-[#6B7280] max-w-2xl mx-auto">
-            130+ le\u00e7ons, 22 modules \u2014 du d\u00e9butant complet au freelance IA rentable
+            91 le\u00e7ons, 22 modules \u2014 du d\u00e9butant complet au freelance IA rentable
           </p>
         </motion.div>
 

@@ -55,7 +55,7 @@ const plans: Plan[] = [
     description: "Pour d\u00e9couvrir le monde de l\u2019IA",
     popular: false,
     features: [
-      "Module 1 complet (8 le\u00e7ons)",
+      "2 modules D\u00e9couverte (6 le\u00e7ons)",
       "Quiz de validation",
       "Acc\u00e8s Discord communautaire",
       "Checklist de d\u00e9marrage",
@@ -77,7 +77,7 @@ const plans: Plan[] = [
     popular: true,
     features: [
       "Tout le pack Starter",
-      "130+ le\u00e7ons vid\u00e9o & texte",
+      "91 le\u00e7ons vid\u00e9o & texte",
       "Quiz & exercices pratiques",
       "Assistant IA int\u00e9gr\u00e9",
       "Plateforme compl\u00e8te",
@@ -250,6 +250,12 @@ export default function Pricing() {
                   <span className="text-lg font-medium text-[#6B7280]">{"\u20AC"}</span>
                 </div>
                 {plan.period && <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>}
+                {plan.slug === "academy" && (
+                  <p className="text-sm text-gray-400 mt-1">ou 3 × 166€/mois</p>
+                )}
+                {plan.slug === "one_to_one" && (
+                  <p className="text-sm text-gray-400 mt-1">ou 3 × 833€/mois</p>
+                )}
               </div>
 
               {plan.slug === "free" ? (
@@ -370,10 +376,16 @@ export default function Pricing() {
               />
             </svg>
             <span className="text-sm font-medium">
-              {"Satisfait ou rembours\u00e9 \u2014 14 jours, sans condition"}
+              {"Garantie satisfait ou rembours\u00e9 \u2014 14 jours"}
+              <span className="text-[#FF1744]">*</span>
             </span>
           </div>
         </motion.div>
+
+        <p className="text-center text-xs text-[#9CA3AF] mt-6 max-w-lg mx-auto">
+          *Conditions : avoir suivi au moins 50% de la formation et r&eacute;alis&eacute; un appel bilan avec l&apos;&eacute;quipe.
+          D&eacute;tails dans nos <a href="/cgu" className="underline hover:text-[#6B7280]">CGU</a>.
+        </p>
 
       </div>
     </section>

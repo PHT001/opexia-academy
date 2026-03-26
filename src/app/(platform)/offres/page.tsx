@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 
 const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
@@ -20,14 +20,14 @@ const plans: Plan[] = [
   {
     name: "Starter", slug: "starter", price: "47", oldPrice: "97", period: "paiement unique",
     description: "Pour d\u00e9couvrir le monde de l\u2019IA", popular: false,
-    features: ["Module 1 complet (8 le\u00e7ons)", "Quiz de validation", "Acc\u00e8s Discord communautaire", "Checklist de d\u00e9marrage"],
+    features: ["2 modules D\u00e9couverte (6 le\u00e7ons)", "Quiz de validation", "Acc\u00e8s Discord communautaire", "Checklist de d\u00e9marrage"],
     notIncluded: ["Acc\u00e8s plateforme de cours", "Assistant IA int\u00e9gr\u00e9", "Visios individuelles"],
     cta: "Obtenir le Starter \u2014 47\u20ac",
   },
   {
     name: "Academy", slug: "academy", price: "497", oldPrice: "897", period: "paiement en plusieurs fois possible",
     description: "La formation compl\u00e8te pour lancer ton agence IA", popular: true,
-    features: ["Tout le pack Starter", "130+ le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Gamification (XP, streaks, badges)", "Programme de parrainage"],
+    features: ["Tout le pack Starter", "91 le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Gamification (XP, streaks, badges)", "Programme de parrainage"],
     notIncluded: ["Visios individuelles"],
     cta: "Rejoindre l\u2019Academy \u2014 497\u20ac",
   },
@@ -40,23 +40,98 @@ const plans: Plan[] = [
   },
 ];
 
+function DiscountCountdown({ expiresAt }: { expiresAt: string }) {
+  const calculateTimeLeft = useCallback(() => {
+    const diff = new Date(expiresAt).getTime() - Date.now();
+    if (diff <= 0) return null;
+    return {
+      hours: Math.floor(diff / (1000 * 60 * 60)),
+      minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+      seconds: Math.floor((diff % (1000 * 60)) / 1000),
+    };
+  }, [expiresAt]);
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const tl = calculateTimeLeft();
+      if (!tl) { setTimeLeft(null); clearInterval(interval); }
+      else setTimeLeft(tl);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [calculateTimeLeft]);
+
+  if (!timeLeft) return null;
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    <div className="flex items-center justify-center gap-2">
+      {[
+        { value: pad(timeLeft.hours), label: "h" },
+        { value: pad(timeLeft.minutes), label: "m" },
+        { value: pad(timeLeft.seconds), label: "s" },
+      ].map((unit) => (
+        <div key={unit.label} className="flex items-center gap-1">
+          <span className="inline-block bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1.5 text-white font-mono text-lg font-bold">
+            {unit.value}
+          </span>
+          <span className="text-white/70 text-xs font-medium">{unit.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function OffresPage() {
+  return (
+    <Suspense fallback={null}>
+      <OffresContent />
+    </Suspense>
+  );
+}
+
+function OffresContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const codeParam = searchParams.get("code");
   const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
   const [userTier, setUserTier] = useState("free");
   const [loading, setLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+  const [discount, setDiscount] = useState<{
+    code: string;
+    percent: number;
+    expiresAt: string;
+  } | null>(null);
 
   useEffect(() => {
-    fetch("/api/progress").then((r) => r.json()).then((d) => { if (d?.tier) setUserTier(d.tier); }).catch(() => {});
-  }, []);
+    fetch("/api/progress").then((r) => r.json()).then((d) => {
+      if (d?.tier) setUserTier(d.tier);
+      if (
+        d?.discountCode &&
+        d?.discountPercent &&
+        d?.discountExpiresAt &&
+        new Date(d.discountExpiresAt).getTime() > Date.now() &&
+        (!codeParam || codeParam === d.discountCode)
+      ) {
+        setDiscount({
+          code: d.discountCode,
+          percent: d.discountPercent,
+          expiresAt: d.discountExpiresAt,
+        });
+      }
+    }).catch(() => {});
+  }, [codeParam]);
 
   const effectiveTier = previewTier || userTier;
 
   async function handleCheckout(slug: string) {
     setLoading(slug);
     try {
-      const res = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plan: slug }) });
+      const payload: { plan: string; coupon?: string } = { plan: slug };
+      if (discount) payload.coupon = discount.code;
+      const res = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const data = await res.json();
       if (!res.ok) {
         if (res.status === 401) { router.push("/login?redirect=checkout&plan=" + slug); return; }
@@ -67,8 +142,37 @@ export default function OffresPage() {
     finally { setLoading(null); }
   }
 
+  function getDiscountedPrice(originalPrice: string): string {
+    if (!discount) return originalPrice;
+    const num = parseInt(originalPrice.replace(/\s/g, "").replace(/\u00A0/g, ""), 10);
+    if (isNaN(num)) return originalPrice;
+    const discounted = Math.round(num * (1 - discount.percent / 100));
+    return discounted.toLocaleString("fr-FR");
+  }
+
   return (
     <div className="max-w-5xl mx-auto w-full py-6">
+      {/* Discount Banner */}
+      {discount && (
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-2xl p-5 sm:p-6 text-center mb-6"
+          style={{ background: "linear-gradient(135deg, #FF1744 0%, #FF6D00 100%)" }}
+        >
+          <p className="text-white/90 text-xs font-semibold uppercase tracking-widest mb-1">Offre limit&eacute;e</p>
+          <p className="text-white text-xl sm:text-2xl font-black mb-2">
+            -{discount.percent}% sur toute la formation
+          </p>
+          <div className="mb-3">
+            <DiscountCountdown expiresAt={discount.expiresAt} />
+          </div>
+          <p className="text-white/80 text-sm">
+            Code : <span className="font-bold text-white">{discount.code}</span> &mdash; appliqu&eacute; automatiquement
+          </p>
+        </motion.div>
+      )}
+
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl overflow-hidden mb-10" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
         <div className="relative p-6 sm:p-8">
@@ -133,11 +237,27 @@ export default function OffresPage() {
                 <h3 className="text-lg font-bold text-[#111]">{plan.name}</h3>
                 <p className="text-sm text-[#6B7280] mt-1">{plan.description}</p>
                 <div className="mt-6 flex items-baseline gap-2">
-                  {plan.oldPrice && <span className="text-lg font-medium text-[#6B7280] line-through">{plan.oldPrice}{"\u20ac"}</span>}
-                  <span className="text-5xl font-black tracking-tight text-[#111]">{plan.price}</span>
-                  <span className="text-lg font-medium text-[#6B7280]">{"\u20ac"}</span>
+                  {discount && !plan.external ? (
+                    <>
+                      <span className="text-lg font-medium text-[#6B7280] line-through">{plan.price}{"\u20ac"}</span>
+                      <span className="text-5xl font-black tracking-tight text-[#FF1744]">{getDiscountedPrice(plan.price)}</span>
+                      <span className="text-lg font-medium text-[#6B7280]">{"\u20ac"}</span>
+                    </>
+                  ) : (
+                    <>
+                      {plan.oldPrice && <span className="text-lg font-medium text-[#6B7280] line-through">{plan.oldPrice}{"\u20ac"}</span>}
+                      <span className="text-5xl font-black tracking-tight text-[#111]">{plan.price}</span>
+                      <span className="text-lg font-medium text-[#6B7280]">{"\u20ac"}</span>
+                    </>
+                  )}
                 </div>
                 {plan.period && <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>}
+                {plan.slug === "academy" && (
+                  <p className="text-sm text-gray-400 mt-1">ou 3 × 166€/mois</p>
+                )}
+                {plan.slug === "one_to_one" && (
+                  <p className="text-sm text-gray-400 mt-1">ou 3 × 833€/mois</p>
+                )}
               </div>
 
               {/* CTA */}
@@ -152,7 +272,7 @@ export default function OffresPage() {
                 </a>
               ) : (
                 <button onClick={() => handleCheckout(plan.slug)} disabled={loading === plan.slug} className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${plan.popular ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200" : "bg-[#111] text-white hover:bg-[#333]"}`}>
-                  {loading === plan.slug ? "Redirection..." : plan.cta}
+                  {loading === plan.slug ? "Redirection..." : discount ? `${plan.name} \u2014 ${getDiscountedPrice(plan.price)}\u20ac` : plan.cta}
                 </button>
               )}
 

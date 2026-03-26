@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { MODULE_METADATA, WEEKS, TIER_MODULE_ACCESS } from "@/lib/constants";
@@ -236,7 +237,7 @@ function LessonReaderPanel({
             </span>
             Exercice pratique
           </h3>
-          <div className="text-sm text-[#374151] leading-relaxed block-text" dangerouslySetInnerHTML={{ __html: lesson.exercise }} />
+          <div className="text-sm text-[#374151] leading-relaxed block-text" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(lesson.exercise) }} />
         </div>
       )}
 
@@ -553,7 +554,7 @@ export default function LessonsPage() {
                 {/* spacer removed — floating CTA below */}
 
                 {/* ── Week Header Node ── */}
-                <div className={cn("relative pl-14 md:pl-16 py-5", !weekAccessible && userTier !== "free" && "opacity-60")}>
+                <div className={cn("relative pl-14 md:pl-16 py-5")}>
                   {/* Big dot */}
                   <div className={cn("absolute left-2.5 md:left-3 w-[22px] h-[22px] rounded-full border-4 border-white shadow-sm z-10", theme.bar)} />
                   <div className="flex items-center justify-between gap-4">
@@ -838,6 +839,7 @@ export default function LessonsPage() {
                   );
                 })}
 
+
               </motion.div>
             );
           })}
@@ -898,21 +900,22 @@ export default function LessonsPage() {
 
       </div>
 
-      {/* ── Floating sticky CTA for free users ── */}
-      {userTier === "free" && (
-        <div className="sticky bottom-6 z-50 flex justify-center pointer-events-none mt-6">
+      {/* ── Floating fixed CTA for non-academy users ── */}
+      {(userTier === "free" || userTier === "starter") && (
+        <div className="fixed bottom-6 left-0 right-0 lg:left-[260px] z-50 flex justify-center pointer-events-none">
           <motion.a
             href="/offres"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 1, duration: 0.4, ease: "easeOut" }}
-            className="pointer-events-auto inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform"
+            className="pointer-events-auto inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform"
             style={{
               background: "linear-gradient(135deg, #FF1744, #D50000)",
               boxShadow: "0 8px 32px rgba(255,23,68,0.4), 0 2px 8px rgba(0,0,0,0.1)",
             }}
           >
-            D{"\u00e9"}couvrir nos offres
+            <IconLock className="w-4 h-4 opacity-80" />
+            D{"é"}bloquer tous les modules
             <IconArrowRight className="w-4 h-4" />
           </motion.a>
         </div>

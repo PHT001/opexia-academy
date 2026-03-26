@@ -8,6 +8,11 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 export async function GET(req: NextRequest) {
+  // Verify CRON_SECRET is set and strong enough
+  if (!process.env.CRON_SECRET || process.env.CRON_SECRET.length < 32) {
+    return NextResponse.json({ error: "CRON_SECRET is not configured or too short" }, { status: 500 });
+  }
+
   // Verify cron secret
   const authHeader = req.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -164,6 +169,19 @@ export async function GET(req: NextRequest) {
         });
 
         sent++;
+        try {
+          await prisma.emailLog.create({
+            data: {
+              userId: user.id,
+              type: "weekly_recap",
+              sequence: null,
+              subject: emailData.subject,
+              status: "sent",
+            },
+          });
+        } catch (logErr) {
+          console.error(`Failed to log weekly recap email for ${user.email}:`, logErr instanceof Error ? logErr.message : logErr);
+        }
       } catch (err) {
         console.error(
           `Failed to send weekly recap to ${user.email}:`,

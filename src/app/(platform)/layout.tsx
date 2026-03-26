@@ -12,6 +12,19 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter" });
   const [freeBannerDismissed, setFreeBannerDismissed] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(true);
+  const [emailBannerDismissed, setEmailBannerDismissed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const dismissed = localStorage.getItem("opexia-email-banner-dismissed");
+    if (!dismissed) return false;
+    // Check if 24h have passed since dismissal
+    const dismissedAt = parseInt(dismissed, 10);
+    if (Date.now() - dismissedAt > 24 * 60 * 60 * 1000) {
+      localStorage.removeItem("opexia-email-banner-dismissed");
+      return false;
+    }
+    return true;
+  });
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("opexia-dark-mode") === "true";
@@ -52,6 +65,9 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       .then((data) => {
         if (data?.xp !== undefined) {
           setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "starter" });
+        }
+        if (data?.emailVerified !== undefined) {
+          setEmailVerified(data.emailVerified);
         }
         // Show onboarding if user has enrollment but hasn't completed onboarding
         if (data?.tier && data?.onboardingCompleted === false) {
@@ -123,6 +139,41 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
                 <button
                   onClick={() => setFreeBannerDismissed(true)}
                   className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                  aria-label="Fermer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Email verification soft reminder */}
+        {!emailVerified && !emailBannerDismissed && (
+          <div className="bg-amber-50 border-b border-amber-200/60">
+            <div className="flex items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 xl:px-10 py-2.5">
+              <div className="flex items-center gap-2 min-w-0">
+                <svg className="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+                <p className="text-sm text-amber-800">
+                  V&eacute;rifie ton email pour s&eacute;curiser ton compte
+                </p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Link
+                  href="/verify-email"
+                  className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold bg-amber-500 text-white hover:bg-amber-600 transition-colors shadow-sm"
+                >
+                  V&eacute;rifier
+                </Link>
+                <button
+                  onClick={() => {
+                    setEmailBannerDismissed(true);
+                    localStorage.setItem("opexia-email-banner-dismissed", Date.now().toString());
+                  }}
+                  className="p-1 text-amber-400 hover:text-amber-600 transition-colors"
                   aria-label="Fermer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

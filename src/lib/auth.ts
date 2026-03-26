@@ -25,17 +25,6 @@ providers.push(
     async authorize(credentials) {
       if (!credentials?.email || !credentials?.password) return null;
 
-      // DEV BYPASS — skip DB lookup in development
-      if (process.env.NODE_ENV === "development") {
-        return {
-          id: "dev-admin",
-          email: credentials.email,
-          name: "Admin Opexia",
-          role: "admin",
-          createdAt: new Date().toISOString(),
-        };
-      }
-
       const user = await prisma.user.findUnique({
         where: { email: credentials.email },
       });

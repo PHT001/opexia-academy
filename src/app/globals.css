@@ -118,13 +118,14 @@ body {
 
 /* Dark mode overrides for platform content */
 .theme-dark .bg-white { background-color: #161616 !important; }
-.theme-dark .bg-\[#F8F9FA\] { background-color: #0A0A0A !important; }
-.theme-dark .bg-\[#f8f9fb\] { background-color: #1A1A1A !important; }
+.theme-dark [class*="bg-[#F8F9FA]"] { background-color: #0A0A0A !important; }
+.theme-dark [class*="bg-[#f8f9fb]"] { background-color: #1A1A1A !important; }
 .theme-dark .bg-gray-50 { background-color: #1A1A1A !important; }
 .theme-dark .bg-gray-100 { background-color: #1E1E1E !important; }
 .theme-dark .border-gray-200 { border-color: rgba(255,255,255,0.08) !important; }
 .theme-dark .border-gray-100 { border-color: rgba(255,255,255,0.05) !important; }
-.theme-dark .text-\[#111\] { color: rgba(255,255,255,0.92) !important; }
+.theme-dark .border-gray-50 { border-color: rgba(255,255,255,0.04) !important; }
+.theme-dark [class*="text-[#111]"] { color: rgba(255,255,255,0.92) !important; }
 /* text-[#111111] covered by text-[#111] rule above */
 .theme-dark .text-gray-500 { color: rgba(255,255,255,0.5) !important; }
 .theme-dark .text-gray-400 { color: rgba(255,255,255,0.35) !important; }

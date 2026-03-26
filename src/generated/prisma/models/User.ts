@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  discountPercent: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  discountPercent: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -37,9 +47,14 @@ export type UserMinAggregateOutputType = {
   age: string | null
   profession: string | null
   onboardingCompleted: boolean | null
+  adminNotes: string | null
+  isBot: boolean | null
   referralCode: string | null
   resetToken: string | null
   resetTokenExpiry: Date | null
+  discountCode: string | null
+  discountPercent: number | null
+  discountExpiresAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -57,9 +72,14 @@ export type UserMaxAggregateOutputType = {
   age: string | null
   profession: string | null
   onboardingCompleted: boolean | null
+  adminNotes: string | null
+  isBot: boolean | null
   referralCode: string | null
   resetToken: string | null
   resetTokenExpiry: Date | null
+  discountCode: string | null
+  discountPercent: number | null
+  discountExpiresAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -77,14 +97,27 @@ export type UserCountAggregateOutputType = {
   age: number
   profession: number
   onboardingCompleted: number
+  adminNotes: number
+  isBot: number
   referralCode: number
   resetToken: number
   resetTokenExpiry: number
+  discountCode: number
+  discountPercent: number
+  discountExpiresAt: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  discountPercent?: true
+}
+
+export type UserSumAggregateInputType = {
+  discountPercent?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -99,9 +132,14 @@ export type UserMinAggregateInputType = {
   age?: true
   profession?: true
   onboardingCompleted?: true
+  adminNotes?: true
+  isBot?: true
   referralCode?: true
   resetToken?: true
   resetTokenExpiry?: true
+  discountCode?: true
+  discountPercent?: true
+  discountExpiresAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -119,9 +157,14 @@ export type UserMaxAggregateInputType = {
   age?: true
   profession?: true
   onboardingCompleted?: true
+  adminNotes?: true
+  isBot?: true
   referralCode?: true
   resetToken?: true
   resetTokenExpiry?: true
+  discountCode?: true
+  discountPercent?: true
+  discountExpiresAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -139,9 +182,14 @@ export type UserCountAggregateInputType = {
   age?: true
   profession?: true
   onboardingCompleted?: true
+  adminNotes?: true
+  isBot?: true
   referralCode?: true
   resetToken?: true
   resetTokenExpiry?: true
+  discountCode?: true
+  discountPercent?: true
+  discountExpiresAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -185,6 +233,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -215,6 +275,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -232,12 +294,19 @@ export type UserGroupByOutputType = {
   age: string | null
   profession: string | null
   onboardingCompleted: boolean
+  adminNotes: string | null
+  isBot: boolean
   referralCode: string | null
   resetToken: string | null
   resetTokenExpiry: Date | null
+  discountCode: string | null
+  discountPercent: number | null
+  discountExpiresAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -273,9 +342,14 @@ export type UserWhereInput = {
   age?: Prisma.StringNullableFilter<"User"> | string | null
   profession?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
+  adminNotes?: Prisma.StringNullableFilter<"User"> | string | null
+  isBot?: Prisma.BoolFilter<"User"> | boolean
   referralCode?: Prisma.StringNullableFilter<"User"> | string | null
   resetToken?: Prisma.StringNullableFilter<"User"> | string | null
   resetTokenExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  discountCode?: Prisma.StringNullableFilter<"User"> | string | null
+  discountPercent?: Prisma.IntNullableFilter<"User"> | number | null
+  discountExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   progress?: Prisma.LessonProgressListRelationFilter
@@ -288,6 +362,7 @@ export type UserWhereInput = {
   deals?: Prisma.PipelineDealListRelationFilter
   notes?: Prisma.NoteListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
+  emailLogs?: Prisma.EmailLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -303,9 +378,14 @@ export type UserOrderByWithRelationInput = {
   age?: Prisma.SortOrderInput | Prisma.SortOrder
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  isBot?: Prisma.SortOrder
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   resetToken?: Prisma.SortOrderInput | Prisma.SortOrder
   resetTokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountPercent?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   progress?: Prisma.LessonProgressOrderByRelationAggregateInput
@@ -318,6 +398,7 @@ export type UserOrderByWithRelationInput = {
   deals?: Prisma.PipelineDealOrderByRelationAggregateInput
   notes?: Prisma.NoteOrderByRelationAggregateInput
   projects?: Prisma.ProjectOrderByRelationAggregateInput
+  emailLogs?: Prisma.EmailLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -337,8 +418,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   age?: Prisma.StringNullableFilter<"User"> | string | null
   profession?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
+  adminNotes?: Prisma.StringNullableFilter<"User"> | string | null
+  isBot?: Prisma.BoolFilter<"User"> | boolean
   resetToken?: Prisma.StringNullableFilter<"User"> | string | null
   resetTokenExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  discountCode?: Prisma.StringNullableFilter<"User"> | string | null
+  discountPercent?: Prisma.IntNullableFilter<"User"> | number | null
+  discountExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   progress?: Prisma.LessonProgressListRelationFilter
@@ -351,6 +437,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   deals?: Prisma.PipelineDealListRelationFilter
   notes?: Prisma.NoteListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
+  emailLogs?: Prisma.EmailLogListRelationFilter
 }, "id" | "email" | "referralCode">
 
 export type UserOrderByWithAggregationInput = {
@@ -366,14 +453,21 @@ export type UserOrderByWithAggregationInput = {
   age?: Prisma.SortOrderInput | Prisma.SortOrder
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  isBot?: Prisma.SortOrder
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   resetToken?: Prisma.SortOrderInput | Prisma.SortOrder
   resetTokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountPercent?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -392,9 +486,14 @@ export type UserScalarWhereWithAggregatesInput = {
   age?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   profession?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  adminNotes?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  isBot?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   referralCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   resetToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   resetTokenExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  discountCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  discountPercent?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
+  discountExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -412,9 +511,14 @@ export type UserCreateInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -427,6 +531,7 @@ export type UserCreateInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -442,9 +547,14 @@ export type UserUncheckedCreateInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -457,6 +567,7 @@ export type UserUncheckedCreateInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -472,9 +583,14 @@ export type UserUpdateInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -487,6 +603,7 @@ export type UserUpdateInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -502,9 +619,14 @@ export type UserUncheckedUpdateInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -517,6 +639,7 @@ export type UserUncheckedUpdateInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -532,9 +655,14 @@ export type UserCreateManyInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -552,9 +680,14 @@ export type UserUpdateManyMutationInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -572,9 +705,14 @@ export type UserUncheckedUpdateManyInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -592,11 +730,20 @@ export type UserCountOrderByAggregateInput = {
   age?: Prisma.SortOrder
   profession?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrder
+  isBot?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
   resetToken?: Prisma.SortOrder
   resetTokenExpiry?: Prisma.SortOrder
+  discountCode?: Prisma.SortOrder
+  discountPercent?: Prisma.SortOrder
+  discountExpiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  discountPercent?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -612,9 +759,14 @@ export type UserMaxOrderByAggregateInput = {
   age?: Prisma.SortOrder
   profession?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrder
+  isBot?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
   resetToken?: Prisma.SortOrder
   resetTokenExpiry?: Prisma.SortOrder
+  discountCode?: Prisma.SortOrder
+  discountPercent?: Prisma.SortOrder
+  discountExpiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -632,11 +784,20 @@ export type UserMinOrderByAggregateInput = {
   age?: Prisma.SortOrder
   profession?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrder
+  isBot?: Prisma.SortOrder
   referralCode?: Prisma.SortOrder
   resetToken?: Prisma.SortOrder
   resetTokenExpiry?: Prisma.SortOrder
+  discountCode?: Prisma.SortOrder
+  discountPercent?: Prisma.SortOrder
+  discountExpiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  discountPercent?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -658,6 +819,14 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -804,6 +973,20 @@ export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProjectsInput, Prisma.UserUpdateWithoutProjectsInput>, Prisma.UserUncheckedUpdateWithoutProjectsInput>
 }
 
+export type UserCreateNestedOneWithoutEmailLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailLogsInput, Prisma.UserUncheckedCreateWithoutEmailLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEmailLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailLogsInput, Prisma.UserUncheckedCreateWithoutEmailLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailLogsInput
+  upsert?: Prisma.UserUpsertWithoutEmailLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEmailLogsInput, Prisma.UserUpdateWithoutEmailLogsInput>, Prisma.UserUncheckedUpdateWithoutEmailLogsInput>
+}
+
 export type UserCreateWithoutQuizSubmissionsInput = {
   id?: string
   email: string
@@ -817,9 +1000,14 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -831,6 +1019,7 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
@@ -846,9 +1035,14 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -860,6 +1054,7 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutQuizSubmissionsInput = {
@@ -891,9 +1086,14 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -905,6 +1105,7 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
@@ -920,9 +1121,14 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -934,6 +1140,7 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProgressInput = {
@@ -949,9 +1156,14 @@ export type UserCreateWithoutProgressInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   quizSubmissions?: Prisma.QuizSubmissionCreateNestedManyWithoutUserInput
@@ -963,6 +1175,7 @@ export type UserCreateWithoutProgressInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProgressInput = {
@@ -978,9 +1191,14 @@ export type UserUncheckedCreateWithoutProgressInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   quizSubmissions?: Prisma.QuizSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -992,6 +1210,7 @@ export type UserUncheckedCreateWithoutProgressInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProgressInput = {
@@ -1023,9 +1242,14 @@ export type UserUpdateWithoutProgressInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quizSubmissions?: Prisma.QuizSubmissionUpdateManyWithoutUserNestedInput
@@ -1037,6 +1261,7 @@ export type UserUpdateWithoutProgressInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProgressInput = {
@@ -1052,9 +1277,14 @@ export type UserUncheckedUpdateWithoutProgressInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quizSubmissions?: Prisma.QuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -1066,6 +1296,7 @@ export type UserUncheckedUpdateWithoutProgressInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStreaksInput = {
@@ -1081,9 +1312,14 @@ export type UserCreateWithoutStreaksInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1095,6 +1331,7 @@ export type UserCreateWithoutStreaksInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStreaksInput = {
@@ -1110,9 +1347,14 @@ export type UserUncheckedCreateWithoutStreaksInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1124,6 +1366,7 @@ export type UserUncheckedCreateWithoutStreaksInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStreaksInput = {
@@ -1155,9 +1398,14 @@ export type UserUpdateWithoutStreaksInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1169,6 +1417,7 @@ export type UserUpdateWithoutStreaksInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStreaksInput = {
@@ -1184,9 +1433,14 @@ export type UserUncheckedUpdateWithoutStreaksInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1198,6 +1452,7 @@ export type UserUncheckedUpdateWithoutStreaksInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEnrollmentsInput = {
@@ -1213,9 +1468,14 @@ export type UserCreateWithoutEnrollmentsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1227,6 +1487,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -1242,9 +1503,14 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1256,6 +1522,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -1287,9 +1554,14 @@ export type UserUpdateWithoutEnrollmentsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1301,6 +1573,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -1316,9 +1589,14 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1330,6 +1608,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCoachingSessionsInput = {
@@ -1345,9 +1624,14 @@ export type UserCreateWithoutCoachingSessionsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1359,6 +1643,7 @@ export type UserCreateWithoutCoachingSessionsInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCoachingSessionsInput = {
@@ -1374,9 +1659,14 @@ export type UserUncheckedCreateWithoutCoachingSessionsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1388,6 +1678,7 @@ export type UserUncheckedCreateWithoutCoachingSessionsInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCoachingSessionsInput = {
@@ -1419,9 +1710,14 @@ export type UserUpdateWithoutCoachingSessionsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1433,6 +1729,7 @@ export type UserUpdateWithoutCoachingSessionsInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
@@ -1448,9 +1745,14 @@ export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1462,6 +1764,7 @@ export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDealsInput = {
@@ -1477,9 +1780,14 @@ export type UserCreateWithoutDealsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1491,6 +1799,7 @@ export type UserCreateWithoutDealsInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDealsInput = {
@@ -1506,9 +1815,14 @@ export type UserUncheckedCreateWithoutDealsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1520,6 +1834,7 @@ export type UserUncheckedCreateWithoutDealsInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDealsInput = {
@@ -1551,9 +1866,14 @@ export type UserUpdateWithoutDealsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1565,6 +1885,7 @@ export type UserUpdateWithoutDealsInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDealsInput = {
@@ -1580,9 +1901,14 @@ export type UserUncheckedUpdateWithoutDealsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1594,6 +1920,7 @@ export type UserUncheckedUpdateWithoutDealsInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsMadeInput = {
@@ -1609,9 +1936,14 @@ export type UserCreateWithoutReferralsMadeInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1623,6 +1955,7 @@ export type UserCreateWithoutReferralsMadeInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsMadeInput = {
@@ -1638,9 +1971,14 @@ export type UserUncheckedCreateWithoutReferralsMadeInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1652,6 +1990,7 @@ export type UserUncheckedCreateWithoutReferralsMadeInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsMadeInput = {
@@ -1672,9 +2011,14 @@ export type UserCreateWithoutReferredByInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1686,6 +2030,7 @@ export type UserCreateWithoutReferredByInput = {
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferredByInput = {
@@ -1701,9 +2046,14 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1715,6 +2065,7 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferredByInput = {
@@ -1746,9 +2097,14 @@ export type UserUpdateWithoutReferralsMadeInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1760,6 +2116,7 @@ export type UserUpdateWithoutReferralsMadeInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsMadeInput = {
@@ -1775,9 +2132,14 @@ export type UserUncheckedUpdateWithoutReferralsMadeInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1789,6 +2151,7 @@ export type UserUncheckedUpdateWithoutReferralsMadeInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferredByInput = {
@@ -1815,9 +2178,14 @@ export type UserUpdateWithoutReferredByInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1829,6 +2197,7 @@ export type UserUpdateWithoutReferredByInput = {
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferredByInput = {
@@ -1844,9 +2213,14 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1858,6 +2232,7 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotesInput = {
@@ -1873,9 +2248,14 @@ export type UserCreateWithoutNotesInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -1887,6 +2267,7 @@ export type UserCreateWithoutNotesInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotesInput = {
@@ -1902,9 +2283,14 @@ export type UserUncheckedCreateWithoutNotesInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1916,6 +2302,7 @@ export type UserUncheckedCreateWithoutNotesInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotesInput = {
@@ -1947,9 +2334,14 @@ export type UserUpdateWithoutNotesInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -1961,6 +2353,7 @@ export type UserUpdateWithoutNotesInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotesInput = {
@@ -1976,9 +2369,14 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1990,6 +2388,7 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProjectsInput = {
@@ -2005,9 +2404,14 @@ export type UserCreateWithoutProjectsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
@@ -2019,6 +2423,7 @@ export type UserCreateWithoutProjectsInput = {
   referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProjectsInput = {
@@ -2034,9 +2439,14 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   age?: string | null
   profession?: string | null
   onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
   referralCode?: string | null
   resetToken?: string | null
   resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -2048,6 +2458,7 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
   notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  emailLogs?: Prisma.EmailLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProjectsInput = {
@@ -2079,9 +2490,14 @@ export type UserUpdateWithoutProjectsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
@@ -2093,6 +2509,7 @@ export type UserUpdateWithoutProjectsInput = {
   referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -2108,9 +2525,14 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -2122,6 +2544,163 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
   notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  emailLogs?: Prisma.EmailLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutEmailLogsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  hashedPassword: string
+  role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
+  phone?: string | null
+  discordUsername?: string | null
+  age?: string | null
+  profession?: string | null
+  onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
+  referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  progress?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
+  quizSubmissions?: Prisma.QuizSubmissionCreateNestedManyWithoutUserInput
+  streaks?: Prisma.StreakCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
+  coachingSessions?: Prisma.CoachingSessionCreateNestedManyWithoutUserInput
+  referralsMade?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referredBy?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  deals?: Prisma.PipelineDealCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutEmailLogsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  hashedPassword: string
+  role?: string
+  emailVerified?: boolean
+  verificationCode?: string | null
+  phone?: string | null
+  discordUsername?: string | null
+  age?: string | null
+  profession?: string | null
+  onboardingCompleted?: boolean
+  adminNotes?: string | null
+  isBot?: boolean
+  referralCode?: string | null
+  resetToken?: string | null
+  resetTokenExpiry?: Date | string | null
+  discountCode?: string | null
+  discountPercent?: number | null
+  discountExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
+  quizSubmissions?: Prisma.QuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+  streaks?: Prisma.StreakUncheckedCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
+  coachingSessions?: Prisma.CoachingSessionUncheckedCreateNestedManyWithoutUserInput
+  referralsMade?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referredBy?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  deals?: Prisma.PipelineDealUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutEmailLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailLogsInput, Prisma.UserUncheckedCreateWithoutEmailLogsInput>
+}
+
+export type UserUpsertWithoutEmailLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEmailLogsInput, Prisma.UserUncheckedUpdateWithoutEmailLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailLogsInput, Prisma.UserUncheckedCreateWithoutEmailLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEmailLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEmailLogsInput, Prisma.UserUncheckedUpdateWithoutEmailLogsInput>
+}
+
+export type UserUpdateWithoutEmailLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  progress?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
+  quizSubmissions?: Prisma.QuizSubmissionUpdateManyWithoutUserNestedInput
+  streaks?: Prisma.StreakUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
+  coachingSessions?: Prisma.CoachingSessionUpdateManyWithoutUserNestedInput
+  referralsMade?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referredBy?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  deals?: Prisma.PipelineDealUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEmailLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  discountCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountPercent?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  discountExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  quizSubmissions?: Prisma.QuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  streaks?: Prisma.StreakUncheckedUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+  coachingSessions?: Prisma.CoachingSessionUncheckedUpdateManyWithoutUserNestedInput
+  referralsMade?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referredBy?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  deals?: Prisma.PipelineDealUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2140,6 +2719,7 @@ export type UserCountOutputType = {
   deals: number
   notes: number
   projects: number
+  emailLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2153,6 +2733,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   deals?: boolean | UserCountOutputTypeCountDealsArgs
   notes?: boolean | UserCountOutputTypeCountNotesArgs
   projects?: boolean | UserCountOutputTypeCountProjectsArgs
+  emailLogs?: boolean | UserCountOutputTypeCountEmailLogsArgs
 }
 
 /**
@@ -2235,6 +2816,13 @@ export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ProjectWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountEmailLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmailLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2249,9 +2837,14 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   age?: boolean
   profession?: boolean
   onboardingCompleted?: boolean
+  adminNotes?: boolean
+  isBot?: boolean
   referralCode?: boolean
   resetToken?: boolean
   resetTokenExpiry?: boolean
+  discountCode?: boolean
+  discountPercent?: boolean
+  discountExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   progress?: boolean | Prisma.User$progressArgs<ExtArgs>
@@ -2264,6 +2857,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   deals?: boolean | Prisma.User$dealsArgs<ExtArgs>
   notes?: boolean | Prisma.User$notesArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
+  emailLogs?: boolean | Prisma.User$emailLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2280,9 +2874,14 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   age?: boolean
   profession?: boolean
   onboardingCompleted?: boolean
+  adminNotes?: boolean
+  isBot?: boolean
   referralCode?: boolean
   resetToken?: boolean
   resetTokenExpiry?: boolean
+  discountCode?: boolean
+  discountPercent?: boolean
+  discountExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2300,9 +2899,14 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   age?: boolean
   profession?: boolean
   onboardingCompleted?: boolean
+  adminNotes?: boolean
+  isBot?: boolean
   referralCode?: boolean
   resetToken?: boolean
   resetTokenExpiry?: boolean
+  discountCode?: boolean
+  discountPercent?: boolean
+  discountExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2320,14 +2924,19 @@ export type UserSelectScalar = {
   age?: boolean
   profession?: boolean
   onboardingCompleted?: boolean
+  adminNotes?: boolean
+  isBot?: boolean
   referralCode?: boolean
   resetToken?: boolean
   resetTokenExpiry?: boolean
+  discountCode?: boolean
+  discountPercent?: boolean
+  discountExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "emailVerified" | "verificationCode" | "phone" | "discordUsername" | "age" | "profession" | "onboardingCompleted" | "referralCode" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "emailVerified" | "verificationCode" | "phone" | "discordUsername" | "age" | "profession" | "onboardingCompleted" | "adminNotes" | "isBot" | "referralCode" | "resetToken" | "resetTokenExpiry" | "discountCode" | "discountPercent" | "discountExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   progress?: boolean | Prisma.User$progressArgs<ExtArgs>
   quizSubmissions?: boolean | Prisma.User$quizSubmissionsArgs<ExtArgs>
@@ -2339,6 +2948,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   deals?: boolean | Prisma.User$dealsArgs<ExtArgs>
   notes?: boolean | Prisma.User$notesArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
+  emailLogs?: boolean | Prisma.User$emailLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2357,6 +2967,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     deals: Prisma.$PipelineDealPayload<ExtArgs>[]
     notes: Prisma.$NotePayload<ExtArgs>[]
     projects: Prisma.$ProjectPayload<ExtArgs>[]
+    emailLogs: Prisma.$EmailLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2371,9 +2982,14 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     age: string | null
     profession: string | null
     onboardingCompleted: boolean
+    adminNotes: string | null
+    isBot: boolean
     referralCode: string | null
     resetToken: string | null
     resetTokenExpiry: Date | null
+    discountCode: string | null
+    discountPercent: number | null
+    discountExpiresAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2780,6 +3396,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   deals<T extends Prisma.User$dealsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PipelineDealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notes<T extends Prisma.User$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projects<T extends Prisma.User$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  emailLogs<T extends Prisma.User$emailLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2821,9 +3438,14 @@ export interface UserFieldRefs {
   readonly age: Prisma.FieldRef<"User", 'String'>
   readonly profession: Prisma.FieldRef<"User", 'String'>
   readonly onboardingCompleted: Prisma.FieldRef<"User", 'Boolean'>
+  readonly adminNotes: Prisma.FieldRef<"User", 'String'>
+  readonly isBot: Prisma.FieldRef<"User", 'Boolean'>
   readonly referralCode: Prisma.FieldRef<"User", 'String'>
   readonly resetToken: Prisma.FieldRef<"User", 'String'>
   readonly resetTokenExpiry: Prisma.FieldRef<"User", 'DateTime'>
+  readonly discountCode: Prisma.FieldRef<"User", 'String'>
+  readonly discountPercent: Prisma.FieldRef<"User", 'Int'>
+  readonly discountExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -3456,6 +4078,30 @@ export type User$projectsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
+}
+
+/**
+ * User.emailLogs
+ */
+export type User$emailLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmailLog
+   */
+  select?: Prisma.EmailLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmailLog
+   */
+  omit?: Prisma.EmailLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmailLogInclude<ExtArgs> | null
+  where?: Prisma.EmailLogWhereInput
+  orderBy?: Prisma.EmailLogOrderByWithRelationInput | Prisma.EmailLogOrderByWithRelationInput[]
+  cursor?: Prisma.EmailLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmailLogScalarFieldEnum | Prisma.EmailLogScalarFieldEnum[]
 }
 
 /**

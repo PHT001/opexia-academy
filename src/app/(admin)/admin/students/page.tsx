@@ -16,6 +16,7 @@ interface Student {
   lastActive: string | null;
   discordUsername: string | null;
   totalXP: number;
+  isBot: boolean;
 }
 
 interface StudentsResponse {
@@ -46,6 +47,7 @@ export default function StudentsPage() {
   const [search, setSearch] = useState("");
   const [tier, setTier] = useState("all");
   const [sort, setSort] = useState("createdAt_desc");
+  const [hideBots, setHideBots] = useState(false);
   const [page, setPage] = useState(1);
 
   const fetchStudents = useCallback(() => {
@@ -53,13 +55,14 @@ export default function StudentsPage() {
     const params = new URLSearchParams({ page: String(page), sort });
     if (search) params.set("search", search);
     if (tier !== "all") params.set("tier", tier);
+    if (hideBots) params.set("hideBots", "true");
 
     fetch(`/api/admin/students?${params}`)
       .then((r) => r.json())
       .then((d: StudentsResponse) => setData(d))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [page, search, tier, sort]);
+  }, [page, search, tier, sort, hideBots]);
 
   useEffect(() => {
     const timeout = setTimeout(fetchStudents, search ? 300 : 0);
@@ -69,7 +72,7 @@ export default function StudentsPage() {
   // Reset page when filters change
   useEffect(() => {
     setPage(1);
-  }, [search, tier, sort]);
+  }, [search, tier, sort, hideBots]);
 
   const formatRelative = (dateStr: string | null) => {
     if (!dateStr) return "—";
@@ -125,6 +128,16 @@ export default function StudentsPage() {
             </option>
           ))}
         </select>
+        <button
+          onClick={() => setHideBots((h) => !h)}
+          className={`px-4 py-2.5 rounded-xl text-sm font-medium border transition-all whitespace-nowrap ${
+            hideBots
+              ? "bg-red-500/20 border-red-500/40 text-red-400"
+              : "bg-glass-bg border-glass-border text-text-secondary hover:text-text-primary"
+          }`}
+        >
+          {hideBots ? "Afficher les bots" : "Masquer les bots"}
+        </button>
       </div>
 
       {/* Table */}
@@ -188,9 +201,14 @@ export default function StudentsPage() {
                               {(student.name || student.email)[0].toUpperCase()}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-sm font-medium text-text-primary truncate group-hover:text-white transition-colors">
-                                {student.name || "Sans nom"}
-                              </p>
+                              <div className="flex items-center gap-1.5">
+                                <p className="text-sm font-medium text-text-primary truncate group-hover:text-white transition-colors">
+                                  {student.name || "Sans nom"}
+                                </p>
+                                {student.isBot && (
+                                  <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" title="Bot" />
+                                )}
+                              </div>
                               <p className="text-xs text-text-tertiary truncate">{student.email}</p>
                             </div>
                           </div>

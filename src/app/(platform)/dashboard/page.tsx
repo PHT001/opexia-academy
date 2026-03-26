@@ -1,14 +1,16 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
+import React, { Suspense, useCallback, useEffect, useState, useRef } from "react";
+import { motion, useMotionValue, useTransform, animate, useInView, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { TIERS, TIER_MODULE_ACCESS } from "@/lib/constants";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
 import FreeDashboard from "@/components/platform/FreeDashboard";
+import CommunitySection from "@/components/platform/CommunitySection";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   AreaChart,
   Area,
@@ -372,7 +374,108 @@ function Card({ children, className, ...props }: React.ComponentProps<typeof mot
   );
 }
 
+/* ——— Post-Purchase Celebration Modal ——— */
+const PLAN_LABELS: Record<string, string> = {
+  starter: "Starter",
+  academy: "Academy",
+  one_to_one: "One-to-One",
+};
+
+function CelebrationModal({ plan, onClose }: { plan: string; onClose: () => void }) {
+  const label = PLAN_LABELS[plan] || plan;
+
+  useEffect(() => {
+    const timer = setTimeout(onClose, 30000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+      {/* CSS confetti */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2.5 h-2.5 rounded-sm animate-confetti"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `-5%`,
+              backgroundColor: ["#FF1744", "#FF5252", "#FFD54F", "#4FC3F7", "#81C784", "#CE93D8", "#FF8A65"][i % 7],
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2.5 + Math.random() * 2}s`,
+              transform: `rotate(${Math.random() * 360}deg)`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Modal */}
+      <motion.div
+        className="relative z-10 bg-white rounded-3xl p-8 sm:p-10 max-w-md w-full text-center shadow-2xl"
+        initial={{ scale: 0.8, y: 30 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: "spring", damping: 20, stiffness: 300 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="text-6xl mb-4">{"\uD83C\uDF89"}</div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#111] mb-2">
+          Bienvenue dans {label} !
+        </h2>
+        <p className="text-gray-500 text-sm mb-8">
+          Ton acc{"è"}s est activ{"é"}. Ta premi{"è"}re le{"ç"}on t{"'"}attend.
+        </p>
+        <Link
+          href="/lessons"
+          onClick={onClose}
+          className="inline-flex items-center justify-center gap-2 w-full rounded-xl px-6 py-4 text-base font-bold bg-[#FF1744] text-white hover:bg-[#D50000] transition-colors shadow-lg shadow-[#FF1744]/20"
+        >
+          Commencer ma premi{"è"}re le{"ç"}on
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </Link>
+        <Link
+          href="/dashboard"
+          onClick={onClose}
+          className="block mt-3 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          Explorer la plateforme
+        </Link>
+      </motion.div>
+
+      {/* Confetti keyframe styles */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes confetti-fall {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .animate-confetti {
+          animation: confetti-fall linear forwards;
+        }
+      `}} />
+    </motion.div>
+  );
+}
+
 export default function DashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <DashboardContent />
+    </Suspense>
+  );
+}
+
+function DashboardContent() {
   const { data: session } = useSession();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -385,6 +488,35 @@ export default function DashboardPage() {
   });
   const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
   const [adminLoading, setAdminLoading] = useState(false);
+
+  // Post-purchase celebration modal
+  const searchParams = useSearchParams();
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [celebrationPlan, setCelebrationPlan] = useState("");
+
+  useEffect(() => {
+    const checkout = searchParams.get("checkout");
+    const plan = searchParams.get("plan");
+    if (checkout === "success" && plan) {
+      const alreadyShown = sessionStorage.getItem(`opexia-celebration-${plan}`);
+      if (!alreadyShown) {
+        setCelebrationPlan(plan);
+        setShowCelebration(true);
+        sessionStorage.setItem(`opexia-celebration-${plan}`, "true");
+      }
+    }
+  }, [searchParams]);
+
+  const closeCelebration = useCallback(() => {
+    setShowCelebration(false);
+    // Clean up URL params
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("checkout");
+      url.searchParams.delete("plan");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, []);
 
   // Project state (used by admin dashboard section)
   const [projects, setProjects] = useState<Project[]>([]);
@@ -487,6 +619,13 @@ export default function DashboardPage() {
       animate="visible"
       variants={stagger}
     >
+
+      {/* ════ POST-PURCHASE CELEBRATION ════ */}
+      <AnimatePresence>
+        {showCelebration && (
+          <CelebrationModal plan={celebrationPlan} onClose={closeCelebration} />
+        )}
+      </AnimatePresence>
 
       {/* ════ ADMIN-ONLY VIEW: show admin panel directly ════ */}
       {isAdmin && !previewTier && (
@@ -954,6 +1093,9 @@ export default function DashboardPage() {
           </Card>
         </div>
       </div>
+
+        {/* Community: Leaderboard + Activity Feed */}
+        <CommunitySection />
 
         {/* Discord Community */}
         <Card initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="p-6">

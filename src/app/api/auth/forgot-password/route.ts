@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 import { Resend } from "resend";
+import rateLimit from "@/lib/rate-limit";
+
+const limiter = rateLimit({ interval: 15 * 60 * 1000, uniqueTokenPerInterval: 500 });
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -9,6 +12,12 @@ const resend = process.env.RESEND_API_KEY
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+    const { success } = limiter.check(3, ip);
+    if (!success) {
+      return NextResponse.json({ error: "Trop de requêtes. Réessayez dans quelques minutes." }, { status: 429 });
+    }
+
     const { email } = await request.json();
 
     if (!email || typeof email !== "string") {

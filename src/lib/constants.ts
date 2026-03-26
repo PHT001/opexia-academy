@@ -113,7 +113,7 @@ export const MASTERCLASS_MODULES = [] as const;
 /* ——— Tier-based module access ——— */
 
 export const TIER_MODULE_ACCESS: Record<string, number[]> = {
-  free:       [],
+  free:       [23],
   starter:    [23, 24],
   academy:    [23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
   one_to_one: [23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
@@ -144,7 +144,7 @@ export const TIERS = [
     description: "La formation complète pour lancer ton agence IA",
     features: [
       { text: "Tout ce qui est dans Starter", included: true },
-      { text: "85 leçons progressives en 22 modules", included: true },
+      { text: "91 leçons progressives en 22 modules", included: true },
       { text: "Quiz de validation par leçon", included: true },
       { text: "Exercices pratiques + projets fil rouge", included: true },
       { text: "Assistant IA intégré", included: true },
@@ -156,7 +156,7 @@ export const TIERS = [
   {
     id: "one_to_one",
     name: "One-to-One",
-    price: 3997,
+    price: 2497,
     period: "one-shot",
     description: "L'accompagnement premium pour aller plus vite",
     features: [
@@ -205,5 +205,5 @@ export const REFERRAL_COMMISSION_RATE = 0.20; // max pour affichage "Gagne jusqu
 export const TIER_PRICES_CENTS: Record<string, number> = {
   starter: 4700,
   academy: 49700,
-  one_to_one: 399700,
+  one_to_one: 249700,
 };

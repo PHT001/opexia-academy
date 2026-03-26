@@ -72,7 +72,7 @@ function ShareLinkedInButton() {
   const text = encodeURIComponent(
     "Je viens de terminer le parcours Opexia Academy ! Une formation compl\u00e8te sur l\u2019IA appliqu\u00e9e au business. \ud83d\ude80\n\n#OpexiaAcademy #IA #Formation"
   );
-  const url = encodeURIComponent("https://opexia.com");
+  const url = encodeURIComponent("https://opexia-formation.com");
 
   return (
     <a

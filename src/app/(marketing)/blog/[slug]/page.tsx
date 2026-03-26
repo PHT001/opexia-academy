@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import DOMPurify from "isomorphic-dompurify";
 import { getArticleBySlug, getAllSlugs } from "@/lib/blog-articles";
 
 interface PageProps {
@@ -66,7 +67,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               [&>ol>li]:text-gray-600 [&>ol>li]:leading-relaxed [&>ol>li]:text-[15px]
               [&_strong]:text-[#111] [&_strong]:font-semibold
             "
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
           />
 
           {/* CTA */}

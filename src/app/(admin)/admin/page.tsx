@@ -34,6 +34,8 @@ interface RecentEnrollment {
   userName: string;
   userEmail: string;
   tier: string;
+  amount: number;
+  status: string;
   createdAt: string;
 }
 
@@ -49,6 +51,12 @@ interface UserGrowth {
   count: number;
 }
 
+interface RevenueByTier {
+  starter: number;
+  academy: number;
+  one_to_one: number;
+}
+
 interface AdminStats {
   totalStudents: number;
   activeStudents: number;
@@ -57,6 +65,10 @@ interface AdminStats {
   totalLessons: number;
   completionsToday: number;
   totalRevenue: number;
+  monthlyRevenueThisMonth: number;
+  revenueByTier: RevenueByTier;
+  mrrEstimate: number;
+  avgCartValue: number;
   monthlyRevenue: MonthlyRevenue[];
   enrollmentsByTier: EnrollmentsByTier;
   recentEnrollments: RecentEnrollment[];
@@ -90,22 +102,36 @@ function relativeTime(dateStr: string) {
   });
 }
 
+function formatDateFr(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
+  active: { label: "Actif", color: "text-emerald-400", bg: "bg-emerald-400/10" },
+  cancelled: { label: "Annulé", color: "text-red-400", bg: "bg-red-400/10" },
+  pending: { label: "En attente", color: "text-amber-400", bg: "bg-amber-400/10" },
+};
+
 const tierConfig: Record<string, { label: string; color: string; bg: string }> =
   {
     starter: {
       label: "Starter",
-      color: "text-emerald-400",
-      bg: "bg-emerald-400/10",
+      color: "text-white/60",
+      bg: "bg-white/[0.06]",
     },
     academy: {
       label: "Academy",
-      color: "text-blue-400",
-      bg: "bg-blue-400/10",
+      color: "text-[#FF1744]",
+      bg: "bg-[#FF1744]/10",
     },
     one_to_one: {
       label: "1-to-1",
-      color: "text-amber-400",
-      bg: "bg-amber-400/10",
+      color: "text-purple-400",
+      bg: "bg-purple-400/10",
     },
   };
 
@@ -327,6 +353,138 @@ export default function AdminDashboard() {
       </div>
 
       {/* ============================================================ */}
+      {/*  ROW 1b — Revenue Overview                                    */}
+      {/* ============================================================ */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {/* Revenus ce mois */}
+        <GlassCard hover={false} className="p-6 relative overflow-hidden group">
+          <div className="absolute top-4 right-4 text-white/[0.07] group-hover:text-white/[0.12] transition-colors">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+            </svg>
+          </div>
+          <p className="text-3xl font-black text-white">
+            <AnimatedNumber value={stats.monthlyRevenueThisMonth} format={formatEuro} />
+          </p>
+          <p className="text-xs text-white/40 mt-1">Revenus ce mois</p>
+        </GlassCard>
+
+        {/* Revenue Total avec breakdown */}
+        <GlassCard hover={false} className="p-6 relative overflow-hidden group">
+          <div className="absolute top-4 right-4 text-white/[0.07] group-hover:text-white/[0.12] transition-colors">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </div>
+          <p className="text-3xl font-black text-white">
+            <AnimatedNumber value={stats.totalRevenue} format={formatEuro} />
+          </p>
+          <p className="text-xs text-white/40 mt-1">Revenue Total</p>
+          <div className="mt-2 flex flex-wrap gap-1">
+            {Object.entries(stats.revenueByTier).map(([tier, val]) => {
+              const cfg = tierConfig[tier] || tierConfig.starter;
+              return val > 0 ? (
+                <span key={tier} className={`text-[9px] px-1.5 py-0.5 rounded ${cfg.color} ${cfg.bg}`}>
+                  {cfg.label}: {formatEuro(val)}
+                </span>
+              ) : null;
+            })}
+          </div>
+        </GlassCard>
+
+        {/* MRR estime */}
+        <GlassCard hover={false} className="p-6 relative overflow-hidden group">
+          <div className="absolute top-4 right-4 text-white/[0.07] group-hover:text-white/[0.12] transition-colors">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+            </svg>
+          </div>
+          <p className="text-3xl font-black text-white">
+            <AnimatedNumber value={stats.mrrEstimate} format={formatEuro} />
+          </p>
+          <p className="text-xs text-white/40 mt-1">MRR estime</p>
+          <p className="text-[10px] text-white/20 mt-0.5">Moyenne 3 derniers mois</p>
+        </GlassCard>
+
+        {/* Panier moyen */}
+        <GlassCard hover={false} className="p-6 relative overflow-hidden group">
+          <div className="absolute top-4 right-4 text-white/[0.07] group-hover:text-white/[0.12] transition-colors">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+          </div>
+          <p className="text-3xl font-black text-white">
+            <AnimatedNumber value={stats.avgCartValue} suffix=" €" />
+          </p>
+          <p className="text-xs text-white/40 mt-1">Panier moyen</p>
+        </GlassCard>
+      </div>
+
+      {/* ============================================================ */}
+      {/*  ROW 1c — Recent Payments Table                               */}
+      {/* ============================================================ */}
+      <GlassCard hover={false} className="p-6 mb-8">
+        <h2 className="text-sm font-semibold text-white mb-1">Derniers Paiements</h2>
+        <p className="text-xs text-white/40 mb-4">Les 15 derniers paiements recus</p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-white/30 text-[10px] uppercase tracking-wider">
+                <th className="text-left pb-3 font-medium">Date</th>
+                <th className="text-left pb-3 font-medium">Eleve</th>
+                <th className="text-left pb-3 font-medium hidden sm:table-cell">Email</th>
+                <th className="text-left pb-3 font-medium">Offre</th>
+                <th className="text-right pb-3 font-medium">Montant</th>
+                <th className="text-right pb-3 font-medium">Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stats.recentEnrollments.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="text-white/30 text-xs py-4 text-center">
+                    Aucun paiement
+                  </td>
+                </tr>
+              )}
+              {stats.recentEnrollments.map((e) => {
+                const cfg = tierConfig[e.tier] || tierConfig.starter;
+                const sCfg = statusConfig[e.status] || statusConfig.active;
+                return (
+                  <tr
+                    key={e.id}
+                    className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-colors"
+                  >
+                    <td className="py-3 text-white/50 text-xs whitespace-nowrap">
+                      {formatDateFr(e.createdAt)}
+                    </td>
+                    <td className="py-3">
+                      <span className="text-white font-medium">{e.userName}</span>
+                    </td>
+                    <td className="py-3 text-white/40 hidden sm:table-cell truncate max-w-[160px]">
+                      {e.userEmail}
+                    </td>
+                    <td className="py-3">
+                      <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${cfg.color} ${cfg.bg}`}>
+                        {cfg.label}
+                      </span>
+                    </td>
+                    <td className="py-3 text-right text-white font-semibold whitespace-nowrap">
+                      {e.amount} €
+                    </td>
+                    <td className="py-3 text-right">
+                      <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${sCfg.color} ${sCfg.bg}`}>
+                        {sCfg.label}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </GlassCard>
+
+      {/* ============================================================ */}
       {/*  ROW 2 — Revenue Chart + Tier Breakdown                      */}
       {/* ============================================================ */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
@@ -405,10 +563,10 @@ export default function AdminDashboard() {
                     <div
                       className={`h-full rounded-full transition-all duration-700 ${
                         key === "starter"
-                          ? "bg-emerald-400"
+                          ? "bg-white/40"
                           : key === "academy"
-                          ? "bg-blue-400"
-                          : "bg-amber-400"
+                          ? "bg-[#FF1744]"
+                          : "bg-purple-400"
                       }`}
                       style={{ width: `${pct}%` }}
                     />

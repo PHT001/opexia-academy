@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import NextImage from "next/image";
 
 export default function Hero() {
   const [muted, setMuted] = useState(true);
@@ -141,10 +140,18 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744] mb-6">
-              <span className="h-2 w-2 rounded-full bg-[#FF1744] animate-pulse" />
-              La comp&eacute;tence qui va valoir de l&apos;or en 2026
-            </span>
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+              <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744]">
+                <span className="h-2 w-2 rounded-full bg-[#FF1744] animate-pulse" />
+                La comp&eacute;tence qui va valoir de l&apos;or en 2026
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1.5 text-sm font-medium text-emerald-700">
+                <svg className="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Aucune comp&eacute;tence technique requise
+              </span>
+            </div>
           </motion.div>
 
           <motion.h1
@@ -262,7 +269,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="flex items-center justify-center gap-2.5 mb-6"
           >
-            <NextImage
+            <Image
               src="/images/customers.webp"
               alt="Clients"
               width={100}
@@ -272,7 +279,7 @@ export default function Hero() {
             <span className="text-sm text-[#111] font-medium">
               <strong>4.8</strong>/5 par <strong>+50 clients</strong>
             </span>
-            <NextImage
+            <Image
               src="/images/blue-badge.svg"
               alt="V&eacute;rifi&eacute;"
               width={18}
@@ -285,7 +292,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-row items-center justify-center gap-3"
           >
             <div className="relative flex items-center justify-center mt-6">
               {/* Floating robot video behind the button */}
@@ -310,7 +317,7 @@ export default function Hero() {
 
               <a
                 href="/register"
-                className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200"
+                className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200 whitespace-nowrap"
               >
                 Commencer gratuitement
                 <svg
@@ -325,7 +332,7 @@ export default function Hero() {
               </a>
               <a
                 href="#pricing"
-                className="relative z-10 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-6 py-4 text-sm font-medium text-[#111] transition-all hover:border-[#FF1744] hover:text-[#FF1744]"
+                className="relative z-10 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-3 sm:px-6 sm:py-4 text-sm font-medium text-[#111] transition-all hover:border-[#FF1744] hover:text-[#FF1744] whitespace-nowrap"
               >
                 Voir les tarifs
               </a>
@@ -353,7 +360,7 @@ export default function Hero() {
               <svg className="h-3.5 w-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
-              Satisfait ou rembours&eacute;
+              Garantie 14 jours
             </span>
             <span className="flex items-center gap-1.5">
               <svg className="h-3.5 w-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

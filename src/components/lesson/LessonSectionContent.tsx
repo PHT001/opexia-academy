@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useMemo } from "react";
+import DOMPurify from "isomorphic-dompurify";
 import { parseHtmlSections, type ContentSection } from "@/lib/parseHtmlSections";
 import { InlineSectionAnimation } from "./InlineSectionAnimation";
 
@@ -62,7 +63,7 @@ export function LessonSectionContent({
               </span>
               <div
                 className="text-lg sm:text-xl md:text-2xl font-bold text-white leading-tight [&_h2]:text-inherit [&_h2]:font-inherit [&_h2]:text-[length:inherit] [&_h2]:m-0 [&_h2]:p-0 [&_h2]:leading-tight"
-                dangerouslySetInnerHTML={{ __html: section.titleHtml }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.titleHtml) }}
               />
             </div>
           )}
@@ -78,7 +79,7 @@ export function LessonSectionContent({
           {section.bodyHtml && (
             <div
               className="lesson-body"
-              dangerouslySetInnerHTML={{ __html: section.bodyHtml }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.bodyHtml) }}
             />
           )}
         </div>

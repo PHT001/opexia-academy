@@ -47,6 +47,64 @@ export async function GET(
     return NextResponse.json({ error: "Etudiant introuvable" }, { status: 404 });
   }
 
+  // Fetch email logs (try-catch in case EmailLog table doesn't exist yet)
+  let emailLogs: { id: string; type: string; sequence: number; subject: string; status: string; createdAt: string }[] = [];
+  try {
+    const rawLogs = await (prisma as any).emailLog.findMany({
+      where: { userId: id },
+      orderBy: { createdAt: "desc" },
+    });
+    emailLogs = rawLogs.map((log: any) => ({
+      id: log.id,
+      type: log.type,
+      sequence: log.sequence,
+      subject: log.subject,
+      status: log.status,
+      createdAt: log.createdAt instanceof Date ? log.createdAt.toISOString() : log.createdAt,
+    }));
+  } catch {
+    // EmailLog table may not exist yet
+  }
+
+  // Calculate engagement score based on last activity (streak)
+  const lastStreak = user.streaks.length > 0 ? user.streaks[0].date : null;
+  const now = new Date();
+  let daysSinceLastActivity = -1;
+  if (lastStreak) {
+    daysSinceLastActivity = Math.floor(
+      (now.getTime() - new Date(lastStreak).getTime()) / (1000 * 60 * 60 * 24)
+    );
+  }
+
+  let engagement: "chaud" | "tiede" | "froid";
+  if (lastStreak && daysSinceLastActivity <= 3) {
+    engagement = "chaud";
+  } else if (lastStreak && daysSinceLastActivity <= 14) {
+    engagement = "tiede";
+  } else {
+    engagement = "froid";
+  }
+
+  // Contact alert: true if all email sequences completed AND no paid enrollment AND froid
+  const sequenceTotals: Record<string, number> = {
+    nurture: 3,
+    free_followup: 3,
+    drip: 2,
+  };
+  const sequenceCounts: Record<string, number> = {};
+  for (const log of emailLogs) {
+    if (sequenceTotals[log.type]) {
+      sequenceCounts[log.type] = (sequenceCounts[log.type] || 0) + 1;
+    }
+  }
+  const allSequencesCompleted = Object.entries(sequenceTotals).every(
+    ([type, total]) => (sequenceCounts[type] || 0) >= total
+  );
+  const hasPaidEnrollment = user.enrollments.some(
+    (e: any) => e.tier !== "starter" && e.status === "active"
+  );
+  const shouldContact = allSequencesCompleted && !hasPaidEnrollment && engagement === "froid";
+
   // Build module-by-module progress
   const moduleMap: Record<
     string,
@@ -132,6 +190,7 @@ export async function GET(
     profession: user.profession,
     createdAt: user.createdAt.toISOString(),
     onboardingCompleted: user.onboardingCompleted,
+    adminNotes: user.adminNotes || null,
     enrollment: user.enrollments[0]
       ? {
           id: user.enrollments[0].id,
@@ -155,6 +214,10 @@ export async function GET(
       date: s.date.toISOString(),
     })),
     xpTimeline,
+    emailLogs,
+    engagement,
+    shouldContact,
+    daysSinceLastActivity,
   });
   } catch (error) {
     console.error("GET /api/admin/students/[id] error:", error);
@@ -174,16 +237,25 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await req.json();
-    const { tier } = body;
-
-    if (!tier || !["starter", "academy", "one_to_one"].includes(tier)) {
-      return NextResponse.json({ error: "Tier invalide" }, { status: 400 });
-    }
+    const { tier, adminNotes } = body;
 
     // Check user exists
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user || user.role !== "student") {
       return NextResponse.json({ error: "Etudiant introuvable" }, { status: 404 });
+    }
+
+    // Handle adminNotes update
+    if (adminNotes !== undefined) {
+      await prisma.user.update({
+        where: { id },
+        data: { adminNotes },
+      });
+      return NextResponse.json({ success: true, adminNotes });
+    }
+
+    if (!tier || !["starter", "academy", "one_to_one"].includes(tier)) {
+      return NextResponse.json({ error: "Tier invalide" }, { status: 400 });
     }
 
     // Find existing enrollment

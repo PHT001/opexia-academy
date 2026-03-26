@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 const ALL_SCREENSHOTS = [
@@ -16,20 +17,21 @@ const ALL_SCREENSHOTS = [
   "/images/testimonials/screen-10.jpg",
 ];
 
-const COLLAPSED_HEIGHT = 780; // px — height before fade kicks in
+const MOBILE_VISIBLE = 5;
+const COLLAPSED_HEIGHT_DESKTOP = 780;
 
 export default function Testimonials() {
   const [expanded, setExpanded] = useState(false);
 
-  const handleExpand = () => {
-    setExpanded(true);
-  };
+  const handleExpand = () => setExpanded(true);
 
   const handleCollapse = () => {
     const section = document.getElementById("testimonials");
     if (section) section.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => setExpanded(false), 400);
   };
+
+  const mobileScreenshots = expanded ? ALL_SCREENSHOTS : ALL_SCREENSHOTS.slice(0, MOBILE_VISIBLE);
 
   return (
     <section id="testimonials" className="py-16 lg:py-24 bg-[#F8F9FA] overflow-hidden">
@@ -52,25 +54,68 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* Mobile: horizontal scroll */}
-        <div
-          className="lg:hidden flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {ALL_SCREENSHOTS.map((src, i) => (
-            <div key={src} className="flex-shrink-0 snap-center w-[180px] sm:w-[200px]">
-              <div className="rounded-[16px] overflow-hidden shadow-md">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={`Retour élève ${i + 1}`} className="w-full h-auto block" loading="lazy" />
-              </div>
-            </div>
-          ))}
+        {/* Mobile/Tablet: masonry 2 columns with voir plus */}
+        <div className="lg:hidden relative">
+          <div className="columns-2 gap-3">
+            {mobileScreenshots.map((src, i) => (
+              <motion.div
+                key={src}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ delay: i * 0.04, duration: 0.4 }}
+                className="mb-3 break-inside-avoid"
+              >
+                <div className="rounded-xl overflow-hidden shadow-md">
+                  <Image src={src} alt={`Retour élève ${i + 1}`} width={400} height={600} sizes="50vw" className="w-full h-auto block" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Fade overlay when collapsed */}
+          {!expanded && (
+            <div
+              className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none"
+              style={{
+                background: "linear-gradient(to top, #F8F9FA 0%, rgba(248,249,250,0.6) 50%, transparent 100%)",
+              }}
+            />
+          )}
+
+          {/* Button */}
+          <div className={`flex justify-center ${expanded ? "mt-6" : "-mt-6 relative z-10"}`}>
+            <button
+              onClick={expanded ? handleCollapse : handleExpand}
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 ${
+                expanded
+                  ? "border border-gray-200 bg-white text-[#111] hover:border-[#FF1744] hover:text-[#FF1744]"
+                  : "bg-[#111] text-white hover:bg-[#FF1744]"
+              }`}
+            >
+              {expanded ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+                  </svg>
+                  Voir moins
+                </>
+              ) : (
+                <>
+                  Voir plus de retours
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* Desktop: single masonry, clipped with fade when collapsed */}
+        {/* Desktop: masonry 3 columns with max-height clip */}
         <div className="hidden lg:block relative">
           <motion.div
-            animate={{ maxHeight: expanded ? 5000 : COLLAPSED_HEIGHT }}
+            animate={{ maxHeight: expanded ? 5000 : COLLAPSED_HEIGHT_DESKTOP }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
             className="overflow-hidden"
           >
@@ -85,8 +130,7 @@ export default function Testimonials() {
                   className="mb-3 break-inside-avoid"
                 >
                   <div className="rounded-[16px] overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt={`Retour élève ${i + 1}`} className="w-full h-auto block" loading="lazy" />
+                    <Image src={src} alt={`Retour élève ${i + 1}`} width={400} height={600} sizes="(min-width: 1024px) 33vw, 50vw" className="w-full h-auto block" />
                   </div>
                 </motion.div>
               ))}

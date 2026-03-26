@@ -111,3 +111,8 @@ export type Note = Prisma.NoteModel
  * 
  */
 export type Project = Prisma.ProjectModel
+/**
+ * Model EmailLog
+ * 
+ */
+export type EmailLog = Prisma.EmailLogModel

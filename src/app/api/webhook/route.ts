@@ -113,9 +113,43 @@ export async function POST(req: NextRequest) {
             });
           }
         } catch (emailError) {
-          console.error("Failed to send welcome email:", emailError);
+          console.error("Failed to send welcome email:", emailError instanceof Error ? emailError.message : "Unknown error");
           // Don't fail the webhook if email sending fails
         }
+      }
+
+      // --- Referral commission logic ---
+      const TIER_COMMISSION: Record<string, number> = {
+        starter: 940,      // 20% of 4700 cents (47€)
+        academy: 7455,     // 15% of 49700 cents (497€)
+        one_to_one: 24970, // 10% of 249700 cents (2497€)
+      };
+
+      try {
+        const pendingReferral = await prisma.referral.findFirst({
+          where: {
+            referredId: userId,
+            status: "pending",
+          },
+        });
+
+        if (pendingReferral && pendingReferral.referrerId !== userId) {
+          const commission = TIER_COMMISSION[tier] ?? 0;
+
+          if (commission > 0) {
+            await prisma.referral.update({
+              where: { id: pendingReferral.id },
+              data: {
+                commission,
+                referredTier: tier,
+                status: "confirmed",
+              },
+            });
+          }
+        }
+      } catch (referralError) {
+        console.error("Failed to process referral commission:", referralError instanceof Error ? referralError.message : "Unknown error");
+        // Don't fail the webhook if referral processing fails
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unknown error";

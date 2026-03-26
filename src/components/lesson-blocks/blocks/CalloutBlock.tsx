@@ -1,5 +1,6 @@
 "use client";
 
+import DOMPurify from "isomorphic-dompurify";
 import type { CalloutBlock as CalloutBlockType } from "@/types/lesson-blocks";
 
 const VARIANTS = {
@@ -69,7 +70,7 @@ export default function CalloutBlock({ block }: { block: CalloutBlockType }) {
         )}
         <div
           className={`${v.textColor} text-[0.95rem] leading-relaxed [&_a]:underline [&_a]:underline-offset-2`}
-          dangerouslySetInnerHTML={{ __html: block.html }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.html) }}
         />
       </div>
     </div>

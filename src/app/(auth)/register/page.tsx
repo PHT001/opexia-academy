@@ -52,7 +52,7 @@ function RegisterForm() {
       }
 
       await signIn("credentials", { email, password, redirect: false });
-      router.push("/verify-email");
+      router.push("/offres");
       router.refresh();
     } catch {
       setError("Erreur serveur");
@@ -83,7 +83,7 @@ function RegisterForm() {
       )}
 
       <button
-        onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+        onClick={() => signIn("google", { callbackUrl: "/offres" })}
         className="w-full h-12 rounded-xl bg-white border border-gray-200 text-sm font-medium text-gray-700 flex items-center justify-center gap-3 hover:bg-gray-50 hover:border-gray-300 transition-all mb-5"
       >
         <GoogleIcon />

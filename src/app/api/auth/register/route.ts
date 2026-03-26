@@ -4,6 +4,9 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { z } from "zod";
 import { Resend } from "resend";
+import rateLimit from "@/lib/rate-limit";
+
+const limiter = rateLimit({ interval: 15 * 60 * 1000, uniqueTokenPerInterval: 500 });
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -22,6 +25,12 @@ function generateCode(): string {
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+    const { success } = limiter.check(5, ip);
+    if (!success) {
+      return NextResponse.json({ error: "Trop de requêtes. Réessayez dans quelques minutes." }, { status: 429 });
+    }
+
     const body = await request.json();
     const parsed = registerSchema.parse(body);
     const name = parsed.name;
@@ -71,7 +80,7 @@ export async function POST(request: Request) {
           `,
         });
       } catch (emailError) {
-        console.error("Failed to send verification email:", emailError);
+        console.error("Failed to send verification email:", emailError instanceof Error ? emailError.message : "Unknown error");
       }
     }
 

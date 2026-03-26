@@ -20,9 +20,9 @@ export async function GET(req: NextRequest) {
 
   const totalLessons = await prisma.lesson.count();
 
-  // Build where clause
+  // Build where clause — always exclude bots
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = { role: "student" };
+  const where: any = { role: "student", isBot: false };
 
   if (search) {
     where.OR = [
@@ -80,6 +80,7 @@ export async function GET(req: NextRequest) {
     lastActive: s.streaks[0]?.date?.toISOString() || null,
     discordUsername: s.discordUsername || null,
     totalXP: xpMap[s.id] || 0,
+    isBot: s.isBot,
   }));
 
   // Post-sort by XP or progress if needed

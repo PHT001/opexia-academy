@@ -20,9 +20,14 @@ model User {
   age                 String?
   profession          String?
   onboardingCompleted Boolean  @default(false)
+  adminNotes          String?
+  isBot               Boolean  @default(false)
   referralCode        String?  @unique
   resetToken          String?
   resetTokenExpiry    DateTime?
+  discountCode        String?
+  discountPercent     Int?
+  discountExpiresAt   DateTime?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
@@ -36,6 +41,7 @@ model User {
   deals            PipelineDeal[]
   notes            Note[]
   projects         Project[]
+  emailLogs        EmailLog[]
 }
 
 model Module {
@@ -208,4 +214,18 @@ model Project {
   updatedAt   DateTime @updatedAt
 
   @@index([userId])
+}
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // "nurture" | "free_followup" | "drip" | "weekly_recap" | "manual"
+  sequence  Int?     // Which email in sequence (1, 2, 3...)
+  subject   String
+  status    String   @default("sent") // "sent" | "failed"
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([type])
 }

@@ -17,7 +17,7 @@ export async function GET() {
 
     return NextResponse.json(deals);
   } catch (error) {
-    console.error("GET /api/pipeline error:", error);
+    console.error("GET /api/pipeline error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(deal, { status: 201 });
   } catch (error) {
-    console.error("POST /api/pipeline error:", error);
+    console.error("POST /api/pipeline error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

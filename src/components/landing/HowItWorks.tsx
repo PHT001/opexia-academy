@@ -47,7 +47,7 @@ const steps = [
   {
     num: "01",
     title: "Forme-toi à l'IA",
-    desc: "85 leçons, 22 modules, quiz interactifs. Du prompt engineering au déploiement.",
+    desc: "91 leçons, 22 modules, quiz interactifs. Du prompt engineering au déploiement.",
     Icon: IconGraduation,
   },
   {

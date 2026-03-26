@@ -17,14 +17,14 @@ export async function GET() {
 
   try {
   // ── Existing stats ──
-  const totalStudents = await prisma.user.count({ where: { role: "student" } });
+  const totalStudents = await prisma.user.count({ where: { role: "student", isBot: false } });
 
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
   const activeStudents = await prisma.streak.groupBy({
     by: ["userId"],
-    where: { date: { gte: sevenDaysAgo } },
+    where: { date: { gte: sevenDaysAgo }, user: { isBot: false } },
   });
 
   const totalLessons = await prisma.lesson.count();
@@ -83,14 +83,41 @@ export async function GET() {
     }
   }
 
-  // Recent enrollments (last 10)
-  const recentEnrollments = enrollments.slice(0, 10).map((e) => ({
+  // Recent enrollments (last 15) — used as payments table
+  const recentEnrollments = enrollments.slice(0, 15).map((e) => ({
     id: e.id,
     userName: e.user.name,
     userEmail: e.user.email,
     tier: e.tier,
-    date: e.createdAt.toISOString(),
+    amount: TIER_PRICES[e.tier] || 0,
+    status: e.status,
+    createdAt: e.createdAt.toISOString(),
   }));
+
+  // Revenue this month
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthlyRevenueThisMonth = enrollments
+    .filter((e) => e.createdAt >= monthStart)
+    .reduce((sum, e) => sum + (TIER_PRICES[e.tier] || 0), 0);
+
+  // Revenue breakdown by tier
+  const revenueByTier: Record<string, number> = { starter: 0, academy: 0, one_to_one: 0 };
+  for (const e of enrollments) {
+    if (e.tier in revenueByTier) {
+      revenueByTier[e.tier] += TIER_PRICES[e.tier] || 0;
+    }
+  }
+
+  // MRR estimate (average of last 3 months)
+  const last3Months = monthlyRevenue.slice(-3);
+  const mrrEstimate = last3Months.length > 0
+    ? Math.round(last3Months.reduce((s, m) => s + m.revenue, 0) / last3Months.length)
+    : 0;
+
+  // Average cart value
+  const avgCartValue = enrollments.length > 0
+    ? Math.round(totalRevenue / enrollments.length)
+    : 0;
 
   // ── Recent activity (last 20 merged) ──
   const recentCompletions = await prisma.lessonProgress.findMany({
@@ -137,7 +164,7 @@ export async function GET() {
     userGrowth.push({ month: key, count: 0 });
   }
   const allStudents = await prisma.user.findMany({
-    where: { role: "student" },
+    where: { role: "student", isBot: false },
     select: { createdAt: true },
   });
   for (const s of allStudents) {
@@ -156,7 +183,7 @@ export async function GET() {
 
   // Users registered 30+ days ago
   const oldStudents = await prisma.user.findMany({
-    where: { role: "student", createdAt: { lte: thirtyDaysAgo } },
+    where: { role: "student", isBot: false, createdAt: { lte: thirtyDaysAgo } },
     select: { id: true },
   });
 
@@ -177,9 +204,9 @@ export async function GET() {
 
   // ── Conversion Funnel (Feature 5) ──
   const funnelTotalUsers = totalStudents;
-  const funnelVerifiedUsers = await prisma.user.count({ where: { role: "student", emailVerified: true } });
+  const funnelVerifiedUsers = await prisma.user.count({ where: { role: "student", isBot: false, emailVerified: true } });
   const funnelEnrolledUsers = await prisma.user.count({
-    where: { role: "student", enrollments: { some: {} } },
+    where: { role: "student", isBot: false, enrollments: { some: {} } },
   });
   const funnelActiveUsers = activeStudents.length; // users with streak in last 7 days
 
@@ -191,6 +218,10 @@ export async function GET() {
     totalLessons,
     completionsToday,
     totalRevenue,
+    monthlyRevenueThisMonth,
+    revenueByTier,
+    mrrEstimate,
+    avgCartValue,
     monthlyRevenue,
     enrollmentsByTier,
     recentEnrollments,

@@ -82,6 +82,10 @@ function makeQuiz(lessonOrder: number) {
 }
 
 export async function POST() {
+  if (process.env.ALLOW_SEED !== "true") {
+    return NextResponse.json({ error: "Seed is disabled" }, { status: 403 });
+  }
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || session.user.role !== "admin") {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 });

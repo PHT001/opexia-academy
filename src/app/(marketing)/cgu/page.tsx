@@ -106,8 +106,8 @@ export default function CGUPage() {
         </p>
         <ul className="list-disc list-inside space-y-2 text-[#6B7280] leading-relaxed mb-4">
           <li><strong>Starter</strong> &mdash; 47&nbsp;&euro; : acc&egrave;s au module d&apos;introduction</li>
-          <li><strong>Academy</strong> &mdash; 397&nbsp;&euro; : acc&egrave;s &agrave; l&apos;ensemble des modules de formation</li>
-          <li><strong>One-to-One</strong> &mdash; 3&nbsp;997&nbsp;&euro; : acc&egrave;s complet avec accompagnement personnalis&eacute;</li>
+          <li><strong>Academy</strong> &mdash; 497&nbsp;&euro; : acc&egrave;s &agrave; l&apos;ensemble des modules de formation</li>
+          <li><strong>One-to-One</strong> &mdash; 2&nbsp;497&nbsp;&euro; : acc&egrave;s complet avec accompagnement personnalis&eacute;</li>
         </ul>
         <p className="text-[#6B7280] leading-relaxed mb-4">
           Les tarifs sont indiqu&eacute;s en euros TTC (TVA non applicable, article 293 B du CGI).
@@ -124,27 +124,43 @@ export default function CGUPage() {
           apr&egrave;s chaque achat.
         </p>
 
-        {/* Article 6 — Droit de rétractation */}
-        <h2 className="text-xl font-semibold mt-10 mb-4">Article 6 &mdash; Droit de r&eacute;tractation</h2>
+        {/* Article 6 — Garantie et droit de rétractation */}
+        <h2 className="text-xl font-semibold mt-10 mb-4">Article 6 &mdash; Garantie satisfait ou rembours&eacute; et droit de r&eacute;tractation</h2>
+
+        <h3 className="text-lg font-medium mt-6 mb-3">6.1 &mdash; Garantie commerciale &laquo;&nbsp;Satisfait ou rembours&eacute;&nbsp;&raquo;</h3>
         <p className="text-[#6B7280] leading-relaxed mb-4">
-          Conform&eacute;ment aux articles L.221-18 et suivants du Code de la consommation,
-          l&apos;utilisateur dispose d&apos;un d&eacute;lai de <strong>14 jours calendaires</strong> &agrave;
-          compter de la date d&apos;achat pour exercer son droit de r&eacute;tractation, sans avoir
-          &agrave; motiver sa d&eacute;cision.
+          OpexIA propose une garantie commerciale de <strong>14 jours calendaires</strong> &agrave;
+          compter de la date d&apos;achat. Cette garantie est soumise aux conditions cumulatives suivantes&nbsp;:
         </p>
+        <ul className="list-disc list-inside space-y-2 text-[#6B7280] leading-relaxed mb-4">
+          <li>L&apos;utilisateur doit avoir <strong>suivi et compl&eacute;t&eacute; au minimum 50% des le&ccedil;ons</strong> de la formation souscrite (progression v&eacute;rifiable sur la plateforme)&nbsp;;</li>
+          <li>L&apos;utilisateur doit avoir <strong>r&eacute;alis&eacute; un appel bilan</strong> avec l&apos;&eacute;quipe p&eacute;dagogique d&apos;OpexIA (planifiable depuis la plateforme ou par email)&nbsp;;</li>
+          <li>La demande de remboursement doit &ecirc;tre formul&eacute;e <strong>dans les 14 jours suivant l&apos;achat</strong> par email &agrave; support@opexia-formation.com.</li>
+        </ul>
+        <p className="text-[#6B7280] leading-relaxed mb-4">
+          Ces conditions visent &agrave; s&apos;assurer que l&apos;utilisateur a r&eacute;ellement
+          test&eacute; la formation avant de demander un remboursement. Toute demande ne
+          remplissant pas l&apos;ensemble de ces conditions pourra &ecirc;tre refus&eacute;e.
+        </p>
+        <p className="text-[#6B7280] leading-relaxed mb-4">
+          Le remboursement sera effectu&eacute; dans un d&eacute;lai de 14 jours suivant
+          la validation de la demande, via le m&ecirc;me moyen de paiement utilis&eacute;
+          lors de l&apos;achat.
+        </p>
+
+        <h3 className="text-lg font-medium mt-6 mb-3">6.2 &mdash; Droit de r&eacute;tractation l&eacute;gal</h3>
         <p className="text-[#6B7280] leading-relaxed mb-4">
           Conform&eacute;ment &agrave; l&apos;article L.221-28 du Code de la consommation, le droit
-          de r&eacute;tractation ne peut &ecirc;tre exerc&eacute; pour les contenus num&eacute;riques
+          de r&eacute;tractation l&eacute;gal ne peut &ecirc;tre exerc&eacute; pour les contenus num&eacute;riques
           fournis sur un support immat&eacute;riel dont l&apos;ex&eacute;cution a commenc&eacute;
           avec l&apos;accord expr&egrave;s du consommateur et pour lesquels celui-ci a renonc&eacute;
-          &agrave; son droit de r&eacute;tractation.
+          &agrave; son droit de r&eacute;tractation. L&apos;acc&egrave;s imm&eacute;diat au contenu
+          de la formation vaut d&eacute;but d&apos;ex&eacute;cution.
         </p>
         <p className="text-[#6B7280] leading-relaxed mb-6">
-          Pour exercer ce droit, l&apos;utilisateur doit adresser sa demande par email &agrave;
-          support@opexia-formation.com en indiquant ses coordonn&eacute;es, le num&eacute;ro de
-          commande et la date d&apos;achat. Le remboursement sera effectu&eacute; dans un d&eacute;lai de
-          14 jours suivant la r&eacute;ception de la demande, via le m&ecirc;me moyen de paiement
-          utilis&eacute; lors de l&apos;achat.
+          La garantie commerciale d&eacute;crite en 6.1 se substitue au droit de r&eacute;tractation
+          l&eacute;gal et offre des conditions plus favorables au consommateur, sous r&eacute;serve
+          du respect des conditions pr&eacute;cit&eacute;es.
         </p>
 
         {/* Article 7 — Obligations de l'utilisateur */}

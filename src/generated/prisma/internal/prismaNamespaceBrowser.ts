@@ -64,7 +64,8 @@ export const ModelName = {
   PipelineDeal: 'PipelineDeal',
   Referral: 'Referral',
   Note: 'Note',
-  Project: 'Project'
+  Project: 'Project',
+  EmailLog: 'EmailLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -96,9 +97,14 @@ export const UserScalarFieldEnum = {
   age: 'age',
   profession: 'profession',
   onboardingCompleted: 'onboardingCompleted',
+  adminNotes: 'adminNotes',
+  isBot: 'isBot',
   referralCode: 'referralCode',
   resetToken: 'resetToken',
   resetTokenExpiry: 'resetTokenExpiry',
+  discountCode: 'discountCode',
+  discountPercent: 'discountPercent',
+  discountExpiresAt: 'discountExpiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -276,6 +282,19 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const EmailLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  sequence: 'sequence',
+  subject: 'subject',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailLogScalarFieldEnum = (typeof EmailLogScalarFieldEnum)[keyof typeof EmailLogScalarFieldEnum]
 
 
 export const SortOrder = {

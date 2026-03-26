@@ -291,7 +291,7 @@ export default function CertificatsPage() {
                       {downloadingPhase === i + 1 ? "..." : "PDF"}
                     </button>
                     <a
-                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://opexia.fr")}&title=${encodeURIComponent(`J'ai obtenu le certificat "${cert.title}" sur OpexIA Academy !`)}`}
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://opexia-formation.com")}&title=${encodeURIComponent(`J'ai obtenu le certificat "${cert.title}" sur OpexIA Academy !`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] font-semibold text-[#0077B5] bg-[#0077B5]/10 hover:bg-[#0077B5]/20 transition-colors"

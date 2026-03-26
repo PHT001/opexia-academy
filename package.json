@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:bots": "npx tsx prisma/seed-fake-students.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -16,11 +17,14 @@
     "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^7.4.2",
     "@react-pdf/renderer": "^4.3.2",
+    "@types/dompurify": "^3.0.5",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
+    "dompurify": "^3.3.3",
     "dotenv": "^17.3.1",
     "framer-motion": "^12.35.2",
     "googleapis": "^171.4.0",
+    "isomorphic-dompurify": "^3.7.1",
     "next": "16.1.6",
     "next-auth": "^4.24.13",
     "react": "19.2.3",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import DOMPurify from "isomorphic-dompurify";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -113,7 +114,7 @@ export default function LessonPage() {
           </h3>
           <div
             className="text-sm text-[#374151] leading-relaxed block-text"
-            dangerouslySetInnerHTML={{ __html: lesson.exercise }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(lesson.exercise) }}
           />
         </div>
       )}

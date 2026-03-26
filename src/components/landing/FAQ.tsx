@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: "C\u2019est quoi la diff\u00e9rence entre Starter, Academy et One-to-One ?",
-    a: "Le Starter \u00e0 47\u20ac te donne le Module 1 complet (8 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 397\u20ac (paiement en 3x disponible), c\u2019est la formation compl\u00e8te avec 130+ le\u00e7ons, la plateforme interactive, l\u2019assistant IA, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 3 997\u20ac (paiement en 4x disponible), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
+    a: "Le Starter \u00e0 47\u20ac te donne 2 modules D\u00e9couverte (6 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 497\u20ac (paiement en 3x disponible), c\u2019est la formation compl\u00e8te avec 91 le\u00e7ons, la plateforme interactive, l\u2019assistant IA, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 2\u00a0497\u20ac (paiement en 4x disponible), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
   },
   {
     q: "Est-ce que je peux payer en plusieurs fois ?",
@@ -34,11 +34,11 @@ const faqs = [
   },
   {
     q: "C\u2019est pas un scam / une arnaque ?",
-    a: "On comprend la m\u00e9fiance \u2014 il y a beaucoup de formations bidon sur le march\u00e9. OpexIA est une vraie agence IA qui a accompagn\u00e9 +200 entreprises. On ne vend pas du r\u00eave : on te donne les outils, la m\u00e9thode, et le support pour lancer. Et si \u00e7a ne te convient pas, tu es rembours\u00e9 sous 14 jours, sans condition.",
+    a: "On comprend la m\u00e9fiance \u2014 il y a beaucoup de formations bidon sur le march\u00e9. OpexIA est une vraie agence IA qui a accompagn\u00e9 +200 entreprises. On ne vend pas du r\u00eave : on te donne les outils, la m\u00e9thode, et le support pour lancer. Et si apr\u00e8s avoir suivi la formation les r\u00e9sultats ne sont pas au rendez-vous, on te rembourse sous 14 jours (voir conditions dans nos CGU).",
   },
   {
     q: "Comment fonctionne la garantie ?",
-    a: "C\u2019est simple : si tu n\u2019es pas satisfait dans les 14 jours suivant ton achat, on te rembourse int\u00e9gralement, sans poser de questions. Z\u00e9ro risque.",
+    a: "Tu as 14 jours pour tester. Si apr\u00e8s avoir suivi au moins 50% de la formation et fait un appel bilan avec notre \u00e9quipe tu n\u2019es toujours pas convaincu, on te rembourse int\u00e9gralement. On veut que tu r\u00e9ussisses, pas juste que tu paies.",
   },
   {
     q: "Y a-t-il un support si je suis bloqu\u00e9 ?",

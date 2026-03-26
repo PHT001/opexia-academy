@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Outfit, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "@/components/providers/SessionProvider";
+import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | OpexIA Academy",
   },
   description:
-    "OpexIA Academy - La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 85 leçons, chatbots, automatisations, sites web, prospection.",
+    "OpexIA Academy - La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 91 leçons, chatbots, automatisations, sites web, prospection.",
   keywords: [
     "formation IA",
     "agence IA",
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OpexIA Academy — La formation pour lancer ton agence IA et générer 10K/mois",
     description:
-      "22 modules, 85 leçons pour maîtriser l'IA : chatbots, automatisations, sites web, prospection. De zéro à 10K€/mois en 90 jours.",
+      "22 modules, 91 leçons pour maîtriser l'IA : chatbots, automatisations, sites web, prospection. De zéro à 10K€/mois en 90 jours.",
     type: "website",
     locale: "fr_FR",
     url: "https://opexia-formation.com",
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "OpexIA Academy — Lance ton agence IA en 90 jours",
     description:
-      "La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 85 leçons.",
+      "La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 91 leçons.",
     images: ["/images/og-image.png"],
   },
   robots: {
@@ -102,6 +103,7 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-dm), system-ui, sans-serif" }}
       >
         <SessionProvider>{children}</SessionProvider>
+        <CookieBanner />
       </body>
     </html>
   );
