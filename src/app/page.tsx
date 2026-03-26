@@ -18,6 +18,7 @@ import FinalCTA from "@/components/landing/FinalCTA";
 import Footer from "@/components/landing/Footer";
 import Chatbot from "@/components/landing/Chatbot";
 import SaleNotification from "@/components/landing/SaleNotification";
+import StickyFloatingCTA from "@/components/landing/StickyFloatingCTA";
 
 export default async function Home() {
   // Count students with at least 1 completed lesson (real social proof)
@@ -99,6 +100,7 @@ export default async function Home() {
       <FAQ />
       <FinalCTA />
       <Footer />
+      <StickyFloatingCTA />
       <Chatbot />
       <SaleNotification />
     </>

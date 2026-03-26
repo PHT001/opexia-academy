@@ -56,7 +56,7 @@ export default function Testimonials() {
 
         {/* Mobile/Tablet: masonry 2 columns with voir plus */}
         <div className="lg:hidden relative">
-          <div className="columns-2 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {mobileScreenshots.map((src, i) => (
               <motion.div
                 key={src}
@@ -64,10 +64,9 @@ export default function Testimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ delay: i * 0.04, duration: 0.4 }}
-                className="mb-3 break-inside-avoid"
               >
-                <div className="rounded-xl overflow-hidden shadow-md">
-                  <Image src={src} alt={`Retour élève ${i + 1}`} width={400} height={600} sizes="50vw" className="w-full h-auto block" />
+                <div className="rounded-xl overflow-hidden shadow-md aspect-[3/4]">
+                  <Image src={src} alt={`Retour élève ${i + 1}`} width={400} height={600} sizes="50vw" className="w-full h-full object-cover object-top" />
                 </div>
               </motion.div>
             ))}
