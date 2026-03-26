@@ -16,19 +16,52 @@ function GoogleIcon() {
   );
 }
 
+function EyeIcon({ open }: { open: boolean }) {
+  if (open) {
+    return (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  );
+}
+
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const refCode = searchParams.get("ref") || "";
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const hasMinLength = password.length >= 8;
+  const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
+  const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    if (!hasMinLength || !hasSpecialChar) {
+      setError("Le mot de passe ne respecte pas les critères requis");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -36,7 +69,6 @@ function RegisterForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name,
           email,
           password,
           ...(refCode ? { referralCode: refCode } : {}),
@@ -98,21 +130,6 @@ function RegisterForm() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Nom
-          </label>
-          <input
-            id="name"
-            type="text"
-            placeholder="Ton prénom"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
-          />
-        </div>
-
-        <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
             Email
           </label>
@@ -131,21 +148,74 @@ function RegisterForm() {
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
             Mot de passe
           </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="8 caractères minimum"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            minLength={8}
-            required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
-          />
+          <div className="relative">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="8 caractères minimum"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full h-12 px-4 pr-11 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+              tabIndex={-1}
+            >
+              <EyeIcon open={showPassword} />
+            </button>
+          </div>
+          {password.length > 0 && (
+            <div className="mt-2 space-y-1">
+              <p className={`text-xs flex items-center gap-1.5 ${hasMinLength ? "text-emerald-500" : "text-gray-400"}`}>
+                <span className={`inline-block w-1.5 h-1.5 rounded-full ${hasMinLength ? "bg-emerald-500" : "bg-gray-300"}`} />
+                8 caractères minimum
+              </p>
+              <p className={`text-xs flex items-center gap-1.5 ${hasSpecialChar ? "text-emerald-500" : "text-gray-400"}`}>
+                <span className={`inline-block w-1.5 h-1.5 rounded-full ${hasSpecialChar ? "bg-emerald-500" : "bg-gray-300"}`} />
+                1 caractère spécial (!@#$...)
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Confirmer le mot de passe
+          </label>
+          <div className="relative">
+            <input
+              id="confirmPassword"
+              type={showConfirm ? "text" : "password"}
+              placeholder="Confirme ton mot de passe"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className={`w-full h-12 px-4 pr-11 rounded-xl bg-white border text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 transition-all ${
+                confirmPassword.length > 0 && !passwordsMatch
+                  ? "border-red-300 focus:ring-red-200 focus:border-red-400"
+                  : "border-gray-200 focus:ring-[#FF1744]/20 focus:border-[#FF1744]"
+              }`}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirm(!showConfirm)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+              tabIndex={-1}
+            >
+              <EyeIcon open={showConfirm} />
+            </button>
+          </div>
+          {confirmPassword.length > 0 && !passwordsMatch && (
+            <p className="text-xs text-red-400 mt-1.5">Les mots de passe ne correspondent pas</p>
+          )}
         </div>
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || !hasMinLength || !hasSpecialChar || !passwordsMatch}
           className="w-full h-12 rounded-xl bg-[#1A1A2E] text-white text-sm font-semibold hover:bg-[#2A2A40] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
         >
           {loading ? (

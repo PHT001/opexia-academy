@@ -900,16 +900,20 @@ export default function LessonsPage() {
 
       </div>
 
+      {/* ── Bottom spacer so content isn't hidden behind floating CTA ── */}
+      {(userTier === "free" || userTier === "starter") && <div className="h-24" />}
+
       {/* ── Floating fixed CTA for non-academy users ── */}
       {(userTier === "free" || userTier === "starter") && (
-        <div className="fixed bottom-6 left-0 right-0 lg:left-[260px] z-50 flex justify-center pointer-events-none">
+        <div className="fixed bottom-6 left-0 right-0 lg:left-[260px] z-50 flex justify-center" style={{ pointerEvents: "none" }}>
           <motion.a
             href="/offres"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 1, duration: 0.4, ease: "easeOut" }}
-            className="pointer-events-auto inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform"
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform"
             style={{
+              pointerEvents: "auto",
               background: "linear-gradient(135deg, #FF1744, #D50000)",
               boxShadow: "0 8px 32px rgba(255,23,68,0.4), 0 2px 8px rgba(0,0,0,0.1)",
             }}

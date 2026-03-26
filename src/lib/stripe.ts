@@ -2,7 +2,7 @@ import Stripe from "stripe";
 
 let _stripe: Stripe | null = null;
 
-export function getStripe(): Stripe {
+function getStripe(): Stripe {
   if (!_stripe) {
     if (!process.env.STRIPE_SECRET_KEY) {
       throw new Error(
@@ -14,12 +14,9 @@ export function getStripe(): Stripe {
   return _stripe;
 }
 
-// For backward compatibility - lazy getter
-export const stripe = {
-  get checkout() {
-    return getStripe().checkout;
+// Lazy-initialized singleton — direct Stripe instance
+export const stripe = new Proxy({} as Stripe, {
+  get(_target, prop) {
+    return getStripe()[prop as keyof Stripe];
   },
-  get webhooks() {
-    return getStripe().webhooks;
-  },
-};
+});

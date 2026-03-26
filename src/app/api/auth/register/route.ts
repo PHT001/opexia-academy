@@ -13,9 +13,11 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 const registerSchema = z.object({
-  name: z.string().min(2, "Le nom doit contenir au moins 2 caracteres"),
+  name: z.string().optional(),
   email: z.string().email("Email invalide"),
-  password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caracteres"),
+  password: z.string()
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
+    .regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, "Le mot de passe doit contenir au moins un caractère spécial"),
   referralCode: z.string().optional(),
 });
 

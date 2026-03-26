@@ -138,7 +138,7 @@ function OffresContent() {
         throw new Error(data.error || "Erreur");
       }
       window.location.href = data.url;
-    } catch { alert("Une erreur est survenue. Veuillez r\u00e9essayer."); }
+    } catch (err) { alert(err instanceof Error ? err.message : "Une erreur est survenue. Veuillez r\u00e9essayer."); }
     finally { setLoading(null); }
   }
 
