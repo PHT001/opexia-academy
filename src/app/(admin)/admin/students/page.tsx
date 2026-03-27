@@ -49,6 +49,9 @@ export default function StudentsPage() {
   const [sort, setSort] = useState("createdAt_desc");
   const [hideBots, setHideBots] = useState(false);
   const [page, setPage] = useState(1);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
 
   const fetchStudents = useCallback(() => {
     setLoading(true);
@@ -84,6 +87,23 @@ export default function StudentsPage() {
     const days = Math.floor(hours / 24);
     if (days < 30) return `Il y a ${days}j`;
     return new Date(dateStr).toLocaleDateString("fr-FR");
+  };
+
+  const handleDelete = async (id: string) => {
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/admin/students/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setDeleteSuccess(true);
+        setTimeout(() => setDeleteSuccess(false), 3000);
+        fetchStudents();
+      }
+    } catch {
+      // ignore
+    } finally {
+      setDeletingId(null);
+      setConfirmDeleteId(null);
+    }
   };
 
   return (
@@ -164,18 +184,20 @@ export default function StudentsPage() {
                 <th className="text-center text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3">
                   Discord
                 </th>
+                <th className="text-center text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3 w-12">
+                </th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-12 text-center text-text-tertiary text-sm">
+                  <td colSpan={7} className="px-5 py-12 text-center text-text-tertiary text-sm">
                     Chargement...
                   </td>
                 </tr>
               ) : !data?.students.length ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-12 text-center text-text-tertiary text-sm">
+                  <td colSpan={7} className="px-5 py-12 text-center text-text-tertiary text-sm">
                     Aucun eleve trouve
                   </td>
                 </tr>
@@ -263,6 +285,24 @@ export default function StudentsPage() {
                             }`}
                           />
                         </td>
+
+                        {/* Delete */}
+                        <td className="px-3 py-4 text-center">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setConfirmDeleteId(student.id);
+                            }}
+                            disabled={deletingId === student.id}
+                            className="p-1.5 rounded-lg text-text-tertiary hover:text-red-400 hover:bg-red-500/10 transition-all disabled:opacity-50"
+                            title="Supprimer"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                        </td>
                       </tr>
                     </Link>
                   );
@@ -295,6 +335,47 @@ export default function StudentsPage() {
           </div>
         )}
       </GlassCard>
+
+      {/* Confirmation Dialog */}
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#1a1a2e] border border-white/[0.1] rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-white">Supprimer cet eleve ?</h3>
+            </div>
+            <p className="text-sm text-text-secondary mb-6">
+              Cette action est irreversible. Toutes les donnees de cet eleve seront definitivement supprimees.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setConfirmDeleteId(null)}
+                className="px-4 py-2 rounded-xl text-sm font-medium bg-white/[0.08] text-text-secondary hover:text-white hover:bg-white/[0.12] transition-all"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={() => handleDelete(confirmDeleteId)}
+                disabled={deletingId !== null}
+                className="px-4 py-2 rounded-xl text-sm font-medium bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30 transition-all disabled:opacity-50"
+              >
+                {deletingId ? "Suppression..." : "Supprimer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Toast */}
+      {deleteSuccess && (
+        <div className="fixed bottom-6 right-6 z-50 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 px-5 py-3 rounded-xl text-sm font-medium shadow-lg backdrop-blur-sm animate-in fade-in slide-in-from-bottom-2">
+          Eleve supprime avec succes
+        </div>
+      )}
     </div>
   );
 }

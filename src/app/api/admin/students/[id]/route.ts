@@ -225,6 +225,46 @@ export async function GET(
   }
 }
 
+export async function DELETE(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id || session.user.role !== "admin") {
+    return NextResponse.json({ error: "Non autorise" }, { status: 403 });
+  }
+
+  try {
+    const { id } = await params;
+
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user || user.role !== "student") {
+      return NextResponse.json({ error: "Etudiant introuvable" }, { status: 404 });
+    }
+
+    // Delete all related records, then the user
+    await prisma.$transaction([
+      prisma.lessonProgress.deleteMany({ where: { userId: id } }),
+      prisma.quizSubmission.deleteMany({ where: { userId: id } }),
+      prisma.streak.deleteMany({ where: { userId: id } }),
+      prisma.enrollment.deleteMany({ where: { userId: id } }),
+      prisma.coachingSession.deleteMany({ where: { userId: id } }),
+      prisma.referral.deleteMany({ where: { referrerId: id } }),
+      prisma.referral.deleteMany({ where: { referredId: id } }),
+      prisma.pipelineDeal.deleteMany({ where: { userId: id } }),
+      prisma.note.deleteMany({ where: { userId: id } }),
+      prisma.project.deleteMany({ where: { userId: id } }),
+      prisma.emailLog.deleteMany({ where: { userId: id } }),
+      prisma.user.delete({ where: { id } }),
+    ]);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("DELETE /api/admin/students/[id] error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
+}
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
