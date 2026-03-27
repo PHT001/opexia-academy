@@ -618,7 +618,7 @@ function CoachingContent() {
 
   /* ─── User booking view ─── */
   const bookingContent = (
-    <div className="w-full space-y-4 sm:space-y-8">
+    <div className="w-full space-y-3 sm:space-y-8">
 
       {/* ═══════════════ SUCCESS MESSAGE ═══════════════ */}
       {successMessage && (
@@ -641,11 +641,11 @@ function CoachingContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="p-4 sm:p-8">
-          <div className="flex flex-row items-center gap-4 sm:gap-5">
+        <div className="p-3 sm:p-8">
+          <div className="flex flex-row items-center gap-3 sm:gap-5">
             {/* Avatar */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/15 flex-shrink-0">
-              <span className="text-xl sm:text-2xl font-black text-white">O</span>
+            <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/15 flex-shrink-0">
+              <span className="text-lg sm:text-2xl font-black text-white">O</span>
             </div>
 
             <div className="flex-1">
@@ -686,7 +686,7 @@ function CoachingContent() {
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-0.5 sm:mb-1">Choisis ton créneau</h2>
-        <p className="text-xs text-gray-500 mb-3 sm:mb-5">Sélectionne un jour puis un horaire pour réserver ta session.</p>
+        <p className="text-xs text-gray-500 mb-2 sm:mb-5">Sélectionne un jour puis un horaire pour réserver ta session.</p>
 
         <CalendlyPicker
           slots={slots}

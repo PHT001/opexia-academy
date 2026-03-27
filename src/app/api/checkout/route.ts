@@ -70,20 +70,30 @@ export async function POST(req: NextRequest) {
     let customerId: string | undefined;
     const userEmail = session.user.email;
     if (userEmail) {
-      const existingCustomers = await stripe.customers.list({
-        email: userEmail,
-        limit: 1,
-      });
-      if (existingCustomers.data.length > 0) {
-        customerId = existingCustomers.data[0].id;
-      } else {
-        const newCustomer = await stripe.customers.create({
+      try {
+        const existingCustomers = await stripe.customers.list({
           email: userEmail,
-          metadata: { userId: session.user.id },
+          limit: 1,
         });
-        customerId = newCustomer.id;
+        if (existingCustomers.data.length > 0) {
+          customerId = existingCustomers.data[0].id;
+        } else {
+          const newCustomer = await stripe.customers.create({
+            email: userEmail,
+            metadata: { userId: session.user.id },
+          });
+          customerId = newCustomer.id;
+        }
+      } catch (customerErr) {
+        // If customer lookup/creation fails, fall back to customer_email
+        console.error("Stripe customer lookup error:", customerErr instanceof Error ? customerErr.message : customerErr);
+        customerId = undefined;
       }
     }
+
+    // Don't enable allow_promotion_codes when a coupon discount is already applied
+    // to avoid double-discounting; also Klarna has restrictions with promotion codes
+    const hasCustomDiscount = finalPrice !== p.price;
 
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -109,7 +119,7 @@ export async function POST(req: NextRequest) {
       ],
       success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
       cancel_url: `${origin}/offres`,
-      allow_promotion_codes: true,
+      ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
     });
 
     if (!checkoutSession.url) {

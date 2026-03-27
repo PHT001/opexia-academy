@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ---------------------------------------------------------------------------
@@ -47,33 +47,20 @@ function getRandomMessage(): string {
 
 export default function LiveActivityFeed() {
   const [notification, setNotification] = useState<{ id: number; message: string } | null>(null);
-  const [counter, setCounter] = useState(0);
-
-  const showNext = useCallback(() => {
-    const id = Date.now();
-    setNotification({ id, message: getRandomMessage() });
-    setCounter((c) => c + 1);
-
-    // Auto-dismiss after 5 seconds
-    setTimeout(() => {
-      setNotification((prev) => (prev?.id === id ? null : prev));
-    }, 5000);
-  }, []);
 
   useEffect(() => {
-    // Show first notification after a short delay
-    const initialTimeout = setTimeout(showNext, 3000);
+    // Show one single notification after 15 seconds, then auto-dismiss after 5 seconds
+    const timeout = setTimeout(() => {
+      const id = Date.now();
+      setNotification({ id, message: getRandomMessage() });
 
-    // Then rotate every 8-10 seconds
-    const interval = setInterval(() => {
-      showNext();
-    }, 8000 + Math.random() * 2000);
+      // Auto-dismiss after 5 seconds — never show another one
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+    }, 15000);
 
-    return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
