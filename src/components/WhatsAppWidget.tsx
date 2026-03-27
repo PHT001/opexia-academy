@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WHATSAPP_URL = "https://wa.me/33787858036";
@@ -8,12 +9,17 @@ const WHATSAPP_URL = "https://wa.me/33787858036";
 export default function WhatsAppWidget() {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const pathname = usePathname();
+
+  // Hide on landing page (has its own chatbot) and marketing pages
+  const isLandingPage = pathname === "/" || pathname === "/blog" || pathname?.startsWith("/blog/");
 
   useEffect(() => {
-    // Show the widget after a short delay so it doesn't appear immediately on load
     const timer = setTimeout(() => setVisible(true), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  if (isLandingPage) return null;
 
   return (
     <AnimatePresence>
