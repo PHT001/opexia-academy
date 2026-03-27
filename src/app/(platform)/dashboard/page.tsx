@@ -1696,6 +1696,8 @@ function AdminStudentsTab() {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [studentDetail, setStudentDetail] = useState<AdminStudentDetail | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [editTier, setEditTier] = useState<string>("");
@@ -1738,6 +1740,19 @@ function AdminStudentsTab() {
       setPage(1);
       fetchStudents(value, tierFilter, 1);
     }, 400);
+  };
+
+  const handleDeleteStudent = async (id: string) => {
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/admin/students/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setStudents((prev) => prev.filter((s) => s.id !== id));
+        if (expandedId === id) { setExpandedId(null); setStudentDetail(null); }
+      }
+    } catch (e) { /* ignore */ }
+    setDeletingId(null);
+    setConfirmDeleteId(null);
   };
 
   const handleExpand = (studentId: string) => {
@@ -1995,6 +2010,7 @@ function AdminStudentsTab() {
                   <th className="text-right py-3.5 px-4 font-semibold">XP</th>
                   <th className="text-right py-3.5 px-4 font-semibold hidden sm:table-cell">Derni&egrave;re activit&eacute;</th>
                   <th className="w-10 py-3.5 px-4"></th>
+                  <th className="py-3.5 px-3 font-semibold text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -2054,6 +2070,18 @@ function AdminStudentsTab() {
                               <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                             </svg>
                           </div>
+                        </td>
+                        <td className="py-3.5 px-3 text-center">
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setConfirmDeleteId(student.id); }}
+                            disabled={deletingId === student.id}
+                            className="px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all disabled:opacity-50 flex items-center gap-1.5 text-xs font-medium shadow-sm mx-auto"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            Supprimer
+                          </button>
                         </td>
                       </motion.tr>
                       {isExpanded && (
@@ -2431,6 +2459,21 @@ function AdminProjectCard({ project, index, updating, onUpdate }: {
             )}
           </button>
         </motion.div>
+      )}
+      {/* Delete confirmation modal */}
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setConfirmDeleteId(null)}>
+          <div className="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-gray-900">Supprimer cet élève ?</h3>
+            <p className="text-gray-500 text-sm mt-2">Cette action est irréversible. Toutes les données seront définitivement supprimées.</p>
+            <div className="flex gap-3 mt-5">
+              <button onClick={() => setConfirmDeleteId(null)} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium text-sm hover:bg-gray-50">Annuler</button>
+              <button onClick={() => handleDeleteStudent(confirmDeleteId)} disabled={!!deletingId} className="flex-1 py-2.5 rounded-xl bg-red-600 text-white font-medium text-sm hover:bg-red-700 disabled:opacity-50">
+                {deletingId ? "Suppression..." : "Supprimer"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </motion.div>
   );
