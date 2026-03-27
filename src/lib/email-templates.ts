@@ -317,13 +317,22 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
 
 /**
  * Free follow-up Day 1 — sent ~24h after free registration.
- * "Tu as découvert la plateforme ?"
+ * Supports A/B testing: variant "a" (default) or "b".
  */
-export function freeFollowupDayOne(name: string): { subject: string; html: string } {
+export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
+  const variantParam = `?variant=${variant}`;
+
+  const subject = variant === "b"
+    ? "🔓 Tu as débloqué ton accès gratuit — et maintenant ?"
+    : "Ta formation t'attend...";
+
+  const ctaText = variant === "b"
+    ? "Voir ce qui m&rsquo;attend"
+    : "D&eacute;bloquer ma formation";
 
   return {
-    subject: `${firstName}, tu as découvert la plateforme ?`,
+    subject,
     html: layout(`
       <h2 style="color: #1A1A2E; margin-bottom: 8px;">Hey ${firstName} !</h2>
       <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
@@ -343,8 +352,8 @@ export function freeFollowupDayOne(name: string): { subject: string; html: strin
         </ul>
       </div>
 
-      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        D&eacute;bloquer ma formation
+      <a href="https://opexia-formation.com/#pricing${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        ${ctaText}
       </a>
 
       <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
@@ -356,13 +365,22 @@ export function freeFollowupDayOne(name: string): { subject: string; html: strin
 
 /**
  * Free follow-up Day 2 — sent ~48h after free registration.
- * Urgency angle.
+ * Supports A/B testing: variant "a" (default) or "b".
  */
-export function freeFollowupDayTwo(name: string): { subject: string; html: string } {
+export function freeFollowupDayTwo(name: string, variant: "a" | "b" = "a"): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
+  const variantParam = `?variant=${variant}`;
+
+  const subject = variant === "b"
+    ? "Les autres avancent déjà — et toi ?"
+    : "Tu passes à côté de quelque chose...";
+
+  const ctaText = variant === "b"
+    ? "Rattraper mon retard"
+    : "Choisir mon offre";
 
   return {
-    subject: `${firstName}, tes futurs concurrents avancent déjà`,
+    subject,
     html: layout(`
       <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, ne reste pas en mode gratuit</h2>
       <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
@@ -385,8 +403,8 @@ export function freeFollowupDayTwo(name: string): { subject: string; html: strin
         Le march&eacute; de l&rsquo;IA n&rsquo;attend pas. Passe &agrave; l&rsquo;action maintenant.
       </p>
 
-      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Choisir mon offre
+      <a href="https://opexia-formation.com/#pricing${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        ${ctaText}
       </a>
 
       <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
@@ -399,12 +417,22 @@ export function freeFollowupDayTwo(name: string): { subject: string; html: strin
 /**
  * Free follow-up Day 7 — sent ~7 days after free registration.
  * Last chance with discount code.
+ * Supports A/B testing: variant "a" (default) or "b".
  */
-export function freeFollowupDaySeven(name: string): { subject: string; html: string } {
+export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a"): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
+  const variantParam = `&variant=${variant}`;
+
+  const subject = variant === "b"
+    ? "⚡ 20% de réduction expire ce soir"
+    : "Dernière chance : offre spéciale -20%";
+
+  const ctaText = variant === "b"
+    ? "Profiter de -20% maintenant"
+    : "Utiliser mon code -20%";
 
   return {
-    subject: `${firstName}, -20% pendant 24h — dernière chance`,
+    subject,
     html: layout(`
       <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, derni&egrave;re chance</h2>
       <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
@@ -428,8 +456,8 @@ export function freeFollowupDaySeven(name: string): { subject: string; html: str
         Apr&egrave;s &ccedil;a, le tarif normal s&rsquo;applique. C&rsquo;est le moment ou jamais.
       </p>
 
-      <a href="https://opexia-formation.com/offres?code=FREETRIAL" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Utiliser mon code -20%
+      <a href="https://opexia-formation.com/offres?code=FREETRIAL${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+        ${ctaText}
       </a>
 
       <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">

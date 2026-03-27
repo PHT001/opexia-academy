@@ -140,14 +140,24 @@ export async function GET() {
       return true;
     });
 
-    // Also get user's own sessions
-    const userSessions = await prisma.coachingSession.findMany({
-      where: { userId: session.user.id },
-      orderBy: { date: "desc" },
-      take: 10,
-    });
+    // Also get user's own sessions + enrollment tier
+    const [userSessions, enrollment] = await Promise.all([
+      prisma.coachingSession.findMany({
+        where: { userId: session.user.id },
+        orderBy: { date: "desc" },
+        take: 10,
+      }),
+      prisma.enrollment.findFirst({
+        where: { userId: session.user.id, status: "active" },
+        orderBy: { createdAt: "desc" },
+        select: { tier: true },
+      }),
+    ]);
 
-    return NextResponse.json({ slots: availableSlots, sessions: userSessions });
+    const isAdmin = (session.user as any).role === "admin";
+    const userTier = isAdmin ? "academy" : (enrollment?.tier || "free");
+
+    return NextResponse.json({ slots: availableSlots, sessions: userSessions, userTier });
   } catch (error) {
     console.error("GET /api/coaching/slots error:", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });

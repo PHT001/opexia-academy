@@ -1774,6 +1774,7 @@ export const EmailLogScalarFieldEnum = {
   sequence: 'sequence',
   subject: 'subject',
   status: 'status',
+  variant: 'variant',
   createdAt: 'createdAt'
 } as const
 

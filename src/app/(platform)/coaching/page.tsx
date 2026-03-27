@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { COACHING_PRICE_DISPLAY } from "@/lib/constants";
 import { useSearchParams } from "next/navigation";
+import UpgradeOverlay from "@/components/platform/UpgradeOverlay";
 
 interface Slot {
   date: string;
@@ -54,6 +55,18 @@ function IconMessageCircle({ className }: { className?: string }) {
 function IconShield({ className }: { className?: string }) {
   return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>;
 }
+function IconGlobe({ className }: { className?: string }) {
+  return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>;
+}
+function IconChevronLeft({ className }: { className?: string }) {
+  return <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>;
+}
+function IconChevronRight({ className }: { className?: string }) {
+  return <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>;
+}
+function IconArrowLeft({ className }: { className?: string }) {
+  return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>;
+}
 
 const INCLUDES = [
   { icon: "🎯", text: "Review de tes projets et code en direct" },
@@ -67,27 +80,30 @@ const INCLUDES = [
 const STEPS = [
   { num: "01", title: "Réserve ton créneau", desc: "Choisis la date et l'heure qui te conviennent parmi les créneaux disponibles.", icon: <IconCalendar className="text-white" /> },
   { num: "02", title: "Prépare tes questions", desc: "Envoie-nous tes sujets à l'avance pour maximiser la session.", icon: <IconMessageCircle className="text-white" /> },
-  { num: "03", title: "Session en visio", desc: "1h en face à face avec ton coach, partage d'écran et feedback en direct.", icon: <IconVideo className="text-white" /> },
+  { num: "03", title: "Session en visio", desc: "45 min en face à face avec ton coach, partage d'écran et feedback en direct.", icon: <IconVideo className="text-white" /> },
   { num: "04", title: "Plan d'action", desc: "Tu repars avec des actions concrètes et le replay de la session.", icon: <IconTarget className="text-white" /> },
 ];
-
-// Témoignages supprimés — à remplacer par de vrais retours quand disponibles
 
 /* ─── Animations ────────────────────────────────────── */
 const fadeUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
-/* ─── Calendar Slot Picker ─────────────────────────── */
+/* ─── Calendar constants ─────────────────────────────── */
 const DAYS_FR = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 const MONTHS_FR = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
-function CalendarSlotPicker({
+/* ─── Calendly-style Calendar + Time Slot Picker ───── */
+function CalendlyPicker({
   slots,
   selectedSlot,
   onSelect,
+  onConfirm,
+  booking,
 }: {
   slots: Slot[];
   selectedSlot: string | null;
   onSelect: (date: string) => void;
+  onConfirm: () => void;
+  booking: boolean;
 }) {
   const slotsByDate = useMemo(() => {
     const map: Record<string, Slot[]> = {};
@@ -102,7 +118,8 @@ function CalendarSlotPicker({
   const firstSlotDate = slots.length > 0 ? new Date(slots[0].date) : new Date();
   const [viewMonth, setViewMonth] = useState(firstSlotDate.getMonth());
   const [viewYear, setViewYear] = useState(firstSlotDate.getFullYear());
-  const [expandedDay, setExpandedDay] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [confirmStep, setConfirmStep] = useState(false);
 
   const prevMonth = () => {
     if (viewMonth === 0) { setViewMonth(11); setViewYear(viewYear - 1); }
@@ -126,191 +143,272 @@ function CalendarSlotPicker({
   const today = new Date();
   const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
-  const slotsInMonth = slots.filter((s) => {
-    const d = new Date(s.date);
-    return d.getMonth() === viewMonth && d.getFullYear() === viewYear;
-  }).length;
+  // When user selects a time slot and wants to confirm
+  const handleTimeSelect = (slotDate: string) => {
+    onSelect(slotDate);
+    setConfirmStep(true);
+  };
+
+  const handleBack = () => {
+    setConfirmStep(false);
+  };
+
+  // Confirmation step
+  if (confirmStep && selectedSlot) {
+    const slotDate = new Date(selectedSlot);
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        className="w-full"
+      >
+        {/* Back button */}
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-6 transition-colors"
+        >
+          <IconArrowLeft className="w-4 h-4" />
+          Retour au calendrier
+        </button>
+
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          {/* Confirmation header */}
+          <div className="p-6 sm:p-8 border-b border-gray-100 bg-gradient-to-br from-gray-50 to-white">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/20">
+                <IconCheck className="text-white w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900">Confirmer la réservation</h3>
+                <p className="text-sm text-gray-500">Vérifie les détails ci-dessous</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                  <IconCalendar className="text-blue-600 w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 capitalize">
+                    {slotDate.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+                  </p>
+                  <p className="text-xs text-gray-500">Date sélectionnée</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                  <IconClock className="text-emerald-600 w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">
+                    {slotDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" })} — 45 min
+                  </p>
+                  <p className="text-xs text-gray-500">Heure (Europe/Paris)</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
+                  <IconVideo className="text-purple-600 w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">Google Meet</p>
+                  <p className="text-xs text-gray-500">Le lien sera envoyé par email</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Confirm action */}
+          <div className="p-6 sm:p-8 bg-gray-50/50">
+            <button
+              disabled={booking}
+              onClick={onConfirm}
+              className={cn(
+                "w-full py-4 rounded-xl font-bold text-sm transition-all text-center",
+                !booking
+                  ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              )}
+            >
+              {booking ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+                  Redirection vers le paiement...
+                </span>
+              ) : (
+                `Réserver & Payer — ${COACHING_PRICE_DISPLAY}€`
+              )}
+            </button>
+            <p className="text-xs text-gray-400 text-center mt-3">
+              Paiement sécurisé par Stripe. Tu peux annuler jusqu'à 24h avant.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   if (slots.length === 0) {
     return (
-      <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1 flex items-center gap-2">
-          <IconCalendar className="text-gray-400" />
-          Choisis ton créneau
-        </h2>
-        <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-10 text-center mt-4">
-          <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-2xl mx-auto mb-3">📅</div>
-          <p className="text-sm font-semibold text-gray-700 mb-1">Aucun créneau disponible</p>
-          <p className="text-xs text-gray-400">Reviens bientôt, de nouveaux créneaux seront ajoutés.</p>
-        </div>
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-10 text-center">
+        <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center text-3xl mx-auto mb-4">📅</div>
+        <p className="text-base font-semibold text-gray-700 mb-1">Aucun créneau disponible</p>
+        <p className="text-sm text-gray-400">Reviens bientôt, de nouveaux créneaux seront ajoutés.</p>
       </div>
     );
   }
 
+  const daySlots = selectedDay ? (slotsByDate[selectedDay] || []) : [];
+
   return (
-    <div>
-      <h2 className="text-lg font-bold text-gray-900 mb-1 flex items-center gap-2">
-        <IconCalendar className="text-gray-400" />
-        Choisis ton créneau
-      </h2>
-      <p className="text-xs text-gray-500 mb-5">Sélectionne un jour pour voir les horaires disponibles.</p>
-
-      <div className="w-full max-w-3xl mx-auto">
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          {/* Month nav */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-            <button onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
-            </button>
-            <div className="text-center">
-              <h3 className="text-sm font-bold text-gray-900 capitalize">{MONTHS_FR[viewMonth]} {viewYear}</h3>
-              <p className="text-[10px] text-gray-400 mt-0.5">{slotsInMonth} créneau{slotsInMonth > 1 ? "x" : ""}</p>
+    <div className="w-full">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="flex flex-col lg:flex-row">
+          {/* ─── LEFT: Calendar ─── */}
+          <div className="flex-1 min-w-0 lg:min-w-[55%] p-5 sm:p-8">
+            {/* Month navigation */}
+            <div className="flex items-center justify-between mb-6">
+              <button
+                onClick={prevMonth}
+                className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              >
+                <IconChevronLeft />
+              </button>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 capitalize">
+                {MONTHS_FR[viewMonth]} {viewYear}
+              </h3>
+              <button
+                onClick={nextMonth}
+                className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              >
+                <IconChevronRight />
+              </button>
             </div>
-            <button onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-            </button>
-          </div>
 
-          {/* Day headers */}
-          <div className="grid grid-cols-7 px-3 pt-3">
-            {DAYS_FR.map((d) => (
-              <div key={d} className="py-2 text-center text-[11px] font-bold text-gray-400 uppercase">
-                {d}
-              </div>
-            ))}
-          </div>
+            {/* Day headers */}
+            <div className="grid grid-cols-7 mb-2">
+              {DAYS_FR.map((d) => (
+                <div key={d} className="py-2 text-center text-xs font-bold text-gray-400 uppercase tracking-wider">
+                  {d}
+                </div>
+              ))}
+            </div>
 
-          {/* Calendar grid */}
-          <div className="grid grid-cols-7 gap-1 px-3 pb-3 pt-1">
-            {calendarDays.map((day, i) => {
-              if (day === null) {
-                return <div key={`empty-${i}`} className="h-11" />;
-              }
+            {/* Calendar grid - bigger cells */}
+            <div className="grid grid-cols-7 gap-1">
+              {calendarDays.map((day, i) => {
+                if (day === null) {
+                  return <div key={`empty-${i}`} className="aspect-square" />;
+                }
 
-              const dateKey = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-              const daySlots = slotsByDate[dateKey] || [];
-              const hasSlots = daySlots.length > 0;
-              const isToday = dateKey === todayKey;
-              const isPast = new Date(dateKey) < new Date(todayKey);
-              const isExpanded = expandedDay === dateKey;
-              const hasSelectedSlot = daySlots.some((s) => s.date === selectedSlot);
+                const dateKey = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                const hasSlots = !!(slotsByDate[dateKey] && slotsByDate[dateKey].length > 0);
+                const isToday = dateKey === todayKey;
+                const isPast = new Date(dateKey) < new Date(todayKey);
+                const isSelected = selectedDay === dateKey;
 
-              return (
-                <button
-                  key={dateKey}
-                  type="button"
-                  disabled={!hasSlots || isPast}
-                  onClick={() => {
-                    if (!hasSlots) return;
-                    if (daySlots.length === 1) {
-                      onSelect(daySlots[0].date);
-                      setExpandedDay(dateKey);
-                    } else {
-                      setExpandedDay(isExpanded ? null : dateKey);
-                    }
-                  }}
-                  className={cn(
-                    "relative h-11 rounded-lg flex flex-col items-center justify-center transition-all text-sm",
-                    hasSlots && !isPast ? "cursor-pointer hover:bg-[#FF1744]/[0.06]" : "",
-                    isPast && "opacity-30",
-                    !hasSlots && !isPast && "text-gray-300",
-                    isExpanded && hasSlots && "bg-[#FF1744]/10 ring-1 ring-[#FF1744]/20",
-                    hasSelectedSlot && !isExpanded && "bg-[#FF1744]/[0.06]",
-                  )}
-                >
-                  <span className={cn(
-                    "text-[13px] font-semibold leading-none",
-                    isToday ? "w-7 h-7 rounded-full bg-gray-900 text-white flex items-center justify-center text-[12px]" : "",
-                    hasSelectedSlot && !isToday ? "text-[#FF1744] font-black" : "",
-                    hasSlots && !hasSelectedSlot && !isToday ? "text-gray-700" : "",
-                  )}>
-                    {day}
-                  </span>
-                  {hasSlots && !isPast && (
-                    <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#FF1744]" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Time slots — inline below calendar */}
-          <AnimatePresence mode="wait">
-          {expandedDay && slotsByDate[expandedDay] ? (
-            <motion.div
-              key={expandedDay}
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="overflow-hidden border-t border-gray-100"
-            >
-              <div className="p-5">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-[#FF1744]/10 flex items-center justify-center">
-                      <IconCalendar className="text-[#FF1744] w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-900 capitalize">
-                        {new Date(expandedDay + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
-                      </p>
-                      <p className="text-[10px] text-gray-400">
-                        {slotsByDate[expandedDay].length} créneau{slotsByDate[expandedDay].length > 1 ? "x" : ""} disponible{slotsByDate[expandedDay].length > 1 ? "s" : ""}
-                      </p>
-                    </div>
-                  </div>
-                  <button onClick={() => setExpandedDay(null)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                return (
+                  <button
+                    key={dateKey}
+                    type="button"
+                    disabled={!hasSlots || isPast}
+                    onClick={() => {
+                      if (!hasSlots) return;
+                      setSelectedDay(isSelected ? null : dateKey);
+                      // Clear the slot selection when switching days
+                      if (!isSelected) {
+                        onSelect("");
+                      }
+                    }}
+                    className={cn(
+                      "aspect-square rounded-xl flex flex-col items-center justify-center transition-all relative text-sm sm:text-base",
+                      hasSlots && !isPast ? "cursor-pointer" : "",
+                      isPast && "opacity-25 cursor-default",
+                      !hasSlots && !isPast && "text-gray-300 cursor-default",
+                      hasSlots && !isPast && !isSelected && "hover:bg-[#FF1744]/[0.06] text-gray-700 font-medium",
+                      isSelected && "bg-[#FF1744] text-white font-bold shadow-lg shadow-red-500/20",
+                      isToday && !isSelected && hasSlots && "ring-2 ring-[#FF1744]/30",
+                    )}
+                  >
+                    <span className={cn(
+                      "leading-none",
+                      isToday && !isSelected && !hasSlots && "w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-semibold text-sm",
+                      isToday && !isSelected && hasSlots && "w-8 h-8 rounded-full flex items-center justify-center font-bold",
+                    )}>
+                      {day}
+                    </span>
+                    {hasSlots && !isPast && !isSelected && (
+                      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#FF1744]" />
+                    )}
                   </button>
-                </div>
+                );
+              })}
+            </div>
+          </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {slotsByDate[expandedDay].map((slot) => {
-                    const isSelected = slot.date === selectedSlot;
-                    return (
-                      <button
-                        key={slot.date}
-                        onClick={() => onSelect(slot.date)}
-                        className={cn(
-                          "flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-center transition-all",
-                          isSelected
-                            ? "bg-[#FF1744] text-white border-[#FF1744] shadow-md shadow-red-500/15"
-                            : "bg-gray-50 text-gray-700 border-gray-200 hover:border-[#FF1744]/30 hover:bg-[#FF1744]/[0.03]"
-                        )}
-                      >
-                        <IconClock className={cn("w-3.5 h-3.5", isSelected ? "text-white" : "text-gray-400")} />
-                        <span className={cn("text-sm font-semibold", isSelected ? "text-white" : "text-gray-800")}>{slot.time}</span>
-                        {isSelected && <IconCheck className="text-white w-3.5 h-3.5" />}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {selectedSlot && slotsByDate[expandedDay]?.some((s) => s.date === selectedSlot) && (
-                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                      <IconCheck className="text-emerald-600 w-3 h-3" />
-                    </div>
-                    <p className="text-xs text-gray-500">Créneau sélectionné — prêt à réserver</p>
+          {/* ─── RIGHT: Time slots panel ─── */}
+          <div className="lg:w-[320px] xl:w-[360px] border-t lg:border-t-0 lg:border-l border-gray-100 bg-gray-50/50">
+            <AnimatePresence mode="wait">
+              {selectedDay && daySlots.length > 0 ? (
+                <motion.div
+                  key={selectedDay}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="p-5 sm:p-6"
+                >
+                  <div className="mb-5">
+                    <p className="text-sm font-bold text-gray-900 capitalize">
+                      {new Date(selectedDay + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      {daySlots.length} créneau{daySlots.length > 1 ? "x" : ""} disponible{daySlots.length > 1 ? "s" : ""}
+                    </p>
                   </div>
-                )}
-              </div>
-            </motion.div>
-          ) : !expandedDay ? (
-            <motion.div
-              key="empty"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden border-t border-gray-100"
-            >
-              <div className="flex flex-col items-center justify-center p-6 text-center">
-                <p className="text-xs text-gray-400">Clique sur un jour avec un point rouge pour choisir ton créneau.</p>
-              </div>
-            </motion.div>
-          ) : null}
-          </AnimatePresence>
+
+                  <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                    {daySlots.map((slot) => {
+                      const isSelected = slot.date === selectedSlot;
+                      return (
+                        <button
+                          key={slot.date}
+                          onClick={() => handleTimeSelect(slot.date)}
+                          className={cn(
+                            "w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full border text-center transition-all",
+                            isSelected
+                              ? "bg-[#FF1744] text-white border-[#FF1744] shadow-md shadow-red-500/15 scale-[1.02]"
+                              : "bg-white text-gray-700 border-gray-200 hover:border-[#FF1744] hover:text-[#FF1744] hover:shadow-sm"
+                          )}
+                        >
+                          <IconClock className={cn("w-4 h-4", isSelected ? "text-white" : "text-gray-400")} />
+                          <span className={cn("text-sm font-semibold", isSelected ? "text-white" : "")}>{slot.time}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col items-center justify-center p-8 sm:p-10 text-center h-full min-h-[300px]"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
+                    <IconClock className="text-gray-300 w-6 h-6" />
+                  </div>
+                  <p className="text-sm font-medium text-gray-400">Sélectionne un jour</p>
+                  <p className="text-xs text-gray-300 mt-1">pour voir les créneaux disponibles</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>
@@ -335,6 +433,7 @@ function CoachingContent() {
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [userTier, setUserTier] = useState<string>("free");
 
   useEffect(() => {
     if (searchParams.get("success") === "true") {
@@ -351,6 +450,7 @@ function CoachingContent() {
       .then((data) => {
         setSlots(data.slots || []);
         setSessions(data.sessions || []);
+        setUserTier(data.userTier || "free");
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -378,17 +478,6 @@ function CoachingContent() {
     }
   };
 
-  // Group slots by week
-  const groupedSlots: Record<string, Slot[]> = {};
-  for (const slot of slots) {
-    const d = new Date(slot.date);
-    const weekStart = new Date(d);
-    weekStart.setDate(d.getDate() - d.getDay() + 1);
-    const weekLabel = `Semaine du ${weekStart.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}`;
-    if (!groupedSlots[weekLabel]) groupedSlots[weekLabel] = [];
-    groupedSlots[weekLabel].push(slot);
-  }
-
   const confirmedSessions = sessions.filter((s) => s.status === "confirmed" && new Date(s.date) >= new Date());
   const pastSessions = sessions.filter((s) => s.status === "confirmed" && new Date(s.date) < new Date());
 
@@ -404,6 +493,9 @@ function CoachingContent() {
 
   /* ─── Admin View ─────────────────────────────────── */
   const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
+  const effectiveTier = previewTier || userTier;
+  const isFreeUser = effectiveTier === "free" || !effectiveTier;
+
   if ((session?.user as any)?.role === "admin" && !previewTier) {
     const allSessions = sessions.filter((s) => s.status === "confirmed");
     const upcomingSessions = allSessions.filter((s) => new Date(s.date) >= new Date());
@@ -424,19 +516,22 @@ function CoachingContent() {
           </p>
         </div>
 
-        {/* Google Calendar Embed */}
+        {/* Google Calendar Embed — admin only */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
             <IconCalendar className="text-[#FF1744]" />
             <h2 className="text-sm font-bold text-gray-900">Calendrier Google</h2>
           </div>
-          <iframe
-            src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
-            style={{ border: 0 }}
-            width="100%"
-            height="600"
-            title="Google Calendar OpexIA"
-          />
+          <div className="w-full overflow-x-auto -mx-px">
+            <iframe
+              src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
+              style={{ border: 0, minWidth: "320px" }}
+              width="100%"
+              height="600"
+              className="sm:h-[600px] h-[400px]"
+              title="Google Calendar OpexIA"
+            />
+          </div>
         </div>
 
         {/* Upcoming Sessions */}
@@ -477,7 +572,7 @@ function CoachingContent() {
                       </p>
                       <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
                         <IconClock className="w-3 h-3" />
-                        {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
+                        {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 45 min
                       </p>
                     </div>
                     <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2.5 py-1 rounded-full">
@@ -521,80 +616,9 @@ function CoachingContent() {
     );
   }
 
-  return (
+  /* ─── User booking view ─── */
+  const bookingContent = (
     <div className="w-full space-y-8">
-
-      {/* ═══════════════ HERO BANNER ═══════════════ */}
-      <motion.div
-        className="relative overflow-hidden rounded-3xl"
-        style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #16162A 40%, #0F0F1E 100%)" }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <span className="absolute -right-8 -top-8 text-[160px] font-black text-white/[0.03] leading-none tracking-tighter select-none">
-            1:1
-          </span>
-          <div className="absolute top-0 right-1/4 w-64 h-64 rounded-full bg-[#FF1744]/10 blur-[100px]" />
-          <div className="absolute bottom-0 left-1/4 w-48 h-48 rounded-full bg-violet-500/8 blur-[80px]" />
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#FF1744]/[0.06] to-transparent" />
-        </div>
-
-        <div className="relative z-10 px-6 sm:px-10 py-8 sm:py-10">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-            <div className="max-w-lg">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] mb-6">
-                <IconVideo className="text-[#FF1744] w-3.5 h-3.5" />
-                <span className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">Coaching 1-to-1</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-[1.15] text-white mb-3">
-                Accélère ta progression,
-                <br />
-                <span className="bg-gradient-to-r from-[#FF1744] to-[#FF5252] bg-clip-text text-transparent">
-                  avec un expert dédié.
-                </span>
-              </h1>
-              <p className="text-sm sm:text-[15px] text-white/45 leading-relaxed max-w-md">
-                Une heure en visio pour débloquer tes problèmes, optimiser ta stratégie
-                et passer au niveau supérieur. 100% adapté à tes besoins.
-              </p>
-
-              {/* Quick stats */}
-              <div className="flex flex-wrap items-center gap-5 mt-6">
-                <div className="flex items-center gap-2">
-                  <IconUsers className="text-[#FF1744] w-4 h-4" />
-                  <span className="text-xs text-white/40"><span className="font-bold text-white/70">150+</span> sessions</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex -space-x-0.5">
-                    {[1, 2, 3, 4, 5].map((i) => <IconStar key={i} className="text-amber-400 w-3 h-3" />)}
-                  </div>
-                  <span className="text-xs text-white/40"><span className="font-bold text-white/70">4.9</span>/5</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <IconShield className="text-emerald-400 w-4 h-4" />
-                  <span className="text-xs text-white/40"><span className="font-bold text-white/70">100%</span> personnalisé</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right — price card */}
-            <div className="flex-shrink-0">
-              <div className="relative">
-                <div className="absolute inset-0 rounded-2xl bg-[#FF1744]/20 blur-xl" />
-                <div className="relative bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-8 text-center min-w-[180px]">
-                  <p className="text-4xl sm:text-5xl font-black text-white mb-1">
-                    {COACHING_PRICE_DISPLAY}<span className="text-[#FF1744]">€</span>
-                  </p>
-                  <p className="text-xs text-white/40 font-medium">par session de 1h</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
 
       {/* ═══════════════ SUCCESS MESSAGE ═══════════════ */}
       {successMessage && (
@@ -610,65 +634,75 @@ function CoachingContent() {
         </motion.div>
       )}
 
-      {/* ═══════════════ SLOT SELECTION — CALENDAR ═══════════════ */}
-      <CalendarSlotPicker
-        slots={slots}
-        selectedSlot={selectedSlot}
-        onSelect={(date) => setSelectedSlot(selectedSlot === date ? null : date)}
-      />
-
-      {/* ═══════════════ BOOKING BAR ═══════════════ */}
-      {slots.length > 0 && (
-        <div className="sticky bottom-4 z-10">
-          <motion.div
-            className="p-4 rounded-2xl bg-white/90 backdrop-blur-xl border border-gray-200 shadow-xl shadow-black/5"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-          >
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                {selectedSlot ? (
-                  <>
-                    <div className="w-10 h-10 rounded-xl bg-[#FF1744]/10 flex items-center justify-center flex-shrink-0">
-                      <IconCalendar className="text-[#FF1744]" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">
-                        {new Date(selectedSlot).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(selectedSlot).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — Session de 1h
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                      <IconCalendar className="text-gray-400" />
-                    </div>
-                    <p className="text-sm text-gray-400">Sélectionne un créneau ci-dessus</p>
-                  </>
-                )}
-              </div>
-              <button
-                disabled={!selectedSlot || booking}
-                onClick={handleBooking}
-                className={cn(
-                  "flex-shrink-0 px-6 py-3 rounded-xl font-bold text-sm transition-all w-full sm:w-auto text-center",
-                  selectedSlot && !booking
-                    ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
-                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                )}
-              >
-                {booking ? "Redirection..." : `Réserver & Payer — ${COACHING_PRICE_DISPLAY}€`}
-              </button>
+      {/* ═══════════════ COACH INFO HEADER (Calendly-style) ═══════════════ */}
+      <motion.div
+        className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-5">
+            {/* Avatar */}
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/15 flex-shrink-0">
+              <span className="text-2xl font-black text-white">O</span>
             </div>
-          </motion.div>
+
+            <div className="flex-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                Équipe OpexIA
+              </h1>
+              <p className="text-sm text-gray-500 mt-1">
+                Session de coaching personnalisée
+              </p>
+
+              {/* Meta badges */}
+              <div className="flex flex-wrap items-center gap-3 mt-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
+                  <IconClock className="w-3.5 h-3.5 text-gray-400" />
+                  45 min
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
+                  <IconVideo className="w-3.5 h-3.5 text-gray-400" />
+                  Google Meet
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
+                  <IconGlobe className="w-3.5 h-3.5 text-gray-400" />
+                  Europe/Paris
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF1744]/[0.08] text-xs font-bold text-[#FF1744]">
+                  {COACHING_PRICE_DISPLAY}€
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </motion.div>
+
+      {/* ═══════════════ CALENDLY-STYLE PICKER ═══════════════ */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Choisis ton créneau</h2>
+        <p className="text-xs text-gray-500 mb-5">Sélectionne un jour puis un horaire pour réserver ta session.</p>
+
+        <CalendlyPicker
+          slots={slots}
+          selectedSlot={selectedSlot}
+          onSelect={(date) => setSelectedSlot(date || null)}
+          onConfirm={handleBooking}
+          booking={booking}
+        />
+      </motion.div>
 
       {/* ═══════════════ HOW IT WORKS ═══════════════ */}
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
         <h2 className="text-lg font-bold text-gray-900 mb-1">Comment ça marche</h2>
         <p className="text-xs text-gray-500 mb-5">4 étapes simples pour ta session de coaching.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -696,7 +730,7 @@ function CoachingContent() {
             </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* ═══════════════ UPCOMING SESSIONS ═══════════════ */}
       {confirmedSessions.length > 0 && (
@@ -725,7 +759,7 @@ function CoachingContent() {
                     </p>
                     <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
                       <IconClock className="w-3 h-3" />
-                      {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
+                      {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 45 min
                     </p>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2.5 py-1 rounded-full">Confirmée</span>
@@ -763,4 +797,18 @@ function CoachingContent() {
       )}
     </div>
   );
+
+  /* ─── Free users see the upgrade overlay ─── */
+  if (isFreeUser) {
+    return (
+      <UpgradeOverlay
+        featureName="Coaching personnalisé"
+        featureDescription="Réserve une session de coaching 1-to-1 avec l'équipe OpexIA. Disponible avec les formules payantes."
+      >
+        {bookingContent}
+      </UpgradeOverlay>
+    );
+  }
+
+  return bookingContent;
 }

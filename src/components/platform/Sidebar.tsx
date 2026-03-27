@@ -565,7 +565,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
               <p className="text-[12px] font-semibold text-white leading-snug mb-2">Débloque ta formation complète</p>
               <a
                 href="/offres"
-                className="inline-block text-[11px] font-bold text-white/90 hover:text-white bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-all"
+                className="inline-block text-[11px] font-bold text-white/90 hover:text-white bg-white/20 hover:bg-white/30 px-4 py-2.5 rounded-lg transition-all min-h-[44px] leading-[20px]"
               >
                 Voir les offres
               </a>
@@ -619,7 +619,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
                   return (
-                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
+                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
                       <Icon className={active ? "text-[#FF1744]" : "text-white/35"} />
                       <span className="truncate">{item.label}</span>
                     </Link>
@@ -643,7 +643,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
                   return (
-                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
+                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
                       <Icon className={active ? "text-[#FF1744]" : "text-white/35"} />
                       <span className="truncate">{item.label}</span>
                     </Link>
@@ -675,7 +675,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
                       <button
                         key={item.href}
                         onClick={() => setLockedItem(item)}
-                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-white/30 hover:text-white/50 hover:bg-white/[0.03] transition-all duration-150 w-full text-left"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-white/30 hover:text-white/50 hover:bg-white/[0.03] transition-all duration-150 w-full text-left min-h-[44px]"
                       >
                         <Icon className="text-white/20" />
                         <span className="truncate">{item.label}</span>
@@ -690,7 +690,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
                       href={item.href}
                       onClick={onClose}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150",
+                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]",
                         active
                           ? "bg-[#FF1744]/10 text-white"
                           : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]"
@@ -781,7 +781,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             </div>
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="p-1.5 rounded-md text-white/25 hover:text-white/60 hover:bg-white/[0.06] transition-colors"
+              className="p-2.5 rounded-md text-white/25 hover:text-white/60 hover:bg-white/[0.06] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
               title="Déconnexion"
             >
               <IconLogout />

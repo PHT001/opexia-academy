@@ -224,6 +224,7 @@ model EmailLog {
   sequence  Int?     // Which email in sequence (1, 2, 3...)
   subject   String
   status    String   @default("sent") // "sent" | "failed"
+  variant   String?  // A/B test variant: "a" | "b" (null for non-tested emails)
   createdAt DateTime @default(now())
 
   @@index([userId])

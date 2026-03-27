@@ -204,7 +204,7 @@ export default function Pricing() {
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {plans.map((plan, i) => {
             const isOneToOne = plan.slug === "one_to_one";
 
@@ -215,7 +215,7 @@ export default function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`relative rounded-2xl p-8 lg:p-10 ${
+              className={`relative rounded-2xl p-6 sm:p-8 lg:p-10 ${
                 plan.popular
                   ? "bg-white border-2 border-[#FF1744] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
                   : plan.slug === "free"
@@ -244,7 +244,7 @@ export default function Pricing() {
                       {plan.oldPrice}{"\u20AC"}
                     </span>
                   )}
-                  <span className="text-5xl font-black tracking-tight text-[#111]">
+                  <span className="text-4xl sm:text-5xl font-black tracking-tight text-[#111]">
                     {plan.price}
                   </span>
                   <span className="text-lg font-medium text-[#6B7280]">{"\u20AC"}</span>
@@ -261,7 +261,7 @@ export default function Pricing() {
               {plan.slug === "free" ? (
                 <a
                   href="/register"
-                  className="flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all border-2 border-[#111] text-[#111] hover:bg-[#111] hover:text-white"
+                  className="flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all border-2 border-[#111] text-[#111] hover:bg-[#111] hover:text-white min-h-[48px]"
                 >
                   {plan.cta}
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
@@ -337,7 +337,7 @@ export default function Pricing() {
                       {hasMore && (
                         <button
                           onClick={() => setExpandedCards(prev => ({ ...prev, [plan.slug]: !prev[plan.slug] }))}
-                          className="flex items-center gap-1 text-sm font-medium text-[#FF1744] hover:text-[#D50000] transition-colors pt-1"
+                          className="flex items-center gap-1 text-sm font-medium text-[#FF1744] hover:text-[#D50000] transition-colors pt-1 py-2 min-h-[44px]"
                         >
                           {isExpanded ? "Voir moins" : `Voir tout (${allItems.length})`}
                           <svg className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

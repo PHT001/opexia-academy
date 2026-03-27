@@ -500,13 +500,13 @@ export default function LessonsPage() {
                     ? "Tu avances bien\u00a0! Continue ta progression pour devenir un expert IA."
                     : "Progresse \u00e0 ton rythme et deviens un expert IA. Chaque phase te rapproche de l\u2019autonomie compl\u00e8te."}
                 </p>
-                <div className="flex items-center gap-3 flex-wrap mb-5">
+                <div className="flex items-center gap-2 sm:gap-3 flex-wrap mb-5">
                   {[
                     { icon: IconBook, text: `${totalLessons} le\u00e7ons` },
                     { icon: IconLayers, text: `${totalModules} modules` },
                     { icon: IconClock, text: `${WEEKS.length} phases` },
                   ].map((pill) => (
-                    <span key={pill.text} className="flex items-center gap-1.5 text-xs font-medium text-white/70 bg-white/10 px-3 py-1.5 rounded-full">
+                    <span key={pill.text} className="flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-white/70 bg-white/10 px-2.5 sm:px-3 py-1.5 rounded-full">
                       <pill.icon className="w-3.5 h-3.5 text-[#FF1744]" />
                       {pill.text}
                     </span>
@@ -682,15 +682,15 @@ export default function LessonsPage() {
                                 </span>
                               )}
                             </div>
-                            <div className="flex items-center gap-3 mt-1">
+                            <div className="flex items-center gap-2 sm:gap-3 mt-1 flex-wrap">
                               <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || userTier === "free") ? "text-gray-400" : "text-gray-300")}>
                                 <IconClock /> {meta.estimatedTime}
                               </span>
-                              <span className="w-0.5 h-0.5 rounded-full bg-gray-300" />
+                              <span className="w-0.5 h-0.5 rounded-full bg-gray-300 hidden sm:block" />
                               <span className={cn("text-[10px]", (modAccessible || userTier === "free") ? "text-gray-400" : "text-gray-300")}>{meta.lessonCount} le{"\u00e7"}ons</span>
                               {(MODULE_VIDEO_COUNT[mod.order] ?? 0) > 0 && (
                                 <>
-                                  <span className="w-0.5 h-0.5 rounded-full bg-gray-300" />
+                                  <span className="w-0.5 h-0.5 rounded-full bg-gray-300 hidden sm:block" />
                                   <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || userTier === "free") ? "text-purple-500" : "text-gray-300")}>
                                     <IconVideoSmall /> {MODULE_VIDEO_COUNT[mod.order]} vid{"\u00e9"}os
                                   </span>
@@ -698,7 +698,7 @@ export default function LessonsPage() {
                               )}
                               {modAccessible && pct > 0 && (
                                 <>
-                                  <span className="w-0.5 h-0.5 rounded-full bg-gray-300" />
+                                  <span className="w-0.5 h-0.5 rounded-full bg-gray-300 hidden sm:block" />
                                   <span className={cn("text-[10px] font-bold", theme.accent)}>{pct}%</span>
                                 </>
                               )}
@@ -785,11 +785,11 @@ export default function LessonsPage() {
                                         )}
                                       </div>
                                       {/* Content type badges — always visible, even for free users */}
-                                      <div className="flex items-center gap-1.5 mt-1.5">
+                                      <div className="flex items-center gap-1 sm:gap-1.5 mt-1.5 flex-wrap">
                                         {getLessonContentTypes(lesson.order, lesson.hasQuiz).map((ct) => (
                                           <span key={ct.label} className={cn("inline-flex items-center gap-0.5 text-[9px] font-medium px-1.5 py-0.5 rounded border", ct.color)}>
                                             <ct.icon className="w-2.5 h-2.5" />
-                                            {ct.label}
+                                            <span className="hidden sm:inline">{ct.label}</span>
                                           </span>
                                         ))}
                                       </div>

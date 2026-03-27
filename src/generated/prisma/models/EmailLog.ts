@@ -41,6 +41,7 @@ export type EmailLogMinAggregateOutputType = {
   sequence: number | null
   subject: string | null
   status: string | null
+  variant: string | null
   createdAt: Date | null
 }
 
@@ -51,6 +52,7 @@ export type EmailLogMaxAggregateOutputType = {
   sequence: number | null
   subject: string | null
   status: string | null
+  variant: string | null
   createdAt: Date | null
 }
 
@@ -61,6 +63,7 @@ export type EmailLogCountAggregateOutputType = {
   sequence: number
   subject: number
   status: number
+  variant: number
   createdAt: number
   _all: number
 }
@@ -81,6 +84,7 @@ export type EmailLogMinAggregateInputType = {
   sequence?: true
   subject?: true
   status?: true
+  variant?: true
   createdAt?: true
 }
 
@@ -91,6 +95,7 @@ export type EmailLogMaxAggregateInputType = {
   sequence?: true
   subject?: true
   status?: true
+  variant?: true
   createdAt?: true
 }
 
@@ -101,6 +106,7 @@ export type EmailLogCountAggregateInputType = {
   sequence?: true
   subject?: true
   status?: true
+  variant?: true
   createdAt?: true
   _all?: true
 }
@@ -198,6 +204,7 @@ export type EmailLogGroupByOutputType = {
   sequence: number | null
   subject: string
   status: string
+  variant: string | null
   createdAt: Date
   _count: EmailLogCountAggregateOutputType | null
   _avg: EmailLogAvgAggregateOutputType | null
@@ -231,6 +238,7 @@ export type EmailLogWhereInput = {
   sequence?: Prisma.IntNullableFilter<"EmailLog"> | number | null
   subject?: Prisma.StringFilter<"EmailLog"> | string
   status?: Prisma.StringFilter<"EmailLog"> | string
+  variant?: Prisma.StringNullableFilter<"EmailLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"EmailLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -242,6 +250,7 @@ export type EmailLogOrderByWithRelationInput = {
   sequence?: Prisma.SortOrderInput | Prisma.SortOrder
   subject?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  variant?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -256,6 +265,7 @@ export type EmailLogWhereUniqueInput = Prisma.AtLeast<{
   sequence?: Prisma.IntNullableFilter<"EmailLog"> | number | null
   subject?: Prisma.StringFilter<"EmailLog"> | string
   status?: Prisma.StringFilter<"EmailLog"> | string
+  variant?: Prisma.StringNullableFilter<"EmailLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"EmailLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -267,6 +277,7 @@ export type EmailLogOrderByWithAggregationInput = {
   sequence?: Prisma.SortOrderInput | Prisma.SortOrder
   subject?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  variant?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.EmailLogCountOrderByAggregateInput
   _avg?: Prisma.EmailLogAvgOrderByAggregateInput
@@ -285,6 +296,7 @@ export type EmailLogScalarWhereWithAggregatesInput = {
   sequence?: Prisma.IntNullableWithAggregatesFilter<"EmailLog"> | number | null
   subject?: Prisma.StringWithAggregatesFilter<"EmailLog"> | string
   status?: Prisma.StringWithAggregatesFilter<"EmailLog"> | string
+  variant?: Prisma.StringNullableWithAggregatesFilter<"EmailLog"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EmailLog"> | Date | string
 }
 
@@ -294,6 +306,7 @@ export type EmailLogCreateInput = {
   sequence?: number | null
   subject: string
   status?: string
+  variant?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEmailLogsInput
 }
@@ -305,6 +318,7 @@ export type EmailLogUncheckedCreateInput = {
   sequence?: number | null
   subject: string
   status?: string
+  variant?: string | null
   createdAt?: Date | string
 }
 
@@ -314,6 +328,7 @@ export type EmailLogUpdateInput = {
   sequence?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  variant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEmailLogsNestedInput
 }
@@ -325,6 +340,7 @@ export type EmailLogUncheckedUpdateInput = {
   sequence?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  variant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -335,6 +351,7 @@ export type EmailLogCreateManyInput = {
   sequence?: number | null
   subject: string
   status?: string
+  variant?: string | null
   createdAt?: Date | string
 }
 
@@ -344,6 +361,7 @@ export type EmailLogUpdateManyMutationInput = {
   sequence?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  variant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -354,6 +372,7 @@ export type EmailLogUncheckedUpdateManyInput = {
   sequence?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  variant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -374,6 +393,7 @@ export type EmailLogCountOrderByAggregateInput = {
   sequence?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  variant?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -388,6 +408,7 @@ export type EmailLogMaxOrderByAggregateInput = {
   sequence?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  variant?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -398,6 +419,7 @@ export type EmailLogMinOrderByAggregateInput = {
   sequence?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  variant?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -453,6 +475,7 @@ export type EmailLogCreateWithoutUserInput = {
   sequence?: number | null
   subject: string
   status?: string
+  variant?: string | null
   createdAt?: Date | string
 }
 
@@ -462,6 +485,7 @@ export type EmailLogUncheckedCreateWithoutUserInput = {
   sequence?: number | null
   subject: string
   status?: string
+  variant?: string | null
   createdAt?: Date | string
 }
 
@@ -501,6 +525,7 @@ export type EmailLogScalarWhereInput = {
   sequence?: Prisma.IntNullableFilter<"EmailLog"> | number | null
   subject?: Prisma.StringFilter<"EmailLog"> | string
   status?: Prisma.StringFilter<"EmailLog"> | string
+  variant?: Prisma.StringNullableFilter<"EmailLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"EmailLog"> | Date | string
 }
 
@@ -510,6 +535,7 @@ export type EmailLogCreateManyUserInput = {
   sequence?: number | null
   subject: string
   status?: string
+  variant?: string | null
   createdAt?: Date | string
 }
 
@@ -519,6 +545,7 @@ export type EmailLogUpdateWithoutUserInput = {
   sequence?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  variant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -528,6 +555,7 @@ export type EmailLogUncheckedUpdateWithoutUserInput = {
   sequence?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  variant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -537,6 +565,7 @@ export type EmailLogUncheckedUpdateManyWithoutUserInput = {
   sequence?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  variant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -549,6 +578,7 @@ export type EmailLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   sequence?: boolean
   subject?: boolean
   status?: boolean
+  variant?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailLog"]>
@@ -560,6 +590,7 @@ export type EmailLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   sequence?: boolean
   subject?: boolean
   status?: boolean
+  variant?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailLog"]>
@@ -571,6 +602,7 @@ export type EmailLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   sequence?: boolean
   subject?: boolean
   status?: boolean
+  variant?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailLog"]>
@@ -582,10 +614,11 @@ export type EmailLogSelectScalar = {
   sequence?: boolean
   subject?: boolean
   status?: boolean
+  variant?: boolean
   createdAt?: boolean
 }
 
-export type EmailLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "sequence" | "subject" | "status" | "createdAt", ExtArgs["result"]["emailLog"]>
+export type EmailLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "sequence" | "subject" | "status" | "variant" | "createdAt", ExtArgs["result"]["emailLog"]>
 export type EmailLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -608,6 +641,7 @@ export type $EmailLogPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     sequence: number | null
     subject: string
     status: string
+    variant: string | null
     createdAt: Date
   }, ExtArgs["result"]["emailLog"]>
   composites: {}
@@ -1039,6 +1073,7 @@ export interface EmailLogFieldRefs {
   readonly sequence: Prisma.FieldRef<"EmailLog", 'Int'>
   readonly subject: Prisma.FieldRef<"EmailLog", 'String'>
   readonly status: Prisma.FieldRef<"EmailLog", 'String'>
+  readonly variant: Prisma.FieldRef<"EmailLog", 'String'>
   readonly createdAt: Prisma.FieldRef<"EmailLog", 'DateTime'>
 }
     

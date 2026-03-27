@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
+import LiveActivityFeed from "@/components/platform/LiveActivityFeed";
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
@@ -107,7 +108,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       <div className={`lg:hidden fixed top-0 left-0 right-0 z-30 h-14 backdrop-blur-xl border-b flex items-center px-4 shadow-sm ${darkMode ? "bg-[#0A0A0A]/95 border-white/10" : "bg-white/95 border-gray-200"}`}>
         <button
           onClick={() => setSidebarOpen(true)}
-          className="p-2 text-gray-500"
+          className="p-2.5 -ml-1 text-gray-500 min-w-[44px] min-h-[44px] flex items-center justify-center"
           aria-label="Menu"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -125,20 +126,21 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         {/* Free tier upgrade banner */}
         {(previewTier || stats.tier) === "free" && !freeBannerDismissed && session?.user?.role !== "admin" && (
           <div className="bg-gradient-to-r from-[#FF1744]/8 to-[#FF1744]/4 border-b border-[#FF1744]/10">
-            <div className="flex items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 xl:px-10 py-2.5">
-              <p className="text-sm text-[#111]">
-                Tu utilises le plan <span className="font-semibold text-[#FF1744]">Gratuit</span> — D&eacute;bloque toute la formation
+            <div className="flex items-center justify-between gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8 xl:px-10 py-2">
+              <p className="text-xs sm:text-sm text-[#111] min-w-0 truncate sm:whitespace-normal">
+                Plan <span className="font-semibold text-[#FF1744]">Gratuit</span> <span className="hidden sm:inline">— D&eacute;bloque toute la formation</span>
               </p>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <Link
                   href="/offres"
-                  className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold bg-[#FF1744] text-white hover:bg-[#D50000] transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold bg-[#FF1744] text-white hover:bg-[#D50000] transition-colors shadow-sm min-h-[44px]"
                 >
-                  Voir les offres
+                  <span className="hidden sm:inline">Voir les offres</span>
+                  <span className="sm:hidden">Upgrade</span>
                 </Link>
                 <button
                   onClick={() => setFreeBannerDismissed(true)}
-                  className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="p-2.5 text-gray-400 hover:text-gray-600 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                   aria-label="Fermer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -152,19 +154,19 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         {/* Email verification soft reminder */}
         {!emailVerified && !emailBannerDismissed && (
           <div className="bg-amber-50 border-b border-amber-200/60">
-            <div className="flex items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 xl:px-10 py-2.5">
+            <div className="flex items-center justify-between gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8 xl:px-10 py-2">
               <div className="flex items-center gap-2 min-w-0">
                 <svg className="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
-                <p className="text-sm text-amber-800">
-                  V&eacute;rifie ton email pour s&eacute;curiser ton compte
+                <p className="text-xs sm:text-sm text-amber-800 truncate sm:whitespace-normal">
+                  V&eacute;rifie ton email
                 </p>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <Link
                   href="/verify-email"
-                  className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold bg-amber-500 text-white hover:bg-amber-600 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold bg-amber-500 text-white hover:bg-amber-600 transition-colors shadow-sm min-h-[44px]"
                 >
                   V&eacute;rifier
                 </Link>
@@ -173,7 +175,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
                     setEmailBannerDismissed(true);
                     localStorage.setItem("opexia-email-banner-dismissed", Date.now().toString());
                   }}
-                  className="p-1 text-amber-400 hover:text-amber-600 transition-colors"
+                  className="p-2.5 text-amber-400 hover:text-amber-600 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                   aria-label="Fermer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -188,6 +190,8 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           {children}
         </div>
       </main>
+      {/* Live activity feed — free tier only */}
+      {(previewTier || stats.tier) === "free" && <LiveActivityFeed />}
     </div>
     </XPToastProvider>
   );

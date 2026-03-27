@@ -186,6 +186,68 @@ const TESTIMONIALS = [
   },
 ];
 
+function OnlineCounter() {
+  const [count, setCount] = useState(() => Math.floor(Math.random() * 18) + 8);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount((prev) => {
+        const delta = Math.floor(Math.random() * 5) - 2; // -2 to +2
+        return Math.max(8, Math.min(25, prev + delta));
+      });
+    }, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div
+      variants={fadeUp}
+      className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white p-4 sm:p-5 shadow-sm"
+    >
+      <div className="flex items-center gap-3">
+        <span className="relative flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
+        </span>
+        <span className="text-sm font-semibold text-[#111]">
+          En ce moment : <span className="text-green-600">{count} personnes en ligne</span>
+        </span>
+      </div>
+      <div className="text-xs text-gray-400 hidden sm:block">Mise {"\u00e0"} jour en direct</div>
+    </motion.div>
+  );
+}
+
+function ProgressComparison() {
+  return (
+    <motion.div
+      variants={fadeUp}
+      className="rounded-2xl border border-[#FF1744]/15 bg-gradient-to-r from-[#FF1744]/5 to-orange-50 p-4 sm:p-5"
+    >
+      <div className="flex items-start gap-3">
+        <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#FF1744]/10 flex items-center justify-center text-base">
+          {"\uD83C\uDFC6"}
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-[#111] leading-snug">
+            Tu es dans le <span className="text-[#FF1744]">top 40%</span> des inscrits gratuits
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            Passe {"\u00e0"} l{"'"}Academy pour rejoindre le <span className="font-semibold text-[#FF1744]">top 5%</span> et acc{"é"}l{"é"}rer ta progression
+          </p>
+          <Link
+            href="/offres"
+            className="inline-flex items-center gap-1 text-xs font-bold text-[#FF1744] mt-2 hover:underline"
+          >
+            D{"é"}couvrir l{"'"}Academy
+            <ArrowRightIcon className="w-3 h-3" />
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function FreeDashboard({ firstName }: FreeDashboardProps) {
   const [checked, setChecked] = useState<Record<string, boolean>>(() => {
     if (typeof window === "undefined") return {};
@@ -250,6 +312,10 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
         </div>
       </motion.div>
 
+      {/* ════ SOCIAL PROOF: ONLINE COUNTER + PROGRESS COMPARISON ════ */}
+      <OnlineCounter />
+      <ProgressComparison />
+
       {/* ════ START MODULE CTA ════ */}
       <motion.div variants={fadeUp}>
         <Link href="/lessons" className="block">
@@ -281,16 +347,16 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
         </div>
         <div className="space-y-1">
           {CHECKLIST.map((step) => (
-            <div key={step.id} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group">
+            <div key={step.id} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 active:bg-gray-100 transition-colors group">
               <button
                 onClick={() => toggleCheck(step.id)}
-                className={`flex-shrink-0 w-7 h-7 rounded-lg border-2 flex items-center justify-center transition-all ${
+                className={`flex-shrink-0 w-11 h-11 sm:w-7 sm:h-7 rounded-lg border-2 flex items-center justify-center transition-all ${
                   checked[step.id]
                     ? "bg-emerald-500 border-emerald-500 text-white"
                     : "border-gray-300 hover:border-[#FF1744] text-transparent"
                 }`}
               >
-                <CheckIcon className="w-3.5 h-3.5" />
+                <CheckIcon className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
               </button>
               <Link
                 href={step.href}
@@ -302,8 +368,8 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
                 </p>
                 <p className="text-xs text-gray-400">{step.desc}</p>
               </Link>
-              <Link href={step.href} target={step.external ? "_blank" : undefined}>
-                <ArrowRightIcon className="w-4 h-4 text-gray-300 group-hover:text-[#FF1744] transition-colors flex-shrink-0" />
+              <Link href={step.href} target={step.external ? "_blank" : undefined} className="p-2 -m-2 flex-shrink-0">
+                <ArrowRightIcon className="w-4 h-4 text-gray-300 group-hover:text-[#FF1744] transition-colors" />
               </Link>
             </div>
           ))}

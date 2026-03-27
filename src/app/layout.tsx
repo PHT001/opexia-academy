@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, Outfit, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "@/components/providers/SessionProvider";
+import WhatsAppWidget from "@/components/WhatsAppWidget";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -108,7 +109,10 @@ export default function RootLayout({
         className={`${dmSans.variable} ${outfit.variable} ${jetbrains.variable} antialiased`}
         style={{ fontFamily: "var(--font-dm), system-ui, sans-serif" }}
       >
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          {children}
+          <WhatsAppWidget />
+        </SessionProvider>
       </body>
     </html>
   );

@@ -13,22 +13,28 @@ const fadeUp = {
   }),
 };
 
-const categoryColors: Record<string, string> = {
-  "creer-agence-ia-2026": "bg-blue-50 text-blue-600",
-  "services-ia-rentables": "bg-emerald-50 text-emerald-600",
-  "claude-code-vs-cursor": "bg-purple-50 text-purple-600",
-  "premier-client-ia": "bg-amber-50 text-amber-600",
-  "automatiser-n8n": "bg-rose-50 text-rose-600",
-  "ia-pme-2026": "bg-cyan-50 text-cyan-600",
-};
-
-const categoryLabels: Record<string, string> = {
-  "creer-agence-ia-2026": "Guide",
-  "services-ia-rentables": "Business",
-  "claude-code-vs-cursor": "Outils",
-  "premier-client-ia": "Vente",
-  "automatiser-n8n": "Automatisation",
-  "ia-pme-2026": "Strategie",
+const tagColors: Record<string, string> = {
+  "Agence IA": "bg-blue-50 text-blue-600",
+  "Guide": "bg-blue-50 text-blue-600",
+  "Business": "bg-emerald-50 text-emerald-600",
+  "Outils": "bg-purple-50 text-purple-600",
+  "Vente": "bg-amber-50 text-amber-600",
+  "Automatisation": "bg-rose-50 text-rose-600",
+  "Stratégie": "bg-cyan-50 text-cyan-600",
+  "PME": "bg-cyan-50 text-cyan-600",
+  "Freelance": "bg-violet-50 text-violet-600",
+  "Productivité": "bg-lime-50 text-lime-600",
+  "Prospection": "bg-orange-50 text-orange-600",
+  "Entreprise": "bg-teal-50 text-teal-600",
+  "Entrepreneuriat": "bg-indigo-50 text-indigo-600",
+  "Comparatif": "bg-fuchsia-50 text-fuchsia-600",
+  "Services": "bg-emerald-50 text-emerald-600",
+  "Rentabilité": "bg-amber-50 text-amber-600",
+  "Technique": "bg-gray-100 text-gray-600",
+  "Débutant": "bg-sky-50 text-sky-600",
+  "Développement": "bg-purple-50 text-purple-600",
+  "n8n": "bg-rose-50 text-rose-600",
+  "Opportunité": "bg-yellow-50 text-yellow-600",
 };
 
 export default function BlogPage() {
@@ -54,10 +60,10 @@ export default function BlogPage() {
             {blogArticles.length} articles
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-[#111] mb-4">
-            Blog
+            Blog Opex<span className="text-[#FF1744]">IA</span>
           </h1>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            Conseils, tutoriels et strategies pour lancer ton agence IA
+            Ressources &amp; Guides pour lancer et developper ton agence IA
           </p>
         </motion.div>
       </div>
@@ -81,13 +87,31 @@ export default function BlogPage() {
               <h2 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-4 group-hover:text-[#FF1744] transition-colors duration-300">
                 {featured.title}
               </h2>
-              <p className="text-white/40 text-base md:text-lg max-w-2xl mb-6 leading-relaxed">
+              <p className="text-white/40 text-base md:text-lg max-w-2xl mb-4 leading-relaxed">
                 {featured.description}
               </p>
+              {featured.tags && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {featured.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-white/50"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
               <div className="flex items-center gap-4">
                 <span className="text-sm text-white/30">{featured.date}</span>
                 <span className="w-1 h-1 rounded-full bg-white/20" />
                 <span className="text-sm text-white/30">{featured.readTime}</span>
+                {featured.author && (
+                  <>
+                    <span className="w-1 h-1 rounded-full bg-white/20" />
+                    <span className="text-sm text-white/30">{featured.author}</span>
+                  </>
+                )}
                 <div className="ml-auto flex items-center gap-2 text-sm font-semibold text-[#FF1744] group-hover:gap-3 transition-all duration-200">
                   Lire
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -119,12 +143,17 @@ export default function BlogPage() {
                 {/* Color accent */}
                 <div className="h-1.5 bg-gradient-to-r from-[#FF1744] via-[#FF1744]/60 to-transparent" />
 
-                <div className="p-6 flex flex-col min-h-[260px]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${categoryColors[article.slug] || "bg-gray-50 text-gray-500"}`}>
-                      {categoryLabels[article.slug] || "Article"}
-                    </span>
-                    <span className="text-[11px] text-gray-400">
+                <div className="p-6 flex flex-col min-h-[280px]">
+                  <div className="flex items-center gap-2 mb-4 flex-wrap">
+                    {article.tags?.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${tagColors[tag] || "bg-gray-50 text-gray-500"}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    <span className="text-[11px] text-gray-400 ml-auto">
                       {article.readTime}
                     </span>
                   </div>
@@ -138,7 +167,15 @@ export default function BlogPage() {
                   </p>
 
                   <div className="flex items-center justify-between mt-5 pt-4 border-t border-gray-50">
-                    <span className="text-xs text-gray-400">{article.date}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-400">{article.date}</span>
+                      {article.author && (
+                        <>
+                          <span className="w-1 h-1 rounded-full bg-gray-300" />
+                          <span className="text-xs text-gray-400">{article.author}</span>
+                        </>
+                      )}
+                    </div>
                     <div className="flex items-center gap-1.5 text-sm font-semibold text-[#FF1744] group-hover:gap-2.5 transition-all duration-200">
                       Lire
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

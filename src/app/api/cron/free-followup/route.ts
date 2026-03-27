@@ -11,6 +11,21 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
+/**
+ * Deterministically assign a user to A/B variant based on their email.
+ * Uses a simple hash to ensure the same user always gets the same variant
+ * across all follow-up emails (consistent experience).
+ */
+function getAbVariant(email: string): "a" | "b" {
+  let hash = 0;
+  for (let i = 0; i < email.length; i++) {
+    const char = email.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return Math.abs(hash) % 2 === 0 ? "a" : "b";
+}
+
 export async function GET(req: NextRequest) {
   // Verify CRON_SECRET is set and strong enough
   if (!process.env.CRON_SECRET || process.env.CRON_SECRET.length < 32) {
@@ -87,7 +102,8 @@ export async function GET(req: NextRequest) {
     const dayOneUsers = await findFreeUsers(24);
     for (const user of dayOneUsers) {
       try {
-        const emailData = freeFollowupDayOne(user.name ?? "there");
+        const variant = getAbVariant(user.email);
+        const emailData = freeFollowupDayOne(user.name ?? "there", variant);
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,
@@ -103,6 +119,7 @@ export async function GET(req: NextRequest) {
               type: "free_followup",
               sequence: 1,
               subject: emailData.subject,
+              variant,
               status: "sent",
             },
           });
@@ -122,7 +139,8 @@ export async function GET(req: NextRequest) {
     const dayTwoUsers = await findFreeUsers(48);
     for (const user of dayTwoUsers) {
       try {
-        const emailData = freeFollowupDayTwo(user.name ?? "there");
+        const variant = getAbVariant(user.email);
+        const emailData = freeFollowupDayTwo(user.name ?? "there", variant);
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,
@@ -138,6 +156,7 @@ export async function GET(req: NextRequest) {
               type: "free_followup",
               sequence: 2,
               subject: emailData.subject,
+              variant,
               status: "sent",
             },
           });
@@ -157,7 +176,8 @@ export async function GET(req: NextRequest) {
     const daySevenUsers = await findFreeUsers(168);
     for (const user of daySevenUsers) {
       try {
-        const emailData = freeFollowupDaySeven(user.name ?? "there");
+        const variant = getAbVariant(user.email);
+        const emailData = freeFollowupDaySeven(user.name ?? "there", variant);
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,
@@ -186,6 +206,7 @@ export async function GET(req: NextRequest) {
               type: "free_followup",
               sequence: 3,
               subject: emailData.subject,
+              variant,
               status: "sent",
             },
           });
