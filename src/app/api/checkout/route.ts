@@ -65,10 +65,30 @@ export async function POST(req: NextRequest) {
     const paymentMethodTypes: ("card" | "klarna")[] =
       plan !== "starter" ? ["card", "klarna"] : ["card"];
 
+    // Look up or create a Stripe customer to avoid conflicts with customer_email
+    // when the user already has a Stripe customer from a previous checkout
+    let customerId: string | undefined;
+    const userEmail = session.user.email;
+    if (userEmail) {
+      const existingCustomers = await stripe.customers.list({
+        email: userEmail,
+        limit: 1,
+      });
+      if (existingCustomers.data.length > 0) {
+        customerId = existingCustomers.data[0].id;
+      } else {
+        const newCustomer = await stripe.customers.create({
+          email: userEmail,
+          metadata: { userId: session.user.id },
+        });
+        customerId = newCustomer.id;
+      }
+    }
+
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: paymentMethodTypes,
-      customer_email: session.user.email ?? undefined,
+      ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
       metadata: {
         userId: session.user.id,
         plan: plan,

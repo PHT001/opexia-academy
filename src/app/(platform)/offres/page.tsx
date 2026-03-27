@@ -186,7 +186,7 @@ function OffresContent() {
             </div>
             <div className="text-left sm:text-right">
               <p className="text-3xl font-black text-white">
-                {effectiveTier === "free" ? "Gratuit" : effectiveTier === "starter" ? "47\u20ac" : effectiveTier === "academy" ? "497\u20ac" : "2\u00A0497\u20ac"}
+                {effectiveTier === "free" ? "0\u20ac" : effectiveTier === "starter" ? "47\u20ac" : effectiveTier === "academy" ? "497\u20ac" : "2\u00A0497\u20ac"}
               </p>
               <p className="text-[10px] text-white/40">{effectiveTier === "free" ? "aucun engagement" : "paiement unique"}</p>
             </div>

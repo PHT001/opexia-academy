@@ -618,7 +618,7 @@ function CoachingContent() {
 
   /* ─── User booking view ─── */
   const bookingContent = (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-4 sm:space-y-8">
 
       {/* ═══════════════ SUCCESS MESSAGE ═══════════════ */}
       {successMessage && (
@@ -641,23 +641,23 @@ function CoachingContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-5">
+        <div className="p-4 sm:p-8">
+          <div className="flex flex-row items-center gap-4 sm:gap-5">
             {/* Avatar */}
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/15 flex-shrink-0">
-              <span className="text-2xl font-black text-white">O</span>
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/15 flex-shrink-0">
+              <span className="text-xl sm:text-2xl font-black text-white">O</span>
             </div>
 
             <div className="flex-1">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+              <h1 className="text-lg sm:text-2xl font-bold text-gray-900">
                 Équipe OpexIA
               </h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
                 Session de coaching personnalisée
               </p>
 
               {/* Meta badges */}
-              <div className="flex flex-wrap items-center gap-3 mt-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2 sm:mt-3">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
                   <IconClock className="w-3.5 h-3.5 text-gray-400" />
                   45 min
@@ -685,8 +685,8 @@ function CoachingContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Choisis ton créneau</h2>
-        <p className="text-xs text-gray-500 mb-5">Sélectionne un jour puis un horaire pour réserver ta session.</p>
+        <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-0.5 sm:mb-1">Choisis ton créneau</h2>
+        <p className="text-xs text-gray-500 mb-3 sm:mb-5">Sélectionne un jour puis un horaire pour réserver ta session.</p>
 
         <CalendlyPicker
           slots={slots}

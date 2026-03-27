@@ -80,9 +80,9 @@ export default function LiveActivityFeed() {
     <div
       style={{
         position: "fixed",
-        bottom: 24,
+        bottom: 100,
         left: 24,
-        zIndex: 9990,
+        zIndex: 40,
         pointerEvents: "none",
         maxWidth: 340,
       }}
