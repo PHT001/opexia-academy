@@ -2289,6 +2289,21 @@ function AdminStudentsTab() {
           </div>
         )}
       </motion.div>
+      {/* Delete confirmation modal */}
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setConfirmDeleteId(null)}>
+          <div className="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-gray-900">Supprimer cet élève ?</h3>
+            <p className="text-gray-500 text-sm mt-2">Cette action est irréversible. Toutes les données seront définitivement supprimées.</p>
+            <div className="flex gap-3 mt-5">
+              <button onClick={() => setConfirmDeleteId(null)} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium text-sm hover:bg-gray-50">Annuler</button>
+              <button onClick={() => handleDeleteStudent(confirmDeleteId)} disabled={!!deletingId} className="flex-1 py-2.5 rounded-xl bg-red-600 text-white font-medium text-sm hover:bg-red-700 disabled:opacity-50">
+                {deletingId ? "Suppression..." : "Supprimer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
@@ -2459,21 +2474,6 @@ function AdminProjectCard({ project, index, updating, onUpdate }: {
             )}
           </button>
         </motion.div>
-      )}
-      {/* Delete confirmation modal */}
-      {confirmDeleteId && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setConfirmDeleteId(null)}>
-          <div className="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-gray-900">Supprimer cet élève ?</h3>
-            <p className="text-gray-500 text-sm mt-2">Cette action est irréversible. Toutes les données seront définitivement supprimées.</p>
-            <div className="flex gap-3 mt-5">
-              <button onClick={() => setConfirmDeleteId(null)} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium text-sm hover:bg-gray-50">Annuler</button>
-              <button onClick={() => handleDeleteStudent(confirmDeleteId)} disabled={!!deletingId} className="flex-1 py-2.5 rounded-xl bg-red-600 text-white font-medium text-sm hover:bg-red-700 disabled:opacity-50">
-                {deletingId ? "Suppression..." : "Supprimer"}
-              </button>
-            </div>
-          </div>
-        </div>
       )}
     </motion.div>
   );
