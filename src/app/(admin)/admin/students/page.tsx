@@ -186,6 +186,9 @@ export default function StudentsPage() {
                 </th>
                 <th className="text-center text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3 w-12">
                 </th>
+                <th className="text-center text-xs font-medium text-text-tertiary uppercase tracking-wider px-3 py-3">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -295,7 +298,7 @@ export default function StudentsPage() {
                               setConfirmDeleteId(student.id);
                             }}
                             disabled={deletingId === student.id}
-                            className="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-all disabled:opacity-50 flex items-center gap-1.5 text-xs font-medium"
+                            className="px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all disabled:opacity-50 flex items-center gap-1.5 text-xs font-medium shadow-sm"
                             title="Supprimer"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
