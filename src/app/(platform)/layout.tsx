@@ -65,7 +65,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       .then((r) => r.json())
       .then((data) => {
         if (data?.xp !== undefined) {
-          setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "starter" });
+          setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "free" });
         }
         if (data?.emailVerified !== undefined) {
           setEmailVerified(data.emailVerified);

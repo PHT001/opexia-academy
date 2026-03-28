@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /* ═══════════════════════════════════════════════════════════
@@ -558,14 +559,22 @@ export default function LeaderboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("xp");
+  const [userTier, setUserTier] = useState<string>("free");
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const res = await fetch("/api/leaderboard");
-        if (!res.ok) throw new Error("Erreur lors du chargement");
-        setData(await res.json());
+        const [leaderboardRes, progressRes] = await Promise.all([
+          fetch("/api/leaderboard"),
+          fetch("/api/progress"),
+        ]);
+        if (!leaderboardRes.ok) throw new Error("Erreur lors du chargement");
+        setData(await leaderboardRes.json());
+        if (progressRes.ok) {
+          const progressData = await progressRes.json();
+          setUserTier(progressData.tier || "free");
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Erreur inconnue");
       } finally {
@@ -575,6 +584,9 @@ export default function LeaderboardPage() {
   }, []);
 
   const uid = session?.user?.id ?? "";
+  const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
+  const effectiveTier = previewTier || userTier;
+  const isFreeUser = (effectiveTier === "free" || !effectiveTier) && (session?.user as any)?.role !== "admin";
 
   if (loading) {
     return (
@@ -609,6 +621,39 @@ export default function LeaderboardPage() {
 
   const { rankings, currentUser, totalStudents, recentActivity, allBadges } = data;
 
+  const leaderboardContent = (
+    <>
+      {/* Podium */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="rounded-xl border border-gray-200 bg-white shadow-sm p-4 overflow-hidden"
+      >
+        <Podium users={rankings.xp.slice(0, 3)} currentUserId={uid} />
+      </motion.div>
+
+      {/* Stats */}
+      {currentUser && <StatsCards user={currentUser} totalStudents={totalStudents} />}
+
+      {/* Rankings */}
+      <RankingSection
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        rankings={rankings}
+        currentUserId={uid}
+      />
+
+      {/* Badges */}
+      {currentUser && allBadges && (
+        <BadgesRow allBadges={allBadges} earned={currentUser.badges} />
+      )}
+
+      {/* Activity */}
+      <ActivityFeed activities={recentActivity} />
+    </>
+  );
+
   return (
     <div className="min-h-screen bg-[#F8F9FA] px-4 py-6 md:py-10">
       <div className="mx-auto max-w-2xl space-y-5">
@@ -621,34 +666,62 @@ export default function LeaderboardPage() {
           </p>
         </motion.div>
 
-        {/* Podium */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="rounded-xl border border-gray-200 bg-white shadow-sm p-4 overflow-hidden"
-        >
-          <Podium users={rankings.xp.slice(0, 3)} currentUserId={uid} />
-        </motion.div>
+        {isFreeUser ? (
+          <div className="relative">
+            {/* Blurred leaderboard content */}
+            <div className="blur-[6px] pointer-events-none select-none opacity-60 space-y-5">
+              {leaderboardContent}
+            </div>
 
-        {/* Stats */}
-        {currentUser && <StatsCards user={currentUser} totalStudents={totalStudents} />}
+            {/* Upgrade CTA overlay */}
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center max-w-md mx-auto px-6"
+              >
+                <div className="rounded-2xl bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg p-8">
+                  {/* Lock icon */}
+                  <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-5">
+                    <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
 
-        {/* Rankings */}
-        <RankingSection
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          rankings={rankings}
-          currentUserId={uid}
-        />
+                  <h2 className="text-lg font-bold text-[#111] mb-2">
+                    D&eacute;bloque le classement
+                  </h2>
+                  <p className="text-sm text-gray-500 mb-6">
+                    Passe au Starter pour voir le classement complet et te mesurer aux autres &eacute;l&egrave;ves.
+                  </p>
 
-        {/* Badges */}
-        {currentUser && allBadges && (
-          <BadgesRow allBadges={allBadges} earned={currentUser.badges} />
+                  <Link
+                    href="/offres"
+                    className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
+                    style={{
+                      background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
+                      boxShadow: "0 4px 14px rgba(255,23,68,0.3)",
+                    }}
+                  >
+                    Voir les offres
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+
+                  <p className="mt-3 text-[10px] text-gray-400">
+                    Disponible avec les formules Starter, Academy ou One-to-One
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-5">
+            {leaderboardContent}
+          </div>
         )}
-
-        {/* Activity */}
-        <ActivityFeed activities={recentActivity} />
       </div>
     </div>
   );

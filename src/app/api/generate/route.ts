@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 /* ─── Template-based content generator ──────────────────────────────── */
 
@@ -40,6 +41,16 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  }
+
+  // Tier check: only academy and one_to_one can use the generator
+  const enrollment = await prisma.enrollment.findFirst({
+    where: { userId: session.user.id, status: "active" },
+    orderBy: { createdAt: "desc" },
+  });
+  const userTier = enrollment?.tier || "free";
+  if (userTier !== "academy" && userTier !== "one_to_one") {
+    return NextResponse.json({ error: "Accès réservé au pack Academy" }, { status: 403 });
   }
 
   try {
