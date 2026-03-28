@@ -152,14 +152,6 @@ export default function Pricing() {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [installments, setInstallments] = useState<Record<string, number>>({ academy: 1, one_to_one: 1 });
-
-  function getInstallmentPrice(basePriceNum: number, inst: number): { total: number; monthly: number } {
-    const surcharge = inst === 2 ? 0.05 : 0;
-    const total = Math.round(basePriceNum * (1 + surcharge) * 100) / 100;
-    const monthly = Math.round((total / inst) * 100) / 100;
-    return { total, monthly };
-  }
 
   async function handleCheckout(slug: string) {
     setLoading(slug);
@@ -167,7 +159,7 @@ export default function Pricing() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: slug, installments: installments[slug] || 1 }),
+        body: JSON.stringify({ plan: slug }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -261,40 +253,9 @@ export default function Pricing() {
                   <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>
                 )}
 
-                {/* Installment selector for Academy & One-to-One */}
+                {/* Klarna handles installments natively on Stripe checkout */}
                 {(plan.slug === "academy" || plan.slug === "one_to_one") && !plan.external && (
-                  <div className="mt-4">
-                    <div className="flex rounded-lg border border-gray-200 overflow-hidden">
-                      {[1, 2].map((n) => {
-                        const isSelected = (installments[plan.slug] || 1) === n;
-                        return (
-                          <button
-                            key={n}
-                            onClick={() => setInstallments(prev => ({ ...prev, [plan.slug]: n }))}
-                            className={`flex-1 py-2 px-1 text-center text-xs font-semibold transition-all ${
-                              isSelected
-                                ? "bg-[#FF1744] text-white"
-                                : "bg-white text-gray-600 hover:bg-gray-50"
-                            } ${n < 2 ? "border-r border-gray-200" : ""}`}
-                          >
-                            {n === 1 ? "1x" : "2x"}
-                            {n === 2 && <span className="block text-[10px] font-normal opacity-80">+5%</span>}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {(installments[plan.slug] || 1) > 1 && (() => {
-                      const basePriceNum = parseInt(plan.price.replace(/\s/g, "").replace(/\u00A0/g, ""), 10);
-                      const n = installments[plan.slug];
-                      const inst = getInstallmentPrice(basePriceNum, n);
-                      return (
-                        <p className="text-sm text-gray-500 mt-2 text-center">
-                          {n}x <span className="font-semibold text-[#111]">{inst.monthly.toLocaleString("fr-FR")}{"\u20ac"}</span>/mois
-                          <span className="text-xs text-gray-400 ml-1">(total {inst.total.toLocaleString("fr-FR")}{"\u20ac"})</span>
-                        </p>
-                      );
-                    })()}
-                  </div>
+                  <p className="text-xs text-gray-400 mt-3 text-center">Paiement en plusieurs fois disponible via Klarna</p>
                 )}
               </div>
 
@@ -328,15 +289,7 @@ export default function Pricing() {
                       : "bg-[#111] text-white hover:bg-[#333]"
                   }`}
                 >
-                  {loading === plan.slug ? "Redirection..." : (() => {
-                    const inst = installments[plan.slug] || 1;
-                    if (inst > 1) {
-                      const basePriceNum = parseInt(plan.price.replace(/\s/g, "").replace(/\u00A0/g, ""), 10);
-                      const info = getInstallmentPrice(basePriceNum, inst);
-                      return `${plan.name} \u2014 ${inst}x ${info.monthly.toLocaleString("fr-FR")}\u20ac/mois`;
-                    }
-                    return plan.cta;
-                  })()}
+                  {loading === plan.slug ? "Redirection..." : plan.cta}
                 </button>
               )}
 
