@@ -60,19 +60,28 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
     }
   }
 
+  const [error, setError] = useState("");
+
   async function finish() {
     setLoading(true);
+    setError("");
     try {
-      await fetch("/api/onboarding", {
+      const res = await fetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, discordUsername: discord, age, profession }),
       });
+      if (!res.ok) throw new Error("Erreur serveur");
       onComplete();
       router.refresh();
     } catch {
+      setError("Une erreur est survenue. Réessaie.");
       setLoading(false);
     }
+  }
+
+  function skip() {
+    onComplete();
   }
 
   const slideVariants = {
@@ -108,6 +117,17 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
           transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
         />
       </motion.div>
+
+      {/* Skip button */}
+      <motion.button
+        onClick={skip}
+        className="absolute top-4 right-4 text-xs text-gray-400 hover:text-gray-600 transition-colors z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+      >
+        Passer
+      </motion.button>
 
       {/* Back button */}
       <AnimatePresence>
@@ -417,6 +437,9 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                     "D\u00e9couvrir ma plateforme"
                   )}
                 </motion.button>
+                {error && (
+                  <p className="mt-3 text-sm text-red-500">{error}</p>
+                )}
               </div>
             )}
           </motion.div>
