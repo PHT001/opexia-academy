@@ -99,6 +99,7 @@ function OffresContent() {
   const [userTier, setUserTier] = useState("free");
   const [loading, setLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+  const [installments, setInstallments] = useState<Record<string, number>>({ academy: 1 });
   const [discount, setDiscount] = useState<{
     code: string;
     percent: number;
@@ -130,7 +131,7 @@ function OffresContent() {
   async function handleCheckout(slug: string) {
     setLoading(slug);
     try {
-      const payload: { plan: string; coupon?: string } = { plan: slug };
+      const payload: { plan: string; coupon?: string; installments?: number } = { plan: slug, installments: installments[slug] || 1 };
       if (discount) payload.coupon = discount.code;
       const res = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const data = await res.json();
@@ -257,8 +258,39 @@ function OffresContent() {
                 )}
 
                 {/* Installment selector for Academy & One-to-One */}
-                {(plan.slug === "academy" || plan.slug === "one_to_one") && !plan.external && (
-                  <p className="text-xs text-gray-400 mt-3 text-center">Paiement en plusieurs fois disponible via Klarna</p>
+                {plan.slug === "academy" && (
+                  <div className="mt-4">
+                    <div className="flex rounded-lg border border-gray-200 overflow-hidden">
+                      {[1, 2].map((n) => {
+                        const isSelected = (installments[plan.slug] || 1) === n;
+                        return (
+                          <button
+                            key={n}
+                            onClick={() => setInstallments(prev => ({ ...prev, [plan.slug]: n }))}
+                            className={`flex-1 py-2 px-1 text-center text-xs font-semibold transition-all ${
+                              isSelected
+                                ? "bg-[#FF1744] text-white"
+                                : "bg-white text-gray-600 hover:bg-gray-50"
+                            } ${n === 1 ? "border-r border-gray-200" : ""}`}
+                          >
+                            {n === 1 ? "1x" : "2x"}
+                            {n === 2 && <span className="block text-[10px] font-normal opacity-80">+5%</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {(installments[plan.slug] || 1) === 2 && (() => {
+                      const basePriceNum = parseInt(plan.price.replace(/\s/g, "").replace(/\u00A0/g, ""), 10);
+                      const total = Math.round(basePriceNum * 1.05 * 100) / 100;
+                      const monthly = Math.round((total / 2) * 100) / 100;
+                      return (
+                        <p className="text-sm text-gray-500 mt-2 text-center">
+                          2x <span className="font-semibold text-[#111]">{monthly.toLocaleString("fr-FR")}{"\u20ac"}</span>/mois
+                          <span className="text-xs text-gray-400 ml-1">(total {total.toLocaleString("fr-FR")}{"\u20ac"})</span>
+                        </p>
+                      );
+                    })()}
+                  </div>
                 )}
               </div>
 
@@ -274,7 +306,14 @@ function OffresContent() {
                 </a>
               ) : (
                 <button onClick={() => handleCheckout(plan.slug)} disabled={loading === plan.slug} className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${plan.popular ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200" : "bg-[#111] text-white hover:bg-[#333]"}`}>
-                  {loading === plan.slug ? "Redirection..." : (discount ? `${plan.name} \u2014 ${getDiscountedPrice(plan.price)}\u20ac` : plan.cta)}
+                  {loading === plan.slug ? "Redirection..." : (() => {
+                    if (plan.slug === "academy" && (installments[plan.slug] || 1) === 2) {
+                      const basePriceNum = parseInt(plan.price.replace(/\s/g, "").replace(/\u00A0/g, ""), 10);
+                      const monthly = Math.round((basePriceNum * 1.05 / 2) * 100) / 100;
+                      return `${plan.name} \u2014 2x ${monthly.toLocaleString("fr-FR")}\u20ac/mois`;
+                    }
+                    return discount ? `${plan.name} \u2014 ${getDiscountedPrice(plan.price)}\u20ac` : plan.cta;
+                  })()}
                 </button>
               )}
 

@@ -33,9 +33,18 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const plan = body.plan as string | undefined;
     const coupon = body.coupon as string | undefined;
+    const installments = (body.installments as number) || 1;
 
     if (!plan || !PLANS[plan]) {
       return NextResponse.json({ error: "Plan invalide" }, { status: 400 });
+    }
+
+    if (![1, 2].includes(installments)) {
+      return NextResponse.json({ error: "1x ou 2x uniquement" }, { status: 400 });
+    }
+
+    if (plan === "starter" && installments > 1) {
+      return NextResponse.json({ error: "Le Starter est en paiement unique" }, { status: 400 });
     }
 
     const p = PLANS[plan];
@@ -91,34 +100,64 @@ export async function POST(req: NextRequest) {
       userId: session.user.id,
       plan: plan,
       coupon: coupon || "",
+      installments: String(installments),
     };
 
-    // Always one-time payment — Klarna handles installments natively on Stripe checkout
-    const paymentMethodTypes: ("card" | "klarna")[] =
-      plan !== "starter" ? ["card", "klarna"] : ["card"];
+    let checkoutSession;
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: paymentMethodTypes,
-      ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
-      metadata,
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: p.name,
-              description: p.description,
+    if (installments === 1) {
+      // ═══ PAIEMENT UNIQUE ═══
+      checkoutSession = await stripe.checkout.sessions.create({
+        mode: "payment",
+        payment_method_types: ["card"],
+        ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
+        metadata,
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: { name: p.name, description: p.description },
+              unit_amount: basePrice,
             },
-            unit_amount: basePrice,
+            quantity: 1,
           },
-          quantity: 1,
-        },
-      ],
-      success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
-      cancel_url: `${origin}/offres`,
-      ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
-    });
+        ],
+        success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
+        cancel_url: `${origin}/offres`,
+        ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
+      });
+    } else {
+      // ═══ PAIEMENT EN 2x (+5%) ═══
+      const totalWithSurcharge = Math.round(basePrice * 1.05);
+      const monthlyAmount = Math.round(totalWithSurcharge / 2);
+      const cancelAt = Math.floor(Date.now() / 1000) + 2 * 30 * 24 * 60 * 60;
+
+      const metadataWithCancel = { ...metadata, cancelAt: String(cancelAt) };
+
+      checkoutSession = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        payment_method_types: ["card"],
+        ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
+        metadata: metadataWithCancel,
+        subscription_data: { metadata: metadataWithCancel },
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: `${p.name} — 2 mensualit\u00e9s`,
+                description: `${p.description} (paiement en 2x)`,
+              },
+              unit_amount: monthlyAmount,
+              recurring: { interval: "month" },
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
+        cancel_url: `${origin}/offres`,
+      });
+    }
 
     if (!checkoutSession.url) {
       return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
