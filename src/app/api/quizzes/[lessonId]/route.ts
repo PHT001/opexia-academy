@@ -38,7 +38,7 @@ export async function GET(
     // Tier/access check
     const isAdmin = session.user.role === "admin";
     if (!isAdmin) {
-      let userTier = "starter";
+      let userTier = "free";
       const enrollment = await prisma.enrollment.findFirst({
         where: { userId, status: "active" },
         orderBy: { createdAt: "desc" },
@@ -46,7 +46,7 @@ export async function GET(
       if (enrollment) {
         userTier = enrollment.tier;
       }
-      const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
+      const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
       if (!accessibleModules.includes(lesson.module.order)) {
         return NextResponse.json({ error: "Acces non autorise pour votre forfait" }, { status: 403 });
       }
