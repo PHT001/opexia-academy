@@ -128,7 +128,7 @@ function OffresContent() {
   const effectiveTier = previewTier || userTier;
 
   function getInstallmentPrice(basePriceNum: number, inst: number): { total: number; monthly: number } {
-    const surcharge = inst === 2 ? 0.10 : inst === 3 ? 0.15 : 0;
+    const surcharge = inst === 2 ? 0.05 : 0;
     const total = Math.round(basePriceNum * (1 + surcharge) * 100) / 100;
     const monthly = Math.round((total / inst) * 100) / 100;
     return { total, monthly };
@@ -268,7 +268,7 @@ function OffresContent() {
                 {(plan.slug === "academy" || plan.slug === "one_to_one") && !plan.external && (
                   <div className="mt-4">
                     <div className="flex rounded-lg border border-gray-200 overflow-hidden">
-                      {[1, 2, 3].map((n) => {
+                      {[1, 2].map((n) => {
                         const basePriceNum = parseInt(plan.price.replace(/\s/g, "").replace(/\u00A0/g, ""), 10);
                         const inst = getInstallmentPrice(basePriceNum, n);
                         const isSelected = (installments[plan.slug] || 1) === n;
@@ -280,10 +280,10 @@ function OffresContent() {
                               isSelected
                                 ? "bg-[#FF1744] text-white"
                                 : "bg-white text-gray-600 hover:bg-gray-50"
-                            } ${n < 3 ? "border-r border-gray-200" : ""}`}
+                            } ${n < 2 ? "border-r border-gray-200" : ""}`}
                           >
-                            {n === 1 ? "1x" : `${n}x`}
-                            {n > 1 && <span className="block text-[10px] font-normal opacity-80">+{n === 2 ? "10" : "15"}%</span>}
+                            {n === 1 ? "1x" : "2x"}
+                            {n === 2 && <span className="block text-[10px] font-normal opacity-80">+5%</span>}
                           </button>
                         );
                       })}

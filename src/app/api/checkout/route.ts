@@ -25,8 +25,7 @@ const PLANS: Record<string, { name: string; price: number; description: string }
 // Installment surcharges
 const INSTALLMENT_SURCHARGE: Record<number, number> = {
   1: 0,     // no surcharge
-  2: 0.10,  // +10%
-  3: 0.15,  // +15%
+  2: 0.05,  // +5%
 };
 
 export async function POST(req: NextRequest) {
@@ -46,8 +45,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Plan invalide" }, { status: 400 });
     }
 
-    if (![1, 2, 3].includes(installments)) {
-      return NextResponse.json({ error: "Nombre de mensualités invalide" }, { status: 400 });
+    if (![1, 2].includes(installments)) {
+      return NextResponse.json({ error: "Nombre de mensualités invalide (1x ou 2x uniquement)" }, { status: 400 });
     }
 
     // Starter is always 1x payment only

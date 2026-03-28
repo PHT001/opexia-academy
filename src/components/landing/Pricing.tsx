@@ -155,7 +155,7 @@ export default function Pricing() {
   const [installments, setInstallments] = useState<Record<string, number>>({ academy: 1, one_to_one: 1 });
 
   function getInstallmentPrice(basePriceNum: number, inst: number): { total: number; monthly: number } {
-    const surcharge = inst === 2 ? 0.10 : inst === 3 ? 0.15 : 0;
+    const surcharge = inst === 2 ? 0.05 : 0;
     const total = Math.round(basePriceNum * (1 + surcharge) * 100) / 100;
     const monthly = Math.round((total / inst) * 100) / 100;
     return { total, monthly };
@@ -265,7 +265,7 @@ export default function Pricing() {
                 {(plan.slug === "academy" || plan.slug === "one_to_one") && !plan.external && (
                   <div className="mt-4">
                     <div className="flex rounded-lg border border-gray-200 overflow-hidden">
-                      {[1, 2, 3].map((n) => {
+                      {[1, 2].map((n) => {
                         const isSelected = (installments[plan.slug] || 1) === n;
                         return (
                           <button
@@ -275,10 +275,10 @@ export default function Pricing() {
                               isSelected
                                 ? "bg-[#FF1744] text-white"
                                 : "bg-white text-gray-600 hover:bg-gray-50"
-                            } ${n < 3 ? "border-r border-gray-200" : ""}`}
+                            } ${n < 2 ? "border-r border-gray-200" : ""}`}
                           >
-                            {n === 1 ? "1x" : `${n}x`}
-                            {n > 1 && <span className="block text-[10px] font-normal opacity-80">+{n === 2 ? "10" : "15"}%</span>}
+                            {n === 1 ? "1x" : "2x"}
+                            {n === 2 && <span className="block text-[10px] font-normal opacity-80">+5%</span>}
                           </button>
                         );
                       })}
