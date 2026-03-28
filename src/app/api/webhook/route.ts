@@ -44,6 +44,18 @@ export async function POST(req: NextRequest) {
     const userId = session.metadata?.userId;
     const plan = session.metadata?.plan;
 
+    // For installment subscriptions: set cancel_at on the subscription
+    if (session.mode === "subscription" && session.subscription && session.metadata?.cancelAt) {
+      try {
+        const subscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription.id;
+        await stripe.subscriptions.update(subscriptionId, {
+          cancel_at: parseInt(session.metadata.cancelAt, 10),
+        });
+      } catch (cancelErr) {
+        console.error("Failed to set subscription cancel_at:", cancelErr instanceof Error ? cancelErr.message : cancelErr);
+      }
+    }
+
     if (!userId || !plan) {
       console.error("Missing userId or plan in checkout session metadata");
       return NextResponse.json({ error: "Missing metadata" }, { status: 400 });

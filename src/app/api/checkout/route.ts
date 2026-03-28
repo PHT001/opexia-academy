@@ -151,14 +151,18 @@ export async function POST(req: NextRequest) {
 
       const installmentLabel = installments === 2 ? "2 mensualités" : "3 mensualités";
 
+      const metadataWithCancel = {
+        ...metadata,
+        cancelAt: String(cancelAt),
+      };
+
       checkoutSession = await stripe.checkout.sessions.create({
         mode: "subscription",
         payment_method_types: ["card"],
         ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
-        metadata,
+        metadata: metadataWithCancel,
         subscription_data: {
-          metadata,
-          cancel_at: cancelAt,
+          metadata: metadataWithCancel,
         },
         line_items: [
           {
