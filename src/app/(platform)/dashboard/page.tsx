@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { TIERS, TIER_MODULE_ACCESS } from "@/lib/constants";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
 import FreeDashboard from "@/components/platform/FreeDashboard";
-import CommunitySection from "@/components/platform/CommunitySection";
+
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -1093,9 +1093,6 @@ function DashboardContent() {
           </Card>
         </div>
       </div>
-
-        {/* Community: Leaderboard + Activity Feed */}
-        <CommunitySection />
 
         {/* Discord Community */}
         <Card initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="p-6">

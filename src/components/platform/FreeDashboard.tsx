@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import CommunitySection from "@/components/platform/CommunitySection";
+
 
 interface FreeDashboardProps {
   firstName: string;
@@ -168,23 +168,6 @@ const CHECKLIST = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    name: "Julien M.",
-    role: "Freelance IA",
-    quote: "En 3 semaines, j\u2019ai d\u00e9croch\u00e9 mon premier client chatbot \u00e0 1\u202f200\u20ac. La formation va droit au but.",
-  },
-  {
-    name: "Sofia R.",
-    role: "Reconversion tech",
-    quote: "Je partais de z\u00e9ro en code. Aujourd\u2019hui je livre des automatisations IA pour des PME. Merci OpexIA !",
-  },
-  {
-    name: "Thomas L.",
-    role: "Agence digitale",
-    quote: "J\u2019ai ajout\u00e9 les services IA \u00e0 mon agence. +4K\u20ac/mois en 2 mois. Le module vente est en or.",
-  },
-];
 
 function OnlineCounter() {
   const [count, setCount] = useState(() => Math.floor(Math.random() * 18) + 8);
@@ -404,32 +387,6 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
             </Link>
           </div>
         </div>
-      </motion.div>
-
-      {/* ════ TESTIMONIALS ════ */}
-      <motion.div variants={fadeUp}>
-        <h2 className="text-base font-bold text-[#111] mb-4">Ce que nos {"é"}l{"è"}ves disent</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF1744] to-[#FF5252] flex items-center justify-center text-white text-xs font-bold">
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-[#111]">{t.name}</p>
-                  <p className="text-[10px] text-gray-400">{t.role}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* ════ COMMUNITY: LEADERBOARD + FEED ════ */}
-      <motion.div variants={fadeUp}>
-        <CommunitySection />
       </motion.div>
 
       {/* ════ DISCORD CTA ════ */}

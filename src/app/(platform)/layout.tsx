@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
-import LiveActivityFeed from "@/components/platform/LiveActivityFeed";
+
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
@@ -190,8 +190,6 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           {children}
         </div>
       </main>
-      {/* Live activity feed — free tier only */}
-      {(previewTier || stats.tier) === "free" && <LiveActivityFeed />}
     </div>
     </XPToastProvider>
   );
