@@ -268,7 +268,7 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     id: "coaching",
     label: "Coaching",
     items: [
-      { href: "/assistant", label: "Parler à l'IA", icon: IconBot },
+      { href: "/assistant", label: "Parler à l'IA", icon: IconBot, lockedForStarter: true, lockedTeaser: "L'assistant IA est disponible avec le pack Academy. Il répond à toutes tes questions sur l'IA et ton projet." },
       { href: "/coaching", label: "Réserver un appel", icon: IconPhone },
     ],
   },
@@ -276,8 +276,8 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     id: "tools",
     label: "Outils & Services",
     items: [
-      { href: "/pipeline", label: "Pipeline", icon: IconPipeline },
-      { href: "/generateur", label: "Générateur", icon: IconWand },
+      { href: "/pipeline", label: "Pipeline", icon: IconPipeline, lockedForStarter: true, lockedTeaser: "Le Pipeline CRM t'aide à gérer tes prospects et clients. Disponible avec le pack Academy." },
+      { href: "/generateur", label: "Générateur", icon: IconWand, lockedForStarter: true, lockedTeaser: "Le Générateur de projets IA est disponible avec le pack Academy." },
     ],
   },
   {
@@ -664,7 +664,7 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
 
               <div className="flex flex-col gap-0.5">
                 {section.items.map((item) => {
-                  const tierLocked = item.lockedForStarter && tier === "starter";
+                  const tierLocked = item.lockedForStarter && (tier === "starter" || tier === "free" || !tier);
                   const requiredTierLocked = item.requiredTier && tier !== item.requiredTier && tier !== "free";
                   const isLocked = (tierLocked || requiredTierLocked) && (role !== "admin" || previewTier !== null);
                   const active = !isLocked && (pathname === item.href || pathname.startsWith(item.href + "/"));

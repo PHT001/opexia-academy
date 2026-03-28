@@ -455,7 +455,7 @@ export default function LessonsPage() {
     return () => { document.body.style.overflow = ""; };
   }, []);
 
-  const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.one_to_one;
+  const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
   const totalCompleted = modules.reduce((sum, m) => sum + m.lessons.filter((l) => l.status === "completed").length, 0);
   const totalLessons = modules.reduce((sum, m) => sum + m.lessons.length, 0);
   const totalProgress = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;

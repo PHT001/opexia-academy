@@ -260,7 +260,7 @@ function OffresContent() {
                     </>
                   )}
                 </div>
-                {plan.slug === "starter" && plan.period && (
+                {plan.period && (
                   <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>
                 )}
 

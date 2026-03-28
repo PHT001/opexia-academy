@@ -9,6 +9,19 @@ export async function GET() {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
+  // Tier check — only academy and one_to_one users can access the pipeline
+  const isAdmin = session.user.role === "admin";
+  if (!isAdmin) {
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId: session.user.id, status: "active" },
+      orderBy: { createdAt: "desc" },
+    });
+    const userTier = enrollment?.tier || "free";
+    if (userTier !== "academy" && userTier !== "one_to_one") {
+      return NextResponse.json({ error: "Acces reserve aux membres Academy et One-to-One" }, { status: 403 });
+    }
+  }
+
   try {
     const deals = await prisma.pipelineDeal.findMany({
       where: { userId: session.user.id },
@@ -26,6 +39,19 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
+  }
+
+  // Tier check — only academy and one_to_one users can access the pipeline
+  const isAdmin = session.user.role === "admin";
+  if (!isAdmin) {
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId: session.user.id, status: "active" },
+      orderBy: { createdAt: "desc" },
+    });
+    const userTier = enrollment?.tier || "free";
+    if (userTier !== "academy" && userTier !== "one_to_one") {
+      return NextResponse.json({ error: "Acces reserve aux membres Academy et One-to-One" }, { status: 403 });
+    }
   }
 
   try {

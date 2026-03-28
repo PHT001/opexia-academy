@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
         data: { emailVerified: true },
       });
 
-      // Send welcome email after successful enrollment
+      // Send personalized welcome email after successful enrollment
       if (resend) {
         try {
           const user = await prisma.user.findUnique({
@@ -103,22 +103,88 @@ export async function POST(req: NextRequest) {
 
           if (user?.email) {
             const firstName = user.name?.split(" ")[0] || "there";
+
+            // Personalize subject and body per plan
+            const emailContent = (() => {
+              if (tier === "starter") {
+                return {
+                  subject: "Bienvenue dans OpexIA Starter ! 🎉",
+                  body: `
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien été reçu et ton accès Starter est maintenant activé.</p>
+                    <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">✅ Ton accès Starter est activé</span>
+                    </div>
+                    <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack inclut :</p>
+                    <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
+                      <li>2 modules Découverte (6 leçons)</li>
+                      <li>Quiz de validation</li>
+                      <li>Accès Discord communautaire</li>
+                      <li>Checklist de démarrage</li>
+                    </ul>
+                    <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
+                    <div style="margin-bottom: 24px;">
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Accéder à ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/lessons" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Commence par le Module 1</a>
+                    </div>`,
+                };
+              } else if (tier === "one_to_one") {
+                return {
+                  subject: "Bienvenue dans OpexIA Premium ! 🎉",
+                  body: `
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien été reçu et ton accès Premium est maintenant activé.</p>
+                    <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">✅ Ton accès Premium est activé</span>
+                    </div>
+                    <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Premium inclut :</p>
+                    <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
+                      <li>Tout le contenu Academy (91 leçons)</li>
+                      <li>8 visios individuelles (1h) avec ton coach</li>
+                      <li>Support prioritaire illimité</li>
+                      <li>Accès direct WhatsApp avec Marius & Igor</li>
+                      <li>Audit personnalisé de ton agence</li>
+                      <li>Suivi hebdomadaire pendant 3 mois</li>
+                    </ul>
+                    <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
+                    <div style="margin-bottom: 24px;">
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Accéder à ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/coaching" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Réserver ta première visio</a>
+                    </div>`,
+                };
+              } else {
+                // Default: academy
+                return {
+                  subject: "Bienvenue dans OpexIA Academy ! 🎉",
+                  body: `
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien été reçu et ton accès Academy est maintenant activé.</p>
+                    <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">✅ Ton accès Academy est activé</span>
+                    </div>
+                    <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Academy inclut :</p>
+                    <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
+                      <li>91 leçons vidéo & texte</li>
+                      <li>Assistant IA intégré</li>
+                      <li>Pipeline CRM intégré</li>
+                      <li>Templates IA premium</li>
+                      <li>Générateur de projets</li>
+                      <li>Gamification (XP, streaks, badges)</li>
+                    </ul>
+                    <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
+                    <div style="margin-bottom: 24px;">
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Accéder à ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/lessons" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Commence par le Module 1</a>
+                    </div>`,
+                };
+              }
+            })();
+
             await resend.emails.send({
               from: "OpexIA Academy <support@opexia-formation.com>",
               to: user.email,
-              subject: "Bienvenue dans OpexIA Academy ! 🎉",
+              subject: emailContent.subject,
               html: `
                 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
                   <h2 style="color: #1A1A2E; margin-bottom: 8px;">Bienvenue ${firstName} ! 🎉</h2>
-                  <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien été reçu et ton accès est maintenant activé.</p>
-                  <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
-                    <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">✅ Ton accès est activé</span>
-                  </div>
-                  <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
-                  <div style="margin-bottom: 24px;">
-                    <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Accéder à ton tableau de bord</a>
-                    <a href="https://opexia-formation.com/lessons" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Commence par le Module 1</a>
-                  </div>
+                  ${emailContent.body}
                   <p style="color: #9CA3AF; font-size: 12px;">Si tu as la moindre question, réponds directement à cet email. On est là pour t'aider !</p>
                 </div>
               `,
@@ -167,6 +233,45 @@ export async function POST(req: NextRequest) {
       const message = err instanceof Error ? err.message : "Unknown error";
       console.error(`Failed to create enrollment: ${message}`);
       return NextResponse.json({ error: "Database error" }, { status: 500 });
+    }
+  }
+
+  // Handle failed invoice payments — suspend enrollment after 3+ failed attempts
+  if (event.type === "invoice.payment_failed") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const invoice = event.data.object as any;
+    const subscriptionId: string | null = typeof invoice.subscription === "string"
+      ? invoice.subscription
+      : invoice.subscription?.id ?? null;
+
+    if (subscriptionId && (invoice.attempt_count ?? 0) >= 3) {
+      try {
+        // Look up the Stripe subscription to get the customer, then find the user
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        const customerId = typeof subscription.customer === "string"
+          ? subscription.customer
+          : subscription.customer.id;
+        const customer = await stripe.customers.retrieve(customerId) as Stripe.Customer;
+        const customerEmail = customer.email;
+
+        if (customerEmail) {
+          const user = await prisma.user.findFirst({
+            where: { email: customerEmail },
+          });
+
+          if (user) {
+            // Suspend all active enrollments for this user
+            await prisma.enrollment.updateMany({
+              where: { userId: user.id, status: "active" },
+              data: { status: "suspended" },
+            });
+            console.log(`Suspended enrollments for user ${user.id} after ${invoice.attempt_count} failed payment attempts`);
+          }
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Unknown error";
+        console.error(`Failed to handle invoice.payment_failed: ${message}`);
+      }
     }
   }
 

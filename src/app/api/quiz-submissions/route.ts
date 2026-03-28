@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { XP_VALUES } from "@/lib/constants";
+import { XP_VALUES, TIER_MODULE_ACCESS } from "@/lib/constants";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -35,6 +35,24 @@ export async function POST(request: Request) {
 
   if (!lesson?.quiz) {
     return NextResponse.json({ error: "Quiz introuvable" }, { status: 404 });
+  }
+
+  // Tier/access check — verify user can access this module
+  const isAdmin = session.user.role === "admin";
+  if (!isAdmin) {
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId: userId, status: "active" },
+      orderBy: { createdAt: "desc" },
+    });
+    const userTier = enrollment?.tier || "free";
+    const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
+    const lessonModule = await prisma.module.findUnique({
+      where: { id: lesson.moduleId },
+      select: { order: true },
+    });
+    if (!lessonModule || !accessibleModules.includes(lessonModule.order)) {
+      return NextResponse.json({ error: "Acces non autorise pour votre forfait" }, { status: 403 });
+    }
   }
 
   const quiz = lesson.quiz;

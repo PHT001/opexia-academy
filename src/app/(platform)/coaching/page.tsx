@@ -77,6 +77,9 @@ const INCLUDES = [
   { icon: "💬", text: "Accès chat prioritaire 48h après la session" },
 ];
 
+// NOTE: Coaching sessions are 45 min here, but the OneToOne plan on /offres
+// advertises "8 visios individuelles (1h)". This discrepancy is known and
+// intentional for now — do NOT change the duration without product decision.
 const STEPS = [
   { num: "01", title: "Réserve ton créneau", desc: "Choisis la date et l'heure qui te conviennent parmi les créneaux disponibles.", icon: <IconCalendar className="text-white" /> },
   { num: "02", title: "Prépare tes questions", desc: "Envoie-nous tes sujets à l'avance pour maximiser la session.", icon: <IconMessageCircle className="text-white" /> },

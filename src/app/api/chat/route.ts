@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const DAILY_LIMIT = 20;
@@ -41,6 +44,24 @@ function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
 }
 
 export async function POST(req: NextRequest) {
+  // Auth check — only authenticated academy/one_to_one users
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Non autorise" }, { status: 401 });
+  }
+
+  const isAdmin = session.user.role === "admin";
+  if (!isAdmin) {
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId: session.user.id, status: "active" },
+      orderBy: { createdAt: "desc" },
+    });
+    const userTier = enrollment?.tier || "free";
+    if (userTier !== "academy" && userTier !== "one_to_one") {
+      return NextResponse.json({ error: "Acces reserve aux membres Academy et One-to-One" }, { status: 403 });
+    }
+  }
+
   try {
     // Rate limit by IP
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
