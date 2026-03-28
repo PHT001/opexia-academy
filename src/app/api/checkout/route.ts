@@ -22,6 +22,13 @@ const PLANS: Record<string, { name: string; price: number; description: string }
   },
 };
 
+// Installment surcharges
+const INSTALLMENT_SURCHARGE: Record<number, number> = {
+  1: 0,     // no surcharge
+  2: 0.10,  // +10%
+  3: 0.15,  // +15%
+};
+
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
@@ -33,13 +40,23 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const plan = body.plan as string | undefined;
     const coupon = body.coupon as string | undefined;
+    const installments = (body.installments as number) || 1;
 
     if (!plan || !PLANS[plan]) {
       return NextResponse.json({ error: "Plan invalide" }, { status: 400 });
     }
 
+    if (![1, 2, 3].includes(installments)) {
+      return NextResponse.json({ error: "Nombre de mensualités invalide" }, { status: 400 });
+    }
+
+    // Starter is always 1x payment only
+    if (plan === "starter" && installments > 1) {
+      return NextResponse.json({ error: "Le Starter ne supporte pas le paiement en plusieurs fois" }, { status: 400 });
+    }
+
     const p = PLANS[plan];
-    let finalPrice = p.price;
+    let basePrice = p.price;
 
     // Check if user has an active discount
     if (coupon) {
@@ -55,18 +72,13 @@ export async function POST(req: NextRequest) {
         dbUser.discountExpiresAt &&
         new Date(dbUser.discountExpiresAt).getTime() > Date.now()
       ) {
-        finalPrice = Math.round(p.price * (1 - dbUser.discountPercent / 100));
+        basePrice = Math.round(p.price * (1 - dbUser.discountPercent / 100));
       }
     }
 
     const origin = req.headers.get("origin") || process.env.NEXTAUTH_URL || "http://localhost:3000";
 
-    // Enable Klarna for installment payments (3x/4x) on plans > 47€
-    const paymentMethodTypes: ("card" | "klarna")[] =
-      plan !== "starter" ? ["card", "klarna"] : ["card"];
-
-    // Look up or create a Stripe customer to avoid conflicts with customer_email
-    // when the user already has a Stripe customer from a previous checkout
+    // Look up or create a Stripe customer
     let customerId: string | undefined;
     const userEmail = session.user.email;
     if (userEmail) {
@@ -85,42 +97,89 @@ export async function POST(req: NextRequest) {
           customerId = newCustomer.id;
         }
       } catch (customerErr) {
-        // If customer lookup/creation fails, fall back to customer_email
         console.error("Stripe customer lookup error:", customerErr instanceof Error ? customerErr.message : customerErr);
         customerId = undefined;
       }
     }
 
-    // Don't enable allow_promotion_codes when a coupon discount is already applied
-    // to avoid double-discounting; also Klarna has restrictions with promotion codes
-    const hasCustomDiscount = finalPrice !== p.price;
+    const hasCustomDiscount = basePrice !== p.price;
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: paymentMethodTypes,
-      ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
-      metadata: {
-        userId: session.user.id,
-        plan: plan,
-        coupon: coupon || "",
-      },
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: p.name,
-              description: p.description,
+    const metadata = {
+      userId: session.user.id,
+      plan: plan,
+      coupon: coupon || "",
+      installments: String(installments),
+    };
+
+    let checkoutSession;
+
+    if (installments === 1) {
+      // ═══ ONE-TIME PAYMENT ═══
+      const paymentMethodTypes: ("card" | "klarna")[] =
+        plan !== "starter" ? ["card", "klarna"] : ["card"];
+
+      checkoutSession = await stripe.checkout.sessions.create({
+        mode: "payment",
+        payment_method_types: paymentMethodTypes,
+        ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
+        metadata,
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: p.name,
+                description: p.description,
+              },
+              unit_amount: basePrice,
             },
-            unit_amount: finalPrice,
+            quantity: 1,
           },
-          quantity: 1,
+        ],
+        success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
+        cancel_url: `${origin}/offres`,
+        ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
+      });
+    } else {
+      // ═══ INSTALLMENT PAYMENT (2x or 3x) via Subscription ═══
+      const surcharge = INSTALLMENT_SURCHARGE[installments];
+      const totalWithSurcharge = Math.round(basePrice * (1 + surcharge));
+      const monthlyAmount = Math.round(totalWithSurcharge / installments);
+
+      // Cancel date: N months from now
+      const cancelAt = Math.floor(Date.now() / 1000) + installments * 30 * 24 * 60 * 60;
+
+      const installmentLabel = installments === 2 ? "2 mensualités" : "3 mensualités";
+
+      checkoutSession = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        payment_method_types: ["card"],
+        ...(customerId ? { customer: customerId } : { customer_email: userEmail ?? undefined }),
+        metadata,
+        subscription_data: {
+          metadata,
+          cancel_at: cancelAt,
         },
-      ],
-      success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
-      cancel_url: `${origin}/offres`,
-      ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
-    });
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: `${p.name} — ${installmentLabel}`,
+                description: `${p.description} (paiement en ${installments}x)`,
+              },
+              unit_amount: monthlyAmount,
+              recurring: {
+                interval: "month",
+              },
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${origin}/dashboard?checkout=success&plan=${plan}`,
+        cancel_url: `${origin}/offres`,
+      });
+    }
 
     if (!checkoutSession.url) {
       return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
