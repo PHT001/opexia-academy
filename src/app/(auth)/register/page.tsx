@@ -86,7 +86,7 @@ function RegisterForm() {
 
       await signIn("credentials", { email, password, redirect: false });
 
-      router.push("/dashboard");
+      router.push("/verify-email");
       router.refresh();
     } catch {
       setError("Erreur serveur");
