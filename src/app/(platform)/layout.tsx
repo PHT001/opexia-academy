@@ -105,7 +105,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       />
 
       {/* Mobile topbar */}
-      <div className={`lg:hidden fixed top-0 left-0 right-0 z-30 h-14 backdrop-blur-xl border-b flex items-center px-4 shadow-sm ${darkMode ? "bg-[#0A0A0A]/95 border-white/10" : "bg-white/95 border-gray-200"}`}>
+      <div className={`lg:hidden fixed top-0 left-0 right-0 z-30 h-14 border-b flex items-center px-4 shadow-sm ${darkMode ? "bg-[#0A0A0A] border-white/10" : "bg-white border-gray-200"}`}>
         <button
           onClick={() => setSidebarOpen(true)}
           className="p-2.5 -ml-1 text-gray-500 min-w-[44px] min-h-[44px] flex items-center justify-center"
@@ -122,7 +122,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         </span>
       </div>
 
-      <main className="lg:ml-[260px] pt-14 lg:pt-0 min-h-screen overflow-x-hidden">
+      <main className="lg:ml-[260px] pt-14 lg:pt-0 min-h-screen">
         {/* Free tier upgrade banner */}
         {(previewTier || stats.tier) === "free" && !freeBannerDismissed && session?.user?.role !== "admin" && (
           <div className="bg-gradient-to-r from-[#FF1744]/8 to-[#FF1744]/4 border-b border-[#FF1744]/10">
