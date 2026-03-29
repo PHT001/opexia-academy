@@ -84,11 +84,13 @@ export async function GET() {
   if (isAdmin) {
     tier = "academy";
   } else {
-    const enrollment = await prisma.enrollment.findFirst({
+    // Get the highest tier enrollment (one_to_one > academy > starter > free)
+    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+    const enrollments = await prisma.enrollment.findMany({
       where: { userId, status: "active" },
-      orderBy: { createdAt: "desc" },
     });
-    tier = enrollment?.tier || null;
+    const best = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0))[0];
+    tier = best?.tier || null;
   }
 
   // Build recent activity from completed lessons and quizzes

@@ -59,11 +59,11 @@ export async function POST(request: Request) {
         },
       });
 
-      // Create free enrollment if they don't already have one
-      const hasFreeEnrollment = await prisma.enrollment.findFirst({
-        where: { userId: user.id, tier: "free" },
+      // Only create free enrollment if they don't already have ANY enrollment
+      const hasEnrollment = await prisma.enrollment.findFirst({
+        where: { userId: user.id, status: "active" },
       });
-      if (!hasFreeEnrollment) {
+      if (!hasEnrollment) {
         await prisma.enrollment.create({
           data: { userId: user.id, tier: "free", status: "active" },
         });
