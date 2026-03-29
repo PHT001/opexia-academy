@@ -152,17 +152,14 @@ export default function Pricing() {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [showPaymentChoice, setShowPaymentChoice] = useState(false);
-
-  async function handleCheckout(slug: string, installments = 1) {
-    setShowPaymentChoice(false);
+  async function handleCheckout(slug: string) {
     setLoading(slug);
     try {
       // First try normal checkout (works if user is logged in)
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: slug, installments }),
+        body: JSON.stringify({ plan: slug }),
       });
 
       if (res.status === 401) {
@@ -170,7 +167,7 @@ export default function Pricing() {
         const guestRes = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ plan: slug, installments, guest: true }),
+          body: JSON.stringify({ plan: slug, guest: true }),
         });
         const guestData = await guestRes.json();
         if (!guestRes.ok) {
@@ -186,7 +183,7 @@ export default function Pricing() {
       }
       window.location.href = data.url;
     } catch {
-      alert("Une erreur est survenue. Veuillez r\u00e9essayer.");
+      alert("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setLoading(null);
     }
@@ -269,7 +266,7 @@ export default function Pricing() {
                 )}
 
                 {plan.slug === "academy" && (
-                  <p className="text-xs text-[#6B7280] mt-2 text-center">paiement en 2x possible</p>
+                  <p className="text-xs text-[#6B7280] mt-2 text-center">paiement en plusieurs fois disponible</p>
                 )}
               </div>
 
@@ -295,7 +292,7 @@ export default function Pricing() {
                 </a>
               ) : (
                 <button
-                  onClick={() => plan.slug === "academy" ? setShowPaymentChoice(true) : handleCheckout(plan.slug)}
+                  onClick={() => handleCheckout(plan.slug)}
                   disabled={loading === plan.slug}
                   className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${
                     plan.popular
@@ -398,40 +395,6 @@ export default function Pricing() {
 
       </div>
 
-      {/* Payment choice modal for Academy */}
-      {showPaymentChoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowPaymentChoice(false)}>
-          <div className="bg-white rounded-2xl p-6 mx-4 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-[#111] mb-1">Choisis ton mode de paiement</h3>
-            <p className="text-sm text-gray-500 mb-5">Academy &mdash; 91 le&ccedil;ons, assistant IA, pipeline CRM</p>
-            <div className="space-y-3">
-              <button
-                onClick={() => handleCheckout("academy", 1)}
-                disabled={loading === "academy"}
-                className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-200 hover:border-[#FF1744] transition-all group disabled:opacity-60"
-              >
-                <div className="text-left">
-                  <p className="font-semibold text-[#111] group-hover:text-[#FF1744]">Paiement unique</p>
-                  <p className="text-xs text-gray-400">R&egrave;gle tout maintenant</p>
-                </div>
-                <span className="text-lg font-bold text-[#111]">497&euro;</span>
-              </button>
-              <button
-                onClick={() => handleCheckout("academy", 2)}
-                disabled={loading === "academy"}
-                className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-200 hover:border-[#FF1744] transition-all group disabled:opacity-60"
-              >
-                <div className="text-left">
-                  <p className="font-semibold text-[#111] group-hover:text-[#FF1744]">En 2 fois</p>
-                  <p className="text-xs text-gray-400">+5% soit 521,85&euro; au total</p>
-                </div>
-                <span className="text-lg font-bold text-[#111]">261&euro;<span className="text-sm font-normal text-gray-400">/mois</span></span>
-              </button>
-            </div>
-            {loading === "academy" && <p className="text-center text-sm text-gray-400 mt-3">Redirection vers Stripe...</p>}
-          </div>
-        </div>
-      )}
     </section>
   );
 }

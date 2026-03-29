@@ -99,7 +99,6 @@ function OffresContent() {
   const [userTier, setUserTier] = useState("free");
   const [loading, setLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [showPaymentChoice, setShowPaymentChoice] = useState(false);
   const [discount, setDiscount] = useState<{
     code: string;
     percent: number;
@@ -128,11 +127,10 @@ function OffresContent() {
   const effectiveTier = previewTier || userTier;
 
 
-  async function handleCheckout(slug: string, installments = 1) {
-    setShowPaymentChoice(false);
+  async function handleCheckout(slug: string) {
     setLoading(slug);
     try {
-      const payload: { plan: string; coupon?: string; installments?: number } = { plan: slug, installments };
+      const payload: { plan: string; coupon?: string } = { plan: slug };
       if (discount) payload.coupon = discount.code;
       const res = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const data = await res.json();
@@ -260,7 +258,7 @@ function OffresContent() {
 
                 {/* Installment selector for Academy & One-to-One */}
                 {plan.slug === "academy" && (
-                  <p className="text-xs text-[#6B7280] mt-2 text-center">paiement en 2x possible</p>
+                  <p className="text-xs text-[#6B7280] mt-2 text-center">paiement en plusieurs fois disponible</p>
                 )}
               </div>
 
@@ -275,7 +273,7 @@ function OffresContent() {
                   {plan.cta}
                 </a>
               ) : (
-                <button onClick={() => plan.slug === "academy" ? setShowPaymentChoice(true) : handleCheckout(plan.slug)} disabled={loading === plan.slug} className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${plan.popular ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200" : "bg-[#111] text-white hover:bg-[#333]"}`}>
+                <button onClick={() => handleCheckout(plan.slug)} disabled={loading === plan.slug} className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${plan.popular ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200" : "bg-[#111] text-white hover:bg-[#333]"}`}>
                   {loading === plan.slug ? "Redirection..." : (discount ? `${plan.name} \u2014 ${getDiscountedPrice(plan.price)}\u20ac` : plan.cta)}
                 </button>
               )}
@@ -320,40 +318,6 @@ function OffresContent() {
         })}
       </div>
 
-      {/* Payment choice modal for Academy */}
-      {showPaymentChoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowPaymentChoice(false)}>
-          <div className="bg-white rounded-2xl p-6 mx-4 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-[#111] mb-1">Choisis ton mode de paiement</h3>
-            <p className="text-sm text-gray-500 mb-5">Academy — 91 le&ccedil;ons, assistant IA, pipeline CRM</p>
-            <div className="space-y-3">
-              <button
-                onClick={() => handleCheckout("academy", 1)}
-                disabled={loading === "academy"}
-                className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-200 hover:border-[#FF1744] transition-all group disabled:opacity-60"
-              >
-                <div className="text-left">
-                  <p className="font-semibold text-[#111] group-hover:text-[#FF1744]">Paiement unique</p>
-                  <p className="text-xs text-gray-400">R&egrave;gle tout maintenant</p>
-                </div>
-                <span className="text-lg font-bold text-[#111]">497&euro;</span>
-              </button>
-              <button
-                onClick={() => handleCheckout("academy", 2)}
-                disabled={loading === "academy"}
-                className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-200 hover:border-[#FF1744] transition-all group disabled:opacity-60"
-              >
-                <div className="text-left">
-                  <p className="font-semibold text-[#111] group-hover:text-[#FF1744]">En 2 fois</p>
-                  <p className="text-xs text-gray-400">+5% soit 521,85&euro; au total</p>
-                </div>
-                <span className="text-lg font-bold text-[#111]">261&euro;<span className="text-sm font-normal text-gray-400">/mois</span></span>
-              </button>
-            </div>
-            {loading === "academy" && <p className="text-center text-sm text-gray-400 mt-3">Redirection vers Stripe...</p>}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

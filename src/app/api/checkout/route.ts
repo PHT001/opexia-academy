@@ -28,7 +28,6 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const plan = body.plan as string | undefined;
   const coupon = body.coupon as string | undefined;
-  const installments = (body.installments as number) || 1;
   const guest = body.guest === true;
 
   // Allow guest checkout (from landing page) or authenticated checkout (from /offres)
@@ -42,13 +41,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Plan invalide" }, { status: 400 });
     }
 
-    if (![1, 2].includes(installments)) {
-      return NextResponse.json({ error: "1x ou 2x uniquement" }, { status: 400 });
-    }
-
-    if (plan === "starter" && installments > 1) {
-      return NextResponse.json({ error: "Le Starter est en paiement unique" }, { status: 400 });
-    }
 
     const p = PLANS[plan];
     let basePrice = p.price;
@@ -103,7 +95,6 @@ export async function POST(req: NextRequest) {
     const metadata: Record<string, string> = {
       plan: plan,
       coupon: coupon || "",
-      installments: String(installments),
     };
     if (isAuthenticated) {
       metadata.userId = session.user.id;
@@ -117,69 +108,33 @@ export async function POST(req: NextRequest) {
       : `${origin}/dashboard?checkout=success&plan=${plan}`;
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 
-    let checkoutSession;
+    // Klarna for Academy/OneToOne — Stripe handles installments natively
+    const paymentMethodTypes: ("card" | "klarna")[] =
+      plan !== "starter" ? ["card", "klarna"] : ["card"];
 
-    if (installments === 1) {
-      // === PAIEMENT UNIQUE ===
-      checkoutSession = await stripe.checkout.sessions.create({
-        mode: "payment",
-        payment_method_types: ["card"],
-        ...(customerId
-          ? { customer: customerId }
-          : userEmail
-            ? { customer_email: userEmail }
-            : {}),
-        metadata,
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              product_data: { name: p.name, description: p.description },
-              unit_amount: basePrice,
-            },
-            quantity: 1,
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: paymentMethodTypes,
+      ...(customerId
+        ? { customer: customerId }
+        : userEmail
+          ? { customer_email: userEmail }
+          : {}),
+      metadata,
+      line_items: [
+        {
+          price_data: {
+            currency: "eur",
+            product_data: { name: p.name, description: p.description },
+            unit_amount: basePrice,
           },
-        ],
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
-      });
-    } else {
-      // === PAIEMENT EN 2x (+5%) ===
-      const totalWithSurcharge = Math.round(basePrice * 1.05);
-      const monthlyAmount = Math.round(totalWithSurcharge / 2);
-      const cancelAt = Math.floor(Date.now() / 1000) + 2 * 30 * 24 * 60 * 60;
-
-      const metadataWithCancel = { ...metadata, cancelAt: String(cancelAt) };
-
-      checkoutSession = await stripe.checkout.sessions.create({
-        mode: "subscription",
-        payment_method_types: ["card"],
-        ...(customerId
-          ? { customer: customerId }
-          : userEmail
-            ? { customer_email: userEmail }
-            : {}),
-        metadata: metadataWithCancel,
-        subscription_data: { metadata: metadataWithCancel },
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              product_data: {
-                name: `${p.name} \u2014 2 mensualit\u00e9s`,
-                description: `${p.description} (paiement en 2x)`,
-              },
-              unit_amount: monthlyAmount,
-              recurring: { interval: "month" },
-            },
-            quantity: 1,
-          },
-        ],
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-      });
-    }
+          quantity: 1,
+        },
+      ],
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
+    });
 
     if (!checkoutSession.url) {
       return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
