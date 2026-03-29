@@ -77,7 +77,8 @@ export async function POST(req: NextRequest) {
         dbUser.discountExpiresAt &&
         new Date(dbUser.discountExpiresAt).getTime() > Date.now()
       ) {
-        basePrice = Math.round(p.price * (1 - dbUser.discountPercent / 100));
+        const safePercent = Math.max(0, Math.min(20, dbUser.discountPercent));
+        basePrice = Math.round(p.price * (1 - safePercent / 100));
       }
     }
 

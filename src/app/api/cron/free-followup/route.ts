@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
     for (const user of dayOneUsers) {
       try {
         const variant = getAbVariant(user.email);
-        const emailData = freeFollowupDayOne(user.name ?? "there", variant);
+        const emailData = freeFollowupDayOne(user.name || "", variant);
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,
@@ -140,7 +140,7 @@ export async function GET(req: NextRequest) {
     for (const user of dayTwoUsers) {
       try {
         const variant = getAbVariant(user.email);
-        const emailData = freeFollowupDayTwo(user.name ?? "there", variant);
+        const emailData = freeFollowupDayTwo(user.name || "", variant);
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,
@@ -176,8 +176,19 @@ export async function GET(req: NextRequest) {
     const daySevenUsers = await findFreeUsers(168);
     for (const user of daySevenUsers) {
       try {
+        // Check if day-7 email was already sent to prevent duplicates
+        const alreadySent = await prisma.emailLog.findFirst({
+          where: { userId: user.id, type: "free_followup", sequence: 3 },
+        });
+        if (alreadySent) {
+          continue;
+        }
+
+        // Generate unique discount code for this user
+        const uniqueCode = "OPEX" + user.id.slice(-6).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
+
         const variant = getAbVariant(user.email);
-        const emailData = freeFollowupDaySeven(user.name ?? "there", variant);
+        const emailData = freeFollowupDaySeven(user.name || "", variant, uniqueCode);
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,
@@ -191,7 +202,7 @@ export async function GET(req: NextRequest) {
           await prisma.user.update({
             where: { id: user.id },
             data: {
-              discountCode: "FREETRIAL",
+              discountCode: uniqueCode,
               discountPercent: 20,
               discountExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
             },

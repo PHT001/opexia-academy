@@ -132,6 +132,12 @@ export async function POST(req: NextRequest) {
         data: { emailVerified: true },
       });
 
+      // Clear discount code after successful payment to prevent reuse
+      await prisma.user.update({
+        where: { id: userId },
+        data: { discountCode: null, discountPercent: null, discountExpiresAt: null },
+      });
+
       // Send personalized welcome email after successful enrollment
       if (resend) {
         try {

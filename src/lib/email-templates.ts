@@ -13,8 +13,14 @@ function layout(content: string): string {
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
       ${content}
-      <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid #E5E7EB;">
-        <p style="color: #9CA3AF; font-size: 12px; margin: 0;">OpexIA Academy &mdash; Formation en Excellence Op&eacute;rationnelle &amp; IA</p>
+      <div style="margin-top: 32px;">
+        <a href="https://wa.me/33756803717" style="display: block; background: #25D366; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 24px; border-radius: 10px; text-align: center;">
+          Une question ? Contacte-moi sur WhatsApp
+        </a>
+      </div>
+
+      <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+        <p style="color: #9CA3AF; font-size: 12px; margin: 0;">OpexIA Academy</p>
         <p style="color: #9CA3AF; font-size: 12px; margin: 4px 0 0 0;">
           <a href="https://opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a>
         </p>
@@ -334,9 +340,11 @@ export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { su
   return {
     subject,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Hey ${firstName} !</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Tu as cr&eacute;&eacute; ton compte gratuit sur OpexIA Academy hier &mdash; super !
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
+        ${firstName ? `Salut ${firstName},` : "Salut,"}
+      </p>
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Tu as cr&eacute;&eacute; ton compte gratuit sur OpexIA hier &mdash; super !
         Tu as d&eacute;j&agrave; pu explorer la plateforme et voir ce qui t&rsquo;attend.
       </p>
 
@@ -369,46 +377,57 @@ export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { su
  */
 export function freeFollowupDayTwo(name: string, variant: "a" | "b" = "a"): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
-  const variantParam = `?variant=${variant}`;
 
   const subject = variant === "b"
-    ? "Les autres avancent déjà — et toi ?"
-    : "Tu passes à côté de quelque chose...";
-
-  const ctaText = variant === "b"
-    ? "Rattraper mon retard"
-    : "Choisir mon offre";
+    ? (firstName ? `${firstName}, une question rapide` : "Une question rapide")
+    : (firstName ? `${firstName}, comment s'est passe le module 1 ?` : "Comment s'est passe le module 1 ?");
 
   return {
     subject,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, ne reste pas en mode gratuit</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Pendant que tu h&eacute;sites, d&rsquo;autres &eacute;l&egrave;ves avancent d&eacute;j&agrave; dans la formation
-        et construisent leur agence IA. Chaque jour en mode gratuit est un jour perdu.
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
+        ${firstName ? `Salut ${firstName},` : "Salut,"}
+      </p>
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        C'est Marius. Je t'&eacute;cris rapidement pour savoir si tu as eu le temps de regarder le premier module.
       </p>
 
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
-          Ce que les &eacute;l&egrave;ves accomplissent d&egrave;s la 1&egrave;re semaine :
-        </p>
-        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-          <li>Ma&icirc;trise des outils IA (ChatGPT, Cursor, Claude&hellip;)</li>
-          <li>Cr&eacute;ation de leur premier site professionnel</li>
-          <li>Premier contact avec un prospect potentiel</li>
-        </ul>
+      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">Tes 3 prochaines &eacute;tapes :</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px 0; vertical-align: top;">
+              <span style="display: inline-block; width: 24px; height: 24px; background: #FF1744; color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">1</span>
+            </td>
+            <td style="padding: 8px 0 8px 12px; color: #374151; font-size: 14px;">Terminer le module D&eacute;couverte <span style="color: #9CA3AF;">(15 min)</span></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; vertical-align: top;">
+              <span style="display: inline-block; width: 24px; height: 24px; background: #FF1744; color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">2</span>
+            </td>
+            <td style="padding: 8px 0 8px 12px; color: #374151; font-size: 14px;">Rejoindre le Discord pour poser tes questions</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; vertical-align: top;">
+              <span style="display: inline-block; width: 24px; height: 24px; background: #FF1744; color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">3</span>
+            </td>
+            <td style="padding: 8px 0 8px 12px; color: #374151; font-size: 14px;">D&eacute;cider si tu veux acc&eacute;der &agrave; la formation compl&egrave;te</td>
+          </tr>
+        </table>
       </div>
 
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Le march&eacute; de l&rsquo;IA n&rsquo;attend pas. Passe &agrave; l&rsquo;action maintenant.
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Si tu as des questions ou si quelque chose te bloque, r&eacute;ponds directement &agrave; cet email. Je lis tout personnellement.
       </p>
 
-      <a href="https://opexia-formation.com/#pricing${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        ${ctaText}
-      </a>
+      <div style="text-align: center; margin-bottom: 24px;">
+        <a href="https://opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
+          Reprendre ma formation
+        </a>
+      </div>
 
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Des questions ? R&eacute;ponds &agrave; cet email, on te r&eacute;pond sous 24h.
+      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
+        &Agrave; tr&egrave;s vite,<br/>Marius
       </p>
     `),
   };
@@ -419,49 +438,66 @@ export function freeFollowupDayTwo(name: string, variant: "a" | "b" = "a"): { su
  * Last chance with discount code.
  * Supports A/B testing: variant "a" (default) or "b".
  */
-export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a"): { subject: string; html: string } {
+export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", discountCode = "FREETRIAL"): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
   const variantParam = `&variant=${variant}`;
 
   const subject = variant === "b"
-    ? "⚡ 20% de réduction expire ce soir"
-    : "Dernière chance : offre spéciale -20%";
-
-  const ctaText = variant === "b"
-    ? "Profiter de -20% maintenant"
-    : "Utiliser mon code -20%";
+    ? (firstName ? `${firstName}, j'ai un truc pour toi` : "J'ai un truc pour toi")
+    : "Re: ta formation IA";
 
   return {
     subject,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, derni&egrave;re chance</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        &Ccedil;a fait une semaine que tu as cr&eacute;&eacute; ton compte gratuit. On t&rsquo;offre
-        une derni&egrave;re opportunit&eacute; pour te lancer :
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
+        ${firstName ? `Salut ${firstName},` : "Salut,"}
+      </p>
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Ca fait une semaine que tu as rejoint OpexIA. J'esp&egrave;re que le module D&eacute;couverte t'a plu.
       </p>
 
-      <div style="background: linear-gradient(135deg, #1A1A2E 0%, #0F0F1E 100%); border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center;">
-        <p style="color: #FF1744; font-weight: 700; font-size: 24px; margin: 0 0 8px 0; letter-spacing: 2px;">
-          FREETRIAL
+      <div style="background: #1A1A2E; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
+        <p style="color: #ffffff; font-weight: 600; font-size: 16px; margin: 0 0 4px 0; text-align: center;">
+          Ton code : <span style="color: #FF1744; letter-spacing: 2px;">${discountCode}</span>
         </p>
-        <p style="color: #ffffff; font-weight: 600; font-size: 16px; margin: 0 0 4px 0;">
-          -20% sur toutes les formules
-        </p>
-        <p style="color: #9CA3AF; font-size: 12px; margin: 0;">
-          Valable 24 heures uniquement &mdash; ne rate pas cette offre
+        <p style="color: #9CA3AF; font-size: 13px; margin: 0; text-align: center;">
+          -20% sur la formation &mdash; actif 24h
         </p>
       </div>
 
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Apr&egrave;s &ccedil;a, le tarif normal s&rsquo;applique. C&rsquo;est le moment ou jamais.
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
+        Avec l'Academy, tu passes de 6 le&ccedil;ons &agrave; 91 :
       </p>
 
-      <a href="https://opexia-formation.com/offres?code=FREETRIAL${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        ${ctaText}
-      </a>
+      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 6px 0; color: #10B981; font-size: 14px; width: 24px;">&#10003;</td>
+            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>91 le&ccedil;ons</strong> vid&eacute;o &amp; texte</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #10B981; font-size: 14px;">&#10003;</td>
+            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>Assistant IA</strong> pour tes questions</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #10B981; font-size: 14px;">&#10003;</td>
+            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>Pipeline CRM</strong> pour g&eacute;rer tes prospects</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #10B981; font-size: 14px;">&#10003;</td>
+            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>Templates &amp; outils</strong> pour lancer ton agence</td>
+          </tr>
+        </table>
+      </div>
 
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Tu re&ccedil;ois cet email car tu as cr&eacute;&eacute; un compte gratuit sur OpexIA Academy.
+      <div style="text-align: center; margin-bottom: 24px;">
+        <a href="https://opexia-formation.com/offres?code=${discountCode}${variantParam}" style="display: inline-block; background: #FF1744; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
+          Voir les formules
+        </a>
+      </div>
+
+      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
+        Si t'as des questions, r&eacute;ponds &agrave; cet email.<br/><br/>Marius
       </p>
     `),
   };

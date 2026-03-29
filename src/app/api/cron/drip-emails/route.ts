@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
 
     for (const user of dayOneUsers.values()) {
       try {
-        const emailData = dayOneEmail(user.name ?? "there");
+        const emailData = dayOneEmail(user.name || "");
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,
@@ -114,7 +114,7 @@ export async function GET(req: NextRequest) {
 
     for (const user of dayThreeUsers.values()) {
       try {
-        const emailData = dayThreeEmail(user.name ?? "there");
+        const emailData = dayThreeEmail(user.name || "");
         await resend.emails.send({
           from: "OpexIA Academy <support@opexia-formation.com>",
           to: user.email,

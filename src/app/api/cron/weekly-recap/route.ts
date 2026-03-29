@@ -152,7 +152,7 @@ export async function GET(req: NextRequest) {
           select: { title: true },
         });
 
-        const emailData = weeklyRecapEmail(user.name ?? "there", {
+        const emailData = weeklyRecapEmail(user.name || "", {
           lessonsThisWeek,
           totalLessons,
           xpThisWeek,
