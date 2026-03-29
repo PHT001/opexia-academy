@@ -68,11 +68,10 @@ export async function GET() {
           if (!hasAccess) {
             // Module not accessible for this tier — all lessons locked
             status = "locked";
-          } else if (isAdmin) {
-            status = prog?.status === "completed" ? "completed" : "in_progress";
-          } else if (prog) {
-            status = prog.status;
-          } else if (lesson.order === 1) {
+          } else if (prog?.status === "completed") {
+            status = "completed";
+          } else {
+            // All lessons in an accessible module are available immediately
             status = "in_progress";
           }
 
