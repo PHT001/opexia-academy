@@ -2,14 +2,25 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
 
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  // Force logout if session is invalid (user deleted by admin)
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      signOut({ callbackUrl: "/login" });
+    }
+    // Also check if session exists but user is empty (deleted user with invalidated token)
+    if (status === "authenticated" && session && !session.user) {
+      signOut({ callbackUrl: "/login" });
+    }
+  }, [status, session]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter" });
   const [freeBannerDismissed, setFreeBannerDismissed] = useState(false);
@@ -62,8 +73,15 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
 
   useEffect(() => {
     fetch("/api/progress")
-      .then((r) => r.json())
+      .then((r) => {
+        if (r.status === 401) {
+          signOut({ callbackUrl: "/login" });
+          return null;
+        }
+        return r.json();
+      })
       .then((data) => {
+        if (!data) return;
         if (data?.xp !== undefined) {
           setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "free" });
         }
