@@ -120,9 +120,11 @@ const plans: Plan[] = [
 
 
 function CountdownTimer() {
+  const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
+    setMounted(true);
     const update = () => {
       const now = new Date();
       const endOfDay = new Date(now);
@@ -143,7 +145,9 @@ function CountdownTimer() {
 
   return (
     <span className="text-sm font-mono font-bold text-[#FF1744] tabular-nums">
-      {String(timeLeft.hours).padStart(2, "0")}h {String(timeLeft.minutes).padStart(2, "0")}m {String(timeLeft.seconds).padStart(2, "0")}s
+      {mounted
+        ? `${String(timeLeft.hours).padStart(2, "0")}h ${String(timeLeft.minutes).padStart(2, "0")}m ${String(timeLeft.seconds).padStart(2, "0")}s`
+        : "08h 00m 00s"}
     </span>
   );
 }

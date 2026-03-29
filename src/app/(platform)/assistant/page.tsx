@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTierGate } from "@/hooks/useTierGate";
+import UpgradeOverlay from "@/components/platform/UpgradeOverlay";
 
 /* ─── Icons ─────────────────────────────── */
 function IconSend({ className }: { className?: string }) {
@@ -37,7 +38,7 @@ const CAPABILITIES = [
 ];
 
 export default function AssistantPage() {
-  const { isLocked } = useTierGate();
+  const { isLocked } = useTierGate(["academy", "one_to_one"]);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -140,21 +141,8 @@ export default function AssistantPage() {
 
   const showSuggestions = messages.length <= 1 && !isTyping;
 
-  return (
+  const pageContent = (
     <div className="w-full">
-      {/* Upgrade banner for free users */}
-      {isLocked && (
-        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
-          <div>
-            <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
-            <p className="text-xs text-[#6B7280]">L&apos;assistant IA est r&eacute;serv&eacute; aux abonn&eacute;s. Upgrade pour poser tes questions.</p>
-          </div>
-          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
-            Voir les offres
-          </a>
-        </div>
-      )}
-
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight text-gray-900 mb-1">
@@ -387,4 +375,17 @@ export default function AssistantPage() {
       </div>
     </div>
   );
+
+  if (isLocked) {
+    return (
+      <UpgradeOverlay
+        featureName="Assistant IA"
+        featureDescription="L'assistant IA est réservé aux abonnés Academy et One-to-One. Upgrade pour poser tes questions."
+      >
+        {pageContent}
+      </UpgradeOverlay>
+    );
+  }
+
+  return pageContent;
 }

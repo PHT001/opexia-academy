@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTierGate } from "@/hooks/useTierGate";
+import UpgradeOverlay from "@/components/platform/UpgradeOverlay";
 
 /* ─── Types ─────────────────────────────────────────── */
 interface Deal {
@@ -443,7 +444,7 @@ function exportCSV(deals: Deal[]) {
 
 /* ─── Main Page ─────────────────────────────────────── */
 export default function PipelinePage() {
-  const { isLocked } = useTierGate();
+  const { isLocked } = useTierGate(["academy", "one_to_one"]);
   const [deals, setDeals] = useState<Deal[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -540,21 +541,8 @@ export default function PipelinePage() {
     );
   }
 
-  return (
+  const pageContent = (
     <div className="space-y-5">
-      {/* Upgrade banner for free users */}
-      {isLocked && (
-        <div className="flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
-          <div>
-            <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
-            <p className="text-xs text-[#6B7280]">Le pipeline est r&eacute;serv&eacute; aux abonn&eacute;s. Upgrade pour g&eacute;rer tes deals.</p>
-          </div>
-          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
-            Voir les offres
-          </a>
-        </div>
-      )}
-
       {/* ─── Header ─────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
@@ -954,4 +942,17 @@ export default function PipelinePage() {
       )}
     </div>
   );
+
+  if (isLocked) {
+    return (
+      <UpgradeOverlay
+        featureName="Pipeline commercial"
+        featureDescription="Le pipeline est réservé aux abonnés Academy et One-to-One. Upgrade pour gérer tes deals."
+      >
+        {pageContent}
+      </UpgradeOverlay>
+    );
+  }
+
+  return pageContent;
 }
