@@ -189,7 +189,7 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 20 }}
                 >
-                  <span className="text-white text-2xl font-black tracking-tight">IA</span>
+                  <span className="text-white text-lg font-black tracking-tight">Opex<span className="text-white/90">IA</span></span>
                 </motion.div>
 
                 <motion.h1

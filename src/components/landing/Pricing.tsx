@@ -166,7 +166,7 @@ export default function Pricing() {
       const data = await res.json();
       if (!res.ok) {
         if (res.status === 401) {
-          router.push("/login?redirect=checkout&plan=" + slug);
+          router.push("/register?redirect=checkout&plan=" + slug);
           return;
         }
         throw new Error(data.error || "Erreur lors du checkout");

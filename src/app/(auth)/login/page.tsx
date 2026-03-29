@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 function GoogleIcon() {
@@ -16,8 +16,9 @@ function GoogleIcon() {
   );
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -39,6 +40,24 @@ export default function LoginPage() {
     if (result?.error) {
       setError("Email ou mot de passe incorrect");
     } else {
+      // Redirect to checkout if coming from pricing page
+      const redirect = searchParams.get("redirect");
+      const plan = searchParams.get("plan");
+      if (redirect === "checkout" && plan) {
+        // Call checkout API and redirect to Stripe
+        try {
+          const res = await fetch("/api/checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ plan }),
+          });
+          const data = await res.json();
+          if (res.ok && data.url) {
+            window.location.href = data.url;
+            return;
+          }
+        } catch {}
+      }
       router.push("/dashboard");
       router.refresh();
     }
@@ -133,10 +152,18 @@ export default function LoginPage() {
 
       <p className="text-center text-sm text-gray-500 mt-8">
         Pas encore de compte ?{" "}
-        <Link href="/register" className="text-[#FF1744] font-medium hover:underline">
+        <Link href={`/register${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}&plan=${searchParams.get("plan") || ""}` : ""}`} className="text-[#FF1744] font-medium hover:underline">
           Créer un compte
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="w-full max-w-md animate-pulse"><div className="h-8 bg-gray-200 rounded mb-4" /><div className="h-12 bg-gray-200 rounded" /></div>}>
+      <LoginContent />
+    </Suspense>
   );
 }
