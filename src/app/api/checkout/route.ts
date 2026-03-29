@@ -41,6 +41,24 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Plan invalide" }, { status: 400 });
     }
 
+    // Block downgrades and re-purchases for authenticated users
+    if (isAuthenticated) {
+      const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+      const enrollments = await prisma.enrollment.findMany({
+        where: { userId: session.user.id, status: "active" },
+      });
+      const best = enrollments.sort(
+        (a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0)
+      )[0];
+      const currentTierLevel = TIER_PRIORITY[best?.tier ?? "free"] ?? 0;
+      const requestedTierLevel = TIER_PRIORITY[plan] ?? 0;
+      if (requestedTierLevel <= currentTierLevel) {
+        return NextResponse.json(
+          { error: "Tu as déjà ce plan ou un plan supérieur" },
+          { status: 400 }
+        );
+      }
+    }
 
     const p = PLANS[plan];
     let basePrice = p.price;

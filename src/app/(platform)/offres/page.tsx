@@ -204,7 +204,9 @@ function OffresContent() {
       {/* Cards — same style as landing page */}
       <div className="grid lg:grid-cols-3 gap-6">
         {plans.map((plan, i) => {
+          const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
           const isCurrent = effectiveTier === plan.slug;
+          const isLower = (TIER_PRIORITY[effectiveTier] ?? 0) > (TIER_PRIORITY[plan.slug] ?? 0);
 
           return (
             <motion.div
@@ -266,6 +268,10 @@ function OffresContent() {
               {isCurrent ? (
                 <div className="w-full py-3.5 rounded-full text-center text-sm font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200">
                   Ton plan actuel
+                </div>
+              ) : isLower ? (
+                <div className="w-full py-3.5 rounded-full text-center text-sm font-semibold text-gray-400 bg-gray-100 border border-gray-200">
+                  Inclus dans ton plan
                 </div>
               ) : plan.external ? (
                 <a href={plan.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all bg-[#25D366] text-white hover:bg-[#1da851] hover:shadow-lg hover:shadow-green-200">
