@@ -46,7 +46,8 @@ providers.push(
 
 export const authOptions: NextAuthOptions = {
   providers,
-  session: { strategy: "jwt", maxAge: 3 * 24 * 60 * 60 },
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
+  jwt: { maxAge: 24 * 60 * 60 },
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
@@ -84,9 +85,26 @@ export const authOptions: NextAuthOptions = {
         token.role = (user as any).role as string;
         token.createdAt = (user as any).createdAt as string;
       }
+
+      // Verify user still exists in DB (admin may have deleted them)
+      if (token.sub) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.sub },
+          select: { id: true },
+        });
+        if (!dbUser) {
+          // User was deleted — invalidate the token
+          return { ...token, id: "", role: "", sub: "" };
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {
+      // If user was deleted, return empty session to force logout
+      if (!token.sub || token.sub === "") {
+        return { ...session, user: undefined } as any;
+      }
       if (session.user) {
         session.user.id = token.id;
         session.user.role = token.role;

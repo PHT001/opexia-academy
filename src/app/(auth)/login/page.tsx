@@ -40,23 +40,12 @@ function LoginContent() {
     if (result?.error) {
       setError("Email ou mot de passe incorrect");
     } else {
-      // Redirect to checkout if coming from pricing page
+      // Redirect to checkout via dashboard if coming from pricing page
       const redirect = searchParams.get("redirect");
       const plan = searchParams.get("plan");
       if (redirect === "checkout" && plan) {
-        // Call checkout API and redirect to Stripe
-        try {
-          const res = await fetch("/api/checkout", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ plan }),
-          });
-          const data = await res.json();
-          if (res.ok && data.url) {
-            window.location.href = data.url;
-            return;
-          }
-        } catch {}
+        router.push(`/dashboard?auto_checkout=${encodeURIComponent(plan)}`);
+        return;
       }
       router.push("/dashboard");
       router.refresh();

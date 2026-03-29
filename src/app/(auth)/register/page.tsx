@@ -85,22 +85,12 @@ function RegisterForm() {
 
       await signIn("credentials", { email, password, redirect: false });
 
-      // Redirect to checkout if coming from pricing page
+      // Redirect to checkout via dashboard if coming from pricing page (skip verify-email)
       const redirect = searchParams.get("redirect");
       const plan = searchParams.get("plan");
       if (redirect === "checkout" && plan) {
-        try {
-          const checkoutRes = await fetch("/api/checkout", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ plan }),
-          });
-          const checkoutData = await checkoutRes.json();
-          if (checkoutRes.ok && checkoutData.url) {
-            window.location.href = checkoutData.url;
-            return;
-          }
-        } catch {}
+        router.push(`/dashboard?auto_checkout=${encodeURIComponent(plan)}`);
+        return;
       }
       router.push("/verify-email");
       router.refresh();

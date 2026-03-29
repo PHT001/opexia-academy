@@ -495,6 +495,46 @@ function DashboardContent() {
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationPlan, setCelebrationPlan] = useState("");
 
+  // Auto-checkout: redirect to Stripe when coming from pricing → register/login flow
+  const [autoCheckoutPending, setAutoCheckoutPending] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return !!params.get("auto_checkout");
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const plan = searchParams.get("auto_checkout");
+    if (!plan) return;
+
+    // Clean the URL param immediately
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("auto_checkout");
+      window.history.replaceState({}, "", url.toString());
+    }
+
+    setAutoCheckoutPending(true);
+
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ plan }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          setAutoCheckoutPending(false);
+        }
+      })
+      .catch(() => {
+        setAutoCheckoutPending(false);
+      });
+  }, [searchParams]);
+
   useEffect(() => {
     const checkout = searchParams.get("checkout");
     const plan = searchParams.get("plan");
@@ -523,12 +563,12 @@ function DashboardContent() {
     }
   }, [data]);
 
-  // Auto-show onboarding for enrolled users who haven't completed it (no celebration pending)
+  // Auto-show onboarding for enrolled users who haven't completed it (no celebration or checkout pending)
   useEffect(() => {
-    if (data && data.onboardingCompleted === false && data.tier && data.tier !== "free" && !showCelebration) {
+    if (data && data.onboardingCompleted === false && data.tier && data.tier !== "free" && !showCelebration && !autoCheckoutPending) {
       setShowOnboarding(true);
     }
-  }, [data, showCelebration]);
+  }, [data, showCelebration, autoCheckoutPending]);
 
   // Project state (used by admin dashboard section)
   const [projects, setProjects] = useState<Project[]>([]);
@@ -594,6 +634,19 @@ function DashboardContent() {
   const progress = data ? Math.round((data.completedLessons / data.totalLessons) * 100) : 0;
   const firstName = session?.user?.name?.split(" ")[0] || "\u00c9l\u00e8ve";
   const isAdmin = session?.user?.role === "admin";
+
+  // Auto-checkout takes priority — show loading while redirecting to Stripe
+  if (autoCheckoutPending) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <svg className="animate-spin h-8 w-8 text-[#FF1744]" viewBox="0 0 24 24" fill="none">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        </svg>
+        <p className="text-gray-600 font-medium">Redirection vers le paiement...</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
