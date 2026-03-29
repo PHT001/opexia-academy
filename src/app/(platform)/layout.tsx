@@ -70,8 +70,8 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         if (data?.emailVerified !== undefined) {
           setEmailVerified(data.emailVerified);
         }
-        // Show onboarding if user has enrollment but hasn't completed onboarding
-        if (data?.tier && data?.onboardingCompleted === false) {
+        // Show onboarding only for PAID users who haven't completed it
+        if (data?.tier && data.tier !== "free" && data?.onboardingCompleted === false) {
           setShowOnboarding(true);
         }
         setLoadingOnboarding(false);
