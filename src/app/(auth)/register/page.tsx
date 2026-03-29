@@ -37,6 +37,8 @@ function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const refCode = searchParams.get("ref") || "";
+  const checkoutSuccess = searchParams.get("checkout_success") === "true";
+  const checkoutPlan = searchParams.get("plan") || "";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -54,7 +56,7 @@ function RegisterForm() {
     setError("");
 
     if (!hasMinLength || !hasSpecialChar) {
-      setError("Le mot de passe ne respecte pas les critères requis");
+      setError("Le mot de passe ne respecte pas les crit\u00e8res requis");
       return;
     }
     if (password !== confirmPassword) {
@@ -85,14 +87,8 @@ function RegisterForm() {
 
       await signIn("credentials", { email, password, redirect: false });
 
-      // Redirect to checkout via dashboard if coming from pricing page (skip verify-email)
-      const redirect = searchParams.get("redirect");
-      const plan = searchParams.get("plan");
-      if (redirect === "checkout" && plan) {
-        router.push(`/dashboard?auto_checkout=${encodeURIComponent(plan)}`);
-        return;
-      }
-      router.push("/verify-email");
+      // After successful registration, go to dashboard
+      router.push("/dashboard");
       router.refresh();
     } catch {
       setError("Erreur serveur");
@@ -103,13 +99,25 @@ function RegisterForm() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">Créer un compte</h1>
+        <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">Cr\u00e9er un compte</h1>
         <p className="text-sm text-gray-500 mt-1">Rejoins OpexIA Academy</p>
       </div>
 
+      {checkoutSuccess && (
+        <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm flex items-start gap-2.5">
+          <svg className="h-5 w-5 flex-shrink-0 mt-0.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div>
+            <p className="font-semibold">Paiement re\u00e7u !</p>
+            <p className="mt-0.5">Cr\u00e9e ton compte avec le m\u00eame email utilis\u00e9 sur Stripe pour acc\u00e9der \u00e0 ta formation.</p>
+          </div>
+        </div>
+      )}
+
       {refCode && (
         <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 text-sm text-center">
-          Tu as été invité par un membre ! Ton parrain sera récompensé.
+          Tu as \u00e9t\u00e9 invit\u00e9 par un membre ! Ton parrain sera r\u00e9compens\u00e9.
         </div>
       )}
 
@@ -160,7 +168,7 @@ function RegisterForm() {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="8 caractères minimum"
+              placeholder="8 caract\u00e8res minimum"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -179,11 +187,11 @@ function RegisterForm() {
             <div className="mt-2 space-y-1">
               <p className={`text-xs flex items-center gap-1.5 ${hasMinLength ? "text-emerald-500" : "text-gray-400"}`}>
                 <span className={`inline-block w-1.5 h-1.5 rounded-full ${hasMinLength ? "bg-emerald-500" : "bg-gray-300"}`} />
-                8 caractères minimum
+                8 caract\u00e8res minimum
               </p>
               <p className={`text-xs flex items-center gap-1.5 ${hasSpecialChar ? "text-emerald-500" : "text-gray-400"}`}>
                 <span className={`inline-block w-1.5 h-1.5 rounded-full ${hasSpecialChar ? "bg-emerald-500" : "bg-gray-300"}`} />
-                1 caractère spécial (!@#$...)
+                1 caract\u00e8re sp\u00e9cial (!@#$...)
               </p>
             </div>
           )}
@@ -232,16 +240,16 @@ function RegisterForm() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Création...
+              Cr\u00e9ation...
             </span>
           ) : (
-            "Créer mon compte"
+            "Cr\u00e9er mon compte"
           )}
         </button>
       </form>
 
       <p className="text-center text-sm text-gray-500 mt-6">
-        Déjà un compte ?{" "}
+        D\u00e9j\u00e0 un compte ?{" "}
         <Link href="/login" className="text-[#FF1744] font-medium hover:underline">
           Se connecter
         </Link>

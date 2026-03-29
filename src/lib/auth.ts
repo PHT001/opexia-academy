@@ -30,6 +30,7 @@ providers.push(
       });
       if (!user) return null;
 
+      if (!user.hashedPassword) return null;
       const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
       if (!passwordMatch) return null;
 

@@ -41,27 +41,52 @@ export async function POST(request: Request) {
     const referralCode = parsed.referralCode;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
-      return NextResponse.json({ error: "Cet email est deja utilise" }, { status: 400 });
-    }
 
     const verificationCode = generateCode();
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        hashedPassword,
-        role: "student",
-        emailVerified: false,
-        verificationCode,
-      },
-    });
 
-    // Create free enrollment
-    await prisma.enrollment.create({
-      data: { userId: user.id, tier: "free", status: "active" },
-    });
+    let user;
+
+    if (existingUser && !existingUser.hashedPassword) {
+      // Guest user created by webhook (paid before registering) — set their password
+      user = await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          name: name || existingUser.name,
+          hashedPassword,
+          verificationCode,
+          emailVerified: existingUser.emailVerified || false,
+        },
+      });
+
+      // Create free enrollment if they don't already have one
+      const hasFreeEnrollment = await prisma.enrollment.findFirst({
+        where: { userId: user.id, tier: "free" },
+      });
+      if (!hasFreeEnrollment) {
+        await prisma.enrollment.create({
+          data: { userId: user.id, tier: "free", status: "active" },
+        });
+      }
+    } else if (existingUser) {
+      return NextResponse.json({ error: "Cet email est deja utilise" }, { status: 400 });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          name,
+          email,
+          hashedPassword,
+          role: "student",
+          emailVerified: false,
+          verificationCode,
+        },
+      });
+
+      // Create free enrollment
+      await prisma.enrollment.create({
+        data: { userId: user.id, tier: "free", status: "active" },
+      });
+    }
 
     // Send verification email
     if (resend) {

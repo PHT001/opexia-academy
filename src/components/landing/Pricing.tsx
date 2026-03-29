@@ -158,17 +158,30 @@ export default function Pricing() {
     setShowPaymentChoice(false);
     setLoading(slug);
     try {
+      // First try normal checkout (works if user is logged in)
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ plan: slug, installments }),
       });
+
+      if (res.status === 401) {
+        // Not logged in — retry as guest checkout (pay first, register after)
+        const guestRes = await fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan: slug, installments, guest: true }),
+        });
+        const guestData = await guestRes.json();
+        if (!guestRes.ok) {
+          throw new Error(guestData.error || "Erreur lors du checkout");
+        }
+        window.location.href = guestData.url;
+        return;
+      }
+
       const data = await res.json();
       if (!res.ok) {
-        if (res.status === 401) {
-          router.push("/register?redirect=checkout&plan=" + slug);
-          return;
-        }
         throw new Error(data.error || "Erreur lors du checkout");
       }
       window.location.href = data.url;
@@ -390,7 +403,7 @@ export default function Pricing() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowPaymentChoice(false)}>
           <div className="bg-white rounded-2xl p-6 mx-4 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-bold text-[#111] mb-1">Choisis ton mode de paiement</h3>
-            <p className="text-sm text-gray-500 mb-5">Academy — 91 le&ccedil;ons, assistant IA, pipeline CRM</p>
+            <p className="text-sm text-gray-500 mb-5">Academy &mdash; 91 le&ccedil;ons, assistant IA, pipeline CRM</p>
             <div className="space-y-3">
               <button
                 onClick={() => handleCheckout("academy", 1)}

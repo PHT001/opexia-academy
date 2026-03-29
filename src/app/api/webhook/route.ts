@@ -41,8 +41,9 @@ export async function POST(req: NextRequest) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
-    const userId = session.metadata?.userId;
+    let userId = session.metadata?.userId;
     const plan = session.metadata?.plan;
+    const isGuest = session.metadata?.guest === "true";
 
     // For installment subscriptions: set cancel_at on the subscription
     if (session.mode === "subscription" && session.subscription && session.metadata?.cancelAt) {
@@ -53,6 +54,44 @@ export async function POST(req: NextRequest) {
         });
       } catch (cancelErr) {
         console.error("Failed to set subscription cancel_at:", cancelErr instanceof Error ? cancelErr.message : cancelErr);
+      }
+    }
+
+    // Handle guest checkout: resolve userId from email
+    if (!userId && isGuest) {
+      const customerEmail =
+        session.customer_details?.email ||
+        session.customer_email ||
+        null;
+
+      if (!customerEmail) {
+        console.error("Guest checkout: no email found in session");
+        return NextResponse.json({ error: "Missing customer email" }, { status: 400 });
+      }
+
+      try {
+        // Look up existing user by email
+        let user = await prisma.user.findFirst({
+          where: { email: customerEmail.toLowerCase() },
+        });
+
+        if (!user) {
+          // Create a guest user (no password) — they must register to set a password
+          user = await prisma.user.create({
+            data: {
+              email: customerEmail.toLowerCase(),
+              emailVerified: true,
+              onboardingCompleted: false,
+              role: "student",
+            },
+          });
+          console.log(`Guest checkout: created user ${user.id} for email ${customerEmail}`);
+        }
+
+        userId = user.id;
+      } catch (guestErr) {
+        console.error("Guest checkout: failed to resolve user:", guestErr instanceof Error ? guestErr.message : guestErr);
+        return NextResponse.json({ error: "Failed to resolve guest user" }, { status: 500 });
       }
     }
 
@@ -108,69 +147,69 @@ export async function POST(req: NextRequest) {
             const emailContent = (() => {
               if (tier === "starter") {
                 return {
-                  subject: "Bienvenue dans OpexIA Starter ! 🎉",
+                  subject: "Bienvenue dans OpexIA Starter ! \uD83C\uDF89",
                   body: `
-                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien été reçu et ton accès Starter est maintenant activé.</p>
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien \u00e9t\u00e9 re\u00e7u et ton acc\u00e8s Starter est maintenant activ\u00e9.</p>
                     <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
-                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">✅ Ton accès Starter est activé</span>
+                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">\u2705 Ton acc\u00e8s Starter est activ\u00e9</span>
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>2 modules Découverte (6 leçons)</li>
+                      <li>2 modules D\u00e9couverte (6 le\u00e7ons)</li>
                       <li>Quiz de validation</li>
-                      <li>Accès Discord communautaire</li>
-                      <li>Checklist de démarrage</li>
+                      <li>Acc\u00e8s Discord communautaire</li>
+                      <li>Checklist de d\u00e9marrage</li>
                     </ul>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
                     <div style="margin-bottom: 24px;">
-                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Accéder à ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
                       <a href="https://opexia-formation.com/lessons" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Commence par le Module 1</a>
                     </div>`,
                 };
               } else if (tier === "one_to_one") {
                 return {
-                  subject: "Bienvenue dans OpexIA Premium ! 🎉",
+                  subject: "Bienvenue dans OpexIA Premium ! \uD83C\uDF89",
                   body: `
-                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien été reçu et ton accès Premium est maintenant activé.</p>
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien \u00e9t\u00e9 re\u00e7u et ton acc\u00e8s Premium est maintenant activ\u00e9.</p>
                     <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
-                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">✅ Ton accès Premium est activé</span>
+                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">\u2705 Ton acc\u00e8s Premium est activ\u00e9</span>
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Premium inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>Tout le contenu Academy (91 leçons)</li>
+                      <li>Tout le contenu Academy (91 le\u00e7ons)</li>
                       <li>8 visios individuelles (1h) avec ton coach</li>
-                      <li>Support prioritaire illimité</li>
-                      <li>Accès direct WhatsApp avec Marius & Igor</li>
-                      <li>Audit personnalisé de ton agence</li>
+                      <li>Support prioritaire illimit\u00e9</li>
+                      <li>Acc\u00e8s direct WhatsApp avec Marius & Igor</li>
+                      <li>Audit personnalis\u00e9 de ton agence</li>
                       <li>Suivi hebdomadaire pendant 3 mois</li>
                     </ul>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
                     <div style="margin-bottom: 24px;">
-                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Accéder à ton tableau de bord</a>
-                      <a href="https://opexia-formation.com/coaching" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Réserver ta première visio</a>
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/coaching" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">R\u00e9server ta premi\u00e8re visio</a>
                     </div>`,
                 };
               } else {
                 // Default: academy
                 return {
-                  subject: "Bienvenue dans OpexIA Academy ! 🎉",
+                  subject: "Bienvenue dans OpexIA Academy ! \uD83C\uDF89",
                   body: `
-                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien été reçu et ton accès Academy est maintenant activé.</p>
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Ton paiement a bien \u00e9t\u00e9 re\u00e7u et ton acc\u00e8s Academy est maintenant activ\u00e9.</p>
                     <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
-                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">✅ Ton accès Academy est activé</span>
+                      <span style="font-size: 18px; font-weight: 700; color: #1A1A2E;">\u2705 Ton acc\u00e8s Academy est activ\u00e9</span>
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Academy inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>91 leçons vidéo & texte</li>
-                      <li>Assistant IA intégré</li>
-                      <li>Pipeline CRM intégré</li>
+                      <li>91 le\u00e7ons vid\u00e9o & texte</li>
+                      <li>Assistant IA int\u00e9gr\u00e9</li>
+                      <li>Pipeline CRM int\u00e9gr\u00e9</li>
                       <li>Templates IA premium</li>
-                      <li>Générateur de projets</li>
+                      <li>G\u00e9n\u00e9rateur de projets</li>
                       <li>Gamification (XP, streaks, badges)</li>
                     </ul>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
                     <div style="margin-bottom: 24px;">
-                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Accéder à ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
                       <a href="https://opexia-formation.com/lessons" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Commence par le Module 1</a>
                     </div>`,
                 };
@@ -183,9 +222,9 @@ export async function POST(req: NextRequest) {
               subject: emailContent.subject,
               html: `
                 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
-                  <h2 style="color: #1A1A2E; margin-bottom: 8px;">Bienvenue ${firstName} ! 🎉</h2>
+                  <h2 style="color: #1A1A2E; margin-bottom: 8px;">Bienvenue ${firstName} ! \uD83C\uDF89</h2>
                   ${emailContent.body}
-                  <p style="color: #9CA3AF; font-size: 12px;">Si tu as la moindre question, réponds directement à cet email. On est là pour t'aider !</p>
+                  <p style="color: #9CA3AF; font-size: 12px;">Si tu as la moindre question, r\u00e9ponds directement \u00e0 cet email. On est l\u00e0 pour t'aider !</p>
                 </div>
               `,
             });
@@ -198,9 +237,9 @@ export async function POST(req: NextRequest) {
 
       // --- Referral commission logic ---
       const TIER_COMMISSION: Record<string, number> = {
-        starter: 940,      // 20% of 4700 cents (47€)
-        academy: 7455,     // 15% of 49700 cents (497€)
-        one_to_one: 24970, // 10% of 249700 cents (2497€)
+        starter: 940,      // 20% of 4700 cents (47EUR)
+        academy: 7455,     // 15% of 49700 cents (497EUR)
+        one_to_one: 24970, // 10% of 249700 cents (2497EUR)
       };
 
       try {
