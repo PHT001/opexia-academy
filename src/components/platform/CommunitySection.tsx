@@ -236,7 +236,7 @@ export default function CommunitySection() {
               </div>
 
               {/* Free user upgrade CTA */}
-              {isFreeUser && (
+              {isFreeUser ? (
                 <div className="absolute inset-0 flex items-center justify-center z-10">
                   <div className="text-center px-4">
                     <div className="rounded-xl bg-white/95 backdrop-blur-sm border border-gray-200 shadow-md p-5">
@@ -263,6 +263,13 @@ export default function CommunitySection() {
                         </svg>
                       </Link>
                     </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/90">
+                  <div className="text-center px-4">
+                    <p className="text-sm font-semibold text-[#111] mb-1">Bient&ocirc;t disponible</p>
+                    <p className="text-[11px] text-gray-500">Le classement arrive bient&ocirc;t !</p>
                   </div>
                 </div>
               )}
