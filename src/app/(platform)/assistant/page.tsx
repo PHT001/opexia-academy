@@ -390,9 +390,7 @@ export default function AssistantPage() {
         </div>
       )}
 
-      <div className={isLocked ? "blur-sm pointer-events-none select-none opacity-60" : ""}>
-        {pageContent}
-      </div>
+      {pageContent}
     </div>
   );
 }
