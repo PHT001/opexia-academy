@@ -268,7 +268,7 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     id: "coaching",
     label: "Coaching",
     items: [
-      { href: "/assistant", label: "Parler à l'IA", icon: IconBot, lockedForStarter: true, lockedTeaser: "L'assistant IA est disponible avec le pack Academy. Il répond à toutes tes questions sur l'IA et ton projet." },
+      { href: "/assistant", label: "Parler à l'IA", icon: IconBot },
       { href: "/coaching", label: "Réserver un appel", icon: IconPhone },
     ],
   },
@@ -276,8 +276,8 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     id: "tools",
     label: "Outils & Services",
     items: [
-      { href: "/pipeline", label: "Pipeline", icon: IconPipeline, lockedForStarter: true, lockedTeaser: "Le Pipeline CRM t'aide à gérer tes prospects et clients. Disponible avec le pack Academy." },
-      { href: "/generateur", label: "Générateur", icon: IconWand, lockedForStarter: true, lockedTeaser: "Le Générateur de projets IA est disponible avec le pack Academy." },
+      { href: "/pipeline", label: "Pipeline", icon: IconPipeline },
+      { href: "/generateur", label: "Générateur", icon: IconWand },
     ],
   },
   {
