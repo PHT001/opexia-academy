@@ -270,7 +270,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
             Bienvenue, {firstName} {"\uD83D\uDC4B"}
           </p>
           <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-            Tu as acc{"è"}s {"à"} 1 module gratuit — commence maintenant !
+            D{"é"}couvre la plateforme — explore ce qui t{"'"}attend !
           </h1>
           <p className="text-gray-400 text-sm max-w-xl mb-5">
             D{"é"}couvre le game IA en 2026 avec ton premier module. Pas de carte bancaire, pas d{"'"}engagement.
@@ -308,8 +308,8 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
                 <PlayIcon className="w-7 h-7 text-white ml-0.5" />
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="text-lg font-bold text-[#111] mb-1">Commencer le Module D{"é"}couverte</h2>
-                <p className="text-sm text-gray-500">Le game IA en 2026 — ton premier hands-on avec Claude</p>
+                <h2 className="text-lg font-bold text-[#111] mb-1">D{"é"}couvrir la formation</h2>
+                <p className="text-sm text-gray-500">22 modules, 91 le{"ç"}ons — explore ce qui t{"'"}attend</p>
               </div>
               <ArrowRightIcon className="w-5 h-5 text-[#FF1744] group-hover:translate-x-1 transition-transform flex-shrink-0" />
             </div>

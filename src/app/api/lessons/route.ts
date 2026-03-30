@@ -31,6 +31,7 @@ export async function GET() {
     const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
 
     const modules = await prisma.module.findMany({
+      where: { order: { notIn: [23, 24] } },
       orderBy: { order: "asc" },
       include: {
         lessons: {

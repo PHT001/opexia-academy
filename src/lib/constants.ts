@@ -113,10 +113,10 @@ export const MASTERCLASS_MODULES = [] as const;
 /* ——— Tier-based module access ——— */
 
 export const TIER_MODULE_ACCESS: Record<string, number[]> = {
-  free:       [23],
-  starter:    [23, 1, 2],
-  academy:    [23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
-  one_to_one: [23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+  free:       [],
+  starter:    [1, 2],
+  academy:    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+  one_to_one: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
 };
 
 export const TIERS = [
