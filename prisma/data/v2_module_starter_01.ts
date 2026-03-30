@@ -17,24 +17,28 @@ export const V2_MODULE_STARTER_01_LESSONS = [
     duration: "10 min",
     description: "Les chiffres du marché, les opportunités concrètes, et pourquoi c'est maintenant qu'il faut se lancer.",
     content: blocks([
-      { id: "s1-1", type: "heading", level: 2, text: "Le marché de l'IA en 2026 : une opportunité historique" },
-      { id: "s1-2", type: "text", html: "<p>En 2026, le marché de l'intelligence artificielle dépasse les <strong>400 milliards de dollars</strong>. Mais le plus intéressant, c'est pas les GAFAM — c'est ce qui se passe en dessous.</p><p>Les PME, les commerces, les indépendants... ils savent TOUS qu'ils doivent adopter l'IA. Mais ils ne savent pas comment. Ils n'ont pas 100K à mettre dans une ESN. Ils cherchent des gens comme toi : accessibles, réactifs, concrets.</p>" },
-      { id: "s1-3", type: "callout", variant: "tip", html: "<strong>Le créneau :</strong> Moins de 20% des PME utilisent l'IA concrètement. Le marché est grand ouvert." },
-      { id: "s1-4", type: "separator", style: "dots" },
-      { id: "s1-5", type: "heading", level: 2, text: "Les chiffres qui comptent" },
-      { id: "s1-6", type: "comparison", headers: ["Indicateur", "Chiffre 2026"], rows: [
-        { cells: ["Marché mondial de l'IA", "~420 milliards $"] },
-        { cells: ["PME utilisant l'IA", "Moins de 20%"] },
-        { cells: ["Demande freelances IA (France)", "x3 en 2 ans"] },
-        { cells: ["Tarif jour moyen consultant IA", "400 à 800\u20AC/jour"] },
-        { cells: ["Prix moyen d'un chatbot pour PME", "500 à 3000\u20AC"] }
+      { id: "s1-1", type: "heading", level: 2, text: "3 personnes qui ont lancé leur agence IA cette année" },
+      { id: "s1-2", type: "text", html: "<p>Avant de parler de chiffres, je vais te raconter 3 histoires. Des gens normaux, sans background technique, qui génèrent aujourd'hui des revenus avec l'IA.</p>" },
+      { id: "s1-3", type: "separator", style: "dots" },
+      { id: "s1-4", type: "heading", level: 3, text: "Thomas, 24 ans — ancien serveur" },
+      { id: "s1-5", type: "text", html: "<p>Thomas bossait en restauration. Il a appris à créer des chatbots IA en 3 semaines. Son premier client : le restaurant où il travaillait. Il a facturé <strong>800\u20AC</strong> pour un chatbot de réservation. Aujourd'hui, il a 6 clients récurrents et facture <strong>3 500\u20AC/mois</strong> en automatisations.</p><p>Son secret : il connaissait les problèmes de ses clients parce qu'il venait du même milieu.</p>" },
+      { id: "s1-6", type: "heading", level: 3, text: "Sarah, 28 ans — freelance marketing" },
+      { id: "s1-7", type: "text", html: "<p>Sarah faisait du community management à 1 500\u20AC/mois. Elle a ajouté \"automatisation IA\" à ses services. Résultat : elle facture maintenant ses clients <strong>3 000 à 5 000\u20AC</strong> par projet pour des workflows d'emailing automatisés + chatbot de qualification de leads.</p><p>Elle n'a pas appris à coder. Elle utilise des outils no-code + l'IA pour tout générer.</p>" },
+      { id: "s1-8", type: "heading", level: 3, text: "Karim, 32 ans — reconversion totale" },
+      { id: "s1-9", type: "text", html: "<p>Karim était dans la logistique. Zéro compétence tech. Il a suivi une formation IA, et 2 mois plus tard il a signé son premier client : un agent immobilier qui voulait un site + un générateur de descriptions automatiques. Facture : <strong>3 000\u20AC</strong>.</p><p>Aujourd'hui il fait 3-4 projets par mois. Il a quitté son ancien job.</p>" },
+      { id: "s1-10", type: "callout", variant: "tip", html: "<strong>Le point commun ?</strong> Aucun d'entre eux n'était développeur. Ils ont juste appris à utiliser les bons outils au bon moment." },
+      { id: "s1-11", type: "separator", style: "line" },
+      { id: "s1-12", type: "heading", level: 2, text: "Pourquoi ça marche maintenant" },
+      { id: "s1-13", type: "text", html: "<p>Deux raisons simples :</p><p><strong>1. La demande explose.</strong> Moins de 20% des PME utilisent l'IA concrètement. Les 80% restants savent qu'ils doivent s'y mettre, mais ils ne savent pas par où commencer. Ils cherchent des gens accessibles qui peuvent les aider.</p><p><strong>2. Les outils sont prêts.</strong> En 2024-2025, les outils IA sont devenus assez puissants pour créer des solutions pro sans être développeur. Claude, ChatGPT, n8n, Cursor... tu peux livrer un projet client en quelques jours, pas en quelques mois.</p>" },
+      { id: "s1-14", type: "comparison", headers: ["Ce que les clients achètent", "Prix moyen"], rows: [
+        { cells: ["Chatbot IA (FAQ, prise de RDV)", "500 à 3 000\u20AC"] },
+        { cells: ["Site web propulsé par l'IA", "1 000 à 5 000\u20AC"] },
+        { cells: ["Automatisations business", "500 à 2 000\u20AC"] },
+        { cells: ["Agent vocal IA", "1 500 à 5 000\u20AC"] }
       ]},
-      { id: "s1-7", type: "separator", style: "line" },
-      { id: "s1-8", type: "heading", level: 2, text: "Pourquoi maintenant et pas dans 2 ans ?" },
-      { id: "s1-9", type: "text", html: "<p>On est dans une <strong>fenêtre d'opportunité</strong>. Les outils sont devenus assez puissants pour créer des solutions pro, mais la majorité des gens ne savent pas encore les utiliser. Ceux qui se positionnent maintenant prennent une avance considérable.</p><p>Dans 2-3 ans, le marché sera saturé. Aujourd'hui, la demande explose et l'offre ne suit pas. C'est exactement le moment de se lancer.</p>" },
-      { id: "s1-10", type: "callout", variant: "info", html: "<strong>En résumé :</strong> Le marché est énorme, les clients cherchent, et la concurrence est encore faible. Tu as une fenêtre d'action maintenant." }
+      { id: "s1-15", type: "callout", variant: "info", html: "<strong>La question c'est pas \"est-ce que ça marche ?\". C'est \"est-ce que tu vas te lancer avant que le marché se sature ?\"</strong>" }
     ]),
-    exercise: "<h3>Réflexion rapide</h3><p>Pense à 3 entreprises ou personnes dans ton entourage qui pourraient bénéficier de l'IA (automatiser des tâches, avoir un chatbot, améliorer leur site...). Note-les mentalement — on y reviendra.</p>",
+    exercise: "<h3>Exercice</h3><p>Pense à 3 entreprises ou personnes dans ton entourage qui galèrent avec des tâches répétitives, qui répondent aux mêmes questions toute la journée, ou qui ont un site web basique. Note leurs noms — ce sont tes futurs premiers clients.</p>",
     quiz: [
       { type: "mcq", question: "Quel pourcentage des PME utilise concrètement l'IA en 2026 ?", options: JSON.stringify(["Plus de 80%", "Environ 50%", "Moins de 20%", "Moins de 5%"]), correctAnswer: "Moins de 20%", explanation: "Moins de 20% des PME utilisent l'IA concrètement. C'est une opportunité massive pour les prestataires IA." },
       { type: "true_false", question: "Le marché des freelances IA en France a triplé en 2 ans.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "La demande de freelances IA a été multipliée par 3 en 2 ans sur les plateformes comme Malt et Upwork." },

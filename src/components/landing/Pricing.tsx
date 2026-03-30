@@ -55,13 +55,14 @@ const plans: Plan[] = [
     description: "Pour d\u00e9couvrir le monde de l\u2019IA",
     popular: false,
     features: [
-      "2 modules D\u00e9couverte (6 le\u00e7ons)",
+      "Modules 1 & 2 de la formation (7 le\u00e7ons)",
+      "Atelier pratique : comparer les IA",
       "Quiz de validation",
       "Acc\u00e8s Discord communautaire",
       "Checklist de d\u00e9marrage",
     ],
     notIncluded: [
-      "Acc\u00e8s plateforme de cours",
+      "Modules 3 \u00e0 22 (prompting, code, vente...)",
       "Assistant IA int\u00e9gr\u00e9",
       "Visios individuelles",
     ],
