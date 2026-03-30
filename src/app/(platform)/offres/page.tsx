@@ -202,7 +202,7 @@ function OffresContent() {
       </motion.div>
 
       {/* Cards — same style as landing page */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {plans.map((plan, i) => {
           const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
           const isCurrent = effectiveTier === plan.slug;

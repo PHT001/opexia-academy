@@ -122,7 +122,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="md:hidden flex flex-col gap-1.5 p-2 min-h-[44px] min-w-[44px]"
             aria-label="Menu"
           >
             <span

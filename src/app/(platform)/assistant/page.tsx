@@ -155,7 +155,7 @@ export default function AssistantPage() {
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-5">
         {/* ═══════════════ MAIN CHAT ═══════════════ */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col" style={{ minHeight: "calc(100vh - 220px)", maxHeight: "calc(100vh - 220px)" }}>
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col" style={{ minHeight: "calc(100vh - 280px)", maxHeight: "calc(100vh - 280px)" }}>
           {/* Chat header */}
           <div className="px-5 py-3.5 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">

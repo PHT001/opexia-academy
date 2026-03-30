@@ -151,7 +151,7 @@ export default function VerifyEmailPage() {
           )}
 
           <form onSubmit={handleSubmit} className="mt-8">
-            <div className="flex justify-center gap-3" onPaste={handlePaste}>
+            <div className="flex justify-center gap-2 sm:gap-3" onPaste={handlePaste}>
               {code.map((digit, i) => (
                 <input
                   key={i}
@@ -162,7 +162,7 @@ export default function VerifyEmailPage() {
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="w-12 h-14 text-center text-xl font-bold rounded-xl bg-white border border-gray-200 text-[#1A1A2E] focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold rounded-xl bg-white border border-gray-200 text-[#1A1A2E] focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
                 />
               ))}
             </div>

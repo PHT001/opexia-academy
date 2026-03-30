@@ -149,7 +149,7 @@ export default function ProfilePage() {
         <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-4">
           <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
         </div>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
             { label: "XP", value: stats.xp.toLocaleString(), color: "text-amber-500" },
             { label: "Streak", value: `${stats.streak}j`, color: "text-orange-500" },
