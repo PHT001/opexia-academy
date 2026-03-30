@@ -7,15 +7,10 @@ export function useTierGate(requiredTiers?: string[]) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check admin preview tier first
-    const previewTier = typeof window !== "undefined"
-      ? localStorage.getItem("admin-preview-tier")
-      : null;
-
     fetch("/api/progress")
       .then((r) => r.json())
       .then((data) => {
-        const effectiveTier = previewTier || data?.tier || "free";
+        const effectiveTier = data?.tier || "free";
         setTier(effectiveTier);
         setLoading(false);
       })

@@ -37,6 +37,30 @@ const TEMPLATES: Record<string, Template> = {
   },
 };
 
+const GENERATE_DAILY_LIMIT = 50;
+
+const generateRateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function checkGenerateRateLimit(userId: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const entry = generateRateLimitMap.get(userId);
+
+  if (!entry || now > entry.resetAt) {
+    generateRateLimitMap.set(userId, { count: 1, resetAt: endOfDay.getTime() });
+    return { allowed: true, remaining: GENERATE_DAILY_LIMIT - 1 };
+  }
+
+  if (entry.count >= GENERATE_DAILY_LIMIT) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  entry.count++;
+  return { allowed: true, remaining: GENERATE_DAILY_LIMIT - entry.count };
+}
+
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -51,6 +75,15 @@ export async function POST(req: Request) {
   const userTier = enrollment?.tier || "free";
   if (userTier !== "academy" && userTier !== "one_to_one") {
     return NextResponse.json({ error: "Accès réservé au pack Academy" }, { status: 403 });
+  }
+
+  // Rate limit by userId
+  const { allowed, remaining } = checkGenerateRateLimit(session.user.id);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Tu as atteint la limite de 50 générations par jour. Reviens demain !", remaining: 0 },
+      { status: 429 }
+    );
   }
 
   try {

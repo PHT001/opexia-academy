@@ -81,7 +81,7 @@ function makeQuiz(lessonOrder: number) {
   }));
 }
 
-export async function POST() {
+export async function POST(req: Request) {
   if (process.env.ALLOW_SEED !== "true") {
     return NextResponse.json({ error: "Seed is disabled" }, { status: 403 });
   }
@@ -89,6 +89,11 @@ export async function POST() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || session.user.role !== "admin") {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
+  }
+
+  const confirmHeader = req.headers.get("x-confirm-seed");
+  if (confirmHeader !== "true") {
+    return NextResponse.json({ error: "Missing confirmation header" }, { status: 400 });
   }
 
   try {

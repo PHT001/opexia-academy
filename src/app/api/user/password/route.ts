@@ -16,8 +16,12 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "Champs requis" }, { status: 400 });
   }
 
-  if (newPassword.length < 6) {
-    return NextResponse.json({ error: "Le mot de passe doit faire au moins 6 caractères" }, { status: 400 });
+  if (newPassword.length < 8) {
+    return NextResponse.json({ error: "Le mot de passe doit faire au moins 8 caractères" }, { status: 400 });
+  }
+
+  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newPassword)) {
+    return NextResponse.json({ error: "Le mot de passe doit contenir au moins un caractère spécial" }, { status: 400 });
   }
 
   const user = await prisma.user.findUnique({

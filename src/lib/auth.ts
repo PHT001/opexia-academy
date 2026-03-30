@@ -27,6 +27,7 @@ providers.push(
 
       const user = await prisma.user.findUnique({
         where: { email: credentials.email },
+        select: { id: true, email: true, name: true, role: true, hashedPassword: true, emailVerified: true, createdAt: true },
       });
       if (!user) return null;
 
@@ -34,11 +35,14 @@ providers.push(
       const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
       if (!passwordMatch) return null;
 
+      if (!user.emailVerified) return null;
+
       return {
         id: user.id,
         email: user.email,
         name: user.name,
         role: user.role,
+        emailVerified: user.emailVerified,
         createdAt: user.createdAt.toISOString(),
       };
     },
@@ -84,6 +88,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = (user as any).role as string;
+        token.emailVerified = (user as any).emailVerified as boolean;
         token.createdAt = (user as any).createdAt as string;
       }
 
@@ -91,12 +96,13 @@ export const authOptions: NextAuthOptions = {
       if (token.sub) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.sub },
-          select: { id: true },
+          select: { id: true, emailVerified: true },
         });
         if (!dbUser) {
           // User was deleted — invalidate the token
           return { ...token, id: "", role: "", sub: "" };
         }
+        token.emailVerified = dbUser.emailVerified;
       }
 
       return token;
@@ -109,6 +115,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.emailVerified = token.emailVerified as boolean;
         session.user.createdAt = token.createdAt as string;
       }
       return session;

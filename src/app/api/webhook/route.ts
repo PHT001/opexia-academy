@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
           user = await prisma.user.create({
             data: {
               email: customerEmail.toLowerCase(),
-              emailVerified: true,
+              emailVerified: false,
               onboardingCompleted: false,
               role: "student",
             },
@@ -93,6 +93,24 @@ export async function POST(req: NextRequest) {
       } catch (guestErr) {
         console.error("Guest checkout: failed to resolve user:", guestErr instanceof Error ? guestErr.message : guestErr);
         return NextResponse.json({ error: "Failed to resolve guest user" }, { status: 500 });
+      }
+    }
+
+    // For authenticated users, validate that customer email matches the userId
+    if (userId && !isGuest) {
+      try {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: userId },
+          select: { email: true },
+        });
+        const stripeEmail = session.customer_details?.email || session.customer_email;
+        if (dbUser?.email && stripeEmail && dbUser.email.toLowerCase() !== stripeEmail.toLowerCase()) {
+          console.warn(
+            `[Webhook] Email mismatch for userId ${userId}: DB="${dbUser.email}" vs Stripe="${stripeEmail}"`
+          );
+        }
+      } catch (emailCheckErr) {
+        console.error("[Webhook] Failed to validate customer email:", emailCheckErr instanceof Error ? emailCheckErr.message : emailCheckErr);
       }
     }
 

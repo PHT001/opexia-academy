@@ -165,6 +165,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
     }
 
+    // Consume the coupon immediately after checkout session creation to prevent reuse
+    if (hasCustomDiscount && isAuthenticated) {
+      try {
+        await prisma.user.update({
+          where: { id: session.user.id },
+          data: { discountCode: null, discountPercent: null, discountExpiresAt: null },
+        });
+      } catch (discountErr) {
+        console.error("Failed to clear discount after checkout:", discountErr instanceof Error ? discountErr.message : discountErr);
+      }
+    }
+
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     console.error("POST /api/checkout error:", error instanceof Error ? error.message : "Unknown error");

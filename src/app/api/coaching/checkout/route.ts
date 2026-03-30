@@ -11,6 +11,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
+  // Verify user has Academy or One-to-One tier (or is admin)
+  const enrollment = await prisma.enrollment.findFirst({
+    where: { userId: session.user.id, status: "active" },
+    orderBy: { createdAt: "desc" },
+  });
+  const userTier = enrollment?.tier || "free";
+  if (userTier !== "academy" && userTier !== "one_to_one" && session.user.role !== "admin") {
+    return NextResponse.json({ error: "Coaching reserve aux membres Academy et One-to-One" }, { status: 403 });
+  }
+
   try {
     const { slot } = await req.json();
     if (!slot) {

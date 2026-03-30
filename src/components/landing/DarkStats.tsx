@@ -55,7 +55,7 @@ export default function DarkStats() {
     <section className="relative py-16 lg:py-20 bg-white overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         {/* 3 stats */}
-        <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}

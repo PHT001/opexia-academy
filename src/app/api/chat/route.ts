@@ -23,15 +23,15 @@ Modules : M1: Decouvrir l'IA | M2: Prompt Engineering | M3: Sites web IA | M4: B
 /** Simple in-memory rate limiter (resets on server restart / per instance) */
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
-function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+function checkRateLimit(userId: string): { allowed: boolean; remaining: number } {
   const now = Date.now();
   const endOfDay = new Date();
   endOfDay.setHours(23, 59, 59, 999);
 
-  const entry = rateLimitMap.get(ip);
+  const entry = rateLimitMap.get(userId);
 
   if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: endOfDay.getTime() });
+    rateLimitMap.set(userId, { count: 1, resetAt: endOfDay.getTime() });
     return { allowed: true, remaining: DAILY_LIMIT - 1 };
   }
 
@@ -63,9 +63,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Rate limit by IP
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-    const { allowed, remaining } = checkRateLimit(ip);
+    // Rate limit by userId
+    const { allowed, remaining } = checkRateLimit(session.user.id);
 
     if (!allowed) {
       return NextResponse.json(
@@ -115,7 +114,8 @@ export async function POST(req: NextRequest) {
       ],
     });
 
-    const result = await chat.sendMessage(lastMessage.parts[0].text);
+    const sanitizedContent = lastMessage.parts[0].text.slice(0, 500);
+    const result = await chat.sendMessage(sanitizedContent);
     const response = result.response.text();
 
     return NextResponse.json({ content: response, remaining });

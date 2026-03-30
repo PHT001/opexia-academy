@@ -108,6 +108,9 @@ model QuizSubmission {
 
   user User @relation(fields: [userId], references: [id])
   quiz Quiz @relation(fields: [quizId], references: [id])
+
+  @@index([userId, quizId])
+  @@index([userId, createdAt])
 }
 
 model LessonProgress {
@@ -122,6 +125,7 @@ model LessonProgress {
   lesson Lesson @relation(fields: [lessonId], references: [id])
 
   @@unique([userId, lessonId])
+  @@index([userId, status])
 }
 
 model Streak {
@@ -141,6 +145,10 @@ model Enrollment {
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, tier])
+  @@index([userId, status])
+  @@index([tier])
 }
 
 model CoachingSession {
@@ -151,7 +159,7 @@ model CoachingSession {
   status          String   @default("pending")
   stripeSessionId String?
   stripePaymentId String?
-  amount          Int      @default(9000)
+  amount          Int      @default(7000)
   createdAt       DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
@@ -183,6 +191,9 @@ model Referral {
 
   referrer User @relation("referrerReferrals", fields: [referrerId], references: [id])
   referred User @relation("referredReferrals", fields: [referredId], references: [id])
+
+  @@index([referrerId, status])
+  @@index([referredId])
 }
 
 model Note {

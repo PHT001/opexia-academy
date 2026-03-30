@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/landing/Navbar";
 
@@ -19,6 +20,17 @@ import Footer from "@/components/landing/Footer";
 import Chatbot from "@/components/landing/Chatbot";
 import SaleNotification from "@/components/landing/SaleNotification";
 import StickyFloatingCTA from "@/components/landing/StickyFloatingCTA";
+
+export const metadata: Metadata = {
+  title: "OpexIA Academy — Lance ton agence IA et genere 10K€/mois",
+  description: "Formation complete pour creer ton agence IA de zero. 22 modules, 91 lecons, assistant IA, pipeline CRM. Garantie 14 jours.",
+  openGraph: {
+    title: "OpexIA Academy — Agence IA de 0 a 10K€/mois",
+    description: "Formation 100% pratique pour creer une agence IA rentable. Chatbots, automatisations, prospection.",
+    type: "website",
+    url: "https://opexia-formation.com",
+  },
+};
 
 export default async function Home() {
   // Count students with at least 1 completed lesson (real social proof)

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { TIER_MODULE_ACCESS } from "@/lib/constants";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { CertificatePDF } from "@/lib/pdf/CertificatePDF";
 import React from "react";
@@ -87,6 +88,24 @@ export async function GET(req: NextRequest) {
   const certDef = CERTIFICATE_DEFS.find((c) => c.phase === phase);
   if (!certDef) {
     return NextResponse.json({ error: "Certificat introuvable" }, { status: 404 });
+  }
+
+  // Tier/access check — admin bypasses
+  const isAdmin = session.user.role === "admin";
+  if (!isAdmin) {
+    let userTier = "starter";
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId, status: "active" },
+      orderBy: { createdAt: "desc" },
+    });
+    if (enrollment) {
+      userTier = enrollment.tier;
+    }
+    const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
+    const allModulesAccessible = certDef.modules.every((m) => accessibleModules.includes(m));
+    if (!allModulesAccessible) {
+      return NextResponse.json({ error: "Acces non autorise pour votre forfait" }, { status: 403 });
+    }
   }
 
   // Verify the user has completed all required modules

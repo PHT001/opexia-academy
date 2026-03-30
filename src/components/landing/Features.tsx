@@ -255,7 +255,7 @@ export default function Features() {
 
       {/* Desktop: grid */}
       <div className="hidden lg:block mx-auto max-w-7xl px-8">
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((service, i) => (
             <ServiceCard key={service.title} service={service} i={i} />
           ))}

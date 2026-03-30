@@ -4,6 +4,15 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
@@ -103,8 +112,8 @@ export async function POST(req: NextRequest) {
                     <span style="color: #111;">Opex</span><span style="color: #FF1744;">IA</span>
                   </span>
                 </div>
-                <p style="color: #111; font-size: 15px; margin-bottom: 8px;">Bonjour ${user.name || ""},</p>
-                <div style="color: #333; font-size: 14px; line-height: 1.7; white-space: pre-wrap;">${message}</div>
+                <p style="color: #111; font-size: 15px; margin-bottom: 8px;">Bonjour ${escapeHtml(user.name || "")},</p>
+                <div style="color: #333; font-size: 14px; line-height: 1.7; white-space: pre-wrap;">${escapeHtml(message)}</div>
                 <hr style="border: none; border-top: 1px solid #eee; margin: 32px 0;" />
                 <p style="color: #999; font-size: 12px; text-align: center;">OpexIA Academy</p>
               </div>

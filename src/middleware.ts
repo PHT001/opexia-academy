@@ -6,6 +6,10 @@ export default withAuth(
     const token = req.nextauth.token;
     const pathname = req.nextUrl.pathname;
 
+    if (token && token.emailVerified === false && !pathname.startsWith("/verify-email") && !pathname.startsWith("/api/")) {
+      return NextResponse.redirect(new URL("/verify-email", req.url));
+    }
+
     if (pathname.startsWith("/admin") && token?.role !== "admin") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
@@ -39,5 +43,6 @@ export const config = {
     "/parrainage/:path*",
     "/leaderboard/:path*",
     "/projets/:path*",
+    "/offres/:path*",
   ],
 };

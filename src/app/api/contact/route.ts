@@ -5,6 +5,15 @@ import rateLimit from "@/lib/rate-limit";
 
 const limiter = rateLimit({ interval: 60 * 60 * 1000, uniqueTokenPerInterval: 500 });
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
@@ -37,13 +46,13 @@ export async function POST(request: Request) {
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
             <h2 style="color: #1A1A2E; margin-bottom: 8px;">Nouveau message de contact</h2>
             <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
-              <p style="color: #6B7280; font-size: 14px; margin: 0 0 8px;"><strong>Nom :</strong> ${name}</p>
-              <p style="color: #6B7280; font-size: 14px; margin: 0 0 8px;"><strong>Email :</strong> ${email}</p>
-              <p style="color: #6B7280; font-size: 14px; margin: 0 0 8px;"><strong>Sujet :</strong> ${subject || "Question generale"}</p>
+              <p style="color: #6B7280; font-size: 14px; margin: 0 0 8px;"><strong>Nom :</strong> ${escapeHtml(name)}</p>
+              <p style="color: #6B7280; font-size: 14px; margin: 0 0 8px;"><strong>Email :</strong> ${escapeHtml(email)}</p>
+              <p style="color: #6B7280; font-size: 14px; margin: 0 0 8px;"><strong>Sujet :</strong> ${escapeHtml(subject || "Question generale")}</p>
               <p style="color: #6B7280; font-size: 14px; margin: 0 0 8px;"><strong>Message :</strong></p>
-              <p style="color: #1A1A2E; font-size: 14px; margin: 0; white-space: pre-wrap;">${message}</p>
+              <p style="color: #1A1A2E; font-size: 14px; margin: 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
             </div>
-            <p style="color: #9CA3AF; font-size: 12px;">Repondre directement a cet email pour contacter ${name}.</p>
+            <p style="color: #9CA3AF; font-size: 12px;">Repondre directement a cet email pour contacter ${escapeHtml(name)}.</p>
           </div>
         `,
       });

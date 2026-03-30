@@ -51,12 +51,15 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     window.addEventListener("dark-mode-change", handler);
     return () => window.removeEventListener("dark-mode-change", handler);
   }, []);
-  const [previewTier, setPreviewTier] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("admin-preview-tier") || null;
+  const isAdmin = session?.user?.role === "admin";
+  const [previewTier, setPreviewTier] = useState<string | null>(null);
+
+  // Only read admin-preview-tier from localStorage for admins
+  useEffect(() => {
+    if (isAdmin && typeof window !== "undefined") {
+      setPreviewTier(localStorage.getItem("admin-preview-tier") || null);
     }
-    return null;
-  });
+  }, [isAdmin]);
 
   const handlePreviewTierChange = (tier: string | null) => {
     setPreviewTier(tier);
@@ -119,7 +122,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         previewTier={previewTier}
-        onPreviewTierChange={session?.user?.role === "admin" ? handlePreviewTierChange : undefined}
+        onPreviewTierChange={isAdmin ? handlePreviewTierChange : undefined}
       />
 
       {/* Mobile topbar */}
