@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
 
     // Block downgrades and re-purchases for authenticated users
     if (isAuthenticated) {
-      const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+      const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3, one_to_one_test: 3 };
       const enrollments = await prisma.enrollment.findMany({
         where: { userId: session.user.id, status: "active" },
       });
@@ -57,7 +57,8 @@ export async function POST(req: NextRequest) {
       )[0];
       const currentTierLevel = TIER_PRIORITY[best?.tier ?? "free"] ?? 0;
       const requestedTierLevel = TIER_PRIORITY[plan] ?? 0;
-      if (requestedTierLevel <= currentTierLevel) {
+      // Skip downgrade check for test plans
+      if (requestedTierLevel <= currentTierLevel && !plan.endsWith("_test")) {
         return NextResponse.json(
           { error: "Tu as déjà ce plan ou un plan supérieur" },
           { status: 400 }
