@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/landing/Navbar";
 
 import Hero from "@/components/landing/Hero";
@@ -32,18 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Home() {
-  // Count students with at least 1 completed lesson (real social proof)
-  const SOCIAL_PROOF_OFFSET = 180;
-  const activeLearnersCount = await prisma.user.count({
-    where: {
-      role: "student",
-      isBot: false,
-      progress: { some: { status: "completed" } },
-    },
-  });
-  const socialProofCount = activeLearnersCount + SOCIAL_PROOF_OFFSET;
-
+export default function Home() {
   return (
     <>
       <Navbar />
