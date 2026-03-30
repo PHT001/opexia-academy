@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useTierGate } from "@/hooks/useTierGate";
-import UpgradeOverlay from "@/components/platform/UpgradeOverlay";
+
 
 const TYPES = [
   {
@@ -618,16 +618,23 @@ export default function GenerateurPage() {
     </div>
   );
 
-  if (isLocked) {
-    return (
-      <UpgradeOverlay
-        featureName="Générateur IA"
-        featureDescription="Le générateur de contenu est réservé aux abonnés Academy et One-to-One. Upgrade pour débloquer cette fonctionnalité."
-      >
-        {pageContent}
-      </UpgradeOverlay>
-    );
-  }
+  return (
+    <div className="w-full">
+      {isLocked && (
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+          <div>
+            <p className="text-sm font-semibold text-[#111]">Fonctionnalité premium</p>
+            <p className="text-xs text-[#6B7280]">Upgrade pour accéder à cette fonctionnalité.</p>
+          </div>
+          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+            Voir les offres
+          </a>
+        </div>
+      )}
 
-  return pageContent;
+      <div className={isLocked ? "blur-sm pointer-events-none select-none opacity-60" : ""}>
+        {pageContent}
+      </div>
+    </div>
+  );
 }
