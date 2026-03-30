@@ -12,6 +12,7 @@ const PLAN_TO_TIER: Record<string, string> = {
   starter: "starter",
   academy: "academy",
   one_to_one: "one_to_one",
+  one_to_one_test: "one_to_one",
 };
 
 export async function POST(req: NextRequest) {

@@ -20,6 +20,11 @@ const PLANS: Record<string, { name: string; price: number; description: string }
     price: 249700, // 2497 EUR in cents
     description: "Accompagnement individuel premium avec coaching personnalise",
   },
+  one_to_one_test: {
+    name: "OpexIA One-to-One (Test)",
+    price: 80000, // 800 EUR in cents — test price
+    description: "Accompagnement individuel premium (mode test)",
+  },
 };
 
 export async function POST(req: NextRequest) {
