@@ -463,17 +463,38 @@ function CoachingContent() {
     if (!selectedSlot || booking) return;
     setBooking(true);
     try {
-      const res = await fetch("/api/coaching/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slot: selectedSlot }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || "Erreur lors de la reservation");
+      // One-to-One users book for free (no Stripe)
+      if (effectiveTier === "one_to_one") {
+        const res = await fetch("/api/coaching/book", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slot: selectedSlot }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setSuccessMessage("Session réservée avec succès ! Tu recevras un email de confirmation.");
+          setSelectedSlot(null);
+          // Refresh sessions
+          const refreshRes = await fetch("/api/coaching/slots");
+          const refreshData = await refreshRes.json();
+          setSessions(refreshData.sessions || []);
+        } else {
+          alert(data.error || "Erreur lors de la réservation");
+        }
         setBooking(false);
+      } else {
+        const res = await fetch("/api/coaching/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slot: selectedSlot }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert(data.error || "Erreur lors de la reservation");
+          setBooking(false);
+        }
       }
     } catch {
       alert("Erreur de connexion");
@@ -674,7 +695,7 @@ function CoachingContent() {
                   Europe/Paris
                 </div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF1744]/[0.08] text-xs font-bold text-[#FF1744]">
-                  {COACHING_PRICE_DISPLAY}€
+                  {effectiveTier === "one_to_one" ? "Inclus" : `${COACHING_PRICE_DISPLAY}€`}
                 </div>
               </div>
             </div>
@@ -708,11 +729,11 @@ function CoachingContent() {
       >
         <h2 className="text-lg font-bold text-gray-900 mb-1">Comment ça marche</h2>
         <p className="text-xs text-gray-500 mb-5">4 étapes simples pour ta session de coaching.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {STEPS.map((step, i) => (
             <motion.div
               key={i}
-              className="relative bg-white rounded-xl border border-gray-200 p-5 group hover:shadow-md transition-all"
+              className="relative bg-white rounded-xl border border-gray-200 p-3 sm:p-5 group hover:shadow-md transition-all"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}

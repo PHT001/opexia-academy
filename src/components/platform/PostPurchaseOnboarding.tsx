@@ -182,23 +182,13 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
             {/* ═══ HELLO ═══ */}
             {step === "hello" && (
               <div className="text-center">
-                <motion.div
-                  className="w-20 h-20 rounded-[22px] mx-auto mb-8 flex items-center justify-center shadow-xl"
-                  style={{ background: "linear-gradient(135deg, #FF1744, #D50000)" }}
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 20 }}
-                >
-                  <span className="text-white text-lg font-black tracking-tight">Opex<span className="text-white/90">IA</span></span>
-                </motion.div>
-
                 <motion.h1
                   className="text-[42px] font-bold text-[#1A1A2E] leading-[1.1] tracking-tight mb-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
+                  transition={{ delay: 0.3 }}
                 >
-                  Bienvenue.
+                  Bienvenue sur<br /><span className="text-[#FF1744]">Opex<span className="font-black">IA</span></span>
                 </motion.h1>
 
                 <motion.p

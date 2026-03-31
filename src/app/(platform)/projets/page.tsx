@@ -340,12 +340,12 @@ function StudentView({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Lien (GitHub, demo, site)</label>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Lien du projet (demo, site...)</label>
                   <input
                     type="url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    placeholder="https://github.com/..."
+                    placeholder="https://mon-projet.vercel.app"
                     className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
                   />
                 </div>
