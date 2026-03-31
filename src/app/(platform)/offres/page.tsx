@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
 
 const TIER_LABELS: Record<string, string> = {
-  free: "Gratuit", starter: "Starter", academy: "Academy", one_to_one: "Premium",
+  free: "Gratuit", starter: "Starter", academy: "Academy", one_to_one: "One to One",
 };
 
 interface Plan {

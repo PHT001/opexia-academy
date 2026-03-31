@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WHATSAPP_URL = "https://wa.me/33787858036";
@@ -10,16 +11,21 @@ export default function WhatsAppWidget() {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   // Hide on landing page (has its own chatbot) and marketing pages
   const isLandingPage = pathname === "/" || pathname === "/blog" || pathname?.startsWith("/blog/");
+
+  // Hide for paid users — only show for free tier and unauthenticated visitors
+  const userTier = (session?.user as { tier?: string })?.tier;
+  const isPaidUser = userTier && userTier !== "free";
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLandingPage) return null;
+  if (isLandingPage || isPaidUser) return null;
 
   return (
     <AnimatePresence>
