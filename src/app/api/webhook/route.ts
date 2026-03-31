@@ -268,12 +268,30 @@ export async function POST(req: NextRequest) {
       };
 
       try {
-        const pendingReferral = await prisma.referral.findFirst({
+        // First check if a pending referral already exists (created at registration)
+        let pendingReferral = await prisma.referral.findFirst({
           where: {
             referredId: userId,
             status: "pending",
           },
         });
+
+        // If no referral exists but Stripe metadata has a ref code, create one now
+        // This handles the guest checkout flow where user paid before registering
+        if (!pendingReferral && session.metadata?.ref) {
+          const referrer = await prisma.user.findUnique({
+            where: { referralCode: session.metadata.ref },
+          });
+          if (referrer && referrer.id !== userId) {
+            pendingReferral = await prisma.referral.create({
+              data: {
+                referrerId: referrer.id,
+                referredId: userId,
+                status: "pending",
+              },
+            });
+          }
+        }
 
         if (pendingReferral && pendingReferral.referrerId !== userId) {
           const commission = TIER_COMMISSION[tier] ?? 0;

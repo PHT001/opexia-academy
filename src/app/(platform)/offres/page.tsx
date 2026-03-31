@@ -130,8 +130,10 @@ function OffresContent() {
   async function handleCheckout(slug: string) {
     setLoading(slug);
     try {
-      const payload: { plan: string; coupon?: string } = { plan: slug };
+      const ref = typeof window !== "undefined" ? localStorage.getItem("opexia-ref") || "" : "";
+      const payload: { plan: string; coupon?: string; ref?: string } = { plan: slug };
       if (discount) payload.coupon = discount.code;
+      if (ref) payload.ref = ref;
       const res = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const data = await res.json();
       if (!res.ok) {

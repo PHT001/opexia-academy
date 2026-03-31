@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
   const plan = body.plan as string | undefined;
   const coupon = body.coupon as string | undefined;
   const guest = body.guest === true;
+  const ref = (body.ref as string | undefined) || "";
 
   // Allow guest checkout (from landing page) or authenticated checkout (from /offres)
   const isAuthenticated = !!session?.user?.id;
@@ -121,6 +122,9 @@ export async function POST(req: NextRequest) {
       plan: plan,
       coupon: coupon || "",
     };
+    if (ref) {
+      metadata.ref = ref;
+    }
     if (isAuthenticated) {
       metadata.userId = session.user.id;
     } else {
@@ -128,8 +132,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Success URL: guests go to /register, authenticated users go to /dashboard
+    const refParam = ref ? `&ref=${encodeURIComponent(ref)}` : "";
     const successUrl = guest
-      ? `${origin}/register?checkout_success=true&plan=${plan}`
+      ? `${origin}/register?checkout_success=true&plan=${plan}${refParam}`
       : `${origin}/dashboard?checkout=success&plan=${plan}`;
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 

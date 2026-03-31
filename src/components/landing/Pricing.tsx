@@ -179,11 +179,14 @@ export default function Pricing() {
   async function handleCheckout(slug: string) {
     setLoading(slug);
     try {
+      // Read referral code from localStorage (set by RefCapture or register page)
+      const ref = typeof window !== "undefined" ? localStorage.getItem("opexia-ref") || "" : "";
+
       // First try normal checkout (works if user is logged in)
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: slug }),
+        body: JSON.stringify({ plan: slug, ...(ref ? { ref } : {}) }),
       });
 
       if (res.status === 401) {
@@ -191,7 +194,7 @@ export default function Pricing() {
         const guestRes = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ plan: slug, guest: true }),
+          body: JSON.stringify({ plan: slug, guest: true, ...(ref ? { ref } : {}) }),
         });
         const guestData = await guestRes.json();
         if (!guestRes.ok) {

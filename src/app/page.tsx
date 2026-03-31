@@ -19,6 +19,7 @@ import Footer from "@/components/landing/Footer";
 import Chatbot from "@/components/landing/Chatbot";
 import SaleNotification from "@/components/landing/SaleNotification";
 import StickyFloatingCTA from "@/components/landing/StickyFloatingCTA";
+import RefCapture from "@/components/landing/RefCapture";
 
 export const metadata: Metadata = {
   title: "OpexIA Academy — Lance ton agence IA et genere 10K€/mois",
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <RefCapture />
       <Navbar />
       <Hero />
       <LogosBar />

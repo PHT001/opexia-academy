@@ -36,8 +36,10 @@ function EyeIcon({ open }: { open: boolean }) {
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const refCode = searchParams.get("ref") || "";
+  const refFromUrl = searchParams.get("ref") || "";
   const checkoutSuccess = searchParams.get("checkout_success") === "true";
+  // Check URL first, then localStorage (set by RefCapture on landing page)
+  const refCode = refFromUrl || (typeof window !== "undefined" ? localStorage.getItem("opexia-ref") || "" : "");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -82,6 +84,11 @@ function RegisterForm() {
         setError(data.error || "Erreur lors de l'inscription");
         setLoading(false);
         return;
+      }
+
+      // Clear referral code from localStorage after successful registration
+      if (refCode) {
+        localStorage.removeItem("opexia-ref");
       }
 
       await signIn("credentials", { email, password, redirect: false });
