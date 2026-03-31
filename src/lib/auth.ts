@@ -35,7 +35,7 @@ providers.push(
       const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
       if (!passwordMatch) return null;
 
-      if (!user.emailVerified) return null;
+      if (!user.emailVerified && user.role !== "admin") return null;
 
       return {
         id: user.id,

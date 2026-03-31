@@ -196,6 +196,7 @@ export type EnrollmentOrderByWithRelationInput = {
 
 export type EnrollmentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  userId_tier?: Prisma.EnrollmentUserIdTierCompoundUniqueInput
   AND?: Prisma.EnrollmentWhereInput | Prisma.EnrollmentWhereInput[]
   OR?: Prisma.EnrollmentWhereInput[]
   NOT?: Prisma.EnrollmentWhereInput | Prisma.EnrollmentWhereInput[]
@@ -204,7 +205,7 @@ export type EnrollmentWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"Enrollment"> | string
   createdAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id">
+}, "id" | "userId_tier">
 
 export type EnrollmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -291,6 +292,11 @@ export type EnrollmentListRelationFilter = {
 
 export type EnrollmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type EnrollmentUserIdTierCompoundUniqueInput = {
+  userId: string
+  tier: string
 }
 
 export type EnrollmentCountOrderByAggregateInput = {

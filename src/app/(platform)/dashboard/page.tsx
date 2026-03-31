@@ -1306,7 +1306,7 @@ const adminFadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0
 const adminStagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
 
 function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTestOnboarding, userTier }: { stats: AdminStats | null; loading: boolean; projects: Project[]; onProjectUpdate: (id: string, status: string, feedback: string) => Promise<void>; onTestOnboarding?: () => void; userTier?: string }) {
-  const [adminTab, setAdminTab] = useState<"overview" | "students" | "projects">("overview");
+  const [adminTab, setAdminTab] = useState<"overview" | "students" | "projects" | "referrals">("overview");
 
   if (loading) {
     return (
@@ -1459,12 +1459,30 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
             Projets
           </span>
         </button>
+        <button
+          onClick={() => setAdminTab("referrals")}
+          className={cn(
+            "px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+            adminTab === "referrals"
+              ? "bg-white text-[#111] shadow-sm ring-1 ring-black/5"
+              : "text-gray-500 hover:text-[#111] hover:bg-white/50"
+          )}
+        >
+          <span className="flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
+            Parrainages
+          </span>
+        </button>
       </motion.div>
 
       {adminTab === "overview" ? (
         <AdminOverviewTab stats={stats} totalTier={totalTier} tierData={tierData} />
       ) : adminTab === "students" ? (
         <AdminStudentsTab />
+      ) : adminTab === "referrals" ? (
+        <AdminReferralsTab />
       ) : (
         <AdminProjectsTab projects={projects} onUpdate={onProjectUpdate} />
       )}
@@ -2594,5 +2612,221 @@ function AdminProjectCard({ project, index, updating, onUpdate }: {
         </motion.div>
       )}
     </motion.div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════ */
+/*  Admin Referrals Tab                                                   */
+/* ══════════════════════════════════════════════════════════════════════ */
+
+interface AdminReferralEntry {
+  id: string;
+  referrer: { name: string; email: string; code: string };
+  referred: { name: string; email: string };
+  tier: string | null;
+  commission: number;
+  status: string;
+  createdAt: string;
+  paidAt: string | null;
+}
+
+interface AdminReferrerStat {
+  id: string;
+  name: string;
+  email: string;
+  referralCode: string;
+  totalReferrals: number;
+  confirmedReferrals: number;
+  totalCommission: number;
+  paidCommission: number;
+  unpaidCommission: number;
+}
+
+const REF_TIER_LABELS: Record<string, string> = { starter: "Starter", academy: "Academy", one_to_one: "One-to-One" };
+const REF_STATUS: Record<string, { label: string; color: string }> = {
+  pending: { label: "En attente", color: "bg-amber-100 text-amber-700" },
+  confirmed: { label: "\u00c0 payer", color: "bg-blue-100 text-blue-700" },
+  paid: { label: "Pay\u00e9", color: "bg-emerald-100 text-emerald-700" },
+};
+
+function AdminReferralsTab() {
+  const [referrals, setReferrals] = useState<AdminReferralEntry[]>([]);
+  const [referrerStats, setReferrerStats] = useState<AdminReferrerStat[]>([]);
+  const [rstats, setRstats] = useState<{ totalReferrals: number; confirmedReferrals: number; unpaidCommission: number; paidCommission: number } | null>(null);
+  const [rloading, setRloading] = useState(true);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [marking, setMarking] = useState(false);
+
+  const fetchRefData = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/referrals");
+      const data = await res.json();
+      setRstats(data.stats);
+      setReferrerStats(data.referrerStats || []);
+      setReferrals(data.referrals || []);
+    } catch { /* ignore */ }
+    setRloading(false);
+  }, []);
+
+  useEffect(() => { fetchRefData(); }, [fetchRefData]);
+
+  async function markAsPaid() {
+    if (selectedIds.size === 0) return;
+    setMarking(true);
+    try {
+      await fetch("/api/admin/referrals", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ referralIds: Array.from(selectedIds), action: "mark_paid" }),
+      });
+      setSelectedIds(new Set());
+      await fetchRefData();
+    } catch { alert("Erreur"); }
+    setMarking(false);
+  }
+
+  if (rloading) {
+    return (
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => <div key={i} className="h-24 bg-gray-100 rounded-2xl animate-pulse" />)}
+        </div>
+        <div className="h-64 bg-gray-100 rounded-2xl animate-pulse" />
+      </div>
+    );
+  }
+
+  const unpaidReferrals = referrals.filter((r) => r.status === "confirmed");
+
+  return (
+    <div className="space-y-6">
+      {rstats && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-white rounded-2xl border border-gray-200 p-5">
+            <p className="text-xs text-gray-400 font-medium mb-1">Total parrainages</p>
+            <p className="text-2xl font-bold text-[#111]">{rstats.totalReferrals}</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-200 p-5">
+            <p className="text-xs text-gray-400 font-medium mb-1">Confirm&eacute;s</p>
+            <p className="text-2xl font-bold text-[#FF1744]">{rstats.confirmedReferrals}</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-200 p-5">
+            <p className="text-xs text-gray-400 font-medium mb-1">&Agrave; payer</p>
+            <p className={cn("text-2xl font-bold", rstats.unpaidCommission > 0 ? "text-amber-500" : "text-[#111]")}>{(rstats.unpaidCommission / 100).toFixed(0)}&euro;</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-200 p-5">
+            <p className="text-xs text-gray-400 font-medium mb-1">D&eacute;j&agrave; pay&eacute;</p>
+            <p className="text-2xl font-bold text-emerald-500">{(rstats.paidCommission / 100).toFixed(0)}&euro;</p>
+          </div>
+        </div>
+      )}
+
+      {referrerStats.length > 0 && (
+        <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div className="px-5 py-4 border-b border-gray-100">
+            <h3 className="text-sm font-bold text-[#111]">Parrains actifs</h3>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {referrerStats.map((r) => (
+              <div key={r.id} className="flex items-center gap-4 px-5 py-3">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  {r.name[0]?.toUpperCase() || "?"}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-[#111] truncate">{r.name}</p>
+                  <p className="text-xs text-gray-400">{r.email}</p>
+                </div>
+                <code className="text-[10px] bg-gray-100 px-2 py-1 rounded font-mono text-gray-500 hidden sm:block">{r.referralCode}</code>
+                <div className="text-center px-3">
+                  <p className="text-sm font-bold text-[#111]">{r.confirmedReferrals}</p>
+                  <p className="text-[10px] text-gray-400">filleuls</p>
+                </div>
+                <div className="text-right min-w-[70px]">
+                  {r.unpaidCommission > 0 ? (
+                    <p className="text-sm font-bold text-amber-500">{(r.unpaidCommission / 100).toFixed(0)}&euro; d&ucirc;</p>
+                  ) : r.paidCommission > 0 ? (
+                    <p className="text-sm font-medium text-emerald-500">{(r.paidCommission / 100).toFixed(0)}&euro; pay&eacute;</p>
+                  ) : (
+                    <p className="text-sm text-gray-300">&mdash;</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+          <h3 className="text-sm font-bold text-[#111]">D&eacute;tail des parrainages</h3>
+          {unpaidReferrals.length > 0 && (
+            <div className="flex items-center gap-2">
+              <button onClick={() => setSelectedIds(new Set(unpaidReferrals.map((r) => r.id)))} className="text-xs text-blue-500 hover:text-blue-700 font-medium">
+                Tout s&eacute;lectionner ({unpaidReferrals.length})
+              </button>
+              {selectedIds.size > 0 && (
+                <button onClick={markAsPaid} disabled={marking} className="text-xs bg-emerald-500 text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-emerald-600 disabled:opacity-50 transition-all">
+                  {marking ? "..." : `Marquer ${selectedIds.size} comme pay\u00e9`}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        {referrals.length === 0 ? (
+          <div className="p-12 text-center">
+            <p className="text-3xl mb-2">🤝</p>
+            <p className="text-sm text-gray-400">Aucun parrainage pour le moment.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-100">
+            {referrals.map((r) => {
+              const s = REF_STATUS[r.status] || REF_STATUS.pending;
+              return (
+                <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-colors">
+                  {r.status === "confirmed" ? (
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(r.id)}
+                      onChange={() => {
+                        setSelectedIds((prev) => {
+                          const next = new Set(prev);
+                          if (next.has(r.id)) next.delete(r.id);
+                          else next.add(r.id);
+                          return next;
+                        });
+                      }}
+                      className="rounded border-gray-300 accent-emerald-500"
+                    />
+                  ) : <div className="w-4" />}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-[#111]">
+                      <span className="font-semibold">{r.referrer.name}</span>
+                      <span className="text-gray-400 mx-1.5">&rarr;</span>
+                      <span className="font-medium">{r.referred.name}</span>
+                      <span className="text-xs text-gray-400 ml-1">({r.referred.email})</span>
+                    </p>
+                  </div>
+                  {r.tier && (
+                    <span className="text-[10px] font-semibold bg-gray-100 px-2 py-0.5 rounded hidden sm:block">
+                      {REF_TIER_LABELS[r.tier] || r.tier}
+                    </span>
+                  )}
+                  <span className="text-xs font-mono text-[#111] min-w-[50px] text-right">
+                    {r.commission > 0 ? `${(r.commission / 100).toFixed(0)}\u20ac` : "\u2014"}
+                  </span>
+                  <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full", s.color)}>
+                    {s.label}
+                  </span>
+                  <span className="text-[10px] text-gray-400 min-w-[60px] text-right hidden sm:block">
+                    {new Date(r.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
