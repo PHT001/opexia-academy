@@ -114,26 +114,29 @@ export default function ProfilePage() {
     <div className="max-w-3xl mx-auto w-full space-y-5 py-4">
 
       {/* ═══ Header ═══ */}
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="h-20 relative" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
-          <div className="absolute inset-0 overflow-hidden"><div className="absolute top-0 right-1/4 w-32 h-32 rounded-full bg-[#FF1744]/20 blur-[50px]" /></div>
-        </div>
-        <div className="px-6 pb-5 -mt-8 relative">
-          <div className="flex items-end gap-3 sm:gap-4">
-            <label className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-xl sm:text-2xl font-bold text-white shadow-lg ring-4 ring-white flex-shrink-0 cursor-pointer group overflow-hidden">
-              {profilePhoto ? (
-                <img src={profilePhoto} alt="Photo" className="absolute inset-0 w-full h-full object-cover" />
-              ) : (
-                session?.user?.name?.[0]?.toUpperCase() || "?"
-              )}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3" /></svg>
-              </div>
-              <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-            </label>
-            <div className="flex-1 min-w-0 pt-8">
-              <h1 className="text-base sm:text-lg font-bold text-[#111] truncate">{session?.user?.name || "\u00c9l\u00e8ve"}</h1>
-              <p className="text-xs text-gray-400">{session?.user?.email}</p>
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+        <div className="flex items-center gap-4">
+          <label className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-xl font-bold text-white shadow-lg flex-shrink-0 cursor-pointer group overflow-hidden">
+            {profilePhoto ? (
+              <img src={profilePhoto} alt="Photo" className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              session?.user?.name?.[0]?.toUpperCase() || "?"
+            )}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3" /></svg>
+            </div>
+            <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+          </label>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg font-bold text-[#111] truncate">{session?.user?.name || "\u00c9l\u00e8ve"}</h1>
+            <p className="text-xs text-gray-400 mt-0.5">{session?.user?.email}</p>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#FF1744]/10 text-[#FF1744]">
+                {stats.tier === "one_to_one" ? "One-to-One" : stats.tier === "academy" ? "Academy" : stats.tier === "starter" ? "Starter" : "Free"}
+              </span>
+              <span className="text-[10px] text-gray-400">
+                Membre depuis {stats.memberSince || new Date().toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}
+              </span>
             </div>
           </div>
         </div>
@@ -141,24 +144,26 @@ export default function ProfilePage() {
 
       {/* ═══ Progression ═══ */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-        <h3 className="text-sm font-bold text-[#111] mb-4">Progression</h3>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-gray-500">Niveau {level}</span>
-          <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">{xpInLevel}/500 XP</span>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-bold text-[#111]">Progression</h3>
+          <span className="text-[10px] font-bold text-gray-400">Niveau {level}</span>
         </div>
-        <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-4">
-          <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
+          </div>
+          <span className="text-[10px] font-mono text-gray-400 flex-shrink-0">{xpInLevel}/500</span>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="flex items-center justify-between">
           {[
-            { label: "XP", value: stats.xp.toLocaleString(), color: "text-amber-500" },
-            { label: "Streak", value: `${stats.streak}j`, color: "text-orange-500" },
-            { label: "Le\u00e7ons", value: String(stats.lessonsCompleted), color: "text-blue-500" },
-            { label: "Quiz", value: String(stats.quizzesPassed), color: "text-emerald-500" },
+            { label: "XP", value: stats.xp.toLocaleString(), color: "#FF1744" },
+            { label: "Streak", value: `${stats.streak}j`, color: "#F59E0B" },
+            { label: "Le\u00e7ons", value: String(stats.lessonsCompleted), color: "#3B82F6" },
+            { label: "Quiz", value: String(stats.quizzesPassed), color: "#10B981" },
           ].map((s) => (
-            <div key={s.label} className="text-center py-3 rounded-xl bg-gray-50">
-              <p className={`text-lg font-black ${s.color}`}>{s.value}</p>
-              <p className="text-[9px] text-gray-400 font-semibold uppercase tracking-wider mt-0.5">{s.label}</p>
+            <div key={s.label} className="text-center">
+              <p className="text-lg font-bold" style={{ color: s.color }}>{s.value}</p>
+              <p className="text-[9px] text-gray-400 font-medium uppercase tracking-wider">{s.label}</p>
             </div>
           ))}
         </div>
@@ -168,15 +173,15 @@ export default function ProfilePage() {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
         <h3 className="text-sm font-bold text-[#111] mb-4">Badges</h3>
         {badgesLoading ? (
-          <div className="flex flex-wrap gap-3">{Array.from({ length: 6 }).map((_, i) => <div key={i} className="w-12 h-12 rounded-xl bg-gray-100 animate-pulse" />)}</div>
+          <div className="flex gap-3">{Array.from({ length: 6 }).map((_, i) => <div key={i} className="w-10 h-10 rounded-full bg-gray-100 animate-pulse" />)}</div>
         ) : (
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+          <div className="flex flex-wrap gap-2">
             {BADGE_DEFS.map((badge) => {
               const unlocked = badge.check({ lessonsCompleted: stats.lessonsCompleted, quizzesPassed: stats.quizzesPassed, streak: stats.streak, totalLessons: stats.totalLessons, modulesCompleted: stats.modulesCompleted, totalModules: stats.totalModules });
               return (
-                <div key={badge.name} className={`flex flex-col items-center gap-1.5 p-3 rounded-xl ${unlocked ? "bg-amber-50 border border-amber-200" : "bg-gray-50 border border-dashed border-gray-200 opacity-40"}`}>
-                  <span className="text-xl">{badge.icon}</span>
-                  <span className="text-[9px] font-semibold text-gray-500 text-center leading-tight">{badge.name}</span>
+                <div key={badge.name} title={`${badge.name} — ${badge.desc}`} className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-medium transition-all ${unlocked ? "bg-[#111] text-white" : "bg-gray-100 text-gray-300"}`}>
+                  <span className="text-sm">{badge.icon}</span>
+                  <span>{badge.name}</span>
                 </div>
               );
             })}
@@ -202,8 +207,8 @@ export default function ProfilePage() {
             <input type="email" value={session?.user?.email || ""} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-400 cursor-not-allowed" />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">Membre depuis</label>
-            <p className="text-sm text-gray-700 font-medium">{stats.memberSince || new Date().toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}</p>
+            <label className="block text-xs font-medium text-gray-500 mb-1.5">Abonnement</label>
+            <p className="text-sm text-gray-700 font-medium">{stats.tier === "one_to_one" ? "One-to-One" : stats.tier === "academy" ? "Academy" : stats.tier === "starter" ? "Starter" : "Gratuit"}</p>
           </div>
         </div>
       </motion.div>
