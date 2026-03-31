@@ -290,6 +290,9 @@ export async function POST(req: NextRequest) {
                 status: "pending",
               },
             });
+            console.log(`Referral created from Stripe metadata: ${session.metadata.ref} -> ${userId}`);
+          } else if (!referrer) {
+            console.warn(`Referral code from Stripe metadata not found: ${session.metadata.ref}`);
           }
         }
 
@@ -305,6 +308,9 @@ export async function POST(req: NextRequest) {
                 status: "confirmed",
               },
             });
+            console.log(`Referral confirmed: ${pendingReferral.id}, tier=${tier}, commission=${commission}`);
+          } else {
+            console.warn(`Referral ${pendingReferral.id}: no commission for tier "${tier}"`);
           }
         }
       } catch (referralError) {
