@@ -101,13 +101,20 @@ function CalendlyPicker({
   onSelect,
   onConfirm,
   booking,
+  tier,
+  topic,
+  onTopicChange,
 }: {
   slots: Slot[];
   selectedSlot: string | null;
   onSelect: (date: string) => void;
   onConfirm: () => void;
   booking: boolean;
+  tier?: string;
+  topic: string;
+  onTopicChange: (v: string) => void;
 }) {
+  const isOneToOne = tier === "one_to_one";
   const slotsByDate = useMemo(() => {
     const map: Record<string, Slot[]> = {};
     for (const s of slots) {
@@ -225,14 +232,26 @@ function CalendlyPicker({
             </div>
           </div>
 
+          {/* Topic field */}
+          <div className="px-6 sm:px-8 pt-5 pb-0">
+            <label className="block text-xs font-semibold text-gray-700 mb-1.5">De quoi veux-tu parler ?</label>
+            <textarea
+              value={topic}
+              onChange={(e) => onTopicChange(e.target.value)}
+              placeholder="Ex: Review de mon projet, questions sur le pricing, architecture technique..."
+              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all resize-none"
+              rows={3}
+            />
+          </div>
+
           {/* Confirm action */}
           <div className="p-6 sm:p-8 bg-gray-50/50">
             <button
-              disabled={booking}
+              disabled={booking || !topic.trim()}
               onClick={onConfirm}
               className={cn(
                 "w-full py-4 rounded-xl font-bold text-sm transition-all text-center",
-                !booking
+                !booking && topic.trim()
                   ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               )}
@@ -240,14 +259,19 @@ function CalendlyPicker({
               {booking ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
-                  Redirection vers le paiement...
+                  {isOneToOne ? "Réservation en cours..." : "Redirection vers le paiement..."}
                 </span>
+              ) : isOneToOne ? (
+                "Réserver ma session (inclus)"
               ) : (
                 `Réserver & Payer — ${COACHING_PRICE_DISPLAY}€`
               )}
             </button>
             <p className="text-xs text-gray-400 text-center mt-3">
-              Paiement sécurisé par Stripe. Tu peux annuler jusqu'à 24h avant.
+              {isOneToOne
+                ? "Session incluse dans ton forfait One-to-One. Tu peux annuler jusqu'à 24h avant."
+                : "Paiement sécurisé par Stripe. Tu peux annuler jusqu'à 24h avant."
+              }
             </p>
           </div>
         </div>
@@ -437,6 +461,7 @@ function CoachingContent() {
   const [booking, setBooking] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [userTier, setUserTier] = useState<string>("free");
+  const [coachingTopic, setCoachingTopic] = useState("");
 
   useEffect(() => {
     if (searchParams.get("success") === "true") {
@@ -468,12 +493,13 @@ function CoachingContent() {
         const res = await fetch("/api/coaching/book", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slot: selectedSlot }),
+          body: JSON.stringify({ slot: selectedSlot, topic: coachingTopic }),
         });
         const data = await res.json();
         if (res.ok) {
           setSuccessMessage("Session réservée avec succès ! Tu recevras un email de confirmation.");
           setSelectedSlot(null);
+          setCoachingTopic("");
           // Refresh sessions
           const refreshRes = await fetch("/api/coaching/slots");
           const refreshData = await refreshRes.json();
@@ -486,7 +512,7 @@ function CoachingContent() {
         const res = await fetch("/api/coaching/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slot: selectedSlot }),
+          body: JSON.stringify({ slot: selectedSlot, topic: coachingTopic }),
         });
         const data = await res.json();
         if (data.url) {
@@ -718,6 +744,9 @@ function CoachingContent() {
           onSelect={(date) => setSelectedSlot(date || null)}
           onConfirm={handleBooking}
           booking={booking}
+          tier={effectiveTier}
+          topic={coachingTopic}
+          onTopicChange={setCoachingTopic}
         />
       </motion.div>
 

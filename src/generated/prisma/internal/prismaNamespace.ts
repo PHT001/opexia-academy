@@ -1701,6 +1701,7 @@ export const CoachingSessionScalarFieldEnum = {
   stripeSessionId: 'stripeSessionId',
   stripePaymentId: 'stripePaymentId',
   amount: 'amount',
+  topic: 'topic',
   createdAt: 'createdAt'
 } as const
 

@@ -160,6 +160,7 @@ model CoachingSession {
   stripeSessionId String?
   stripePaymentId String?
   amount          Int      @default(7000)
+  topic           String?
   createdAt       DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])

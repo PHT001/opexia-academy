@@ -32,7 +32,7 @@ interface CommunityData {
 const TIER_BADGES: Record<string, { label: string; color: string; bg: string }> = {
   starter: { label: "Starter", color: "text-emerald-600", bg: "bg-emerald-50" },
   academy: { label: "Academy", color: "text-blue-600", bg: "bg-blue-50" },
-  one_to_one: { label: "1-to-1", color: "text-amber-600", bg: "bg-amber-50" },
+  one_to_one: { label: "1-to-1", color: "text-[#FF1744]", bg: "bg-red-50" },
   free: { label: "Free", color: "text-gray-500", bg: "bg-gray-50" },
 };
 

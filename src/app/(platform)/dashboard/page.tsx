@@ -1254,7 +1254,7 @@ function DashboardContent() {
 const adminTierConfig: Record<string, { label: string; color: string; bg: string; bar: string; border: string; dot: string }> = {
   starter:    { label: "Starter",  color: "text-emerald-700", bg: "bg-emerald-50",  bar: "bg-emerald-500", border: "border-emerald-200", dot: "bg-emerald-500" },
   academy:    { label: "Academy",  color: "text-blue-700",    bg: "bg-blue-50",     bar: "bg-blue-500",    border: "border-blue-200",    dot: "bg-blue-500" },
-  one_to_one: { label: "1-to-1",   color: "text-amber-700",   bg: "bg-amber-50",    bar: "bg-amber-500",   border: "border-amber-200",   dot: "bg-amber-500" },
+  one_to_one: { label: "1-to-1",   color: "text-[#FF1744]",   bg: "bg-red-50",      bar: "bg-[#FF1744]",   border: "border-red-200",     dot: "bg-[#FF1744]" },
 };
 
 function formatEuro(n: number) {

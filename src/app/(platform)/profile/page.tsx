@@ -4,21 +4,11 @@ import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-interface BadgeCheckInput { lessonsCompleted: number; quizzesPassed: number; streak: number; totalLessons: number; modulesCompleted: number; totalModules: number; }
-
-const BADGE_DEFS: { icon: string; name: string; desc: string; check: (s: BadgeCheckInput) => boolean }[] = [
-  { icon: "\u{1F3AF}", name: "Premier pas", desc: "Premi\u00e8re le\u00e7on compl\u00e9t\u00e9e", check: (s) => s.lessonsCompleted >= 1 },
-  { icon: "\u{1F9E0}", name: "Fondations IA", desc: "Module 1 termin\u00e9", check: (s) => s.modulesCompleted >= 1 },
-  { icon: "\u{1F525}", name: "Semaine de feu", desc: "7 jours de streak", check: (s) => s.streak >= 7 },
-  { icon: "\u26A1", name: "Mi-parcours", desc: "50% des le\u00e7ons", check: (s) => s.totalLessons > 0 && s.lessonsCompleted >= Math.ceil(s.totalLessons / 2) },
-  { icon: "\u{1F3C6}", name: "Quiz Master", desc: "5 quiz valid\u00e9s", check: (s) => s.quizzesPassed >= 5 },
-  { icon: "\u{1F393}", name: "Dipl\u00f4me", desc: "Formation compl\u00e8te", check: (s) => s.totalModules > 0 && s.modulesCompleted >= s.totalModules },
-];
 
 export default function ProfilePage() {
   const { data: session } = useSession();
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter", lessonsCompleted: 0, quizzesPassed: 0, memberSince: "", totalLessons: 0, modulesCompleted: 0, totalModules: 0 });
-  const [badgesLoading, setBadgesLoading] = useState(true);
+
 
   // Name edit
   const [nameInput, setNameInput] = useState("");
@@ -55,8 +45,7 @@ export default function ProfilePage() {
           setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "starter", lessonsCompleted: data.completedLessons || 0, quizzesPassed: data.quizzesCompleted || 0, memberSince: data.memberSince || "", totalLessons: data.totalLessons || 0, modulesCompleted, totalModules: mods.length });
         }
       })
-      .catch(() => {})
-      .finally(() => setBadgesLoading(false));
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -169,25 +158,6 @@ export default function ProfilePage() {
         </div>
       </motion.div>
 
-      {/* ═══ Badges ═══ */}
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-        <h3 className="text-sm font-bold text-[#111] mb-4">Badges</h3>
-        {badgesLoading ? (
-          <div className="flex gap-3">{Array.from({ length: 6 }).map((_, i) => <div key={i} className="w-10 h-10 rounded-full bg-gray-100 animate-pulse" />)}</div>
-        ) : (
-          <div className="flex flex-wrap gap-2">
-            {BADGE_DEFS.map((badge) => {
-              const unlocked = badge.check({ lessonsCompleted: stats.lessonsCompleted, quizzesPassed: stats.quizzesPassed, streak: stats.streak, totalLessons: stats.totalLessons, modulesCompleted: stats.modulesCompleted, totalModules: stats.totalModules });
-              return (
-                <div key={badge.name} title={`${badge.name} — ${badge.desc}`} className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-medium transition-all ${unlocked ? "bg-[#111] text-white" : "bg-gray-100 text-gray-300"}`}>
-                  <span className="text-sm">{badge.icon}</span>
-                  <span>{badge.name}</span>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </motion.div>
 
       {/* ═══ Informations personnelles ═══ */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">

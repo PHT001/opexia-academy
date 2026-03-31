@@ -471,6 +471,18 @@ function AdminNotificationBell() {
 export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, open, onClose, previewTier, onPreviewTierChange }: SidebarProps) {
   const pathname = usePathname();
   const [lockedItem, setLockedItem] = useState<NavItem | null>(null);
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("opexia-profile-photo");
+    if (saved) setProfilePhoto(saved);
+    // Listen for changes from profile page
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "opexia-profile-photo") setProfilePhoto(e.newValue);
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   const level = Math.floor(xp / 500) + 1;
   const xpInLevel = xp % 500;
@@ -788,8 +800,12 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
         {/* User section */}
         <div className="p-3 border-t border-white/[0.06] shrink-0">
           <div className="flex items-center gap-3 px-2 py-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF1744]/20 to-[#FF1744]/5 flex items-center justify-center text-[11px] font-bold text-white ring-1 ring-[#FF1744]/15">
-              {userName?.[0]?.toUpperCase() || "?"}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF1744]/20 to-[#FF1744]/5 flex items-center justify-center text-[11px] font-bold text-white ring-1 ring-[#FF1744]/15 overflow-hidden flex-shrink-0">
+              {profilePhoto ? (
+                <img src={profilePhoto} alt="" className="w-full h-full object-cover" />
+              ) : (
+                userName?.[0]?.toUpperCase() || "?"
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-medium text-white/80 truncate">{userName || "Élève"}</p>

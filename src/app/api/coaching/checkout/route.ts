@@ -17,12 +17,12 @@ export async function POST(req: NextRequest) {
     orderBy: { createdAt: "desc" },
   });
   const userTier = enrollment?.tier || "free";
-  if (userTier !== "academy" && userTier !== "one_to_one" && session.user.role !== "admin") {
-    return NextResponse.json({ error: "Coaching reserve aux membres Academy et One-to-One" }, { status: 403 });
+  if (userTier === "free" && session.user.role !== "admin") {
+    return NextResponse.json({ error: "Coaching reserve aux membres avec un abonnement actif" }, { status: 403 });
   }
 
   try {
-    const { slot } = await req.json();
+    const { slot, topic } = await req.json();
     if (!slot) {
       return NextResponse.json({ error: "Creneau manquant" }, { status: 400 });
     }
@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
         slot,
         status: "pending",
         amount: COACHING_PRICE,
+        topic: topic || null,
       },
     });
 

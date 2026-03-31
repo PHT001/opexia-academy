@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { slot } = await req.json();
+    const { slot, topic } = await req.json();
     if (!slot) {
       return NextResponse.json({ error: "Creneau manquant" }, { status: 400 });
     }
@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
         slot,
         status: "confirmed",
         amount: 0,
+        topic: topic || null,
       },
     });
 

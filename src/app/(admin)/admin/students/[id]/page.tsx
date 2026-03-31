@@ -73,7 +73,7 @@ const EMAIL_TYPE_BADGE: Record<string, { bg: string; text: string; label: string
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string; avatar: string }> = {
   starter: { bg: "bg-emerald-500/20", text: "text-emerald-400", label: "Starter", avatar: "bg-emerald-500/30 text-emerald-300" },
   academy: { bg: "bg-blue-500/20", text: "text-blue-400", label: "Academy", avatar: "bg-blue-500/30 text-blue-300" },
-  one_to_one: { bg: "bg-amber-500/20", text: "text-amber-400", label: "One-to-One", avatar: "bg-amber-500/30 text-amber-300" },
+  one_to_one: { bg: "bg-[#FF1744]/20", text: "text-[#FF1744]", label: "One-to-One", avatar: "bg-[#FF1744]/30 text-[#FF1744]" },
 };
 
 export default function StudentDetailPage() {

@@ -29,7 +29,7 @@ interface StudentsResponse {
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string }> = {
   starter: { bg: "bg-emerald-500/20", text: "text-emerald-400", label: "Starter" },
   academy: { bg: "bg-blue-500/20", text: "text-blue-400", label: "Academy" },
-  one_to_one: { bg: "bg-amber-500/20", text: "text-amber-400", label: "One-to-One" },
+  one_to_one: { bg: "bg-[#FF1744]/20", text: "text-[#FF1744]", label: "One-to-One" },
 };
 
 const SORT_OPTIONS = [
