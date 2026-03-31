@@ -17,7 +17,7 @@ export default function WhatsAppWidget() {
   const isLandingPage = pathname === "/" || pathname === "/blog" || pathname?.startsWith("/blog/");
 
   // Hide for paid users — only show for free tier and unauthenticated visitors
-  const userTier = (session?.user as { tier?: string })?.tier;
+  const userTier = session?.user?.tier;
   const isPaidUser = userTier && userTier !== "free";
 
   useEffect(() => {

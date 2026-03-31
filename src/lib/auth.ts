@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
         token.createdAt = (user as any).createdAt as string;
       }
 
-      // Verify user still exists in DB (admin may have deleted them)
+      // Verify user still exists in DB and refresh tier
       if (token.sub) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.sub },
@@ -103,6 +103,14 @@ export const authOptions: NextAuthOptions = {
           return { ...token, id: "", role: "", sub: "" };
         }
         token.emailVerified = dbUser.emailVerified;
+
+        // Refresh tier from active enrollment
+        const enrollment = await prisma.enrollment.findFirst({
+          where: { userId: token.sub, status: "active" },
+          orderBy: { createdAt: "desc" },
+          select: { tier: true },
+        });
+        token.tier = enrollment?.tier || "free";
       }
 
       return token;
@@ -117,6 +125,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role;
         session.user.emailVerified = token.emailVerified as boolean;
         session.user.createdAt = token.createdAt as string;
+        session.user.tier = token.tier as string;
       }
       return session;
     },

@@ -9,6 +9,7 @@ declare module "next-auth" {
       role: string;
       emailVerified: boolean;
       createdAt?: string;
+      tier?: string;
     };
   }
 
@@ -26,5 +27,6 @@ declare module "next-auth/jwt" {
     id: string;
     role: string;
     emailVerified?: boolean;
+    tier?: string;
   }
 }
