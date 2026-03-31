@@ -10,6 +10,7 @@ const adminNav = [
   { href: "/admin/students", label: "Élèves", icon: "👥" },
   { href: "/admin/lessons", label: "Leçons", icon: "📚" },
   { href: "/admin/quizzes", label: "Quiz", icon: "📝" },
+  { href: "/admin/referrals", label: "Parrainages", icon: "🤝" },
   { href: "/admin/emails", label: "Emails", icon: "📧" },
   { href: "/admin/analytics", label: "Analytics", icon: "📈" },
 ];
