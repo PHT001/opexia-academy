@@ -607,65 +607,68 @@ export default function PipelinePage() {
       )}
 
       {/* ─── Toolbar ────────────────────────────────── */}
-      <div className={cn("flex items-center gap-2 sm:gap-3 flex-wrap", isLocked && "pointer-events-none opacity-50")}>
-        {/* Search */}
-        <div className="relative flex-1 min-w-[200px] max-w-xs">
+      <div className={cn("space-y-3", isLocked && "pointer-events-none opacity-50")}>
+        {/* Search — full width on mobile */}
+        <div className="relative w-full">
           <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un deal..."
-            className="w-full pl-9 pr-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+            className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
           />
         </div>
 
-        {/* Priority filter */}
-        <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-0.5">
-          <button onClick={() => setFilterPriority("all")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors", filterPriority === "all" ? "bg-gray-900 text-white" : "text-gray-500 hover:text-gray-700")}>
-            Tous
-          </button>
-          <button onClick={() => setFilterPriority("high")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors", filterPriority === "high" ? "bg-red-500 text-white" : "text-gray-500 hover:text-gray-700")}>
-            🔴 Haute
-          </button>
-          <button onClick={() => setFilterPriority("medium")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors", filterPriority === "medium" ? "bg-amber-500 text-white" : "text-gray-500 hover:text-gray-700")}>
-            🟡 Moyenne
-          </button>
-          <button onClick={() => setFilterPriority("low")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors", filterPriority === "low" ? "bg-blue-500 text-white" : "text-gray-500 hover:text-gray-700")}>
-            🔵 Basse
+        {/* Filters row — horizontal scroll on mobile */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-hide">
+          {/* Priority filter */}
+          <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-0.5 flex-shrink-0">
+            <button onClick={() => setFilterPriority("all")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors whitespace-nowrap", filterPriority === "all" ? "bg-gray-900 text-white" : "text-gray-500 hover:text-gray-700")}>
+              Tous
+            </button>
+            <button onClick={() => setFilterPriority("high")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors whitespace-nowrap", filterPriority === "high" ? "bg-red-500 text-white" : "text-gray-500 hover:text-gray-700")}>
+              🔴
+            </button>
+            <button onClick={() => setFilterPriority("medium")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors whitespace-nowrap", filterPriority === "medium" ? "bg-amber-500 text-white" : "text-gray-500 hover:text-gray-700")}>
+              🟡
+            </button>
+            <button onClick={() => setFilterPriority("low")} className={cn("px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-colors whitespace-nowrap", filterPriority === "low" ? "bg-blue-500 text-white" : "text-gray-500 hover:text-gray-700")}>
+              🔵
+            </button>
+          </div>
+
+          {/* Sort */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as "date" | "value" | "name")}
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-[10px] font-medium text-gray-600 focus:outline-none focus:border-[#FF1744] flex-shrink-0"
+          >
+            <option value="date">Date</option>
+            <option value="value">Montant</option>
+            <option value="name">Nom</option>
+          </select>
+
+          {/* View mode */}
+          <div className="flex items-center gap-0.5 bg-white border border-gray-200 rounded-lg p-0.5 flex-shrink-0">
+            <button onClick={() => setViewMode("kanban")} className={cn("p-1.5 rounded-md transition-colors", viewMode === "kanban" ? "bg-gray-900 text-white" : "text-gray-400 hover:text-gray-700")}>
+              <IconGrid />
+            </button>
+            <button onClick={() => setViewMode("list")} className={cn("p-1.5 rounded-md transition-colors", viewMode === "list" ? "bg-gray-900 text-white" : "text-gray-400 hover:text-gray-700")}>
+              <IconList />
+            </button>
+          </div>
+
+          {/* Toggle lost */}
+          <button
+            onClick={() => setShowLost(!showLost)}
+            className={cn("text-[10px] font-medium px-3 py-2 rounded-lg transition-colors border whitespace-nowrap flex-shrink-0",
+              showLost ? "bg-red-50 text-red-600 border-red-200" : "bg-white text-gray-500 border-gray-200 hover:text-gray-700"
+            )}
+          >
+            {showLost ? "Masquer" : "Perdus"} ({lostDeals.length})
           </button>
         </div>
-
-        {/* Sort */}
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as "date" | "value" | "name")}
-          className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-[10px] font-medium text-gray-600 focus:outline-none focus:border-[#FF1744]"
-        >
-          <option value="date">Trier par date</option>
-          <option value="value">Trier par montant</option>
-          <option value="name">Trier par nom</option>
-        </select>
-
-        {/* View mode */}
-        <div className="flex items-center gap-0.5 bg-white border border-gray-200 rounded-lg p-0.5">
-          <button onClick={() => setViewMode("kanban")} className={cn("p-1.5 rounded-md transition-colors", viewMode === "kanban" ? "bg-gray-900 text-white" : "text-gray-400 hover:text-gray-700")}>
-            <IconGrid />
-          </button>
-          <button onClick={() => setViewMode("list")} className={cn("p-1.5 rounded-md transition-colors", viewMode === "list" ? "bg-gray-900 text-white" : "text-gray-400 hover:text-gray-700")}>
-            <IconList />
-          </button>
-        </div>
-
-        {/* Toggle lost */}
-        <button
-          onClick={() => setShowLost(!showLost)}
-          className={cn("text-[10px] font-medium px-3 py-2 rounded-lg transition-colors border",
-            showLost ? "bg-red-50 text-red-600 border-red-200" : "bg-white text-gray-500 border-gray-200 hover:text-gray-700"
-          )}
-        >
-          {showLost ? "Masquer perdus" : "Afficher perdus"} ({lostDeals.length})
-        </button>
       </div>
 
       {/* ─── Kanban View ────────────────────────────── */}

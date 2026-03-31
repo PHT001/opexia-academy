@@ -187,7 +187,7 @@ export default function GenerateurPage() {
         {isLocked && (
           <div className="absolute inset-0 z-10 pointer-events-none" />
         )}
-        <div className={cn("p-6 space-y-6", isLocked && "pointer-events-none opacity-60")}>
+        <div className={cn("p-4 sm:p-6 space-y-5 sm:space-y-6", isLocked && "pointer-events-none opacity-60")}>
           {/* ── Step 1: Type de contenu ── */}
           <div>
             <label className="flex items-center gap-2 mb-3">
@@ -198,7 +198,7 @@ export default function GenerateurPage() {
                 Type de contenu
               </span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-3">
               {TYPES.map((t) => {
                 const active = type === t.value;
                 return (
@@ -206,7 +206,7 @@ export default function GenerateurPage() {
                     key={t.value}
                     onClick={() => setType(active ? "" : t.value)}
                     className={cn(
-                      "flex flex-col items-start gap-2 p-4 rounded-xl border text-left transition-all",
+                      "flex flex-col items-center sm:items-start gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-xl border text-center sm:text-left transition-all",
                       active
                         ? "border-[#FF1744] bg-[#FF1744]/5 shadow-sm"
                         : "border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300"
@@ -214,12 +214,12 @@ export default function GenerateurPage() {
                   >
                     <div
                       className={cn(
-                        "w-9 h-9 rounded-lg flex items-center justify-center",
+                        "w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center",
                         active ? "bg-[#FF1744]/10" : "bg-gray-100"
                       )}
                     >
                       <svg
-                        className="w-4.5 h-4.5"
+                        className="w-4 h-4 sm:w-4.5 sm:h-4.5"
                         style={{ color: active ? "#FF1744" : "#6b7280" }}
                         viewBox="0 0 24 24"
                         fill="none"
@@ -234,13 +234,13 @@ export default function GenerateurPage() {
                     <div>
                       <p
                         className={cn(
-                          "text-xs font-semibold leading-tight mb-0.5",
+                          "text-[11px] sm:text-xs font-semibold leading-tight",
                           active ? "text-[#FF1744]" : "text-[#111]"
                         )}
                       >
                         {t.label}
                       </p>
-                      <p className="text-[10px] text-gray-400 leading-snug">
+                      <p className="text-[10px] text-gray-400 leading-snug hidden sm:block mt-0.5">
                         {t.desc}
                       </p>
                     </div>
@@ -294,7 +294,7 @@ export default function GenerateurPage() {
                       key={l.value}
                       onClick={() => setLength(l.value)}
                       className={cn(
-                        "px-3.5 py-1.5 rounded-full text-xs font-medium transition-all",
+                        "px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-medium transition-all",
                         length === l.value
                           ? "bg-[#111] text-white shadow-sm"
                           : "bg-gray-100 text-gray-500 hover:bg-gray-200"
@@ -303,7 +303,7 @@ export default function GenerateurPage() {
                       {l.label}
                       <span
                         className={cn(
-                          "ml-1 text-[9px]",
+                          "ml-1 text-[9px] hidden sm:inline",
                           length === l.value
                             ? "text-white/60"
                             : "text-gray-400"
