@@ -141,8 +141,8 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
           >
             <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
-              <span className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-600">
-                <span className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
+              <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-red-600">
+                <span className="h-2 w-2 rounded-full bg-red-600 animate-pulse" />
                 La comp&eacute;tence qui va valoir de l&apos;or en 2026
               </span>
             </div>
