@@ -98,7 +98,6 @@ export const DIFFICULTY_CONFIG = {
 /* ——— Phases structure (6 phases) ——— */
 
 export const WEEKS = [
-  { week: 0, title: "Découverte",               subtitle: "Le game IA, ton projet et ton premier hands-on avec Claude",      modules: [23, 24] },
   { week: 1, title: "Le cadre",                subtitle: "Comprendre l'IA et poser les bases",                              modules: [1, 2] },
   { week: 2, title: "Tes outils de travail",   subtitle: "Prompting, IDE IA et workflow développeur",                       modules: [3, 4, 5] },
   { week: 3, title: "Construire un site web",  subtitle: "Frontend, backend et déploiement",                                modules: [6, 7] },
