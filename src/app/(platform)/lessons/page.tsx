@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
@@ -395,8 +396,10 @@ function LessonReaderPanel({
    MAIN LESSONS PAGE
    ═══════════════════════════════════════════════════════ */
 export default function LessonsPage() {
+  const { data: session } = useSession();
+  const sessionTier = session?.user?.tier || "free";
   const [modules, setModules] = useState<ModuleGroup[]>([]);
-  const [userTier, setUserTier] = useState<string>("free");
+  const [userTier, setUserTier] = useState<string>(sessionTier);
   const [expandedModule, setExpandedModule] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -449,6 +452,13 @@ export default function LessonsPage() {
     window.addEventListener("preview-tier-change", handler);
     return () => window.removeEventListener("preview-tier-change", handler);
   }, []);
+
+  // Sync tier from session (instant, no flash)
+  useEffect(() => {
+    if (sessionTier && sessionTier !== "free") {
+      setUserTier((prev) => prev === "free" ? sessionTier : prev);
+    }
+  }, [sessionTier]);
 
   // Cleanup body overflow on unmount
   useEffect(() => {
