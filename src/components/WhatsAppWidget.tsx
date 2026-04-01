@@ -10,22 +10,34 @@ const WHATSAPP_URL = "https://wa.me/33787858036";
 export default function WhatsAppWidget() {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [hiddenByTier, setHiddenByTier] = useState(false);
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   // Hide on landing page (has its own chatbot) and marketing pages
   const isLandingPage = pathname === "/" || pathname === "/blog" || pathname?.startsWith("/blog/");
 
-  // Hide for paid users — only show for free tier and unauthenticated visitors
-  const userTier = session?.user?.tier;
-  const isPaidUser = userTier && userTier !== "free";
+  // Fetch tier directly from API — don't rely on JWT which may be stale
+  useEffect(() => {
+    if (status === "authenticated") {
+      fetch("/api/progress")
+        .then((r) => r.json())
+        .then((data) => {
+          const tier = data?.tier;
+          if (tier && tier !== "free") {
+            setHiddenByTier(true);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [status]);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLandingPage || isPaidUser) return null;
+  if (isLandingPage || hiddenByTier) return null;
 
   return (
     <AnimatePresence>
