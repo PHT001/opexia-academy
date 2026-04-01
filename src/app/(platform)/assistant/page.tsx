@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useTierGate } from "@/hooks/useTierGate";
 
@@ -160,8 +161,8 @@ export default function AssistantPage() {
           <div className="px-5 py-3.5 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
-                  <IconSparkles className="text-white w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm">
+                  <Image src="/images/chatbot-avatar.jpg" alt="Opexia AI" width={36} height={36} className="h-full w-full object-cover" />
                 </div>
                 <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-white" />
               </div>
@@ -197,19 +198,15 @@ export default function AssistantPage() {
                   )}
                 >
                   {/* Avatar */}
-                  <div className={cn(
-                    "w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5",
-                    msg.role === "assistant"
-                      ? "bg-gradient-to-br from-[#FF1744] to-[#D50000]"
-                      : "bg-gray-200"
-                  )}>
-                    <span className={cn(
-                      "text-[9px] font-bold",
-                      msg.role === "assistant" ? "text-white" : "text-gray-600"
-                    )}>
-                      {msg.role === "assistant" ? "AI" : "T"}
-                    </span>
-                  </div>
+                  {msg.role === "assistant" ? (
+                    <div className="w-7 h-7 rounded-lg overflow-hidden shrink-0 mt-0.5">
+                      <Image src="/images/chatbot-avatar.jpg" alt="AI" width={28} height={28} className="h-full w-full object-cover" />
+                    </div>
+                  ) : (
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 bg-gray-200">
+                      <span className="text-[9px] font-bold text-gray-600">T</span>
+                    </div>
+                  )}
 
                   {/* Bubble */}
                   <div className={cn(
