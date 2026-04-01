@@ -75,16 +75,6 @@ const RESOURCES: Resource[] = [
 
   // ── Plateformes ──
   {
-    id: "5",
-    title: "Make (Integromat)",
-    desc: "Plateforme d'automatisation visuelle. Connecte des centaines d'apps sans coder. Alternative puissante à Zapier.",
-    section: "plateformes",
-    category: "plateformes",
-    type: "platform",
-    url: "https://www.make.com",
-    logo: { text: "M", bg: "#6D29D915", color: "#6D29D9" },
-  },
-  {
     id: "6",
     title: "n8n",
     desc: "Outil d'automatisation open-source. Self-hosted possible, plus de 400 intégrations.",
@@ -1331,21 +1321,32 @@ function TemplateModal({
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
       <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] md:max-h-[80vh] flex flex-col mx-2"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <div>
-            <h3 className="text-lg font-semibold text-[#111]">{resource.title}</h3>
-            <p className="text-xs text-gray-400 mt-0.5">{resource.desc}</p>
+        <div className="px-5 py-4 border-b border-gray-100 flex-shrink-0">
+          {/* Top row: close button */}
+          <div className="flex items-start justify-between mb-2">
+            <h3 className="text-base md:text-lg font-semibold text-[#111] leading-tight pr-3">{resource.title}</h3>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition-colors flex-shrink-0"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
           </div>
+          <p className="text-xs text-gray-400 mb-3 leading-relaxed">{resource.desc}</p>
+          {/* Action buttons */}
           <div className="flex items-center gap-2">
             <button
               onClick={downloadContent}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-gray-100 text-gray-600 hover:bg-gray-200"
+              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-[#111] text-white hover:bg-[#333]"
             >
-              Telecharger
+              Télécharger .txt
             </button>
             <button
               onClick={copyContent}
@@ -1355,23 +1356,14 @@ function TemplateModal({
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              {copied ? "Copie !" : "Copier"}
-            </button>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition-colors"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              {copied ? "Copié !" : "Copier"}
             </button>
           </div>
         </div>
 
         {/* Modal body */}
-        <div className="flex-1 overflow-y-auto px-6 py-5">
-          <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-sans">
+        <div className="flex-1 overflow-y-auto px-5 py-5">
+          <pre className="text-[13px] md:text-sm text-gray-700 leading-[1.8] whitespace-pre-wrap font-sans">
             {resource.content}
           </pre>
         </div>
