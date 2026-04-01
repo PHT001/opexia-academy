@@ -133,15 +133,11 @@ export default function Chatbot() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="h-14 w-14 rounded-full overflow-hidden"
+              className="h-14 w-14 rounded-full bg-[#FF1744] flex items-center justify-center"
             >
-              <Image
-                src="/images/chatbot-avatar.jpg"
-                alt="Assistant OpexIA"
-                width={56}
-                height={56}
-                className="h-full w-full object-cover"
-              />
+              <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
             </motion.div>
           )}
         </AnimatePresence>
