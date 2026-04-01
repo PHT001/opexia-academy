@@ -1,12 +1,13 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, update: updateSession } = useSession();
+  const [displayName, setDisplayName] = useState("");
   const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter", lessonsCompleted: 0, quizzesPassed: 0, memberSince: "", totalLessons: 0, modulesCompleted: 0, totalModules: 0 });
 
 
@@ -49,7 +50,10 @@ export default function ProfilePage() {
   }, []);
 
   useEffect(() => {
-    if (session?.user?.name) setNameInput(session.user.name);
+    if (session?.user?.name) {
+      setNameInput(session.user.name);
+      setDisplayName(session.user.name);
+    }
   }, [session?.user?.name]);
 
   const handleSaveName = async () => {
@@ -57,7 +61,14 @@ export default function ProfilePage() {
     setSavingName(true);
     try {
       const res = await fetch("/api/user/profile", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: nameInput.trim() }) });
-      if (res.ok) { setNameSaved(true); setTimeout(() => setNameSaved(false), 2000); }
+      if (res.ok) {
+        const data = await res.json();
+        setDisplayName(data.name || nameInput.trim());
+        setNameSaved(true);
+        setTimeout(() => setNameSaved(false), 2000);
+        // Refresh NextAuth session so name updates everywhere
+        await updateSession({ name: data.name || nameInput.trim() });
+      }
     } catch {} finally { setSavingName(false); }
   };
 
@@ -109,7 +120,7 @@ export default function ProfilePage() {
             {profilePhoto ? (
               <img src={profilePhoto} alt="Photo" className="absolute inset-0 w-full h-full object-cover" />
             ) : (
-              session?.user?.name?.[0]?.toUpperCase() || "?"
+              (displayName || session?.user?.name)?.[0]?.toUpperCase() || "?"
             )}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3" /></svg>
@@ -117,7 +128,7 @@ export default function ProfilePage() {
             <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
           </label>
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg font-bold text-[#111] truncate">{session?.user?.name || "\u00c9l\u00e8ve"}</h1>
+            <h1 className="text-lg font-bold text-[#111] truncate">{displayName || session?.user?.name || "Élève"}</h1>
             <p className="text-xs text-gray-400 mt-0.5">{session?.user?.email}</p>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#FF1744]/10 text-[#FF1744]">
