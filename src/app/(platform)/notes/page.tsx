@@ -409,14 +409,14 @@ export default function NotesPage() {
 
   if (loading) {
     return (
-      <div className="w-full h-[calc(100vh-2rem)] flex items-center justify-center bg-white rounded-2xl border border-gray-200">
+      <div className="w-full h-[calc(100dvh-5rem)] lg:h-[calc(100vh-2rem)] flex items-center justify-center bg-white rounded-2xl border border-gray-200">
         <div className="w-5 h-5 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[calc(100vh-2rem)] flex overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+    <div className="w-full h-[calc(100dvh-5rem)] lg:h-[calc(100vh-2rem)] flex overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
       {/* ═══ LEFT SIDEBAR ═══ */}
       <div
         className={`flex-shrink-0 border-r border-gray-100 flex flex-col bg-[#FBFBFA] transition-all duration-200
