@@ -555,11 +555,19 @@ function ActivityFeed({ activities }: { activities: Activity[] }) {
 
 export default function LeaderboardPage() {
   const { data: session } = useSession();
+  const sessionTier = session?.user?.tier || "free";
   const [data, setData] = useState<LeaderboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("xp");
-  const [userTier, setUserTier] = useState<string>("free");
+  const [userTier, setUserTier] = useState<string>(sessionTier);
+
+  // Sync tier from session instantly
+  useEffect(() => {
+    if (sessionTier && sessionTier !== "free") {
+      setUserTier((prev) => prev === "free" ? sessionTier : prev);
+    }
+  }, [sessionTier]);
 
   useEffect(() => {
     (async () => {

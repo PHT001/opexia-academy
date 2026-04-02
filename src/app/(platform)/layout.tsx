@@ -22,7 +22,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     }
   }, [status, session]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter" });
+  const [stats, setStats] = useState({ xp: 0, streak: 0, tier: session?.user?.tier || "starter" });
   const [freeBannerDismissed, setFreeBannerDismissed] = useState(false);
   const [emailVerified, setEmailVerified] = useState(true);
   const [emailBannerDismissed, setEmailBannerDismissed] = useState(() => {

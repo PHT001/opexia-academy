@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
@@ -395,8 +396,10 @@ function LessonReaderPanel({
    MAIN LESSONS PAGE
    ═══════════════════════════════════════════════════════ */
 export default function LessonsPage() {
+  const { data: session } = useSession();
+  const sessionTier = session?.user?.tier || "free";
   const [modules, setModules] = useState<ModuleGroup[]>([]);
-  const [userTier, setUserTier] = useState<string>("free");
+  const [userTier, setUserTier] = useState<string>(sessionTier);
   const [expandedModule, setExpandedModule] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -449,6 +452,13 @@ export default function LessonsPage() {
     window.addEventListener("preview-tier-change", handler);
     return () => window.removeEventListener("preview-tier-change", handler);
   }, []);
+
+  // Sync tier from session (instant, no flash)
+  useEffect(() => {
+    if (sessionTier && sessionTier !== "free") {
+      setUserTier((prev) => prev === "free" ? sessionTier : prev);
+    }
+  }, [sessionTier]);
 
   // Cleanup body overflow on unmount
   useEffect(() => {
@@ -561,11 +571,11 @@ export default function LessonsPage() {
                     <div>
                       <div className="flex items-center gap-3 mb-1">
                         <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", theme.accent)}>
-                          {week.week === 0 ? "Découverte" : `Phase ${week.week}`}
+                          {`Phase ${week.week}`}
                         </span>
                         {weekAccessible ? (
                           <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full border", theme.accentBg, theme.accent, theme.border)}>
-                            {week.week === 0 ? "Starter" : userTier === "free" ? "Gratuit" : userTier === "starter" && week.week <= 1 ? "Starter" : "Academy"}
+                            {userTier === "free" ? "Gratuit" : userTier === "starter" && week.week <= 2 ? "Starter" : "Academy"}
                           </span>
                         ) : userTier === "free" ? (
                           <span className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full border border-gray-200">
@@ -845,58 +855,7 @@ export default function LessonsPage() {
           })}
         </div>
 
-        {/* ── CTA Starter: progression + teaser ── */}
-        {userTier === "starter" && (() => {
-          const starterModules = modules.filter((m) => [23, 24].includes(m.order));
-          const starterCompleted = starterModules.reduce((sum, m) => sum + m.lessons.filter((l) => l.status === "completed").length, 0);
-          const starterTotal = starterModules.reduce((sum, m) => sum + m.lessons.length, 0);
-          const starterPct = starterTotal > 0 ? Math.round((starterCompleted / starterTotal) * 100) : 0;
-          return (
-            <motion.div
-              className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm"
-              variants={sectionVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Ta progression Découverte</p>
-                  <p className="text-2xl font-bold text-[#111]">{starterCompleted}<span className="text-gray-300">/{starterTotal}</span> <span className="text-sm font-medium text-gray-400">leçons complétées</span></p>
-                </div>
-                <div className="text-right">
-                  <span className="text-2xl font-black text-[#FF1744]">{starterPct}%</span>
-                </div>
-              </div>
-              <div className="h-3 bg-gray-100 rounded-full overflow-hidden mb-6">
-                <div className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] transition-all duration-700" style={{ width: `${Math.max(starterPct, 2)}%` }} />
-              </div>
-              <div className="bg-gray-50 rounded-xl p-5 mb-6">
-                <p className="text-sm font-semibold text-[#111] mb-3">85 leçons t{"'"}attendent après Découverte :</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {[
-                    { label: "Chatbots IA", icon: "🤖" },
-                    { label: "Sites & Apps", icon: "🌐" },
-                    { label: "Automatisations", icon: "⚡" },
-                    { label: "Vente & Closing", icon: "💰" },
-                  ].map((item) => (
-                    <div key={item.label} className="flex items-center gap-2 text-xs text-gray-500 bg-white rounded-lg px-3 py-2.5 border border-gray-100">
-                      <span>{item.icon}</span>
-                      <span className="font-medium">{item.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <Link
-                href="/offres"
-                className="flex items-center justify-center gap-2 w-full bg-[#1A1A2E] hover:bg-[#2D2D4E] text-white rounded-xl px-6 py-4 text-sm font-bold transition-colors"
-              >
-                Débloquer les 85 leçons suivantes
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-              </Link>
-            </motion.div>
-          );
-        })()}
+
 
       </div>
 

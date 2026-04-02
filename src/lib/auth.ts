@@ -84,7 +84,7 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session: updateData }) {
       if (user) {
         token.id = user.id;
         token.role = (user as any).role as string;
@@ -92,17 +92,23 @@ export const authOptions: NextAuthOptions = {
         token.createdAt = (user as any).createdAt as string;
       }
 
+      // Handle client-side session update (e.g. name change)
+      if (trigger === "update" && updateData?.name) {
+        token.name = updateData.name;
+      }
+
       // Verify user still exists in DB and refresh tier
       if (token.sub) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.sub },
-          select: { id: true, emailVerified: true },
+          select: { id: true, emailVerified: true, name: true },
         });
         if (!dbUser) {
           // User was deleted — invalidate the token
           return { ...token, id: "", role: "", sub: "" };
         }
         token.emailVerified = dbUser.emailVerified;
+        if (dbUser.name) token.name = dbUser.name;
 
         // Refresh tier from active enrollment
         const enrollment = await prisma.enrollment.findFirst({

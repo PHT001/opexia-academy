@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface Message {
   role: "bot" | "user";
@@ -109,43 +110,35 @@ export default function Chatbot() {
       {/* Toggle button */}
       <motion.button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-[#FF1744] text-white shadow-xl shadow-red-900/30 flex items-center justify-center hover:bg-[#D50000] transition-colors"
-        whileHover={{ scale: 1.05 }}
+        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-xl shadow-black/20 flex items-center justify-center transition-colors overflow-hidden"
+        whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
       >
         <AnimatePresence mode="wait">
           {open ? (
-            <motion.svg
+            <motion.div
               key="close"
               initial={{ rotate: -90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
               exit={{ rotate: 90, opacity: 0 }}
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
+              className="h-14 w-14 rounded-full bg-[#FF1744] flex items-center justify-center"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </motion.svg>
+              <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </motion.div>
           ) : (
-            <motion.svg
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
+            <motion.div
+              key="avatar"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="h-14 w-14 rounded-full bg-[#FF1744] flex items-center justify-center"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </motion.svg>
+              <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </motion.div>
           )}
         </AnimatePresence>
       </motion.button>
@@ -163,8 +156,8 @@ export default function Chatbot() {
           >
             {/* Header */}
             <div className="bg-[#0A0A0A] px-5 py-4 flex items-center gap-3">
-              <div className="h-9 w-9 rounded-full bg-[#FF1744] flex items-center justify-center text-white text-sm font-bold">
-                IA
+              <div className="h-9 w-9 rounded-full overflow-hidden flex-shrink-0">
+                <Image src="/images/chatbot-avatar.jpg" alt="Assistant" width={36} height={36} className="h-full w-full object-cover" />
               </div>
               <div>
                 <p className="text-white text-sm font-semibold">Assistant OpexIA</p>

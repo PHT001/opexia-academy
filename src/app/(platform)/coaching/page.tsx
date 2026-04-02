@@ -460,8 +460,16 @@ function CoachingContent() {
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [userTier, setUserTier] = useState<string>("free");
+  const sessionTier = session?.user?.tier || "free";
+  const [userTier, setUserTier] = useState<string>(sessionTier);
   const [coachingTopic, setCoachingTopic] = useState("");
+
+  // Sync tier from session instantly
+  useEffect(() => {
+    if (sessionTier && sessionTier !== "free") {
+      setUserTier((prev) => prev === "free" ? sessionTier : prev);
+    }
+  }, [sessionTier]);
 
   useEffect(() => {
     if (searchParams.get("success") === "true") {

@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 
@@ -92,11 +93,13 @@ export default function OffresPage() {
 }
 
 function OffresContent() {
+  const { data: session } = useSession();
+  const sessionTier = session?.user?.tier || "free";
   const router = useRouter();
   const searchParams = useSearchParams();
   const codeParam = searchParams.get("code");
   const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
-  const [userTier, setUserTier] = useState("free");
+  const [userTier, setUserTier] = useState(sessionTier);
   const [loading, setLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   const [discount, setDiscount] = useState<{
@@ -104,6 +107,13 @@ function OffresContent() {
     percent: number;
     expiresAt: string;
   } | null>(null);
+
+  // Sync tier from session instantly
+  useEffect(() => {
+    if (sessionTier && sessionTier !== "free") {
+      setUserTier((prev) => prev === "free" ? sessionTier : prev);
+    }
+  }, [sessionTier]);
 
   useEffect(() => {
     fetch("/api/progress").then((r) => r.json()).then((d) => {
