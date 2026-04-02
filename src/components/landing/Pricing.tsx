@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 
 const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
@@ -158,6 +159,7 @@ const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2,
 export default function Pricing() {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
+  const [bypassLoading, setBypassLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   const [userTier, setUserTier] = useState<string | null>(null);
 
@@ -213,6 +215,34 @@ export default function Pricing() {
       alert("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setLoading(null);
+    }
+  }
+
+  async function handleBypass(tier: string) {
+    setBypassLoading(tier);
+    try {
+      const res = await fetch("/api/dev/bypass", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tier }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+      if (result?.ok) {
+        router.push("/dashboard");
+      } else {
+        alert("Erreur de connexion test");
+      }
+    } catch {
+      alert("Erreur bypass");
+    } finally {
+      setBypassLoading(null);
     }
   }
 
@@ -424,6 +454,15 @@ export default function Pricing() {
                   );
                 })()}
               </div>
+
+              {/* Bypass test button */}
+              <button
+                onClick={() => handleBypass(plan.slug)}
+                disabled={bypassLoading === plan.slug}
+                className="mt-4 w-full py-2 rounded-lg text-xs font-medium border border-dashed border-orange-300 text-orange-500 hover:bg-orange-50 hover:border-orange-400 transition-all disabled:opacity-50"
+              >
+                {bypassLoading === plan.slug ? "Connexion..." : `Mode test ${plan.name}`}
+              </button>
             </motion.div>
             );
           })}
