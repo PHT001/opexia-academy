@@ -16,8 +16,6 @@ interface RankedUser {
   xp: number;
   level: number;
   lessonsCompleted: number;
-  streak: number;
-  bestStreak: number;
   quizAverage: number;
   perfectQuizzes: number;
   quizCount: number;
@@ -30,8 +28,6 @@ interface CurrentUser {
   xp: number;
   level: number;
   lessonsCompleted: number;
-  streak: number;
-  bestStreak: number;
   quizAverage: number;
   perfectQuizzes: number;
   quizCount: number;
@@ -58,14 +54,14 @@ interface Badge {
 }
 
 interface LeaderboardData {
-  rankings: { xp: RankedUser[]; streak: RankedUser[]; quiz: RankedUser[] };
+  rankings: { xp: RankedUser[]; quiz: RankedUser[] };
   currentUser: CurrentUser | null;
   totalStudents: number;
   recentActivity: Activity[];
   allBadges: Badge[];
 }
 
-type TabKey = "xp" | "streak" | "quiz";
+type TabKey = "xp" | "quiz";
 
 /* ═══════════════════════════════════════════════════════════
    ICONS
@@ -86,14 +82,6 @@ function IconBolt({ className }: { className?: string }) {
   return (
     <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
       <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-    </svg>
-  );
-}
-
-function IconFlame({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 23c-3.866 0-7-3.134-7-7 0-3.084 2.262-5.564 4-7.5.722-.806 1.5-1.7 2-2.5.5.8 1.278 1.694 2 2.5 1.738 1.936 4 4.416 4 7.5 0 3.866-3.134 7-7 7zm0-12.5c-.944 1.121-3 3.672-3 5.5a3 3 0 0 0 6 0c0-1.828-2.056-4.379-3-5.5z" />
     </svg>
   );
 }
@@ -283,11 +271,6 @@ function StatsCards({ user, totalStudents }: { user: CurrentUser; totalStudents:
       progress: user.levelProgress,
     },
     {
-      label: "Serie",
-      value: `${user.streak}j`,
-      sub: `Record ${user.bestStreak}j`,
-    },
-    {
       label: "Quiz",
       value: `${user.quizAverage}%`,
       sub: `${user.perfectQuizzes} parfait${user.perfectQuizzes !== 1 ? "s" : ""}`,
@@ -295,7 +278,7 @@ function StatsCards({ user, totalStudents }: { user: CurrentUser; totalStudents:
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    <div className="grid grid-cols-3 gap-2">
       {stats.map((s, i) => (
         <motion.div
           key={s.label}
@@ -338,7 +321,6 @@ function StatsCards({ user, totalStudents }: { user: CurrentUser; totalStudents:
 
 const TABS: { key: TabKey; label: string; icon: React.ReactNode; metric: (u: RankedUser) => string }[] = [
   { key: "xp", label: "XP", icon: <IconBolt />, metric: (u) => `${u.xp.toLocaleString("fr-FR")} XP` },
-  { key: "streak", label: "Serie", icon: <IconFlame />, metric: (u) => `${u.streak}j` },
   { key: "quiz", label: "Quiz", icon: <IconTarget />, metric: (u) => `${u.quizAverage}%` },
 ];
 

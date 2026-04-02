@@ -22,7 +22,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     }
   }, [status, session]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [stats, setStats] = useState({ xp: 0, streak: 0, tier: session?.user?.tier || "starter" });
+  const [stats, setStats] = useState({ xp: 0, tier: session?.user?.tier || "starter" });
   const [freeBannerDismissed, setFreeBannerDismissed] = useState(false);
   const [emailVerified, setEmailVerified] = useState(true);
   const [emailBannerDismissed, setEmailBannerDismissed] = useState(() => {
@@ -86,7 +86,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       .then((data) => {
         if (!data) return;
         if (data?.xp !== undefined) {
-          setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "free" });
+          setStats({ xp: data.xp, tier: data.tier || "free" });
         }
         if (data?.emailVerified !== undefined) {
           setEmailVerified(data.emailVerified);
@@ -117,7 +117,6 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         userName={session?.user?.name}
         role={session?.user?.role}
         xp={stats.xp}
-        streak={stats.streak}
         tier={previewTier || stats.tier}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

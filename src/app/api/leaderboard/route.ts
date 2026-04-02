@@ -73,12 +73,11 @@ function calcBestStreak(dates: Date[]): number {
 }
 
 /** Check which badges a user has earned */
-function calcBadges(lessonsCompleted: number, streak: number): string[] {
+function calcBadges(lessonsCompleted: number): string[] {
   const earned: string[] = [];
   if (lessonsCompleted >= 1) earned.push("first_lesson");
   // Module 1 has 3 lessons
   if (lessonsCompleted >= 3) earned.push("module_1");
-  if (streak >= 7) earned.push("streak_7");
   // 85 total lessons — halfway = 43
   if (lessonsCompleted >= 43) earned.push("halfway");
   if (lessonsCompleted >= 85) earned.push("graduate");
@@ -146,13 +145,6 @@ export async function GET() {
     .slice(0, 20)
     .map((u, i) => ({ ...u, rank: i + 1 }));
 
-  // --- Rankings by Streak ---
-  const byStreak = [...enriched]
-    .filter((u) => u.streak > 0)
-    .sort((a, b) => b.streak - a.streak || b.xp - a.xp)
-    .slice(0, 20)
-    .map((u, i) => ({ ...u, rank: i + 1 }));
-
   // --- Rankings by Quiz Average (min 3 quizzes) ---
   const byQuiz = [...enriched]
     .filter((u) => u.quizCount >= 3)
@@ -188,7 +180,7 @@ export async function GET() {
   }
 
   const badges = currentUserData
-    ? calcBadges(currentUserData.lessonsCompleted, currentUserData.bestStreak)
+    ? calcBadges(currentUserData.lessonsCompleted)
     : [];
 
   // --- Recent activity (last 10 across all users) ---
@@ -217,7 +209,6 @@ export async function GET() {
   return NextResponse.json({
     rankings: {
       xp: byXp,
-      streak: byStreak,
       quiz: byQuiz,
     },
     currentUser: currentUserData

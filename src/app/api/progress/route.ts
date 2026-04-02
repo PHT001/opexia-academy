@@ -51,27 +51,6 @@ export async function GET() {
   // Calculate XP
   const xp = allLessons.reduce((sum, l) => sum + (l.progress[0]?.xpEarned || 0), 0);
 
-  // Calculate streak
-  const streaks = await prisma.streak.findMany({
-    where: { userId },
-    orderBy: { date: "desc" },
-  });
-
-  let streak = 0;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  for (let i = 0; i < streaks.length; i++) {
-    const d = new Date(streaks[i].date);
-    d.setHours(0, 0, 0, 0);
-    const expected = new Date(today);
-    expected.setDate(expected.getDate() - i);
-    if (d.getTime() === expected.getTime()) {
-      streak++;
-    } else {
-      break;
-    }
-  }
-
   // Get user enrollment tier (admin = academy) + onboarding status
   const isAdmin = session.user.role === "admin";
   const user = await prisma.user.findUnique({
@@ -153,7 +132,6 @@ export async function GET() {
     currentLesson: currentLesson
       ? { id: currentLesson.id, title: currentLesson.title, slug: currentLesson.slug, order: currentLesson.order }
       : null,
-    streak,
     xp,
     tier,
     onboardingCompleted,

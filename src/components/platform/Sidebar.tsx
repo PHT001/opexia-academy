@@ -196,14 +196,6 @@ function IconDiscord({ className }: { className?: string }) {
   );
 }
 
-function IconStreak({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-    </svg>
-  );
-}
-
 function IconXP({ className }: { className?: string }) {
   return (
     <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -311,7 +303,6 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
 interface SidebarProps {
   userName?: string | null;
   xp?: number;
-  streak?: number;
   tier?: string;
   role?: string;
   open?: boolean;
@@ -468,7 +459,7 @@ function AdminNotificationBell() {
   );
 }
 
-export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, open, onClose, previewTier, onPreviewTierChange }: SidebarProps) {
+export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClose, previewTier, onPreviewTierChange }: SidebarProps) {
   const pathname = usePathname();
   const [lockedItem, setLockedItem] = useState<NavItem | null>(null);
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
@@ -774,25 +765,8 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
             </div>
           ))}
 
-          {/* Streak & XP - hidden for admin */}
+          {/* XP - hidden for admin */}
           {role !== "admin" && <div className="mt-auto mx-1 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center", streak > 0 ? "bg-amber-500/15" : "bg-white/[0.06]")}>
-                  <IconStreak className={streak > 0 ? "text-amber-400" : "text-white/30"} />
-                </div>
-                <div>
-                  <p className="text-[11px] text-white/35 leading-none">Streak</p>
-                  <p className="text-sm font-bold text-white/90">{streak} jour{streak > 1 ? "s" : ""}</p>
-                </div>
-              </div>
-              <div className="flex gap-0.5">
-                {Array.from({ length: 7 }, (_, i) => (
-                  <div key={i} className={cn("w-1.5 h-1.5 rounded-full", i < streak ? "bg-amber-400/60" : "bg-white/[0.06]")} />
-                ))}
-              </div>
-            </div>
-
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-[#FF1744]/15 flex items-center justify-center">
                 <IconXP className="text-[#FF1744]" />

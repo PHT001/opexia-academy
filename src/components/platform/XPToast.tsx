@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // Types
 // ---------------------------------------------------------------------------
 
-type ToastType = "xp" | "streak" | "badge" | "levelup";
+type ToastType = "xp" | "badge" | "levelup";
 
 interface XPToastData {
   amount?: number;
@@ -84,28 +84,6 @@ const TOAST_CONFIG: Record<
         strokeLinejoin="round"
       >
         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-      </svg>
-    ),
-  },
-  streak: {
-    borderColor: "#F97316",
-    iconBg: "#FFEDD5",
-    iconColor: "#EA580C",
-    label: (d) => `Streak de ${d.days ?? 0} jours!`,
-    sub: () => null,
-    icon: (
-      // Fire
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z" />
       </svg>
     ),
   },

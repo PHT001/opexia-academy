@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export default function ProfilePage() {
   const { data: session, update: updateSession } = useSession();
   const [displayName, setDisplayName] = useState("");
-  const [stats, setStats] = useState({ xp: 0, streak: 0, tier: "starter", lessonsCompleted: 0, quizzesPassed: 0, memberSince: "", totalLessons: 0, modulesCompleted: 0, totalModules: 0 });
+  const [stats, setStats] = useState({ xp: 0, tier: "starter", lessonsCompleted: 0, quizzesPassed: 0, memberSince: "", totalLessons: 0, modulesCompleted: 0, totalModules: 0 });
 
 
   // Name edit
@@ -43,7 +43,7 @@ export default function ProfilePage() {
         if (data?.xp !== undefined) {
           const mods: { totalLessons: number; completedLessons: number }[] = data.modules || [];
           const modulesCompleted = mods.filter((m) => m.totalLessons > 0 && m.completedLessons >= m.totalLessons).length;
-          setStats({ xp: data.xp, streak: data.streak, tier: data.tier || "starter", lessonsCompleted: data.completedLessons || 0, quizzesPassed: data.quizzesCompleted || 0, memberSince: data.memberSince || "", totalLessons: data.totalLessons || 0, modulesCompleted, totalModules: mods.length });
+          setStats({ xp: data.xp, tier: data.tier || "starter", lessonsCompleted: data.completedLessons || 0, quizzesPassed: data.quizzesCompleted || 0, memberSince: data.memberSince || "", totalLessons: data.totalLessons || 0, modulesCompleted, totalModules: mods.length });
         }
       })
       .catch(() => {});
@@ -177,7 +177,6 @@ export default function ProfilePage() {
         <div className="flex items-center justify-between">
           {[
             { label: "XP", value: stats.xp.toLocaleString(), color: "#FF1744" },
-            { label: "Streak", value: `${stats.streak}j`, color: "#F59E0B" },
             { label: "Le\u00e7ons", value: String(stats.lessonsCompleted), color: "#3B82F6" },
             { label: "Quiz", value: String(stats.quizzesPassed), color: "#10B981" },
           ].map((s) => (

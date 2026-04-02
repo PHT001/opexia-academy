@@ -8,7 +8,6 @@ export const XP_VALUES = {
 export const BADGES = [
   { id: "first_lesson", name: "Premier pas", description: "Complète ta première leçon", icon: "target" },
   { id: "module_1", name: "Fondations IA", description: "Termine le Module 1", icon: "cpu" },
-  { id: "streak_7", name: "Régularité", description: "7 jours consécutifs", icon: "flame" },
   { id: "halfway", name: "Mi-parcours", description: "43 leçons complétées", icon: "bolt" },
   { id: "graduate", name: "Diplôme Opexia", description: "85 leçons complétées", icon: "award" },
 ] as const;

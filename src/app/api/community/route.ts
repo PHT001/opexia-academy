@@ -23,11 +23,6 @@ export async function GET() {
         where: { status: "completed" },
         select: { xpEarned: true },
       },
-      streaks: {
-        orderBy: { date: "desc" },
-        take: 1,
-        select: { date: true },
-      },
       enrollments: {
         select: { tier: true },
         take: 1,
@@ -35,18 +30,11 @@ export async function GET() {
     },
   });
 
-  // Calculate total XP and streak for each user, sort by XP
+  // Calculate total XP for each user, sort by XP
   const leaderboard = users
     .map((u) => {
       const totalXP = u.progress.reduce((sum, lp) => sum + lp.xpEarned, 0);
       const completedLessons = u.progress.length;
-
-      // Calculate current streak
-      let currentStreak = 0;
-      if (u.streaks.length > 0) {
-        // We need to get all streaks for proper calculation, but for perf just show completed lessons
-        currentStreak = completedLessons > 0 ? Math.min(Math.floor(totalXP / 100), 30) : 0;
-      }
 
       return {
         id: u.id,
