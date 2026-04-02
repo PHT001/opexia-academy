@@ -259,18 +259,18 @@ function CalendlyPicker({
               {booking ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
-                  {isOneToOne ? "Réservation en cours..." : "Redirection vers le paiement..."}
+                  Réservation en cours...
                 </span>
               ) : isOneToOne ? (
                 "Réserver ma session (inclus)"
               ) : (
-                `Réserver & Payer — ${COACHING_PRICE_DISPLAY}€`
+                `Réserver ma session — ${COACHING_PRICE_DISPLAY}€ à régler lors de l'appel`
               )}
             </button>
             <p className="text-xs text-gray-400 text-center mt-3">
               {isOneToOne
                 ? "Session incluse dans ton forfait One-to-One. Tu peux annuler jusqu'à 24h avant."
-                : "Paiement sécurisé par Stripe. Tu peux annuler jusqu'à 24h avant."
+                : `${COACHING_PRICE_DISPLAY}€ à régler directement lors de la session. Tu peux annuler jusqu'à 24h avant.`
               }
             </p>
           </div>
@@ -496,42 +496,29 @@ function CoachingContent() {
     if (!selectedSlot || booking) return;
     setBooking(true);
     try {
-      // One-to-One users book for free (no Stripe)
-      if (effectiveTier === "one_to_one") {
-        const res = await fetch("/api/coaching/book", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slot: selectedSlot, topic: coachingTopic }),
-        });
-        const data = await res.json();
-        if (res.ok) {
-          setSuccessMessage("Session réservée avec succès ! Tu recevras un email de confirmation.");
-          setSelectedSlot(null);
-          setCoachingTopic("");
-          // Refresh sessions
-          const refreshRes = await fetch("/api/coaching/slots");
-          const refreshData = await refreshRes.json();
-          setSessions(refreshData.sessions || []);
-        } else {
-          alert(data.error || "Erreur lors de la réservation");
-        }
-        setBooking(false);
+      const res = await fetch("/api/coaching/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slot: selectedSlot, topic: coachingTopic }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccessMessage(
+          effectiveTier === "one_to_one"
+            ? "Session réservée avec succès ! Tu recevras un email de confirmation."
+            : "Session réservée ! Tu recevras un email de confirmation. Le paiement de 50€ se fera lors de l'appel."
+        );
+        setSelectedSlot(null);
+        setCoachingTopic("");
+        const refreshRes = await fetch("/api/coaching/slots");
+        const refreshData = await refreshRes.json();
+        setSessions(refreshData.sessions || []);
       } else {
-        const res = await fetch("/api/coaching/checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slot: selectedSlot, topic: coachingTopic }),
-        });
-        const data = await res.json();
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          alert(data.error || "Erreur lors de la reservation");
-          setBooking(false);
-        }
+        alert(data.error || "Erreur lors de la réservation");
       }
     } catch {
       alert("Erreur de connexion");
+    } finally {
       setBooking(false);
     }
   };

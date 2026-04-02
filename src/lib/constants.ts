@@ -190,8 +190,8 @@ export const COACHING_SLOTS = [
   { day: "Samedi",   time: "10:00", duration: "1h" },
 ] as const;
 
-export const COACHING_PRICE = 7000; // 70e en centimes
-export const COACHING_PRICE_DISPLAY = "70";
+export const COACHING_PRICE = 5000; // 50e en centimes
+export const COACHING_PRICE_DISPLAY = "50";
 
 /* ——— Referral / Parrainage ——— */
 export const REFERRAL_COMMISSION_RATES: Record<string, number> = {
