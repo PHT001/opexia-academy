@@ -689,8 +689,8 @@ function CoachingContent() {
         <div className="p-3 sm:p-8">
           <div className="flex flex-row items-center gap-3 sm:gap-5">
             {/* Avatar */}
-            <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/15 flex-shrink-0">
-              <span className="text-lg sm:text-2xl font-black text-white">O</span>
+            <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shadow-lg shadow-red-500/15 flex-shrink-0">
+              <img src="/images/chatbot-avatar.jpg" alt="OpexIA" className="w-full h-full object-cover" />
             </div>
 
             <div className="flex-1">
