@@ -89,11 +89,29 @@ export default function ProfilePage() {
   const xpProgress = (xpInLevel / 500) * 100;
   const isAdmin = session?.user?.role === "admin";
 
-  // Profile photo
+  // Profile photo — persisted in DB
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   useEffect(() => {
-    const saved = localStorage.getItem("opexia-profile-photo");
-    if (saved) setProfilePhoto(saved);
+    // Migrate from localStorage to DB if needed, then load from DB
+    fetch("/api/user/profile")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.profilePhoto) {
+          setProfilePhoto(data.profilePhoto);
+          localStorage.setItem("opexia-profile-photo", data.profilePhoto);
+        } else {
+          // Migrate: if photo exists in localStorage but not DB, save it to DB
+          const local = localStorage.getItem("opexia-profile-photo");
+          if (local) {
+            setProfilePhoto(local);
+            fetch("/api/user/profile", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ profilePhoto: local }) });
+          }
+        }
+      })
+      .catch(() => {
+        const local = localStorage.getItem("opexia-profile-photo");
+        if (local) setProfilePhoto(local);
+      });
   }, []);
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -104,6 +122,8 @@ export default function ProfilePage() {
       const result = reader.result as string;
       setProfilePhoto(result);
       localStorage.setItem("opexia-profile-photo", result);
+      // Save to DB
+      fetch("/api/user/profile", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ profilePhoto: result }) });
     };
     reader.readAsDataURL(file);
   };

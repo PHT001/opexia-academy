@@ -27,8 +27,28 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { tier, subject, message } = body;
 
-    if (!subject || !message) {
-      return NextResponse.json({ error: "Sujet et message requis" }, { status: 400 });
+    // --- Input validation ---
+    const ALLOWED_TIERS = ["tous", "starter", "academy", "one_to_one", "free", "inactive", "no_purchase"];
+
+    if (!subject || typeof subject !== "string" || subject.trim().length === 0) {
+      return NextResponse.json({ error: "Le sujet est requis" }, { status: 400 });
+    }
+    if (subject.length > 200) {
+      return NextResponse.json({ error: "Le sujet ne doit pas depasser 200 caracteres" }, { status: 400 });
+    }
+
+    if (!message || typeof message !== "string" || message.trim().length === 0) {
+      return NextResponse.json({ error: "Le message est requis" }, { status: 400 });
+    }
+    if (message.length > 50000) {
+      return NextResponse.json({ error: "Le message ne doit pas depasser 50000 caracteres" }, { status: 400 });
+    }
+
+    if (tier !== undefined && !ALLOWED_TIERS.includes(tier)) {
+      return NextResponse.json(
+        { error: `Tier invalide. Valeurs acceptees: ${ALLOWED_TIERS.join(", ")}` },
+        { status: 400 }
+      );
     }
 
     if (!resend) {

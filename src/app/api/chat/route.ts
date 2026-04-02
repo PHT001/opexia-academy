@@ -22,9 +22,20 @@ Modules : M1: Decouvrir l'IA | M2: Prompt Engineering | M3: Sites web IA | M4: B
 
 /** Simple in-memory rate limiter (resets on server restart / per instance) */
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+let lastCleanup = 0;
+const CLEANUP_INTERVAL = 60_000; // run cleanup at most once per minute
 
 function checkRateLimit(userId: string): { allowed: boolean; remaining: number } {
   const now = Date.now();
+
+  // Periodically purge expired entries to prevent memory leak
+  if (now - lastCleanup > CLEANUP_INTERVAL) {
+    lastCleanup = now;
+    for (const [key, val] of rateLimitMap) {
+      if (now > val.resetAt) rateLimitMap.delete(key);
+    }
+  }
+
   const endOfDay = new Date();
   endOfDay.setHours(23, 59, 59, 999);
 

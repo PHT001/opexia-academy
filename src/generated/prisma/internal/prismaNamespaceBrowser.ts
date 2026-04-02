@@ -96,6 +96,7 @@ export const UserScalarFieldEnum = {
   discordUsername: 'discordUsername',
   age: 'age',
   profession: 'profession',
+  profilePhoto: 'profilePhoto',
   onboardingCompleted: 'onboardingCompleted',
   adminNotes: 'adminNotes',
   isBot: 'isBot',

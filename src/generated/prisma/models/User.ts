@@ -46,6 +46,7 @@ export type UserMinAggregateOutputType = {
   discordUsername: string | null
   age: string | null
   profession: string | null
+  profilePhoto: string | null
   onboardingCompleted: boolean | null
   adminNotes: string | null
   isBot: boolean | null
@@ -71,6 +72,7 @@ export type UserMaxAggregateOutputType = {
   discordUsername: string | null
   age: string | null
   profession: string | null
+  profilePhoto: string | null
   onboardingCompleted: boolean | null
   adminNotes: string | null
   isBot: boolean | null
@@ -96,6 +98,7 @@ export type UserCountAggregateOutputType = {
   discordUsername: number
   age: number
   profession: number
+  profilePhoto: number
   onboardingCompleted: number
   adminNotes: number
   isBot: number
@@ -131,6 +134,7 @@ export type UserMinAggregateInputType = {
   discordUsername?: true
   age?: true
   profession?: true
+  profilePhoto?: true
   onboardingCompleted?: true
   adminNotes?: true
   isBot?: true
@@ -156,6 +160,7 @@ export type UserMaxAggregateInputType = {
   discordUsername?: true
   age?: true
   profession?: true
+  profilePhoto?: true
   onboardingCompleted?: true
   adminNotes?: true
   isBot?: true
@@ -181,6 +186,7 @@ export type UserCountAggregateInputType = {
   discordUsername?: true
   age?: true
   profession?: true
+  profilePhoto?: true
   onboardingCompleted?: true
   adminNotes?: true
   isBot?: true
@@ -293,6 +299,7 @@ export type UserGroupByOutputType = {
   discordUsername: string | null
   age: string | null
   profession: string | null
+  profilePhoto: string | null
   onboardingCompleted: boolean
   adminNotes: string | null
   isBot: boolean
@@ -341,6 +348,7 @@ export type UserWhereInput = {
   discordUsername?: Prisma.StringNullableFilter<"User"> | string | null
   age?: Prisma.StringNullableFilter<"User"> | string | null
   profession?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhoto?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
   adminNotes?: Prisma.StringNullableFilter<"User"> | string | null
   isBot?: Prisma.BoolFilter<"User"> | boolean
@@ -377,6 +385,7 @@ export type UserOrderByWithRelationInput = {
   discordUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   age?: Prisma.SortOrderInput | Prisma.SortOrder
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   isBot?: Prisma.SortOrder
@@ -417,6 +426,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   discordUsername?: Prisma.StringNullableFilter<"User"> | string | null
   age?: Prisma.StringNullableFilter<"User"> | string | null
   profession?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhoto?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
   adminNotes?: Prisma.StringNullableFilter<"User"> | string | null
   isBot?: Prisma.BoolFilter<"User"> | boolean
@@ -452,6 +462,7 @@ export type UserOrderByWithAggregationInput = {
   discordUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   age?: Prisma.SortOrderInput | Prisma.SortOrder
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   isBot?: Prisma.SortOrder
@@ -485,6 +496,7 @@ export type UserScalarWhereWithAggregatesInput = {
   discordUsername?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   age?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   profession?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  profilePhoto?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   adminNotes?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   isBot?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
@@ -510,6 +522,7 @@ export type UserCreateInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -546,6 +559,7 @@ export type UserUncheckedCreateInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -582,6 +596,7 @@ export type UserUpdateInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -618,6 +633,7 @@ export type UserUncheckedUpdateInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -654,6 +670,7 @@ export type UserCreateManyInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -679,6 +696,7 @@ export type UserUpdateManyMutationInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -704,6 +722,7 @@ export type UserUncheckedUpdateManyInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -729,6 +748,7 @@ export type UserCountOrderByAggregateInput = {
   discordUsername?: Prisma.SortOrder
   age?: Prisma.SortOrder
   profession?: Prisma.SortOrder
+  profilePhoto?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   isBot?: Prisma.SortOrder
@@ -758,6 +778,7 @@ export type UserMaxOrderByAggregateInput = {
   discordUsername?: Prisma.SortOrder
   age?: Prisma.SortOrder
   profession?: Prisma.SortOrder
+  profilePhoto?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   isBot?: Prisma.SortOrder
@@ -783,6 +804,7 @@ export type UserMinOrderByAggregateInput = {
   discordUsername?: Prisma.SortOrder
   age?: Prisma.SortOrder
   profession?: Prisma.SortOrder
+  profilePhoto?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   isBot?: Prisma.SortOrder
@@ -999,6 +1021,7 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1034,6 +1057,7 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1085,6 +1109,7 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1120,6 +1145,7 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1155,6 +1181,7 @@ export type UserCreateWithoutProgressInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1190,6 +1217,7 @@ export type UserUncheckedCreateWithoutProgressInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1241,6 +1269,7 @@ export type UserUpdateWithoutProgressInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1276,6 +1305,7 @@ export type UserUncheckedUpdateWithoutProgressInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1311,6 +1341,7 @@ export type UserCreateWithoutStreaksInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1346,6 +1377,7 @@ export type UserUncheckedCreateWithoutStreaksInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1397,6 +1429,7 @@ export type UserUpdateWithoutStreaksInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1432,6 +1465,7 @@ export type UserUncheckedUpdateWithoutStreaksInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1467,6 +1501,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1502,6 +1537,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1553,6 +1589,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1588,6 +1625,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1623,6 +1661,7 @@ export type UserCreateWithoutCoachingSessionsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1658,6 +1697,7 @@ export type UserUncheckedCreateWithoutCoachingSessionsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1709,6 +1749,7 @@ export type UserUpdateWithoutCoachingSessionsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1744,6 +1785,7 @@ export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1779,6 +1821,7 @@ export type UserCreateWithoutDealsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1814,6 +1857,7 @@ export type UserUncheckedCreateWithoutDealsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1865,6 +1909,7 @@ export type UserUpdateWithoutDealsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1900,6 +1945,7 @@ export type UserUncheckedUpdateWithoutDealsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1935,6 +1981,7 @@ export type UserCreateWithoutReferralsMadeInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -1970,6 +2017,7 @@ export type UserUncheckedCreateWithoutReferralsMadeInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2010,6 +2058,7 @@ export type UserCreateWithoutReferredByInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2045,6 +2094,7 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2096,6 +2146,7 @@ export type UserUpdateWithoutReferralsMadeInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2131,6 +2182,7 @@ export type UserUncheckedUpdateWithoutReferralsMadeInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2177,6 +2229,7 @@ export type UserUpdateWithoutReferredByInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2212,6 +2265,7 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2247,6 +2301,7 @@ export type UserCreateWithoutNotesInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2282,6 +2337,7 @@ export type UserUncheckedCreateWithoutNotesInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2333,6 +2389,7 @@ export type UserUpdateWithoutNotesInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2368,6 +2425,7 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2403,6 +2461,7 @@ export type UserCreateWithoutProjectsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2438,6 +2497,7 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2489,6 +2549,7 @@ export type UserUpdateWithoutProjectsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2524,6 +2585,7 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2559,6 +2621,7 @@ export type UserCreateWithoutEmailLogsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2594,6 +2657,7 @@ export type UserUncheckedCreateWithoutEmailLogsInput = {
   discordUsername?: string | null
   age?: string | null
   profession?: string | null
+  profilePhoto?: string | null
   onboardingCompleted?: boolean
   adminNotes?: string | null
   isBot?: boolean
@@ -2645,6 +2709,7 @@ export type UserUpdateWithoutEmailLogsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2680,6 +2745,7 @@ export type UserUncheckedUpdateWithoutEmailLogsInput = {
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isBot?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2836,6 +2902,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   discordUsername?: boolean
   age?: boolean
   profession?: boolean
+  profilePhoto?: boolean
   onboardingCompleted?: boolean
   adminNotes?: boolean
   isBot?: boolean
@@ -2873,6 +2940,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   discordUsername?: boolean
   age?: boolean
   profession?: boolean
+  profilePhoto?: boolean
   onboardingCompleted?: boolean
   adminNotes?: boolean
   isBot?: boolean
@@ -2898,6 +2966,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   discordUsername?: boolean
   age?: boolean
   profession?: boolean
+  profilePhoto?: boolean
   onboardingCompleted?: boolean
   adminNotes?: boolean
   isBot?: boolean
@@ -2923,6 +2992,7 @@ export type UserSelectScalar = {
   discordUsername?: boolean
   age?: boolean
   profession?: boolean
+  profilePhoto?: boolean
   onboardingCompleted?: boolean
   adminNotes?: boolean
   isBot?: boolean
@@ -2936,7 +3006,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "emailVerified" | "verificationCode" | "phone" | "discordUsername" | "age" | "profession" | "onboardingCompleted" | "adminNotes" | "isBot" | "referralCode" | "resetToken" | "resetTokenExpiry" | "discountCode" | "discountPercent" | "discountExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "hashedPassword" | "role" | "emailVerified" | "verificationCode" | "phone" | "discordUsername" | "age" | "profession" | "profilePhoto" | "onboardingCompleted" | "adminNotes" | "isBot" | "referralCode" | "resetToken" | "resetTokenExpiry" | "discountCode" | "discountPercent" | "discountExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   progress?: boolean | Prisma.User$progressArgs<ExtArgs>
   quizSubmissions?: boolean | Prisma.User$quizSubmissionsArgs<ExtArgs>
@@ -2981,6 +3051,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     discordUsername: string | null
     age: string | null
     profession: string | null
+    profilePhoto: string | null
     onboardingCompleted: boolean
     adminNotes: string | null
     isBot: boolean
@@ -3437,6 +3508,7 @@ export interface UserFieldRefs {
   readonly discordUsername: Prisma.FieldRef<"User", 'String'>
   readonly age: Prisma.FieldRef<"User", 'String'>
   readonly profession: Prisma.FieldRef<"User", 'String'>
+  readonly profilePhoto: Prisma.FieldRef<"User", 'String'>
   readonly onboardingCompleted: Prisma.FieldRef<"User", 'Boolean'>
   readonly adminNotes: Prisma.FieldRef<"User", 'String'>
   readonly isBot: Prisma.FieldRef<"User", 'Boolean'>

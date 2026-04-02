@@ -474,8 +474,22 @@ export function Sidebar({ userName, xp = 0, streak = 0, tier = "starter", role, 
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("opexia-profile-photo");
-    if (saved) setProfilePhoto(saved);
+    // Load from API, fallback to localStorage
+    fetch("/api/user/profile")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.profilePhoto) {
+          setProfilePhoto(data.profilePhoto);
+          localStorage.setItem("opexia-profile-photo", data.profilePhoto);
+        } else {
+          const local = localStorage.getItem("opexia-profile-photo");
+          if (local) setProfilePhoto(local);
+        }
+      })
+      .catch(() => {
+        const local = localStorage.getItem("opexia-profile-photo");
+        if (local) setProfilePhoto(local);
+      });
     // Listen for changes from profile page
     const onStorage = (e: StorageEvent) => {
       if (e.key === "opexia-profile-photo") setProfilePhoto(e.newValue);

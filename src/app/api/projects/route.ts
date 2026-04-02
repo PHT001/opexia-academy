@@ -2,6 +2,15 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { z } from "zod";
+
+const createProjectSchema = z.object({
+  title: z.string().min(1, "Le titre est requis").max(200, "Le titre ne doit pas depasser 200 caracteres"),
+  description: z.string().min(1, "La description est requise").max(5000, "La description ne doit pas depasser 5000 caracteres"),
+  url: z
+    .union([z.literal(""), z.string().url("URL invalide").max(500, "L'URL ne doit pas depasser 500 caracteres")])
+    .optional(),
+});
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -33,14 +42,16 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { title, description, url } = body;
+    const parsed = createProjectSchema.safeParse(body);
 
-    if (!title || !description) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Le titre et la description sont requis" },
+        { error: "Donnees invalides", details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+
+    const { title, description, url } = parsed.data;
 
     const project = await prisma.project.create({
       data: {

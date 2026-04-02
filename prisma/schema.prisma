@@ -19,6 +19,7 @@ model User {
   discordUsername      String?
   age                 String?
   profession          String?
+  profilePhoto        String?
   onboardingCompleted Boolean  @default(false)
   adminNotes          String?
   isBot               Boolean  @default(false)
