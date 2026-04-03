@@ -464,7 +464,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
 
   useEffect(() => {
-    // Load from API, fallback to localStorage
+    // Load photo from API (DB is source of truth per user)
     fetch("/api/user/profile")
       .then((r) => r.json())
       .then((data) => {
@@ -472,11 +472,13 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
           setProfilePhoto(data.profilePhoto);
           localStorage.setItem("opexia-profile-photo", data.profilePhoto);
         } else {
-          const local = localStorage.getItem("opexia-profile-photo");
-          if (local) setProfilePhoto(local);
+          // No photo in DB for this user — clear any stale localStorage
+          setProfilePhoto(null);
+          localStorage.removeItem("opexia-profile-photo");
         }
       })
       .catch(() => {
+        // Offline fallback
         const local = localStorage.getItem("opexia-profile-photo");
         if (local) setProfilePhoto(local);
       });

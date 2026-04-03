@@ -89,10 +89,9 @@ export default function ProfilePage() {
   const xpProgress = (xpInLevel / 500) * 100;
   const isAdmin = session?.user?.role === "admin";
 
-  // Profile photo — persisted in DB
+  // Profile photo — persisted in DB (source of truth per user)
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   useEffect(() => {
-    // Migrate from localStorage to DB if needed, then load from DB
     fetch("/api/user/profile")
       .then((r) => r.json())
       .then((data) => {
@@ -100,15 +99,12 @@ export default function ProfilePage() {
           setProfilePhoto(data.profilePhoto);
           localStorage.setItem("opexia-profile-photo", data.profilePhoto);
         } else {
-          // Migrate: if photo exists in localStorage but not DB, save it to DB
-          const local = localStorage.getItem("opexia-profile-photo");
-          if (local) {
-            setProfilePhoto(local);
-            fetch("/api/user/profile", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ profilePhoto: local }) });
-          }
+          // No photo in DB = no photo. Don't pull from localStorage (it may belong to another user).
+          localStorage.removeItem("opexia-profile-photo");
         }
       })
       .catch(() => {
+        // Offline fallback — acceptable since it only displays, doesn't migrate
         const local = localStorage.getItem("opexia-profile-photo");
         if (local) setProfilePhoto(local);
       });
