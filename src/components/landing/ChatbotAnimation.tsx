@@ -67,7 +67,7 @@ export default function ChatbotAnimation() {
       {/* OpexIA Banner */}
       <div className="flex items-center gap-2.5 px-4 py-2.5 bg-white border-b border-gray-100">
         <Image
-          src="/images/logo-opexia.png"
+          src="/images/logo-opexia.webp"
           alt="OpexIA"
           width={24}
           height={24}
@@ -364,7 +364,7 @@ export default function ChatbotAnimation() {
               {/* Chat header */}
               <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100">
                 <Image
-                  src="/images/logo-opexia.png"
+                  src="/images/logo-opexia.webp"
                   alt="OpexIA"
                   width={22}
                   height={22}
@@ -396,7 +396,7 @@ export default function ChatbotAnimation() {
                       className="flex justify-start gap-1"
                     >
                       <Image
-                        src="/images/logo-opexia.png"
+                        src="/images/logo-opexia.webp"
                         alt="OpexIA"
                         width={14}
                         height={14}
@@ -429,7 +429,7 @@ export default function ChatbotAnimation() {
                       className="flex gap-1 items-center"
                     >
                       <Image
-                        src="/images/logo-opexia.png"
+                        src="/images/logo-opexia.webp"
                         alt="OpexIA"
                         width={14}
                         height={14}

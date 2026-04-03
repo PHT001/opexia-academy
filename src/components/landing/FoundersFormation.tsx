@@ -21,7 +21,7 @@ export default function FoundersFormation() {
           {/* Founder cards */}
           <div className="flex justify-center gap-4 sm:gap-6 mb-10">
             {[
-              { name: "Marius", role: "Co-Fondateur", img: "/images/marius.png" },
+              { name: "Marius", role: "Co-Fondateur", img: "/images/marius.webp" },
               { name: "Igor", role: "Co-Fondateur", img: "/images/igor.jpg" },
             ].map((founder) => (
               <div

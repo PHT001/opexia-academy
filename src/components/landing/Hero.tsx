@@ -388,7 +388,7 @@ export default function Hero() {
               <div className="relative flex -space-x-2">
                 <div className="h-10 w-10 rounded-full border-2 border-[#333] overflow-hidden">
                   <Image
-                    src="/images/founder-marius.png"
+                    src="/images/founder-marius.webp"
                     alt="Marius"
                     width={40}
                     height={40}

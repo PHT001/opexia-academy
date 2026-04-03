@@ -1,9 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { COACHING_HOURS } from "@/lib/constants";
 import { getCalendarEvents } from "@/lib/google-calendar";
+import rateLimit from "@/lib/rate-limit";
+
+const limiter = rateLimit({ interval: 60_000, uniqueTokenPerInterval: 500 });
 
 /**
  * Get the current UTC offset for Europe/Paris (handles CET/CEST automatically).
@@ -102,7 +105,14 @@ function isSlotBusyInCalendar(
   return false;
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // Rate limit: 20 requests per minute per IP (slots are polled every 30s)
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  const { success } = limiter.check(20, `slots_${ip}`);
+  if (!success) {
+    return NextResponse.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
+  }
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });

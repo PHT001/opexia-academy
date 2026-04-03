@@ -14,6 +14,11 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 export async function POST(req: NextRequest) {
+  // Block in production unless explicitly allowed
+  if (process.env.NODE_ENV === "production" && !process.env.ALLOW_DEV_ROUTES) {
+    return NextResponse.json({ error: "Not available in production" }, { status: 403 });
+  }
+
   const { email } = await req.json();
   if (!email) {
     return NextResponse.json({ error: "Email requis" }, { status: 400 });
@@ -26,7 +31,6 @@ export async function POST(req: NextRequest) {
   const testName = "Marius";
   const results: { name: string; status: string }[] = [];
 
-  // All emails to send with a small delay between each
   const emails = [
     { name: "Free Follow-up J+1 (Variant A)", ...freeFollowupDayOne(testName, "a") },
     { name: "Free Follow-up J+2 (Variant A)", ...freeFollowupDayTwo(testName, "a") },
@@ -58,7 +62,6 @@ export async function POST(req: NextRequest) {
     } catch (err) {
       results.push({ name: e.name, status: `error: ${err instanceof Error ? err.message : "unknown"}` });
     }
-    // Small delay to avoid rate limiting
     await new Promise((r) => setTimeout(r, 500));
   }
 

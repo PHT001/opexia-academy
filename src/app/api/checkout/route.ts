@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import rateLimit from "@/lib/rate-limit";
+
+const limiter = rateLimit({ interval: 60_000, uniqueTokenPerInterval: 500 });
 
 const PLANS: Record<string, { name: string; price: number; description: string }> = {
   starter: {
@@ -28,6 +31,13 @@ const PLANS: Record<string, { name: string; price: number; description: string }
 };
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 5 checkout attempts per minute per IP
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  const { success } = limiter.check(5, ip);
+  if (!success) {
+    return NextResponse.json({ error: "Trop de tentatives. Réessaie dans une minute." }, { status: 429 });
+  }
+
   const session = await getServerSession(authOptions);
 
   const body = await req.json();

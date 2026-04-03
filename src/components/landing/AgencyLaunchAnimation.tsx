@@ -68,7 +68,7 @@ export default function AgencyLaunchAnimation() {
       {/* OpexIA Banner */}
       <div className="flex items-center gap-2.5 px-4 py-2.5 bg-white border-b border-gray-100">
         <Image
-          src="/images/logo-opexia.png"
+          src="/images/logo-opexia.webp"
           alt="OpexIA"
           width={24}
           height={24}

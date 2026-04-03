@@ -110,6 +110,7 @@ model QuizSubmission {
   user User @relation(fields: [userId], references: [id])
   quiz Quiz @relation(fields: [quizId], references: [id])
 
+  @@index([userId])
   @@index([userId, quizId])
   @@index([userId, createdAt])
 }
@@ -127,6 +128,7 @@ model LessonProgress {
 
   @@unique([userId, lessonId])
   @@index([userId, status])
+  @@index([userId, lessonId])
 }
 
 model Streak {
@@ -136,6 +138,7 @@ model Streak {
   user   User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, date])
+  @@index([userId, date])
 }
 
 model Enrollment {
@@ -165,6 +168,8 @@ model CoachingSession {
   createdAt       DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, status])
 }
 
 model PipelineDeal {
@@ -242,4 +247,5 @@ model EmailLog {
 
   @@index([userId])
   @@index([type])
+  @@index([userId, type])
 }
