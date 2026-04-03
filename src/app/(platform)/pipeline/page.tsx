@@ -444,7 +444,7 @@ function exportCSV(deals: Deal[]) {
 
 /* ─── Main Page ─────────────────────────────────────── */
 export default function PipelinePage() {
-  const { isLocked } = useTierGate(["academy", "one_to_one"]);
+  const { isLocked } = useTierGate(["starter", "academy", "one_to_one"]);
   const [deals, setDeals] = useState<Deal[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
