@@ -480,16 +480,22 @@ function CoachingContent() {
     }
   }, [searchParams]);
 
+  // Fetch slots on mount + auto-refresh every 30s
   useEffect(() => {
-    fetch("/api/coaching/slots")
-      .then((r) => r.json())
-      .then((data) => {
-        setSlots(data.slots || []);
-        setSessions(data.sessions || []);
-        setUserTier(data.userTier || "free");
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    const fetchSlots = () => {
+      fetch("/api/coaching/slots")
+        .then((r) => r.json())
+        .then((data) => {
+          setSlots(data.slots || []);
+          setSessions(data.sessions || []);
+          setUserTier(data.userTier || "free");
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    };
+    fetchSlots();
+    const interval = setInterval(fetchSlots, 30_000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleBooking = async () => {
@@ -512,6 +518,7 @@ function CoachingContent() {
         setCoachingTopic("");
         const refreshRes = await fetch("/api/coaching/slots");
         const refreshData = await refreshRes.json();
+        setSlots(refreshData.slots || []);
         setSessions(refreshData.sessions || []);
       } else {
         alert(data.error || "Erreur lors de la réservation");
