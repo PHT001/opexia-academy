@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
 import { COACHING_PRICE_DISPLAY } from "@/lib/constants";
+import { createCalendarEvent } from "@/lib/google-calendar";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -64,6 +65,20 @@ export async function POST(req: NextRequest) {
         topic: topic || null,
       },
     });
+
+    // Create Google Calendar event with Google Meet
+    try {
+      const endDate = new Date(slotDate.getTime() + 60 * 60 * 1000); // +1h
+      await createCalendarEvent(
+        `Coaching OpexIA — ${session.user.name || "Élève"}`,
+        slotDate.toISOString(),
+        endDate.toISOString(),
+        session.user.email
+      );
+    } catch (calErr) {
+      console.error("[Book] Failed to create calendar event:", calErr);
+      // Don't fail the booking if calendar fails
+    }
 
     // Format date for emails
     const dateStr = slotDate.toLocaleDateString("fr-FR", {

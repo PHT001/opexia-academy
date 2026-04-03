@@ -74,16 +74,17 @@ export async function createCalendarEvent(
   }
 
   try {
-    const event: {
-      summary: string;
-      start: { dateTime: string; timeZone: string };
-      end: { dateTime: string; timeZone: string };
-      attendees?: { email: string }[];
-      reminders: { useDefault: boolean; overrides: { method: string; minutes: number }[] };
-    } = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const event: any = {
       summary,
       start: { dateTime: startTime, timeZone: "Europe/Paris" },
       end: { dateTime: endTime, timeZone: "Europe/Paris" },
+      conferenceData: {
+        createRequest: {
+          requestId: `opexia-${Date.now()}`,
+          conferenceSolutionKey: { type: "hangoutsMeet" },
+        },
+      },
       reminders: {
         useDefault: false,
         overrides: [
@@ -100,6 +101,7 @@ export async function createCalendarEvent(
     const response = await calendar.events.insert({
       calendarId: CALENDAR_ID(),
       requestBody: event,
+      conferenceDataVersion: 1,
       sendUpdates: attendeeEmail ? "all" : "none",
     });
 
