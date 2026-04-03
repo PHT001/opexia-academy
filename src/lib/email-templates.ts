@@ -22,7 +22,7 @@ function layout(content: string): string {
       <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
         <p style="color: #9CA3AF; font-size: 12px; margin: 0;">OpexIA Academy</p>
         <p style="color: #9CA3AF; font-size: 12px; margin: 4px 0 0 0;">
-          <a href="https://opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a>
+          <a href="https://www.opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a>
         </p>
         <p style="color: #D1D5DB; font-size: 11px; margin: 12px 0 0 0;">
           Tu reçois cet email car tu es inscrit sur OpexIA Academy.<br>
@@ -56,7 +56,7 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
         </ol>
       </div>
 
-      <a href="https://opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+      <a href="https://www.opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
         Acc&eacute;der &agrave; ma formation
       </a>
 
@@ -95,7 +95,7 @@ export function dayOneEmail(name: string): { subject: string; html: string } {
         </p>
       </div>
 
-      <a href="https://opexia-formation.com/lessons" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+      <a href="https://www.opexia-formation.com/lessons" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
         Commencer la Le&ccedil;on 1
       </a>
 
@@ -180,7 +180,7 @@ export function weeklyRecapEmail(
 
       ${nextLessonBlock}
 
-      <a href="https://opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+      <a href="https://www.opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
         Continuer ma formation
       </a>
 
@@ -226,7 +226,7 @@ export function nurtureDayOne(name: string): { subject: string; html: string } {
         les 2 modules D&eacute;couverte pour poser les fondations. C&rsquo;est le meilleur moyen de commencer.
       </p>
 
-      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+      <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
         Voir les offres
       </a>
 
@@ -269,7 +269,7 @@ export function nurtureDayThree(name: string): { subject: string; html: string }
         Il a d&eacute;cid&eacute; de passer &agrave; l&rsquo;action.
       </p>
 
-      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+      <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
         Rejoindre la formation
       </a>
 
@@ -313,7 +313,7 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
         Ne laisse pas la procrastination d&eacute;cider &agrave; ta place.
       </p>
 
-      <a href="https://opexia-formation.com/#pricing" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+      <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
         Choisir mon offre maintenant
       </a>
 
@@ -364,7 +364,7 @@ export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { su
         </ul>
       </div>
 
-      <a href="https://opexia-formation.com/#pricing${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+      <a href="https://www.opexia-formation.com/offres${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
         ${ctaText}
       </a>
 
@@ -425,7 +425,7 @@ export function freeFollowupDayTwo(name: string, variant: "a" | "b" = "a"): { su
       </p>
 
       <div style="text-align: center; margin-bottom: 24px;">
-        <a href="https://opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
+        <a href="https://www.opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
           Reprendre ma formation
         </a>
       </div>
@@ -495,7 +495,7 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
       </div>
 
       <div style="text-align: center; margin-bottom: 24px;">
-        <a href="https://opexia-formation.com/offres?code=${discountCode}${variantParam}" style="display: inline-block; background: #FF1744; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
+        <a href="https://www.opexia-formation.com/offres?code=${discountCode}${variantParam}" style="display: inline-block; background: #FF1744; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
           Voir les formules
         </a>
       </div>
