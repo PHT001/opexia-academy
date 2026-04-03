@@ -268,7 +268,6 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     id: "coaching",
     label: "Coaching",
     items: [
-      { href: "/assistant", label: "Parler à l'IA", icon: IconBot },
       { href: "/coaching", label: "Réserver un appel", icon: IconPhone },
     ],
   },
