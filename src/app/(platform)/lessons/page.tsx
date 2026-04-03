@@ -864,7 +864,7 @@ export default function LessonsPage() {
 
       {/* ── Floating fixed CTA for non-academy users ── */}
       {(userTier === "free" || userTier === "starter") && (
-        <div className="fixed bottom-6 left-0 right-0 pr-20 sm:pr-24 lg:left-[260px] z-50 flex justify-center" style={{ pointerEvents: "none" }}>
+        <div className="fixed bottom-6 left-0 right-0 px-4 lg:left-[260px] z-50 flex justify-center" style={{ pointerEvents: "none" }}>
           <motion.a
             href="/offres"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
