@@ -466,6 +466,8 @@ export default function LessonsPage() {
   }, []);
 
   const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
+  // Teaser mode: show all modules (blurred lessons) for free AND starter users on non-accessible modules
+  const isTeaser = userTier === "free" || userTier === "starter";
   const totalCompleted = modules.reduce((sum, m) => sum + m.lessons.filter((l) => l.status === "completed").length, 0);
   const totalLessons = modules.reduce((sum, m) => sum + m.lessons.length, 0);
   const totalProgress = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
@@ -646,22 +648,22 @@ export default function LessonsPage() {
                       <div className={cn(
                         "rounded-2xl border overflow-hidden transition-all duration-300 bg-white",
                         isExpanded ? "shadow-lg border-gray-300" : "shadow-sm",
-                        (modAccessible || userTier === "free")
+                        (modAccessible || isTeaser)
                           ? "border-gray-200 hover:shadow-md hover:border-gray-300"
                           : "border-gray-100 bg-gray-50/50",
                       )}>
                         <button
-                          onClick={() => { if (!modAccessible && userTier !== "free") return; setExpandedModule(isExpanded ? null : mod.order); }}
-                          disabled={!modAccessible && userTier !== "free"}
-                          className={cn("w-full flex items-center gap-4 p-4 md:p-5 text-left transition-colors", (modAccessible || userTier === "free") ? "cursor-pointer" : "cursor-default")}
+                          onClick={() => { if (!modAccessible && !isTeaser) return; setExpandedModule(isExpanded ? null : mod.order); }}
+                          disabled={!modAccessible && !isTeaser}
+                          className={cn("w-full flex items-center gap-4 p-4 md:p-5 text-left transition-colors", (modAccessible || isTeaser) ? "cursor-pointer" : "cursor-default")}
                         >
                           <div className={cn(
                             "w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 border",
-                            (modAccessible || userTier === "free")
+                            (modAccessible || isTeaser)
                               ? cn(theme.lightBg, theme.border, hasActive && "ring-2 ring-offset-1 ring-[#FF1744]/20")
                               : "bg-gray-100 border-gray-200"
                           )}>
-                            {(modAccessible || userTier === "free") ? (
+                            {(modAccessible || isTeaser) ? (
                               <span className={cn("text-base font-black", theme.accent)}>{String(mod.order).padStart(2, "0")}</span>
                             ) : (
                               <IconLock className="text-gray-300 w-4 h-4" />
@@ -670,7 +672,7 @@ export default function LessonsPage() {
 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                              <h3 className={cn("text-sm font-bold", (modAccessible || userTier === "free") ? "text-[#111]" : "text-gray-400")}>{mod.title}</h3>
+                              <h3 className={cn("text-sm font-bold", (modAccessible || isTeaser) ? "text-[#111]" : "text-gray-400")}>{mod.title}</h3>
                               {hasClaude && (
                                 <span className="flex items-center justify-center w-5 h-5 rounded-md bg-orange-50 border border-orange-200 flex-shrink-0" title="Claude">
                                   <IconClaude className="text-orange-500 w-3 h-3" />
@@ -693,15 +695,15 @@ export default function LessonsPage() {
                               )}
                             </div>
                             <div className="flex items-center gap-2 sm:gap-3 mt-1 flex-wrap">
-                              <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || userTier === "free") ? "text-gray-400" : "text-gray-300")}>
+                              <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || isTeaser) ? "text-gray-400" : "text-gray-300")}>
                                 <IconClock /> {meta.estimatedTime}
                               </span>
                               <span className="w-0.5 h-0.5 rounded-full bg-gray-300 hidden sm:block" />
-                              <span className={cn("text-[10px]", (modAccessible || userTier === "free") ? "text-gray-400" : "text-gray-300")}>{meta.lessonCount} le{"\u00e7"}ons</span>
+                              <span className={cn("text-[10px]", (modAccessible || isTeaser) ? "text-gray-400" : "text-gray-300")}>{meta.lessonCount} le{"\u00e7"}ons</span>
                               {(MODULE_VIDEO_COUNT[mod.order] ?? 0) > 0 && (
                                 <>
                                   <span className="w-0.5 h-0.5 rounded-full bg-gray-300 hidden sm:block" />
-                                  <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || userTier === "free") ? "text-purple-500" : "text-gray-300")}>
+                                  <span className={cn("flex items-center gap-1 text-[10px]", (modAccessible || isTeaser) ? "text-purple-500" : "text-gray-300")}>
                                     <IconVideoSmall /> {MODULE_VIDEO_COUNT[mod.order]} vid{"\u00e9"}os
                                   </span>
                                 </>
@@ -715,7 +717,7 @@ export default function LessonsPage() {
                             </div>
                           </div>
 
-                          {(modAccessible || userTier === "free") && (
+                          {(modAccessible || isTeaser) && (
                             <div className="flex items-center gap-3 flex-shrink-0">
                               {modAccessible && (
                                 <div className="hidden sm:block">
@@ -730,7 +732,7 @@ export default function LessonsPage() {
                         </button>
 
                         {/* Lock overlay */}
-                        {!modAccessible && userTier !== "free" && (
+                        {!modAccessible && !isTeaser && (
                           <div className="absolute inset-0 flex items-end rounded-2xl bg-gradient-to-t from-white/90 via-white/40 to-transparent pointer-events-none">
                             <div className="w-full p-4 pt-10 rounded-b-2xl">
                               <div className="flex items-center gap-2">
@@ -743,7 +745,7 @@ export default function LessonsPage() {
 
                         {/* Lessons list */}
                         <AnimatePresence>
-                          {(modAccessible || userTier === "free") && isExpanded && (
+                          {(modAccessible || isTeaser) && isExpanded && (
                             <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
@@ -752,7 +754,7 @@ export default function LessonsPage() {
                               className="border-t border-gray-100"
                             >
                               {mod.lessons.map((lesson, idx) => {
-                                const isFreeUser = userTier === "free";
+                                const isFreeUser = !modAccessible && isTeaser;
                                 const isLocked = lesson.status === "locked";
                                 const isActive = lesson.status === "in_progress";
                                 const isCompleted = lesson.status === "completed";
