@@ -8,8 +8,6 @@ import {
   dayThreeEmail,
   weeklyRecapEmail,
   guideEmail,
-  leadFollowupDayOne,
-  leadFollowupDayThree,
   leadFollowupDaySeven,
 } from "@/lib/email-templates";
 
@@ -37,8 +35,6 @@ export async function POST(req: NextRequest) {
 
   const emails = [
     { name: "Guide Lead Magnet (immédiat)", ...guideEmail() },
-    { name: "Lead Follow-up J+1", ...leadFollowupDayOne() },
-    { name: "Lead Follow-up J+3", ...leadFollowupDayThree() },
     { name: "Lead Follow-up J+7", ...leadFollowupDaySeven() },
     { name: "Free Follow-up J+1 (Variant A)", ...freeFollowupDayOne(testName, "a") },
     { name: "Free Follow-up J+2 (Variant A)", ...freeFollowupDayTwo(testName, "a") },

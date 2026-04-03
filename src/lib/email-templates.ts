@@ -262,59 +262,34 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
 /**
  * Lead magnet — Guide "Les 5 services IA les plus demandés en 2026"
  * Sent immediately when someone submits their email on the landing page.
- * Written as a personal email from Marius to land in Gmail Primary tab.
+ * Slightly styled but still personal enough to land in Gmail Primary.
  */
 export function guideEmail(): { subject: string; html: string } {
   return {
     subject: "Ton guide est prêt",
     html: layout(`
       <p>Salut,</p>
-      <p>Merci d'avoir t&eacute;l&eacute;charg&eacute; le guide. Le voici :</p>
-      <p><a href="https://www.opexia-formation.com/guide-5-services-ia.pdf" style="color: #1a73e8;">T&eacute;l&eacute;charger le guide — Les 5 services IA les plus demand&eacute;s en 2026 (PDF)</a></p>
-      <p>Dedans tu trouveras les 5 services que les PME s'arrachent en ce moment, les prix du march&eacute;, les outils concrets pour chaque service, et une m&eacute;thode pour d&eacute;crocher tes premiers clients.</p>
-      <p>Lis-le tranquillement et si tu as des questions, r&eacute;ponds directement &agrave; cet email. Je lis tout.</p>
+      <p>Merci pour ta confiance. Voici ton guide :</p>
+      <p style="margin: 20px 0;">
+        <a href="https://www.opexia-formation.com/guide-5-services-ia.pdf" style="color: #1a73e8; font-weight: 600; font-size: 16px;">
+          &rarr; T&eacute;l&eacute;charger le guide PDF
+        </a>
+      </p>
+      <p>Dedans tu trouveras :</p>
+      <p style="margin-left: 8px;">
+        &bull; Les 5 services IA que les PME s'arrachent<br/>
+        &bull; Les prix du march&eacute; (de 500&euro; &agrave; 5 000&euro;/projet)<br/>
+        &bull; Les outils concrets pour chaque service<br/>
+        &bull; Un pitch pr&ecirc;t &agrave; l'emploi pour d&eacute;marcher<br/>
+        &bull; La m&eacute;thode en 5 &eacute;tapes pour d&eacute;crocher tes premiers clients
+      </p>
+      <p>Lis-le tranquillement et si tu as des questions, r&eacute;ponds &agrave; cet email. Je lis tout.</p>
     `),
   };
 }
 
 /**
- * Lead follow-up Day 1 — sent ~24h after guide download.
- * Personal email style to land in Primary tab.
- */
-export function leadFollowupDayOne(): { subject: string; html: string } {
-  return {
-    subject: "T'as eu le temps de lire le guide ?",
-    html: layout(`
-      <p>Salut,</p>
-      <p>Je t'ai envoy&eacute; le guide des 5 services IA hier. T'as eu le temps d'y jeter un oeil ?</p>
-      <p>Ce que je voulais te dire : le guide te donne la vue d'ensemble, mais si tu veux vraiment lancer ton activit&eacute; IA, il te faut un accompagnement structur&eacute;. C'est pour &ccedil;a qu'on a cr&eacute;&eacute; la formation OpexIA.</p>
-      <p>En gros : 85 le&ccedil;ons, du premier prompt jusqu'&agrave; la signature de ton premier client. Avec un CRM int&eacute;gr&eacute;, du coaching, et une communaut&eacute; de +150 entrepreneurs IA.</p>
-      <p>Tu peux voir les d&eacute;tails ici : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
-      <p>H&eacute;site pas &agrave; me r&eacute;pondre si t'as des questions.</p>
-    `),
-  };
-}
-
-/**
- * Lead follow-up Day 3 — social proof + free account CTA.
- * Personal email style.
- */
-export function leadFollowupDayThree(): { subject: string; html: string } {
-  return {
-    subject: "Un truc qui devrait t'intéresser",
-    html: layout(`
-      <p>Salut,</p>
-      <p>Je voulais te partager un retour rapide.</p>
-      <p>Karim avait t&eacute;l&eacute;charg&eacute; le m&ecirc;me guide que toi il y a quelques semaines. Il h&eacute;sitait. Trois semaines apr&egrave;s avoir commenc&eacute; la formation, il a sign&eacute; son premier contrat &agrave; 2 500&euro; — une automatisation de support client pour une PME.</p>
-      <p>Je dis pas &ccedil;a pour te vendre quoi que ce soit. Juste que le march&eacute; est vraiment l&agrave;, et que ceux qui se lancent maintenant prennent une avance &eacute;norme.</p>
-      <p>Si tu veux tester sans engagement, tu peux cr&eacute;er un compte gratuit et acc&eacute;der au premier module de d&eacute;couverte : <a href="https://www.opexia-formation.com/register" style="color: #1a73e8;">opexia-formation.com/register</a></p>
-      <p>Dis-moi si tu as des questions.</p>
-    `),
-  };
-}
-
-/**
- * Lead follow-up Day 7 — last email, direct and honest.
+ * Lead follow-up Day 7 — only follow-up after guide delivery.
  * Personal email style.
  */
 export function leadFollowupDaySeven(): { subject: string; html: string } {
