@@ -466,8 +466,8 @@ export default function LessonsPage() {
   }, []);
 
   const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
-  // Teaser mode: free users see all modules expanded+blurred; starter sees non-accessible modules as locked cards (no expand)
-  const isTeaser = userTier === "free";
+  // Teaser mode: free & starter see non-accessible modules expanded + blurred (like free tier)
+  const isTeaser = userTier === "free" || userTier === "starter";
   const totalCompleted = modules.reduce((sum, m) => sum + m.lessons.filter((l) => l.status === "completed").length, 0);
   const totalLessons = modules.reduce((sum, m) => sum + m.lessons.length, 0);
   const totalProgress = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
@@ -608,7 +608,7 @@ export default function LessonsPage() {
                   const modAccessible = accessibleModules.includes(mod.order);
                   const completed = mod.lessons.filter((l) => l.status === "completed").length;
                   const pct = mod.lessons.length > 0 ? Math.round((completed / mod.lessons.length) * 100) : 0;
-                  const isExpanded = userTier === "free" ? true : expandedModule === mod.order;
+                  const isExpanded = (!modAccessible && isTeaser) ? true : (userTier === "free" ? true : expandedModule === mod.order);
                   const hasActive = mod.lessons.some((l) => l.status === "in_progress");
                   const isModuleCompleted = completed === mod.lessons.length && mod.lessons.length > 0;
                   const meta = MODULE_METADATA[mod.order] ?? DEFAULT_META;
@@ -796,8 +796,8 @@ export default function LessonsPage() {
                                           <span className="text-[10px] text-[#FF1744] font-semibold">+{lesson.xpEarned} XP</span>
                                         )}
                                       </div>
-                                      {/* Content type badges — always visible, even for free users */}
-                                      <div className="flex items-center gap-1 sm:gap-1.5 mt-1.5 flex-wrap">
+                                      {/* Content type badges — blurred for teaser users */}
+                                      <div className={cn("flex items-center gap-1 sm:gap-1.5 mt-1.5 flex-wrap", isFreeUser && "blur-[6px] select-none pointer-events-none")}>
                                         {getLessonContentTypes(lesson.order, lesson.hasQuiz).map((ct) => (
                                           <span key={ct.label} className={cn("inline-flex items-center gap-0.5 text-[9px] font-medium px-1.5 py-0.5 rounded border", ct.color)}>
                                             <ct.icon className="w-2.5 h-2.5" />
