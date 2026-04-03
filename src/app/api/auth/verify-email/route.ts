@@ -42,6 +42,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Email déjà vérifié" });
   }
 
+  if (user.verificationCodeExpiry && new Date() > user.verificationCodeExpiry) {
+    return NextResponse.json({ error: "Code expiré. Demande un nouveau code." }, { status: 400 });
+  }
+
   if (user.verificationCode !== code) {
     // Record failed attempt
     const current = failedAttempts.get(emailKey);
@@ -57,7 +61,7 @@ export async function POST(req: Request) {
 
   await prisma.user.update({
     where: { id: user.id },
-    data: { emailVerified: true, verificationCode: null },
+    data: { emailVerified: true, verificationCode: null, verificationCodeExpiry: null },
   });
 
   return NextResponse.json({ message: "Email vérifié avec succès" });

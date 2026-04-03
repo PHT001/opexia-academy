@@ -93,13 +93,14 @@ export async function GET(req: NextRequest) {
   // Tier/access check — admin bypasses
   const isAdmin = session.user.role === "admin";
   if (!isAdmin) {
+    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
     let userTier = "starter";
-    const enrollment = await prisma.enrollment.findFirst({
+    const enrollments = await prisma.enrollment.findMany({
       where: { userId, status: "active" },
-      orderBy: { createdAt: "desc" },
     });
-    if (enrollment) {
-      userTier = enrollment.tier;
+    const bestEnrollment = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0))[0];
+    if (bestEnrollment) {
+      userTier = bestEnrollment.tier;
     }
     const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.starter;
     const allModulesAccessible = certDef.modules.every((m) => accessibleModules.includes(m));

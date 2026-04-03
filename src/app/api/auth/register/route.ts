@@ -55,6 +55,7 @@ export async function POST(request: Request) {
           name: name || existingUser.name,
           hashedPassword,
           verificationCode,
+          verificationCodeExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000),
           emailVerified: existingUser.emailVerified || false,
         },
       });
@@ -79,6 +80,7 @@ export async function POST(request: Request) {
           role: "student",
           emailVerified: false,
           verificationCode,
+          verificationCodeExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000),
         },
       });
 

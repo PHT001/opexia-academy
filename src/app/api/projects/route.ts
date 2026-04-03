@@ -3,6 +3,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { Resend } from "resend";
+
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 const createProjectSchema = z.object({
   title: z.string().min(1, "Le titre est requis").max(200, "Le titre ne doit pas depasser 200 caracteres"),
@@ -61,6 +66,21 @@ export async function POST(req: Request) {
         url: url || null,
       },
     });
+
+    // Send admin notification
+    if (resend) {
+      await resend.emails.send({
+        from: "Marius d'OpexIA <support@opexia-formation.com>",
+        to: "opexiapro@gmail.com",
+        subject: `Nouveau projet soumis — ${title}`,
+        html: `<p>Salut,</p>
+<p>Un étudiant (${session.user.name || session.user.email || "inconnu"}) vient de soumettre un nouveau projet : <strong>${title}</strong>.</p>
+<p>Connecte-toi au dashboard pour le consulter.</p>
+<p>— OpexIA</p>`,
+      }).catch((err) => {
+        console.error("[Projects] Failed to send admin notification:", err);
+      });
+    }
 
     return NextResponse.json(project, { status: 201 });
   } catch (error) {

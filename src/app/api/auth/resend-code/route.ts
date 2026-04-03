@@ -57,7 +57,7 @@ export async function POST() {
 
     await prisma.user.update({
       where: { id: user.id },
-      data: { verificationCode },
+      data: { verificationCode, verificationCodeExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000) },
     });
 
     if (resend) {

@@ -24,6 +24,11 @@ function ResetPasswordForm() {
       return;
     }
 
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
+      setError("Le mot de passe doit contenir au moins un caractère spécial");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("Les mots de passe ne correspondent pas");
       return;
@@ -131,7 +136,7 @@ function ResetPasswordForm() {
             minLength={8}
             className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
           />
-          <p className="text-xs text-gray-400 mt-1.5">Minimum 8 caractères</p>
+          <p className="text-xs text-gray-400 mt-1.5">Minimum 8 caractères, dont un caractère spécial</p>
         </div>
 
         <div>

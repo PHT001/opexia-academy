@@ -14,17 +14,18 @@ export async function GET() {
     const userId = session.user.id;
     const isAdmin = session.user.role === "admin";
 
-    // Fetch user's enrollment tier
+    // Fetch user's enrollment tier (highest tier wins)
+    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
     let userTier = "free";
     if (isAdmin) {
       userTier = "academy";
     } else {
-      const enrollment = await prisma.enrollment.findFirst({
+      const enrollments = await prisma.enrollment.findMany({
         where: { userId, status: "active" },
-        orderBy: { createdAt: "desc" },
       });
-      if (enrollment) {
-        userTier = enrollment.tier;
+      const best = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0))[0];
+      if (best) {
+        userTier = best.tier;
       }
     }
 

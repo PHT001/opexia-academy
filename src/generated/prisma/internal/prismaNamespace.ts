@@ -1650,6 +1650,7 @@ export const UserScalarFieldEnum = {
   role: 'role',
   emailVerified: 'emailVerified',
   verificationCode: 'verificationCode',
+  verificationCodeExpiry: 'verificationCodeExpiry',
   phone: 'phone',
   discordUsername: 'discordUsername',
   age: 'age',

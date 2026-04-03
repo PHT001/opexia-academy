@@ -21,6 +21,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
+      return NextResponse.json(
+        { error: "Le mot de passe doit contenir au moins un caractère spécial" },
+        { status: 400 }
+      );
+    }
+
     // Hash the provided token to compare with stored hash
     const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
 

@@ -40,11 +40,12 @@ export async function POST(request: Request) {
   // Tier/access check — verify user can access this module
   const isAdmin = session.user.role === "admin";
   if (!isAdmin) {
-    const enrollment = await prisma.enrollment.findFirst({
+    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+    const enrollments = await prisma.enrollment.findMany({
       where: { userId: userId, status: "active" },
-      orderBy: { createdAt: "desc" },
     });
-    const userTier = enrollment?.tier || "free";
+    const bestEnrollment = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0))[0];
+    const userTier = bestEnrollment?.tier || "free";
     const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
     const lessonModule = await prisma.module.findUnique({
       where: { id: lesson.moduleId },
@@ -148,11 +149,14 @@ export async function POST(request: Request) {
       // Check if module is now complete — award MODULE_COMPLETE bonus
       const moduleId = lesson.moduleId;
       const moduleLessons = await tx.lesson.findMany({ where: { moduleId }, select: { id: true } });
-      const completedInModule = await tx.lessonProgress.count({
-        where: { userId, lessonId: { in: moduleLessons.map((l) => l.id) }, status: "completed" },
+      const otherLessonIds = moduleLessons.filter((l) => l.id !== lesson.id).map((l) => l.id);
+      const alreadyCompletedOthers = await tx.lessonProgress.count({
+        where: { userId, lessonId: { in: otherLessonIds }, status: "completed" },
       });
-      if (completedInModule === moduleLessons.length) {
-        // All lessons in module completed — award bonus XP to last lesson
+      const wasAlreadyAllComplete = existing?.status === "completed" && alreadyCompletedOthers === otherLessonIds.length;
+      const completedInModule = alreadyCompletedOthers + 1; // +1 for current lesson just completed
+      if (completedInModule === moduleLessons.length && !wasAlreadyAllComplete) {
+        // First time all lessons in module completed — award bonus XP
         await tx.lessonProgress.update({
           where: { userId_lessonId: { userId, lessonId: lesson.id } },
           data: { xpEarned: { increment: XP_VALUES.MODULE_COMPLETE } },

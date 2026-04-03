@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { Resend } from "resend";
+
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 export async function PATCH(
   req: Request,
@@ -39,6 +44,33 @@ export async function PATCH(
       data,
       include: { user: { select: { id: true, name: true, email: true } } },
     });
+
+    // Send student notification
+    if (resend && project.user?.email) {
+      const statusLabels: Record<string, string> = {
+        submitted: "Soumis",
+        reviewing: "En cours de revue",
+        approved: "Approuve",
+        needs_revision: "A reviser",
+      };
+      const statusLabel = statusLabels[project.status] || project.status;
+      const feedbackBlock = project.feedback
+        ? `<p><strong>Feedback :</strong></p><p>${project.feedback}</p>`
+        : "";
+
+      await resend.emails.send({
+        from: "Marius d'OpexIA <support@opexia-formation.com>",
+        to: project.user.email,
+        subject: `Ton projet "${project.title}" a ete mis a jour`,
+        html: `<p>Salut${project.user.name ? ` ${project.user.name}` : ""},</p>
+<p>Ton projet <strong>${project.title}</strong> a un nouveau statut : <strong>${statusLabel}</strong>.</p>
+${feedbackBlock}
+<p>Connecte-toi a la plateforme pour voir les details.</p>
+<p>A bientot,<br>Marius d'OpexIA</p>`,
+      }).catch((err) => {
+        console.error("[Projects] Failed to send student notification:", err);
+      });
+    }
 
     return NextResponse.json(project);
   } catch (error) {
