@@ -1295,7 +1295,7 @@ const adminFadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0
 const adminStagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
 
 function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTestOnboarding, userTier }: { stats: AdminStats | null; loading: boolean; projects: Project[]; onProjectUpdate: (id: string, status: string, feedback: string) => Promise<void>; onTestOnboarding?: () => void; userTier?: string }) {
-  const [adminTab, setAdminTab] = useState<"overview" | "students" | "projects" | "referrals">("overview");
+  const [adminTab, setAdminTab] = useState<"overview" | "students" | "projects" | "referrals" | "leads">("overview");
 
   if (loading) {
     return (
@@ -1464,6 +1464,22 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
             Parrainages
           </span>
         </button>
+        <button
+          onClick={() => setAdminTab("leads")}
+          className={cn(
+            "px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+            adminTab === "leads"
+              ? "bg-white text-[#111] shadow-sm ring-1 ring-black/5"
+              : "text-gray-500 hover:text-[#111] hover:bg-white/50"
+          )}
+        >
+          <span className="flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+            Leads
+          </span>
+        </button>
       </motion.div>
 
       {adminTab === "overview" ? (
@@ -1472,6 +1488,8 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
         <AdminStudentsTab />
       ) : adminTab === "referrals" ? (
         <AdminReferralsTab />
+      ) : adminTab === "leads" ? (
+        <AdminLeadsTab />
       ) : (
         <AdminProjectsTab projects={projects} onUpdate={onProjectUpdate} />
       )}
@@ -2636,6 +2654,166 @@ const REF_STATUS: Record<string, { label: string; color: string }> = {
   confirmed: { label: "\u00c0 payer", color: "bg-blue-100 text-blue-700" },
   paid: { label: "Pay\u00e9", color: "bg-emerald-100 text-emerald-700" },
 };
+
+/* ══════════════════════════════════════════════════════════════════════ */
+/*  Admin Leads Tab                                                       */
+/* ══════════════════════════════════════════════════════════════════════ */
+
+interface AdminLead {
+  id: string;
+  email: string;
+  source: string;
+  status: string;
+  createdAt: string;
+  hasAccount: boolean;
+}
+interface AdminLeadStats {
+  total: number;
+  today: number;
+  converted: number;
+  withAccount: number;
+}
+
+function AdminLeadsTab() {
+  const [leads, setLeads] = useState<AdminLead[]>([]);
+  const [lstats, setLstats] = useState<AdminLeadStats | null>(null);
+  const [lloading, setLloading] = useState(true);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetch("/api/admin/leads")
+      .then((r) => r.json())
+      .then((data) => {
+        setLeads(data.leads || []);
+        setLstats(data.stats || null);
+      })
+      .catch(console.error)
+      .finally(() => setLloading(false));
+  }, []);
+
+  const filtered = search
+    ? leads.filter((l) => l.email.toLowerCase().includes(search.toLowerCase()))
+    : leads;
+
+  if (lloading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="h-16 bg-gray-100 rounded-xl animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <motion.div className="space-y-6" initial="hidden" animate="visible" variants={adminStagger}>
+      {/* Stats cards */}
+      {lstats && (
+        <motion.div variants={adminFadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-2">Total Leads</p>
+            <p className="text-2xl font-bold text-[#111] tabular-nums">{lstats.total}</p>
+            <p className="text-xs text-gray-400 mt-1">emails r&eacute;cup&eacute;r&eacute;s</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-2">Aujourd&apos;hui</p>
+            <p className="text-2xl font-bold text-[#FF1744] tabular-nums">{lstats.today}</p>
+            <p className="text-xs text-gray-400 mt-1">nouveaux leads</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-2">Inscrits</p>
+            <p className="text-2xl font-bold text-emerald-600 tabular-nums">{lstats.withAccount}</p>
+            <p className="text-xs text-gray-400 mt-1">ont cr&eacute;&eacute; un compte</p>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-2">Taux conversion</p>
+            <p className="text-2xl font-bold text-[#111] tabular-nums">
+              {lstats.total > 0 ? Math.round((lstats.withAccount / lstats.total) * 100) : 0}%
+            </p>
+            <p className="text-xs text-gray-400 mt-1">lead → inscription</p>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Search + table */}
+      <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h3 className="font-semibold text-[#111]">Leads Guide IA</h3>
+            <p className="text-xs text-gray-400">{filtered.length} emails</p>
+          </div>
+          <input
+            type="text"
+            placeholder="Rechercher un email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="px-4 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] w-full sm:w-64"
+          />
+        </div>
+
+        {filtered.length === 0 ? (
+          <div className="p-8 text-center text-gray-400 text-sm">
+            {search ? "Aucun lead trouv\u00e9" : "Aucun lead pour le moment"}
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-[10px] uppercase tracking-wider text-gray-400 border-b border-gray-100">
+                  <th className="px-5 py-3 font-semibold">Email</th>
+                  <th className="px-5 py-3 font-semibold">Source</th>
+                  <th className="px-5 py-3 font-semibold">Date</th>
+                  <th className="px-5 py-3 font-semibold">Statut</th>
+                  <th className="px-5 py-3 font-semibold">Compte</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((lead) => (
+                  <tr key={lead.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="px-5 py-3.5 font-medium text-[#111]">{lead.email}</td>
+                    <td className="px-5 py-3.5 text-gray-500">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-50 text-purple-600">
+                        {lead.source === "guide_niches" ? "Guide 5 niches" : lead.source}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5 text-gray-400 tabular-nums">
+                      {new Date(lead.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}
+                      <span className="text-gray-300 ml-1">
+                        {new Date(lead.createdAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <span className={cn(
+                        "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold",
+                        lead.status === "active" ? "bg-blue-50 text-blue-600" :
+                        lead.status === "converted" ? "bg-emerald-50 text-emerald-600" :
+                        "bg-gray-100 text-gray-500"
+                      )}>
+                        {lead.status === "active" ? "Actif" : lead.status === "converted" ? "Converti" : lead.status}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      {lead.hasAccount ? (
+                        <span className="inline-flex items-center gap-1 text-emerald-600 text-xs font-medium">
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          Inscrit
+                        </span>
+                      ) : (
+                        <span className="text-gray-300 text-xs">—</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+}
 
 function AdminReferralsTab() {
   const [referrals, setReferrals] = useState<AdminReferralEntry[]>([]);
