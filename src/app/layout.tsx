@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     siteName: "OpexIA Academy",
     images: [
       {
-        url: "/images/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "OpexIA Academy - Formation IA",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: "OpexIA Academy — Lance ton agence IA en 90 jours",
     description:
       "La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 85 leçons.",
-    images: ["/images/og-image.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -103,6 +103,47 @@ export default function RootLayout({
           data-domain="opexia-formation.com"
           src="https://plausible.io/js/script.js"
           strategy="afterInteractive"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Course",
+              name: "OpexIA Academy",
+              description: "Formation complète pour lancer ton agence IA et générer 10K€/mois. 22 modules, 85 leçons.",
+              provider: {
+                "@type": "Organization",
+                name: "OpexIA",
+                url: "https://opexia-formation.com",
+              },
+              url: "https://opexia-formation.com",
+              coursePrerequisites: "Aucun prérequis technique",
+              educationalLevel: "Débutant à Avancé",
+              numberOfCredits: "85",
+              hasCourseInstance: {
+                "@type": "CourseInstance",
+                courseMode: "online",
+                courseWorkload: "PT40H",
+              },
+              offers: [
+                {
+                  "@type": "Offer",
+                  price: "47",
+                  priceCurrency: "EUR",
+                  name: "Starter",
+                  url: "https://opexia-formation.com/#pricing",
+                },
+                {
+                  "@type": "Offer",
+                  price: "497",
+                  priceCurrency: "EUR",
+                  name: "Academy",
+                  url: "https://opexia-formation.com/#pricing",
+                },
+              ],
+            }),
+          }}
         />
       </head>
       <body

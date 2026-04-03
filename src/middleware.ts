@@ -33,7 +33,7 @@ export const config = {
     "/notes/:path*",
     "/ressources/:path*",
     "/masterclass/:path*",
-    "/assistant/:path*",
+
     "/coaching/:path*",
     "/templates/:path*",
     "/generateur/:path*",

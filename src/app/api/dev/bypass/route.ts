@@ -6,6 +6,11 @@ const TEST_PASSWORD = "OpexiaTest2024!";
 const VALID_TIERS = ["free", "starter", "academy", "one_to_one"];
 
 export async function POST(req: NextRequest) {
+  // Block in production
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Not available in production" }, { status: 403 });
+  }
+
   const { tier } = await req.json();
 
   if (!tier || !VALID_TIERS.includes(tier)) {
