@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     siteName: "OpexIA Academy",
     images: [
       {
-        url: "/opengraph-image",
+        url: "/images/og-image.png",
         width: 1200,
         height: 630,
         alt: "OpexIA Academy - Formation IA",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: "OpexIA Academy — Lance ton agence IA en 90 jours",
     description:
       "La formation pour lancer ton agence IA et générer 10K/mois. 22 modules, 85 leçons.",
-    images: ["/opengraph-image"],
+    images: ["/images/og-image.png"],
   },
   robots: {
     index: true,
