@@ -13,14 +13,11 @@ Disallow: /pipeline
 Disallow: /templates
 Disallow: /masterclass
 Disallow: /coaching
-Disallow: /assistant
-Disallow: /marketplace
 Disallow: /favoris
 Disallow: /notes
 Disallow: /certificats
 Disallow: /parrainage
 Disallow: /leaderboard
-Disallow: /intervenants
 Disallow: /ressources
 Disallow: /congratulations
 Disallow: /profile

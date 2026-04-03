@@ -1,4 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Connexion — OpexIA Academy",
+  description: "Connecte-toi à OpexIA Academy pour accéder à ta formation IA.",
+  robots: { index: false, follow: false },
+};
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
