@@ -28,7 +28,7 @@ const plans: Plan[] = [
   {
     name: "Academy", slug: "academy", price: "497", oldPrice: "897", period: "paiement en plusieurs fois possible",
     description: "La formation compl\u00e8te pour lancer ton agence IA", popular: true,
-    features: ["Tout le pack Starter", "91 le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Gamification (XP, streaks, badges)", "Programme de parrainage"],
+    features: ["Tout le pack Starter", "85 le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Gamification (XP, streaks, badges)", "Programme de parrainage"],
     notIncluded: ["Visios individuelles"],
     cta: "Rejoindre l\u2019Academy \u2014 497\u20ac",
   },

@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: "C\u2019est quoi la diff\u00e9rence entre Starter, Academy et One-to-One ?",
-    a: "Le Starter \u00e0 47\u20ac te donne 2 modules D\u00e9couverte (6 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 497\u20ac (paiement en 3x disponible), c\u2019est la formation compl\u00e8te avec 91 le\u00e7ons, la plateforme interactive, l\u2019assistant IA, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 2\u00a0497\u20ac (paiement en 4x disponible), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
+    a: "Le Starter \u00e0 47\u20ac te donne 2 modules D\u00e9couverte (7 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 497\u20ac (paiement en 3x disponible), c\u2019est la formation compl\u00e8te avec 85 le\u00e7ons, la plateforme interactive, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 2\u00a0497\u20ac (paiement en 4x disponible), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
   },
   {
     q: "Est-ce que je peux payer en plusieurs fois ?",
@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: "Y a-t-il un support si je suis bloqu\u00e9 ?",
-    a: "Oui. Tu as acc\u00e8s au Discord communautaire avec +150 entrepreneurs (toutes les offres), \u00e0 l\u2019assistant IA int\u00e9gr\u00e9 (Academy), et au support prioritaire illimit\u00e9 avec review de tes projets (One-to-One). Tu n\u2019es jamais seul.",
+    a: "Oui. Tu as acc\u00e8s au Discord communautaire avec +150 entrepreneurs (toutes les offres), \u00e0 l\u2019aide rapide int\u00e9gr\u00e9e (Academy), et au support prioritaire illimit\u00e9 avec review de tes projets (One-to-One). Tu n\u2019es jamais seul.",
   },
 ];
 

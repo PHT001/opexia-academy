@@ -142,10 +142,10 @@ export const TIERS = [
     description: "La formation complète pour lancer ton agence IA",
     features: [
       { text: "Tout ce qui est dans Starter", included: true },
-      { text: "91 leçons progressives en 22 modules", included: true },
+      { text: "85 leçons progressives en 22 modules", included: true },
       { text: "Quiz de validation par leçon", included: true },
       { text: "Exercices pratiques + projets fil rouge", included: true },
-      { text: "Assistant IA intégré", included: true },
+      { text: "Aide rapide intégrée", included: true },
       { text: "Accompagnement personnalisé", included: false },
     ],
     cta: "Rejoindre l'Academy",

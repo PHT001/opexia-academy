@@ -298,7 +298,7 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
         </p>
         <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
           <li><strong>22 modules</strong> structur&eacute;s du d&eacute;butant &agrave; l&rsquo;expert</li>
-          <li><strong>91 le&ccedil;ons</strong> avec exercices pratiques</li>
+          <li><strong>85 le&ccedil;ons</strong> avec exercices pratiques</li>
           <li>Acc&egrave;s &agrave; la communaut&eacute; <strong>Discord</strong> priv&eacute;e</li>
           <li>Sessions de <strong>coaching</strong> en direct</li>
         </ul>
@@ -355,7 +355,7 @@ export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { su
         <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
           <li><strong>22 modules</strong> pour lancer ton agence IA de z&eacute;ro</li>
           <li><strong>85+ le&ccedil;ons</strong> vid&eacute;o et exercices pratiques</li>
-          <li>CRM int&eacute;gr&eacute;, assistant IA et g&eacute;n&eacute;rateur de projets</li>
+          <li>CRM int&eacute;gr&eacute;, aide rapide et g&eacute;n&eacute;rateur de projets</li>
           <li>Acc&egrave;s &agrave; la communaut&eacute; priv&eacute;e</li>
         </ul>
       </div>
@@ -473,7 +473,7 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
             <td style="padding: 6px 0; color: #10B981; font-size: 14px; width: 24px;">&#10003;</td>
-            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>91 le&ccedil;ons</strong> vid&eacute;o &amp; texte</td>
+            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>85 le&ccedil;ons</strong> vid&eacute;o &amp; texte</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: #10B981; font-size: 14px;">&#10003;</td>

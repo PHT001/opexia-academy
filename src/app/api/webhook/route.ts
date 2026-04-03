@@ -180,7 +180,7 @@ export async function POST(req: NextRequest) {
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>2 modules D\u00e9couverte (6 le\u00e7ons)</li>
+                      <li>2 modules D\u00e9couverte (7 le\u00e7ons)</li>
                       <li>Quiz de validation</li>
                       <li>Acc\u00e8s Discord communautaire</li>
                       <li>Checklist de d\u00e9marrage</li>
@@ -201,7 +201,7 @@ export async function POST(req: NextRequest) {
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Premium inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>Tout le contenu Academy (91 le\u00e7ons)</li>
+                      <li>Tout le contenu Academy (85 le\u00e7ons)</li>
                       <li>8 visios individuelles (1h) avec ton coach</li>
                       <li>Support prioritaire illimit\u00e9</li>
                       <li>Acc\u00e8s direct WhatsApp avec Marius & Igor</li>
@@ -225,7 +225,7 @@ export async function POST(req: NextRequest) {
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Academy inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>91 le\u00e7ons vid\u00e9o & texte</li>
+                      <li>85 le\u00e7ons vid\u00e9o & texte</li>
                       <li>Assistant IA int\u00e9gr\u00e9</li>
                       <li>Pipeline CRM int\u00e9gr\u00e9</li>
                       <li>Templates IA premium</li>

@@ -79,7 +79,7 @@ const plans: Plan[] = [
     popular: true,
     features: [
       "Tout le pack Starter",
-      "91 le\u00e7ons vid\u00e9o & texte",
+      "85 le\u00e7ons vid\u00e9o & texte",
       "Quiz & exercices pratiques",
       "Assistant IA int\u00e9gr\u00e9",
       "Plateforme compl\u00e8te",

@@ -23,7 +23,7 @@ import RefCapture from "@/components/landing/RefCapture";
 
 export const metadata: Metadata = {
   title: "OpexIA Academy — Lance ton agence IA et genere 10K€/mois",
-  description: "Formation complete pour creer ton agence IA de zero. 22 modules, 91 lecons, assistant IA, pipeline CRM. Garantie 14 jours.",
+  description: "Formation complete pour creer ton agence IA de zero. 22 modules, 85 lecons, aide rapide, pipeline CRM. Garantie 14 jours.",
   openGraph: {
     title: "OpexIA Academy — Agence IA de 0 a 10K€/mois",
     description: "Formation 100% pratique pour creer une agence IA rentable. Chatbots, automatisations, prospection.",
