@@ -6,6 +6,7 @@ import { useSession, signOut } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
+import { ChatWidget } from "@/components/platform/ChatWidget";
 
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
@@ -210,6 +211,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           {children}
         </div>
       </main>
+      <ChatWidget />
     </div>
     </XPToastProvider>
   );
