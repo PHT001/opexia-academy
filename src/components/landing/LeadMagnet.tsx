@@ -120,11 +120,12 @@ export default function LeadMagnet() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="py-4"
               >
-                <div className="inline-flex items-center gap-2 text-green-600 font-semibold">
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <div className="inline-flex flex-col items-center gap-2 text-green-600 font-semibold">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                  Merci ! Tu seras notifi&eacute; d&egrave;s que le guide est disponible.
+                  <span>Check tes emails ! Le guide arrive dans ta bo&icirc;te mail.</span>
+                  <span className="text-sm font-normal text-gray-500">Pense &agrave; v&eacute;rifier tes spams.</span>
                 </div>
               </motion.div>
             ) : (

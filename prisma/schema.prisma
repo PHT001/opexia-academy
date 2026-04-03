@@ -234,6 +234,18 @@ model Project {
   @@index([userId])
 }
 
+model Lead {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String   @default("guide_niches") // "guide_niches" | future lead magnets
+  status    String   @default("active")       // "active" | "converted" | "unsubscribed"
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([source])
+  @@index([createdAt])
+}
+
 model EmailLog {
   id        String   @id @default(cuid())
   userId    String

@@ -13,6 +13,10 @@
       "schedule": "0 11 * * *"
     },
     {
+      "path": "/api/cron/lead-followup",
+      "schedule": "30 10 * * *"
+    },
+    {
       "path": "/api/cron/update-bots",
       "schedule": "0 3 * * *"
     }

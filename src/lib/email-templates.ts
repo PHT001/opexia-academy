@@ -507,6 +507,197 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
   };
 }
 
+/**
+ * Lead magnet — Guide "Les 5 services IA les plus demandés en 2026"
+ * Sent immediately when someone submits their email on the landing page.
+ */
+export function guideEmail(): { subject: string; html: string } {
+  const guideUrl = "https://www.opexia-formation.com/guide-5-services-ia.pdf";
+
+  return {
+    subject: "Ton guide : Les 5 services IA les plus demandés en 2026",
+    html: layout(`
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); border-radius: 16px; padding: 20px 32px;">
+          <span style="color: #ffffff; font-size: 32px;">🎁</span>
+        </div>
+      </div>
+
+      <h2 style="color: #1A1A2E; margin-bottom: 8px; text-align: center;">Ton guide est pr&ecirc;t !</h2>
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px; text-align: center;">
+        Merci pour ta confiance. Voici ton guide gratuit avec les 5 services IA les plus demand&eacute;s en 2026, les prix du march&eacute;, les outils, et comment d&eacute;crocher tes premiers clients.
+      </p>
+
+      <div style="text-align: center; margin-bottom: 24px;">
+        <a href="${guideUrl}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 700; font-size: 16px; padding: 16px 40px; border-radius: 10px;">
+          T&eacute;l&eacute;charger le guide PDF
+        </a>
+      </div>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
+          Dans ce guide, tu vas d&eacute;couvrir :
+        </p>
+        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
+          <li>Les <strong>5 services IA</strong> que les entreprises s&rsquo;arrachent</li>
+          <li>Les <strong>fourchettes de prix</strong> pratiqu&eacute;es sur le march&eacute;</li>
+          <li>Les <strong>outils concrets</strong> pour d&eacute;livrer chaque service</li>
+          <li>La <strong>m&eacute;thode</strong> pour d&eacute;crocher tes premiers clients</li>
+        </ul>
+      </div>
+
+      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Envie d&rsquo;aller plus loin ? La formation OpexIA Academy t&rsquo;accompagne de A &agrave; Z pour lancer ton agence IA, avec 85+ le&ccedil;ons, du coaching, et des outils prets &agrave; l&rsquo;emploi.
+      </p>
+
+      <div style="text-align: center;">
+        <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
+          D&eacute;couvrir la formation
+        </a>
+      </div>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        Une question ? R&eacute;ponds directement &agrave; cet email.
+      </p>
+    `),
+  };
+}
+
+/**
+ * Lead follow-up Day 1 — sent ~24h after guide download.
+ * Introduces OpexIA Academy.
+ */
+export function leadFollowupDayOne(): { subject: string; html: string } {
+  return {
+    subject: "As-tu lu le guide ? Voici la suite...",
+    html: layout(`
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
+        Salut,
+      </p>
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        C&rsquo;est Marius, fondateur d&rsquo;OpexIA. Tu as t&eacute;l&eacute;charg&eacute; le guide des 5 services IA les plus demand&eacute;s hier &mdash; j&rsquo;esp&egrave;re qu&rsquo;il t&rsquo;a plu !
+      </p>
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Ce guide, c&rsquo;est le <strong>r&eacute;sum&eacute;</strong>. La formation OpexIA Academy, c&rsquo;est le <strong>mode d&rsquo;emploi complet</strong> pour lancer ton agence IA et g&eacute;n&eacute;rer tes premiers revenus.
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
+          Ce que tu obtiens avec la formation :
+        </p>
+        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
+          <li><strong>22 modules</strong> &mdash; du positionnement &agrave; la vente</li>
+          <li><strong>85+ le&ccedil;ons</strong> vid&eacute;o et exercices pratiques</li>
+          <li>Un <strong>CRM int&eacute;gr&eacute;</strong> pour g&eacute;rer tes prospects</li>
+          <li>Du <strong>coaching individuel</strong> avec un expert</li>
+          <li>Une <strong>communaut&eacute; priv&eacute;e</strong> d&rsquo;entrepreneurs IA</li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 24px;">
+        <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
+          D&eacute;couvrir les offres
+        </a>
+      </div>
+
+      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
+        Des questions ? R&eacute;ponds &agrave; cet email, je lis tout.<br/><br/>Marius
+      </p>
+    `),
+  };
+}
+
+/**
+ * Lead follow-up Day 3 — social proof + free account CTA.
+ */
+export function leadFollowupDayThree(): { subject: string; html: string } {
+  return {
+    subject: "Il a lancé son agence IA en 3 semaines",
+    html: layout(`
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Salut,
+      </p>
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Quand Karim a t&eacute;l&eacute;charg&eacute; le m&ecirc;me guide que toi, il h&eacute;sitait. Trois semaines plus tard, il avait son premier client en consulting IA.
+      </p>
+
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #6B7280; font-size: 14px; line-height: 1.6; font-style: italic; margin: 0 0 12px 0;">
+          &laquo; Le guide m&rsquo;a ouvert les yeux, mais c&rsquo;est la formation qui m&rsquo;a donn&eacute; la m&eacute;thodologie et la confiance pour me lancer. Mon premier contrat : 2 500&euro; pour automatiser le support client d&rsquo;une PME. &raquo;
+        </p>
+        <p style="color: #1A1A2E; font-weight: 600; font-size: 13px; margin: 0;">
+          &mdash; Karim L., Consultant IA ind&eacute;pendant
+        </p>
+      </div>
+
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Tu peux commencer <strong>gratuitement</strong> en cr&eacute;ant un compte. Tu auras acc&egrave;s au premier module de d&eacute;couverte pour te faire une id&eacute;e.
+      </p>
+
+      <div style="text-align: center; margin-bottom: 24px;">
+        <a href="https://www.opexia-formation.com/register" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
+          Cr&eacute;er mon compte gratuit
+        </a>
+      </div>
+
+      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
+        &Agrave; tr&egrave;s vite,<br/>Marius
+      </p>
+    `),
+  };
+}
+
+/**
+ * Lead follow-up Day 7 — urgency / last push.
+ */
+export function leadFollowupDaySeven(): { subject: string; html: string } {
+  return {
+    subject: "Dernière chance de lancer ton agence IA",
+    html: layout(`
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Salut,
+      </p>
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        Ca fait une semaine que tu as t&eacute;l&eacute;charg&eacute; le guide. Depuis, le march&eacute; de l&rsquo;IA continue d&rsquo;exploser &mdash; et ceux qui se positionnent maintenant prennent une avance consid&eacute;rable.
+      </p>
+
+      <div style="background: #1A1A2E; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #ffffff; font-weight: 600; font-size: 14px; margin: 0 0 16px 0; text-align: center;">
+          Ce que tu risques en attendant :
+        </p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 6px 0; color: #FF5252; font-size: 14px; width: 24px;">✗</td>
+            <td style="padding: 6px 0 6px 8px; color: #E5E7EB; font-size: 14px;">Plus de concurrence sur les services IA</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #FF5252; font-size: 14px;">✗</td>
+            <td style="padding: 6px 0 6px 8px; color: #E5E7EB; font-size: 14px;">Des prix qui baissent avec la commoditisation</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #FF5252; font-size: 14px;">✗</td>
+            <td style="padding: 6px 0 6px 8px; color: #E5E7EB; font-size: 14px;">Rester spectateur pendant que d&rsquo;autres se lancent</td>
+          </tr>
+        </table>
+      </div>
+
+      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+        La formation d&eacute;marre &agrave; <strong>47&euro;</strong> avec le pack Starter. C&rsquo;est moins qu&rsquo;un resto pour deux &mdash; pour un vrai projet business.
+      </p>
+
+      <div style="text-align: center; margin-bottom: 24px;">
+        <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
+          Voir les offres maintenant
+        </a>
+      </div>
+
+      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
+        C&rsquo;est le dernier email de cette s&eacute;rie. Si tu ne souhaites plus en recevoir, r&eacute;ponds simplement "stop".
+      </p>
+    `),
+  };
+}
+
 export function dayThreeEmail(name: string): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
 
