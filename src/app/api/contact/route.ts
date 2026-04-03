@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     if (resend) {
       await resend.emails.send({
-        from: "OpexIA Academy <support@opexia-formation.com>",
+        from: "Marius d'OpexIA <support@opexia-formation.com>",
         to: "support@opexia-formation.com",
         replyTo: email,
         subject: `[Contact] ${subject || "Question generale"} - ${name}`,

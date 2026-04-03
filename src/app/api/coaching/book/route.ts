@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
     if (resend) {
       try {
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: userEmail,
           subject: `Ta session coaching est confirmée — ${dateStr}`,
           html: buildStudentEmail({ firstName, dateStr, timeStr, topicText, isFree }),
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
       // ── Notification email to admin ──
       try {
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: ADMIN_EMAIL,
           subject: `Nouvelle session coaching — ${userName} (${userTier})`,
           html: buildAdminEmail({ userName, userEmail, userTier, dateStr, timeStr, topicText, isFree }),

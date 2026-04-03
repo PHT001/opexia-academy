@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
   for (const e of emails) {
     try {
       await resend.emails.send({
-        from: "OpexIA Academy <support@opexia-formation.com>",
+        from: "Marius d'OpexIA <support@opexia-formation.com>",
         to: email,
         subject: `[TEST] ${e.subject}`,
         html: e.html,

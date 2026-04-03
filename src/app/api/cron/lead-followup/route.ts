@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
       try {
         const emailData = leadFollowupDayOne();
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: lead.email,
           subject: emailData.subject,
           html: emailData.html,
@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
       try {
         const emailData = leadFollowupDayThree();
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: lead.email,
           subject: emailData.subject,
           html: emailData.html,
@@ -125,7 +125,7 @@ export async function GET(req: NextRequest) {
       try {
         const emailData = leadFollowupDaySeven();
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: lead.email,
           subject: emailData.subject,
           html: emailData.html,

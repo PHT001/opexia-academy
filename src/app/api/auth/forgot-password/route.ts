@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
     if (resend) {
       await resend.emails.send({
-        from: "OpexIA Academy <support@opexia-formation.com>",
+        from: "Marius d'OpexIA <support@opexia-formation.com>",
         to: email.toLowerCase(),
         subject: "Réinitialisation de ton mot de passe OpexIA",
         html: `

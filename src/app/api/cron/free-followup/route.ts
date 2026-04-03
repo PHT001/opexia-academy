@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
         const variant = getAbVariant(user.email);
         const emailData = freeFollowupDayOne(user.name || "", variant);
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: user.email,
           subject: emailData.subject,
           html: emailData.html,
@@ -142,7 +142,7 @@ export async function GET(req: NextRequest) {
         const variant = getAbVariant(user.email);
         const emailData = freeFollowupDayTwo(user.name || "", variant);
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: user.email,
           subject: emailData.subject,
           html: emailData.html,
@@ -190,7 +190,7 @@ export async function GET(req: NextRequest) {
         const variant = getAbVariant(user.email);
         const emailData = freeFollowupDaySeven(user.name || "", variant, uniqueCode);
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: user.email,
           subject: emailData.subject,
           html: emailData.html,

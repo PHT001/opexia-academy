@@ -2,33 +2,29 @@
  * Email templates for post-purchase drip sequence.
  *
  * Sender (configured in calling code):
- *   "OpexIA Academy <support@opexia-formation.com>"
+ *   "Marius d'OpexIA <support@opexia-formation.com>"
  *
  * Each function returns { subject, html }.
  * The actual scheduling of dayOneEmail / dayThreeEmail requires
  * a cron job or external service — these are templates only.
  */
 
+/**
+ * "Personal" layout — minimal HTML that looks like a real email from a person.
+ * Gmail flags heavy HTML (gradients, buttons, tables) as Promotions.
+ * This layout uses plain text styling so emails land in Primary inbox.
+ */
 function layout(content: string): string {
   return `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 580px; margin: 0 auto; padding: 20px; color: #1a1a1a; font-size: 15px; line-height: 1.7;">
       ${content}
-      <div style="margin-top: 32px;">
-        <a href="https://wa.me/33756803717" style="display: block; background: #25D366; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 24px; border-radius: 10px; text-align: center;">
-          Une question ? Contacte-moi sur WhatsApp
-        </a>
-      </div>
-
-      <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
-        <p style="color: #9CA3AF; font-size: 12px; margin: 0;">OpexIA Academy</p>
-        <p style="color: #9CA3AF; font-size: 12px; margin: 4px 0 0 0;">
-          <a href="https://www.opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a>
-        </p>
-        <p style="color: #D1D5DB; font-size: 11px; margin: 12px 0 0 0;">
-          Tu reçois cet email car tu es inscrit sur OpexIA Academy.<br>
-          <a href="mailto:support@opexia-formation.com?subject=Désinscription&body=Je souhaite me désinscrire des emails automatiques." style="color: #D1D5DB; text-decoration: underline;">Se désinscrire</a>
-        </p>
-      </div>
+      <p style="margin-top: 32px; color: #1a1a1a;">
+        Marius<br/>
+        <span style="color: #6B7280; font-size: 13px;">Fondateur, OpexIA</span>
+      </p>
+      <p style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #E5E7EB; color: #9CA3AF; font-size: 11px;">
+        <a href="https://www.opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a> · <a href="mailto:support@opexia-formation.com?subject=D%C3%A9sinscription&body=Je%20souhaite%20me%20d%C3%A9sinscrire%20des%20emails." style="color: #9CA3AF;">Se d&eacute;sinscrire</a>
+      </p>
     </div>
   `;
 }
@@ -40,29 +36,14 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
 
   return {
-    subject: `Bienvenue ${firstName} ! Ton accès OpexIA est prêt 🚀`,
+    subject: `${firstName}, ton accès est prêt`,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Bienvenue sur OpexIA Academy, ${firstName} !</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Ton compte est activ&eacute; et ta formation t&rsquo;attend. Merci pour ta confiance !
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">Voici comment bien d&eacute;marrer :</p>
-        <ol style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-          <li>Connecte-toi &agrave; la plateforme</li>
-          <li>Acc&egrave;de au <strong>Module 1</strong> depuis ton tableau de bord</li>
-          <li>Commence la <strong>Le&ccedil;on 1</strong> &mdash; elle se termine en 15 minutes</li>
-        </ol>
-      </div>
-
-      <a href="https://www.opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Acc&eacute;der &agrave; ma formation
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Une question ? R&eacute;ponds directement &agrave; cet email, on te r&eacute;pond sous 24h.
-      </p>
+      <p>Salut ${firstName},</p>
+      <p>Ton compte OpexIA est activ&eacute;. Merci pour ta confiance.</p>
+      <p>Pour bien d&eacute;marrer :</p>
+      <p>1. Connecte-toi &agrave; la plateforme<br/>2. Ouvre le Module 1 depuis ton tableau de bord<br/>3. Lance la Le&ccedil;on 1 — elle dure 15 minutes</p>
+      <p>Lien direct : <a href="https://www.opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
+      <p>Si t'as la moindre question, r&eacute;ponds &agrave; cet email.</p>
     `),
   };
 }
@@ -75,33 +56,13 @@ export function dayOneEmail(name: string): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
 
   return {
-    subject: `${firstName}, as-tu commencé la leçon 1 ?`,
+    subject: `${firstName}, t'as commencé la leçon 1 ?`,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Hey ${firstName} !</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Tu as cr&eacute;&eacute; ton compte hier &mdash; super ! La prochaine &eacute;tape, c&rsquo;est de commencer
-        la <strong>Le&ccedil;on 1 du Module 1</strong>. Elle dure environ 15 minutes et pose les bases
-        de tout ce que tu vas apprendre.
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 8px 0;">
-          💡 Astuce
-        </p>
-        <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin: 0;">
-          Les apprenants qui terminent la premi&egrave;re le&ccedil;on dans les 48h ont
-          <strong>3x plus de chances</strong> de finir la formation enti&egrave;re.
-          Bloque 15 minutes maintenant et lance-toi !
-        </p>
-      </div>
-
-      <a href="https://www.opexia-formation.com/lessons" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Commencer la Le&ccedil;on 1
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        D&eacute;j&agrave; commenc&eacute; ? Parfait, ignore cet email et continue sur ta lanc&eacute;e !
-      </p>
+      <p>Salut ${firstName},</p>
+      <p>Tu as cr&eacute;&eacute; ton compte hier. La prochaine &eacute;tape c'est de lancer la Le&ccedil;on 1 du Module 1. Elle dure 15 minutes et pose les bases de tout.</p>
+      <p>Petite stat : les apprenants qui terminent la premi&egrave;re le&ccedil;on dans les 48h ont 3x plus de chances de finir la formation. Bloque 15 min et lance-toi.</p>
+      <p>Lien direct : <a href="https://www.opexia-formation.com/lessons" style="color: #1a73e8;">opexia-formation.com/lessons</a></p>
+      <p>D&eacute;j&agrave; fait ? Parfait, continue sur ta lanc&eacute;e.</p>
     `),
   };
 }
@@ -145,48 +106,20 @@ export function weeklyRecapEmail(
       </p>`
     : "";
 
+  const nextLine = stats.nextLesson
+    ? `<p>Prochaine &eacute;tape : ${stats.nextLesson}</p>`
+    : "";
+
   return {
-    subject: `${firstName}, ton récap de la semaine 📊`,
+    subject: `${firstName}, ton récap de la semaine`,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Ton r&eacute;cap hebdomadaire, ${firstName}</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        ${encouragement}
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">Le&ccedil;ons cette semaine</td>
-            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.lessonsThisWeek}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">Le&ccedil;ons totales</td>
-            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.totalLessons}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">XP cette semaine</td>
-            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">+${stats.xpThisWeek}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">XP total</td>
-            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.totalXP}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: #6B7280; font-size: 14px;">S&eacute;rie en cours</td>
-            <td style="padding: 8px 0; color: #1A1A2E; font-weight: 700; font-size: 14px; text-align: right;">${stats.streak} jour${stats.streak > 1 ? "s" : ""} ${streakLabel}</td>
-          </tr>
-        </table>
-      </div>
-
-      ${nextLessonBlock}
-
-      <a href="https://www.opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Continuer ma formation
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Tu re&ccedil;ois cet email chaque lundi. Une question ? R&eacute;ponds directement &agrave; cet email.
-      </p>
+      <p>Salut ${firstName},</p>
+      <p>${encouragement}</p>
+      <p>Tes stats cette semaine :<br/>
+      — Le&ccedil;ons termin&eacute;es : ${stats.lessonsThisWeek} (${stats.totalLessons} au total)<br/>
+      — XP gagn&eacute;s : +${stats.xpThisWeek} (${stats.totalXP} au total)</p>
+      ${nextLine}
+      <p>Continue ici : <a href="https://www.opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
     `),
   };
 }
@@ -202,37 +135,14 @@ export function nurtureDayOne(name: string): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
 
   return {
-    subject: "Tu as fait le premier pas, ne t'arrête pas là",
+    subject: `${firstName}, t'en es où ?`,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Hey ${firstName} !</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Tu as cr&eacute;&eacute; ton compte sur OpexIA Academy &mdash; f&eacute;licitations, c&rsquo;est le premier pas.
-        Mais ton parcours n&rsquo;a pas encore vraiment commenc&eacute;.
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
-          Ce qui t&rsquo;attend dans la formation :
-        </p>
-        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-          <li>Ma&icirc;triser l&rsquo;excellence op&eacute;rationnelle et l&rsquo;IA appliqu&eacute;e</li>
-          <li>Des modules progressifs, du d&eacute;butant &agrave; l&rsquo;expert</li>
-          <li>Des exercices pratiques pour appliquer imm&eacute;diatement</li>
-        </ul>
-      </div>
-
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Le pack <strong>Starter</strong> d&eacute;marre &agrave; seulement <strong>47&euro;</strong> et inclut
-        les 2 modules D&eacute;couverte pour poser les fondations. C&rsquo;est le meilleur moyen de commencer.
-      </p>
-
-      <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Voir les offres
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Une question avant de te lancer ? R&eacute;ponds directement &agrave; cet email.
-      </p>
+      <p>Salut ${firstName},</p>
+      <p>Tu as cr&eacute;&eacute; ton compte hier, c'est un bon d&eacute;but. Mais le vrai parcours commence maintenant.</p>
+      <p>La formation compl&egrave;te c'est 22 modules, 85 le&ccedil;ons, et tout ce qu'il faut pour lancer ton agence IA : du prompt engineering au closing client.</p>
+      <p>Le pack Starter d&eacute;marre &agrave; 47&euro; — 2 modules pour poser les fondations et voir si c'est fait pour toi.</p>
+      <p>Regarde ici : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Des questions ? R&eacute;ponds &agrave; cet email.</p>
     `),
   };
 }
@@ -245,37 +155,13 @@ export function nurtureDayThree(name: string): { subject: string; html: string }
   const firstName = name.split(" ")[0];
 
   return {
-    subject: "Ce que nos élèves ont accompli en 3 jours",
+    subject: `${firstName}, un retour rapide`,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, regarde ce qui est possible</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Il y a 3 jours, tu as cr&eacute;&eacute; ton compte. Pendant ce temps, d&rsquo;autres apprenants
-        ont d&eacute;j&agrave; commenc&eacute; &agrave; transformer leur quotidien professionnel.
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #6B7280; font-size: 14px; line-height: 1.6; font-style: italic; margin: 0 0 12px 0;">
-          &laquo; J&rsquo;ai d&eacute;croch&eacute; mon premier client en consulting OpEx trois jours apr&egrave;s
-          avoir termin&eacute; le Module 3. La formation m&rsquo;a donn&eacute; la m&eacute;thodologie et la
-          confiance pour me lancer. &raquo;
-        </p>
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 13px; margin: 0;">
-          &mdash; Karim L., Consultant ind&eacute;pendant
-        </p>
-      </div>
-
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Karim &eacute;tait exactement comme toi il y a quelques semaines. La diff&eacute;rence ?
-        Il a d&eacute;cid&eacute; de passer &agrave; l&rsquo;action.
-      </p>
-
-      <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Rejoindre la formation
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Des questions sur le contenu ? R&eacute;ponds &agrave; cet email, on est l&agrave; pour t&rsquo;aider.
-      </p>
+      <p>Salut ${firstName},</p>
+      <p>Karim a rejoint la formation il y a quelques semaines. Trois jours apr&egrave;s avoir termin&eacute; le Module 3, il a d&eacute;croch&eacute; son premier client en consulting IA. Un contrat &agrave; 2 500&euro;.</p>
+      <p>Il &eacute;tait exactement dans la m&ecirc;me situation que toi avant de se lancer. La diff&eacute;rence c'est qu'il a d&eacute;cid&eacute; de passer &agrave; l'action.</p>
+      <p>Si tu veux voir ce que la formation inclut : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Des questions ? R&eacute;ponds ici.</p>
     `),
   };
 }
@@ -288,39 +174,13 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
   const firstName = name.split(" ")[0];
 
   return {
-    subject: "Dernière chance — ta place t'attend",
+    subject: `${firstName}, dernier message`,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">${firstName}, ta place t&rsquo;attend encore</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        &Ccedil;a fait une semaine que tu as cr&eacute;&eacute; ton compte. On ne veut pas te voir
-        passer &agrave; c&ocirc;t&eacute; de cette opportunit&eacute;.
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
-          Ce que tu obtiens avec la formation :
-        </p>
-        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-          <li><strong>22 modules</strong> structur&eacute;s du d&eacute;butant &agrave; l&rsquo;expert</li>
-          <li><strong>85 le&ccedil;ons</strong> avec exercices pratiques</li>
-          <li>Acc&egrave;s &agrave; la communaut&eacute; <strong>Discord</strong> priv&eacute;e</li>
-          <li>Sessions de <strong>coaching</strong> en direct</li>
-        </ul>
-      </div>
-
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Chaque jour qui passe est un jour de retard sur ceux qui se forment d&eacute;j&agrave;.
-        Ne laisse pas la procrastination d&eacute;cider &agrave; ta place.
-      </p>
-
-      <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        Choisir mon offre maintenant
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Tu re&ccedil;ois cet email car tu as cr&eacute;&eacute; un compte sur OpexIA Academy.
-        R&eacute;ponds &agrave; cet email si tu as la moindre question.
-      </p>
+      <p>Salut ${firstName},</p>
+      <p>&Ccedil;a fait une semaine que tu as cr&eacute;&eacute; ton compte. Je t'envoie un dernier message.</p>
+      <p>Le march&eacute; de l'IA est en train d'exploser et ceux qui se forment maintenant prennent une avance &eacute;norme. La formation c'est 22 modules, 85 le&ccedil;ons, du coaching, et une communaut&eacute; de +150 entrepreneurs IA. Le Starter d&eacute;marre &agrave; 47&euro;.</p>
+      <p>Si &ccedil;a t'int&eacute;resse : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>C'est le dernier email. Si t'as des questions, r&eacute;ponds ici.</p>
     `),
   };
 }
@@ -331,46 +191,19 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
  */
 export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
-  const variantParam = `?variant=${variant}`;
 
   const subject = variant === "b"
-    ? "🔓 Tu as débloqué ton accès gratuit — et maintenant ?"
-    : "Ta formation t'attend...";
-
-  const ctaText = variant === "b"
-    ? "Voir ce qui m&rsquo;attend"
-    : "D&eacute;bloquer ma formation";
+    ? `${firstName || "Salut"}, t'as vu ce qui t'attend ?`
+    : "Ta formation t'attend";
 
   return {
     subject,
     html: layout(`
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
-        ${firstName ? `Salut ${firstName},` : "Salut,"}
-      </p>
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Tu as cr&eacute;&eacute; ton compte gratuit sur OpexIA hier &mdash; super !
-        Tu as d&eacute;j&agrave; pu explorer la plateforme et voir ce qui t&rsquo;attend.
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
-          Voici ce qui t&rsquo;attend avec la formation compl&egrave;te :
-        </p>
-        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-          <li><strong>22 modules</strong> pour lancer ton agence IA de z&eacute;ro</li>
-          <li><strong>85+ le&ccedil;ons</strong> vid&eacute;o et exercices pratiques</li>
-          <li>CRM int&eacute;gr&eacute;, aide rapide et g&eacute;n&eacute;rateur de projets</li>
-          <li>Acc&egrave;s &agrave; la communaut&eacute; priv&eacute;e</li>
-        </ul>
-      </div>
-
-      <a href="https://www.opexia-formation.com/offres${variantParam}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        ${ctaText}
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Une question ? R&eacute;ponds directement &agrave; cet email.
-      </p>
+      <p>${firstName ? `Salut ${firstName},` : "Salut,"}</p>
+      <p>Tu as cr&eacute;&eacute; ton compte gratuit hier. T'as eu le temps d'explorer la plateforme ?</p>
+      <p>Avec la formation compl&egrave;te, tu acc&egrave;des &agrave; 22 modules, 85 le&ccedil;ons, un CRM int&eacute;gr&eacute;, et une communaut&eacute; d'entrepreneurs IA. Tout ce qu'il faut pour lancer ton agence de z&eacute;ro.</p>
+      <p>Jette un oeil aux offres : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Des questions ? R&eacute;ponds &agrave; cet email.</p>
     `),
   };
 }
@@ -384,55 +217,19 @@ export function freeFollowupDayTwo(name: string, variant: "a" | "b" = "a"): { su
 
   const subject = variant === "b"
     ? (firstName ? `${firstName}, une question rapide` : "Une question rapide")
-    : (firstName ? `${firstName}, comment s'est passe le module 1 ?` : "Comment s'est passe le module 1 ?");
+    : (firstName ? `${firstName}, t'as regard&eacute; le module 1 ?` : "T'as regard&eacute; le module 1 ?");
 
   return {
     subject,
     html: layout(`
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
-        ${firstName ? `Salut ${firstName},` : "Salut,"}
-      </p>
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        C'est Marius. Je t'&eacute;cris rapidement pour savoir si tu as eu le temps de regarder le premier module.
-      </p>
-
-      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">Tes 3 prochaines &eacute;tapes :</p>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 8px 0; vertical-align: top;">
-              <span style="display: inline-block; width: 24px; height: 24px; background: #FF1744; color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">1</span>
-            </td>
-            <td style="padding: 8px 0 8px 12px; color: #374151; font-size: 14px;">Terminer le module D&eacute;couverte <span style="color: #9CA3AF;">(15 min)</span></td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; vertical-align: top;">
-              <span style="display: inline-block; width: 24px; height: 24px; background: #FF1744; color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">2</span>
-            </td>
-            <td style="padding: 8px 0 8px 12px; color: #374151; font-size: 14px;">Rejoindre le Discord pour poser tes questions</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; vertical-align: top;">
-              <span style="display: inline-block; width: 24px; height: 24px; background: #FF1744; color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">3</span>
-            </td>
-            <td style="padding: 8px 0 8px 12px; color: #374151; font-size: 14px;">D&eacute;cider si tu veux acc&eacute;der &agrave; la formation compl&egrave;te</td>
-          </tr>
-        </table>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Si tu as des questions ou si quelque chose te bloque, r&eacute;ponds directement &agrave; cet email. Je lis tout personnellement.
-      </p>
-
-      <div style="text-align: center; margin-bottom: 24px;">
-        <a href="https://www.opexia-formation.com/dashboard" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
-          Reprendre ma formation
-        </a>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
-        &Agrave; tr&egrave;s vite,<br/>Marius
-      </p>
+      <p>${firstName ? `Salut ${firstName},` : "Salut,"}</p>
+      <p>C'est Marius. Je voulais savoir si tu as eu le temps de regarder le premier module.</p>
+      <p>Tes 3 prochaines &eacute;tapes :<br/>
+      1. Terminer le module D&eacute;couverte (15 min)<br/>
+      2. Rejoindre le Discord pour poser tes questions<br/>
+      3. D&eacute;cider si tu veux la formation compl&egrave;te</p>
+      <p>Reprends ici : <a href="https://www.opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
+      <p>Si quelque chose te bloque, r&eacute;ponds &agrave; cet email. Je lis tout.</p>
     `),
   };
 }
@@ -444,7 +241,6 @@ export function freeFollowupDayTwo(name: string, variant: "a" | "b" = "a"): { su
  */
 export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", discountCode = "FREETRIAL"): { subject: string; html: string } {
   const firstName = name.split(" ")[0];
-  const variantParam = `&variant=${variant}`;
 
   const subject = variant === "b"
     ? (firstName ? `${firstName}, j'ai un truc pour toi` : "J'ai un truc pour toi")
@@ -453,56 +249,12 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
   return {
     subject,
     html: layout(`
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
-        ${firstName ? `Salut ${firstName},` : "Salut,"}
-      </p>
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Ca fait une semaine que tu as rejoint OpexIA. J'esp&egrave;re que le module D&eacute;couverte t'a plu.
-      </p>
-
-      <div style="background: #1A1A2E; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-        <p style="color: #ffffff; font-weight: 600; font-size: 16px; margin: 0 0 4px 0; text-align: center;">
-          Ton code : <span style="color: #FF1744; letter-spacing: 2px;">${discountCode}</span>
-        </p>
-        <p style="color: #9CA3AF; font-size: 13px; margin: 0; text-align: center;">
-          -20% sur la formation &mdash; actif 24h
-        </p>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
-        Avec l'Academy, tu passes de 6 le&ccedil;ons &agrave; 91 :
-      </p>
-
-      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;">
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 6px 0; color: #10B981; font-size: 14px; width: 24px;">&#10003;</td>
-            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>85 le&ccedil;ons</strong> vid&eacute;o &amp; texte</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #10B981; font-size: 14px;">&#10003;</td>
-            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>Assistant IA</strong> pour tes questions</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #10B981; font-size: 14px;">&#10003;</td>
-            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>Pipeline CRM</strong> pour g&eacute;rer tes prospects</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #10B981; font-size: 14px;">&#10003;</td>
-            <td style="padding: 6px 0 6px 8px; color: #374151; font-size: 14px;"><strong>Templates &amp; outils</strong> pour lancer ton agence</td>
-          </tr>
-        </table>
-      </div>
-
-      <div style="text-align: center; margin-bottom: 24px;">
-        <a href="https://www.opexia-formation.com/offres?code=${discountCode}${variantParam}" style="display: inline-block; background: #FF1744; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
-          Voir les formules
-        </a>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
-        Si t'as des questions, r&eacute;ponds &agrave; cet email.<br/><br/>Marius
-      </p>
+      <p>${firstName ? `Salut ${firstName},` : "Salut,"}</p>
+      <p>&Ccedil;a fait une semaine que tu as rejoint OpexIA. J'esp&egrave;re que le module D&eacute;couverte t'a plu.</p>
+      <p>J'ai un code pour toi : <strong>${discountCode}</strong> — c'est -20% sur la formation, valable 24h.</p>
+      <p>Avec l'Academy tu passes de 6 le&ccedil;ons &agrave; 85 : vid&eacute;os, exercices, CRM int&eacute;gr&eacute;, assistant IA, templates pour lancer ton agence.</p>
+      <p>Utilise le code ici : <a href="https://www.opexia-formation.com/offres?code=${discountCode}" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Si t'as des questions, r&eacute;ponds &agrave; cet email.</p>
     `),
   };
 }
@@ -510,190 +262,71 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
 /**
  * Lead magnet — Guide "Les 5 services IA les plus demandés en 2026"
  * Sent immediately when someone submits their email on the landing page.
+ * Written as a personal email from Marius to land in Gmail Primary tab.
  */
 export function guideEmail(): { subject: string; html: string } {
-  const guideUrl = "https://www.opexia-formation.com/guide-5-services-ia.pdf";
-
   return {
-    subject: "Ton guide : Les 5 services IA les plus demandés en 2026",
+    subject: "Ton guide est prêt",
     html: layout(`
-      <div style="text-align: center; margin-bottom: 24px;">
-        <div style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); border-radius: 16px; padding: 20px 32px;">
-          <span style="color: #ffffff; font-size: 32px;">🎁</span>
-        </div>
-      </div>
-
-      <h2 style="color: #1A1A2E; margin-bottom: 8px; text-align: center;">Ton guide est pr&ecirc;t !</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px; text-align: center;">
-        Merci pour ta confiance. Voici ton guide gratuit avec les 5 services IA les plus demand&eacute;s en 2026, les prix du march&eacute;, les outils, et comment d&eacute;crocher tes premiers clients.
-      </p>
-
-      <div style="text-align: center; margin-bottom: 24px;">
-        <a href="${guideUrl}" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 700; font-size: 16px; padding: 16px 40px; border-radius: 10px;">
-          T&eacute;l&eacute;charger le guide PDF
-        </a>
-      </div>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
-          Dans ce guide, tu vas d&eacute;couvrir :
-        </p>
-        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-          <li>Les <strong>5 services IA</strong> que les entreprises s&rsquo;arrachent</li>
-          <li>Les <strong>fourchettes de prix</strong> pratiqu&eacute;es sur le march&eacute;</li>
-          <li>Les <strong>outils concrets</strong> pour d&eacute;livrer chaque service</li>
-          <li>La <strong>m&eacute;thode</strong> pour d&eacute;crocher tes premiers clients</li>
-        </ul>
-      </div>
-
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Envie d&rsquo;aller plus loin ? La formation OpexIA Academy t&rsquo;accompagne de A &agrave; Z pour lancer ton agence IA, avec 85+ le&ccedil;ons, du coaching, et des outils prets &agrave; l&rsquo;emploi.
-      </p>
-
-      <div style="text-align: center;">
-        <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-          D&eacute;couvrir la formation
-        </a>
-      </div>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Une question ? R&eacute;ponds directement &agrave; cet email.
-      </p>
+      <p>Salut,</p>
+      <p>Merci d'avoir t&eacute;l&eacute;charg&eacute; le guide. Le voici :</p>
+      <p><a href="https://www.opexia-formation.com/guide-5-services-ia.pdf" style="color: #1a73e8;">T&eacute;l&eacute;charger le guide — Les 5 services IA les plus demand&eacute;s en 2026 (PDF)</a></p>
+      <p>Dedans tu trouveras les 5 services que les PME s'arrachent en ce moment, les prix du march&eacute;, les outils concrets pour chaque service, et une m&eacute;thode pour d&eacute;crocher tes premiers clients.</p>
+      <p>Lis-le tranquillement et si tu as des questions, r&eacute;ponds directement &agrave; cet email. Je lis tout.</p>
     `),
   };
 }
 
 /**
  * Lead follow-up Day 1 — sent ~24h after guide download.
- * Introduces OpexIA Academy.
+ * Personal email style to land in Primary tab.
  */
 export function leadFollowupDayOne(): { subject: string; html: string } {
   return {
-    subject: "As-tu lu le guide ? Voici la suite...",
+    subject: "T'as eu le temps de lire le guide ?",
     html: layout(`
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 16px;">
-        Salut,
-      </p>
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        C&rsquo;est Marius, fondateur d&rsquo;OpexIA. Tu as t&eacute;l&eacute;charg&eacute; le guide des 5 services IA les plus demand&eacute;s hier &mdash; j&rsquo;esp&egrave;re qu&rsquo;il t&rsquo;a plu !
-      </p>
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Ce guide, c&rsquo;est le <strong>r&eacute;sum&eacute;</strong>. La formation OpexIA Academy, c&rsquo;est le <strong>mode d&rsquo;emploi complet</strong> pour lancer ton agence IA et g&eacute;n&eacute;rer tes premiers revenus.
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 12px 0;">
-          Ce que tu obtiens avec la formation :
-        </p>
-        <ul style="color: #6B7280; font-size: 14px; line-height: 1.8; margin: 0; padding-left: 20px;">
-          <li><strong>22 modules</strong> &mdash; du positionnement &agrave; la vente</li>
-          <li><strong>85+ le&ccedil;ons</strong> vid&eacute;o et exercices pratiques</li>
-          <li>Un <strong>CRM int&eacute;gr&eacute;</strong> pour g&eacute;rer tes prospects</li>
-          <li>Du <strong>coaching individuel</strong> avec un expert</li>
-          <li>Une <strong>communaut&eacute; priv&eacute;e</strong> d&rsquo;entrepreneurs IA</li>
-        </ul>
-      </div>
-
-      <div style="text-align: center; margin-bottom: 24px;">
-        <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
-          D&eacute;couvrir les offres
-        </a>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
-        Des questions ? R&eacute;ponds &agrave; cet email, je lis tout.<br/><br/>Marius
-      </p>
+      <p>Salut,</p>
+      <p>Je t'ai envoy&eacute; le guide des 5 services IA hier. T'as eu le temps d'y jeter un oeil ?</p>
+      <p>Ce que je voulais te dire : le guide te donne la vue d'ensemble, mais si tu veux vraiment lancer ton activit&eacute; IA, il te faut un accompagnement structur&eacute;. C'est pour &ccedil;a qu'on a cr&eacute;&eacute; la formation OpexIA.</p>
+      <p>En gros : 85 le&ccedil;ons, du premier prompt jusqu'&agrave; la signature de ton premier client. Avec un CRM int&eacute;gr&eacute;, du coaching, et une communaut&eacute; de +150 entrepreneurs IA.</p>
+      <p>Tu peux voir les d&eacute;tails ici : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>H&eacute;site pas &agrave; me r&eacute;pondre si t'as des questions.</p>
     `),
   };
 }
 
 /**
  * Lead follow-up Day 3 — social proof + free account CTA.
+ * Personal email style.
  */
 export function leadFollowupDayThree(): { subject: string; html: string } {
   return {
-    subject: "Il a lancé son agence IA en 3 semaines",
+    subject: "Un truc qui devrait t'intéresser",
     html: layout(`
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Salut,
-      </p>
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Quand Karim a t&eacute;l&eacute;charg&eacute; le m&ecirc;me guide que toi, il h&eacute;sitait. Trois semaines plus tard, il avait son premier client en consulting IA.
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #6B7280; font-size: 14px; line-height: 1.6; font-style: italic; margin: 0 0 12px 0;">
-          &laquo; Le guide m&rsquo;a ouvert les yeux, mais c&rsquo;est la formation qui m&rsquo;a donn&eacute; la m&eacute;thodologie et la confiance pour me lancer. Mon premier contrat : 2 500&euro; pour automatiser le support client d&rsquo;une PME. &raquo;
-        </p>
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 13px; margin: 0;">
-          &mdash; Karim L., Consultant IA ind&eacute;pendant
-        </p>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Tu peux commencer <strong>gratuitement</strong> en cr&eacute;ant un compte. Tu auras acc&egrave;s au premier module de d&eacute;couverte pour te faire une id&eacute;e.
-      </p>
-
-      <div style="text-align: center; margin-bottom: 24px;">
-        <a href="https://www.opexia-formation.com/register" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
-          Cr&eacute;er mon compte gratuit
-        </a>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7;">
-        &Agrave; tr&egrave;s vite,<br/>Marius
-      </p>
+      <p>Salut,</p>
+      <p>Je voulais te partager un retour rapide.</p>
+      <p>Karim avait t&eacute;l&eacute;charg&eacute; le m&ecirc;me guide que toi il y a quelques semaines. Il h&eacute;sitait. Trois semaines apr&egrave;s avoir commenc&eacute; la formation, il a sign&eacute; son premier contrat &agrave; 2 500&euro; — une automatisation de support client pour une PME.</p>
+      <p>Je dis pas &ccedil;a pour te vendre quoi que ce soit. Juste que le march&eacute; est vraiment l&agrave;, et que ceux qui se lancent maintenant prennent une avance &eacute;norme.</p>
+      <p>Si tu veux tester sans engagement, tu peux cr&eacute;er un compte gratuit et acc&eacute;der au premier module de d&eacute;couverte : <a href="https://www.opexia-formation.com/register" style="color: #1a73e8;">opexia-formation.com/register</a></p>
+      <p>Dis-moi si tu as des questions.</p>
     `),
   };
 }
 
 /**
- * Lead follow-up Day 7 — urgency / last push.
+ * Lead follow-up Day 7 — last email, direct and honest.
+ * Personal email style.
  */
 export function leadFollowupDaySeven(): { subject: string; html: string } {
   return {
-    subject: "Dernière chance de lancer ton agence IA",
+    subject: "Re: le guide IA",
     html: layout(`
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Salut,
-      </p>
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        Ca fait une semaine que tu as t&eacute;l&eacute;charg&eacute; le guide. Depuis, le march&eacute; de l&rsquo;IA continue d&rsquo;exploser &mdash; et ceux qui se positionnent maintenant prennent une avance consid&eacute;rable.
-      </p>
-
-      <div style="background: #1A1A2E; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #ffffff; font-weight: 600; font-size: 14px; margin: 0 0 16px 0; text-align: center;">
-          Ce que tu risques en attendant :
-        </p>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 6px 0; color: #FF5252; font-size: 14px; width: 24px;">✗</td>
-            <td style="padding: 6px 0 6px 8px; color: #E5E7EB; font-size: 14px;">Plus de concurrence sur les services IA</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #FF5252; font-size: 14px;">✗</td>
-            <td style="padding: 6px 0 6px 8px; color: #E5E7EB; font-size: 14px;">Des prix qui baissent avec la commoditisation</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #FF5252; font-size: 14px;">✗</td>
-            <td style="padding: 6px 0 6px 8px; color: #E5E7EB; font-size: 14px;">Rester spectateur pendant que d&rsquo;autres se lancent</td>
-          </tr>
-        </table>
-      </div>
-
-      <p style="color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-        La formation d&eacute;marre &agrave; <strong>47&euro;</strong> avec le pack Starter. C&rsquo;est moins qu&rsquo;un resto pour deux &mdash; pour un vrai projet business.
-      </p>
-
-      <div style="text-align: center; margin-bottom: 24px;">
-        <a href="https://www.opexia-formation.com/offres" style="display: inline-block; background: linear-gradient(135deg, #FF1744 0%, #D50000 100%); color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 10px;">
-          Voir les offres maintenant
-        </a>
-      </div>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        C&rsquo;est le dernier email de cette s&eacute;rie. Si tu ne souhaites plus en recevoir, r&eacute;ponds simplement "stop".
-      </p>
+      <p>Salut,</p>
+      <p>&Ccedil;a fait une semaine que tu as t&eacute;l&eacute;charg&eacute; le guide. Je t'envoie un dernier message parce que je pense sinc&egrave;rement que le timing est bon pour toi.</p>
+      <p>Moins de 3% des PME en Europe ont adopt&eacute; de vraies automatisations IA. Le march&eacute; est vierge. Mais chaque mois, de nouveaux freelances se positionnent.</p>
+      <p>La formation d&eacute;marre &agrave; 47&euro; avec le pack Starter. C'est 2 modules pour d&eacute;couvrir l'IA et voir si c'est fait pour toi — sans risque avec la garantie 14 jours.</p>
+      <p>Si &ccedil;a t'int&eacute;resse : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>C'est le dernier email de cette s&eacute;rie. Si t'as des questions, r&eacute;ponds ici, je suis dispo.</p>
     `),
   };
 }
@@ -704,31 +337,10 @@ export function dayThreeEmail(name: string): { subject: string; html: string } {
   return {
     subject: `${firstName}, besoin d'un coup de pouce ?`,
     html: layout(`
-      <h2 style="color: #1A1A2E; margin-bottom: 8px;">Hey ${firstName} !</h2>
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Tu as acc&egrave;s &agrave; la formation depuis 3 jours maintenant.
-      </p>
-
-      <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-        Si tu as des questions, que tu bloques sur un module, ou que tu veux structurer ton plan d&rsquo;action&hellip;
-      </p>
-
-      <div style="background: #F3F4F6; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="color: #1A1A2E; font-weight: 600; font-size: 14px; margin: 0 0 8px 0;">
-          R&eacute;serve un appel gratuit de 15 min avec l&rsquo;&eacute;quipe OpexIA.
-        </p>
-        <p style="color: #6B7280; font-size: 14px; line-height: 1.6; margin: 0;">
-          On est l&agrave; pour t&rsquo;aider &agrave; avancer.
-        </p>
-      </div>
-
-      <a href="https://wa.me/message/DUQV2FBF3TF2H1" style="display: inline-block; background: #1A1A2E; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 8px;">
-        R&eacute;server mon appel
-      </a>
-
-      <p style="color: #9CA3AF; font-size: 12px; margin-top: 32px;">
-        Une question ? R&eacute;ponds directement &agrave; cet email, on te r&eacute;pond sous 24h.
-      </p>
+      <p>Salut ${firstName},</p>
+      <p>Tu as acc&egrave;s &agrave; la formation depuis 3 jours. Si tu bloques sur quelque chose ou si tu veux structurer ton plan d'action, on peut en parler.</p>
+      <p>R&eacute;serve un appel gratuit de 15 min avec moi sur WhatsApp : <a href="https://wa.me/33756803717" style="color: #1a73e8;">wa.me/33756803717</a></p>
+      <p>Sinon, r&eacute;ponds &agrave; cet email, je te r&eacute;ponds sous 24h.</p>
     `),
   };
 }

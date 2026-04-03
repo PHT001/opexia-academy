@@ -65,6 +65,7 @@ export const ModelName = {
   Referral: 'Referral',
   Note: 'Note',
   Project: 'Project',
+  Lead: 'Lead',
   EmailLog: 'EmailLog'
 } as const
 
@@ -284,6 +285,17 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const LeadScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  source: 'source',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
 
 
 export const EmailLogScalarFieldEnum = {

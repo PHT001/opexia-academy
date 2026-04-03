@@ -88,6 +88,11 @@ export type Note = Prisma.NoteModel
  */
 export type Project = Prisma.ProjectModel
 /**
+ * Model Lead
+ * 
+ */
+export type Lead = Prisma.LeadModel
+/**
  * Model EmailLog
  * 
  */

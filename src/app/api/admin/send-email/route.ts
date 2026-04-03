@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
       const promises = batch.map((user) =>
         resend.emails
           .send({
-            from: "OpexIA Academy <support@opexia-formation.com>",
+            from: "Marius d'OpexIA <support@opexia-formation.com>",
             to: user.email!,
             subject,
             html: `

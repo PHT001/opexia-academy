@@ -92,7 +92,7 @@ export async function POST(request: Request) {
     if (resend) {
       try {
         await resend.emails.send({
-          from: "OpexIA Academy <support@opexia-formation.com>",
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: email,
           subject: `${verificationCode} - Ton code de vérification OpexIA`,
           html: `

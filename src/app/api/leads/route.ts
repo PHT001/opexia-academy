@@ -51,7 +51,7 @@ export async function POST(request: Request) {
       const guide = guideEmail();
 
       await resend.emails.send({
-        from: "OpexIA Academy <support@opexia-formation.com>",
+        from: "Marius d'OpexIA <support@opexia-formation.com>",
         to: email,
         subject: guide.subject,
         html: guide.html,
