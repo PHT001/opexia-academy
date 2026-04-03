@@ -24,6 +24,10 @@ function layout(content: string): string {
         <p style="color: #9CA3AF; font-size: 12px; margin: 4px 0 0 0;">
           <a href="https://opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a>
         </p>
+        <p style="color: #D1D5DB; font-size: 11px; margin: 12px 0 0 0;">
+          Tu reçois cet email car tu es inscrit sur OpexIA Academy.<br>
+          <a href="mailto:support@opexia-formation.com?subject=Désinscription&body=Je souhaite me désinscrire des emails automatiques." style="color: #D1D5DB; text-decoration: underline;">Se désinscrire</a>
+        </p>
       </div>
     </div>
   `;
