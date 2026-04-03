@@ -56,7 +56,7 @@ const UPCOMING = [
 ];
 
 export default function MasterclassPage() {
-  const { isLocked } = useTierGate();
+  const { isLocked } = useTierGate(["academy", "one_to_one"]);
   const [notified, setNotified] = useState<Record<string, boolean>>({});
   const [sujet, setSujet] = useState("");
   const [sujetSent, setSujetSent] = useState(false);
