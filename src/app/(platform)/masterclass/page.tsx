@@ -3,17 +3,24 @@
 import { useState } from "react";
 import { useTierGate } from "@/hooks/useTierGate";
 
-const MASTERCLASSES = [
+const COMING_SOON_MASTERCLASSES = [
   {
     id: "claude-code",
     title: "Masterclass Claude Code",
     description:
       "Apprends à coder des apps complètes avec Claude directement dans ton terminal. Vibe coding, debugging, déploiement — tout ce qu'il faut pour livrer des projets clients 10x plus vite.",
     speaker: "Équipe OpexIA",
-    lessons: 5,
-    duration: "~2h",
+    estimatedLessons: 5,
+    estimatedDuration: "~2h",
     tags: ["Claude Code", "Terminal", "Vibe Coding", "GitHub"],
-    href: "/lessons",
+    icon: (
+      <svg className="w-8 h-8 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
+      </svg>
+    ),
+    gradient: "from-purple-600/20 via-purple-900/40 to-[#0d0e1a]",
+    accentColor: "purple",
   },
   {
     id: "openclaw",
@@ -21,77 +28,65 @@ const MASTERCLASSES = [
     description:
       "Déploie ton propre assistant IA multi-canal. Installation, configuration, messagerie, sécurité et comment le vendre comme service à tes clients.",
     speaker: "Équipe OpexIA",
-    lessons: 7,
-    duration: "~3h",
+    estimatedLessons: 7,
+    estimatedDuration: "~3h",
     tags: ["OpenClaw", "Self-hosted", "Multi-canal", "Business"],
-    href: "/lessons",
-  },
-];
-
-const UPCOMING = [
-  {
-    id: "live-1",
-    title: "Trouver ses 5 premiers clients en 30 jours",
-    date: "12 Avril 2026",
-    speaker: "Fondateurs OpexIA",
-    duration: "1h30",
-    tags: ["Prospection", "Cold outreach", "Closing"],
+    icon: (
+      <svg className="w-8 h-8 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z" />
+        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+        <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="2.5" />
+        <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="2.5" />
+      </svg>
+    ),
+    gradient: "from-red-600/20 via-red-900/40 to-[#0d0e1a]",
+    accentColor: "red",
   },
   {
-    id: "live-2",
-    title: "Construire un agent IA qui génère du revenu",
-    date: "19 Avril 2026",
-    speaker: "Invité expert",
-    duration: "1h",
-    tags: ["Agents IA", "Demo live", "Retainer"],
-  },
-  {
-    id: "live-3",
-    title: "De 0 à 10K€/mois — Retour d'expérience",
-    date: "3 Mai 2026",
-    speaker: "Membre communauté",
-    duration: "1h",
-    tags: ["Retour d'expérience", "Scaling", "Inspiration"],
+    id: "automation",
+    title: "Masterclass Automatisation & Agents",
+    description:
+      "Crée des agents IA autonomes qui travaillent pour toi. Workflows, intégrations API, automatisation de tâches répétitives — le guide complet pour scaler ton agence.",
+    speaker: "Équipe OpexIA",
+    estimatedLessons: 6,
+    estimatedDuration: "~2h30",
+    tags: ["Agents IA", "Automatisation", "API", "n8n"],
+    icon: (
+      <svg className="w-8 h-8 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+    ),
+    gradient: "from-cyan-600/20 via-cyan-900/40 to-[#0d0e1a]",
+    accentColor: "cyan",
   },
 ];
 
 export default function MasterclassPage() {
-  const { isLocked } = useTierGate(["academy", "one_to_one"]);
-  const [notified, setNotified] = useState<Record<string, boolean>>({});
-  const [sujet, setSujet] = useState("");
-  const [sujetSent, setSujetSent] = useState(false);
+  const { isLocked, tier } = useTierGate(["academy", "one_to_one"]);
+  const [notifyId, setNotifyId] = useState<Record<string, boolean>>({});
 
   const toggleNotify = (id: string) => {
-    setNotified((prev) => ({ ...prev, [id]: !prev[id] }));
+    setNotifyId((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleSujet = () => {
-    if (!sujet.trim()) return;
-    setSujetSent(true);
-    setSujet("");
-    setTimeout(() => setSujetSent(false), 3000);
-  };
-
+  /* ── Locked view for free / starter ── */
   if (isLocked) {
     return (
       <div className="relative w-full max-w-5xl mx-auto overflow-hidden" style={{ maxHeight: "calc(100vh - 80px)" }}>
-        {/* Blurred content — no scroll */}
         <div className="blur-[6px] pointer-events-none select-none opacity-60">
-          {/* Header */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold tracking-tight text-[#111] mb-1">Masterclass</h1>
-            <p className="text-sm text-gray-500">Formations vid{"\u00e9"}o compl{"\u00e8"}tes et sessions live exclusives.</p>
+            <p className="text-sm text-gray-500">Formations vid{"é"}o compl{"è"}tes et sessions live exclusives.</p>
           </div>
-          {/* Fake video cards */}
           <div className="grid gap-5 md:grid-cols-2 mb-8">
-            {MASTERCLASSES.slice(0, 2).map((mc) => (
+            {COMING_SOON_MASTERCLASSES.slice(0, 2).map((mc) => (
               <div key={mc.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
                 <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-[#1a1b2e] via-[#1e1f38] to-[#0d0e1a] flex items-center justify-center">
                     <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
                       <svg className="w-7 h-7 text-white ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
                     </div>
-                    <span className="absolute bottom-3 right-3 text-[10px] text-white/70 bg-black/40 px-2.5 py-1 rounded-full">{mc.lessons} le{"\u00e7"}ons {"\u00b7"} {mc.duration}</span>
                   </div>
                 </div>
                 <div className="p-5">
@@ -102,21 +97,8 @@ export default function MasterclassPage() {
               </div>
             ))}
           </div>
-          {/* Fake upcoming */}
-          <div className="space-y-3">
-            {UPCOMING.slice(0, 2).map((live) => (
-              <div key={live.id} className="bg-white rounded-xl border border-gray-200 p-4">
-                <h3 className="text-sm font-semibold text-[#111]">{live.title}</h3>
-                <p className="text-xs text-gray-400">{live.date} {"\u00b7"} {live.speaker}</p>
-              </div>
-            ))}
-          </div>
         </div>
-
-        {/* Gradient fade at bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#F8F9FA] to-transparent z-10" />
-
-        {/* Overlay CTA */}
         <div className="absolute inset-0 flex items-center justify-center z-20">
           <div className="text-center bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200 p-8 max-w-md mx-4">
             <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-4">
@@ -125,9 +107,9 @@ export default function MasterclassPage() {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-[#111] mb-2">Masterclass exclusives</h3>
-            <p className="text-sm text-[#6B7280] mb-6">Acc{"\u00e8"}de aux masterclass vid{"\u00e9"}o et sessions live pour d{"\u00e9"}velopper ton agence IA.</p>
+            <p className="text-sm text-[#6B7280] mb-6">Acc{"è"}de aux masterclass vid{"é"}o et sessions live pour d{"é"}velopper ton agence IA.</p>
             <a href="/offres" className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:scale-[1.02]" style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}>
-              D{"\u00e9"}couvrir nos offres <span>{"\u2192"}</span>
+              D{"é"}couvrir nos offres <span>{"\u2192"}</span>
             </a>
           </div>
         </div>
@@ -135,276 +117,160 @@ export default function MasterclassPage() {
     );
   }
 
+  /* ── Unlocked view for academy / one_to_one — Coming Soon ── */
   return (
     <div className="w-full max-w-5xl mx-auto pb-12">
-      <MasterclassContent notified={notified} toggleNotify={toggleNotify} sujet={sujet} setSujet={setSujet} sujetSent={sujetSent} handleSujet={handleSujet} />
-    </div>
-  );
-}
-
-function MasterclassContent({ notified, toggleNotify, sujet, setSujet, sujetSent, handleSujet }: { notified: Record<string, boolean>; toggleNotify: (id: string) => void; sujet: string; setSujet: (v: string) => void; sujetSent: boolean; handleSujet: () => void }) {
-  return (
-    <>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-[#111] mb-1">
-          Masterclass
-        </h1>
+        <h1 className="text-2xl font-bold tracking-tight text-[#111] mb-1">Masterclass</h1>
         <p className="text-sm text-gray-500">
-          Formations vidéo complètes et sessions live exclusives pour
-          développer ton agence IA.
+          Formations vid{"é"}o compl{"è"}tes et sessions live exclusives pour d{"é"}velopper ton agence IA.
         </p>
       </div>
 
-      {/* ── Section: Masterclasses disponibles ── */}
-      <section className="mb-10">
-        <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400">
-            Masterclasses disponibles
-          </h2>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2">
-          {MASTERCLASSES.map((mc) => (
-            <div
-              key={mc.id}
-              className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all"
-            >
-              {/* Video placeholder 16:9 */}
-              <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1a1b2e] via-[#1e1f38] to-[#0d0e1a] flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 group-hover:scale-110 transition-all duration-300 cursor-pointer">
-                    <svg
-                      className="w-7 h-7 text-white ml-1"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                  {/* Badge top-left */}
-                  <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 backdrop-blur-sm">
-                    Disponible
-                  </span>
-                  {/* Duration bottom-right */}
-                  <span className="absolute bottom-3 right-3 text-[10px] text-white/70 bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-sm">
-                    {mc.lessons} leçons · {mc.duration}
-                  </span>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-5">
-                <h3 className="text-base font-bold text-[#111] mb-1 group-hover:text-[#FF1744] transition-colors">
-                  {mc.title}
-                </h3>
-                <p className="text-xs text-gray-400 font-medium mb-2">
-                  {mc.speaker}
-                </p>
-                <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">
-                  {mc.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {mc.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="text-[10px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-md"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                {/* CTA */}
-                <a
-                  href={mc.href}
-                  className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors shadow-sm"
-                >
-                  Accéder
-                  <svg
-                    className="w-4 h-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="9 18 15 12 9 6" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Section: Prochaines sessions live ── */}
-      <section className="mb-10">
-        <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400">
-            Prochaines sessions live
-          </h2>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
-
-        <div className="space-y-3">
-          {UPCOMING.map((live) => (
-            <div
-              key={live.id}
-              className="group bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md hover:border-gray-300 transition-all"
-            >
-              <div className="flex items-start gap-4">
-                {/* Date column */}
-                <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-orange-50 border border-orange-200/50 flex flex-col items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-orange-500 mb-0.5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                  </svg>
-                  <span className="text-[8px] font-bold text-orange-600 uppercase leading-none">
-                    Live
-                  </span>
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-sm font-semibold text-[#111] group-hover:text-[#FF1744] transition-colors truncate">
-                      {live.title}
-                    </h3>
-                    <span className="flex-shrink-0 text-[9px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-600 border border-orange-200/50">
-                      Bientôt
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
-                    <span className="font-medium text-gray-600">
-                      {live.date}
-                    </span>
-                    <span>·</span>
-                    <span>{live.speaker}</span>
-                    <span>·</span>
-                    <span>{live.duration}</span>
-                  </div>
-                  <div className="flex gap-1.5 flex-wrap">
-                    {live.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-[9px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Notify button */}
-                <button
-                  onClick={() => toggleNotify(live.id)}
-                  className={`flex-shrink-0 flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg transition-all ${
-                    notified[live.id]
-                      ? "bg-[#FF1744]/10 text-[#FF1744] border border-[#FF1744]/20"
-                      : "text-gray-400 border border-gray-200 hover:bg-gray-50 hover:text-gray-600"
-                  }`}
-                >
-                  {notified[live.id] ? (
-                    <>
-                      <svg
-                        className="w-3.5 h-3.5"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
-                      </svg>
-                      Notifié
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        className="w-3.5 h-3.5"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                      </svg>
-                      Me notifier
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Section: Proposer un sujet ── */}
-      <section>
-        <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400">
-            Proposer un sujet
-          </h2>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <p className="text-sm text-gray-500 mb-3">
-            Un sujet que tu aimerais voir en masterclass ou en live ? Propose-le
-            et on l&apos;ajoutera au programme.
-          </p>
-          <div className="flex gap-3">
-            <input
-              type="text"
-              value={sujet}
-              onChange={(e) => setSujet(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSujet()}
-              placeholder="Ex: Comment automatiser le support client avec un agent IA..."
-              className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744]/40 transition-all"
-            />
-            <button
-              onClick={handleSujet}
-              disabled={!sujet.trim()}
-              className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                sujet.trim()
-                  ? "bg-[#FF1744] text-white hover:bg-[#D50000]"
-                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
-              }`}
-            >
-              Envoyer
-            </button>
+      {/* ── Coming Soon Banner ── */}
+      <div className="relative overflow-hidden rounded-2xl mb-8" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #16162A 60%, #0F0F1E 100%)" }}>
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF1744]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-40 h-40 bg-purple-500/10 rounded-full translate-y-1/2 blur-2xl" />
+        <div className="relative z-10 p-6 sm:p-8 text-center">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF1744] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF1744]" />
+            </span>
+            <span className="text-[11px] font-bold text-white/80 uppercase tracking-widest">En pr{"é"}paration</span>
           </div>
-          {sujetSent && (
-            <div className="mt-3 flex items-center gap-2 text-xs text-emerald-600 bg-emerald-50 border border-emerald-200/50 rounded-lg px-3 py-2">
-              <svg
-                className="w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              Merci ! Ta suggestion a bien été envoyée.
-            </div>
-          )}
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">3 Masterclass arrivent bient{"ô"}t</h2>
+          <p className="text-sm text-white/50 max-w-lg mx-auto">
+            Notre {"é"}quipe pr{"é"}pare des formations vid{"é"}o compl{"è"}tes pour t{"'"}aider {"à"} ma{"î"}triser les outils IA les plus puissants. Active les notifications pour {"ê"}tre pr{"é"}venu d{"è"}s la sortie.
+          </p>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* ── Masterclass Cards ── */}
+      <div className="flex items-center gap-3 mb-5">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400">Bient{"ô"}t disponibles</h2>
+        <div className="flex-1 h-px bg-gray-200" />
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {COMING_SOON_MASTERCLASSES.map((mc, idx) => (
+          <div key={mc.id} className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all">
+            {/* Video placeholder 16:9 */}
+            <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+              <div className={`absolute inset-0 bg-gradient-to-br ${mc.gradient} flex items-center justify-center`}>
+                {/* Center icon */}
+                <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  {mc.icon}
+                </div>
+                {/* Badge top-left */}
+                <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 backdrop-blur-sm border border-amber-500/20">
+                  <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" /></svg>
+                  Bient{"ô"}t
+                </span>
+                {/* Duration bottom-right */}
+                <span className="absolute bottom-3 right-3 text-[10px] text-white/50 bg-black/30 px-2.5 py-1 rounded-full backdrop-blur-sm">
+                  {mc.estimatedLessons} le{"ç"}ons · {mc.estimatedDuration}
+                </span>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-5">
+              <h3 className="text-base font-bold text-[#111] mb-1 group-hover:text-[#FF1744] transition-colors">
+                {mc.title}
+              </h3>
+              <p className="text-xs text-gray-400 font-medium mb-2">{mc.speaker}</p>
+              <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">{mc.description}</p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {mc.tags.map((t) => (
+                  <span key={t} className="text-[10px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-md">{t}</span>
+                ))}
+              </div>
+
+              {/* Notify CTA */}
+              <button
+                onClick={() => toggleNotify(mc.id)}
+                className={`flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                  notifyId[mc.id]
+                    ? "bg-[#FF1744]/10 text-[#FF1744] border border-[#FF1744]/20"
+                    : "bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 hover:text-gray-800"
+                }`}
+              >
+                {notifyId[mc.id] ? (
+                  <>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
+                    </svg>
+                    Notification activ{"é"}e
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    Me pr{"é"}venir {"à"} la sortie
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Timeline / Roadmap ── */}
+      <div className="mt-10">
+        <div className="flex items-center gap-3 mb-5">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400">Calendrier pr{"é"}visionnel</h2>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
+
+        <div className="relative pl-8">
+          <div className="absolute left-[11px] top-2 bottom-2 w-px bg-gray-200" />
+
+          {[
+            { month: "Avril 2026", label: "Masterclass Claude Code", status: "production", color: "purple" },
+            { month: "Mai 2026", label: "Masterclass OpenClaw", status: "tournage", color: "red" },
+            { month: "Juin 2026", label: "Masterclass Automatisation & Agents", status: "planification", color: "cyan" },
+          ].map((item, i) => (
+            <div key={i} className="relative mb-6 last:mb-0">
+              <div className={`absolute -left-8 top-1 w-[22px] h-[22px] rounded-full border-4 border-white shadow-sm z-10 ${
+                item.status === "production" ? "bg-purple-500" : item.status === "tournage" ? "bg-red-500" : "bg-gray-300"
+              }`} />
+              <div className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-sm transition-shadow">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">{item.month}</p>
+                    <h3 className="text-sm font-semibold text-[#111]">{item.label}</h3>
+                  </div>
+                  <span className={`flex-shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide ${
+                    item.status === "production"
+                      ? "bg-purple-50 text-purple-600 border border-purple-200"
+                      : item.status === "tournage"
+                      ? "bg-red-50 text-red-500 border border-red-200"
+                      : "bg-gray-50 text-gray-400 border border-gray-200"
+                  }`}>
+                    {item.status === "production" ? "En production" : item.status === "tournage" ? "Tournage" : "Planification"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Bottom note ── */}
+      <div className="mt-8 bg-gray-50 rounded-xl border border-gray-200 p-5 text-center">
+        <p className="text-sm text-gray-500">
+          {"🎬"} Les masterclass sont film{"é"}es et mont{"é"}es par l{"'"}{"é"}quipe OpexIA. Chaque module est test{"é"} en conditions r{"é"}elles avant publication.
+        </p>
+        <p className="text-xs text-gray-400 mt-2">
+          Tu recevras un email + notification d{"è"}s qu{"'"}une masterclass est disponible.
+        </p>
+      </div>
+    </div>
   );
 }
