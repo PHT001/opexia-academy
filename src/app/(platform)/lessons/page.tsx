@@ -466,8 +466,8 @@ export default function LessonsPage() {
   }, []);
 
   const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
-  // Teaser mode: show all modules (blurred lessons) for free AND starter users on non-accessible modules
-  const isTeaser = userTier === "free" || userTier === "starter";
+  // Teaser mode: free users see all modules expanded+blurred; starter sees non-accessible modules as locked cards (no expand)
+  const isTeaser = userTier === "free";
   const totalCompleted = modules.reduce((sum, m) => sum + m.lessons.filter((l) => l.status === "completed").length, 0);
   const totalLessons = modules.reduce((sum, m) => sum + m.lessons.length, 0);
   const totalProgress = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
@@ -828,8 +828,8 @@ export default function LessonsPage() {
                                   <button key={lesson.id} onClick={() => openLesson(lesson.slug)} className={cn(sharedClassName, "w-full text-left")}>{innerContent}</button>
                                 );
                               })}
-                              {/* PDF Download button — hidden for free users */}
-                              {userTier !== "free" && (
+                              {/* PDF Download button — only for users with access to this module */}
+                              {modAccessible && (
                                 <div className="px-4 py-3 border-t border-gray-100 bg-gray-50/30">
                                   <a
                                     href={`/api/pdf/${mod.order}`}
