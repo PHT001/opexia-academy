@@ -18,6 +18,8 @@ export const V2_MODULE_20_LESSONS = [
     content: blocks([
       { id: "1-1", type: "heading", level: 2, text: "La livraison fait ou défait ta réputation" },
       { id: "1-2", type: "text", html: "<p>Tu peux avoir le meilleur produit du monde, si la livraison est chaotique, ton client sera déçu. À l'inverse, une livraison <strong>structurée et professionnelle</strong> transforme un client satisfait en ambassadeur. La différence entre une agence à 2K€/mois et une à 10K€/mois tient souvent à la qualité du process de livraison.</p>" },
+      { id: "1-11", type: "text", html: "<p>Pense à la dernière fois que tu as commandé quelque chose en ligne. Le produit était peut-être excellent, mais si la livraison a été un cauchemar (retard, pas de suivi, colis abîmé), tu en gardes un mauvais souvenir. Pour tes services IA, c'est exactement pareil. Un chatbot incroyable livré dans le chaos, c'est un client qui ne reviendra pas. Un chatbot correct livré avec un process impeccable, c'est un client qui te recommande à tous ses contacts.</p>" },
+      { id: "1-12", type: "callout", variant: "warning", html: "<strong>Statistique clé :</strong> 68% des clients quittent un prestataire à cause de l'expérience globale, pas à cause de la qualité du livrable. Le 'comment' tu livres compte autant que le 'quoi' tu livres. C'est là que la majorité des freelances et petites agences se plantent." },
       { id: "1-3", type: "callout", variant: "info", html: "Un client ne juge pas seulement le résultat final. Il juge <strong>l'expérience complète</strong> : la communication, les délais, la clarté, le professionnalisme. Chaque interaction compte." },
       { id: "1-4", type: "separator", style: "dots" },
       { id: "1-5", type: "heading", level: 2, text: "Les 6 étapes d'une livraison irréprochable" },
@@ -29,6 +31,11 @@ export const V2_MODULE_20_LESSONS = [
         { title: "Étape 5 — Livraison finale", description: "Livre avec un document de livraison comprenant : récap du projet, guide d'utilisation, accès et identifiants, points d'attention et limites connues." },
         { title: "Étape 6 — Suivi post-livraison", description: "Planifie un appel de suivi 2 semaines après la livraison pour vérifier que tout fonctionne. C'est aussi le moment idéal pour proposer un retainer ou un upsell." },
       ]},
+
+      { id: "1-13", type: "heading", level: 2, text: "Le document de livraison : ton arme secrète" },
+      { id: "1-14", type: "text", html: "<p>Le document de livraison (ou 'handover doc') est ce qui te distingue d'un amateur. C'est un PDF ou une page Notion que tu remets au client avec le livrable final. Voici ce qu'il contient :</p><ul><li><strong>Récap du projet :</strong> Objectif initial, périmètre validé, décisions prises en cours de route.</li><li><strong>Guide d'utilisation :</strong> Comment utiliser le produit livré, étape par étape, avec des captures d'écran. Si c'est un chatbot, explique comment modifier les réponses. Si c'est un dashboard, explique chaque métrique.</li><li><strong>Accès et identifiants :</strong> Tous les accès nécessaires, bien organisés (hébergement, API, base de données, etc.).</li><li><strong>Architecture technique :</strong> Un schéma simple de comment tout fonctionne. Le client n'a pas besoin de comprendre le code, mais il doit savoir quels services sont utilisés.</li><li><strong>Limites connues :</strong> Sois transparent sur ce que le système ne fait pas encore. C'est aussi la porte d'entrée pour le retainer.</li></ul>" },
+      { id: "1-15", type: "callout", variant: "tip", html: "<strong>Vidéo Loom bonus :</strong> En plus du document écrit, enregistre une vidéo Loom de 5-10 minutes où tu fais un tour complet du produit livré. Le client peut la revoir autant de fois qu'il veut et la partager avec son équipe. Ça te prend 10 minutes, et le client se sent accompagné." },
+
       { id: "1-7", type: "heading", level: 2, text: "Les outils de gestion de projet" },
       { id: "1-8", type: "comparison", headers: ["Outil", "Usage idéal", "Prix"], rows: [
         { cells: ["Notion", "Documentation, wiki projet, base de connaissances", "Gratuit / 8€/mois"] },
@@ -37,7 +44,21 @@ export const V2_MODULE_20_LESSONS = [
         { cells: ["Loom", "Vidéos de mise à jour et démos asynchrones", "Gratuit / 12.50€/mois"] },
         { cells: ["Google Drive", "Partage de fichiers et documents collaboratifs", "Gratuit"] },
       ]},
+
+      { id: "1-16", type: "heading", level: 2, text: "Erreurs de livraison à ne jamais commettre" },
+      { id: "1-17", type: "comparison", headers: ["Erreur", "Conséquence", "Bonne pratique"], rows: [
+        { cells: ["Livrer sans documentation", "Le client ne sait pas utiliser le produit et te rappelle 10 fois", "Toujours accompagner d'un guide d'utilisation"] },
+        { cells: ["Pas de phase de recette", "Le client découvre des bugs après le paiement final", "Phase de test obligatoire avant livraison finale"] },
+        { cells: ["Disparaître après la livraison", "Le client se sent abandonné, ne recommande pas", "Appel de suivi à J+14, réponse sous 24h pendant 1 mois"] },
+        { cells: ["Livrer en retard sans prévenir", "Rupture de confiance immédiate", "Communiquer le retard dès que tu le sais, proposer des solutions"] },
+        { cells: ["Oublier les accès et identifiants", "Le client est bloqué et frustré", "Checklist systématique de tous les accès à transmettre"] },
+      ]},
+
       { id: "1-9", type: "callout", variant: "tip", html: "<strong>Template Notion :</strong> Crée un template de projet Notion que tu dupliques pour chaque client. Inclus : brief, calendrier, livrables, compte-rendus de réunion, accès. Le client a tout au même endroit." },
+
+      { id: "1-18", type: "heading", level: 2, text: "Le petit plus qui fait la différence" },
+      { id: "1-19", type: "text", html: "<p>Les meilleurs prestataires ajoutent un 'bonus inattendu' à la livraison. Quelque chose que le client n'avait pas demandé mais qui montre que tu as réfléchi au-delà du brief :</p><ul><li>Un mini-rapport d'analyse avec 3 recommandations pour améliorer les performances.</li><li>Un template réutilisable (un prompt optimisé, un workflow Make, un script utile).</li><li>Une suggestion de 'quick win' que le client peut implémenter lui-même en 10 minutes.</li></ul><p>Ce bonus ne te coûte que 30 minutes de travail supplémentaire, mais il ancre dans l'esprit du client que tu apportes plus que ce qui est attendu. C'est exactement ce qui déclenche les recommandations spontanées.</p>" },
+
       { id: "1-10", type: "checklist", title: "Checklist de livraison", items: [
         { id: "c1", text: "Appel de kick-off réalisé et email récap envoyé" },
         { id: "c2", text: "Points d'étape hebdomadaires planifiés" },
@@ -46,6 +67,8 @@ export const V2_MODULE_20_LESSONS = [
         { id: "c5", text: "Document de livraison finale envoyé" },
         { id: "c6", text: "Formation client réalisée (si applicable)" },
         { id: "c7", text: "Appel de suivi post-livraison planifié à J+14" },
+        { id: "c8", text: "Vidéo Loom de présentation du livrable enregistrée" },
+        { id: "c9", text: "Tous les accès et identifiants transmis au client" },
       ]},
     ]),
     exercise: "<h3>Exercice : Créer ton process de livraison</h3><p>Mets en place ton propre process de livraison :</p><ol><li>Crée un template Notion (ou un document) avec toutes les sections du process de livraison en 6 étapes.</li><li>Rédige un email type de kick-off que tu enverras à chaque nouveau client.</li><li>Crée une checklist de livraison adaptée à ton offre IA spécifique.</li><li>Enregistre une vidéo Loom de 2 minutes expliquant comment tu gères les projets (à partager avec tes futurs clients).</li></ol>",
@@ -68,6 +91,7 @@ export const V2_MODULE_20_LESSONS = [
     content: blocks([
       { id: "2-1", type: "heading", level: 2, text: "95% des conflits viennent d'un malentendu" },
       { id: "2-2", type: "text", html: "<p>La grande majorité des conflits clients ne viennent pas d'un mauvais travail, mais d'un <strong>décalage entre les attentes et la réalité</strong>. Le client imaginait quelque chose de différent. Le périmètre n'était pas clair. Les délais étaient flous. La solution : une communication proactive et transparente dès le départ.</p>" },
+      { id: "2-12", type: "text", html: "<p>Voici un scénario classique : tu proposes un chatbot IA à un restaurateur. Dans ta tête, c'est un bot qui répond aux questions fréquentes (horaires, menu, réservation). Dans sa tête, c'est un assistant virtuel qui gère les commandes, les réclamations, et remplace son standard téléphonique. Si tu ne cadres pas dès le départ, tu vas livrer un truc 'correct' et il va être déçu parce que ce n'est pas ce qu'il imaginait. Le travail est bon, mais les attentes étaient mal alignées.</p>" },
       { id: "2-3", type: "callout", variant: "warning", html: "<strong>Règle absolue :</strong> Sous-promets et sur-livre. Il vaut toujours mieux annoncer 3 semaines et livrer en 2, que promettre 2 semaines et livrer en 3. Les attentes sont un contrat psychologique." },
       { id: "2-4", type: "separator", style: "dots" },
       { id: "2-5", type: "heading", level: 2, text: "Les 5 sources de conflits les plus fréquentes" },
@@ -78,8 +102,22 @@ export const V2_MODULE_20_LESSONS = [
         { cells: ["Manque de communication", "Planifier des check-ins réguliers. Ne jamais laisser plus de 3 jours sans nouvelles."] },
         { cells: ["Désaccord sur le prix", "Détailler le devis ligne par ligne. Expliquer ce qui est inclus ET ce qui ne l'est pas."] },
       ]},
+
+      { id: "2-13", type: "heading", level: 2, text: "Le document de cadrage : ta protection juridique et relationnelle" },
+      { id: "2-14", type: "text", html: "<p>Avant de commencer tout projet, rédige un document de cadrage (ou 'scope document') que le client valide par écrit. Ce document est ta meilleure protection contre le scope creep et les malentendus. Il contient :</p><ul><li><strong>Objectif du projet :</strong> En une phrase claire, qu'est-ce qu'on livre ?</li><li><strong>Ce qui est inclus :</strong> Liste exhaustive des fonctionnalités, pages, intégrations.</li><li><strong>Ce qui n'est PAS inclus :</strong> Aussi important que ce qui est inclus. Exemples : 'L'application mobile n'est pas incluse', 'Le SEO n'est pas dans le périmètre', 'Le chatbot ne gère pas les paiements'.</li><li><strong>Calendrier :</strong> Dates clés avec marges intégrées.</li><li><strong>Conditions de modification :</strong> 'Toute modification du périmètre fera l'objet d'un avenant avec un délai et un coût supplémentaire.'</li></ul>" },
+      { id: "2-15", type: "callout", variant: "tip", html: "<strong>Astuce :</strong> Fais signer le document de cadrage avant l'appel de kick-off. Comme ça, le kick-off sert à confirmer ce qui est déjà validé, pas à négocier. Le client a eu le temps de lire et de poser ses questions." },
+
       { id: "2-7", type: "heading", level: 2, text: "Le scope creep : l'ennemi numéro 1" },
       { id: "2-8", type: "text", html: "<p>Le scope creep, c'est quand le client ajoute des demandes supplémentaires sans que le prix ou le délai ne change. C'est le cancer des agences. Voici comment le gérer :</p><ul><li><strong>Documenter le périmètre exact</strong> dans le contrat avec une section 'Ce qui est inclus' et 'Ce qui n'est pas inclus'.</li><li><strong>Répondre avec bienveillance mais fermeté</strong> : 'C'est une excellente idée ! Ce n'est pas dans le périmètre actuel, mais je peux vous faire un avenant pour l'intégrer. Ça représenterait environ X€ et Y jours de plus.'</li><li><strong>Créer un parking lot</strong> : une liste de 'futures améliorations' pour la V2. Le client se sent écouté sans que ça impacte le projet en cours.</li></ul>" },
+
+      { id: "2-16", type: "heading", level: 2, text: "Scripts concrets pour les situations délicates" },
+      { id: "2-17", type: "comparison", headers: ["Situation", "Mauvaise réponse", "Bonne réponse"], rows: [
+        { cells: ["Le client demande une fonctionnalité hors périmètre", "'Non, c'est pas dans le contrat.'", "'Super idée ! C'est au-delà du périmètre actuel. Je peux vous faire un avenant — comptez environ X€ et Y jours. En attendant, je la note dans le parking lot pour la V2.'"] },
+        { cells: ["Tu vas être en retard", "Silence radio jusqu'à la deadline...", "'Je voulais vous prévenir : le développement prend plus de temps que prévu sur [point technique]. Je prévois 3-4 jours de retard. Voici le plan ajusté et les raisons.'"] },
+        { cells: ["Le client n'est pas satisfait du résultat", "'C'est exactement ce qui est dans le contrat.'", "'Je comprends votre frustration. Qu'est-ce qui ne correspond pas à vos attentes ? Listons les points et voyons comment on peut corriger.'"] },
+        { cells: ["Le client ne répond pas à tes messages", "Tu attends indéfiniment...", "'Bonjour [nom], je n'ai pas eu de retour sur [sujet]. Sans votre validation d'ici [date], le planning risque de glisser de X jours. Pouvez-vous me faire un retour ?'"] },
+      ]},
+
       { id: "2-9", type: "heading", level: 2, text: "Quand ça se complique : la gestion de crise" },
       { id: "2-10", type: "steps", steps: [
         { title: "Étape 1 — Reconnaître le problème", description: "Ne fuis jamais. Contacte le client dès que tu identifies un problème. 'Je voulais vous informer que...' La transparence renforce la confiance." },
@@ -87,6 +125,10 @@ export const V2_MODULE_20_LESSONS = [
         { title: "Étape 3 — Proposer des solutions", description: "Arrive toujours avec des solutions, pas juste le problème. 'Voici ce que je propose pour corriger la situation : option A ou option B.'" },
         { title: "Étape 4 — Formaliser par écrit", description: "Après la résolution, envoie un email récapitulatif de ce qui a été convenu. Cela évite les malentendus futurs sur le même sujet." },
       ]},
+
+      { id: "2-18", type: "heading", level: 2, text: "Quand un client devient toxique" },
+      { id: "2-19", type: "text", html: "<p>Tous les clients ne valent pas la peine d'être gardés. Un client toxique (demandes permanentes hors périmètre, manque de respect, retards de paiement chroniques, micro-management extrême) te coûte plus qu'il ne te rapporte — en temps, en énergie et en opportunité manquée.</p><p>Les signes d'alerte :</p><ul><li>Il contacte en dehors des heures convenues et s'attend à des réponses immédiates.</li><li>Il remet en question chaque décision technique.</li><li>Il ne paie jamais dans les délais.</li><li>Il compare constamment avec 'd'autres prestataires moins chers'.</li></ul><p>Si tu repères ces signaux, ne renouvelle pas le contrat. Termine proprement le projet en cours, livre le maximum de valeur, et passe à autre chose. Ton énergie sera mieux investie avec un client qui te respecte.</p>" },
+
       { id: "2-11", type: "callout", variant: "tip", html: "<strong>Astuce :</strong> Crée un document de 'règles de collaboration' que tu partages en début de projet. Inclus : horaires de disponibilité, délai de réponse, process de demande de modification, etc. Ça pose le cadre dès le départ." },
     ]),
     exercise: "<h3>Exercice : Préparer ta gestion des attentes</h3><p>Crée les outils de prévention des conflits pour ton agence :</p><ol><li>Rédige une section 'Ce qui est inclus / Ce qui n'est pas inclus' pour ton offre principale.</li><li>Rédige un email type de réponse au scope creep (la demande du client qui sort du périmètre).</li><li>Crée un document de 'règles de collaboration' à partager en début de projet.</li><li>Rédige un script de gestion de crise pour une situation où tu es en retard de livraison.</li></ol>",
@@ -109,6 +151,8 @@ export const V2_MODULE_20_LESSONS = [
     content: blocks([
       { id: "3-1", type: "heading", level: 2, text: "Le retainer : la clé de la stabilité financière" },
       { id: "3-2", type: "text", html: "<p>Vendre des projets one-shot, c'est un cycle infernal : tu livres, tu factures, et tu repars de zéro pour trouver le prochain client. Le <strong>retainer</strong> (contrat de maintenance/accompagnement mensuel) est la solution pour sortir de ce cycle.</p><p>Avec 3-4 retainers à 1 000-2 000€/mois, tu as une base de revenus récurrents qui couvre tes charges. Tout projet supplémentaire devient du bonus.</p>" },
+      { id: "3-12", type: "text", html: "<p>Pense aux modèles SaaS : les entreprises qui génèrent les meilleures valorisations sont celles qui ont des revenus récurrents. Pour ton agence IA, c'est pareil. Un prospect qui voit que tu as 5 retainers stables se dit 'cette agence est sérieuse et fiable'. Ça renforce ta crédibilité commerciale en plus de ta trésorerie.</p>" },
+      { id: "3-13", type: "callout", variant: "info", html: "<strong>Calcul concret :</strong> Si tu as 4 retainers à 1 500€/mois, ça fait 6 000€ de revenus récurrents. Tes charges (hébergement, outils, compta, impôts) tournent autour de 2 000-3 000€/mois. Tu es déjà rentable avant même de signer un nouveau projet. C'est cette sécurité qui te permet de négocier sereinement et de refuser les mauvais clients." },
       { id: "3-3", type: "callout", variant: "tip", html: "<strong>Objectif :</strong> Viser 60-70% de revenus récurrents (retainers) et 30-40% de projets one-shot. C'est le ratio idéal pour la stabilité et la croissance." },
       { id: "3-4", type: "separator", style: "dots" },
       { id: "3-5", type: "heading", level: 2, text: "Les 4 types de retainers pour une agence IA" },
@@ -118,12 +162,21 @@ export const V2_MODULE_20_LESSONS = [
         { cells: ["Accompagnement stratégique", "Conseil IA mensuel, roadmap d'automatisation, veille technologique", "1 500-3 000€/mois"] },
         { cells: ["Pack heures", "Banque d'heures mensuelles pour toute demande IA", "1 000-3 000€/mois"] },
       ]},
+
+      { id: "3-14", type: "heading", level: 2, text: "Ce qui justifie un retainer pour un produit IA" },
+      { id: "3-15", type: "text", html: "<p>Contrairement à un site web classique qui une fois livré ne bouge plus, un produit IA nécessite un <strong>entretien actif</strong>. C'est ce qui rend les retainers particulièrement naturels dans notre domaine. Voici pourquoi :</p><ul><li><strong>Les modèles évoluent :</strong> OpenAI, Anthropic et Google sortent de nouvelles versions tous les 3-6 mois. Chaque mise à jour peut améliorer les performances du chatbot ou nécessiter des ajustements.</li><li><strong>La base de connaissances grandit :</strong> Le client ajoute des produits, change ses tarifs, modifie ses FAQ. Le chatbot doit être mis à jour en conséquence.</li><li><strong>Les utilisateurs posent de nouvelles questions :</strong> En analysant les conversations, tu identifies les questions non couvertes et tu enrichis le bot.</li><li><strong>La performance se mesure et s'optimise :</strong> Taux de résolution, satisfaction, temps de réponse — ces métriques s'améliorent avec un suivi continu.</li></ul>" },
+
       { id: "3-7", type: "heading", level: 2, text: "Comment proposer un retainer naturellement" },
       { id: "3-8", type: "steps", steps: [
         { title: "Pendant le projet : planter la graine", description: "Pendant la livraison, mentionne régulièrement ce qui pourrait être amélioré ou ajouté après le lancement. 'Pour la V1 on fait ça, mais en V2 on pourrait aussi automatiser Y.' Cela prépare le terrain." },
         { title: "À la livraison : le pitch naturel", description: "Lors de l'appel de livraison, explique que le produit nécessite de la maintenance et de l'optimisation. 'Un chatbot IA, c'est comme un employé : il faut le former en continu pour qu'il s'améliore.'" },
         { title: "Le suivi J+14 : le moment de closer", description: "Lors de l'appel de suivi, demande les résultats et propose d'aller plus loin. 'Vous avez vu X résultat en 2 semaines. Imaginez avec une optimisation continue. Voici mon offre d'accompagnement.'" },
       ]},
+
+      { id: "3-16", type: "heading", level: 2, text: "Le reporting mensuel : la clé de la rétention" },
+      { id: "3-17", type: "text", html: "<p>La raison numéro 1 pour laquelle les clients annulent un retainer : ils ne voient pas ce qu'ils paient. La solution : un <strong>rapport mensuel</strong> qui montre concrètement la valeur de ton travail. Le rapport doit inclure :</p><ul><li><strong>Métriques clés :</strong> Conversations du chatbot, taux de résolution, satisfaction utilisateur, temps de réponse moyen.</li><li><strong>Actions réalisées ce mois :</strong> 'Ajouté 15 nouvelles réponses', 'Optimisé le prompt principal', 'Corrigé 3 réponses erronées'.</li><li><strong>Résultats obtenus :</strong> 'Le taux de résolution est passé de 72% à 81%', 'Les demandes de contact humain ont baissé de 15%'.</li><li><strong>Recommandations pour le mois prochain :</strong> 3 actions prioritaires pour continuer à améliorer les performances.</li></ul><p>Ce rapport te prend 30-45 minutes à produire, mais c'est lui qui fait la différence entre un retainer de 3 mois et un retainer de 2 ans.</p>" },
+      { id: "3-18", type: "callout", variant: "tip", html: "<strong>Automatise ton reporting :</strong> Crée un template Google Sheets ou Notion avec les métriques qui se remplissent automatiquement (via l'API de ton chatbot). Tu n'as plus qu'à ajouter les commentaires et recommandations. Le rapport te prend 15 minutes au lieu de 45." },
+
       { id: "3-9", type: "heading", level: 2, text: "Structurer ton offre de retainer" },
       { id: "3-10", type: "checklist", title: "Éléments clés d'un retainer", items: [
         { id: "c1", text: "Durée d'engagement (3 mois minimum recommandé pour voir les résultats)" },
@@ -132,8 +185,18 @@ export const V2_MODULE_20_LESSONS = [
         { id: "c4", text: "Reporting mensuel (métriques, améliorations, recommandations)" },
         { id: "c5", text: "Conditions de résiliation (préavis de 30 jours)" },
         { id: "c6", text: "Clause de revalorisation annuelle" },
+        { id: "c7", text: "SLA de temps de réponse (ex: sous 24h en semaine)" },
+        { id: "c8", text: "Process de demande de modification (email/ticket, pas WhatsApp)" },
       ]},
       { id: "3-11", type: "callout", variant: "warning", html: "<strong>Erreur courante :</strong> Ne pas limiter le périmètre du retainer. Sans limites claires, le client va t'appeler pour tout et n'importe quoi. Définis précisément ce qui est inclus : X heures de dev, Y rapports, Z appels par mois." },
+
+      { id: "3-19", type: "heading", level: 2, text: "Évolution du retainer : la montée en valeur" },
+      { id: "3-20", type: "steps", steps: [
+        { title: "Mois 1-3 : Stabilisation", description: "Tu corriges les bugs, tu affines les réponses, tu construis la confiance. Le client voit que le système s'améliore. Le retainer se justifie par la maintenance." },
+        { title: "Mois 4-6 : Optimisation", description: "Tu proposes des améliorations proactives : nouvelles fonctionnalités, intégrations supplémentaires, automatisations adjacentes. Tu passes de 'maintenance' à 'valeur ajoutée'." },
+        { title: "Mois 7-12 : Extension", description: "Tu proposes d'autres projets au même client. Tu connais son business, ses process, ses outils. Tu es en position idéale pour identifier de nouvelles opportunités. Le retainer initial ouvre la porte à des projets complémentaires." },
+        { title: "An 2+ : Partenaire stratégique", description: "Tu deviens le référent IA du client. Il te consulte pour chaque décision tech. Tu passes d'un retainer de maintenance à un accompagnement stratégique à plus forte valeur (et plus cher)." },
+      ]},
     ]),
     exercise: "<h3>Exercice : Construire ton offre de retainer</h3><p>Crée une offre de retainer prête à proposer :</p><ol><li>Choisis un des 4 types de retainers adapté à ton offre (maintenance, optimisation, accompagnement ou pack heures).</li><li>Définis le périmètre exact : ce qui est inclus et ce qui ne l'est pas.</li><li>Fixe un prix mensuel basé sur ta valeur (pas sur ton temps).</li><li>Rédige un email de proposition de retainer que tu enverras à tes clients existants.</li><li>Crée une page Notion ou un PDF présentant ton offre de retainer.</li></ol>",
     quiz: [
@@ -154,6 +217,7 @@ export const V2_MODULE_20_LESSONS = [
     content: blocks([
       { id: "4-1", type: "heading", level: 2, text: "Le referral : ton meilleur canal d'acquisition" },
       { id: "4-2", type: "text", html: "<p>Un lead qui vient d'une recommandation client a un <strong>taux de conversion 4x supérieur</strong> à un lead froid. Pourquoi ? Parce que la confiance est déjà établie. Ton client satisfait a fait le travail de vente à ta place. Le prospect arrive convaincu, la seule question c'est 'quand on commence ?'.</p><p>Le referral n'est pas un coup de chance. C'est un <strong>système</strong> que tu mets en place délibérément.</p>" },
+      { id: "4-12", type: "text", html: "<p>Regarde les chiffres : tu dépenses probablement 2-3 heures de prospection pour obtenir un call découverte avec un lead froid. Et ce lead a 1 chance sur 4 de signer. Pour un referral, tu dépenses 5 minutes (la demande au client) et le lead a 1 chance sur 2 de signer. Côté rentabilité, y'a pas photo. Le referral, c'est le canal d'acquisition le plus sous-estimé par les freelances et les petites agences.</p>" },
       { id: "4-3", type: "callout", variant: "info", html: "Les agences qui ont un programme de referral structuré obtiennent en moyenne <strong>30-40% de leurs nouveaux clients</strong> par recommandation. C'est le canal d'acquisition le plus rentable." },
       { id: "4-4", type: "separator", style: "dots" },
       { id: "4-5", type: "heading", level: 2, text: "Quand et comment demander un referral" },
@@ -163,6 +227,17 @@ export const V2_MODULE_20_LESSONS = [
         { title: "Faciliter l'introduction", description: "Ne demande pas au client de 'parler de toi'. Demande une introduction par email. Propose même un email pré-rédigé que le client n'a qu'à transférer." },
         { title: "Remercier et récompenser", description: "Remercie toujours, que le referral aboutisse ou non. Envoie un petit cadeau ou offre un service bonus sur le prochain mois de retainer." },
       ]},
+
+      { id: "4-13", type: "heading", level: 2, text: "Les 3 erreurs qui tuent les referrals" },
+      { id: "4-14", type: "comparison", headers: ["Erreur", "Pourquoi c'est un problème", "Ce qu'il faut faire"], rows: [
+        { cells: ["Ne jamais demander", "Les gens ne pensent pas spontanément à recommander, même quand ils sont satisfaits", "Systématiser la demande : un script à J+14, un email à la fin de chaque projet"] },
+        { cells: ["Demander trop tôt", "Le client n'a pas encore vu les résultats, il ne peut pas recommander sincèrement", "Attendre le pic de satisfaction : résultats mesurables, compliment spontané"] },
+        { cells: ["Rendre la recommandation compliquée", "Si le client doit rédiger un email de zéro, il ne le fera jamais", "Fournir un email pré-rédigé, un lien de calendrier, un coupon à partager"] },
+      ]},
+
+      { id: "4-15", type: "heading", level: 2, text: "La mécanique du bouche-à-oreille dans l'IA" },
+      { id: "4-16", type: "text", html: "<p>L'IA a un avantage unique pour le bouche-à-oreille : c'est un sujet de conversation naturel. Quand un restaurateur installe un chatbot qui prend ses réservations automatiquement, il en parle à ses collègues restaurateurs. Quand un comptable automatise sa saisie de factures, il en parle au cabinet d'à côté. L'IA est 'excitante' — les gens veulent montrer qu'ils sont à la pointe.</p><p>Capitalise là-dessus en créant des résultats <strong>visibles et impressionnants</strong>. Un chatbot avec un logo personnalisé, une interface soignée, des stats de performance — tout ça donne envie au client de le montrer. Et chaque fois qu'il le montre, c'est une opportunité de referral.</p>" },
+
       { id: "4-7", type: "heading", level: 2, text: "Structurer un programme de referral" },
       { id: "4-8", type: "comparison", headers: ["Niveau", "Récompense", "Déclencheur"], rows: [
         { cells: ["Introduction simple", "Merci personnalisé + mention sur les réseaux", "Le client fait une introduction par email"] },
@@ -172,6 +247,15 @@ export const V2_MODULE_20_LESSONS = [
       ]},
       { id: "4-9", type: "heading", level: 2, text: "Maximiser les témoignages et études de cas" },
       { id: "4-10", type: "text", html: "<p>Au-delà des referrals directs, chaque client satisfait est une <strong>preuve sociale</strong> en puissance. Demande systématiquement :</p><ul><li><strong>Un témoignage écrit</strong> (3-4 lignes sur le résultat obtenu) pour ton site web.</li><li><strong>Un avis Google</strong> si tu as une fiche Google Business.</li><li><strong>Une étude de cas détaillée</strong> (problème, solution, résultat chiffré) pour tes présentations commerciales.</li><li><strong>Un post LinkedIn</strong> co-rédigé avec le client sur le projet réalisé.</li></ul>" },
+
+      { id: "4-17", type: "heading", level: 2, text: "L'étude de cas : ton meilleur outil de vente" },
+      { id: "4-18", type: "steps", steps: [
+        { title: "Structure d'une étude de cas qui convertit", description: "Titre accrocheur → Contexte du client (secteur, taille, problème) → Solution apportée (ce que tu as fait) → Résultats chiffrés (avant/après) → Témoignage du client (citation directe)." },
+        { title: "Les chiffres qui parlent", description: "Toujours inclure des métriques concrètes : '80% de réduction du temps de saisie', '200 conversations/mois automatisées', '3 500€ d'économie mensuelle'. Les prospects se projettent avec des chiffres, pas avec des promesses vagues." },
+        { title: "Où les utiliser", description: "Page d'accueil du site, page dédiée 'Cas clients', propositions commerciales (ajouter un cas similaire au secteur du prospect), posts LinkedIn, stories Instagram. Une bonne étude de cas se recycle partout." },
+      ]},
+      { id: "4-19", type: "callout", variant: "info", html: "<strong>Le combo parfait :</strong> Un prospect reçoit une recommandation de la part d'un contact, il va sur ton site et voit 3 études de cas avec des résultats chiffrés, puis il te contacte pour un call. À ce stade, la vente est quasiment faite — il a la preuve sociale (referral) ET la preuve de compétence (études de cas). Tu n'as plus qu'à écouter son besoin et proposer ta solution." },
+
       { id: "4-11", type: "callout", variant: "tip", html: "<strong>Template de demande de témoignage :</strong> 'Bonjour [Prénom], je prépare une étude de cas sur notre collaboration. Pourriez-vous me répondre en 2-3 phrases : (1) Quel était votre problème ? (2) Quel résultat avez-vous obtenu ? (3) Recommanderiez-vous mes services ?' Simple et rapide pour le client." },
     ]),
     exercise: "<h3>Exercice : Créer ton système de referral</h3><p>Mets en place ton programme de recommandation :</p><ol><li>Rédige ton script de demande de referral (adapté à ton ton et ton offre).</li><li>Crée un email pré-rédigé que tes clients pourront transférer à leurs contacts.</li><li>Définis les 4 niveaux de récompense de ton programme de referral.</li><li>Rédige un template de demande de témoignage et d'étude de cas.</li><li>Identifie 3 clients actuels ou passés à qui tu pourrais demander un referral cette semaine.</li></ol>",

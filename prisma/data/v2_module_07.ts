@@ -24,6 +24,36 @@ export const V2_MODULE_07_LESSONS = [
         html: "<p><strong>Supabase</strong> est une plateforme Backend-as-a-Service (BaaS) open source. Elle te donne tout ce dont tu as besoin pour construire un backend sans écrire de code serveur complexe :</p><ul><li><strong>Base de données PostgreSQL</strong> — la base de données relationnelle la plus puissante et populaire</li><li><strong>Auth</strong> — inscription, connexion, OAuth (Google, GitHub, etc.) en quelques lignes</li><li><strong>Storage</strong> — hébergement de fichiers (images, PDF, vidéos)</li><li><strong>Realtime</strong> — synchronisation en temps réel des données</li><li><strong>Edge Functions</strong> — fonctions serverless pour la logique métier</li></ul>",
       },
       {
+        id: "1-14",
+        type: "heading",
+        level: 3,
+        text: "Supabase vs Firebase : le comparatif qui compte",
+      },
+      {
+        id: "1-15",
+        type: "text",
+        html: "<p>Si tu as entendu parler de Firebase (Google), tu te demandes peut-être pourquoi choisir Supabase. Voici les différences clés :</p>",
+      },
+      {
+        id: "1-16",
+        type: "comparison",
+        headers: ["Critère", "Supabase", "Firebase"],
+        rows: [
+          { cells: ["Base de données", "PostgreSQL (relationnelle, SQL)", "Firestore (NoSQL, documents)"] },
+          { cells: ["Open source", "Oui (auto-hébergeable)", "Non (propriétaire Google)"] },
+          { cells: ["Prix", "Généreux plan gratuit, pricing prévisible", "Peut exploser si mal configuré"] },
+          { cells: ["Courbe d'apprentissage", "SQL standard, transférable", "API custom, vendor lock-in"] },
+          { cells: ["Requêtes complexes", "JOINs, agrégations, SQL complet", "Limité, requêtes dénormalisées"] },
+          { cells: ["Migration", "Export SQL standard", "Difficile à quitter"] },
+        ],
+      },
+      {
+        id: "1-17",
+        type: "callout",
+        variant: "info",
+        html: "<strong>Pour une agence IA :</strong> Supabase est le meilleur choix. PostgreSQL est une compétence universelle qui te servira toute ta carrière. Et si un client veut auto-héberger ses données (certaines entreprises l'exigent pour la conformité RGPD), c'est possible avec Supabase.",
+      },
+      {
         id: "1-3",
         type: "callout",
         variant: "tip",
@@ -67,6 +97,32 @@ export const V2_MODULE_07_LESSONS = [
         ],
       },
       {
+        id: "1-18",
+        type: "heading",
+        level: 3,
+        text: "Les deux types de clés API",
+      },
+      {
+        id: "1-19",
+        type: "text",
+        html: "<p>Supabase te donne deux clés. Comprendre la différence est <strong>crucial pour la sécurité</strong> de ton app :</p>",
+      },
+      {
+        id: "1-20",
+        type: "comparison",
+        headers: ["Clé", "Nom", "Où l'utiliser", "Permissions"],
+        rows: [
+          { cells: ["anon key", "Clé publique", "Frontend (navigateur)", "Limitée par les RLS policies"] },
+          { cells: ["service_role key", "Clé secrète", "Backend UNIQUEMENT (API Routes)", "Accès complet, bypass les RLS"] },
+        ],
+      },
+      {
+        id: "1-21",
+        type: "callout",
+        variant: "warning",
+        html: "<strong>JAMAIS la service_role key dans le frontend.</strong> Si quelqu'un récupère cette clé, il a accès à TOUTES tes données sans restriction. C'est l'erreur de sécurité n°1 chez les débutants avec Supabase.",
+      },
+      {
         id: "1-7",
         type: "separator",
         style: "dots",
@@ -95,6 +151,17 @@ export const V2_MODULE_07_LESSONS = [
         ],
       },
       {
+        id: "1-22",
+        type: "heading",
+        level: 3,
+        text: "Concevoir un schéma de base pour un projet client",
+      },
+      {
+        id: "1-23",
+        type: "text",
+        html: "<p>Voici un exemple de schéma de base de données pour un chatbot client (exactement ce que tu vas construire dans ton agence) :</p><ul><li><strong>profiles</strong> — id, username, avatar_url, role, created_at</li><li><strong>chatbots</strong> — id, name, system_prompt, owner_id (FK vers profiles)</li><li><strong>knowledge_base</strong> — id, chatbot_id, title, content, embedding</li><li><strong>conversations</strong> — id, chatbot_id, visitor_id, status, created_at</li><li><strong>messages</strong> — id, conversation_id, role (user/assistant), content, created_at</li></ul><p>Ce schéma simple couvre 80% des besoins d'un chatbot de support client. Tu peux l'étendre au fur et à mesure.</p>",
+      },
+      {
         id: "1-11",
         type: "heading",
         level: 2,
@@ -104,6 +171,43 @@ export const V2_MODULE_07_LESSONS = [
         id: "1-12",
         type: "text",
         html: "<p>Supabase Auth gère tout le flux d'authentification : inscription par email/mot de passe, connexion, réinitialisation de mot de passe, OAuth avec Google, GitHub, etc. Tu peux configurer les providers dans le dashboard et utiliser le SDK pour déclencher les flux.</p><p>Les <strong>Row Level Security (RLS)</strong> policies te permettent de définir qui peut lire, écrire ou modifier quelles données, directement au niveau de la base. C'est la clé de la sécurité de ton app.</p>",
+      },
+      {
+        id: "1-24",
+        type: "heading",
+        level: 3,
+        text: "RLS : la sécurité au niveau de la base",
+      },
+      {
+        id: "1-25",
+        type: "text",
+        html: "<p>Les <strong>Row Level Security policies</strong> sont le concept le plus important à comprendre dans Supabase. Sans RLS, ta base est un livre ouvert. Avec RLS, chaque utilisateur ne voit et ne modifie que SES données.</p><p>Exemples de policies courantes :</p><ul><li><strong>Lecture publique :</strong> tout le monde peut lire les produits d'une boutique</li><li><strong>Lecture privée :</strong> un utilisateur ne peut lire que ses propres conversations</li><li><strong>Écriture protégée :</strong> un utilisateur ne peut modifier que son propre profil</li><li><strong>Admin only :</strong> seuls les admins peuvent supprimer des enregistrements</li></ul>",
+      },
+      {
+        id: "1-26",
+        type: "steps",
+        steps: [
+          {
+            title: "Active RLS sur chaque table",
+            description:
+              "Dans le dashboard, va dans ta table > Policies > Enable RLS. TOUJOURS activer RLS en premier, même si tu ajoutes les policies après.",
+          },
+          {
+            title: "Crée une policy SELECT (lecture)",
+            description:
+              "Définis qui peut lire quelles lignes. Exemple : auth.uid() = user_id signifie que l'utilisateur ne peut lire que les lignes où user_id correspond à son propre identifiant.",
+          },
+          {
+            title: "Crée une policy INSERT (écriture)",
+            description:
+              "Définis qui peut créer de nouvelles lignes. En général : tout utilisateur authentifié, avec son user_id automatiquement injecté.",
+          },
+          {
+            title: "Teste avec différents utilisateurs",
+            description:
+              "Crée 2 comptes de test et vérifie qu'un utilisateur ne peut pas accéder aux données de l'autre. C'est le test de sécurité de base.",
+          },
+        ],
       },
       {
         id: "1-13",
@@ -198,6 +302,17 @@ export const V2_MODULE_07_LESSONS = [
         html: "<p>SQL (Structured Query Language) est le langage universel pour communiquer avec les bases de données relationnelles. Même si Supabase te permet de manipuler les données via son SDK JavaScript, comprendre SQL te donne un <strong>superpouvoir</strong> :</p><ul><li>Tu comprends ce qui se passe \"sous le capot\"</li><li>Tu peux écrire des requêtes complexes que le SDK ne couvre pas</li><li>Tu peux debugger des problèmes de données plus facilement</li><li>C'est une compétence transférable à tout projet utilisant une base de données</li></ul>",
       },
       {
+        id: "2-16",
+        type: "heading",
+        level: 3,
+        text: "SQL + Claude = productivité x10",
+      },
+      {
+        id: "2-17",
+        type: "text",
+        html: "<p>L'un des plus gros avantages de l'IA pour un développeur, c'est la génération de SQL. Claude est extrêmement bon pour ça. Voici comment l'utiliser :</p><ul><li><strong>Décris en français</strong> ce que tu veux : \"Je veux les 10 clients qui ont dépensé le plus au total, avec leur nombre de commandes\"</li><li><strong>Claude génère le SQL</strong> : une requête avec JOIN, GROUP BY, ORDER BY et LIMIT</li><li><strong>Tu vérifies et tu exécutes</strong> dans l'éditeur SQL de Supabase</li></ul><p>Tu n'as pas besoin d'être un expert SQL. Tu as besoin de <strong>comprendre assez</strong> pour vérifier que la requête fait bien ce que tu veux. C'est une compétence beaucoup plus réaliste à acquérir.</p>",
+      },
+      {
         id: "2-3",
         type: "callout",
         variant: "tip",
@@ -226,6 +341,11 @@ export const V2_MODULE_07_LESSONS = [
         ],
       },
       {
+        id: "2-18",
+        type: "text",
+        html: "<p>CRUD = Create, Read, Update, Delete. Ce sont les 4 opérations fondamentales de toute application. Un formulaire d'inscription ? C'est un <strong>Create</strong>. Un tableau de bord ? C'est du <strong>Read</strong>. Un bouton \"modifier mon profil\" ? C'est un <strong>Update</strong>. Un bouton \"supprimer mon compte\" ? C'est un <strong>Delete</strong>.</p><p>Absolument tout dans une application web se résume à ces 4 opérations sur des données.</p>",
+      },
+      {
         id: "2-7",
         type: "separator",
         style: "dots",
@@ -240,6 +360,32 @@ export const V2_MODULE_07_LESSONS = [
         id: "2-9",
         type: "text",
         html: "<p>SELECT est la requête la plus utilisée. Elle permet de récupérer des données depuis une ou plusieurs tables :</p><ul><li><code>SELECT * FROM users</code> — récupère toutes les colonnes de tous les utilisateurs</li><li><code>SELECT name, email FROM users</code> — récupère uniquement le nom et l'email</li><li><code>SELECT * FROM users WHERE role = 'admin'</code> — filtre les administrateurs</li><li><code>SELECT * FROM users ORDER BY created_at DESC LIMIT 10</code> — les 10 derniers inscrits</li></ul>",
+      },
+      {
+        id: "2-19",
+        type: "heading",
+        level: 3,
+        text: "Les clauses SELECT avancées les plus utiles",
+      },
+      {
+        id: "2-20",
+        type: "comparison",
+        headers: ["Clause", "Fonction", "Exemple"],
+        rows: [
+          { cells: ["WHERE", "Filtre les lignes", "WHERE price > 50 AND category = 'premium'"] },
+          { cells: ["ORDER BY", "Trie les résultats", "ORDER BY created_at DESC"] },
+          { cells: ["LIMIT", "Limite le nombre de résultats", "LIMIT 10"] },
+          { cells: ["COUNT()", "Compte le nombre de lignes", "SELECT COUNT(*) FROM users"] },
+          { cells: ["SUM(), AVG()", "Somme, moyenne", "SELECT SUM(price) FROM orders"] },
+          { cells: ["GROUP BY", "Regroupe par catégorie", "SELECT category, COUNT(*) FROM products GROUP BY category"] },
+          { cells: ["LIKE", "Recherche partielle", "WHERE name LIKE '%chatbot%'"] },
+        ],
+      },
+      {
+        id: "2-21",
+        type: "callout",
+        variant: "tip",
+        html: "<strong>Astuce debug :</strong> Quand tu construis une requête complexe, commence simple et ajoute les clauses une par une. D'abord le SELECT basique, puis le WHERE, puis l'ORDER BY, etc. Teste chaque étape. Ça évite de debugger une requête de 15 lignes d'un coup.",
       },
       {
         id: "2-10",
@@ -259,6 +405,32 @@ export const V2_MODULE_07_LESSONS = [
         html: "<strong>Danger :</strong> Un <code>DELETE FROM products</code> sans WHERE supprime TOUTES les lignes de la table. Vérifie toujours ta clause WHERE avant d'exécuter un UPDATE ou DELETE.",
       },
       {
+        id: "2-22",
+        type: "heading",
+        level: 3,
+        text: "SQL dans Supabase vs dans le code",
+      },
+      {
+        id: "2-23",
+        type: "text",
+        html: "<p>Dans la pratique, tu peux interagir avec tes données de deux manières :</p>",
+      },
+      {
+        id: "2-24",
+        type: "comparison",
+        headers: ["Méthode", "Quand l'utiliser", "Exemple"],
+        rows: [
+          { cells: ["Éditeur SQL Supabase", "Requêtes ad-hoc, migrations, debug", "SELECT * FROM users WHERE email LIKE '%test%'"] },
+          { cells: ["SDK JavaScript", "Dans ton code Next.js", "supabase.from('users').select('*').eq('role', 'admin')"] },
+          { cells: ["API Routes + SDK", "Logique serveur sécurisée", "Dans app/api/ avec la clé service_role"] },
+        ],
+      },
+      {
+        id: "2-25",
+        type: "text",
+        html: "<p>Le SDK Supabase traduit tes appels JavaScript en requêtes SQL. Comprendre le SQL te permet de comprendre ce que le SDK fait réellement, et de debugger quand quelque chose ne fonctionne pas comme prévu.</p>",
+      },
+      {
         id: "2-13",
         type: "heading",
         level: 2,
@@ -268,6 +440,17 @@ export const V2_MODULE_07_LESSONS = [
         id: "2-14",
         type: "text",
         html: "<p>Les données sont réparties dans plusieurs tables. Les <strong>JOINs</strong> permettent de les relier pour obtenir des résultats combinés :</p><p>Par exemple, si tu as une table <code>orders</code> et une table <code>users</code>, un JOIN te permet de récupérer les commandes avec le nom du client :</p><p><code>SELECT orders.id, users.name, orders.total FROM orders JOIN users ON orders.user_id = users.id</code></p><p>Le <strong>LEFT JOIN</strong> inclut aussi les lignes sans correspondance (par exemple, un utilisateur sans commande).</p>",
+      },
+      {
+        id: "2-26",
+        type: "heading",
+        level: 3,
+        text: "Exemple concret : dashboard analytics pour un chatbot",
+      },
+      {
+        id: "2-27",
+        type: "text",
+        html: "<p>Imaginons que tu construis un dashboard pour ton chatbot client. Voici les requêtes SQL que tu utiliseras :</p><ul><li><strong>Nombre total de conversations :</strong><br/><code>SELECT COUNT(*) FROM conversations WHERE chatbot_id = 'abc123'</code></li><li><strong>Conversations par jour (7 derniers jours) :</strong><br/><code>SELECT DATE(created_at), COUNT(*) FROM conversations WHERE created_at > NOW() - INTERVAL '7 days' GROUP BY DATE(created_at) ORDER BY DATE(created_at)</code></li><li><strong>Top 5 questions les plus posées :</strong><br/><code>SELECT content, COUNT(*) as freq FROM messages WHERE role = 'user' GROUP BY content ORDER BY freq DESC LIMIT 5</code></li></ul><p>Ces requêtes sont exactement ce que Claude peut te générer en 10 secondes si tu lui décris ce que tu veux en français.</p>",
       },
       {
         id: "2-15",
@@ -392,6 +575,17 @@ export const V2_MODULE_07_LESSONS = [
         html: "<p>Les <strong>API Routes</strong> de Next.js te permettent de créer des endpoints backend directement dans ton projet. Au lieu d'avoir un serveur Node.js séparé, tu crées des fichiers <code>route.ts</code> dans le dossier <code>app/api/</code> et Next.js les transforme en endpoints HTTP.</p><p>Cas d'usage :</p><ul><li>Traiter des formulaires de contact</li><li>Appeler des APIs externes en masquant tes clés API</li><li>Gérer des webhooks (Stripe, etc.)</li><li>Créer des endpoints pour ton app mobile</li></ul>",
       },
       {
+        id: "3-14",
+        type: "heading",
+        level: 3,
+        text: "Pourquoi un backend est indispensable",
+      },
+      {
+        id: "3-15",
+        type: "text",
+        html: "<p>Tu pourrais te demander : \"Pourquoi ne pas tout faire côté frontend ?\". Voici 3 raisons pour lesquelles un backend est indispensable :</p><ul><li><strong>Sécurité des clés API</strong> — tes clés OpenAI, Stripe et Supabase (service_role) ne doivent JAMAIS être dans le navigateur. Le backend les garde secrètes.</li><li><strong>Validation des données</strong> — ne fais jamais confiance aux données envoyées par le frontend. Un utilisateur malveillant peut modifier n'importe quoi. Le backend valide tout.</li><li><strong>Logique métier complexe</strong> — traiter un paiement, envoyer un email, appeler une API IA : tout ça se fait côté serveur pour fiabilité et sécurité.</li></ul>",
+      },
+      {
         id: "3-3",
         type: "callout",
         variant: "info",
@@ -435,6 +629,17 @@ export const V2_MODULE_07_LESSONS = [
         ],
       },
       {
+        id: "3-16",
+        type: "heading",
+        level: 3,
+        text: "Exemple concret : API de chat pour un chatbot",
+      },
+      {
+        id: "3-17",
+        type: "text",
+        html: "<p>Voici le flux d'une API Route pour ton chatbot IA (ce que tu construiras pour tes clients) :</p><ol><li>Le frontend envoie un POST à <code>/api/chat</code> avec le message de l'utilisateur</li><li>L'API Route lit le message avec <code>await request.json()</code></li><li>Elle cherche le contexte pertinent dans Supabase (RAG)</li><li>Elle appelle l'API Claude avec le message + le contexte</li><li>Elle retourne la réponse en streaming au frontend</li></ol><p>Tout ça tient dans un seul fichier <code>app/api/chat/route.ts</code> d'environ 50 lignes. C'est la puissance des API Routes.</p>",
+      },
+      {
         id: "3-7",
         type: "separator",
         style: "dots",
@@ -449,6 +654,23 @@ export const V2_MODULE_07_LESSONS = [
         id: "3-9",
         type: "text",
         html: "<p>Dans un seul fichier <code>route.ts</code>, tu peux exporter plusieurs fonctions pour gérer différentes méthodes :</p><ul><li><code>export async function GET(request: Request)</code> — lire des données</li><li><code>export async function POST(request: Request)</code> — créer des données</li><li><code>export async function PUT(request: Request)</code> — mettre à jour des données</li><li><code>export async function DELETE(request: Request)</code> — supprimer des données</li></ul><p>Pour lire le body d'une requête POST, utilise <code>await request.json()</code>. Pour lire les query params, utilise <code>new URL(request.url).searchParams</code>.</p>",
+      },
+      {
+        id: "3-18",
+        type: "heading",
+        level: 3,
+        text: "Validation des données entrantes",
+      },
+      {
+        id: "3-19",
+        type: "text",
+        html: "<p>La règle n°1 du backend : <strong>ne fais JAMAIS confiance aux données du client</strong>. Toujours valider. Voici un pattern simple :</p><ol><li><strong>Vérifie que le body existe</strong> — si le client envoie un body vide, retourne une erreur 400</li><li><strong>Vérifie les champs requis</strong> — si le titre est manquant, retourne \"Le titre est requis\"</li><li><strong>Vérifie les types</strong> — si le prix doit être un nombre, vérifie que c'est bien un nombre</li><li><strong>Vérifie les limites</strong> — le titre fait entre 3 et 200 caractères, le prix est positif</li></ol><p>Pour des projets plus complexes, utilise une librairie comme <strong>Zod</strong> qui automatise la validation avec des schémas TypeScript.</p>",
+      },
+      {
+        id: "3-20",
+        type: "callout",
+        variant: "warning",
+        html: "<strong>Erreur critique :</strong> Un utilisateur malveillant peut envoyer n'importe quoi à ton API : des scripts malveillants, des données gigantesques, des types incorrects. Sans validation, ton API est vulnérable aux injections SQL, aux crashs et aux abus.",
       },
       {
         id: "3-10",
@@ -481,6 +703,17 @@ export const V2_MODULE_07_LESSONS = [
           { cells: ["404", "Not Found", "La ressource demandée n'existe pas"] },
           { cells: ["500", "Internal Server Error", "Erreur côté serveur"] },
         ],
+      },
+      {
+        id: "3-21",
+        type: "heading",
+        level: 3,
+        text: "Structurer tes API Routes proprement",
+      },
+      {
+        id: "3-22",
+        type: "text",
+        html: "<p>Quand ton projet grossit, organise tes API Routes de manière logique :</p><ul><li><code>app/api/chat/route.ts</code> — endpoint de chat principal</li><li><code>app/api/chat/[id]/route.ts</code> — opérations sur une conversation spécifique</li><li><code>app/api/auth/callback/route.ts</code> — callback OAuth</li><li><code>app/api/webhook/stripe/route.ts</code> — webhook Stripe</li><li><code>app/api/analytics/route.ts</code> — données analytics</li></ul><p>Cette structure est claire et prévisible. Quand tu reviens sur un projet 3 mois plus tard, tu sais immédiatement où trouver chaque endpoint.</p>",
       },
       {
         id: "3-13",
@@ -575,6 +808,45 @@ export const V2_MODULE_07_LESSONS = [
         html: "<p><strong>Stripe</strong> est la plateforme de paiement la plus utilisée par les développeurs et les startups. Elle gère tout : cartes bancaires, virements, abonnements, factures, remboursements, et conformité réglementaire (PCI DSS).</p><p>Avantages :</p><ul><li><strong>API developer-friendly</strong> — documentation excellente, SDK pour tous les langages</li><li><strong>Stripe Checkout</strong> — page de paiement hébergée, aucun formulaire à créer</li><li><strong>Webhooks</strong> — notifications en temps réel des événements (paiement réussi, échoué, etc.)</li><li><strong>Mode test</strong> — teste gratuitement avec des cartes fictives avant de passer en production</li></ul>",
       },
       {
+        id: "4-13",
+        type: "heading",
+        level: 3,
+        text: "Stripe pour une agence IA : les modèles de facturation",
+      },
+      {
+        id: "4-14",
+        type: "text",
+        html: "<p>Quand tu vends des services IA (chatbots, automatisation), tu as plusieurs modèles de facturation possibles avec Stripe :</p>",
+      },
+      {
+        id: "4-15",
+        type: "comparison",
+        headers: ["Modèle", "Comment ça marche", "Idéal pour"],
+        rows: [
+          { cells: ["One-shot", "Un seul paiement à la livraison", "Landing pages, sites vitrines"] },
+          { cells: ["Abonnement mensuel", "Paiement récurrent automatique", "Chatbots SaaS, maintenance"] },
+          { cells: ["Usage-based", "Facturation au nombre de messages/requêtes", "Chatbots à gros volume"] },
+          { cells: ["Setup + abonnement", "Frais de setup initial + mensualité", "Projets custom avec maintenance"] },
+        ],
+      },
+      {
+        id: "4-16",
+        type: "callout",
+        variant: "tip",
+        html: "<strong>Conseil business :</strong> Le modèle abonnement est le plus intéressant pour toi. Un client qui paye 200-500 euros/mois pendant 12 mois rapporte plus qu'un client qui paye 2000 euros en one-shot. Et c'est du revenu récurrent et prévisible.",
+      },
+      {
+        id: "4-17",
+        type: "heading",
+        level: 3,
+        text: "Les frais Stripe : combien ça coûte ?",
+      },
+      {
+        id: "4-18",
+        type: "text",
+        html: "<p>Stripe prend une commission sur chaque transaction :</p><ul><li><strong>Europe (SEPA) :</strong> 1.5% + 0.25 euros par transaction</li><li><strong>Cartes internationales :</strong> 2.9% + 0.25 euros</li><li><strong>Pas de frais cachés</strong> — pas d'abonnement mensuel, pas de frais de setup</li></ul><p>Pour un paiement de 100 euros, Stripe prend environ 1.75 euros. C'est le prix standard du marché et c'est déductible de tes charges. Inclus ces frais dans tes tarifs client.</p>",
+      },
+      {
         id: "4-3",
         type: "callout",
         variant: "tip",
@@ -634,6 +906,17 @@ export const V2_MODULE_07_LESSONS = [
         html: "<p>Un <strong>webhook</strong> est une notification HTTP que Stripe envoie à ton serveur quand un événement se produit. C'est la méthode fiable pour savoir qu'un paiement est confirmé — ne te fie jamais uniquement à la redirection de l'utilisateur.</p><p>Événements courants :</p><ul><li><code>checkout.session.completed</code> — paiement réussi</li><li><code>payment_intent.payment_failed</code> — paiement échoué</li><li><code>customer.subscription.created</code> — nouvel abonnement</li><li><code>customer.subscription.deleted</code> — abonnement annulé</li></ul>",
       },
       {
+        id: "4-19",
+        type: "heading",
+        level: 3,
+        text: "Tester les webhooks en local",
+      },
+      {
+        id: "4-20",
+        type: "text",
+        html: "<p>En développement local, Stripe ne peut pas envoyer de webhooks à <code>localhost</code>. Deux solutions :</p><ul><li><strong>Stripe CLI :</strong> installe la CLI Stripe et utilise <code>stripe listen --forward-to localhost:3000/api/webhook/stripe</code>. La CLI crée un tunnel et forwarde les événements vers ton serveur local.</li><li><strong>ngrok :</strong> crée un tunnel public vers ton localhost avec <code>ngrok http 3000</code> et configure l'URL ngrok comme endpoint webhook dans le dashboard Stripe.</li></ul><p>La Stripe CLI est la méthode recommandée — elle est plus simple et te donne aussi la commande <code>stripe trigger</code> pour simuler des événements manuellement.</p>",
+      },
+      {
         id: "4-10",
         type: "callout",
         variant: "warning",
@@ -654,6 +937,38 @@ export const V2_MODULE_07_LESSONS = [
         id: "4-12",
         type: "text",
         html: "<p>Pour la majorité des projets, <strong>Stripe Checkout</strong> est le meilleur choix : simple, sécurisé, et il gère automatiquement les cas complexes (3D Secure, devises, taxes). Utilise Payment Intent uniquement si tu as besoin d'une expérience de paiement entièrement personnalisée.</p>",
+      },
+      {
+        id: "4-21",
+        type: "heading",
+        level: 3,
+        text: "Les erreurs Stripe les plus courantes",
+      },
+      {
+        id: "4-22",
+        type: "steps",
+        steps: [
+          {
+            title: "Utiliser les clés de test en production (ou l'inverse)",
+            description:
+              "Les clés sk_test_ ne fonctionnent qu'en mode test. En production, utilise sk_live_. Vérifie dans tes variables d'environnement Vercel que tu as les bonnes clés pour chaque environnement.",
+          },
+          {
+            title: "Oublier de vérifier la signature du webhook",
+            description:
+              "Sans vérification, n'importe qui peut envoyer un faux événement à ton endpoint et simuler un paiement réussi. Toujours utiliser stripe.webhooks.constructEvent().",
+          },
+          {
+            title: "Se fier à la redirection success",
+            description:
+              "Un utilisateur peut manipuler l'URL et accéder à ta page de succès sans payer. Confirme toujours le paiement via le webhook côté serveur.",
+          },
+          {
+            title: "Ne pas gérer les échecs de paiement",
+            description:
+              "Les cartes peuvent être refusées, expirées ou bloquées. Prévois une page d'erreur claire et un moyen pour l'utilisateur de réessayer.",
+          },
+        ],
       },
     ]),
     exercise:
@@ -742,6 +1057,29 @@ export const V2_MODULE_07_LESSONS = [
         html: "<p><strong>Vercel</strong> est la plateforme de déploiement créée par les développeurs de Next.js. C'est l'hébergeur idéal pour les projets Next.js car il :</p><ul><li><strong>Déploie automatiquement</strong> à chaque push sur GitHub</li><li><strong>Gère les previews</strong> — chaque Pull Request a sa propre URL de preview</li><li><strong>Optimise automatiquement</strong> les performances (CDN mondial, cache intelligent)</li><li><strong>Supporte les Edge Functions</strong> et les API Routes nativement</li><li><strong>Plan gratuit généreux</strong> — suffisant pour la plupart des projets personnels et freelance</li></ul>",
       },
       {
+        id: "5-14",
+        type: "heading",
+        level: 3,
+        text: "Vercel vs les autres hébergeurs",
+      },
+      {
+        id: "5-15",
+        type: "comparison",
+        headers: ["Hébergeur", "Prix", "Points forts", "Limites"],
+        rows: [
+          { cells: ["Vercel", "Gratuit (plan hobby)", "Intégration Next.js parfaite, CDN mondial", "Limites sur le plan gratuit (bandwidth)"] },
+          { cells: ["Netlify", "Gratuit (plan starter)", "Bonne alternative, forms intégrés", "Moins optimisé pour Next.js"] },
+          { cells: ["Railway", "5 dollars/mois", "Full-stack, bases de données incluses", "Pas de plan gratuit permanent"] },
+          { cells: ["Hébergeur classique (OVH)", "3-10 euros/mois", "Contrôle total", "Configuration manuelle complexe"] },
+        ],
+      },
+      {
+        id: "5-16",
+        type: "callout",
+        variant: "info",
+        html: "<strong>Pour tes clients :</strong> Le plan Pro de Vercel coûte 20 dollars/mois par membre. Pour un projet client, c'est un coût que tu peux inclure dans ton abonnement de maintenance mensuel. Le client bénéficie d'un hébergement performant sans rien configurer.",
+      },
+      {
         id: "5-3",
         type: "separator",
         style: "dots",
@@ -790,6 +1128,43 @@ export const V2_MODULE_07_LESSONS = [
         html: "<strong>Déploiement automatique :</strong> Après la première configuration, chaque push sur la branche main déclenche automatiquement un nouveau déploiement. Les pushes sur d'autres branches créent des Preview Deployments avec des URLs uniques.",
       },
       {
+        id: "5-17",
+        type: "heading",
+        level: 3,
+        text: "Débugger un déploiement qui échoue",
+      },
+      {
+        id: "5-18",
+        type: "text",
+        html: "<p>Si ton déploiement échoue sur Vercel (ça arrive !), voici les causes les plus fréquentes :</p>",
+      },
+      {
+        id: "5-19",
+        type: "steps",
+        steps: [
+          {
+            title: "Variables d'environnement manquantes",
+            description:
+              "Ton code utilise process.env.SUPABASE_URL mais tu ne l'as pas configurée sur Vercel. Vérifie dans Settings > Environment Variables que toutes les variables sont présentes.",
+          },
+          {
+            title: "Erreurs TypeScript",
+            description:
+              "Vercel build en mode strict. Une erreur TypeScript ignorée en local fera crasher le build. Lance npm run build en local pour reproduire l'erreur.",
+          },
+          {
+            title: "Dépendances manquantes",
+            description:
+              "Un package installé en devDependencies mais utilisé en production. Vérifie ton package.json et déplace la dépendance en dependencies si nécessaire.",
+          },
+          {
+            title: "Limite de taille",
+            description:
+              "Les fonctions serverless (API Routes) ont une limite de 50MB. Si tu importes des librairies lourdes, optimise tes imports.",
+          },
+        ],
+      },
+      {
         id: "5-7",
         type: "separator",
         style: "dots",
@@ -827,6 +1202,12 @@ export const V2_MODULE_07_LESSONS = [
         ],
       },
       {
+        id: "5-20",
+        type: "callout",
+        variant: "tip",
+        html: "<strong>Pour tes clients :</strong> Propose d'acheter et configurer le nom de domaine pour eux (avec leur accord). Beaucoup de clients ne sont pas techniques et apprécient un service clé en main. Tu peux facturer ce service en plus.",
+      },
+      {
         id: "5-10",
         type: "heading",
         level: 2,
@@ -836,6 +1217,17 @@ export const V2_MODULE_07_LESSONS = [
         id: "5-11",
         type: "text",
         html: "<p>Sur Vercel, les variables d'environnement sont configurées par <strong>environnement</strong> :</p><ul><li><strong>Production</strong> — le site en ligne (main)</li><li><strong>Preview</strong> — les déploiements de PR</li><li><strong>Development</strong> — ton environnement local</li></ul><p>Tu peux avoir des valeurs différentes pour chaque environnement. Par exemple, utiliser les clés Stripe de test en preview et les clés de production sur main.</p>",
+      },
+      {
+        id: "5-21",
+        type: "heading",
+        level: 3,
+        text: "La checklist de mise en production",
+      },
+      {
+        id: "5-22",
+        type: "text",
+        html: "<p>Avant de donner le lien de production à un client, vérifie ces points :</p>",
       },
       {
         id: "5-12",
