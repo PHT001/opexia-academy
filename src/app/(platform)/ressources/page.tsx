@@ -64,26 +64,16 @@ const RESOURCES: Resource[] = [
   },
   {
     id: "4",
-    title: "Voiceflow",
-    desc: "Plateforme no-code pour créer des chatbots et assistants vocaux IA pour tes clients.",
+    title: "ElevenLabs",
+    desc: "Plateforme de voix IA pour créer des agents vocaux et du text-to-speech de qualité professionnelle.",
     section: "outils-ia",
     category: "outils-ia",
     type: "tool",
-    url: "https://www.voiceflow.com",
-    logo: { text: "V", bg: "#FF660015", color: "#FF6600" },
+    url: "https://elevenlabs.io",
+    logo: { text: "E", bg: "#00000015", color: "#000000" },
   },
 
   // ── Plateformes ──
-  {
-    id: "6",
-    title: "n8n",
-    desc: "Outil d'automatisation open-source. Self-hosted possible, plus de 400 intégrations.",
-    section: "plateformes",
-    category: "plateformes",
-    type: "platform",
-    url: "https://n8n.io",
-    logo: { text: "n8n", bg: "#EA4B7115", color: "#EA4B71" },
-  },
   {
     id: "7",
     title: "Supabase",
@@ -132,7 +122,7 @@ Entre :
 Article 1 — Objet
 Le Prestataire s'engage à réaliser pour le Client les prestations suivantes :
 ☐ Création d'un chatbot IA
-☐ Automatisation de processus (n8n)
+☐ Automatisation de processus (scripts & API)
 ☐ Développement de site web avec IA intégrée
 ☐ Autre : _______________
 
@@ -189,7 +179,7 @@ Validité : 30 jours
 
 ━━━ FORMULE BUSINESS ━━━
 • Chatbot IA avancé + base de connaissances
-• 2 automatisations n8n
+• 2 automatisations (API Routes & Webhooks)
 • Intégration CRM
 • 3 révisions incluses
 • Support 30 jours
@@ -421,7 +411,7 @@ Numéro de bon de commande : _______________ (si applicable)
 | Description                              | Qté | Prix unitaire HT | Total HT    |
 |------------------------------------------|-----|-------------------|-------------|
 | Création chatbot IA — [détail]           |  1  | _________ €       | _________ € |
-| Automatisation n8n — [détail]            |  1  | _________ €       | _________ € |
+| Automatisation workflows — [détail]            |  1  | _________ €       | _________ € |
 | Formation équipe — [durée]               |  1  | _________ €       | _________ € |
 | Support et maintenance — [durée]         |  1  | _________ €       | _________ € |
 |------------------------------------------|-----|-------------------|-------------|
@@ -592,7 +582,7 @@ Version : 1.0
 
 2.1 Ce qui est inclus
 ☐ [Livrable 1 : ex. "Chatbot IA intégré au site web"]
-☐ [Livrable 2 : ex. "3 automatisations n8n (qualification leads, relance, reporting)"]
+☐ [Livrable 2 : ex. "3 automatisations (qualification leads, relance, reporting)"]
 ☐ [Livrable 3 : ex. "Formation de l'équipe (2h)"]
 ☐ [Livrable 4 : ex. "Documentation technique et utilisateur"]
 
@@ -613,7 +603,7 @@ Version : 1.0
 3.2 [Fonctionnalité 2 — ex. Automatisations]
 • Workflow 1 : [Description du déclencheur → actions → résultat]
 • Workflow 2 : [Description]
-• Outils connectés : [CRM, email, Slack, etc.]
+• Outils connectés : [CRM, email, Discord, etc.]
 
 3.3 [Fonctionnalité 3 — ex. Dashboard]
 • Métriques affichées : [liste]
@@ -791,12 +781,12 @@ MESSAGE 2 — Échange informel (J+1)
 
 ━━━ OUTILS ━━━
 ☐ Claude Pro ou ChatGPT Plus (outil principal)
-☐ n8n (automatisations)
-☐ Voiceflow (chatbots)
+☐ Claude Code (automatisations & scripts)
+☐ ElevenLabs (voix IA)
 ☐ Vercel (déploiement)
 ☐ Supabase (backend si besoin)
 ☐ Stripe (paiements)
-☐ Notion ou Linear (gestion projet)
+☐ Notion (gestion projet)
 ☐ Cal.com (prise de RDV)
 
 ━━━ PRÉSENCE EN LIGNE ━━━
@@ -814,7 +804,7 @@ MESSAGE 2 — Échange informel (J+1)
 ☐ Lister 50 prospects (PME locales, LinkedIn)
 ☐ Préparer 3 templates d'emails de prospection
 ☐ Planifier 5 messages/jour sur LinkedIn
-☐ Rejoindre 3 communautés en ligne (Slack, Discord, Facebook)
+☐ Rejoindre 3 communautés en ligne (Discord, Facebook, forums)
 ☐ Proposer 1-2 missions gratuites pour portfolio
 
 ━━━ OBJECTIF SEMAINE 1 ━━━
@@ -995,7 +985,7 @@ Voici comment en 3 étapes :"
 
 2. Tips & astuces IA (2x/semaine)
 "5 prompts ChatGPT que j'utilise tous les jours pour [tâche]"
-"L'automatisation n8n qui m'a fait gagner 5h cette semaine"
+"L'automatisation IA qui m'a fait gagner 5h cette semaine"
 
 3. Coulisses / behind the scenes (1x/semaine)
 "Ce matin j'ai livré [projet]. Voici ce que j'ai appris :"
@@ -1221,7 +1211,7 @@ Canal #3 — Local / terrain
 Canal #4 — Communautés en ligne
 • Groupes Facebook de ton secteur cible
 • Serveurs Discord entrepreneurs
-• Forums et Slack de ta niche
+• Forums et Discord de ta niche
 • Apporte de la valeur (réponds aux questions) avant de pitcher
 
 ━━━ ÉTAPE 4 — LE PREMIER APPEL ━━━

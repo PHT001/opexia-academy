@@ -18,7 +18,7 @@ export const MODULE_1_LESSONS = [
     description: "Qu'est-ce que l'IA générative, comment ça marche, pourquoi c'est différent de tout ce qu'on a vu, et pourquoi c'est LE moment pour se lancer.",
     content: blocks([
       { id: "1-1", type: "heading", level: 2, text: "L'IA générative : c'est quoi concrètement ?" },
-      { id: "1-2", type: "text", html: "<p>Tu as sûrement entendu parler de ChatGPT, de Claude, de Midjourney. Mais concrètement, qu'est-ce que c'est ? L'IA générative, c'est une catégorie d'intelligence artificielle capable de <strong>créer du contenu nouveau</strong> : du texte, du code, des images, de la musique, de la vidéo. Contrairement aux IA classiques qui classifient ou prédisent, les IA génératives <strong>produisent</strong> quelque chose qui n'existait pas avant.</p><p>Au cœur de tout ça, il y a les <strong>LLMs</strong> — Large Language Models. Ce sont des modèles entraînés sur des quantités massives de texte (livres, sites web, code, articles scientifiques). Ils ont appris les patterns du langage humain et sont capables de générer des réponses cohérentes, pertinentes et souvent bluffantes.</p>" },
+      { id: "1-2", type: "text", html: "<p>Tu as sûrement entendu parler de ChatGPT, de Claude, de Gemini. Mais concrètement, qu'est-ce que c'est ? L'IA générative, c'est une catégorie d'intelligence artificielle capable de <strong>créer du contenu nouveau</strong> : du texte, du code, des images, de la musique, de la vidéo. Contrairement aux IA classiques qui classifient ou prédisent, les IA génératives <strong>produisent</strong> quelque chose qui n'existait pas avant.</p><p>Au cœur de tout ça, il y a les <strong>LLMs</strong> — Large Language Models. Ce sont des modèles entraînés sur des quantités massives de texte (livres, sites web, code, articles scientifiques). Ils ont appris les patterns du langage humain et sont capables de générer des réponses cohérentes, pertinentes et souvent bluffantes.</p>" },
       { id: "1-3", type: "callout", variant: "info", html: "<strong>En résumé :</strong> Un LLM, c'est comme un stagiaire ultra-cultivé qui a lu tout Internet. Il ne \"comprend\" pas au sens humain, mais il prédit la suite la plus probable d'un texte avec une précision hallucinante. Et ça, ça change tout." },
       { id: "1-4", type: "separator", style: "dots" },
       { id: "1-5", type: "heading", level: 2, text: "Comment ça fonctionne (version simple)" },
@@ -78,8 +78,8 @@ export const MODULE_1_LESSONS = [
   {
     order: 2,
     module: 1,
-    title: "Les outils du marché : ChatGPT, Claude, Gemini, Mistral",
-    slug: "outils-marche-chatgpt-claude-gemini-mistral",
+    title: "Les outils du marché : ChatGPT, Claude, Gemini",
+    slug: "outils-marche-chatgpt-claude-gemini",
     duration: "25 min",
     description: "Tour d'horizon des principaux outils IA, comparatif détaillé, et pourquoi on utilise principalement Claude dans cette formation.",
     content: blocks([
@@ -90,44 +90,43 @@ export const MODULE_1_LESSONS = [
       { id: "2-5", type: "heading", level: 2, text: "Claude (Anthropic)" },
       { id: "2-6", type: "text", html: "<p>Notre outil principal dans cette formation. Claude (surtout Claude 3.5 Sonnet et Claude 4) est devenu la référence pour le code et les tâches complexes. <strong>Forces :</strong> meilleur en code (de loin), raisonnement supérieur, fenêtre de contexte massive (200K tokens), Claude Code pour coder directement dans le terminal, ton naturel et agréable. <strong>Faiblesses :</strong> moins connu du grand public, pas de génération d'images native, écosystème de plugins moins développé que ChatGPT.</p>" },
       { id: "2-7", type: "callout", variant: "tip", html: "<strong>Pourquoi Claude pour cette formation ?</strong> Parce que tu vas construire des solutions techniques (chatbots, sites web, automatisations). Et pour le code, Claude est objectivement le meilleur. Claude Code te permet de coder directement dans le terminal avec l'IA. C'est un superpouvoir." },
-      { id: "2-8", type: "heading", level: 2, text: "Gemini (Google) & Mistral (français)" },
-      { id: "2-9", type: "text", html: "<p><strong>Gemini</strong> est le modèle de Google. Son avantage principal ? L'intégration avec l'écosystème Google (Search, Docs, Gmail). Gemini 1.5 Pro offre une fenêtre de contexte de 1M tokens — la plus grande du marché. Idéal pour analyser de très longs documents. <strong>Mistral</strong> est la pépite française. Open-source, rapide, excellent rapport qualité/prix. Mistral Large rivalise avec GPT-4 sur beaucoup de tâches. Et comme c'est français, les données restent en Europe — un argument de vente pour les clients soucieux du RGPD.</p>" },
+      { id: "2-8", type: "heading", level: 2, text: "Gemini (Google)" },
+      { id: "2-9", type: "text", html: "<p><strong>Gemini</strong> est le modèle de Google. Son avantage principal ? L'intégration avec l'écosystème Google (Search, Docs, Gmail). Gemini 1.5 Pro offre une fenêtre de contexte de 1M tokens — la plus grande du marché. Idéal pour analyser de très longs documents. C'est un bon complément à Claude pour les tâches liées à l'écosystème Google.</p>" },
       { id: "2-10", type: "separator", style: "line" },
       { id: "2-11", type: "heading", level: 2, text: "Tableau comparatif détaillé" },
-      { id: "2-12", type: "comparison", headers: ["Critère", "ChatGPT (GPT-4o)", "Claude (3.5 Sonnet)", "Gemini 1.5 Pro", "Mistral Large"], rows: [
-        { cells: ["Prix (pro/mois)", "~20$/mois", "~20$/mois", "~20$/mois (inclus Google One)", "~15-20€/mois (via La Plateforme)"] },
-        { cells: ["Fenêtre de contexte", "128K tokens", "200K tokens", "1M tokens", "128K tokens"] },
-        { cells: ["Qualité du code", "★★★☆", "★★★★★", "★★★☆", "★★★★☆"] },
-        { cells: ["Rédaction/créativité", "★★★★☆", "★★★★☆", "★★★☆", "★★★☆"] },
-        { cells: ["Vitesse de réponse", "Rapide", "Rapide", "Très rapide", "Très rapide"] },
-        { cells: ["Outil CLI (terminal)", "Non", "Claude Code ✅", "Non", "Non"] },
-        { cells: ["Open source", "Non", "Non", "Non", "Oui (certains modèles)"] }
+      { id: "2-12", type: "comparison", headers: ["Critère", "ChatGPT (GPT-4o)", "Claude (3.5 Sonnet)", "Gemini 1.5 Pro"], rows: [
+        { cells: ["Prix (pro/mois)", "~20$/mois", "~20$/mois", "~20$/mois (inclus Google One)"] },
+        { cells: ["Fenêtre de contexte", "128K tokens", "200K tokens", "1M tokens"] },
+        { cells: ["Qualité du code", "★★★☆", "★★★★★", "★★★☆"] },
+        { cells: ["Rédaction/créativité", "★★★★☆", "★★★★☆", "★★★☆"] },
+        { cells: ["Vitesse de réponse", "Rapide", "Rapide", "Très rapide"] },
+        { cells: ["Outil CLI (terminal)", "Non", "Claude Code ✅", "Non"] }
       ]},
       { id: "2-13", type: "callout", variant: "info", html: "<strong>Important :</strong> Ces outils évoluent chaque mois. Un modèle qui est \"le meilleur\" aujourd'hui peut être dépassé dans 3 mois. L'important, c'est de maîtriser les techniques de prompting et les workflows — ils sont transposables d'un outil à l'autre." },
       { id: "2-14", type: "heading", level: 2, text: "Tout est transposable" },
-      { id: "2-15", type: "text", html: "<p>On utilise Claude dans cette formation parce que c'est le meilleur pour le code et les tâches techniques. Mais tout ce que tu apprendras — les techniques de prompting, la structure des projets, les workflows — fonctionne avec n'importe quel LLM. Si un client préfère ChatGPT, pas de problème. Si Mistral sort un modèle encore meilleur demain, tu switches en 5 minutes. <strong>Tu apprends des compétences, pas un outil.</strong></p>" },
+      { id: "2-15", type: "text", html: "<p>On utilise Claude dans cette formation parce que c'est le meilleur pour le code et les tâches techniques. Mais tout ce que tu apprendras — les techniques de prompting, la structure des projets, les workflows — fonctionne avec n'importe quel LLM. Si un client préfère ChatGPT, pas de problème. Si un autre LLM sort un modèle encore meilleur demain, tu switches en 5 minutes. <strong>Tu apprends des compétences, pas un outil.</strong></p>" },
       { id: "2-16", type: "diagram", variant: "flow", nodes: [
         { id: "n1", label: "Compétences de prompting", description: "Universelles, transposables sur tous les LLMs" },
         { id: "n2", label: "Claude (formation)", description: "Notre outil principal pour coder et construire" },
         { id: "n3", label: "ChatGPT (complémentaire)", description: "Pour la rédaction créative et les GPTs personnalisés" },
         { id: "n4", label: "Gemini (complémentaire)", description: "Pour les très longs documents et l'écosystème Google" },
-        { id: "n5", label: "Mistral (complémentaire)", description: "Pour les clients RGPD et l'argument French Tech" }
+        { id: "n5", label: "Autres LLMs", description: "Open-source, modèles spécialisés selon les besoins" }
       ]},
       { id: "2-17", type: "checklist", title: "Ce que tu retiens de cette leçon", items: [
-        { id: "c1", text: "Il existe 4 acteurs majeurs : ChatGPT, Claude, Gemini, Mistral" },
+        { id: "c1", text: "Il existe 3 acteurs majeurs : ChatGPT, Claude, Gemini" },
         { id: "c2", text: "Claude est le meilleur pour le code et c'est notre outil principal" },
         { id: "c3", text: "Chaque outil a ses forces — tu les combineras selon les besoins" },
         { id: "c4", text: "Les compétences de prompting sont transposables d'un outil à l'autre" },
         { id: "c5", text: "Le marché évolue vite — reste flexible et curieux" }
       ]}
     ]),
-    exercise: "<h3>Exercice : Teste les 4 outils</h3><p>Crée un compte gratuit sur chacun des outils (si ce n'est pas déjà fait) et pose-leur exactement la même question :</p><ol><li>Va sur chat.openai.com, claude.ai, gemini.google.com et chat.mistral.ai</li><li>Pose la question : \"Crée-moi une fonction JavaScript qui prend un tableau de nombres et retourne un objet avec la moyenne, la médiane et l'écart-type\"</li><li>Compare les réponses : qualité du code, clarté de l'explication, présentation</li><li>Note tes impressions : lequel te semble le plus clair ? Le plus précis ? Le plus agréable ?</li></ol><p>Tu verras par toi-même pourquoi on recommande Claude pour le code. Mais garde les autres sous le coude — ils ont chacun leurs moments de gloire.</p>",
+    exercise: "<h3>Exercice : Teste les 4 outils</h3><p>Crée un compte gratuit sur chacun des outils (si ce n'est pas déjà fait) et pose-leur exactement la même question :</p><ol><li>Va sur chat.openai.com, claude.ai et gemini.google.com</li><li>Pose la question : \"Crée-moi une fonction JavaScript qui prend un tableau de nombres et retourne un objet avec la moyenne, la médiane et l'écart-type\"</li><li>Compare les réponses : qualité du code, clarté de l'explication, présentation</li><li>Note tes impressions : lequel te semble le plus clair ? Le plus précis ? Le plus agréable ?</li></ol><p>Tu verras par toi-même pourquoi on recommande Claude pour le code. Mais garde les autres sous le coude — ils ont chacun leurs moments de gloire.</p>",
     quiz: [
-      { type: "mcq", question: "Quel LLM a la plus grande fenêtre de contexte ?", options: JSON.stringify(["ChatGPT (GPT-4o) — 128K tokens", "Claude 3.5 Sonnet — 200K tokens", "Gemini 1.5 Pro — 1M tokens", "Mistral Large — 128K tokens"]), correctAnswer: "Gemini 1.5 Pro — 1M tokens", explanation: "Gemini 1.5 Pro offre une fenêtre de contexte de 1 million de tokens, la plus grande du marché. Idéal pour analyser de très longs documents." },
+      { type: "mcq", question: "Quel LLM a la plus grande fenêtre de contexte ?", options: JSON.stringify(["ChatGPT (GPT-4o) — 128K tokens", "Claude 3.5 Sonnet — 200K tokens", "Gemini 1.5 Pro — 1M tokens", "Claude 3.5 Sonnet — 200K tokens"]), correctAnswer: "Gemini 1.5 Pro — 1M tokens", explanation: "Gemini 1.5 Pro offre une fenêtre de contexte de 1 million de tokens, la plus grande du marché. Idéal pour analyser de très longs documents." },
       { type: "true_false", question: "Les techniques de prompting apprises avec Claude sont transposables sur les autres LLMs.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Les fondamentaux du prompting (structure, contexte, exemples, chaîne de pensée) fonctionnent avec tous les LLMs. Tu apprends des compétences universelles, pas un outil spécifique." },
-      { type: "mcq", question: "Quel est l'argument principal de Mistral pour les clients européens ?", options: JSON.stringify(["C'est le plus rapide du marché", "C'est open-source et les données restent en Europe (RGPD)", "C'est le moins cher", "C'est le seul à générer des images"]), correctAnswer: "C'est open-source et les données restent en Europe (RGPD)", explanation: "Mistral est français, certains de ses modèles sont open-source, et les données sont traitées en Europe. C'est un argument de vente puissant pour les clients soucieux du RGPD." },
+      { type: "mcq", question: "Quel est l'avantage principal de Claude pour le travail technique ?", options: JSON.stringify(["C'est le plus rapide du marché", "Claude Code permet de coder directement dans le terminal", "C'est le moins cher", "C'est le seul à générer des images"]), correctAnswer: "Claude Code permet de coder directement dans le terminal", explanation: "Claude Code est un outil exclusif d'Anthropic qui permet de coder directement dans le terminal. Combiné avec la qualité de code supérieure de Claude, c'est un avantage compétitif majeur." },
       { type: "true_false", question: "ChatGPT est objectivement le meilleur outil pour écrire du code en 2025.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Claude (notamment Claude 3.5 Sonnet et Claude 4) est reconnu comme supérieur en qualité de code. Claude Code permet même de coder directement dans le terminal. ChatGPT reste bon en rédaction créative et son écosystème est riche, mais pour le code, Claude domine." },
-      { type: "mcq", question: "Quel outil offre Claude Code, un assistant de coding directement dans le terminal ?", options: JSON.stringify(["ChatGPT", "Claude", "Gemini", "Mistral"]), correctAnswer: "Claude", explanation: "Claude Code est un outil exclusif d'Anthropic qui permet de coder directement dans le terminal avec l'aide de Claude. C'est un game changer pour les développeurs et c'est notre outil principal dans cette formation." }
+      { type: "mcq", question: "Quel outil offre Claude Code, un assistant de coding directement dans le terminal ?", options: JSON.stringify(["ChatGPT", "Claude", "Gemini", "Gemini"]), correctAnswer: "Claude", explanation: "Claude Code est un outil exclusif d'Anthropic qui permet de coder directement dans le terminal avec l'aide de Claude. C'est un game changer pour les développeurs et c'est notre outil principal dans cette formation." }
     ],
   },
 

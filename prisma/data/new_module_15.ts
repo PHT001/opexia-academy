@@ -331,7 +331,7 @@ export const MODULE_17_LESSONS = [
           {
             id: "n4",
             label: "Couche 4 : Outil de facturation",
-            description: "Pennylane, Tiime, Freebe ou Henrri pour g\u00e9n\u00e9rer des factures conformes",
+            description: "ton outil de facturation (Freebe, Henrri ou autre) pour g\u00e9n\u00e9rer des factures conformes",
           },
           {
             id: "n5",
@@ -547,9 +547,9 @@ export const MODULE_17_LESSONS = [
         headers: ["Outil", "Prix", "Points forts", "Id\u00e9al pour"],
         rows: [
           ["Henrri", "Gratuit", "Simple, factures conformes, illimit\u00e9", "D\u00e9butants, 0 budget"],
-          ["Tiime (ex Tiime AE)", "Gratuit", "Sp\u00e9cial micro, livre de recettes int\u00e9gr\u00e9", "Micro-entreprises"],
+          ["Abby", "Gratuit", "Sp\u00e9cial micro, livre de recettes int\u00e9gr\u00e9", "Micro-entreprises"],
           ["Freebe", "Payant (~20\u20ac/mois)", "Gestion compl\u00e8te micro, alertes seuils, simulateur", "Micro s\u00e9rieuses"],
-          ["Pennylane", "Payant (~30\u20ac/mois)", "Comptabilit\u00e9 automatis\u00e9e, connexion bancaire", "Transition micro \u2192 soci\u00e9t\u00e9"],
+          ["ton outil de facturation", "Payant (~30\u20ac/mois)", "Comptabilit\u00e9 automatis\u00e9e, connexion bancaire", "Transition micro \u2192 soci\u00e9t\u00e9"],
         ],
       },
       {
@@ -605,7 +605,7 @@ export const MODULE_17_LESSONS = [
         type: "callout",
         variant: "success",
         title: "Exercice pratique",
-        html: "<p>Cr\u00e9e un compte gratuit sur Henrri ou Tiime. Cr\u00e9e ta premi\u00e8re facture fictive pour un client imaginaire : \u00ab Cr\u00e9ation d'un chatbot IA pour le service client \u00bb \u00e0 1500\u20ac. V\u00e9rifie que toutes les mentions obligatoires y figurent (SIRET, article 293B, num\u00e9rotation, coordonn\u00e9es). Exporte-la en PDF et conserve-la comme template.</p>",
+        html: "<p>Cr\u00e9e un compte gratuit sur Henrri ou Abby. Cr\u00e9e ta premi\u00e8re facture fictive pour un client imaginaire : \u00ab Cr\u00e9ation d'un chatbot IA pour le service client \u00bb \u00e0 1500\u20ac. V\u00e9rifie que toutes les mentions obligatoires y figurent (SIRET, article 293B, num\u00e9rotation, coordonn\u00e9es). Exporte-la en PDF et conserve-la comme template.</p>",
       },
     ]),
   },

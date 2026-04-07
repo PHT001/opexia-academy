@@ -119,7 +119,7 @@ export const V2_MODULE_18_LESSONS = [
       { id: "3-4", type: "separator", style: "dots" },
 
       { id: "3-5", type: "heading", level: 2, text: "Étape 1 : Trouver les bons contacts" },
-      { id: "3-6", type: "text", html: "<p>La qualité de ta liste est plus importante que la quantité. 50 emails ultra-ciblés battent 500 emails génériques.</p><ul><li><strong>LinkedIn Sales Navigator :</strong> Le meilleur outil pour trouver des décideurs par secteur, taille d'entreprise et poste</li><li><strong>Apollo.io / Hunter.io :</strong> Pour trouver les adresses email professionnelles</li><li><strong>Societeinfo / Pappers :</strong> Pour identifier des entreprises françaises par secteur et chiffre d'affaires</li></ul><p><strong>Ta cible idéale :</strong> Le décideur (CEO, directeur marketing, DSI) d'une PME de 10-50 employés dans un secteur où l'IA apporte une valeur évidente (e-commerce, service client, immobilier, santé).</p>" },
+      { id: "3-6", type: "text", html: "<p>La qualité de ta liste est plus importante que la quantité. 50 emails ultra-ciblés battent 500 emails génériques.</p><ul><li><strong>LinkedIn Sales Navigator :</strong> Le meilleur outil pour trouver des décideurs par secteur, taille d'entreprise et poste</li><li><strong>Apollo.io / Dropcontact :</strong> Pour trouver les adresses email professionnelles</li><li><strong>Societeinfo / Pappers :</strong> Pour identifier des entreprises françaises par secteur et chiffre d'affaires</li></ul><p><strong>Ta cible idéale :</strong> Le décideur (CEO, directeur marketing, DSI) d'une PME de 10-50 employés dans un secteur où l'IA apporte une valeur évidente (e-commerce, service client, immobilier, santé).</p>" },
       { id: "3-7", type: "separator", style: "line" },
 
       { id: "3-8", type: "heading", level: 2, text: "Étape 2 : L'email qui se fait lire" },
@@ -143,7 +143,7 @@ export const V2_MODULE_18_LESSONS = [
 
       { id: "3-13", type: "callout", variant: "warning", html: "<strong>Légalité :</strong> En B2B en France, le cold email est légal tant que tu inclus un lien de désinscription, que l'email est professionnel (pas @gmail.com) et que le contenu est en rapport avec l'activité du destinataire." },
     ]),
-    exercise: "<h3>Exercice : Lance ta première campagne de cold email</h3><p>Mets en place ton système :</p><ol><li>Identifie ta cible : secteur, taille d'entreprise, poste du décideur</li><li>Constitue une liste de 30 prospects avec leurs emails (Apollo.io, Hunter.io)</li><li>Rédige ton email initial en suivant la structure (objet, icebreaker, problème, solution, CTA)</li><li>Prépare 3 emails de relance pour ta séquence</li><li>Envoie tes 30 premiers emails et suis les résultats dans ton CRM</li></ol>",
+    exercise: "<h3>Exercice : Lance ta première campagne de cold email</h3><p>Mets en place ton système :</p><ol><li>Identifie ta cible : secteur, taille d'entreprise, poste du décideur</li><li>Constitue une liste de 30 prospects avec leurs emails (Apollo.io, Dropcontact)</li><li>Rédige ton email initial en suivant la structure (objet, icebreaker, problème, solution, CTA)</li><li>Prépare 3 emails de relance pour ta séquence</li><li>Envoie tes 30 premiers emails et suis les résultats dans ton CRM</li></ol>",
     quiz: [
       { type: "mcq", question: "Quel est le taux de réponse moyen d'une bonne campagne de cold email B2B ?", options: JSON.stringify(["0.5-1%", "5-15%", "30-50%", "70-80%"]), correctAnswer: "5-15%", explanation: "Un bon cold email personnalisé et ciblé génère entre 5 et 15% de réponses. Pour 100 emails, tu peux espérer 5 à 15 réponses et 2 à 5 rendez-vous." },
       { type: "true_false", question: "Un seul email suffit généralement pour obtenir une réponse d'un prospect.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "La majorité des réponses arrivent après la 2e ou 3e relance. Les décideurs sont occupés et ton premier email peut facilement passer inaperçu. La séquence de relance est indispensable." },
@@ -223,7 +223,7 @@ export const V2_MODULE_18_LESSONS = [
 
       { id: "5-5", type: "heading", level: 2, text: "L'architecture du système automatisé" },
       { id: "5-6", type: "steps", steps: [
-        { title: "Sourcing automatique des leads", description: "Utilise Apollo.io, Pharow ou LinkedIn Sales Navigator pour extraire automatiquement des listes de prospects ciblés avec leurs coordonnées." },
+        { title: "Sourcing automatique des leads", description: "Utilise Apollo.io ou LinkedIn Sales Navigator pour extraire automatiquement des listes de prospects cibles avec leurs coordonnees." },
         { title: "Enrichissement des données", description: "Pour chaque lead, récupère des informations de contexte : dernier post LinkedIn, actualité de l'entreprise, secteur d'activité. Des outils comme Clay ou FullEnrich font ça automatiquement." },
         { title: "Personnalisation IA", description: "Utilise GPT-4 ou Claude pour générer des icebreakers personnalisés à partir des données enrichies. Un prompt bien conçu peut personnaliser 100 emails en quelques minutes." },
         { title: "Envoi séquencé multi-canal", description: "Utilise Lemlist, La Growth Machine ou Instantly pour envoyer tes séquences automatiquement : email J+0, connexion LinkedIn J+2, relance email J+5, DM LinkedIn J+8." },
@@ -233,12 +233,12 @@ export const V2_MODULE_18_LESSONS = [
 
       { id: "5-8", type: "heading", level: 2, text: "La stack d'outils recommandée" },
       { id: "5-9", type: "comparison", headers: ["Étape", "Outil", "Prix approximatif"], rows: [
-        { cells: ["Sourcing leads", "Apollo.io / Pharow", "Gratuit - 50€/mois"] },
+        { cells: ["Sourcing leads", "Apollo.io", "Gratuit - 50€/mois"] },
         { cells: ["Enrichissement", "Clay / FullEnrich", "50 - 150€/mois"] },
         { cells: ["Personnalisation IA", "GPT-4 API / Claude API", "10 - 30€/mois"] },
         { cells: ["Séquences email", "Lemlist / Instantly", "30 - 100€/mois"] },
         { cells: ["Multi-canal", "La Growth Machine", "80 - 150€/mois"] },
-        { cells: ["CRM", "Notion / HubSpot Free", "Gratuit"] },
+        { cells: ["CRM", "Notion / ton CRM (Supabase)", "Gratuit"] },
       ]},
 
       { id: "5-10", type: "heading", level: 2, text: "Le prompt de personnalisation IA" },
@@ -260,7 +260,7 @@ export const V2_MODULE_18_LESSONS = [
       { type: "mcq", question: "Quelle partie de la prospection NE devrait PAS être automatisée ?", options: JSON.stringify(["La recherche de leads", "L'enrichissement des données", "Le traitement des réponses et les conversations", "L'envoi des séquences email"]), correctAnswer: "Le traitement des réponses et les conversations", explanation: "Les réponses des prospects méritent une attention humaine. C'est le moment où la relation se crée et où tu qualifies le besoin. L'IA gère le volume, l'humain gère les conversations." },
       { type: "true_false", question: "Un email automatisé mal personnalisé est pire qu'un bon email envoyé manuellement.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Un email automatisé qui semble générique détruit ta crédibilité. Le prospect voit immédiatement que c'est un email de masse. Mieux vaut envoyer 20 emails bien personnalisés que 200 emails génériques." },
       { type: "mcq", question: "Quel taux d'ouverture minimum viser pour ses cold emails ?", options: JSON.stringify(["10%", "30%", "50%", "80%"]), correctAnswer: "50%", explanation: "Un taux d'ouverture de 50% est le minimum pour un cold email bien fait. Si tu es en dessous, travaille tes lignes d'objet : plus courtes, plus personnalisées, plus intrigantes." },
-      { type: "mcq", question: "Quel outil permet de créer des séquences multi-canal (email + LinkedIn) ?", options: JSON.stringify(["Google Sheets", "La Growth Machine / Lemlist", "Notion", "Slack"]), correctAnswer: "La Growth Machine / Lemlist", explanation: "La Growth Machine et Lemlist permettent de créer des séquences automatisées qui combinent email, connexion LinkedIn et DM. Le multi-canal augmente significativement les taux de réponse." },
+      { type: "mcq", question: "Quel outil permet de créer des séquences multi-canal (email + LinkedIn) ?", options: JSON.stringify(["Google Sheets", "La Growth Machine / Lemlist", "Notion", "Discord"]), correctAnswer: "La Growth Machine / Lemlist", explanation: "La Growth Machine et Lemlist permettent de créer des séquences automatisées qui combinent email, connexion LinkedIn et DM. Le multi-canal augmente significativement les taux de réponse." },
       { type: "true_false", question: "Il faut tester ses séquences sur un petit échantillon avant de les envoyer à grande échelle.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Tester sur 20-30 prospects permet de vérifier la délivrabilité, le taux d'ouverture et la qualité des réponses avant d'investir dans une campagne à grande échelle. Cela évite de griller ta réputation d'envoi." },
       { type: "mcq", question: "Quel est le rôle de l'IA dans un système de prospection automatisé ?", options: JSON.stringify(["Remplacer complètement le freelance", "Personnaliser les messages à grande échelle", "Passer les appels téléphoniques", "Signer les contrats"]), correctAnswer: "Personnaliser les messages à grande échelle", explanation: "L'IA excelle dans la personnalisation à grande échelle : générer des icebreakers, adapter les messages au secteur du prospect, et varier les formulations. C'est le multiplicateur qui rend la prospection scalable." },
     ],

@@ -113,10 +113,10 @@ export const MODULE_22_MASTERCLASS_TOOLS_LESSONS = [
     title: "MCP servers : étendre Claude Code à l'infini",
     slug: "mcp-servers-etendre-claude-code",
     duration: "25 min",
-    description: "Installer et créer des MCP servers pour connecter Claude Code à Supabase, GitHub, Figma, Slack, et bien plus encore.",
+    description: "Installer et créer des MCP servers pour connecter Claude Code à Supabase, GitHub, Figma, Discord, et bien plus encore.",
     content: blocks([
       { id: "3-1", type: "heading", level: 2, text: "MCP : le protocole qui change tout" },
-      { id: "3-2", type: "text", html: "<p>MCP (Model Context Protocol) est le protocole ouvert d'Anthropic qui permet de <strong>connecter Claude à n'importe quel outil externe</strong>. Imagine Claude Code qui peut directement lire ta base Supabase, créer des issues GitHub, récupérer des designs Figma, ou envoyer des messages Slack — <strong>sans quitter le terminal</strong>.</p><p>C'est exactement ce que font les MCP servers. Chaque server expose des \"outils\" que Claude peut utiliser nativement. Et le plus beau : tu peux <strong>créer tes propres MCP servers</strong> pour des besoins spécifiques.</p>" },
+      { id: "3-2", type: "text", html: "<p>MCP (Model Context Protocol) est le protocole ouvert d'Anthropic qui permet de <strong>connecter Claude à n'importe quel outil externe</strong>. Imagine Claude Code qui peut directement lire ta base Supabase, créer des issues GitHub, récupérer des designs Figma, ou envoyer des messages Discord — <strong>sans quitter le terminal</strong>.</p><p>C'est exactement ce que font les MCP servers. Chaque server expose des \"outils\" que Claude peut utiliser nativement. Et le plus beau : tu peux <strong>créer tes propres MCP servers</strong> pour des besoins spécifiques.</p>" },
       { id: "3-3", type: "callout", variant: "info", html: "<strong>Analogie :</strong> Si Claude Code est un smartphone, les MCP servers sont les applications. Le protocole MCP est l'App Store. Tu peux installer des apps existantes ou créer les tiennes." },
       { id: "3-4", type: "separator", style: "dots" },
 
@@ -190,7 +190,7 @@ export const MODULE_22_MASTERCLASS_TOOLS_LESSONS = [
         { title: "Étape 1 — Le workflow de base", description: "Un fichier .github/workflows/ci.yml qui lance tests + lint + build sur chaque push. C'est le minimum vital pour tout projet sérieux." },
         { title: "Étape 2 — Les checks de PR", description: "Configure les branch protection rules sur GitHub pour bloquer le merge tant que le CI ne passe pas. Aucune PR ne peut être mergée si les tests échouent." },
         { title: "Étape 3 — Le déploiement auto", description: "Ajoute un step de déploiement automatique sur Vercel/Netlify quand le CI passe sur main. Push → tests → deploy, zéro intervention." },
-        { title: "Étape 4 — Les notifications", description: "Intègre des notifications Slack ou Discord quand le CI échoue. Tu es averti en temps réel si un push casse quelque chose." },
+        { title: "Étape 4 — Les notifications", description: "Intègre des notifications Discord ou Discord quand le CI échoue. Tu es averti en temps réel si un push casse quelque chose." },
       ]},
       { id: "4-12", type: "callout", variant: "tip", html: "<strong>Workflow Claude Code + CI :</strong> Configure un hook pre-push qui lance les tests localement avant chaque push. Comme ça, tu attrapes les erreurs AVANT qu'elles n'arrivent dans le CI. Double filet de sécurité." },
 

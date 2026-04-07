@@ -247,9 +247,9 @@ const html = `<!DOCTYPE html>
 
   <h3>Les outils</h3>
   <ul>
-    <li><strong>Voiceflow</strong> ou <strong>Botpress</strong> → création du chatbot (no-code)</li>
+    <li><strong>Claude Code + Next.js</strong> → creation du chatbot custom</li>
     <li><strong>OpenAI API</strong> ou <strong>Claude API</strong> → intelligence conversationnelle</li>
-    <li><strong>n8n</strong> → connexion avec le CRM, emails, Slack</li>
+    <li><strong>n8n</strong> → connexion avec le CRM, emails, Discord</li>
     <li><strong>Crisp</strong> ou <strong>Intercom</strong> → widget de chat</li>
   </ul>
 
@@ -285,7 +285,7 @@ const html = `<!DOCTYPE html>
   <h3>Les outils</h3>
   <ul>
     <li><strong>n8n</strong> (self-hosted) ou <strong>Make</strong> → workflows</li>
-    <li><strong>Airtable</strong> ou <strong>Google Sheets</strong> → base de données</li>
+    <li><strong>Google Sheets</strong> ou <strong>Supabase</strong> → base de données</li>
     <li><strong>Resend</strong> ou <strong>Brevo</strong> → emails automatiques</li>
     <li><strong>Stripe API</strong> → facturation et paiements</li>
   </ul>
@@ -355,12 +355,12 @@ const html = `<!DOCTYPE html>
   <ul>
     <li>65% des PME gèrent encore leurs clients sur Excel</li>
     <li>Elles perdent des ventes par manque de suivi</li>
-    <li>Les CRM du marché (Salesforce, HubSpot) sont trop chers ou complexes</li>
+    <li>Les CRM du marché (Salesforce, ton propre CRM) sont trop chers ou complexes</li>
   </ul>
 
   <h3>Les outils</h3>
   <ul>
-    <li><strong>Airtable</strong> ou <strong>Notion</strong> → CRM léger et visuel</li>
+    <li><strong>Google Sheets</strong> ou <strong>Notion</strong> → CRM léger et visuel</li>
     <li><strong>Supabase + Next.js</strong> → CRM custom (plus premium)</li>
     <li><strong>n8n</strong> → automatisation du pipeline</li>
     <li><strong>Cal.com</strong> → prise de rendez-vous intégrée</li>
@@ -401,7 +401,7 @@ const html = `<!DOCTYPE html>
     <li><strong>Claude</strong> ou <strong>GPT-4</strong> → rédaction</li>
     <li><strong>n8n</strong> → workflow automatisé</li>
     <li><strong>Buffer</strong> ou <strong>Hootsuite</strong> → programmation réseaux</li>
-    <li><strong>Canva API</strong> ou <strong>Midjourney</strong> → visuels</li>
+    <li><strong>Canva API</strong> ou <strong>DALL-E</strong> → visuels</li>
   </ul>
 
   <h3>Offres types</h3>
@@ -436,7 +436,7 @@ const html = `<!DOCTYPE html>
   <p>Les PME autour de toi ne savent pas que ces services existent. 3 canaux qui marchent :</p>
   <ul>
     <li><strong>LinkedIn</strong> — Publie du contenu sur l'IA, contacte les dirigeants en DM</li>
-    <li><strong>Cold email</strong> — Emails personnalisés (Apollo.io, Hunter.io)</li>
+    <li><strong>Cold email</strong> — Emails personnalises (Apollo.io, Dropcontact)</li>
     <li><strong>Réseau local</strong> — Chambre de commerce, événements business</li>
   </ul>
 

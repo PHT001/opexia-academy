@@ -51,7 +51,7 @@ const EXAMPLE_NOTES: Note[] = [
     content: `## Les fondamentaux
 
 **3 types d'IA à connaître :**
-- IA générative (ChatGPT, Claude, Midjourney)
+- IA générative (ChatGPT, Claude)
 - IA analytique (data, prédictions)
 - IA automatisée (workflows, agents)
 

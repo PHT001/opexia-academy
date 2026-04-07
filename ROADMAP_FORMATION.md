@@ -128,7 +128,7 @@ ONE-TO-ONE (3997€) → Modules 1 à 18 + Coaching personnalisé
 | 6.3 | **n8n : l'alternative self-hosted** | 25 min | Installation, interface, nodes. Quand choisir n8n vs Make. Avantages du self-hosted pour les clients sensibles. |
 | 6.4 | **Automatiser avec l'IA : le combo gagnant** | 25 min | Intégrer Claude dans Make/n8n. Traitement automatique d'emails, classification de leads, génération de contenu. |
 | 6.5 | **Connecter Supabase aux automatisations** | 20 min | Triggers database → workflow. Synchronisation de données. Mise à jour automatique de CRM. |
-| 6.6 | **Atelier : système de lead nurturing automatisé** | 30 min | Construire un pipeline complet : formulaire → Supabase → IA analyse le lead → email personnalisé → notification Slack. |
+| 6.6 | **Atelier : système de lead nurturing automatisé** | 30 min | Construire un pipeline complet : formulaire → Supabase → IA analyse le lead → email personnalisé → notification Discord. |
 
 > 💡 **Transition** : "Les automatisations sont en place. On va maintenant créer des chatbots intelligents."
 
@@ -208,7 +208,7 @@ ONE-TO-ONE (3997€) → Modules 1 à 18 + Coaching personnalisé
 |---|-------|-------|-------------|
 | 11.1 | **Git avancé pour les projets clients** | 20 min | Branches, pull requests, code review. Workflow Git professionnel. Comment gérer les modifications clients sans casser la prod. |
 | 11.2 | **CI/CD : déploiement automatique** | 20 min | GitHub Actions, tests automatisés, preview deployments Vercel. Zéro stress au déploiement. |
-| 11.3 | **Monitoring et alerting** | 20 min | Sentry pour les erreurs, Vercel Analytics pour les perfs, uptime monitoring. Être prévenu avant le client. |
+| 11.3 | **Monitoring et alerting** | 20 min | Vercel Logs pour les erreurs, Vercel Analytics pour les perfs, uptime monitoring. Être prévenu avant le client. |
 | 11.4 | **Gérer les incidents : quand ça casse en prod** | 15 min | La méthode pour diagnostiquer et fixer rapidement. Communication avec le client pendant un incident. Post-mortem. |
 | 11.5 | **Maintenance et mises à jour** | 15 min | Mettre à jour les dépendances sans tout casser. Les migrations Supabase. Versionner proprement. Comment facturer la maintenance. |
 
@@ -257,7 +257,7 @@ ONE-TO-ONE (3997€) → Modules 1 à 18 + Coaching personnalisé
 | # | Leçon | Durée | Description |
 |---|-------|-------|-------------|
 | 14.1 | **L'onboarding client : la première impression** | 20 min | Le questionnaire de démarrage, le kick-off call, le planning projet. Comment rassurer le client dès le début. |
-| 14.2 | **Gérer un projet : la méthode agile simplifiée** | 20 min | Sprints d'une semaine, points hebdo avec le client, démo des avancées. Outils : Notion, Linear, ou simple Google Sheet. |
+| 14.2 | **Gérer un projet : la méthode agile simplifiée** | 20 min | Sprints d'une semaine, points hebdo avec le client, démo des avancées. Outils : Notion, GitHub Projects, ou simple Google Sheet. |
 | 14.3 | **La livraison : recette et mise en production** | 20 min | Checklist de livraison, tests avec le client, formation à l'outil, documentation utilisateur. |
 | 14.4 | **Transformer un one-shot en récurrent** | 20 min | Les contrats de maintenance, le monitoring, les évolutions mensuelles. Comment passer de 2000€ one-shot à 500€/mois récurrent. |
 | 14.5 | **Gérer les clients difficiles** | 15 min | Le scope creep, les retards de paiement, les demandes de dernière minute. Comment dire non diplomatiquement. |
@@ -275,7 +275,7 @@ ONE-TO-ONE (3997€) → Modules 1 à 18 + Coaching personnalisé
 | 15.1 | **Quel statut choisir : auto-entrepreneur, SAS, SASU** | 20 min | Comparatif des statuts, les seuils, les charges. Quel statut à quel moment de ton activité. Le piège de l'auto-entrepreneur quand tu scales. |
 | 15.2 | **Créer sa structure : les démarches pas à pas** | 20 min | URSSAF, INPI, les formulaires, le compte bancaire pro. Timeline des démarches. |
 | 15.3 | **Les contrats : se protéger légalement** | 25 min | Template de contrat de prestation. CGV. NDA. Les clauses indispensables : périmètre, livrables, délais, paiement, propriété intellectuelle. |
-| 15.4 | **La facturation : mentions obligatoires et outils** | 15 min | Les mentions légales sur une facture. Les délais de paiement. Les outils (Pennylane, Tiime). Relancer les impayés. |
+| 15.4 | **La facturation : mentions obligatoires et outils** | 15 min | Les mentions légales sur une facture. Les délais de paiement. Les outils (Henrri, Abby, Freebe). Relancer les impayés. |
 | 15.5 | **Fiscalité : optimiser sans risquer** | 20 min | TVA (franchise, collecte), les charges déductibles, la CFE, les déclarations. Quand prendre un comptable. |
 | 15.6 | **Assurances et responsabilité** | 15 min | RC Pro : pourquoi c'est obligatoire. Cyber-assurance. Que se passe-t-il si ton code cause un préjudice au client. |
 | 15.7 | **L'IA et le droit : ce qu'il faut savoir** | 20 min | EU AI Act, responsabilité des outputs IA, droits d'auteur et IA, les mentions à ajouter dans tes contrats concernant l'IA. |
@@ -309,7 +309,7 @@ ONE-TO-ONE (3997€) → Modules 1 à 18 + Coaching personnalisé
 |---|-------|-------|-------------|
 | 17.1 | **Configuration avancée et CLAUDE.md pro** | 20 min | Les settings, les hooks, les commandes personnalisées. Un CLAUDE.md qui fait de toi un développeur 10x. |
 | 17.2 | **Multi-fichiers et refactoring de gros projets** | 25 min | Comment guider Claude Code sur des projets de 50+ fichiers. Les techniques de context management. |
-| 17.3 | **MCP servers : étendre Claude Code** | 25 min | Installer et créer des MCP servers. Connecter Claude Code à Supabase, GitHub, Figma, Slack. |
+| 17.3 | **MCP servers : étendre Claude Code** | 25 min | Installer et créer des MCP servers. Connecter Claude Code à Supabase, GitHub, Figma, Discord. |
 | 17.4 | **CI/CD et tests avec Claude Code** | 20 min | Écrire des tests automatiquement, configurer les GitHub Actions, le workflow pro complet. |
 | 17.5 | **Les workflows multi-agents** | 20 min | Faire collaborer plusieurs instances de Claude. Architecture agent-supervisor. Les cas d'usage avancés. |
 

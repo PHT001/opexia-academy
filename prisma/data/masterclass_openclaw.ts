@@ -21,7 +21,7 @@ export const MASTERCLASS_OPENCLAW_LESSONS = [
       { id: "1-3", type: "heading", level: 2, text: "Les 4 différenciateurs clés" },
       { id: "1-4", type: "steps", steps: [
         { title: "Self-hosted — tu possèdes tes données", description: "Tout tourne sur ta machine. Tes conversations ne transitent jamais par un serveur tiers au-delà de l'API Anthropic elle-même." },
-        { title: "Multi-canal — un assistant, plusieurs apps", description: "Un seul assistant répond sur WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat simultanément." },
+        { title: "Multi-canal — un assistant, plusieurs apps", description: "Un seul assistant répond sur WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat simultanément." },
         { title: "Accès aux outils — il peut agir", description: "OpenClaw peut naviguer sur le web, exécuter des commandes, gérer des fichiers et contrôler des applications." },
         { title: "Open source — aucun vendor lock-in", description: "Le code est public, auditable et modifiable. Tu ne dépends d'aucune entreprise." },
       ]},
@@ -37,7 +37,7 @@ export const MASTERCLASS_OPENCLAW_LESSONS = [
     ]),
     exercise: "<p>Rends-toi sur le dépôt GitHub officiel d'OpenClaw et sur la documentation. Réponds : (1) Quelle licence utilise OpenClaw ? (2) Combien d'apps de messagerie sont supportées ? (3) Quel est le prérequis minimum Node.js ?</p>",
     quiz: [
-      { type: "mcq", question: "Combien d'applications de messagerie OpenClaw supporte-t-il simultanément ?", options: JSON.stringify(["3 apps", "5 apps", "7 apps", "10 apps"]), correctAnswer: "7 apps", explanation: "OpenClaw se connecte à 7 apps de messagerie simultanément : WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat. Un seul assistant répond sur tous les canaux." },
+      { type: "mcq", question: "Combien d'applications de messagerie OpenClaw supporte-t-il simultanément ?", options: JSON.stringify(["3 apps", "5 apps", "7 apps", "10 apps"]), correctAnswer: "7 apps", explanation: "OpenClaw se connecte à 7 apps de messagerie simultanément : WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat. Un seul assistant répond sur tous les canaux." },
       { type: "true_false", question: "OpenClaw nécessite un abonnement mensuel en plus du coût de l'API Anthropic.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "OpenClaw est entièrement gratuit et open source. Le seul coût récurrent est l'API Anthropic, qui revient entre 5 et 20€ par mois selon l'usage. Aucun abonnement plateforme." },
       { type: "mcq", question: "Quel est l'avantage principal du self-hosting d'OpenClaw par rapport aux chatbots classiques ?", options: JSON.stringify(["Il est plus rapide", "Tu possèdes tes données, elles ne transitent pas par un serveur tiers", "Il a plus de fonctionnalités", "Il est compatible avec plus de langues"]), correctAnswer: "Tu possèdes tes données, elles ne transitent pas par un serveur tiers", explanation: "Le self-hosting signifie que tout tourne sur ta machine. Tes conversations ne transitent jamais par un serveur tiers au-delà de l'API Anthropic elle-même. Tu gardes le contrôle total de tes données." },
       { type: "true_false", question: "OpenClaw est un logiciel propriétaire développé par une entreprise privée.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "OpenClaw est gratuit et open source. Le code est public, auditable et modifiable. Tu ne dépends d'aucune entreprise, il n'y a aucun vendor lock-in." },
@@ -90,7 +90,7 @@ export const MASTERCLASS_OPENCLAW_LESSONS = [
     description: "Connecte Telegram, WhatsApp et les autres canaux supportés, du plus simple au plus complexe.",
     content: blocks([
       { id: "3-1", type: "heading", level: 2, text: "Les 7 canaux supportés" },
-      { id: "3-2", type: "text", html: "<p>OpenClaw se connecte à <strong>WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat</strong>. Chaque canal a sa propre procédure de connexion.</p>" },
+      { id: "3-2", type: "text", html: "<p>OpenClaw se connecte à <strong>WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat</strong>. Chaque canal a sa propre procédure de connexion.</p>" },
       { id: "3-3", type: "heading", level: 2, text: "Telegram : le point de départ recommandé" },
       { id: "3-4", type: "steps", steps: [
         { title: "1. Ouvre Telegram", description: "Recherche le bot officiel BotFather." },
@@ -154,11 +154,11 @@ export const MASTERCLASS_OPENCLAW_LESSONS = [
       { id: "5-2", type: "text", html: "<p>La différence fondamentale entre OpenClaw et un simple chatbot : il ne se contente pas de répondre — il peut <strong>interagir avec le monde numérique</strong> autour de toi.</p>" },
       { id: "5-3", type: "heading", level: 2, text: "Les 7 catégories de capacités" },
       { id: "5-4", type: "steps", steps: [
-        { title: "1. Messagerie multi-canal", description: "Répond sur WhatsApp, Telegram, Discord, iMessage, Signal, Slack, Google Chat." },
+        { title: "1. Messagerie multi-canal", description: "Répond sur WhatsApp, Telegram, Discord, iMessage, Signal, Discord, Google Chat." },
         { title: "2. Navigation web & recherches", description: "Recherche Google, veille concurrentielle, synthèse d'informations." },
         { title: "3. Gestion de fichiers", description: "Lire, créer et modifier des fichiers sur ta machine." },
         { title: "4. Contrôle du navigateur", description: "Remplir des formulaires, prendre des captures d'écran, scraping." },
-        { title: "5. Skills (modules préconfigurés)", description: "Intégrations Google Workspace, Notion, Todoist, Slack, etc. via clawhub.com." },
+        { title: "5. Skills (modules préconfigurés)", description: "Intégrations Google Workspace, Notion, Todoist, Discord, etc. via clawhub.com." },
         { title: "6. Tâches planifiées", description: "Briefing matinal, résumé hebdomadaire, actions récurrentes automatiques." },
         { title: "7. App téléphone compagnon", description: "Accès aux photos, notifications et localisation du téléphone." },
       ]},
@@ -167,7 +167,7 @@ export const MASTERCLASS_OPENCLAW_LESSONS = [
     exercise: "<p>Teste 3 capacités distinctes d'OpenClaw : (1) recherche web, (2) gestion de fichier, (3) installe un Skill depuis clawhub.com. Documente les résultats.</p>",
     quiz: [
       { type: "mcq", question: "Combien de catégories de capacités d'action OpenClaw propose-t-il ?", options: JSON.stringify(["3 catégories", "5 catégories", "7 catégories", "10 catégories"]), correctAnswer: "7 catégories", explanation: "OpenClaw propose 7 catégories de capacités : messagerie multi-canal, navigation web & recherches, gestion de fichiers, contrôle du navigateur, Skills (modules préconfigurés), tâches planifiées et app téléphone compagnon." },
-      { type: "true_false", question: "Les Skills d'OpenClaw sont des modules d'instructions préconfigurés disponibles sur clawhub.com.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Les Skills sont des modules d'instructions préconfigurés disponibles sur clawhub.com. Ils permettent à OpenClaw de s'intégrer avec des services comme Google Workspace, Notion, Todoist ou Slack sans configuration complexe." },
+      { type: "true_false", question: "Les Skills d'OpenClaw sont des modules d'instructions préconfigurés disponibles sur clawhub.com.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Les Skills sont des modules d'instructions préconfigurés disponibles sur clawhub.com. Ils permettent à OpenClaw de s'intégrer avec des services comme Google Workspace, Notion, Todoist ou Discord sans configuration complexe." },
       { type: "mcq", question: "Quelle capacité permet à OpenClaw de remplir des formulaires et de faire du scraping ?", options: JSON.stringify(["Navigation web & recherches", "Gestion de fichiers", "Contrôle du navigateur", "Skills"]), correctAnswer: "Contrôle du navigateur", explanation: "Le contrôle du navigateur est la 4e catégorie de capacités. Il permet de remplir des formulaires, prendre des captures d'écran et faire du scraping de pages web." },
       { type: "true_false", question: "OpenClaw se contente de répondre aux questions, il ne peut pas interagir avec le monde numérique.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "La différence fondamentale entre OpenClaw et un simple chatbot est qu'il ne se contente pas de répondre — il peut interagir avec le monde numérique autour de toi : naviguer sur le web, gérer des fichiers, contrôler le navigateur, etc." },
       { type: "mcq", question: "Que permet la capacité 'App téléphone compagnon' d'OpenClaw ?", options: JSON.stringify(["Installer des applications sur le téléphone", "Accéder aux photos, notifications et localisation du téléphone", "Passer des appels téléphoniques", "Envoyer des SMS automatiquement"]), correctAnswer: "Accéder aux photos, notifications et localisation du téléphone", explanation: "L'app téléphone compagnon (7e catégorie) donne à OpenClaw accès aux photos, notifications et localisation du téléphone, étendant ses capacités au-delà de l'ordinateur." },
@@ -225,7 +225,7 @@ export const MASTERCLASS_OPENCLAW_LESSONS = [
         ["Retainer mensuel", "100€/mois", "300€/mois", "800€/mois"],
       ]},
       { id: "7-5", type: "heading", level: 2, text: "L'argumentaire de vente" },
-      { id: "7-6", type: "text", html: "<p>Voici les 4 arguments qui closent :</p><ul><li><strong>Disponibilité 24/7</strong> — ton assistant ne dort jamais, répond instantanément sur WhatsApp, Slack, etc.</li><li><strong>Données privées</strong> — contrairement à ChatGPT, tout reste sur ton serveur. Aucune fuite de données sensibles.</li><li><strong>Personnalisation totale</strong> — l'assistant connaît ton entreprise, tes process, tes clients. Pas un chatbot générique.</li><li><strong>ROI immédiat</strong> — 2-5h/semaine économisées par employé sur les tâches répétitives (emails, recherches, résumés).</li></ul>" },
+      { id: "7-6", type: "text", html: "<p>Voici les 4 arguments qui closent :</p><ul><li><strong>Disponibilité 24/7</strong> — ton assistant ne dort jamais, répond instantanément sur WhatsApp, Discord, etc.</li><li><strong>Données privées</strong> — contrairement à ChatGPT, tout reste sur ton serveur. Aucune fuite de données sensibles.</li><li><strong>Personnalisation totale</strong> — l'assistant connaît ton entreprise, tes process, tes clients. Pas un chatbot générique.</li><li><strong>ROI immédiat</strong> — 2-5h/semaine économisées par employé sur les tâches répétitives (emails, recherches, résumés).</li></ul>" },
       { id: "7-7", type: "callout", variant: "tip", html: "<strong>Le pitch en 1 phrase :</strong> \"Je vous installe un assistant IA personnel, disponible 24/7 sur vos messageries, qui connaît votre entreprise et protège vos données — en 48h.\"" },
       { id: "7-8", type: "heading", level: 2, text: "Cas d'usage vendables" },
       { id: "7-9", type: "steps", steps: [

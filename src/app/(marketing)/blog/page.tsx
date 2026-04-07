@@ -33,7 +33,7 @@ const tagColors: Record<string, string> = {
   "Technique": "bg-gray-100 text-gray-600",
   "Débutant": "bg-sky-50 text-sky-600",
   "Développement": "bg-purple-50 text-purple-600",
-  "n8n": "bg-rose-50 text-rose-600",
+  "Automatisation": "bg-rose-50 text-rose-600",
   "Opportunité": "bg-yellow-50 text-yellow-600",
 };
 

@@ -40,7 +40,7 @@ export const MODULE_12_LESSONS = [
         steps: [
           {
             title: "1. L'onboarding client (Jour 1)",
-            description: "Dès la signature, envoie un email de bienvenue structuré : lien vers un formulaire d'onboarding (accès, identifiants, brief détaillé), invitation au workspace partagé (Notion/Linear), et la date du kickoff meeting. Le client doit avoir l'impression d'entrer dans une machine bien huilée.",
+            description: "Dès la signature, envoie un email de bienvenue structuré : lien vers un formulaire d'onboarding (accès, identifiants, brief détaillé), invitation au workspace partagé (Notion), et la date du kickoff meeting. Le client doit avoir l'impression d'entrer dans une machine bien huilée.",
           },
           {
             title: "2. Le kickoff meeting (Jour 2-3)",
@@ -134,7 +134,7 @@ Super nouvelle — le projet est officiellement lancé ! Voici ce qui se passe m
 Il me permettra de récupérer tous les accès et informations nécessaires.
 
 ✅ ÉTAPE 2 — Rejoins notre espace de travail partagé
-→ [Lien Notion/Linear]
+→ [Lien Notion]
 C'est là que tu suivras l'avancement en temps réel.
 
 ✅ ÉTAPE 3 — Notre kickoff meeting
@@ -200,7 +200,7 @@ Date : [JJ/MM/AAAA] | Participants : [Noms]
 
 ## 6. CONTACTS & COMMUNICATION
 - Point de contact client : [Nom, email, téléphone]
-- Outil de communication : [Email / Notion / Slack]
+- Outil de communication : [Email / Notion / Discord]
 - Réunions de suivi : [ex: Chaque vendredi, 15 min en visio]
 
 ## 7. ACCÈS REÇUS ✅ / EN ATTENTE ⏳
@@ -468,7 +468,7 @@ impacter la date de livraison. On fait comment ?"
 
 "Pour que je puisse suivre correctement toutes tes demandes
 et ne rien rater, je te propose de centraliser tout dans
-[Notion/email/Linear]. Les messages WhatsApp, je les lis,
+[Notion/email]. Les messages WhatsApp, je les lis,
 mais je ne peux pas les intégrer dans mon workflow.
 C'est OK pour toi ?"
 
@@ -585,7 +585,7 @@ Cordialement,
     title: "Les outils de gestion de projet",
     slug: "outils-gestion-de-projet",
     duration: "20 min",
-    description: "Notion, Linear ou Trello : comment choisir, configurer, et utiliser ces outils pour gérer plusieurs projets sans te noyer — et donner au client une visibilité en temps réel.",
+    description: "Notion ou Trello : comment choisir, configurer, et utiliser ces outils pour gerer plusieurs projets sans te noyer — et donner au client une visibilite en temps reel.",
     content: blocks([
       {
         id: "3-1",
@@ -619,10 +619,10 @@ Cordialement,
           },
           {
             cells: [
-              "Linear",
-              "Projets tech/dev, équipes qui livrent en sprints",
-              "Ultra rapide, conçu pour les devs, excellent pour tracker les bugs",
-              "Moins adapté aux projets créatifs ou aux clients non-tech",
+              "GitHub Projects",
+              "Projets tech/dev, equipes qui livrent en sprints",
+              "Integre avec GitHub, gratuit, concu pour les devs, excellent pour tracker les bugs",
+              "Moins adapte aux projets creatifs ou aux clients non-tech",
             ],
           },
           {
@@ -726,12 +726,12 @@ Cordialement,
         id: "3-9",
         type: "heading",
         level: 2,
-        text: "Linear : pour les projets techniques",
+        text: "GitHub Projects : pour les projets techniques",
       },
       {
         id: "3-10",
         type: "text",
-        html: "<p>Si tu développes des apps ou des outils IA complexes, Linear est supérieur à Notion pour le tracking technique. Son modèle de cycles (sprints de 2 semaines), ses statuts personnalisables et sa rapidité d'interface en font le meilleur outil pour les projets dev. Configure un workspace par client, utilise les labels pour catégoriser (Bug, Feature, Amélioration), et intègre-le avec GitHub pour tracker les commits automatiquement.</p>",
+        html: "<p>Si tu developpes des apps ou des outils IA complexes, GitHub Projects est ideal pour le tracking technique. Il est integre directement avec tes repos GitHub, gratuit, et permet de creer des vues Kanban ou en tableau. Configure un projet par client, utilise les labels pour categoriser (Bug, Feature, Amelioration), et les issues sont automatiquement liees aux commits et aux pull requests.</p>",
       },
       {
         id: "3-11",
@@ -796,7 +796,7 @@ Prochaine action : [Quoi] le [Quand]
         id: "3-14",
         type: "callout",
         variant: "info",
-        html: "<strong>Règle d'or :</strong> Choisis UN seul canal de communication par client et tiens-t'y. Soit l'email, soit Notion, soit Slack — mais pas les trois. Chaque client qui te contacte sur WhatsApp à 22h est un client dont tu n'as pas clarifié les règles de communication au kickoff.",
+        html: "<strong>Règle d'or :</strong> Choisis UN seul canal de communication par client et tiens-t'y. Soit l'email, soit Notion, soit Discord — mais pas les trois. Chaque client qui te contacte sur WhatsApp à 22h est un client dont tu n'as pas clarifié les règles de communication au kickoff.",
       },
       {
         id: "3-15",
@@ -810,7 +810,7 @@ Prochaine action : [Quoi] le [Quand]
           },
           {
             id: "n2",
-            label: "Tu centralises dans Notion/Linear",
+            label: "Tu centralises dans Notion",
             description: "Crée une tâche, ajoute le contexte, la priorité et la deadline",
           },
           {
@@ -853,7 +853,7 @@ Prochaine action : [Quoi] le [Quand]
         type: "checklist",
         title: "Checklist : mon setup de gestion de projet est opérationnel",
         items: [
-          { id: "c1", text: "J'ai un workspace Notion (ou Linear) configuré avec ma structure d'agence" },
+          { id: "c1", text: "J'ai un workspace Notion configure avec ma structure d'agence" },
           { id: "c2", text: "J'ai une database clients avec les vues filtrées essentielles" },
           { id: "c3", text: "Chaque projet actif a son espace de suivi avec jalons et statuts" },
           { id: "c4", text: "J'ai un espace partagé avec chaque client actif" },
@@ -865,11 +865,11 @@ Prochaine action : [Quoi] le [Quand]
     ]),
     exercise: "<p><strong>Exercice :</strong> Crée ton workspace Notion d'agence en suivant la structure vue dans ce module. Configure les 3 databases essentielles (Clients, Tâches, Projets) avec les propriétés et vues décrites. Importe un projet existant ou fictif pour tester le setup. Temps estimé : 60-90 min (investissement ponctuel, gain de temps permanent).</p>",
     quiz: [
-      { type: "mcq", question: "Quel outil est recommandé comme point de départ pour une agence IA solo ou en petite équipe ?", options: JSON.stringify(["Linear pour sa rapidité", "Asana pour ses dépendances", "Notion pour sa polyvalence (workspace interne ET espace client)", "Trello pour sa simplicité"]), correctAnswer: "Notion pour sa polyvalence (workspace interne ET espace client)", explanation: "Notion est l'outil le plus polyvalent : il sert à la fois de workspace interne (CRM, tâches, finances) et d'espace client partagé. Une fois maîtrisé, tout se gère depuis un seul endroit, ce qui est la fondation pour scaler." },
+      { type: "mcq", question: "Quel outil est recommandé comme point de départ pour une agence IA solo ou en petite équipe ?", options: JSON.stringify(["GitHub Projects pour sa rapidite", "Asana pour ses dependances", "Notion pour sa polyvalence (workspace interne ET espace client)", "Trello pour sa simplicité"]), correctAnswer: "Notion pour sa polyvalence (workspace interne ET espace client)", explanation: "Notion est l'outil le plus polyvalent : il sert à la fois de workspace interne (CRM, tâches, finances) et d'espace client partagé. Une fois maîtrisé, tout se gère depuis un seul endroit, ce qui est la fondation pour scaler." },
       { type: "true_false", question: "Il est préférable d'utiliser un outil de gestion de projet différent pour chaque client afin de s'adapter à ses préférences.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Utiliser un outil différent par projet multiplie la complexité et fait perdre la vue d'ensemble. Un seul workspace centralisé avec une database par type (clients, tâches, projets) est beaucoup plus efficace pour gérer plusieurs projets simultanément." },
       { type: "mcq", question: "Quelles sont les colonnes du Kanban recommandé pour la database Tâches ?", options: JSON.stringify(["À faire → En cours → Terminé", "Backlog → À faire cette semaine → En cours → En attente de validation → Terminé", "Urgent → Important → Normal → En attente", "Nouveau → Assigné → En cours → Résolu"]), correctAnswer: "Backlog → À faire cette semaine → En cours → En attente de validation → Terminé", explanation: "Ce Kanban en 5 colonnes permet de distinguer le backlog général, les tâches priorisées pour la semaine, le travail en cours, et les éléments qui attendent un retour client. La colonne 'En attente de validation' est cruciale pour ne pas oublier les dépendances client." },
       { type: "true_false", question: "Gérer ses projets par email et par mémoire fonctionne bien tant qu'on a moins de 5 projets en parallèle.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Gérer par email et par mémoire ne fonctionne que jusqu'à 2 projets. Au-delà, on oublie des tâches, on perd du temps à chercher des informations, et le client a l'impression qu'on improvise. Un outil de PM est non-négociable." },
-      { type: "mcq", question: "Quelle est la règle d'or concernant les canaux de communication avec les clients ?", options: JSON.stringify(["Être disponible sur tous les canaux pour être réactif", "Choisir un seul canal de communication par client et s'y tenir", "Utiliser WhatsApp pour les urgences et email pour le reste", "Laisser le client choisir le canal qu'il préfère à chaque message"]), correctAnswer: "Choisir un seul canal de communication par client et s'y tenir", explanation: "Un seul canal par client évite de perdre des informations dispersées entre WhatsApp, email, Slack et Notion. Chaque client qui contacte sur WhatsApp à 22h est un client dont on n'a pas clarifié les règles de communication au kickoff." },
+      { type: "mcq", question: "Quelle est la règle d'or concernant les canaux de communication avec les clients ?", options: JSON.stringify(["Être disponible sur tous les canaux pour être réactif", "Choisir un seul canal de communication par client et s'y tenir", "Utiliser WhatsApp pour les urgences et email pour le reste", "Laisser le client choisir le canal qu'il préfère à chaque message"]), correctAnswer: "Choisir un seul canal de communication par client et s'y tenir", explanation: "Un seul canal par client évite de perdre des informations dispersées entre WhatsApp, email, Discord et Notion. Chaque client qui contacte sur WhatsApp à 22h est un client dont on n'a pas clarifié les règles de communication au kickoff." },
     ],
   },
   // ─── LEÇON 4 — Retainers mensuels ───
@@ -1026,7 +1026,7 @@ Prochaine action : [Quoi] le [Quand]
       { id: "7-5", type: "heading", level: 2, text: "Mettre en place un support structur\u00e9" },
       { id: "7-6", type: "steps", steps: [
         { title: "D\u00e9finir tes SLAs", description: "SLA = Service Level Agreement. D\u00e9finis clairement : d\u00e9lai de r\u00e9ponse (ex: 4h en semaine), d\u00e9lai de r\u00e9solution (ex: 24h bug mineur, 4h bug critique), heures de disponibilit\u00e9 (ex: lun-ven 9h-18h). \u00c9cris-le dans ton contrat." },
-        { title: "Cr\u00e9er un canal d\u00e9di\u00e9", description: "Un email support@ ou un canal Slack/Discord d\u00e9di\u00e9 par client. Jamais de support par SMS ou WhatsApp personnel \u2014 tu ne pourras pas scaler." },
+        { title: "Cr\u00e9er un canal d\u00e9di\u00e9", description: "Un email support@ ou un canal Discord d\u00e9di\u00e9 par client. Jamais de support par SMS ou WhatsApp personnel \u2014 tu ne pourras pas scaler." },
         { title: "Documenter les probl\u00e8mes", description: "Chaque ticket = date, description, gravit\u00e9, temps de r\u00e9solution, cause racine. Un simple Notion suffit. Ces donn\u00e9es te permettront de montrer ta valeur lors du renouvellement." },
         { title: "Rapport mensuel", description: "Chaque mois, envoie un email r\u00e9capitulatif : probl\u00e8mes r\u00e9solus, uptime, am\u00e9liorations faites, suggestions pour le mois prochain. C'est ce qui justifie ton retainer." },
       ]},
@@ -1046,7 +1046,7 @@ Prochaine action : [Quoi] le [Quand]
 
       { id: "7-14", type: "checklist", title: "Checklist \u2014 Ton syst\u00e8me de fid\u00e9lisation", items: [
         { id: "c1", text: "SLAs d\u00e9finis et int\u00e9gr\u00e9s dans ton mod\u00e8le de contrat" },
-        { id: "c2", text: "Canal de support d\u00e9di\u00e9 cr\u00e9\u00e9 (email pro ou Slack)" },
+        { id: "c2", text: "Canal de support d\u00e9di\u00e9 cr\u00e9\u00e9 (email pro ou Discord)" },
         { id: "c3", text: "Template de rapport mensuel pr\u00eat (Notion ou Google Doc)" },
         { id: "c4", text: "Grille de retainer avec 3 niveaux de prix" },
         { id: "c5", text: "Process d'upsell identifi\u00e9 pour chaque type de service" },
@@ -1056,7 +1056,7 @@ Prochaine action : [Quoi] le [Quand]
     exercise: "<p><strong>Exercice :</strong> (1) R\u00e9dige tes SLAs en t'appuyant sur les exemples de la le\u00e7on. (2) Cr\u00e9e ton template de rapport mensuel avec les sections : r\u00e9sum\u00e9, probl\u00e8mes r\u00e9solus, m\u00e9triques, recommandations. (3) D\u00e9finis ta grille de retainer avec tes 3 niveaux de prix adapt\u00e9s \u00e0 ton march\u00e9.</p>",
     quiz: [
       { type: "mcq", question: "Quel pourcentage de votre chiffre d'affaires devrait id\u00e9alement venir de clients existants ?", options: JSON.stringify(["20%", "40%", "60%", "90%"]), correctAnswer: "60%", explanation: "60% du CA devrait venir de clients existants (retainers + upsells). Si c'est moins, vous avez un probl\u00e8me de fid\u00e9lisation, pas d'acquisition. Un client fid\u00e8le co\u00fbte 5 \u00e0 7 fois moins cher qu'un nouveau." },
-      { type: "true_false", question: "Le support client devrait \u00eatre g\u00e9r\u00e9 par WhatsApp personnel pour \u00eatre plus r\u00e9actif.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Jamais de support par SMS ou WhatsApp personnel \u2014 vous ne pourrez pas scaler. Utilisez un email support@ ou un canal Slack/Discord d\u00e9di\u00e9 par client." },
+      { type: "true_false", question: "Le support client devrait \u00eatre g\u00e9r\u00e9 par WhatsApp personnel pour \u00eatre plus r\u00e9actif.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Jamais de support par SMS ou WhatsApp personnel \u2014 vous ne pourrez pas scaler. Utilisez un email support@ ou un canal Discord d\u00e9di\u00e9 par client." },
     ],
   },
 ];

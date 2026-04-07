@@ -90,7 +90,7 @@ export const MODULE_10_LESSONS = [
       { id: "2-4", type: "separator", style: "dots" },
       { id: "2-5", type: "heading", level: 2, text: "Service #1 — Chatbots & assistants IA" },
       { id: "2-6", type: "comparison", headers: ["Niveau", "Ce que tu livres", "Prix marché", "Délai"], rows: [
-        { cells: ["Starter", "Chatbot FAQ simple (Voiceflow ou Typebot), 20-30 questions, intégré sur un site", "500€ – 1 500€", "3-5 jours"] },
+        { cells: ["Starter", "Chatbot FAQ simple, 20-30 questions, integre sur un site", "500€ – 1 500€", "3-5 jours"] },
         { cells: ["Standard", "Chatbot avec base de connaissances (RAG), connecté au CRM ou à un outil métier", "1 500€ – 3 500€", "1-2 semaines"] },
         { cells: ["Premium", "Assistant IA multi-canal (site + WhatsApp + mail), entraîné sur des données custom, analytics", "3 500€ – 5 000€+", "2-4 semaines"] },
       ]},
@@ -100,7 +100,7 @@ export const MODULE_10_LESSONS = [
       { id: "2-9", type: "heading", level: 2, text: "Service #2 — Automatisations & workflows" },
       { id: "2-10", type: "comparison", headers: ["Niveau", "Ce que tu livres", "Prix marché", "Délai"], rows: [
         { cells: ["Starter", "Workflow simple (ex: devis auto envoyé par mail quand formulaire rempli)", "300€ – 800€", "1-2 jours"] },
-        { cells: ["Standard", "Automatisation multi-étapes (CRM + facturation + notification Slack)", "800€ – 2 000€", "3-7 jours"] },
+        { cells: ["Standard", "Automatisation multi-étapes (CRM + facturation + notification Discord)", "800€ – 2 000€", "3-7 jours"] },
         { cells: ["Premium", "Système complet (onboarding client automatisé, reporting auto, alertes IA)", "2 000€ – 5 000€", "2-3 semaines"] },
       ]},
       { id: "2-11", type: "text", html: "<p><strong>Pour qui ?</strong> Agences, cabinets, PME avec des process répétitifs. Si quelqu'un fait la même chose à la main plus de 3 fois par semaine, c'est une automatisation potentielle.</p><p><strong>Outils :</strong> n8n, Zapier, et du code Python pour les cas avancés.</p>" },
@@ -129,7 +129,7 @@ export const MODULE_10_LESSONS = [
       { id: "2-22", type: "text", html: "<p>Tu n'as pas toujours besoin de coder ou de livrer quelque chose. Les entreprises paient aussi pour <strong>être guidées</strong> : quels outils adopter, comment former leurs équipes, quel budget allouer.</p>" },
       { id: "2-23", type: "comparison", headers: ["Format", "Ce que tu fais", "Prix marché"], rows: [
         { cells: ["Audit IA", "Analyser les process de l'entreprise, identifier les gains IA possibles, livrer un rapport", "500€ – 2 000€"] },
-        { cells: ["Accompagnement mensuel", "1 à 2 calls/mois + implémentation guidée + support Slack", "500€ – 1 500€/mois"] },
+        { cells: ["Accompagnement mensuel", "1 à 2 calls/mois + implémentation guidée + support Discord", "500€ – 1 500€/mois"] },
         { cells: ["Formation équipe", "Atelier de 1/2 journée ou journée complète pour former des collaborateurs", "150€ – 300€/heure"] },
         { cells: ["Roadmap IA", "Plan stratégique 12 mois d'intégration IA, priorisé par ROI", "1 500€ – 5 000€"] },
       ]},
@@ -204,7 +204,7 @@ DÉLAI : Livraison en 5 jours ouvrés garantie
 
 DISPONIBILITÉ : Je prends 3 clients/mois maximum.
 Il reste 1 place disponible ce mois-ci.` },
-      { id: "3-10", type: "callout", variant: "success", html: "Remarque : nulle part dans cette offre on ne parle de Voiceflow, de tokens, d'API ou de modèle IA. Le client s'en fout. Il voit un résultat, une garantie, et une contrainte de disponibilité qui crée l'urgence." },
+      { id: "3-10", type: "callout", variant: "success", html: "Remarque : nulle part dans cette offre on ne parle d'outils techniques, de tokens, d'API ou de modèle IA. Le client s'en fout. Il voit un résultat, une garantie, et une contrainte de disponibilité qui crée l'urgence." },
 
       { id: "3-11", type: "separator", style: "line" },
       { id: "3-12", type: "heading", level: 2, text: "Créer tes 3 tiers : Starter / Pro / Premium" },
@@ -248,7 +248,7 @@ Il reste 1 place disponible ce mois-ci.` },
       { type: "mcq", question: "Quels sont les 3 composants du framework d'une offre irrésistible ?", options: JSON.stringify(["Prix + Délai + Qualité", "Résultat + Garantie + Urgence", "Technique + Design + Support", "Marketing + Vente + Livraison"]), correctAnswer: "Résultat + Garantie + Urgence", explanation: "Une offre irrésistible combine : un Résultat concret (ce que le client obtient), une Garantie (ce qui enlève le risque), et une Urgence (pourquoi maintenant). Si un composant manque, le client procrastine." },
       { type: "true_false", question: "Proposer 3 tiers de prix change la question du client de 'est-ce que je prends ?' à 'lequel je prends ?'.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Les 3 tiers utilisent la psychologie du choix. Au lieu de peser 'acheter ou ne pas acheter', le client pèse 'quel niveau choisir'. La décision d'achat est déjà prise mentalement." },
       { type: "mcq", question: "Pourquoi faut-il marquer le tier du milieu comme 'Recommandé' ?", options: JSON.stringify(["Parce que c'est le moins cher", "Parce que 70% des clients choisissent l'option recommandée", "Parce que c'est obligatoire légalement", "Pour cacher les autres options"]), correctAnswer: "Parce que 70% des clients choisissent l'option recommandée", explanation: "70% des clients choisissent l'option recommandée. C'est de la psychologie du choix : tu leur facilites la décision en indiquant clairement quel tier offre le meilleur rapport qualité/prix." },
-      { type: "true_false", question: "Une bonne offre packagée doit détailler les outils techniques utilisés (Voiceflow, APIs, modèles IA) pour convaincre le client.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Le client se fiche de Voiceflow, des tokens ou du modèle IA. Il veut voir un résultat concret, une garantie et un prix. L'offre packagée doit parler résultats, pas technique." },
+      { type: "true_false", question: "Une bonne offre packagee doit detailler les outils techniques utilises (frameworks, APIs, modeles IA) pour convaincre le client.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Le client se fiche des outils techniques, des tokens ou du modele IA. Il veut voir un résultat concret, une garantie et un prix. L'offre packagée doit parler résultats, pas technique." },
       { type: "mcq", question: "Un prospect vous dit : 'J'ai eu un devis d'un autre freelance à 500€ pour un chatbot, pourquoi vous êtes à 2 000€ ?' Comment structurez-vous votre réponse ?", options: JSON.stringify(["Vous baissez votre prix pour vous aligner sur la concurrence", "Vous présentez vos 3 tiers de prix (Starter, Pro, Premium) et expliquez que votre offre Pro inclut la garantie, la base de connaissances et le support — avec un ROI calculé", "Vous critiquez le travail du concurrent", "Vous acceptez le projet à 500€ pour ne pas perdre le client"]), correctAnswer: "Vous présentez vos 3 tiers de prix (Starter, Pro, Premium) et expliquez que votre offre Pro inclut la garantie, la base de connaissances et le support — avec un ROI calculé", explanation: "Les 3 tiers changent la question de 'est-ce que je prends ?' à 'lequel je prends ?'. En montrant ce qui est inclus dans chaque tier et en calculant le ROI, le prospect compare des valeurs différentes et non plus des prix. 70% choisissent le tier recommandé." },
     ],
   },
@@ -512,7 +512,7 @@ Cette proposition est valable jusqu'au [date + 10 jours].
         { cells: ["Page d'offre", "Notion (public) ou Google Sites", "Framer (10€/mois) ou Webflow"] },
         { cells: ["Deck de présentation", "Google Slides ou Canva", "Pitch.com ou Beautiful.ai"] },
         { cells: ["Proposition commerciale", "Google Docs ou Word", "PandaDoc ou Proposify (avec signature électronique)"] },
-        { cells: ["Devis / Facture", "Zervant (gratuit)", "Pennylane ou Freebe (20€/mois)"] },
+        { cells: ["Devis / Facture", "Zervant (gratuit)", "ton outil de facturation ou Freebe (20€/mois)"] },
         { cells: ["Prise de rendez-vous", "Calendly (plan gratuit)", "Calendly Pro ou Cal.com"] },
       ]},
       { id: "5-18", type: "callout", variant: "info", html: "Au démarrage, tout en gratuit est parfait. L'objectif c'est d'avoir les 4 supports, pas d'avoir les meilleurs outils. Un Google Doc bien rédigé signe des deals à 3 000€." },
@@ -688,7 +688,7 @@ POUR LE TÉMOIGNAGE VIDÉO :
       { id: "7-6", type: "text", html: "<p>Un bon case study suit toujours la même structure en 3 actes. C'est une histoire — et les histoires vendent mieux que les arguments.</p>" },
       { id: "7-7", type: "steps", steps: [
         { title: "Acte 1 : Le problème (contexte + douleur)", description: "Qui est le client ? Quel était son problème concret ? Quelles étaient les conséquences (temps perdu, argent perdu, stress, clients mécontents) ? Tu dois peindre la situation AVANT ton intervention de manière vivante et spécifique. Pas 'il avait un problème de communication' mais 'il recevait 40 messages par jour sur Instagram et n'arrivait pas à répondre — il perdait 3 à 5 réservations par semaine'." },
-        { title: "Acte 2 : La solution (ce que tu as fait)", description: "Quel livrable tu as créé ? Comment ça fonctionne en 2-3 phrases simples ? Quel outil tu as utilisé (Voiceflow, n8n, etc.) ? Combien de temps ça t'a pris ? Inclus une capture d'écran ou un GIF du livrable en action. Le prospect doit pouvoir visualiser ce que tu as construit." },
+        { title: "Acte 2 : La solution (ce que tu as fait)", description: "Quel livrable tu as créé ? Comment ça fonctionne en 2-3 phrases simples ? Quel outil tu as utilise (Next.js, n8n, Claude Code, etc.) ? Combien de temps ça t'a pris ? Inclus une capture d'écran ou un GIF du livrable en action. Le prospect doit pouvoir visualiser ce que tu as construit." },
         { title: "Acte 3 : Les résultats (avec des chiffres)", description: "C'est la partie la plus importante. Pas de 'le client est content'. Des chiffres. '40 messages/jour traités automatiquement. 0 réservation perdue depuis l'installation. 12h/semaine économisées.' Si tu n'as pas de chiffres exacts, demande-les à ton client ou estime-les avec lui." },
       ]},
       { id: "7-8", type: "callout", variant: "warning", html: "<strong>Les chiffres sont non négociables.</strong> Un case study sans chiffres est un témoignage déguisé. Avant de livrer ton projet, mets en place des métriques simples : nombre de conversations du chatbot, temps économisé par semaine, nombre de tâches automatisées. Demande à ton client les chiffres 'avant' pour pouvoir comparer." },
@@ -718,7 +718,7 @@ LE PROBLÈME :
 LA SOLUTION :
 - Ce que j'ai livré : [1 phrase claire]
 - Comment ça marche : [2-3 phrases simples]
-- Outils utilisés : [Voiceflow, n8n, etc.]
+- Outils utilises : [Next.js, n8n, Claude Code, etc.]
 - Temps de réalisation : [ex: 2 jours]
 - [CAPTURE D'ÉCRAN ou GIF du livrable en action]
 

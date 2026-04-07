@@ -23,7 +23,7 @@ export const V2_MODULE_20_LESSONS = [
       { id: "1-5", type: "heading", level: 2, text: "Les 6 étapes d'une livraison irréprochable" },
       { id: "1-6", type: "steps", steps: [
         { title: "Étape 1 — Kick-off structuré", description: "Dès la signature, organise un appel de lancement de 30 min. Présente le calendrier, les jalons, les outils de communication, et ce que tu attends du client (accès, contenus, validations). Envoie un email récap avec tout par écrit." },
-        { title: "Étape 2 — Points d'étape réguliers", description: "Planifie des check-ins hebdomadaires (15-20 min) ou des mises à jour asynchrones via Loom ou Slack. Le client ne doit jamais se demander 'où en est mon projet'." },
+        { title: "Étape 2 — Points d'étape réguliers", description: "Planifie des check-ins hebdomadaires (15-20 min) ou des mises à jour asynchrones via Loom ou Discord. Le client ne doit jamais se demander 'où en est mon projet'." },
         { title: "Étape 3 — Livraison intermédiaire", description: "À mi-parcours, livre une version intermédiaire pour validation. Cela évite les mauvaises surprises à la fin et permet d'ajuster le tir." },
         { title: "Étape 4 — Recette et validation", description: "Avant la livraison finale, fais tester le produit par le client dans un environnement de pré-production. Fournis une checklist de tests à effectuer." },
         { title: "Étape 5 — Livraison finale", description: "Livre avec un document de livraison comprenant : récap du projet, guide d'utilisation, accès et identifiants, points d'attention et limites connues." },
@@ -32,8 +32,8 @@ export const V2_MODULE_20_LESSONS = [
       { id: "1-7", type: "heading", level: 2, text: "Les outils de gestion de projet" },
       { id: "1-8", type: "comparison", headers: ["Outil", "Usage idéal", "Prix"], rows: [
         { cells: ["Notion", "Documentation, wiki projet, base de connaissances", "Gratuit / 8€/mois"] },
-        { cells: ["Linear", "Suivi des tâches et sprints pour les projets techniques", "Gratuit / 8€/mois"] },
-        { cells: ["Slack", "Communication rapide et asynchrone avec le client", "Gratuit"] },
+        { cells: ["Notion (vue projet)", "Suivi des tâches et sprints pour les projets techniques", "Gratuit / 8€/mois"] },
+        { cells: ["Discord", "Communication rapide et asynchrone avec le client", "Gratuit"] },
         { cells: ["Loom", "Vidéos de mise à jour et démos asynchrones", "Gratuit / 12.50€/mois"] },
         { cells: ["Google Drive", "Partage de fichiers et documents collaboratifs", "Gratuit"] },
       ]},
@@ -54,7 +54,7 @@ export const V2_MODULE_20_LESSONS = [
       { type: "true_false", question: "Un client juge uniquement le résultat final, pas le processus de livraison.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Le client juge l'expérience complète : communication, délais, clarté, professionnalisme. Chaque interaction compte dans sa perception de la qualité de ton service." },
       { type: "mcq", question: "Pourquoi est-il important de faire une livraison intermédiaire à mi-parcours ?", options: JSON.stringify(["Pour facturer un jalon supplémentaire", "Pour éviter les mauvaises surprises à la fin et permettre des ajustements", "Pour impressionner le client avec ta vitesse", "Pour réduire ta charge de travail"]), correctAnswer: "Pour éviter les mauvaises surprises à la fin et permettre des ajustements", explanation: "La livraison intermédiaire permet de valider la direction avec le client et d'ajuster le tir si nécessaire. C'est la meilleure protection contre le syndrome du 'ce n'est pas ce que j'avais demandé' en fin de projet." },
       { type: "true_false", question: "Il est recommandé de planifier un appel de suivi 2 semaines après la livraison finale.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "L'appel de suivi à J+14 permet de vérifier que tout fonctionne et c'est le moment idéal pour proposer un retainer ou un upsell. Cela montre aussi que tu te soucies du résultat à long terme." },
-      { type: "mcq", question: "Quel outil est recommandé pour les mises à jour asynchrones sous forme de vidéos ?", options: JSON.stringify(["Slack", "Notion", "Loom", "Google Drive"]), correctAnswer: "Loom", explanation: "Loom permet d'enregistrer des vidéos de mise à jour et des démos asynchrones que le client peut regarder quand il veut. C'est plus efficace qu'un appel pour les mises à jour de routine." },
+      { type: "mcq", question: "Quel outil est recommandé pour les mises à jour asynchrones sous forme de vidéos ?", options: JSON.stringify(["Discord", "Notion", "Loom", "Google Drive"]), correctAnswer: "Loom", explanation: "Loom permet d'enregistrer des vidéos de mise à jour et des démos asynchrones que le client peut regarder quand il veut. C'est plus efficace qu'un appel pour les mises à jour de routine." },
       { type: "mcq", question: "Que doit contenir le document de livraison finale ?", options: JSON.stringify(["Uniquement le lien vers le produit", "Récap du projet, guide d'utilisation, accès, identifiants et limites connues", "La facture et les CGV", "Le code source uniquement"]), correctAnswer: "Récap du projet, guide d'utilisation, accès, identifiants et limites connues", explanation: "Un document de livraison complet inclut le récapitulatif du projet, le guide d'utilisation, les accès et identifiants, les points d'attention et les limites connues. C'est la marque d'un professionnel." },
     ],
   },

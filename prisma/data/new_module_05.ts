@@ -541,7 +541,7 @@ export async function POST(request: Request) {
   if (event === 'push') {
     const branch = payload.ref.replace('refs/heads/', '');
     console.log(\`Push sur la branche \${branch} par \${payload.pusher.name}\`);
-    // → Déclencher un déploiement, notifier Slack, etc.
+    // → Déclencher un déploiement, notifier Discord, etc.
   }
 
   if (event === 'pull_request' && payload.action === 'opened') {
@@ -927,10 +927,10 @@ export async function callClaude(userMessage: string): Promise<string> {
   {
     order: 5,
     module: 5,
-    title: "Projet : un formulaire qui envoie un email + notifie sur Slack",
+    title: "Projet : un formulaire qui envoie un email + notifie sur Discord",
     slug: "projet-formulaire-email-slack",
     duration: "25 min",
-    description: "Un projet complet de bout en bout : un formulaire de contact envoie un email via SendGrid ET poste une notification sur Slack. Tu assembles tout ce que tu as appris sur les APIs.",
+    description: "Un projet complet de bout en bout : un formulaire de contact envoie un email via SendGrid ET poste une notification sur Discord. Tu assembles tout ce que tu as appris sur les APIs.",
     content: blocks([
       {
         id: "5-1",
@@ -946,7 +946,7 @@ export async function callClaude(userMessage: string): Promise<string> {
           { id: "n1", label: "Formulaire React", description: "Nom, email, message — validation côté client" },
           { id: "n2", label: "Route API Next.js", description: "POST /api/contact — valide et orchestre" },
           { id: "n3", label: "SendGrid API", description: "Envoie l'email de confirmation à l'utilisateur" },
-          { id: "n4", label: "Slack Webhook", description: "Notifie l'équipe en temps réel sur #leads" },
+          { id: "n4", label: "Discord Webhook", description: "Notifie l'équipe en temps réel sur #leads" },
           { id: "n5", label: "Réponse JSON", description: "200 OK ou erreur détaillée" },
         ],
       },
@@ -969,13 +969,13 @@ export async function callClaude(userMessage: string): Promise<string> {
         id: "5-5",
         type: "heading",
         level: 2,
-        text: "Étape 2 : Configurer le Slack Incoming Webhook",
+        text: "Étape 2 : Configurer le Discord Incoming Webhook",
       },
       {
         id: "5-6",
         type: "steps",
         steps: [
-          { title: "Créer une app Slack", description: "Va sur api.slack.com/apps > Create New App > From scratch. Nomme-la 'Leads Notifier'." },
+          { title: "Créer une app Discord", description: "Va sur api.slack.com/apps > Create New App > From scratch. Nomme-la 'Leads Notifier'." },
           { title: "Activer Incoming Webhooks", description: "Dans Features > Incoming Webhooks, active la fonctionnalité et clique 'Add New Webhook to Workspace'." },
           { title: "Choisir le canal et copier l'URL", description: "Sélectionne #leads (ou crée-le). Copie l'URL générée : https://hooks.slack.com/services/T.../B.../xxx" },
           { title: "Stocker l'URL en variable d'environnement", description: "SLACK_WEBHOOK_URL=https://hooks.slack.com/... dans ton .env" },
@@ -1017,7 +1017,7 @@ async function sendEmailConfirmation({ name, email, message }: ContactPayload) {
   });
 }
 
-async function notifySlack({ name, email, message }: ContactPayload) {
+async function notifyDiscord({ name, email, message }: ContactPayload) {
   const slackPayload = {
     blocks: [
       {
@@ -1051,7 +1051,7 @@ async function notifySlack({ name, email, message }: ContactPayload) {
   });
 
   if (!response.ok) {
-    throw new Error(\`Slack webhook failed: \${response.status}\`);
+    throw new Error(\`Discord webhook failed: \${response.status}\`);
   }
 }
 
@@ -1078,7 +1078,7 @@ export async function POST(request: Request) {
     // Exécuter les deux appels en parallèle pour gagner du temps
     await Promise.all([
       sendEmailConfirmation({ name, email, message }),
-      notifySlack({ name, email, message }),
+      notifyDiscord({ name, email, message }),
     ]);
 
     return NextResponse.json({
@@ -1173,7 +1173,7 @@ export function ContactForm() {
         id: "5-11",
         type: "callout",
         variant: "tip",
-        html: "<strong>Promise.all vs appels séquentiels :</strong> en utilisant <code>Promise.all([sendEmail(), notifySlack()])</code>, les deux appels s'exécutent <em>en parallèle</em>. Si SendGrid prend 300ms et Slack prend 200ms, le total sera 300ms. En séquentiel, ce serait 500ms. Sur des APIs lentes, la différence est significative.",
+        html: "<strong>Promise.all vs appels séquentiels :</strong> en utilisant <code>Promise.all([sendEmail(), notifyDiscord()])</code>, les deux appels s'exécutent <em>en parallèle</em>. Si SendGrid prend 300ms et Discord prend 200ms, le total sera 300ms. En séquentiel, ce serait 500ms. Sur des APIs lentes, la différence est significative.",
       },
       {
         id: "5-12",
@@ -1191,30 +1191,30 @@ export function ContactForm() {
 
 const results = await Promise.allSettled([
   sendEmailConfirmation({ name, email, message }),
-  notifySlack({ name, email, message }),
+  notifyDiscord({ name, email, message }),
 ]);
 
 // Analyser les résultats
 results.forEach((result, index) => {
-  const operation = index === 0 ? 'Email' : 'Slack';
+  const operation = index === 0 ? 'Email' : 'Discord';
   if (result.status === 'rejected') {
     console.error(\`\${operation} a échoué:\`, result.reason);
     // Logger l'erreur mais ne pas bloquer la réponse utilisateur
   }
 });
 
-// L'email est critique (l'utilisateur l'attend), Slack est optionnel
+// L'email est critique (l'utilisateur l'attend), Discord est optionnel
 const emailResult = results[0];
 if (emailResult.status === 'rejected') {
   throw new Error('Échec de l\\'envoi de l\\'email de confirmation');
 }
-// Si seulement Slack échoue, on répond quand même 200`,
+// Si seulement Discord échoue, on répond quand même 200`,
       },
       {
         id: "5-14",
         type: "callout",
         variant: "success",
-        html: "<strong>Tu viens de construire une vraie intégration multi-APIs.</strong> Ce pattern (form → validation → API calls parallèles → réponse) est la base de 80% des intégrations en agence. Remplace SendGrid par Resend, Slack par Discord ou Teams — la logique reste identique.",
+        html: "<strong>Tu viens de construire une vraie intégration multi-APIs.</strong> Ce pattern (form → validation → API calls parallèles → réponse) est la base de 80% des intégrations en agence. Remplace SendGrid par Resend, Discord par Discord ou Teams — la logique reste identique.",
       },
       {
         id: "5-15",
@@ -1224,7 +1224,7 @@ if (emailResult.status === 'rejected') {
       {
         id: "5-16",
         type: "quiz-inline",
-        question: "Tu utilises Promise.all() pour envoyer l'email et notifier Slack en parallèle. L'API Slack est en maintenance et retourne une erreur 503. Que se passe-t-il avec Promise.all() et quelle est la meilleure alternative ?",
+        question: "Tu utilises Promise.all() pour envoyer l'email et notifier Discord en parallèle. L'API Discord est en maintenance et retourne une erreur 503. Que se passe-t-il avec Promise.all() et quelle est la meilleure alternative ?",
         options: [
           { id: "a", text: "Promise.all() ignore les erreurs et retourne les résultats partiels automatiquement" },
           { id: "b", text: "Promise.all() rejette dès qu'une promesse échoue — utilise Promise.allSettled() pour traiter les erreurs individuellement" },
@@ -1232,7 +1232,7 @@ if (emailResult.status === 'rejected') {
           { id: "d", text: "Promise.all() retente automatiquement les promesses qui échouent" },
         ],
         correctId: "b",
-        explanation: "Promise.all() rejette immédiatement dès qu'une seule promesse échoue (fail-fast). Promise.allSettled() attend toutes les promesses et retourne leurs statuts individuels (fulfilled ou rejected), ce qui permet de gérer les échecs partiels — idéal quand certaines opérations sont optionnelles comme la notification Slack.",
+        explanation: "Promise.all() rejette immédiatement dès qu'une seule promesse échoue (fail-fast). Promise.allSettled() attend toutes les promesses et retourne leurs statuts individuels (fulfilled ou rejected), ce qui permet de gérer les échecs partiels — idéal quand certaines opérations sont optionnelles comme la notification Discord.",
       },
       {
         id: "5-17",
@@ -1240,7 +1240,7 @@ if (emailResult.status === 'rejected') {
         title: "Checklist du projet formulaire",
         items: [
           { id: "c1", text: "Compte SendGrid créé, sender vérifié, clé API générée avec permissions minimales" },
-          { id: "c2", text: "Slack Incoming Webhook configuré sur le canal #leads" },
+          { id: "c2", text: "Discord Incoming Webhook configuré sur le canal #leads" },
           { id: "c3", text: "Variables d'environnement SENDGRID_API_KEY et SLACK_WEBHOOK_URL configurées" },
           { id: "c4", text: "Validation des champs côté serveur (non seulement côté client)" },
           { id: "c5", text: "Appels API en parallèle avec Promise.all() ou Promise.allSettled()" },
@@ -1249,13 +1249,13 @@ if (emailResult.status === 'rejected') {
         ],
       },
     ]),
-    exercise: "<p>Déploie le formulaire complet sur Vercel. Configure les variables d'environnement dans le dashboard Vercel (Settings > Environment Variables). Soumets 3 formulaires de test et vérifie que : (1) tu reçois l'email de confirmation, (2) une notification apparaît sur Slack avec le bon formatage. Teste également le cas d'erreur en mettant temporairement une mauvaise clé SendGrid et vérifie que le message d'erreur affiché ne révèle pas d'informations sensibles.</p>",
+    exercise: "<p>Déploie le formulaire complet sur Vercel. Configure les variables d'environnement dans le dashboard Vercel (Settings > Environment Variables). Soumets 3 formulaires de test et vérifie que : (1) tu reçois l'email de confirmation, (2) une notification apparaît sur Discord avec le bon formatage. Teste également le cas d'erreur en mettant temporairement une mauvaise clé SendGrid et vérifie que le message d'erreur affiché ne révèle pas d'informations sensibles.</p>",
     quiz: [
-      { type: "mcq", question: "Pourquoi utilise-t-on Promise.allSettled() plutôt que Promise.all() pour envoyer l'email et la notification Slack en parallèle ?", options: JSON.stringify(["Promise.allSettled() est plus rapide", "Promise.allSettled() continue même si l'une des promesses échoue", "Promise.allSettled() permet d'envoyer plus de requêtes", "Il n'y a aucune différence entre les deux"]), correctAnswer: "Promise.allSettled() continue même si l'une des promesses échoue", explanation: "Promise.all() s'arrête dès qu'une promesse échoue. Promise.allSettled() attend la résolution de toutes les promesses, même si certaines échouent. Ainsi, si Slack est down, l'email part quand même." },
+      { type: "mcq", question: "Pourquoi utilise-t-on Promise.allSettled() plutôt que Promise.all() pour envoyer l'email et la notification Discord en parallèle ?", options: JSON.stringify(["Promise.allSettled() est plus rapide", "Promise.allSettled() continue même si l'une des promesses échoue", "Promise.allSettled() permet d'envoyer plus de requêtes", "Il n'y a aucune différence entre les deux"]), correctAnswer: "Promise.allSettled() continue même si l'une des promesses échoue", explanation: "Promise.all() s'arrête dès qu'une promesse échoue. Promise.allSettled() attend la résolution de toutes les promesses, même si certaines échouent. Ainsi, si Discord est down, l'email part quand même." },
       { type: "true_false", question: "Zod permet de valider les données côté serveur pour s'assurer que les champs du formulaire sont conformes avant traitement.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Zod est une bibliothèque de validation de schéma TypeScript. Elle permet de définir la structure attendue des données (email valide, message non vide, etc.) et de rejeter les données malformées avant tout traitement." },
       { type: "mcq", question: "Quel service est utilisé pour envoyer des emails transactionnels dans le projet formulaire ?", options: JSON.stringify(["Mailchimp", "SendGrid", "Gmail API directement", "Amazon SES"]), correctAnswer: "SendGrid", explanation: "SendGrid est un service d'envoi d'emails transactionnels fiable et gratuit jusqu'à 100 emails/jour. On l'utilise via son SDK Node.js (@sendgrid/mail) avec une clé API configurée en variable d'environnement." },
-      { type: "true_false", question: "Les Incoming Webhooks Slack permettent d'envoyer des messages vers un canal Slack depuis une application externe.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Les Incoming Webhooks sont le moyen le plus simple d'envoyer des messages dans un canal Slack depuis un serveur externe. On envoie un POST avec un payload JSON contenant le message formaté vers l'URL du webhook." },
-      { type: "mcq", question: "Vous rencontrez la situation suivante : votre formulaire de contact envoie bien l'email via SendGrid mais la notification Slack échoue systématiquement. Le client ne reçoit aucun message d'erreur. Comment gérez-vous ce cas ?", options: JSON.stringify(["Vous supprimez la notification Slack du projet", "Vous utilisez Promise.allSettled() pour que l'email parte même si Slack échoue, et vous loggez l'erreur Slack côté serveur", "Vous remplacez Slack par un simple console.log dans le navigateur", "Vous affichez le message d'erreur Slack complet à l'utilisateur pour qu'il contacte le support"]), correctAnswer: "Vous utilisez Promise.allSettled() pour que l'email parte même si Slack échoue, et vous loggez l'erreur Slack côté serveur", explanation: "Promise.allSettled() permet de continuer même si une promesse échoue, contrairement à Promise.all() qui s'arrête au premier échec. L'erreur Slack est loggée côté serveur pour investigation, et l'utilisateur reçoit un message générique sans détails techniques sensibles." },
+      { type: "true_false", question: "Les Incoming Webhooks Discord permettent d'envoyer des messages vers un canal Discord depuis une application externe.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Les Incoming Webhooks sont le moyen le plus simple d'envoyer des messages dans un canal Discord depuis un serveur externe. On envoie un POST avec un payload JSON contenant le message formaté vers l'URL du webhook." },
+      { type: "mcq", question: "Vous rencontrez la situation suivante : votre formulaire de contact envoie bien l'email via SendGrid mais la notification Discord échoue systématiquement. Le client ne reçoit aucun message d'erreur. Comment gérez-vous ce cas ?", options: JSON.stringify(["Vous supprimez la notification Discord du projet", "Vous utilisez Promise.allSettled() pour que l'email parte même si Discord échoue, et vous loggez l'erreur Discord côté serveur", "Vous remplacez Discord par un simple console.log dans le navigateur", "Vous affichez le message d'erreur Discord complet à l'utilisateur pour qu'il contacte le support"]), correctAnswer: "Vous utilisez Promise.allSettled() pour que l'email parte même si Discord échoue, et vous loggez l'erreur Discord côté serveur", explanation: "Promise.allSettled() permet de continuer même si une promesse échoue, contrairement à Promise.all() qui s'arrête au premier échec. L'erreur Discord est loggée côté serveur pour investigation, et l'utilisateur reçoit un message générique sans détails techniques sensibles." },
     ],
   },
 ];

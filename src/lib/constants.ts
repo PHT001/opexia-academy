@@ -25,14 +25,14 @@ export const MODULES = [
   { order: 7,  title: "Backend & Déploiement", description: "Supabase, SQL, API Routes, Stripe et Vercel", category: "formation" },
   // ── Bloc 4 — Les services que tu vas vendre ──
   { order: 8,  title: "Chatbots IA", description: "Créer et déployer des chatbots sur site web et réseaux sociaux", category: "formation" },
-  { order: 9,  title: "Agents vocaux IA", description: "Créer des agents téléphoniques avec Vapi & ElevenLabs", category: "formation" },
+  { order: 9,  title: "Agents vocaux IA", description: "Créer des agents téléphoniques avec ElevenLabs", category: "formation" },
   { order: 10, title: "Automatisations IA pour entreprises", description: "Automatiser des process métier avec l'IA — cas concrets par secteur", category: "formation" },
   { order: 11, title: "Génération de leads avec l'IA", description: "Scraping, enrichissement et séquences outbound automatisées", category: "formation" },
   { order: 12, title: "IA pour documents & data", description: "PDF, OCR, Excel : traitement de données pour entreprises", category: "formation" },
   // ── Bloc 5 — Industrialiser ──
   { order: 13, title: "Construire un MVP complet", description: "Ton premier vrai produit de A à Z en 48h", category: "formation" },
   { order: 14, title: "Sécurité & bonnes pratiques", description: "RLS, validation, secrets et checklist production", category: "formation" },
-  { order: 15, title: "DevOps & Monitoring", description: "Git avancé, CI/CD, Sentry et maintenance pro", category: "formation" },
+  { order: 15, title: "DevOps & Monitoring", description: "Git avancé, CI/CD, Vercel Analytics et maintenance pro", category: "formation" },
   // ── Bloc 6 — Vendre ──
   { order: 16, title: "Se structurer pour réussir", description: "Organisation, outils, CRM et image professionnelle", category: "formation" },
   { order: 17, title: "Créer ton offre", description: "Les services IA rentables, pricing et supports de vente", category: "formation" },

@@ -181,7 +181,7 @@ while True:
 
             if tool_call.name == "search_web":
                 # Ici tu appellerais ta vraie fonction de recherche
-                result = {"results": ["Article 1: Les LLMs français...", "Article 2: Mistral AI lève..."]}
+                result = {"results": ["Article 1: Les LLMs en 2025...", "Article 2: L'IA generative en entreprise..."]}
             elif tool_call.name == "send_email":
                 # Ici tu appellerais ton service email (SendGrid, etc.)
                 result = {"status": "sent", "message_id": "msg_123"}
@@ -467,7 +467,7 @@ if __name__ == "__main__":
         { title: "Niveau 2 : Délais aléatoires", description: "Attends entre 1 et 3 secondes entre chaque requête avec time.sleep(random.uniform(1, 3)). Évite les rate limits." },
         { title: "Niveau 3 : Playwright/Selenium", description: "Pour les sites avec JavaScript dynamique, utilise un vrai navigateur headless. Plus lent mais contourne les SPA." },
         { title: "Niveau 4 : API tierces", description: "Services comme ScraperAPI, Bright Data ou Apify gèrent la rotation de proxies et les CAPTCHAs. Comptent ~50-100€/mois." },
-        { title: "Niveau 5 : APIs officielles", description: "Si disponible, toujours préférer l'API officielle (ex: HubSpot API, Stripe API). Plus fiable et légal." },
+        { title: "Niveau 5 : APIs officielles", description: "Si disponible, toujours préférer l'API officielle (ex: ton propre CRM API, Stripe API). Plus fiable et légal." },
       ]},
       { id: "3-15", type: "callout", variant: "warning", html: "<strong>Légalité :</strong> Le scraping est légal pour les données publiques dans la majorité des cas, mais vérifie les CGU du site. Ne scrape jamais de données personnelles sans consentement (RGPD). Pour les clients B2B, privilégie les APIs officielles quand elles existent." },
       { id: "3-16", type: "separator", style: "line" },
@@ -509,17 +509,17 @@ if __name__ == "__main__":
     description: "Architecture complète d'un agent qui cherche sur le web, envoie des emails et met à jour un CRM. De l'idée au déploiement cloud.",
     content: blocks([
       { id: "5-1", type: "heading", level: 2, text: "L'agent final : un assistant business complet" },
-      { id: "5-2", type: "text", html: "<p>On arrive à la pièce maîtresse du module. Jusqu'ici tu as vu des agents spécialisés (veille, prospection). Maintenant on construit un <strong>agent généraliste</strong> qu'un client peut utiliser comme assistant business : il cherche des infos sur le web, envoie des emails professionnels, et synchronise tout dans son CRM.</p><p>C'est le type d'agent que tu vas déployer sur un serveur et que ton client utilisera via une interface web ou un bot Slack. L'objectif est que tu comprennes <strong>l'architecture complète</strong> : du code au déploiement en passant par la sécurité.</p>" },
+      { id: "5-2", type: "text", html: "<p>On arrive à la pièce maîtresse du module. Jusqu'ici tu as vu des agents spécialisés (veille, prospection). Maintenant on construit un <strong>agent généraliste</strong> qu'un client peut utiliser comme assistant business : il cherche des infos sur le web, envoie des emails professionnels, et synchronise tout dans son CRM.</p><p>C'est le type d'agent que tu vas déployer sur un serveur et que ton client utilisera via une interface web ou un bot Discord. L'objectif est que tu comprennes <strong>l'architecture complète</strong> : du code au déploiement en passant par la sécurité.</p>" },
       { id: "5-3", type: "callout", variant: "info", html: "<strong>Ce que le client peut faire avec cet agent :</strong> 'Cherche les derniers articles sur [sujet], rédige un email de veille pour mon équipe et enregistre les sources dans notre Notion.' — Un workflow complet en une seule instruction." },
       { id: "5-4", type: "separator", style: "dots" },
 
       { id: "5-5", type: "heading", level: 2, text: "Architecture complète du système" },
       { id: "5-6", type: "diagram", variant: "tree", nodes: [
-        { id: "n1", label: "Interface utilisateur", description: "FastAPI endpoint / Bot Slack / Interface web React" },
+        { id: "n1", label: "Interface utilisateur", description: "FastAPI endpoint / Bot Discord / Interface web React" },
         { id: "n2", label: "Agent Core (Python)", description: "Boucle ReAct + gestion des outils + historique des conversations" },
         { id: "n3", label: "Outil : Web Search", description: "Brave Search API ou Serper.dev — résultats en temps réel" },
         { id: "n4", label: "Outil : Email", description: "SendGrid API — envoi + tracking d'ouverture" },
-        { id: "n5", label: "Outil : CRM", description: "HubSpot API ou Notion API — lecture/écriture de contacts" },
+        { id: "n5", label: "Outil : CRM", description: "ton propre CRM API ou Notion API — lecture/écriture de contacts" },
         { id: "n6", label: "Outil : Mémoire", description: "Redis ou Postgres — historique de conversation persistant" },
         { id: "n7", label: "Déploiement", description: "Railway.app ou Render — container Docker, HTTPS auto, logs" },
       ]},
@@ -589,7 +589,7 @@ def send_email(to: str, subject: str, body_html: str, cc: str = "") -> dict:
 
 
 def update_crm_contact(contact_email: str, properties: dict, notes: str = "") -> dict:
-    """Met à jour ou crée un contact dans le CRM (HubSpot)"""
+    """Met à jour ou crée un contact dans le CRM (ton propre CRM)"""
     hubspot_token = os.environ.get("HUBSPOT_TOKEN", "")
 
     if not hubspot_token:
@@ -684,7 +684,7 @@ TOOLS = [
     },
     {
         "name": "update_crm_contact",
-        "description": "Crée ou met à jour un contact dans HubSpot CRM avec ses propriétés et des notes",
+        "description": "Crée ou met à jour un contact dans ton propre CRM CRM avec ses propriétés et des notes",
         "input_schema": {
             "type": "object",
             "properties": {
@@ -873,7 +873,7 @@ python-dotenv>=1.0.0
         { id: "c8", text: "Un rate limit est en place sur l'API FastAPI (ex: 10 req/min par IP)" },
       ]},
     ]),
-    exercise: "<h3>Projet final : déploie ton agent</h3><p>C'est le projet final du module. Tu dois déployer l'agent multi-outils sur Railway.app (ou Render.app, les deux ont un tier gratuit). Étapes : (1) fork/clone le code, (2) crée un compte Railway et connecte ton GitHub, (3) configure les variables d'environnement (tu peux utiliser des clés sandbox/test), (4) déploie et teste l'endpoint /chat depuis un client HTTP (Postman, curl, ou une page HTML simple). Capture d'écran du déploiement actif pour valider l'exercice. Bonus : ajoute un 5ème outil de ton choix (ex: créer un événement Google Calendar, poster sur Slack, lire un Google Sheet).</p>",
+    exercise: "<h3>Projet final : déploie ton agent</h3><p>C'est le projet final du module. Tu dois déployer l'agent multi-outils sur Railway.app (ou Render.app, les deux ont un tier gratuit). Étapes : (1) fork/clone le code, (2) crée un compte Railway et connecte ton GitHub, (3) configure les variables d'environnement (tu peux utiliser des clés sandbox/test), (4) déploie et teste l'endpoint /chat depuis un client HTTP (Postman, curl, ou une page HTML simple). Capture d'écran du déploiement actif pour valider l'exercice. Bonus : ajoute un 5ème outil de ton choix (ex: créer un événement Google Calendar, poster sur Discord, lire un Google Sheet).</p>",
     quiz: [
       { type: "mcq", question: "Quel est le risque principal d'un agent déployé sans max_iterations dans sa boucle while ?", options: JSON.stringify(["L'agent répond trop lentement", "L'agent peut boucler indéfiniment, causant des coûts API explosifs et des actions répétées non désirées", "Les API tierces refusent les connexions", "Le serveur manque de mémoire RAM"]), correctAnswer: "L'agent peut boucler indéfiniment, causant des coûts API explosifs et des actions répétées non désirées", explanation: "Sans max_iterations, un agent peut boucler indéfiniment si un outil retourne une erreur ambiguë ou si l'objectif n'est jamais atteint. Résultat : coûts API explosifs et potentiellement des dizaines d'emails envoyés ou de modifications CRM non désirées." },
       { type: "true_false", question: "Les API keys doivent être stockées dans des variables d'environnement, jamais directement dans le code source.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Les clés API hardcodées dans le code risquent d'être committées sur GitHub et exposées publiquement. Il faut toujours utiliser des variables d'environnement (fichier .env en local, configuration du cloud en production)." },

@@ -133,8 +133,7 @@ Je peux t'envoyer un mini-audit gratuit (5 minutes à lire) si ça t'intéresse 
 
       { id: "3-5", type: "heading", level: 2, text: "Étape 1 : Trouver les emails" },
       { id: "3-6", type: "comparison", headers: ["Outil", "Prix", "Usage", "Note"], rows: [
-        { cells: ["Hunter.io", "Gratuit (25/mois) ou 49€/mois", "Trouver l'email d'un domaine", "★★★★★"] },
-        { cells: ["Apollo.io", "Gratuit limité ou 49€/mois", "Base de données + enrichissement", "★★★★★"] },
+        { cells: ["Apollo.io", "Gratuit limité ou 49€/mois", "Base de données + enrichissement + email finder", "★★★★★"] },
         { cells: ["Kaspr", "Gratuit (5 crédits) ou 45€/mois", "LinkedIn → email professionnel", "★★★★☆"] },
         { cells: ["Dropcontact", "24€/mois", "Enrichissement + vérification", "★★★★☆"] },
         { cells: ["Scraping LinkedIn + Clay", "Variable", "Enrichissement avancé", "★★★☆☆"] },
@@ -501,7 +500,7 @@ Voici mon calendrier si vous voulez qu'on trouve un créneau :
     description: "Construire un système de prospection simple et efficace : CRM léger, pipeline de vente, relances automatiques et KPIs pour savoir si ta prospection fonctionne.",
     content: blocks([
       { id: "6-1", type: "heading", level: 2, text: "Sans système, tu prospecteras en chaos" },
-      { id: "6-2", type: "text", html: "<p>Tu peux avoir les meilleurs templates du monde, si tu n'as pas un système pour suivre qui tu as contacté, quand, avec quel résultat, et quand relancer — tu vas passer ton temps à oublier des prospects, doubler des contacts et rater des deals à portée de main.</p><p>La bonne nouvelle : tu n'as pas besoin d'un CRM sophistiqué à 200€/mois. <strong>Notion ou Airtable gratuits suffisent largement</strong> pour gérer jusqu'à 500 K€ de pipeline.</p>" },
+      { id: "6-2", type: "text", html: "<p>Tu peux avoir les meilleurs templates du monde, si tu n'as pas un système pour suivre qui tu as contacté, quand, avec quel résultat, et quand relancer — tu vas passer ton temps à oublier des prospects, doubler des contacts et rater des deals à portée de main.</p><p>La bonne nouvelle : tu n'as pas besoin d'un CRM sophistiqué à 200€/mois. <strong>Notion ou Google Sheets gratuits suffisent largement</strong> pour gérer jusqu'à 500 K€ de pipeline.</p>" },
       { id: "6-3", type: "callout", variant: "info", html: "<strong>Chiffre clé :</strong> 80% des deals se signent après 5 à 8 points de contact. La plupart des commerciaux abandonnent après 2. Un bon système de relance automatique, c'est l'équivalent d'embaucher un assistant commercial gratuit." },
       { id: "6-4", type: "separator", style: "dots" },
 
@@ -567,7 +566,7 @@ Soir :
       { id: "6-13", type: "steps", steps: [
         { title: "Relance LinkedIn automatique (Phantombuster)", description: "Configurer Phantombuster pour envoyer automatiquement des DMs de relance J+3 si pas de réponse. Limite : 10-20/jour pour rester dans les CGU LinkedIn." },
         { title: "Relance email automatique (Lemlist / Instantly)", description: "La séquence de 3 emails est déjà automatisée dans ces outils. Configure les délais une fois et laisse tourner." },
-        { title: "Rappel de relance CRM (Notion + n8n)", description: "Connecte Notion à n8n. Quand la date 'Prochain contact' est atteinte, reçois une notification sur ton téléphone ou dans Slack." },
+        { title: "Rappel de relance CRM (Notion + n8n)", description: "Connecte Notion à n8n. Quand la date 'Prochain contact' est atteinte, reçois une notification sur ton téléphone ou dans Discord." },
         { title: "Email de nurturing mensuel (Brevo)", description: "Une newsletter mensuelle envoyée à tous tes prospects 'Froids' avec un article utile. Automatisée, zéro effort, maintient la relation." },
       ]},
       { id: "6-14", type: "callout", variant: "tip", html: "<strong>Règle des relances :</strong> pour un prospect 'Chaud' (a répondu positivement), relance dans 48h. Pour un prospect 'Tiède' (pas de réponse), relance à J+4 et J+9. Après 3 tentatives sans réponse, classe en 'Froid' et planifie une relance dans 2 mois." },
@@ -592,7 +591,7 @@ Soir :
 
       { id: "6-20", type: "separator", style: "dots" },
       { id: "6-21", type: "checklist", title: "Checklist — Ton système de prospection en place", items: [
-        { id: "c1", text: "CRM Notion ou Airtable créé avec les colonnes du template" },
+        { id: "c1", text: "CRM Notion ou Google Sheets créé avec les colonnes du template" },
         { id: "c2", text: "Les 3 vues configurées (à relancer, pipeline actif, deals signés)" },
         { id: "c3", text: "Routine quotidienne de 15 min bloquée dans l'agenda" },
         { id: "c4", text: "Séquence cold email configurée sur Lemlist ou Instantly" },
@@ -605,7 +604,7 @@ Soir :
     quiz: [
       { type: "mcq", question: "Quelles sont les 6 étapes du pipeline de vente dans l'ordre ?", options: JSON.stringify(["Contacté, réponse, RDV, proposition, négociation, signé", "Identifié, contacté, réponse reçue, RDV planifié, proposition envoyée, signé/perdu", "Prospect, lead, opportunité, devis, closing, facture", "Email envoyé, relance, appel, démo, essai, contrat"]), correctAnswer: "Identifié, contacté, réponse reçue, RDV planifié, proposition envoyée, signé/perdu", explanation: "Le pipeline en 6 étapes est : Identifié (contact trouvé), Contacté (1er message envoyé), Réponse reçue (réponse positive), RDV planifié (appel découverte schedulé), Proposition envoyée (devis envoyé), Signé/Perdu (deal conclu ou fermé avec raison)." },
       { type: "true_false", question: "80% des deals se signent après 5 à 8 points de contact avec le prospect.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "La plupart des commerciaux abandonnent après 2 points de contact, alors que 80% des deals se signent après 5 à 8 interactions. Un bon système de relance automatique est l'équivalent d'un assistant commercial gratuit." },
-      { type: "true_false", question: "Un CRM sophistiqué à 200 euros par mois est indispensable pour gérer sa prospection.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Notion ou Airtable en version gratuite suffisent largement pour gérer un pipeline jusqu'à 500 000 euros. L'important est d'avoir un système, pas un outil coûteux. Les colonnes essentielles sont : nom, entreprise, statut, date de prochain contact, valeur estimée et notes." },
+      { type: "true_false", question: "Un CRM sophistiqué à 200 euros par mois est indispensable pour gérer sa prospection.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Notion ou Google Sheets en version gratuite suffisent largement pour gérer un pipeline jusqu'à 500 000 euros. L'important est d'avoir un système, pas un outil coûteux. Les colonnes essentielles sont : nom, entreprise, statut, date de prochain contact, valeur estimée et notes." },
       { type: "mcq", question: "Vous avez 15 prospects dans votre CRM Notion : 5 contactés sans réponse, 3 avec un RDV planifié, 4 avec une proposition envoyée, et 3 classés 'perdus'. Vendredi matin, vous faites votre bilan hebdomadaire. Quelle action prioritaire identifiez-vous ?", options: JSON.stringify(["Ajouter 50 nouveaux prospects car vous n'en avez pas assez", "Relancer les 4 propositions envoyées car c'est là que le closing est le plus proche, puis relancer les 5 sans réponse à J+4/J+9", "Recontacter les 3 perdus pour leur proposer une réduction", "Supprimer les prospects sans réponse pour nettoyer le CRM"]), correctAnswer: "Relancer les 4 propositions envoyées car c'est là que le closing est le plus proche, puis relancer les 5 sans réponse à J+4/J+9", explanation: "La priorité va toujours au bas du funnel : les propositions envoyées sont les plus proches du closing. Ensuite, les relances des prospects tièdes à J+4 et J+9. 80% des deals se signent après 5-8 points de contact. Un bon système de relance est votre meilleur commercial." },
     ],
   },

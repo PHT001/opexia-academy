@@ -422,7 +422,7 @@ export const MODULE_3_LESSONS = [
       { id: "5-6", type: "steps", steps: [
         { title: "Sois spécifique, pas vague", description: "Mauvais : \"Fais-moi un beau site\". Bon : \"Crée une page d'accueil avec un fond gradient bleu-violet, un titre centré en blanc, un sous-titre gris clair, et un bouton CTA orange avec coins arrondis.\"", icon: "target" },
         { title: "Découpe en petites étapes", description: "Ne demande pas tout d'un coup. Commence par la structure, puis le design, puis les interactions, puis les détails. Chaque prompt = une étape claire.", icon: "layers" },
-        { title: "Donne des références", description: "\"Je veux un style comme le site de Stripe\" ou \"inspire-toi du design de Linear\". Les références visuelles aident Claude à comprendre ce que tu veux.", icon: "image" },
+        { title: "Donne des références", description: "\"Je veux un style comme le site de Stripe\" ou \"inspire-toi du design de Vercel\". Les références visuelles aident Claude à comprendre ce que tu veux.", icon: "image" },
         { title: "Itère sans hésiter", description: "Le premier résultat ne sera jamais parfait. C'est normal. Dis ce qui ne va pas, Claude corrige. 3 à 5 itérations = un résultat pro.", icon: "repeat" },
         { title: "Valide au fur et à mesure", description: "Ouvre ton projet dans le navigateur après chaque modification. Ne laisse pas 10 changements s'accumuler sans vérifier.", icon: "check" },
       ]},

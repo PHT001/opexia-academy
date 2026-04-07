@@ -199,7 +199,7 @@ export const LESSONS = [
     duration: "50 min",
     description: "Construire un CRM complet avec contacts, pipeline de deals, notes et CRUD.",
     content: `<h2>Objectif du projet</h2>
-<p>C'est le projet le plus ambitieux de cette phase : tu vas construire un mini SaaS complet. Un CRM (Customer Relationship Management) est un outil que toutes les entreprises utilisent pour gérer leurs contacts et leurs opportunités commerciales. Des outils comme HubSpot où Salesforce facturent des centaines d'euros par mois. Tu vas en construire une version simplifiée mais fonctionnelle.</p>
+<p>C'est le projet le plus ambitieux de cette phase : tu vas construire un mini SaaS complet. Un CRM (Customer Relationship Management) est un outil que toutes les entreprises utilisent pour gérer leurs contacts et leurs opportunités commerciales. Des outils comme ton propre CRM où Salesforce facturent des centaines d'euros par mois. Tu vas en construire une version simplifiée mais fonctionnelle.</p>
 <p>Ce projet couvre toutes les compétences d'un développeur full-stack : base de données, API, interface utilisateur, authentification, et déploiement. C'est le type de projet qui te positionne comme un professionnel capable de construire de vrais produits.</p>
 
 <h2>Stack technique</h2>
@@ -240,7 +240,7 @@ export const LESSONS = [
 <h2>Étape 6 : Déploiement et finitions</h2>
 <p>Pour le déploiement, on migre de SQLite vers PostgreSQL pour la production. Demande à Claude Code :</p>
 <blockquote>Adapte le schéma Prisma pour supporter PostgreSQL en production (garde SQLite pour le dev). Configure le déploiement sur Vercel avec une base de données PostgreSQL sur Supabase où Neon. Ajoute un dashboard de statistiques sur la page d'accueil : nombre total de contacts, deals en cours, valeur du pipeline, graphique d'évolution des deals gagnés par mois.</blockquote>
-<p>Ton CRM est maintenant un produit SaaS fonctionnel. Tu peux l'utiliser toi-même, le montrer en portfolio, où même le proposer à des petites entreprises qui n'ont pas le budget pour HubSpot.</p>`,
+<p>Ton CRM est maintenant un produit SaaS fonctionnel. Tu peux l'utiliser toi-même, le montrer en portfolio, où même le proposer à des petites entreprises qui n'ont pas le budget pour ton propre CRM.</p>`,
     exercise: `<h3>Exercice pratique</h3>
 <ol>
 <li>Construis le CRM complet en suivant les 6 étapes. Chaque étape doit être fonctionnelle avant de passer à la suivante.</li>

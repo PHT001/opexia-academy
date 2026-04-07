@@ -36,7 +36,7 @@ export const MODULE_5_LESSONS = [
       { id: "1-10", type: "heading", level: 2, text: "Les 6 workflows que les clients achètent le plus" },
       { id: "1-11", type: "comparison", headers: ["Workflow", "Temps économisé/sem.", "Prix de vente typique", "Complexité"], rows: [
         { cells: ["Leads email → CRM auto", "3-5h", "600-1 200€", "Facile"] },
-        { cells: ["Notif Slack sur nouvelle commande", "1-2h", "400-800€", "Facile"] },
+        { cells: ["Notif Discord sur nouvelle commande", "1-2h", "400-800€", "Facile"] },
         { cells: ["Rapport hebdo automatisé", "4-8h", "800-1 500€", "Moyen"] },
         { cells: ["Onboarding client automatisé", "5-10h", "1 500-3 000€", "Moyen"] },
         { cells: ["Veille concurrentielle + digest", "6-12h", "1 200-2 500€", "Avancé"] },
@@ -49,7 +49,7 @@ export const MODULE_5_LESSONS = [
       { id: "1-15", type: "diagram", variant: "flow", nodes: [
         { id: "n1", label: "Déclencheur", description: "Nouveau formulaire, email reçu, heure programmée, nouveau fichier" },
         { id: "n2", label: "Traitement", description: "Filtrer, transformer, enrichir les données (avec ou sans IA)" },
-        { id: "n3", label: "Action(s)", description: "Créer un enregistrement CRM, envoyer un email, notifier Slack, générer un PDF" },
+        { id: "n3", label: "Action(s)", description: "Créer un enregistrement CRM, envoyer un email, notifier Discord, générer un PDF" },
         { id: "n4", label: "Résultat", description: "Temps libéré, zéro oubli, traitement immédiat" },
       ]},
       { id: "1-16", type: "callout", variant: "info", html: "Les outils qu'on va utiliser dans ce module (n8n, Zapier) ne nécessitent <strong>aucune compétence en code</strong> pour les cas basiques. Pour les cas avancés avec IA, on verra comment intégrer du code JavaScript simple." },
@@ -85,7 +85,7 @@ export const MODULE_5_LESSONS = [
     quiz: [
       { type: "mcq", question: "Un employé passe 3h/semaine à saisir des leads dans un CRM. Son coût horaire chargé est de 40€. Quel est le coût annuel de cette tâche ?", options: JSON.stringify(["3 120€/an", "6 240€/an", "4 800€/an", "7 800€/an"]), correctAnswer: "6 240€/an", explanation: "3h x 40€ x 52 semaines = 6 240€/an. C'est le calcul de base du ROI d'une automatisation : identifier le coût humain de la tâche répétitive pour montrer au client combien il perd chaque année." },
       { type: "true_false", question: "La règle d'or de l'automatisation est : si quelqu'un fait la même action plus de 3 fois par semaine, ça peut probablement être automatisé.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "C'est la première étape de l'audit : observer les tâches répétitives. Plus de 3 fois par semaine = signal fort d'une opportunité d'automatisation. Il faut d'abord observer, puis proposer." },
-      { type: "mcq", question: "Quelle est la structure de base d'un workflow d'automatisation ?", options: JSON.stringify(["Input → Output → Feedback", "Déclencheur → Traitement → Action", "Requête → Réponse → Stockage", "Analyse → Décision → Exécution"]), correctAnswer: "Déclencheur → Traitement → Action", explanation: "Tout workflow suit cette logique : un déclencheur (formulaire, email, heure programmée), un traitement (filtrer, transformer, enrichir les données), et une ou plusieurs actions (créer dans le CRM, envoyer un email, notifier sur Slack)." },
+      { type: "mcq", question: "Quelle est la structure de base d'un workflow d'automatisation ?", options: JSON.stringify(["Input → Output → Feedback", "Déclencheur → Traitement → Action", "Requête → Réponse → Stockage", "Analyse → Décision → Exécution"]), correctAnswer: "Déclencheur → Traitement → Action", explanation: "Tout workflow suit cette logique : un déclencheur (formulaire, email, heure programmée), un traitement (filtrer, transformer, enrichir les données), et une ou plusieurs actions (créer dans le CRM, envoyer un email, notifier sur Discord)." },
       { type: "true_false", question: "Une automatisation qui s'amortit en moins de 12 mois convainc presque toujours le client d'acheter.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Quand le ROI est inférieur à 12 mois, l'investissement est clairement rentable pour le client. L'idéal est de viser un amortissement en 3-6 mois pour que l'argument de vente soit encore plus fort." },
       { type: "mcq", question: "Un prospect restaurateur vous dit qu'il passe 3 heures par semaine à recopier les réservations reçues par email dans son Google Calendar. Il vous demande si ça vaut le coup d'automatiser. Que lui répondez-vous ?", options: JSON.stringify(["Non, 3h par semaine ce n'est pas assez pour justifier une automatisation", "Oui, vous lui montrez le calcul : 3h x 40€ x 52 semaines = 6 240€/an perdus, et vous proposez un workflow email → Calendar à 800€", "Vous lui conseillez d'embaucher un stagiaire pour faire la saisie", "Vous lui dites que seules les grandes entreprises peuvent automatiser"]), correctAnswer: "Oui, vous lui montrez le calcul : 3h x 40€ x 52 semaines = 6 240€/an perdus, et vous proposez un workflow email → Calendar à 800€", explanation: "Le calcul du ROI est l'arme de vente numéro 1 : montrer au client combien sa tâche répétitive lui coûte par an rend l'investissement évident. Un workflow à 800€ qui économise 6 240€/an s'amortit en quelques semaines." },
     ],
@@ -140,7 +140,7 @@ export const MODULE_5_LESSONS = [
   "Statut": "Nouveau"
 }` },
       { id: "2-14", type: "text", html: "<p>Ces données sont accessibles dans n8n via les <strong>expressions</strong>. Dans n'importe quel champ, tu cliques et tu utilises <code>{{ $json.champ }}</code> pour insérer une variable. n8n supporte aussi le JavaScript dans les expressions pour les transformations avancées.</p><p>Le nœud <strong>Code</strong> intégré permet des transformations complexes en JavaScript : formater des dates, manipuler des chaînes, faire des calculs — directement dans le workflow.</p>" },
-      { id: "2-15", type: "callout", variant: "warning", html: "Pense toujours à gérer les <strong>erreurs</strong> dans tes workflows. Dans n8n, tu peux ajouter un nœud 'Error Trigger' qui se déclenche quand un nœud échoue : notification Slack, retry, ou alerte email. Un workflow pro gère ses erreurs." },
+      { id: "2-15", type: "callout", variant: "warning", html: "Pense toujours à gérer les <strong>erreurs</strong> dans tes workflows. Dans n8n, tu peux ajouter un nœud 'Error Trigger' qui se déclenche quand un nœud échoue : notification Discord, retry, ou alerte email. Un workflow pro gère ses erreurs." },
       { id: "2-16", type: "separator", style: "space" },
 
       { id: "2-17", type: "quiz-inline", question: "Dans n8n, qu'est-ce qu'une 'exécution' ?", options: [
@@ -158,7 +158,7 @@ export const MODULE_5_LESSONS = [
         { id: "c5", text: "Je comprends le système d'exécutions pour estimer les coûts client" },
       ]},
     ]),
-    exercise: "<h3>Construis et vends</h3><p>Crée le workflow Google Sheets → Gmail vu dans cette leçon avec n8n (en local via npx n8n ou sur n8n Cloud). Ensuite, <strong>généralise-le</strong> : ajoute un 2ème nœud action qui crée aussi une tâche dans Notion ou un contact dans HubSpot. Documente le workflow avec des captures d'écran. Tu as maintenant un portfolio à montrer à des clients. Bonus : calcule combien tu pourrais le vendre si un client reçoit 50 leads/mois — quelle offre proposes-tu ?</p>",
+    exercise: "<h3>Construis et vends</h3><p>Crée le workflow Google Sheets → Gmail vu dans cette leçon avec n8n (en local via npx n8n ou sur n8n Cloud). Ensuite, <strong>généralise-le</strong> : ajoute un 2ème nœud action qui crée aussi une tâche dans Notion ou un contact dans Google Sheets. Documente le workflow avec des captures d'écran. Tu as maintenant un portfolio à montrer à des clients. Bonus : calcule combien tu pourrais le vendre si un client reçoit 50 leads/mois — quelle offre proposes-tu ?</p>",
     quiz: [
       { type: "true_false", question: "n8n self-hosted permet des exécutions illimitées sans coût d'abonnement supplémentaire.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "En self-hosted, n8n n'a pas de limite d'exécutions. Le seul coût est l'hébergement du serveur (5-10€/mois). C'est un énorme avantage pour les clients avec beaucoup de volume ou pour maximiser tes marges." },
       { type: "mcq", question: "Dans un workflow n8n, quel est le rôle du nœud IF placé entre deux nœuds ?", options: JSON.stringify(["Accélérer l'exécution du workflow", "Définir une condition pour ne traiter que certaines données", "Transformer le format des données", "Connecter deux applications différentes"]), correctAnswer: "Définir une condition pour ne traiter que certaines données", explanation: "Le nœud IF permet de poser des conditions dans le workflow. Par exemple, ne continuer que si la colonne 'Statut' = 'Nouveau'. Cela évite de traiter des données déjà traitées ou non pertinentes." },
@@ -207,13 +207,13 @@ docker run -d \\
       { id: "3-8", type: "separator", style: "line" },
 
       { id: "3-9", type: "heading", level: 2, text: "Créer ton premier workflow n8n" },
-      { id: "3-10", type: "text", html: "<p>On va créer un workflow avancé dans n8n self-hosted avec des <strong>nœuds connectés</strong> (nodes).</p><p>Exemple concret : surveillance d'un webhook (ex: formulaire Typeform) → enrichissement avec l'IA → enregistrement dans Airtable + notification Slack.</p>" },
+      { id: "3-10", type: "text", html: "<p>On va créer un workflow avancé dans n8n self-hosted avec des <strong>nœuds connectés</strong> (nodes).</p><p>Exemple concret : surveillance d'un webhook (ex: formulaire Typeform) → enrichissement avec l'IA → enregistrement dans Google Sheets + notification Discord.</p>" },
       { id: "3-11", type: "steps", steps: [
         { title: "Créer un nouveau workflow", description: "Clic sur 'New Workflow'. Canvas blanc. L'interface ressemble à un éditeur de code visuel." },
         { title: "Ajouter un nœud Webhook", description: "Cherche 'Webhook' dans les nœuds. C'est le déclencheur HTTP universel. Copie l'URL générée — elle acceptera les POST depuis n'importe quelle source." },
         { title: "Tester avec un curl", description: "Dans ton terminal : curl -X POST http://localhost:5678/webhook/ton-id -H 'Content-Type: application/json' -d '{\"nom\":\"Marie\",\"email\":\"marie@test.fr\"}'. Le nœud capture les données." },
         { title: "Ajouter un nœud HTTP Request", description: "Pour appeler une API externe (ex: OpenAI ou Claude). Configure la méthode POST, l'URL de l'API, les headers d'authentification et le body JSON." },
-        { title: "Ajouter un nœud Airtable", description: "Connecte ton compte Airtable via une API key. Choisit ta base et ta table. Mappe les champs du webhook vers les colonnes Airtable." },
+        { title: "Ajouter un nœud Google Sheets", description: "Connecte ton compte Google via OAuth. Choisit ta feuille et ta table. Mappe les champs du webhook vers les colonnes." },
         { title: "Activer le workflow", description: "Bascule le toggle 'Active' en haut à droite. Le webhook est maintenant actif en permanence." },
       ]},
       { id: "3-12", type: "code", language: "json", filename: "webhook-payload-exemple.json", code: `{
@@ -335,8 +335,8 @@ docker run -d \\
         { title: "Déclencheur : nouveau formulaire Typeform", description: "Le lead remplit nom, email, entreprise, besoin, budget estimé." },
         { title: "Claude analyse le lead", description: "Prompt : \"Analyse ce profil de prospect et détermine son potentiel. Score de 1 à 10, segment (Grand compte / PME / TPE), recommandation d'approche commerciale.\"" },
         { title: "Routage automatique", description: "Nœud Switch n8n basé sur la réponse Claude : score 8-10 → commercial senior, score 4-7 → commercial junior, score 1-3 → séquence email nurturing automatique." },
-        { title: "Notification Slack au commercial", description: "Message Slack avec le résumé IA : score, segment, et suggestion d'approche. Le commercial arrive au call déjà briefé." },
-        { title: "Enregistrement CRM enrichi", description: "Création d'un contact dans HubSpot avec tous les champs remplis + les champs IA ajoutés (score, segment, notes)." },
+        { title: "Notification Discord au commercial", description: "Message Discord avec le résumé IA : score, segment, et suggestion d'approche. Le commercial arrive au call déjà briefé." },
+        { title: "Enregistrement CRM enrichi", description: "Création d'un contact dans Google Sheets avec tous les champs remplis + les champs IA ajoutés (score, segment, notes)." },
       ]},
       { id: "5-18", type: "callout", variant: "warning", html: "Les coûts API IA dans les workflows sont souvent négligeables mais tu dois les calculer. 1 appel Claude Haiku = ~0,001€. 1 000 leads/mois qualifiés = ~1€ de coût IA. Intègre ça dans ta tarification mais ne surcharge pas le client." },
       { id: "5-19", type: "separator", style: "space" },

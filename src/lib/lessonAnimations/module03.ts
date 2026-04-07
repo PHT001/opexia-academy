@@ -178,7 +178,7 @@ export const module03: AllLessonAnimations = {
         title: "Configuration initiale",
         subtitle: "Les réglages essentiels",
         items: [
-          { label: "Clé API (LLM)", description: "Claude, GPT ou Mistral" },
+          { label: "Clé API (LLM)", description: "Claude ou GPT" },
           { label: "Langue par défaut", description: "Français" },
           { label: "Nom de l'agent", description: "Ton assistant perso" },
           { label: "Fuseau horaire", description: "Europe/Paris" },

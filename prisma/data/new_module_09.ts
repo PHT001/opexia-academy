@@ -1600,8 +1600,8 @@ export async function getUserProfile() {
           },
           {
             cells: [
-              "Sentry",
-              "Erreurs JavaScript, performance, traces",
+              "Vercel Logs",
+              "Erreurs API routes, fonctions serverless, logs structures",
               "npm install @sentry/nextjs + wizard CLI",
               "Gratuit jusqu'à 5k errors/mois",
             ],
@@ -1709,7 +1709,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       {
         id: "6-12",
         type: "text",
-        html: "<p>Le meilleur feedback ne vient pas des sondages — il vient des <strong>appels utilisateurs</strong>. Voici comment recruter 10 testeurs en 48h :</p><ul><li><strong>LinkedIn</strong> : DM direct aux profils qui correspondent à ton persona (message court, honnête, propose 20 min de call)</li><li><strong>Communautés Discord/Slack</strong> : Partage ton MVP dans les channels #ressources des communautés de ton secteur</li><li><strong>Twitter/X</strong> : Thread de build en public — les gens adorent tester ce qu'ils ont suivi construire</li><li><strong>Réseau personnel</strong> : 3 amis qui correspondent au persona + leurs contacts</li></ul>",
+        html: "<p>Le meilleur feedback ne vient pas des sondages — il vient des <strong>appels utilisateurs</strong>. Voici comment recruter 10 testeurs en 48h :</p><ul><li><strong>LinkedIn</strong> : DM direct aux profils qui correspondent à ton persona (message court, honnête, propose 20 min de call)</li><li><strong>Communautés Discord/Discord</strong> : Partage ton MVP dans les channels #ressources des communautés de ton secteur</li><li><strong>Twitter/X</strong> : Thread de build en public — les gens adorent tester ce qu'ils ont suivi construire</li><li><strong>Réseau personnel</strong> : 3 amis qui correspondent au persona + leurs contacts</li></ul>",
       },
       {
         id: "6-13",
@@ -1745,7 +1745,7 @@ export function FeedbackWidget() {
     if (!feedback.trim()) return
     setSending(true)
 
-    // Envoie vers Supabase ou une API externe (ex: Notion, Airtable)
+    // Envoie vers Supabase ou une API externe (ex: Notion, Google Sheets)
     await fetch('/api/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

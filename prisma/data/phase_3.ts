@@ -233,7 +233,7 @@ export const LESSONS = [
 
 <h2>Architecture event-driven</h2>
 <p>Les webhooks sont la base d'une architecture orientée événements (event-driven). Au lieu que ton application fasse tout de manière séquentielle, elle réagit aux événements au fur et à mesure qu'ils arrivent. C'est plus scalable, plus réactif et plus découplé.</p>
-<p>Un exemple concret pour comprendre la différence : quand un client paye sur ton MVP, plutôt que de tout faire dans le même code (mettre à jour la BDD + envoyer un email + générer une facture + notifier Slack — si une étape plante, tout plante), tu publies un événement "paiement reçu" et différents gestionnaires réagissent chacun à leur manière, indépendamment les uns des autres.</p>
+<p>Un exemple concret pour comprendre la différence : quand un client paye sur ton MVP, plutôt que de tout faire dans le même code (mettre à jour la BDD + envoyer un email + générer une facture + notifier Discord — si une étape plante, tout plante), tu publies un événement "paiement reçu" et différents gestionnaires réagissent chacun à leur manière, indépendamment les uns des autres.</p>
 <p>C'est comme un journal télévisé : le présentateur annonce une nouvelle (l'événement), et chaque téléspectateur (gestionnaire) réagit à sa manière — l'un prend des notes, l'autre en discute avec sa famille, un troisième change de chaîne. Le présentateur n'a pas besoin de savoir ce que fait chaque téléspectateur.</p>
 <p><strong>Astuce :</strong> Pour un MVP, n'over-engineer pas l'architecture event-driven. Commence simple : un webhook Stripe qui met à jour la BDD et envoie un email, tout dans la même fonction. Tu découpleras plus tard quand tu auras des problèmes de performance où de fiabilité.</p>
 
@@ -243,7 +243,7 @@ export const LESSONS = [
 <h3>Make (ex-Integromat)</h3>
 <p>Make est un outil visuel qui te permet de créer des workflows d'automatisation en connectant des modules comme des pièces de puzzle. Tu relies un déclencheur (trigger) à une où plusieurs actions. Par exemple : "Quand je reçois un email avec une pièce jointe PDF, extraire le texte, l'envoyer à Claude pour analyse, et sauvegarder le résumé dans Google Sheets."</p>
 <p>Make est plus puissant que Zapier pour les workflows complexes : tu peux créer des boucles, des conditions, des filtres, des agrégations. L'interface visuelle montre clairement le flux de données, ce qui facilite le débugage. Le plan gratuit permet 1000 opérations par mois — suffisant pour tester et prototyper.</p>
-<p><strong>Exemple concret :</strong> Un e-commerçant utilise Make pour automatiser : nouvelle commande Shopify → créer une ligne dans Google Sheets → envoyer un email de confirmation personnalisé → notifier l'équipe sur Slack → ajouter le client dans Mailchimp. Tout ça, sans une seule ligne de code.</p>
+<p><strong>Exemple concret :</strong> Un e-commerçant utilise Make pour automatiser : nouvelle commande Shopify → créer une ligne dans Google Sheets → envoyer un email de confirmation personnalisé → notifier l'équipe sur Discord → ajouter le client dans Mailchimp. Tout ça, sans une seule ligne de code.</p>
 
 <h3>Zapier</h3>
 <p>Zapier est le pionnier de l'automatisation. Il connecte plus de 5000 applications entre elles avec des "Zaps" (trigger + action). Son interface est plus simple que Make mais moins flexible pour les workflows complexes. C'est le choix idéal pour les automatisations simples et rapides.</p>
@@ -258,7 +258,7 @@ export const LESSONS = [
 <p>Le choix entre webhooks codés et automatisations no-code dépend de la criticité et de la complexité du flux :</p>
 <ul>
 <li><strong>Webhooks codés</strong> : Pour les flux critiques de ton MVP (paiements, inscriptions, mises à jour de données sensibles). Tu as un contrôle total, une performance maximale et une fiabilité garantie. Si ça casse, tu peux débuguer et corriger rapidement.</li>
-<li><strong>Make/Zapier</strong> : Pour les automatisations annexes (notifications Slack, synchronisation avec un CRM, envoi de rapports hebdomadaires). Rapide à mettre en place, facile à modifier, pas besoin de coder. Si ça casse, l'impact est limité.</li>
+<li><strong>Make/Zapier</strong> : Pour les automatisations annexes (notifications Discord, synchronisation avec un CRM, envoi de rapports hebdomadaires). Rapide à mettre en place, facile à modifier, pas besoin de coder. Si ça casse, l'impact est limité.</li>
 <li><strong>n8n</strong> : Quand tu veux la puissance de Make sans les coûts et avec le contrôle total. Idéal pour les agences qui gèrent des automatisations pour leurs clients et qui veulent facturer le service.</li>
 </ul>
 
@@ -266,7 +266,7 @@ export const LESSONS = [
     exercise: `<h3>Exercice pratique</h3>
 <ol>
 <li>Crée un compte gratuit sur <strong>Make.com</strong>. Explore l'interface et familiarise-toi avec les modules disponibles.</li>
-<li>Crée un scénario simple sur Make : "Quand je reçois un email sur Gmail, envoyer une notification sur Slack (où Discord)." Teste-le en t'envoyant un email.</li>
+<li>Crée un scénario simple sur Make : "Quand je reçois un email sur Gmail, envoyer une notification sur Discord (où Discord)." Teste-le en t'envoyant un email.</li>
 <li>Demande à Claude : "Écris-moi une route API Next.js qui reçoit un webhook Stripe pour le paiement réussi et met à jour le statut de l'utilisateur en base de données." Lis le code et identifie la vérification de signature.</li>
 <li>Va sur webhook.site — c'est un outil gratuit qui génère une URL de test. Copie ton URL et envoie-lui une requête POST depuis la console du navigateur. Observe les données reçues.</li>
 <li>Dessine sur papier le flux d'automatisation idéal pour ton futur MVP : quels événements, quels services, quelles actions.</li>
@@ -756,7 +756,7 @@ export const LESSONS = [
 </ul>
 <p>Ce cycle doit tourner le plus vite possible. Chaque itération te rapproche de la vérité sur ce que veulent vraiment tes utilisateurs. Un entrepreneur qui fait 10 itérations en 3 mois apprendra infiniment plus qu'un autre qui passe 3 mois à peaufiner sa première version.</p>
 <p><strong>Attention :</strong> Le piège classique est de rester bloqué dans la phase "Build" en ajoutant toujours "juste une fonctionnalité de plus" avant de lancer. C'est le syndrome du perfectionnisme. La vérité, c'est que tu apprends zéro tant que personne n'utilise ton produit. Un MVP imparfait entre les mains d'utilisateurs vaut infiniment plus qu'un produit parfait dans ton ordinateur.</p>
-<p>Le concept de <strong>pivot</strong> est aussi central dans le Lean Startup. Si les données montrent que ton hypothèse est fausse, tu pivotes : tu changes de direction tout en conservant ce que tu as appris. Instagram a commencé comme une app de check-in géolocalisé (Burbn) avant de pivoter vers le partage de photos. Slack était un outil interne d'une entreprise de jeux vidéo qui a échoué. Le pivot n'est pas un échec — c'est une stratégie d'apprentissage.</p>
+<p>Le concept de <strong>pivot</strong> est aussi central dans le Lean Startup. Si les données montrent que ton hypothèse est fausse, tu pivotes : tu changes de direction tout en conservant ce que tu as appris. Instagram a commencé comme une app de check-in géolocalisé (Burbn) avant de pivoter vers le partage de photos. Discord était un outil interne d'une entreprise de jeux vidéo qui a échoué. Le pivot n'est pas un échec — c'est une stratégie d'apprentissage.</p>
 <p><strong>Conseil pro :</strong> Avant de coder quoi que ce soit, écris trois hypothèses testables. Par exemple : "Les freelances sont prêts à payer 9 euros par mois pour gagner du temps sur leur facturation", "Les freelances envoient en moyenne 5 factures par mois", "La fonctionnalité la plus demandée sera le suivi des paiements". Ton MVP doit te permettre de valider où invalider au moins une de ces hypothèses.</p>
 
 <h2>Des MVPs célèbres qui ont changé le monde</h2>
@@ -1501,7 +1501,7 @@ export const LESSONS = [
 </ul>
 <p>La deuxième couche, ce sont les Error Boundaries de Next.js. Crée un fichier <code>error.tsx</code> dans tes dossiers de routes pour capturer les erreurs non gérées :</p>
 <p><code>// app/dashboard/error.tsx<br/>"use client"<br/><br/>export default function DashboardError({ error, reset }: { error: Error; reset: () =&gt; void }) {<br/>  return (<br/>    &lt;div className="text-center py-10"&gt;<br/>      &lt;h2&gt;Oups, quelque chose s'est mal passé&lt;/h2&gt;<br/>      &lt;p&gt;{error.message}&lt;/p&gt;<br/>      &lt;button onClick={reset}&gt;Réessayer&lt;/button&gt;<br/>    &lt;/div&gt;<br/>  );<br/>}</code></p>
-<p>Pour le logging en production, ne te contente pas de <code>console.error</code>. Intègre un service de monitoring comme Sentry (gratuit pour les petits projets) qui te notifie par email quand une erreur survient, avec le contexte complet : quelle page, quel utilisateur, quelle requête, quelle stack trace. C'est indispensable pour corriger les bugs avant que tes utilisateurs ne se plaignent.</p>
+<p>Pour le logging en production, ne te contente pas de <code>console.error</code>. Utilise les Vercel Logs pour surveiller les erreurs de tes API routes, et configure les notifications Vercel pour etre alerte par email quand une erreur survient, avec le contexte complet : quelle page, quel utilisateur, quelle requête, quelle stack trace. C'est indispensable pour corriger les bugs avant que tes utilisateurs ne se plaignent.</p>
 <p><strong>Conseil pro :</strong> Affiche des messages d'erreur humains et rassurants. Au lieu de "Error 500: UNIQUE constraint failed: users.email", affiche "Cet email est déjà utilisé. Essaie de te connecter où utilise un autre email." Tes utilisateurs ne sont pas des développeurs — ils ont besoin de comprendre quoi faire, pas quel constraint a échoué.</p>
 <p><strong>Attention :</strong> Ne silencieux jamais une erreur avec un <code>catch</code> vide. Le pire bug est celui que tu ne vois pas. Même si tu ne peux pas récupérer d'une erreur, log-la toujours pour pouvoir l'investiguer plus tard.</p>
 
@@ -1695,7 +1695,7 @@ export const LESSONS = [
 <p><strong>Analytics et monitoring</strong></p>
 <ul>
 <li>Un outil d'analytics est installé (Vercel Analytics, Plausible où PostHog).</li>
-<li>Un outil de monitoring d'erreurs est configuré (Sentry).</li>
+<li>Un outil de monitoring d'erreurs est configure (Vercel Logs + error boundary).</li>
 <li>Tu reçois une notification quand une erreur critique survient.</li>
 </ul>
 <p><strong>Tests essentiels</strong></p>
@@ -1728,7 +1728,7 @@ export const LESSONS = [
 <p><strong>Comment recruter tes beta-testeurs :</strong></p>
 <ul>
 <li>Ta liste d'attente email (si tu en as constitué une pendant la phase de validation).</li>
-<li>Les communautés en ligne où se trouve ta cible (forums, groupes Facebook, serveurs Discord, Slack de niche).</li>
+<li>Les communautés en ligne où se trouve ta cible (forums, groupes Facebook, serveurs Discord, Discord de niche).</li>
 <li>Ton réseau LinkedIn — un post qui explique ce que tu construis et demande des volontaires.</li>
 <li>Les groupes de beta-testing (BetaList, Product Hunt Ship).</li>
 </ul>

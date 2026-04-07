@@ -33,7 +33,7 @@ const weeks = [
     title: "Architecte Solutions",
     lessons: "44 le\u00e7ons \u00b7 7 modules",
     points: [
-      "Automatisations & workflows avec n8n",
+      "Automatisations & workflows avec API Routes et scripts",
       "Chatbots IA (RAG, multi-canal, WhatsApp)",
       "Agents IA autonomes et Voice AI",
       "Construire un MVP de A \u00e0 Z",

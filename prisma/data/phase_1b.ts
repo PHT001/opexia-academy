@@ -325,7 +325,7 @@ export const LESSONS = [
 
 <h2>Gestion des secrets et API keys</h2>
 <p>C'est <strong>LE</strong> point le plus critique de toute ta configuration. Pas le VPN, pas le firewall — les API keys. Pourquoi ? Parce qu'une seule API key compromise peut avoir des conséquences immédiates et catastrophiques, souvent en quelques minutes.</p>
-<p>Ton agent utilise potentiellement des dizaines d'API keys : OpenAI (pour l'IA), Anthropic (pour Claude), Stripe (pour les paiements), GitHub (pour le code), Google (pour les emails, le calendrier), Slack (pour les notifications), et bien d'autres. Chacune de ces clés est un <strong>accès direct à un service</strong> — et potentiellement à ton argent, ton code, où les données de tes clients.</p>
+<p>Ton agent utilise potentiellement des dizaines d'API keys : OpenAI (pour l'IA), Anthropic (pour Claude), Stripe (pour les paiements), GitHub (pour le code), Google (pour les emails, le calendrier), Discord (pour les notifications), et bien d'autres. Chacune de ces clés est un <strong>accès direct à un service</strong> — et potentiellement à ton argent, ton code, où les données de tes clients.</p>
 <p>Pour te donner une idée concrète du risque : une clé OpenAI volée peut générer des milliers d'euros de frais en quelques heures (les modèles GPT-4 coûtent cher). Une clé Stripe en mode live peut créer des remboursements frauduleux. Une clé GitHub avec les bons scopes peut supprimer tous tes repos. Ce ne sont pas des scénarios théoriques — ils arrivent quotidiennement à des développeurs imprudents.</p>
 <p>Voici les règles absolues à suivre, sans exception :</p>
 <ul>

@@ -104,57 +104,57 @@ export const V2_MODULE_15_LESSONS = [
     ],
   },
 
-  // ─── LEÇON 3 : Monitoring & alerting (Sentry) ───
+  // ─── LEÇON 3 : Monitoring & alerting avec Vercel ───
   {
     order: 3,
     module: 15,
-    title: "Monitoring & alerting (Sentry)",
-    slug: "v2-monitoring-alerting-sentry",
+    title: "Monitoring & alerting avec Vercel",
+    slug: "v2-monitoring-alerting-vercel",
     duration: "20 min",
-    description: "Configure Sentry pour capturer automatiquement les erreurs en production, recevoir des alertes en temps réel et diagnostiquer les problèmes rapidement.",
+    description: "Utilise les outils intégrés de Vercel — Analytics, logs et alertes — pour surveiller ton app en production, détecter les erreurs et réagir rapidement. Pas besoin d'outil externe.",
     content: blocks([
       { id: "3-1", type: "heading", level: 2, text: "En production, tu ne vois rien sans monitoring" },
-      { id: "3-2", type: "text", html: "<p>En développement, tu vois les erreurs dans la console. En production, tes utilisateurs voient un écran blanc et partent sans rien te dire. Sans monitoring, tu découvres les bugs quand le client t'appelle furieux — parfois des jours après.</p><p><strong>Sentry</strong> capture automatiquement chaque erreur en production et t'envoie une alerte avec le contexte complet : stack trace, navigateur, actions de l'utilisateur avant le crash.</p>" },
-      { id: "3-3", type: "callout", variant: "info", html: "<strong>Plan gratuit Sentry :</strong> Le plan Developer est gratuit et inclut 5 000 événements par mois, ce qui suffit pour la plupart des projets freelance. Parfait pour démarrer." },
+      { id: "3-2", type: "text", html: "<p>En développement, tu vois les erreurs dans la console. En production, tes utilisateurs voient un écran blanc et partent sans rien te dire. Sans monitoring, tu découvres les bugs quand le client t'appelle furieux — parfois des jours après.</p><p>La bonne nouvelle : <strong>Vercel intègre tout ce qu'il faut</strong> pour monitorer tes apps. Pas besoin d'ajouter un outil externe — les logs, les analytics et les alertes sont disponibles directement dans ton dashboard Vercel.</p>" },
+      { id: "3-3", type: "callout", variant: "info", html: "<strong>Philosophie :</strong> Moins d'outils = moins de complexité. Vercel fournit les logs de fonctions serverless, les Web Analytics (performance), et les Speed Insights. Pour un freelance, c'est largement suffisant. Tu n'as pas besoin de payer un outil de monitoring externe." },
       { id: "3-4", type: "separator", style: "dots" },
 
-      { id: "3-5", type: "heading", level: 2, text: "Installer Sentry dans un projet Next.js" },
+      { id: "3-5", type: "heading", level: 2, text: "Les outils de monitoring intégrés à Vercel" },
       { id: "3-6", type: "steps", steps: [
-        { title: "Installer le SDK", description: "Exécute npx @sentry/wizard@latest -i nextjs dans ton projet. Le wizard configure automatiquement les fichiers nécessaires." },
-        { title: "Configurer le DSN", description: "Copie ton DSN (Data Source Name) depuis le dashboard Sentry et ajoute-le dans tes variables d'environnement : SENTRY_DSN=https://xxx@sentry.io/yyy" },
-        { title: "Tester l'intégration", description: "Lance une erreur volontaire : throw new Error('Test Sentry'). Vérifie qu'elle apparaît dans le dashboard Sentry en quelques secondes." },
-        { title: "Configurer les alertes", description: "Dans Sentry, va dans Alerts > Create Alert Rule. Configure une alerte email ou Slack pour les nouvelles erreurs." },
+        { title: "Vercel Logs (Runtime Logs)", description: "Dans le dashboard Vercel, va dans ton projet > Logs. Tu vois en temps réel toutes les requêtes, les erreurs serveur (API Routes, middleware) et les logs console.log/console.error. Filtre par statut (erreurs 4xx/5xx), par route ou par période." },
+        { title: "Vercel Analytics (Web Analytics)", description: "Active Web Analytics dans les settings du projet. Tu obtiens : nombre de visiteurs, pages vues, pays, navigateurs — sans aucun script externe et sans cookies. Conforme RGPD par défaut." },
+        { title: "Speed Insights", description: "Active Speed Insights pour mesurer les Core Web Vitals en production : LCP, FID, CLS. Tu vois les performances réelles de tes utilisateurs, pas celles de ton MacBook en local." },
+        { title: "Configurer les notifications", description: "Dans les settings Vercel > Notifications, configure des alertes email pour les déploiements échoués et les erreurs runtime. Tu es prévenu dès que quelque chose casse en production." },
       ]},
       { id: "3-7", type: "separator", style: "line" },
 
-      { id: "3-8", type: "heading", level: 2, text: "Ce que Sentry capture automatiquement" },
-      { id: "3-9", type: "text", html: "<p>Une fois configuré, Sentry capture sans code supplémentaire :</p><ul><li><strong>Erreurs JavaScript :</strong> exceptions, promesses rejetées, erreurs de rendu React</li><li><strong>Erreurs serveur :</strong> crashes dans les API Routes, erreurs de middleware</li><li><strong>Performance :</strong> temps de chargement des pages, durée des requêtes API</li><li><strong>Breadcrumbs :</strong> les 20 dernières actions de l'utilisateur avant le crash (clics, navigations, requêtes réseau)</li></ul>" },
+      { id: "3-8", type: "heading", level: 2, text: "Ce que les logs Vercel te montrent" },
+      { id: "3-9", type: "text", html: "<p>Les Runtime Logs de Vercel capturent automatiquement :</p><ul><li><strong>Erreurs serveur :</strong> crashes dans les API Routes, erreurs de middleware, timeouts de fonctions serverless</li><li><strong>Requêtes HTTP :</strong> chaque requête avec son statut (200, 404, 500), sa durée et la route concernée</li><li><strong>Logs custom :</strong> tout ce que tu écris avec console.log() ou console.error() dans ton code serveur</li><li><strong>Performance :</strong> durée d'exécution de chaque fonction serverless, cold starts détectés</li></ul>" },
 
-      { id: "3-10", type: "heading", level: 2, text: "Bonnes pratiques de monitoring" },
+      { id: "3-10", type: "heading", level: 2, text: "Bonnes pratiques de monitoring avec Vercel" },
       { id: "3-11", type: "comparison", headers: ["Pratique", "Pourquoi"], rows: [
-        { cells: ["Filtrer les environnements", "Ne capture que les erreurs de production, pas de development"] },
-        { cells: ["Configurer les source maps", "Permet de voir le code original dans les stack traces, pas le code minifié"] },
-        { cells: ["Grouper les alertes", "Évite le spam de notifications en regroupant les erreurs similaires"] },
+        { cells: ["Ajouter des console.error() explicites", "Les logs Vercel affichent tes messages — utilise-les pour tracer les erreurs avec du contexte (userId, route, payload)"] },
+        { cells: ["Surveiller les erreurs 5xx quotidiennement", "Les erreurs 500 signifient que ton serveur a crashé — à corriger en priorité"] },
+        { cells: ["Utiliser les filtres de logs", "Filtre par statut, route ou période pour isoler rapidement les problèmes"] },
         { cells: ["Définir un SLA de réponse", "Objectif : résoudre les erreurs critiques en moins de 24h"] },
       ]},
 
-      { id: "3-12", type: "callout", variant: "tip", html: "<strong>Astuce :</strong> Configure Sentry pour ignorer les erreurs réseau (connexion perdue) et les erreurs de bots. Ça réduit le bruit et te permet de te concentrer sur les vrais bugs." },
+      { id: "3-12", type: "callout", variant: "tip", html: "<strong>Astuce :</strong> Ajoute un try/catch dans tes API Routes critiques avec un console.error(err) détaillé. Ça te donne un contexte précieux dans les logs Vercel pour diagnostiquer les bugs sans outil externe." },
 
       { id: "3-13", type: "checklist", title: "Checklist monitoring", items: [
-        { id: "c1", text: "Sentry installé et DSN configuré" },
-        { id: "c2", text: "Alerte email/Slack configurée pour les nouvelles erreurs" },
-        { id: "c3", text: "Source maps uploadées pour le debugging" },
-        { id: "c4", text: "Environnements séparés (production vs development)" },
-        { id: "c5", text: "Test d'erreur volontaire validé" },
+        { id: "c1", text: "Vercel Web Analytics activé" },
+        { id: "c2", text: "Vercel Speed Insights activé" },
+        { id: "c3", text: "Notifications email configurées pour les erreurs et déploiements échoués" },
+        { id: "c4", text: "Console.error() ajoutés dans les API Routes critiques" },
+        { id: "c5", text: "Test de vérification : déclencher une erreur et la retrouver dans les logs" },
       ]},
     ]),
-    exercise: "<h3>Exercice : Installer Sentry sur ton projet</h3><p>Configure le monitoring complet :</p><ol><li>Crée un compte gratuit sur sentry.io et un nouveau projet Next.js</li><li>Installe le SDK avec le wizard : <code>npx @sentry/wizard@latest -i nextjs</code></li><li>Configure le DSN dans tes variables d'environnement</li><li>Déclenche une erreur volontaire et vérifie qu'elle apparaît dans le dashboard</li><li>Configure une alerte email pour les nouvelles erreurs</li></ol>",
+    exercise: "<h3>Exercice : Configure le monitoring Vercel</h3><p>Mets en place le monitoring complet sur ton projet :</p><ol><li>Active Web Analytics dans les settings de ton projet Vercel</li><li>Active Speed Insights pour mesurer les Core Web Vitals</li><li>Configure les notifications email dans Vercel pour les déploiements échoués et les erreurs runtime</li><li>Ajoute un console.error() explicite dans une API Route, déclenche une erreur volontaire et retrouve-la dans les Vercel Logs</li><li>Consulte le dashboard Logs et familiarise-toi avec les filtres (statut, route, période)</li></ol>",
     quiz: [
-      { type: "mcq", question: "Qu'est-ce qu'un DSN dans Sentry ?", options: JSON.stringify(["Un type de base de données", "L'URL unique qui identifie ton projet Sentry et où envoyer les erreurs", "Un protocole de sécurité réseau", "Un format de fichier de configuration"]), correctAnswer: "L'URL unique qui identifie ton projet Sentry et où envoyer les erreurs", explanation: "Le DSN (Data Source Name) est l'URL unique fournie par Sentry qui identifie ton projet. Le SDK l'utilise pour savoir où envoyer les événements d'erreur." },
-      { type: "true_false", question: "Sentry ne capture que les erreurs JavaScript côté client.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Sentry capture les erreurs côté client ET côté serveur. Dans Next.js, il capture les erreurs des API Routes, des Server Components et du middleware en plus des erreurs client." },
-      { type: "mcq", question: "Qu'est-ce qu'un breadcrumb dans Sentry ?", options: JSON.stringify(["Un type d'erreur", "Un enregistrement des actions de l'utilisateur avant le crash", "Un fichier de configuration", "Un outil de débogage"]), correctAnswer: "Un enregistrement des actions de l'utilisateur avant le crash", explanation: "Les breadcrumbs enregistrent automatiquement les dernières actions de l'utilisateur (clics, navigations, requêtes réseau) avant qu'une erreur se produise. C'est essentiel pour comprendre comment reproduire le bug." },
-      { type: "mcq", question: "Pourquoi faut-il uploader les source maps sur Sentry ?", options: JSON.stringify(["Pour réduire la taille du bundle", "Pour voir le code original dans les stack traces au lieu du code minifié", "Pour accélérer le chargement de l'app", "Pour sécuriser le code source"]), correctAnswer: "Pour voir le code original dans les stack traces au lieu du code minifié", explanation: "En production, le code est minifié et illisible. Les source maps permettent à Sentry de mapper les erreurs vers ton code original, avec les bons numéros de ligne et noms de fichier." },
-      { type: "true_false", question: "Le plan gratuit de Sentry est suffisant pour la plupart des projets freelance.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Le plan Developer gratuit inclut 5 000 événements par mois, ce qui couvre largement les besoins d'un projet freelance typique. Tu n'as besoin d'un plan payant que pour les gros volumes." },
+      { type: "mcq", question: "Où trouves-tu les logs d'erreurs serveur de ton app déployée sur Vercel ?", options: JSON.stringify(["Dans la console du navigateur", "Dans le dashboard Vercel > Logs", "Dans un fichier local sur ton ordinateur", "Dans les issues GitHub"]), correctAnswer: "Dans le dashboard Vercel > Logs", explanation: "Les Runtime Logs dans le dashboard Vercel montrent en temps réel toutes les requêtes, erreurs serveur et logs console de tes fonctions serverless. C'est l'outil principal pour diagnostiquer les problèmes en production." },
+      { type: "true_false", question: "Vercel Web Analytics nécessite l'installation d'un cookie pour fonctionner.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Vercel Web Analytics fonctionne sans cookies et sans script externe, ce qui le rend conforme au RGPD par défaut. Il mesure les visites, pages vues et autres métriques sans tracker les utilisateurs individuellement." },
+      { type: "mcq", question: "Que mesurent les Speed Insights de Vercel ?", options: JSON.stringify(["Le nombre de lignes de code", "Les Core Web Vitals en production (LCP, FID, CLS)", "La taille de la base de données", "Le nombre de commits Git"]), correctAnswer: "Les Core Web Vitals en production (LCP, FID, CLS)", explanation: "Speed Insights mesure les Core Web Vitals (LCP, FID, CLS) avec les données réelles de tes utilisateurs en production. C'est essentiel pour optimiser la performance perçue de ton app." },
+      { type: "mcq", question: "Pourquoi ajouter des console.error() explicites dans tes API Routes ?", options: JSON.stringify(["Pour ralentir le serveur", "Pour avoir du contexte détaillé dans les logs Vercel quand une erreur survient", "Pour afficher des erreurs au client", "Pour contourner les bugs"]), correctAnswer: "Pour avoir du contexte détaillé dans les logs Vercel quand une erreur survient", explanation: "Les console.error() avec du contexte (userId, route, payload) apparaissent dans les Runtime Logs de Vercel. Ça te permet de comprendre exactement ce qui s'est passé sans outil de monitoring externe." },
+      { type: "true_false", question: "Pour un freelance, les outils de monitoring intégrés à Vercel suffisent dans la majorité des cas.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Vercel fournit les logs, les analytics et les alertes directement dans le dashboard. Pour la plupart des projets freelance, c'est largement suffisant sans payer un outil de monitoring externe supplémentaire." },
     ],
   },
 
@@ -174,7 +174,7 @@ export const V2_MODULE_15_LESSONS = [
 
       { id: "4-5", type: "heading", level: 2, text: "Le protocole d'incident en 5 étapes" },
       { id: "4-6", type: "steps", steps: [
-        { title: "Détecter et confirmer", description: "Sentry t'alerte, un client signale un bug, ou tu le découvres toi-même. Première action : confirme le problème. Reproduis-le si possible." },
+        { title: "Détecter et confirmer", description: "Les logs Vercel montrent une erreur, un client signale un bug, ou tu le découvres toi-même. Première action : confirme le problème. Reproduis-le si possible." },
         { title: "Communiquer immédiatement", description: "Préviens le client dans les 15 minutes. Dis ce que tu sais, ce que tu ne sais pas encore, et que tu es dessus. Pas de détails techniques — juste les faits." },
         { title: "Contenir le problème", description: "Si possible, rollback vers la dernière version stable avec Vercel. Si c'est un problème de données, désactive la fonctionnalité concernée plutôt que de tout couper." },
         { title: "Corriger et déployer", description: "Identifie la cause racine. Écris le fix, teste-le localement et en preview. Déploie avec un message de commit clair : fix: [description du bug]." },
@@ -195,7 +195,7 @@ export const V2_MODULE_15_LESSONS = [
       { id: "4-12", type: "heading", level: 2, text: "Maintenance préventive" },
       { id: "4-13", type: "checklist", title: "Routine de maintenance mensuelle", items: [
         { id: "c1", text: "Mettre à jour les dépendances (npm audit, npm update)" },
-        { id: "c2", text: "Vérifier les logs Sentry pour les erreurs récurrentes" },
+        { id: "c2", text: "Vérifier les logs Vercel pour les erreurs récurrentes" },
         { id: "c3", text: "Vérifier les quotas et coûts des services (Supabase, Vercel, OpenAI)" },
         { id: "c4", text: "Tester les sauvegardes de base de données (restauration)" },
         { id: "c5", text: "Renouveler/rotater les clés API si nécessaire" },

@@ -94,10 +94,10 @@ export const module01: AllLessonAnimations = {
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // LEÇON 2: Les grands modèles — GPT, Claude, Gemini, Mistral (6 sections)
+  // LEÇON 2: Les grands modèles — GPT, Claude, Gemini (6 sections)
   // Templates: planet-orbit, feature-spotlight, model-cards, concentric-circles, split-transform, radar-chart
   // ═══════════════════════════════════════════════════════════════
-  "grands-modeles-gpt-claude-gemini-mistral": {
+  "grands-modeles-gpt-claude-gemini": {
     // Section 0: "Le paysage des LLM en 2025"
     // → Planet Orbit: modèles orbitant dans l'espace LLM
     0: {
@@ -109,7 +109,7 @@ export const module01: AllLessonAnimations = {
           { label: "Claude", icon: "🟣" },
           { label: "GPT-4", icon: "🟢" },
           { label: "Gemini", icon: "🔵" },
-          { label: "Mistral", icon: "🟠" },
+          { label: "LLaMA", icon: "🟠" },
           { label: "LLaMA", icon: "🦙" },
         ],
       },
@@ -164,17 +164,17 @@ export const module01: AllLessonAnimations = {
       },
     },
 
-    // Section 4: "Mistral (France)"
+    // Section 4: "Open Source vs Closed Source"
     // → Split Transform: Closed Source vs Open Source
     4: {
       template: "split-transform",
       props: {
-        title: "Mistral · Open Source",
-        subtitle: "L'avantage français",
+        title: "Open Source vs Closed Source",
+        subtitle: "Deux approches complémentaires",
         items: [
-          { label: "Fermé (GPT, Claude)", description: "API payante, hébergé aux USA" },
-          { label: "Ouvert (Mistral)", description: "Code libre, hébergeable en Europe" },
-          { label: "Souveraineté des données", description: "RGPD natif" },
+          { label: "Fermé (GPT, Claude)", description: "API payante, hébergé dans le cloud" },
+          { label: "Ouvert (LLaMA, etc.)", description: "Code libre, hébergeable en Europe" },
+          { label: "Souveraineté des données", description: "RGPD natif avec l'open source" },
           { label: "Communauté active", description: "Contributions open-source" },
         ],
       },

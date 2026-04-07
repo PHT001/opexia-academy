@@ -71,7 +71,7 @@ export const LESSONS = [
 <ul>
 <li><strong>Processus documentés</strong> : Chaque service que tu proposes doit être documenté étape par étape. Comment tu fais un audit IA ? Comment tu déploies un chatbot ? Comment tu formes un client ? Si tu es le seul à savoir faire ces choses, tu es un goulot d'étranglement, pas un entrepreneur. Documente tout dans un wiki interne (Notion, Confluence) avec des templates, des checklists et des vidéos de démonstration.</li>
 <li><strong>Équipe et délégation</strong> : Tu n'as pas besoin d'embaucher en CDI dès le départ. Commence par des freelances spécialisés : un développeur pour les intégrations techniques, un designer pour les interfaces, un rédacteur pour le contenu. Utilise des plateformes comme Malt, Fiverr Pro, où ton réseau. La clé : délègue l'exécution, garde la relation client et la direction stratégique.</li>
-<li><strong>Outils et stack technique</strong> : CRM (HubSpot, Pipedrive), gestion de projet (Linear, Notion), communication (Slack), facturation (Stripe, Pennylane), contrats (PandaDoc). Choisis des outils qui automatisent au maximum les tâches administratives pour que tu puisses te concentrer sur ce qui génère du revenu.</li>
+<li><strong>Outils et stack technique</strong> : CRM (Google Sheets ou ton propre CRM), gestion de projet (Notion), communication (Discord ou email), facturation (Stripe, ton outil de facturation), contrats (PandaDoc). Choisis des outils qui automatisent au maximum les tâches administratives pour que tu puisses te concentrer sur ce qui génère du revenu.</li>
 <li><strong>Finances et trésorerie</strong> : Sépare tes finances perso et pro dès le jour 1. Fixe-toi un salaire fixe et réinvestis le reste dans la croissance. Vise une marge nette de 30-40% minimum sur chaque projet. Garde toujours 3 mois de trésorerie d'avance — c'est ton coussin de sécurité.</li>
 </ul>
 
@@ -103,9 +103,9 @@ export const LESSONS = [
 <h2>Les 7 automatisations essentielles</h2>
 <ul>
 <li><strong>Pipeline commercial</strong> : Nouveau lead → email de bienvenue automatique → rappel J+3 si pas de réponse → qualification → rendez-vous → proposition → relance. Tout ça peut tourner avec un CRM + scripts Node.js. Temps gagné : 5-10h/semaine.</li>
-<li><strong>Onboarding client</strong> : Signature du devis → création automatique du projet (Notion/Linear) → envoi du questionnaire onboarding → création du channel Slack → email de bienvenue avec les prochaines étapes. Un seul clic et tout se met en place.</li>
+<li><strong>Onboarding client</strong> : Signature du devis → creation automatique du projet (Notion) → envoi du questionnaire onboarding → creation du channel Discord → email de bienvenue avec les prochaines étapes. Un seul clic et tout se met en place.</li>
 <li><strong>Facturation</strong> : Jalons du projet atteints → facture générée automatiquement → envoi au client → relance à J+7, J+14, J+30 si impayée. Zéro temps passé sur la facturation.</li>
-<li><strong>Reporting</strong> : Chaque vendredi, ton agent IA compile les métriques de la semaine (heures passées, revenus, leads, taux de conversion) et t'envoie un résumé par email où Slack.</li>
+<li><strong>Reporting</strong> : Chaque vendredi, ton agent IA compile les métriques de la semaine (heures passées, revenus, leads, taux de conversion) et t'envoie un resume par email ou Discord.</li>
 <li><strong>Content marketing</strong> : Agent qui surveille tes sources d'inspiration, génère des brouillons de posts LinkedIn, planifie la publication. Tu ne fais que valider et publier.</li>
 <li><strong>Veille concurrentielle</strong> : Agent qui surveille les sites de tes concurrents, les offres d'emploi dans ton secteur, les tendances IA. Tu reçois un brief hebdomadaire.</li>
 <li><strong>Support client</strong> : FAQ automatisée, chatbot de premier niveau, escalade intelligente vers toi uniquement pour les vrais problèmes. 80% des questions récurrentes traitées sans intervention.</li>
@@ -114,11 +114,11 @@ export const LESSONS = [
 <h2>Le stack d'outils recommandé</h2>
 <p>Voici le stack que j'utilise et que je recommande pour une agence IA de 1 à 10 personnes :</p>
 <ul>
-<li><strong>CRM</strong> : HubSpot (gratuit jusqu'à un certain volume) où Pipedrive (simple et efficace)</li>
-<li><strong>Gestion de projet</strong> : Linear (moderne, rapide) où Notion (tout-en-un)</li>
-<li><strong>Communication</strong> : Slack (interne) + email professionnel (client)</li>
-<li><strong>Automatisations</strong> : Scripts Node.js avec Claude Code (puissant et flexible) + VPS self-hosted (pour les données sensibles)</li>
-<li><strong>Facturation</strong> : Stripe (paiements) + Pennylane (comptabilité FR)</li>
+<li><strong>CRM</strong> : Google Sheets ou ton propre CRM (construit avec Claude Code + Supabase)</li>
+<li><strong>Gestion de projet</strong> : Notion (tout-en-un, flexible, gratuit)</li>
+<li><strong>Communication</strong> : Discord (interne) + email professionnel (client)</li>
+<li><strong>Automatisations</strong> : Scripts Node.js avec Claude Code (puissant et flexible) + VPS self-hosted (pour les donnees sensibles)</li>
+<li><strong>Facturation</strong> : Stripe (paiements) + ton outil de facturation</li>
 <li><strong>IA interne</strong> : OpenClaw (ton propre agent) + Claude (brainstorming, rédaction, code)</li>
 </ul>`,
     exercise: `<ol>
@@ -149,7 +149,7 @@ export const LESSONS = [
 <ul>
 <li><strong>Malt</strong> : Pour des freelances francophones qualifiés</li>
 <li><strong>LinkedIn</strong> : Pour des profils expérimentés — publie une offre et fais de la recherche active</li>
-<li><strong>Communautés IA</strong> : Discord, Slack, forums spécialisés — les meilleurs profils IA ne sont pas sur les jobboards classiques</li>
+<li><strong>Communautés IA</strong> : Discord, forums specialises — les meilleurs profils IA ne sont pas sur les jobboards classiques</li>
 <li><strong>Ton réseau</strong> : Les recommandations restent le meilleur canal de recrutement</li>
 <li><strong>Upwork / Fiverr Pro</strong> : Pour tester des profils sur une mission courte avant de s'engager</li>
 </ul>
@@ -158,7 +158,7 @@ export const LESSONS = [
 <ul>
 <li><strong>Daily standup de 10 minutes</strong> : Chaque matin, un point rapide — qu'est-ce que tu as fait hier, qu'est-ce que tu fais aujourd'hui, est-ce que tu es bloqué quelque part ? Simple, efficace, ça garde tout le monde aligné.</li>
 <li><strong>Weekly review d'1 heure</strong> : Revue des projets en cours, métriques clés, problèmes à résoudre, objectifs de la semaine suivante.</li>
-<li><strong>Documentation asynchrone</strong> : Tout ce qui peut être un email où un message Slack ne devrait pas être une réunion. Réserve les réunions pour les discussions qui nécessitent une vraie interaction.</li>
+<li><strong>Documentation asynchrone</strong> : Tout ce qui peut être un email ou un message Discord ne devrait pas etre une reunion. Réserve les réunions pour les discussions qui nécessitent une vraie interaction.</li>
 <li><strong>Objectifs clairs et mesurables</strong> : Chaque personne doit savoir exactement ce qu'on attend d'elle cette semaine. Pas de flou, pas d'implicite.</li>
 </ul>`,
     exercise: `<ol>
@@ -196,7 +196,7 @@ export const LESSONS = [
 
 <h2>Outils de gestion financière</h2>
 <ul>
-<li><strong>Pennylane</strong> : Comptabilité moderne pour TPE/PME françaises, connecté à ta banque</li>
+<li><strong>ton outil de facturation</strong> : Comptabilité moderne pour TPE/PME françaises, connecté à ta banque</li>
 <li><strong>Stripe</strong> : Paiements en ligne, récurrents, internationaux</li>
 <li><strong>Qonto / Shine</strong> : Banque pro avec suivi des dépenses et catégorisation automatique</li>
 <li><strong>Freebe</strong> : Spécifiquement conçu pour les auto-entrepreneurs, calcul des charges en temps réel</li>
@@ -333,7 +333,7 @@ export const LESSONS = [
 
 <h2>Les 3 types de communautés à considérer</h2>
 <ul>
-<li><strong>Discord / Slack privé</strong> : Espace fermé pour tes clients et ton réseau proche. Avantage : conversations profondes, entraide, sentiment d'exclusivité. Idéal pour : un groupe premium de 50-500 membres actifs. Tu crées des channels thématiques (veille IA, entraide technique, wins du jour, offres d'emploi) et tu animes avec un contenu exclusif que tu ne publies nulle part ailleurs.</li>
+<li><strong>Discord prive</strong> : Espace fermé pour tes clients et ton réseau proche. Avantage : conversations profondes, entraide, sentiment d'exclusivité. Idéal pour : un groupe premium de 50-500 membres actifs. Tu crées des channels thématiques (veille IA, entraide technique, wins du jour, offres d'emploi) et tu animes avec un contenu exclusif que tu ne publies nulle part ailleurs.</li>
 <li><strong>Newsletter</strong> : Le canal le plus sous-estimé. Avantage : tu possèdes ta liste (contrairement aux réseaux sociaux). Une newsletter hebdomadaire avec tes meilleurs insights, actualités IA, et un CTA vers ton offre peut générer un flux régulier de leads. Objectif : 1 000 abonnés qualifiés valent plus que 50 000 followers LinkedIn.</li>
 <li><strong>Événements (en ligne et physique)</strong> : Webinaires mensuels, meetups locaux, ateliers. Rien ne crée autant de lien que le contact direct. Un webinaire gratuit de 45 minutes avec 30 participants peut générer 3-5 appels découverte. Un meetup local de 20 personnes crée des connexions qui durent des années.</li>
 </ul>

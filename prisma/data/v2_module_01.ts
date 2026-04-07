@@ -68,7 +68,7 @@ export const V2_MODULE_01_LESSONS = [
       { id: "1-9", type: "callout", variant: "tip", html: "<strong>Le point commun ?</strong> Aucun d'entre eux n'était développeur. Ils ont appris à utiliser les bons outils au bon moment." },
       { id: "1-10", type: "separator", style: "line" },
       { id: "1-11", type: "heading", level: 2, text: "Pourquoi maintenant" },
-      { id: "1-12", type: "text", html: "<p><strong>Moins de 20% des PME</strong> utilisent l'IA concrètement. Les 80% restants savent qu'ils doivent s'y mettre mais ne savent pas par où commencer.</p><p>Les outils (Claude Code, Cursor, n8n...) sont devenus assez puissants pour créer des solutions pro <strong>sans être développeur</strong>. C'est la fenêtre parfaite : la demande explose, l'offre ne suit pas.</p>" },
+      { id: "1-12", type: "text", html: "<p><strong>Moins de 20% des PME</strong> utilisent l'IA concrètement. Les 80% restants savent qu'ils doivent s'y mettre mais ne savent pas par où commencer.</p><p>Les outils (Claude Code, Cursor...) sont devenus assez puissants pour créer des solutions pro <strong>sans être développeur</strong>. C'est la fenêtre parfaite : la demande explose, l'offre ne suit pas.</p>" },
       { id: "1-13", type: "comparison", headers: ["Ce que les clients achètent", "Prix moyen"], rows: [
         { cells: ["Chatbot IA (FAQ, prise de RDV)", "500 à 3 000€"] },
         { cells: ["Site web propulsé par l'IA", "1 000 à 5 000€"] },
@@ -89,10 +89,10 @@ export const V2_MODULE_01_LESSONS = [
   {
     order: 3,
     module: 1,
-    title: "Le vibe coding : crée sans savoir coder",
+    title: "Le vibe coding : installe Claude Code et crée sans savoir coder",
     slug: "v2-vibe-coding-cree-sans-coder",
-    duration: "15 min",
-    description: "C'est quoi le vibe coding, pourquoi Claude Code change tout, et pourquoi coder n'est plus réservé aux développeurs.",
+    duration: "20 min",
+    description: "C'est quoi le vibe coding, pourquoi Claude Code change tout, et on l'installe ensemble pas à pas pour que tu sois prêt à créer.",
     content: blocks([
       { id: "2-1", type: "heading", level: 2, text: "Tu n'as pas besoin de savoir coder" },
       { id: "2-2", type: "text", html: "<p>Si tu penses que créer des sites, des chatbots ou des automatisations nécessite des années d'études en informatique — <strong>oublie tout</strong>. Le game a changé.</p><p>En 2026, on ne code plus comme avant. On <strong>vibe code</strong>. Tu décris ce que tu veux en français, et l'IA le construit pour toi.</p>" },
@@ -102,7 +102,17 @@ export const V2_MODULE_01_LESSONS = [
       { id: "2-6", type: "text", html: "<p>Dans cette formation, on utilise principalement <strong>Claude Code</strong>. Pourquoi pas ChatGPT ? Parce que Claude Code est spécialement conçu pour :</p><ul><li><strong>Générer du code de qualité</strong> — pas du code bricolé, du vrai code pro</li><li><strong>Comprendre des projets entiers</strong> — il voit tous tes fichiers, pas juste un bout de code</li><li><strong>Exécuter des commandes</strong> — il peut lancer, tester et déployer directement depuis ton terminal</li><li><strong>Travailler sur de gros projets</strong> — 200K tokens de contexte, il oublie rien</li></ul>" },
       { id: "2-7", type: "text", html: "<p>Concrètement, voilà ce que ça donne :</p><p><em>Toi : \"Crée-moi un site vitrine pour un restaurant avec une page d'accueil, un menu, et un formulaire de réservation\"</em></p><p><em>Claude Code : *génère l'intégralité du site en 2 minutes*</em></p><p>C'est pas de la magie. C'est un outil que tu apprends à maîtriser. Et une fois que tu le maîtrises, tu peux créer en quelques heures ce qui prenait des semaines avant.</p>" },
       { id: "2-8", type: "separator", style: "line" },
-      { id: "2-9", type: "heading", level: 2, text: "Ce que tu pourras construire" },
+      { id: "2-9", type: "heading", level: 2, text: "Installe Claude Code maintenant" },
+      { id: "2-9b", type: "text", html: "<p>On ne va pas attendre 3 modules pour installer ton outil principal. On le fait <strong>maintenant</strong>. C'est 5 minutes.</p>" },
+      { id: "2-9c", type: "steps", steps: [
+        { title: "1. Installe Node.js", description: "Va sur nodejs.org et télécharge la version LTS. Installe-la en suivant les instructions. Vérifie dans ton terminal avec : node --version" },
+        { title: "2. Installe Claude Code", description: "Dans ton terminal, tape : npm install -g @anthropic-ai/claude-code — ça installe Claude Code sur ton ordinateur." },
+        { title: "3. Configure ta clé API", description: "Va sur console.anthropic.com, crée un compte, et génère une clé API. Claude Code te la demandera au premier lancement. Le crédit de départ (5$) suffit largement pour commencer." },
+        { title: "4. Teste-le", description: "Crée un dossier : mkdir mon-premier-projet && cd mon-premier-projet. Puis tape : claude. C'est tout. Tu es prêt à vibe coder." }
+      ]},
+      { id: "2-9d", type: "callout", variant: "info", html: "<strong>Pas de panique :</strong> Si tu galères sur une étape, c'est normal. Demande à Claude sur claude.ai de t'aider à résoudre ton problème d'installation — c'est ironiquement la meilleure façon d'apprendre." },
+      { id: "2-10a", type: "separator", style: "dots" },
+      { id: "2-10b", type: "heading", level: 2, text: "Ce que tu pourras construire" },
       { id: "2-10", type: "steps", steps: [
         { title: "Des sites web professionnels", description: "Sites vitrines, landing pages, e-commerce — avec des fonctionnalités IA intégrées (chatbot, recommandations, génération de contenu)." },
         { title: "Des chatbots intelligents", description: "Connectés aux données de ton client. Ils répondent aux questions, prennent des RDV, qualifient des leads — 24h/24." },
@@ -111,7 +121,7 @@ export const V2_MODULE_01_LESSONS = [
       ]},
       { id: "2-11", type: "callout", variant: "info", html: "<strong>Tout ça sans écrire une seule ligne de code toi-même.</strong> L'IA code pour toi. Ton job c'est de savoir quoi lui demander et comment livrer le résultat à ton client." }
     ]),
-    exercise: "<h3>Exercice</h3><p>Va sur <a href='https://claude.ai' target='_blank'>claude.ai</a> (compte gratuit) et tape : <em>\"Décris-moi étape par étape comment tu créerais un site web pour un coach sportif qui veut vendre ses programmes en ligne\"</em>. Lis la réponse. Tu viens de voir un aperçu de ce que Claude peut planifier pour toi.</p>",
+    exercise: "<h3>Exercice : Installe Claude Code et fais ton premier test</h3><ol><li>Installe Node.js depuis <a href='https://nodejs.org' target='_blank'>nodejs.org</a> (version LTS). Vérifie avec : <code>node --version</code></li><li>Installe Claude Code : <code>npm install -g @anthropic-ai/claude-code</code></li><li>Crée un dossier de test : <code>mkdir test-ia && cd test-ia</code></li><li>Lance Claude Code : <code>claude</code></li><li>Demande-lui : <em>\"Crée une page HTML avec un titre 'Mon premier projet IA', un design moderne avec fond sombre, et un paragraphe qui explique ce que je fais.\"</em></li><li>Ouvre le fichier dans ton navigateur. <strong>Tu viens de vibe coder.</strong></li></ol>",
     quiz: [
       { type: "mcq", question: "C'est quoi le vibe coding ?", options: JSON.stringify(["Coder en écoutant de la musique", "Décrire ce qu'on veut à l'IA et elle code pour toi", "Copier-coller du code depuis internet", "Un nouveau langage de programmation"]), correctAnswer: "Décrire ce qu'on veut à l'IA et elle code pour toi", explanation: "Le vibe coding c'est décrire en langage naturel ce que tu veux, et l'IA génère le code. Tu guides, elle construit." },
       { type: "true_false", question: "Claude Code peut comprendre et travailler sur un projet entier, pas juste un bout de code.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Avec 200K tokens de contexte, Claude Code voit tous les fichiers de ton projet et comprend l'architecture complète." },

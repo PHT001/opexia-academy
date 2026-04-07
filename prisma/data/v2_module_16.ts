@@ -24,10 +24,10 @@ export const V2_MODULE_16_LESSONS = [
 
       { id: "1-5", type: "heading", level: 2, text: "Les outils essentiels du freelance IA" },
       { id: "1-6", type: "comparison", headers: ["Catégorie", "Outil recommandé", "Alternative"], rows: [
-        { cells: ["Gestion de projet", "Notion", "Linear, Trello"] },
-        { cells: ["Communication client", "Slack", "Discord, WhatsApp Business"] },
+        { cells: ["Gestion de projet", "Notion", "Trello, GitHub Projects"] },
+        { cells: ["Communication client", "Discord", "WhatsApp Business, email"] },
         { cells: ["Visioconférence", "Google Meet", "Zoom, Cal.com"] },
-        { cells: ["Facturation", "Abby / Freebe", "Henrri, Tiime"] },
+        { cells: ["Facturation", "Abby / Freebe", "Henrri, Indy"] },
         { cells: ["Stockage fichiers", "Google Drive", "Dropbox, iCloud"] },
         { cells: ["Prise de notes", "Obsidian / Notion", "Apple Notes, Logseq"] },
         { cells: ["Gestion du temps", "Toggl Track", "Clockify, RescueTime"] },
@@ -86,7 +86,7 @@ export const V2_MODULE_16_LESSONS = [
       { id: "2-11", type: "heading", level: 2, text: "Le Deep Work : ta superpower" },
       { id: "2-12", type: "steps", steps: [
         { title: "Bloque un créneau de 2-3h minimum", description: "Le deep work nécessite un temps continu. Moins de 2h, tu n'as pas le temps d'entrer en flow state." },
-        { title: "Élimine les distractions", description: "Mode avion sur le téléphone. Ferme Slack, emails, réseaux sociaux. Utilise un bloqueur comme Focus ou Cold Turkey." },
+        { title: "Élimine les distractions", description: "Mode avion sur le téléphone. Ferme Discord, emails, réseaux sociaux. Utilise un bloqueur comme Focus ou Cold Turkey." },
         { title: "Une seule tâche", description: "Pas de multitasking. Choisis LA tâche la plus importante et travaille uniquement dessus." },
         { title: "Protège ce créneau", description: "Refuse les meetings pendant tes créneaux de deep work. Ce temps est sacré et non négociable." },
       ]},
@@ -123,7 +123,7 @@ export const V2_MODULE_16_LESSONS = [
     content: blocks([
       { id: "3-1", type: "heading", level: 2, text: "Pourquoi tu as besoin d'un CRM (même seul)" },
       { id: "3-2", type: "text", html: "<p>Tu discutes avec 5 prospects en parallèle. L'un t'a demandé un devis il y a 3 jours — tu as oublié de le relancer. Un autre était intéressé mais tu as perdu son email. Un client actif attend une facture que tu n'as pas envoyée.</p><p>Sans CRM, tu <strong>perds de l'argent</strong>. Des prospects tombent dans l'oubli, des relances ne sont jamais faites, des opportunités disparaissent.</p>" },
-      { id: "3-3", type: "callout", variant: "info", html: "<strong>CRM = Customer Relationship Management.</strong> En tant que freelance, pas besoin de Salesforce. Un simple tableau Notion ou Airtable suffit pour suivre 20-50 contacts." },
+      { id: "3-3", type: "callout", variant: "info", html: "<strong>CRM = Customer Relationship Management.</strong> En tant que freelance, pas besoin de Salesforce. Un simple tableau Notion ou Google Sheets suffit pour suivre 20-50 contacts. Mieux encore : construis ton propre mini-CRM avec Supabase et Claude Code." },
       { id: "3-4", type: "separator", style: "dots" },
 
       { id: "3-5", type: "heading", level: 2, text: "Les colonnes essentielles de ton CRM" },
@@ -153,11 +153,11 @@ export const V2_MODULE_16_LESSONS = [
 
       { id: "3-12", type: "callout", variant: "tip", html: "<strong>Automatisation :</strong> Utilise les rappels Notion ou Google Calendar pour ne jamais oublier une relance. Mieux encore : automatise les relances email avec un outil comme Lemlist ou Brevo." },
     ]),
-    exercise: "<h3>Exercice : Créer ton CRM</h3><p>Mets en place ton système de suivi :</p><ol><li>Crée un tableau Notion (ou Airtable) avec les colonnes essentielles</li><li>Ajoute tes 10 derniers contacts professionnels (prospects, clients, rencontres)</li><li>Attribue un statut à chaque contact dans le pipeline</li><li>Identifie 3 contacts qui méritent une relance et planifie-la</li><li>Configure un rappel hebdomadaire pour mettre à jour ton CRM</li></ol>",
+    exercise: "<h3>Exercice : Créer ton CRM</h3><p>Mets en place ton système de suivi :</p><ol><li>Crée un tableau Notion (ou Google Sheets) avec les colonnes essentielles</li><li>Ajoute tes 10 derniers contacts professionnels (prospects, clients, rencontres)</li><li>Attribue un statut à chaque contact dans le pipeline</li><li>Identifie 3 contacts qui méritent une relance et planifie-la</li><li>Configure un rappel hebdomadaire pour mettre à jour ton CRM</li></ol>",
     quiz: [
       { type: "mcq", question: "Après combien de jours faut-il relancer un prospect à qui tu as envoyé un devis ?", options: JSON.stringify(["1 jour", "3 jours", "2 semaines", "1 mois"]), correctAnswer: "3 jours", explanation: "La première relance devrait se faire 3 jours après l'envoi du devis. C'est assez rapide pour rester dans l'esprit du prospect sans être insistant." },
       { type: "true_false", question: "La plupart des deals se concluent dès le premier contact, sans relance.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "La majorité des deals se concluent après la 2e ou 3e relance. Les prospects sont occupés et oublient. La relance est une étape normale du processus commercial, pas du harcèlement." },
-      { type: "mcq", question: "Quel outil est recommandé comme CRM simple pour un freelance ?", options: JSON.stringify(["Salesforce", "Notion ou Airtable", "SAP", "Oracle CRM"]), correctAnswer: "Notion ou Airtable", explanation: "Pour un freelance avec 20-50 contacts, un simple tableau Notion ou Airtable est plus que suffisant. Les CRM complexes comme Salesforce sont conçus pour des équipes commerciales de grande taille." },
+      { type: "mcq", question: "Quel outil est recommandé comme CRM simple pour un freelance ?", options: JSON.stringify(["Salesforce", "Notion ou Google Sheets", "SAP", "Oracle CRM"]), correctAnswer: "Notion ou Google Sheets", explanation: "Pour un freelance avec 20-50 contacts, un simple tableau Notion ou Google Sheets est plus que suffisant. Les CRM complexes comme Salesforce sont conçus pour des équipes commerciales de grande taille." },
       { type: "mcq", question: "Que signifie 'qualifier' un prospect ?", options: JSON.stringify(["Vérifier son identité", "Comprendre son besoin, son budget et son timing pour décider si ça vaut le coup", "Lui envoyer un devis", "L'ajouter à sa newsletter"]), correctAnswer: "Comprendre son besoin, son budget et son timing pour décider si ça vaut le coup", explanation: "La qualification consiste à évaluer si le prospect est un bon fit : a-t-il un vrai besoin, le budget nécessaire, et un timing compatible ? Cela évite de perdre du temps sur des prospects qui ne signeront jamais." },
       { type: "true_false", question: "Quand un prospect refuse, il est inutile de noter la raison dans le CRM.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Noter la raison du refus est essentiel pour apprendre : prix trop élevé ? Timing pas bon ? Besoin différent ? Ces informations t'aident à améliorer ton offre et ton approche commerciale." },
     ],

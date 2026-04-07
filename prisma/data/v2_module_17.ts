@@ -78,7 +78,7 @@ export const V2_MODULE_17_LESSONS = [
         { cells: ["Chatbot", "Basique (FAQ)", "Avancé (RAG + sources)", "Custom + intégrations"] },
         { cells: ["Pages de contenu", "Jusqu'à 20", "Jusqu'à 100", "Illimité"] },
         { cells: ["Intégrations", "Widget site web", "Widget + WhatsApp", "Widget + WhatsApp + CRM"] },
-        { cells: ["Support", "Email", "Email + visio", "Prioritaire + Slack dédié"] },
+        { cells: ["Support", "Email", "Email + visio", "Prioritaire + canal Discord dédié"] },
         { cells: ["Maintenance", "Non incluse", "3 mois inclus", "6 mois inclus"] },
       ]},
       { id: "2-8", type: "separator", style: "line" },

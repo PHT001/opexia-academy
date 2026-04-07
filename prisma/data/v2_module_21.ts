@@ -128,9 +128,9 @@ export const V2_MODULE_21_LESSONS = [
       { id: "3-6", type: "comparison", headers: ["Outil", "Idéal pour", "Prix"], rows: [
         { cells: ["Abby", "Micro-entrepreneurs, simple et conforme", "Gratuit / 5.99€/mois"] },
         { cells: ["Freebe", "Freelances, suivi comptable intégré", "19€/mois"] },
-        { cells: ["Pennylane", "SASU/SAS, comptabilité complète + facturation", "29€/mois"] },
+        { cells: ["ton outil de facturation", "SASU/SAS, comptabilité complète + facturation", "29€/mois"] },
         { cells: ["Stripe Invoicing", "Facturation + paiement en ligne intégré", "0.4% par facture payée"] },
-        { cells: ["Tiime", "Micro-entrepreneurs, interface moderne", "Gratuit"] },
+        { cells: ["Abby", "Micro-entrepreneurs, interface moderne", "Gratuit"] },
       ]},
       { id: "3-7", type: "heading", level: 2, text: "Gérer les impayés" },
       { id: "3-8", type: "steps", steps: [

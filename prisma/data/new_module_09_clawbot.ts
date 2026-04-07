@@ -977,7 +977,7 @@ export default function ContactPage() {
         type: "callout",
         variant: "info",
         title: "Connexion CRM",
-        html: "Les leads capturés peuvent être envoyés automatiquement vers le CRM du client (HubSpot, Pipedrive, Brevo…) via webhook ou intégration native. C'est un service additionnel que tu peux facturer 300-500 € de setup.",
+        html: "Les leads capturés peuvent être envoyés automatiquement vers le CRM du client (ton propre CRM, Pipedrive, Brevo…) via webhook ou intégration native. C'est un service additionnel que tu peux facturer 300-500 € de setup.",
       },
       {
         id: "5-15",

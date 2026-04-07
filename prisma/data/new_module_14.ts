@@ -157,7 +157,7 @@ export const MODULE_14_LESSONS = [
       { id: "4-6", type: "comparison", headers: ["Outil", "Prix", "Idéal pour"], rows: [
         { cells: ["Henrri", "Gratuit", "Micro-entrepreneurs"] },
         { cells: ["Freebe", "~10€/mois", "Auto-entrepreneurs, tout-en-un"] },
-        { cells: ["Pennylane", "~30€/mois", "SASU/SAS, comptabilité intégrée"] },
+        { cells: ["ton outil de facturation", "~30€/mois", "SASU/SAS, comptabilité intégrée"] },
       ]},
       { id: "4-7", type: "heading", level: 2, text: "Gérer les impayés" },
       { id: "4-8", type: "steps", steps: [

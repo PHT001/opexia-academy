@@ -311,7 +311,7 @@ transitions CSS de Tailwind.</code></pre>
 <li><strong>L'erreur de compilation</strong> : Copie-colle l'erreur exacte du terminal dans ton prompt. Claude Code est excellent pour interpréter les messages d'erreur et appliquer le fix précis.</li>
 <li><strong>La boucle de correction</strong> : Si Claude Code corrige un bug mais en crée un autre, et ça tourne en boucle, utilise la commande <code>/clear</code> et reformule le problème depuis le début avec plus de contexte. Parfois, repartir d'une explication fraîche débloque la situation.</li>
 <li><strong>Le résultat complètement faux</strong> : Si le résultat est très loin de ce que tu voulais, ne perds pas de temps à corriger — demande à Claude Code de supprimer et recréer le composant from scratch avec un prompt plus détaillé.</li>
-<li><strong>Le problème que Claude Code ne comprend pas</strong> : Fournis des exemples visuels. Dis "Le résultat actuel ressemble à X, je veux que ça ressemble à Y". Tu peux même décrire un site existant comme référence : "Je veux un layout similaire à la page d'accueil de Linear."</li>
+<li><strong>Le problème que Claude Code ne comprend pas</strong> : Fournis des exemples visuels. Dis "Le résultat actuel ressemble à X, je veux que ça ressemble à Y". Tu peux même décrire un site existant comme référence : "Je veux un layout similaire a la page d'accueil de Vercel."</li>
 </ul>
 
 <h2>Le workflow quotidien d'un vibe coder pro</h2>

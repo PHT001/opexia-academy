@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const faqs = [
   {
     q: "Est-ce que j\u2019ai besoin de savoir coder ?",
-    a: "Non, absolument pas. La formation est con\u00e7ue pour les d\u00e9butants complets. On utilise des outils no-code comme n8n, et m\u00eame Claude Code pour vibe coder : tu d\u00e9cris ce que tu veux, l\u2019IA code pour toi. Si tu sais utiliser un ordinateur, tu peux construire des services IA pro.",
+    a: "Non, absolument pas. La formation est con\u00e7ue pour les d\u00e9butants complets. On utilise m\u00eame Claude Code pour vibe coder : tu d\u00e9cris ce que tu veux, l\u2019IA code pour toi. Si tu sais utiliser un ordinateur, tu peux construire des services IA pro.",
   },
   {
     q: "Combien de temps faut-il pour voir des r\u00e9sultats ?",

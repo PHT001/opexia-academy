@@ -52,7 +52,7 @@ export const V2_MODULE_11_LESSONS = [
         { id: "c5", text: "Les signaux d'achat augmentent drastiquement les taux de conversion" },
       ]},
     ]),
-    exercise: "<h3>Exercice : Scrape et qualifie 50 prospects</h3><p>Choisis un secteur (restaurants, agences immo, garages, salons de coiffure) et :</p><ol><li>Définis ton ICP en 5 critères précis</li><li>Utilise Outscraper (version gratuite) pour scraper 50 entreprises de Google Maps dans ta ville</li><li>Crée un prompt GPT pour qualifier chaque prospect : score de 1-10 basé sur tes critères ICP</li><li>Dans Make, crée un scénario qui prend le CSV → envoie à OpenAI pour qualification → écrit les résultats dans un Google Sheet</li><li>Analyse les résultats : combien de prospects ont un score supérieur à 7 ?</li></ol>",
+    exercise: "<h3>Exercice : Scrape et qualifie 50 prospects</h3><p>Choisis un secteur (restaurants, agences immo, garages, salons de coiffure) et :</p><ol><li>Définis ton ICP en 5 critères précis</li><li>Utilise Outscraper (version gratuite) pour scraper 50 entreprises de Google Maps dans ta ville</li><li>Crée un prompt GPT pour qualifier chaque prospect : score de 1-10 basé sur tes critères ICP</li><li>Crée un script Node.js (ou une API Route) qui lit le CSV → envoie chaque ligne à OpenAI pour qualification → écrit les résultats dans un Google Sheet via l'API Sheets</li><li>Analyse les résultats : combien de prospects ont un score supérieur à 7 ?</li></ol>",
     quiz: [
       { type: "mcq", question: "Quelle est la première étape avant tout scraping ?", options: JSON.stringify(["Installer un outil de scraping", "Définir le profil de prospect idéal (ICP)", "Créer un compte LinkedIn premium", "Acheter une base de données"]), correctAnswer: "Définir le profil de prospect idéal (ICP)", explanation: "Définir l'ICP avant de scraper est indispensable. Sans critères précis, tu collectes des données inutiles. L'ICP guide la recherche et la qualification." },
       { type: "true_false", question: "Le scraping de données personnelles privées est autorisé pour la prospection B2B en Europe.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Le RGPD interdit le scraping de données personnelles privées. Seules les données professionnelles publiques (nom, poste, email pro, entreprise) sont utilisables pour la prospection B2B légitime." },
@@ -78,9 +78,8 @@ export const V2_MODULE_11_LESSONS = [
 
       { id: "2-5", type: "heading", level: 2, text: "Les outils d'enrichissement" },
       { id: "2-6", type: "comparison", headers: ["Outil", "Spécialité", "Prix", "Fiabilité"], rows: [
-        { cells: ["Hunter.io", "Recherche d'emails professionnels par domaine", "Gratuit (25 req/mois) puis 49€/mois", "85-90% de fiabilité"] },
+        { cells: ["Apollo.io", "Base de données B2B complète + recherche d'emails + séquences", "Gratuit (limite) puis 49$/mois", "80-85% de fiabilité"] },
         { cells: ["Dropcontact", "Enrichissement email + téléphone, RGPD compliant", "24€/mois pour 1 000 contacts", "90%+ de fiabilité"] },
-        { cells: ["Apollo.io", "Base de données B2B complète + séquences email", "Gratuit (limite) puis 49$/mois", "80-85% de fiabilité"] },
         { cells: ["Clearbit (API)", "Enrichissement entreprise (CA, employés, techno)", "Variable selon usage", "Très haute pour les données entreprise"] },
         { cells: ["Kaspr", "Extension LinkedIn pour emails + téléphones", "Gratuit (5 crédits/mois) puis 49€/mois", "85% de fiabilité"] },
       ]},
@@ -88,13 +87,13 @@ export const V2_MODULE_11_LESSONS = [
 
       { id: "2-8", type: "heading", level: 2, text: "Le workflow d'enrichissement automatisé" },
       { id: "2-9", type: "steps", steps: [
-        { title: "Étape 1 : Enrichissement email", description: "Envoie le nom de domaine de l'entreprise à Hunter.io ou Dropcontact. L'outil retourne les emails trouvés pour ce domaine avec un score de confiance. Filtre les résultats avec un score > 80%." },
+        { title: "Étape 1 : Enrichissement email", description: "Envoie le nom de domaine de l'entreprise à Apollo ou Dropcontact. L'outil retourne les emails trouvés pour ce domaine avec un score de confiance. Filtre les résultats avec un score > 80%." },
         { title: "Étape 2 : Identification du décideur", description: "Si tu as plusieurs emails pour un domaine, utilise l'IA pour identifier le bon contact. Donne à GPT la liste des personnes trouvées et demande : 'Qui est le décideur le plus pertinent pour vendre un service de [X] ?' L'IA choisit basé sur le poste et la séniorité." },
         { title: "Étape 3 : Enrichissement entreprise", description: "Utilise Clearbit ou Pappers pour enrichir les données entreprise : nombre d'employés, chiffre d'affaires, secteur d'activité, technologies utilisées sur le site web. Ces données alimentent la personnalisation du message." },
         { title: "Étape 4 : Vérification email", description: "Avant d'envoyer, vérifie chaque email avec un outil comme ZeroBounce ou NeverBounce. Un email invalide rebondit, ce qui nuit à ta délivrabilité. Vise un taux de validité > 95%." },
         { title: "Étape 5 : Score final de qualité", description: "L'IA attribue un score final basé sur la complétude des données : email vérifié (+30pts), téléphone trouvé (+20pts), CA connu (+15pts), signal d'achat détecté (+25pts), email du décideur (+10pts). Score max : 100." },
       ]},
-      { id: "2-10", type: "callout", variant: "tip", html: "<strong>Combine les outils :</strong> Aucun outil n'a 100% de couverture. La stratégie gagnante est de cascader : essaie Hunter.io d'abord, puis Dropcontact pour les emails non trouvés, puis Apollo pour les restants. Tu passes de 60% à 85%+ de couverture." },
+      { id: "2-10", type: "callout", variant: "tip", html: "<strong>Combine les outils :</strong> Aucun outil n'a 100% de couverture. La stratégie gagnante est de cascader : essaie Apollo d'abord, puis Dropcontact pour les emails non trouvés. Tu passes de 60% à 85%+ de couverture." },
 
       { id: "2-11", type: "text", html: "<p>L'enrichissement est une étape technique mais cruciale. Une base bien enrichie, c'est un taux de réponse 5x supérieur. Dans la prochaine leçon, tu vas voir comment exploiter cette base avec des séquences d'outreach automatisées.</p>" },
 
@@ -106,10 +105,10 @@ export const V2_MODULE_11_LESSONS = [
         { id: "c5", text: "Budget enrichissement : 0,02€ à 0,10€ par contact" },
       ]},
     ]),
-    exercise: "<h3>Exercice : Enrichis ta liste de 50 prospects</h3><p>Reprends la liste de 50 prospects de la leçon précédente et :</p><ol><li>Crée un compte Hunter.io (gratuit, 25 recherches/mois) et un compte Dropcontact (essai gratuit)</li><li>Dans Make, crée un scénario qui prend chaque prospect → cherche l'email via Hunter.io → si pas trouvé, essaie Dropcontact</li><li>Utilise GPT pour identifier le décideur quand plusieurs contacts sont trouvés</li><li>Vérifie les emails trouvés avec un outil de vérification</li><li>Calcule ton taux de couverture : combien de prospects ont un email vérifié ?</li></ol>",
+    exercise: "<h3>Exercice : Enrichis ta liste de 50 prospects</h3><p>Reprends la liste de 50 prospects de la leçon précédente et :</p><ol><li>Crée un compte Apollo.io (gratuit) et un compte Dropcontact (essai gratuit)</li><li>Crée un script automatisé qui prend chaque prospect → cherche l'email via l'API Apollo → si pas trouvé, essaie l'API Dropcontact</li><li>Utilise GPT pour identifier le décideur quand plusieurs contacts sont trouvés</li><li>Vérifie les emails trouvés avec un outil de vérification</li><li>Calcule ton taux de couverture : combien de prospects ont un email vérifié ?</li></ol>",
     quiz: [
       { type: "mcq", question: "Quel est le taux d'ouverture typique d'un email envoyé à contact@entreprise.com ?", options: JSON.stringify(["5%", "20%", "35%", "50%"]), correctAnswer: "5%", explanation: "Les emails génériques (contact@, info@) ont un taux d'ouverture d'environ 5%. Un email envoyé au décideur directement (prenom.nom@entreprise.com) monte à 30-40%." },
-      { type: "true_false", question: "Un seul outil d'enrichissement suffit pour obtenir 100% des emails.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Aucun outil n'a 100% de couverture. La stratégie gagnante est de cascader : Hunter.io → Dropcontact → Apollo. Cela permet de passer de 60% à 85%+ de couverture." },
+      { type: "true_false", question: "Un seul outil d'enrichissement suffit pour obtenir 100% des emails.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Aucun outil n'a 100% de couverture. La stratégie gagnante est de cascader : Apollo → Dropcontact. Cela permet de passer de 60% à 85%+ de couverture." },
       { type: "mcq", question: "Quel taux de validité email minimum faut-il viser avant un envoi de prospection ?", options: JSON.stringify(["50%", "70%", "85%", "95%"]), correctAnswer: "95%", explanation: "Vise un taux de validité email supérieur à 95%. Les emails invalides rebondissent et nuisent gravement à ta réputation d'envoi et ta délivrabilité." },
       { type: "mcq", question: "Combien coûte typiquement l'enrichissement d'un contact ?", options: JSON.stringify(["1€ – 5€", "0,50€ – 1€", "0,02€ – 0,10€", "10€ – 20€"]), correctAnswer: "0,02€ – 0,10€", explanation: "L'enrichissement coûte entre 0,02€ et 0,10€ par contact selon les outils. Pour 500 prospects, le budget est de 10€ à 50€ — un investissement dérisoire." },
       { type: "true_false", question: "Dropcontact est un outil d'enrichissement conforme au RGPD.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Dropcontact est une solution française spécialement conçue pour être conforme au RGPD. Elle enrichit les contacts B2B sans stocker de données personnelles." },
@@ -147,7 +146,7 @@ export const V2_MODULE_11_LESSONS = [
       { id: "3-11", type: "comparison", headers: ["Canal", "Taux de réponse seul", "Taux combiné multi-canal", "Outil recommandé"], rows: [
         { cells: ["Email froid", "3-5%", "15-25% (avec LinkedIn)", "Lemlist, Instantly"] },
         { cells: ["LinkedIn", "5-10%", "Inclus dans le multi-canal", "Waalaxy, PhantomBuster"] },
-        { cells: ["Appel téléphonique", "2-3%", "Boosté si après email + LinkedIn", "Agent vocal Vapi"] },
+        { cells: ["Appel telephonique", "2-3%", "Booste si apres email + LinkedIn", "Agent vocal ElevenLabs"] },
       ]},
 
       { id: "3-12", type: "checklist", title: "Checklist de ta séquence outbound", items: [
@@ -159,7 +158,7 @@ export const V2_MODULE_11_LESSONS = [
         { id: "c6", text: "Tracking des ouvertures et réponses" },
       ]},
     ]),
-    exercise: "<h3>Exercice : Crée ta séquence outbound complète</h3><p>En utilisant ta liste enrichie des exercices précédents :</p><ol><li>Rédige les 3 templates d'email (accroche, valeur, breakup) avec des variables de personnalisation</li><li>Crée un prompt IA qui personnalise chaque email en fonction des données du prospect</li><li>Dans Make, crée un scénario qui prend les prospects du Sheet → personnalise via OpenAI → programme l'envoi</li><li>Rédige les 2 messages LinkedIn (connexion + suivi)</li><li>Teste la séquence complète sur 10 prospects (utilise des contacts que tu connais pour tester)</li></ol>",
+    exercise: "<h3>Exercice : Crée ta séquence outbound complète</h3><p>En utilisant ta liste enrichie des exercices précédents :</p><ol><li>Rédige les 3 templates d'email (accroche, valeur, breakup) avec des variables de personnalisation</li><li>Crée un prompt IA qui personnalise chaque email en fonction des données du prospect</li><li>Crée un script qui récupère les prospects du Sheet via l'API → personnalise via OpenAI → programme l'envoi</li><li>Rédige les 2 messages LinkedIn (connexion + suivi)</li><li>Teste la séquence complète sur 10 prospects (utilise des contacts que tu connais pour tester)</li></ol>",
     quiz: [
       { type: "mcq", question: "Quel est le taux de réponse moyen d'une séquence multi-canal (email + LinkedIn) ?", options: JSON.stringify(["1-3%", "5-10%", "15-25%", "50-60%"]), correctAnswer: "15-25%", explanation: "Une séquence multi-canal bien exécutée obtient 15-25% de taux de réponse, contre 3-5% pour un email seul. La combinaison de canaux multiplie les chances d'engagement." },
       { type: "true_false", question: "Il est recommandé d'envoyer 200 emails par jour dès le premier jour.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Commencer avec un volume élevé nuit gravement à ta délivrabilité. Démarre avec 30-40 emails/jour et augmente progressivement sur 2-3 semaines (warm-up)." },
@@ -185,10 +184,10 @@ export const V2_MODULE_11_LESSONS = [
 
       { id: "4-5", type: "heading", level: 2, text: "Architecture complète de la machine à leads" },
       { id: "4-6", type: "steps", steps: [
-        { title: "Module 1 : Scraping automatisé", description: "Un scénario Make tourne chaque lundi et scrape Google Maps pour les nouvelles entreprises correspondant à l'ICP : PME locales, site web absent ou obsolète, dans un rayon de 100 km. Outscraper fournit les données brutes. L'IA filtre et qualifie. Résultat : 50 prospects/semaine." },
-        { title: "Module 2 : Enrichissement cascade", description: "Les 50 prospects passent par la cascade d'enrichissement : Hunter.io → Dropcontact → Apollo. L'IA identifie le décideur (gérant ou responsable marketing). Les emails sont vérifiés. Le Google Sheet se remplit automatiquement." },
+        { title: "Module 1 : Scraping automatisé", description: "Un cron job tourne chaque lundi et scrape Google Maps pour les nouvelles entreprises correspondant à l'ICP : PME locales, site web absent ou obsolète, dans un rayon de 100 km. Outscraper fournit les données brutes. L'IA filtre et qualifie. Résultat : 50 prospects/semaine." },
+        { title: "Module 2 : Enrichissement cascade", description: "Les 50 prospects passent par la cascade d'enrichissement : Apollo → Dropcontact. L'IA identifie le décideur (gérant ou responsable marketing). Les emails sont vérifiés. Le Google Sheet se remplit automatiquement." },
         { title: "Module 3 : Personnalisation IA", description: "Pour chaque prospect, l'IA visite le site web (si existant) et génère les 3 emails personnalisés + les 2 messages LinkedIn. Chaque message fait référence à un élément spécifique du prospect (son secteur, sa localisation, un problème visible)." },
-        { title: "Module 4 : Séquence outbound", description: "Lemlist ou Instantly gère l'envoi des emails selon le calendrier : J1, J5, J12. PhantomBuster ou Waalaxy gère les actions LinkedIn : J3, J8. Le tout est orchestré par Make qui déplace les prospects entre les étapes." },
+        { title: "Module 4 : Séquence outbound", description: "Lemlist ou Instantly gère l'envoi des emails selon le calendrier : J1, J5, J12. PhantomBuster ou Waalaxy gère les actions LinkedIn : J3, J8. Le tout est orchestré par un script serveur (cron job) qui déplace les prospects entre les étapes." },
         { title: "Module 5 : Booking et handoff", description: "Quand un prospect répond positivement, l'IA détecte l'intention (via parsing de l'email) et envoie automatiquement un lien Cal.com pour réserver un créneau avec le commercial. Le commercial reçoit une notification avec tout le contexte du prospect." },
       ]},
       { id: "4-7", type: "separator", style: "line" },
@@ -207,7 +206,7 @@ export const V2_MODULE_11_LESSONS = [
 
       { id: "4-12", type: "checklist", title: "Checklist du projet terminé", items: [
         { id: "c1", text: "Scraping automatisé (50 prospects/semaine)" },
-        { id: "c2", text: "Enrichissement cascade (Hunter → Dropcontact → Apollo)" },
+        { id: "c2", text: "Enrichissement cascade (Apollo → Dropcontact)" },
         { id: "c3", text: "Personnalisation IA (3 emails + 2 messages LinkedIn par prospect)" },
         { id: "c4", text: "Séquence outbound programmée (12 jours, 5 touchpoints)" },
         { id: "c5", text: "Détection de réponse positive + booking automatique" },
@@ -215,7 +214,7 @@ export const V2_MODULE_11_LESSONS = [
         { id: "c7", text: "Documentation client pour la maintenance" },
       ]},
     ]),
-    exercise: "<h3>Exercice : Construis la machine à leads</h3><p>Réalise le projet complet (version simplifiée) :</p><ol><li>Définis l'ICP pour une agence web ciblant les PME locales (5 critères)</li><li>Scrape 50 prospects avec Outscraper (Google Maps)</li><li>Enrichis les données avec Hunter.io (version gratuite : 25 contacts)</li><li>Crée les 3 templates d'email et un prompt IA de personnalisation</li><li>Dans Make, assemble le scénario complet : scraping → enrichissement → personnalisation → stockage</li><li>Crée un dashboard de suivi dans Google Sheets avec les KPIs clés</li></ol><p><strong>Livrable :</strong> Le scénario Make fonctionnel + le Google Sheet avec les 50 prospects enrichis et les emails personnalisés.</p>",
+    exercise: "<h3>Exercice : Construis la machine à leads</h3><p>Réalise le projet complet (version simplifiée) :</p><ol><li>Définis l'ICP pour une agence web ciblant les PME locales (5 critères)</li><li>Scrape 50 prospects avec Outscraper (Google Maps)</li><li>Enrichis les données avec Apollo.io (version gratuite)</li><li>Crée les 3 templates d'email et un prompt IA de personnalisation</li><li>Assemble le pipeline complet dans un script Node.js : scraping → enrichissement → personnalisation → stockage</li><li>Crée un dashboard de suivi dans Google Sheets avec les KPIs clés</li></ol><p><strong>Livrable :</strong> Le script fonctionnel + le Google Sheet avec les 50 prospects enrichis et les emails personnalisés.</p>",
     quiz: [
       { type: "mcq", question: "Combien de leads qualifiés par semaine la machine doit-elle générer ?", options: JSON.stringify(["10", "50", "200", "1 000"]), correctAnswer: "50", explanation: "L'objectif est de générer 50 leads qualifiés par semaine. C'est un volume réaliste qui, avec un taux de conversion de 10-15%, génère 3-5 rendez-vous hebdomadaires." },
       { type: "true_false", question: "La machine à leads est un produit fini qui ne nécessite aucune optimisation.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "La machine à leads est un système vivant qui nécessite une optimisation continue : ajustement des prompts, test de nouvelles accroches, affinage de l'ICP. C'est ce qui justifie l'abonnement mensuel." },

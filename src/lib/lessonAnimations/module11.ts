@@ -262,7 +262,7 @@ export const module11: AllLessonAnimations = {
         items: [
           { label: "LinkedIn", description: "Posts educatifs + DM cibles", icon: "💼" },
           { label: "YouTube", description: "Tutos OpenClaw qui attirent des leads", icon: "🎬" },
-          { label: "Communautes", description: "Forums, Discord, Slack IA", icon: "👥" },
+          { label: "Communautes", description: "Forums, Discord, communautes IA", icon: "👥" },
           { label: "Partenariats", description: "Revendeurs et affilies", icon: "🤝" },
           { label: "Bouche-a-oreille", description: "Clients satisfaits qui referent", icon: "📢" },
           { label: "Webinaires", description: "Demos en direct avec conversion", icon: "📺" },

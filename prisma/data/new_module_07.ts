@@ -45,7 +45,7 @@ export const MODULE_6_LESSONS = [
       { id: "1-11", type: "separator", style: "line" },
       { id: "1-12", type: "heading", level: 2, text: "Comment pricer tes chatbots" },
       { id: "1-13", type: "comparison", headers: ["Tier", "Ce que tu livres", "Prix indicatif", "Récurrence"], rows: [
-        { cells: ["Starter", "Chatbot FAQ simple, 5-10 questions, Voiceflow, intégration site", "500 – 1 000 €", "Maintenance 50-100€/mois"] },
+        { cells: ["Starter", "Chatbot FAQ simple, 5-10 questions, intégration site", "500 – 1 000 €", "Maintenance 50-100€/mois"] },
         { cells: ["Standard", "Chatbot multi-intention, base de connaissances, CRM simple", "1 500 – 2 500 €", "100-200€/mois"] },
         { cells: ["Premium", "RAG sur docs custom, intégrations API (CRM, calendrier), analytics", "3 000 – 5 000 €", "200-400€/mois"] },
         { cells: ["Enterprise", "Multi-canal, escalade humaine, SLA, multi-langue", "5 000 – 15 000 €", "500€+/mois"] },
@@ -54,7 +54,7 @@ export const MODULE_6_LESSONS = [
 
       { id: "1-15", type: "heading", level: 2, text: "Cas clients réels à utiliser en prospection" },
       { id: "1-16", type: "steps", steps: [
-        { title: "E-commerce mode (1 200 €)", description: "Chatbot FAQ sur Voiceflow, intégré à Shopify. Résultat : -60% de tickets SAV en 30 jours. Le client a renouvelé la maintenance sans hésiter." },
+        { title: "E-commerce mode (1 200 €)", description: "Chatbot FAQ custom intégré à Shopify. Résultat : -60% de tickets SAV en 30 jours. Le client a renouvelé la maintenance sans hésiter." },
         { title: "Cabinet immobilier (2 500 €)", description: "Chatbot de qualification de leads sur le site. 24 leads qualifiés en 2 semaines vs 8 avant. ROI immédiat visible." },
         { title: "SaaS B2B (4 000 €)", description: "Chatbot RAG entraîné sur la documentation technique. Les tickets de niveau 1 ont chuté de 45%. L'équipe support a pu se concentrer sur les vrais problèmes." },
       ]},
@@ -89,76 +89,73 @@ export const MODULE_6_LESSONS = [
   {
     order: 2,
     module: 6,
-    title: "Les plateformes de chatbots : Voiceflow, Botpress, custom",
-    slug: "plateformes-chatbots-voiceflow-botpress-custom",
+    title: "Pourquoi construire ton propre chatbot avec Claude Code",
+    slug: "pourquoi-construire-chatbot-custom-claude-code",
     duration: "25 min",
-    description: "Comparaison détaillée des outils no-code et custom pour créer des chatbots. Sais exactement quand utiliser Voiceflow, Botpress ou une solution maison en Next.js.",
+    description: "Comprends pourquoi coder ton propre chatbot en Next.js avec Claude Code te donne un avantage massif : marge maximale, design 100% custom, aucune dépendance SaaS.",
     content: blocks([
-      { id: "2-1", type: "heading", level: 2, text: "Le choix de la plateforme : une décision stratégique" },
-      { id: "2-2", type: "text", html: "<p>Avant d'écrire une ligne de code ou d'ouvrir Voiceflow, tu dois choisir le bon outil pour le bon projet. Ce choix impacte ton <strong>temps de livraison</strong>, tes <strong>marges</strong>, et la <strong>satisfaction client</strong>. Un mauvais outil pour un bon projet, c'est des heures de travail en plus pour un résultat moins bon.</p>" },
-      { id: "2-3", type: "callout", variant: "info", html: "Il n'y a pas un outil meilleur que les autres — il y a l'outil adapté au besoin. Cette leçon te donne les critères pour choisir vite et bien." },
+      { id: "2-1", type: "heading", level: 2, text: "Pourquoi construire plutôt qu'acheter ?" },
+      { id: "2-2", type: "text", html: "<p>Beaucoup de formations te disent d'utiliser des plateformes no-code pour tes chatbots. Le problème ? Tu deviens <strong>dépendant d'un outil tiers</strong> qui peut changer ses prix, limiter ses fonctionnalités, ou disparaître. Et surtout : tu paies un abonnement mensuel qui mange ta marge.</p><p>Avec Claude Code, tu peux <strong>coder ton propre chatbot en quelques heures</strong> — pas en quelques semaines. Tu gardes le contrôle total : design, logique, intégrations, et 100% de ta marge.</p>" },
+      { id: "2-3", type: "callout", variant: "tip", html: "Avec Claude Code, coder un chatbot custom prend le meme temps (voire moins) qu'apprendre une plateforme no-code. Et le resultat est infiniment plus professionnel et flexible." },
       { id: "2-4", type: "separator", style: "dots" },
 
-      { id: "2-5", type: "heading", level: 2, text: "Vue d'ensemble des options" },
-      { id: "2-6", type: "comparison", headers: ["Critère", "Voiceflow", "Botpress", "Custom (Next.js)"], rows: [
-        { cells: ["Courbe d'apprentissage", "Faible (visuel)", "Moyenne", "Élevée"] },
-        { cells: ["Flexibilité", "Moyenne", "Haute", "Totale"] },
-        { cells: ["Intégrations natives", "Beaucoup (Zapier, Sheets...)", "Nombreuses", "À coder soi-même"] },
-        { cells: ["Coût outil/mois", "39-125$ (pro)", "89-300$", "0 (hors hosting)"] },
-        { cells: ["Temps de livraison", "1-3 jours", "3-7 jours", "1-3 semaines"] },
-        { cells: ["Scalabilité", "Limitée", "Bonne", "Totale"] },
-        { cells: ["White-label", "Non (plan basique)", "Oui", "Oui"] },
-        { cells: ["Idéal pour", "PME, MVP, démo client", "Projets complexes", "Produit SaaS, app custom"] },
+      { id: "2-5", type: "heading", level: 2, text: "Custom vs No-code : la comparaison honnete" },
+      { id: "2-6", type: "comparison", headers: ["Critere", "Chatbot custom (Claude Code)", "Plateforme no-code"], rows: [
+        { cells: ["Cout mensuel outil", "0 EUR (juste l'hebergement Vercel)", "39-300 $/mois d'abonnement"] },
+        { cells: ["Marge sur la prestation", "100% — aucun cout SaaS", "Reduite par l'abonnement mensuel"] },
+        { cells: ["Design", "100% personnalisable", "Limite aux templates de la plateforme"] },
+        { cells: ["White-label", "Oui, toujours", "Souvent payant ou impossible"] },
+        { cells: ["Integrations", "Illimitees — tu codes ce que tu veux", "Limitees aux connecteurs existants"] },
+        { cells: ["Scalabilite", "Totale", "Limitee par la plateforme"] },
+        { cells: ["Dependance", "Aucune — ton code, ton serveur", "Totale — si l'outil ferme, tu perds tout"] },
+        { cells: ["Temps de livraison avec Claude Code", "1-2 jours", "1-3 jours"] },
       ]},
 
-      { id: "2-7", type: "heading", level: 2, text: "Voiceflow : le couteau suisse du chatbot no-code" },
-      { id: "2-8", type: "text", html: "<p>Voiceflow est un éditeur visuel de flows conversationnels. Tu crées des blocs (texte, condition, API, IA), tu les connectes, et tu déploies en un clic sur un widget web, Slack, WhatsApp, etc.</p><p><strong>Points forts :</strong> Interface drag-and-drop, Knowledge Base intégrée (tu upload tes PDFs / URLs et le chatbot répond dessus), intégrations Zapier/n8n, test en temps réel.</p><p><strong>Limites :</strong> Le branding Voiceflow reste visible sur les plans bas de gamme. Les flows très complexes deviennent difficiles à maintenir. Pas adapté pour un produit SaaS que tu revends à la licène.</p>" },
-      { id: "2-9", type: "callout", variant: "tip", html: "Voiceflow est ton arme principale pour les 80% des missions client. Tu peux livrer un chatbot fonctionnel en 1-2 jours. C'est la plateforme que tu vas maîtriser en leçon 3." },
+      { id: "2-7", type: "heading", level: 2, text: "L'avantage Claude Code" },
+      { id: "2-8", type: "text", html: "<p>Claude Code change la donne. Avant, coder un chatbot custom prenait 1-3 semaines. Aujourd'hui, avec Claude Code, tu peux generer l'ensemble de la solution en <strong>quelques heures</strong> : le widget React, l'API route, le system prompt, l'integration de la base de connaissances.</p><p><strong>Tu n'as pas besoin d'etre un dev senior.</strong> Claude Code ecrit le code, tu supervises et tu livres. C'est ca la vraie puissance de l'IA appliquee au developpement.</p>" },
+      { id: "2-9", type: "callout", variant: "info", html: "Un chatbot custom, c'est 3 fichiers principaux : un composant React (ChatWidget.tsx), une API route (app/api/chat/route.ts) et un system prompt. Claude Code peut te generer tout ca en une session." },
 
-      { id: "2-10", type: "heading", level: 2, text: "Botpress : pour les projets plus avancés" },
-      { id: "2-11", type: "text", html: "<p>Botpress est open-source (auto-hébergeable) et propose aussi un cloud. Il est plus puissant que Voiceflow pour les logiques conditionnelles complexes, les intégrations custom via code JavaScript dans les nœuds, et le multi-canal (WhatsApp Business API, Telegram, Messenger).</p><p>Son éditeur visuel est moins intuitif mais beaucoup plus flexible. Tu peux injecter du JS directement dans les nœuds pour des logiques avancées.</p>" },
-
-      { id: "2-12", type: "heading", level: 2, text: "Solution custom : quand coder from scratch ?" },
-      { id: "2-13", type: "steps", steps: [
-        { title: "Le client veut un design 100% custom", description: "Widget chat avec leur identité visuelle, pas de logo tiers. Tu codes un widget React intégré à leur site." },
-        { title: "Tu construis un produit SaaS", description: "Tu veux revendre un chatbot en marque blanche à plusieurs clients. La solution custom te donne une marge maximale." },
-        { title: "Intégrations complexes", description: "Base de données propriétaire, ERP, API interne non documentée. No-code atteint ses limites rapidement." },
-        { title: "RAG avancé sur de gros volumes", description: "Des milliers de documents, chunking spécifique, reranking, logique de récupération custom. Voiceflow ne suffit plus." },
+      { id: "2-10", type: "heading", level: 2, text: "Les avantages business du custom" },
+      { id: "2-11", type: "steps", steps: [
+        { title: "Marge maximale", description: "Pas d'abonnement SaaS a deduire. Un chatbot a 2 000 EUR, c'est 2 000 EUR dans ta poche (moins l'hebergement Vercel a ~0 EUR en plan gratuit)." },
+        { title: "Differenciation", description: "Tu ne livres pas le meme outil que tout le monde. Ton chatbot a le design exact du client, pas un widget generique." },
+        { title: "Recurrence intelligente", description: "Tu factures la maintenance (mises a jour du prompt, ajout de FAQ, analytics) sans payer de licence tiers." },
+        { title: "Scalabilite technique", description: "Tu peux ajouter du RAG, des integrations API, du multi-canal — sans etre limite par les fonctionnalites d'une plateforme." },
       ]},
 
-      { id: "2-14", type: "separator", style: "line" },
-      { id: "2-15", type: "heading", level: 2, text: "L'arbre de décision" },
-      { id: "2-16", type: "diagram", variant: "flow", nodes: [
-        { id: "f1", label: "Nouvelle mission chatbot", description: "Tu reçois une demande" },
-        { id: "f2", label: "Budget < 1 500 € ?", description: "Si oui → Voiceflow, livraison rapide, marge max" },
-        { id: "f3", label: "Logique complexe ou multi-canal ?", description: "Si oui → Botpress. Si non → Voiceflow" },
-        { id: "f4", label: "Design 100% custom ou SaaS ?", description: "Si oui → Next.js custom. Sinon → Botpress ou Voiceflow" },
-        { id: "f5", label: "RAG sur gros volume de docs ?", description: "Si oui → Custom avec Pinecone/pgvector (leçon 5)" },
+      { id: "2-12", type: "separator", style: "line" },
+      { id: "2-13", type: "heading", level: 2, text: "L'architecture type" },
+      { id: "2-14", type: "diagram", variant: "flow", nodes: [
+        { id: "f1", label: "Widget React (client)", description: "ChatWidget.tsx — UI, historique des messages, input utilisateur" },
+        { id: "f2", label: "API Route Next.js", description: "POST /api/chat — recoit le message + historique" },
+        { id: "f3", label: "System prompt + contexte", description: "Injection de la base de connaissances (FAQ, docs)" },
+        { id: "f4", label: "API Claude (Anthropic SDK)", description: "Appel a claude-3-5-sonnet avec streaming" },
+        { id: "f5", label: "Reponse streamee", description: "Les tokens arrivent en temps reel dans le widget" },
       ]},
-      { id: "2-17", type: "callout", variant: "warning", html: "Ne sur-ingénie pas. Un client qui a besoin d'un chatbot FAQ de 10 questions n'a pas besoin d'une solution custom en Next.js avec RAG. Utilise Voiceflow, livre en 2 jours, garde ta marge." },
+      { id: "2-15", type: "callout", variant: "warning", html: "Ne sur-ingenie pas. Un chatbot FAQ simple n'a pas besoin de RAG avec vector database. Injecte la FAQ directement dans le system prompt — c'est suffisant pour les premiers projets." },
 
-      { id: "2-18", type: "quiz-inline", question: "Un client e-commerce veut un chatbot qui répond aux questions sur ses produits à partir de son catalogue PDF de 200 pages. Quelle solution utilises-tu ?", options: [
-        { id: "a", text: "Next.js custom from scratch" },
-        { id: "b", text: "Voiceflow avec la Knowledge Base (upload du PDF)" },
-        { id: "c", text: "Un chatbot à boutons sans IA" },
-      ], correctId: "b", explanation: "Voiceflow Knowledge Base accepte les PDFs et URLs. Pour 200 pages, c'est parfait. Tu uploader le catalogue, Voiceflow l'indexe automatiquement et le chatbot répond dessus. Livraison en 1-2 jours, pas besoin de code." },
+      { id: "2-16", type: "quiz-inline", question: "Un client e-commerce veut un chatbot qui repond aux questions sur ses produits a partir de son catalogue PDF de 200 pages. Quelle approche utilises-tu ?", options: [
+        { id: "a", text: "Une plateforme no-code avec upload PDF" },
+        { id: "b", text: "Un chatbot custom avec Claude Code : API route + RAG sur le PDF" },
+        { id: "c", text: "Un chatbot a boutons sans IA" },
+      ], correctId: "b", explanation: "Avec Claude Code, tu peux generer un chatbot custom avec RAG en quelques heures. Tu gardes 100% de ta marge, le design est 100% personnalise, et tu n'as aucune dependance SaaS." },
 
-      { id: "2-19", type: "separator", style: "dots" },
-      { id: "2-20", type: "checklist", title: "Ce que tu sais faire maintenant", items: [
-        { id: "c1", text: "Comparer Voiceflow, Botpress et custom sur les critères clés" },
-        { id: "c2", text: "Choisir la bonne plateforme selon le budget et la complexité" },
-        { id: "c3", text: "Identifier quand une solution custom est nécessaire" },
-        { id: "c4", text: "Estimer le temps de livraison selon la plateforme" },
-        { id: "c5", text: "Argumenter ton choix technique face à un client" },
+      { id: "2-17", type: "separator", style: "dots" },
+      { id: "2-18", type: "checklist", title: "Ce que tu sais maintenant", items: [
+        { id: "c1", text: "Expliquer pourquoi un chatbot custom est preferable a une plateforme no-code" },
+        { id: "c2", text: "Identifier les avantages business : marge, design, independance" },
+        { id: "c3", text: "Decrire l'architecture type d'un chatbot custom (widget + API route + Claude)" },
+        { id: "c4", text: "Estimer le temps de livraison avec Claude Code (1-2 jours)" },
+        { id: "c5", text: "Argumenter ton choix technique face a un client" },
       ]},
     ]),
-    exercise: "<p><strong>Exercice :</strong> Crée un compte gratuit sur Voiceflow (voiceflow.com) et explore l'interface pendant 20 minutes. Crée un projet vide, ajoute 3 blocs (Speak, Condition, API) et connecte-les. L'objectif n'est pas de finir quelque chose — c'est de te familiariser avec l'outil avant la leçon suivante.</p>",
+    exercise: "<p><strong>Exercice :</strong> Ouvre Claude Code et demande-lui de te generer un composant ChatWidget.tsx basique avec un input, un historique de messages et un bouton d'envoi. Explore le code genere, comprends la structure, et identifie les 3 fichiers cles d'un chatbot custom. C'est ta preparation pour la lecon suivante ou tu construiras le chatbot complet.</p>",
     quiz: [
-      { type: "mcq", question: "Pour quelle raison principale choisir Voiceflow plutôt qu'une solution custom en Next.js ?", options: JSON.stringify(["Voiceflow est gratuit", "Voiceflow permet de livrer un chatbot fonctionnel en 1-2 jours vs 1-3 semaines en custom", "Voiceflow a plus de fonctionnalités", "Voiceflow est open-source"]), correctAnswer: "Voiceflow permet de livrer un chatbot fonctionnel en 1-2 jours vs 1-3 semaines en custom", explanation: "Le temps de livraison est le facteur clé. Voiceflow permet de livrer un chatbot professionnel en 1-2 jours grâce à son interface drag-and-drop. Une solution custom en Next.js prend 1-3 semaines. Pour 80% des missions, Voiceflow est le bon choix." },
-      { type: "true_false", question: "Une solution chatbot custom en Next.js est nécessaire quand le client veut un design 100% personnalisé ou construit un produit SaaS.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Le custom est justifié dans 4 cas : design 100% sur mesure, produit SaaS en marque blanche, intégrations complexes (ERP, API internes), ou RAG avancé sur de gros volumes. Dans tous les autres cas, Voiceflow ou Botpress suffisent." },
-      { type: "mcq", question: "Quel outil est recommandé pour un projet chatbot avec des logiques conditionnelles complexes et du multi-canal (WhatsApp, Telegram) ?", options: JSON.stringify(["Voiceflow", "Botpress", "Un simple formulaire web", "ChatGPT directement"]), correctAnswer: "Botpress", explanation: "Botpress excelle dans les logiques complexes grâce à son éditeur flexible et la possibilité d'injecter du JavaScript dans les noeuds. Il gère nativement le multi-canal (WhatsApp Business API, Telegram, Messenger)." },
-      { type: "true_false", question: "Si un client a un budget inférieur à 1 500€, Voiceflow est généralement le meilleur choix.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Selon l'arbre de décision, un budget inférieur à 1 500€ oriente vers Voiceflow : livraison rapide, marge maximale, et résultat professionnel. Avec un budget limité, il ne faut pas sur-ingénier la solution." },
-      { type: "mcq", question: "Un client coach sportif avec un budget de 800€ veut un chatbot qui répond aux questions sur ses programmes et prend les réservations. Quelle plateforme lui recommandez-vous et pourquoi ?", options: JSON.stringify(["Une solution custom en Next.js pour un contrôle total", "Voiceflow, car le budget est sous 1 500€ et la livraison sera rapide (1-2 jours)", "Botpress, car c'est la seule plateforme qui gère les réservations", "ChatGPT directement intégré via un iframe"]), correctAnswer: "Voiceflow, car le budget est sous 1 500€ et la livraison sera rapide (1-2 jours)", explanation: "Avec un budget de 800€, Voiceflow est le choix optimal : livraison en 1-2 jours, interface drag-and-drop, Knowledge Base intégrée pour la FAQ. Une solution custom prendrait 1-3 semaines et mangerait toute la marge. Le branding Voiceflow est le seul compromis acceptable à ce prix." },
+      { type: "mcq", question: "Quel est l'avantage principal de coder son propre chatbot avec Claude Code plutot qu'utiliser une plateforme no-code ?", options: JSON.stringify(["C'est plus rapide a apprendre", "Marge maximale, design 100% custom et aucune dependance SaaS", "Les plateformes no-code ne fonctionnent pas", "C'est obligatoire pour vendre des chatbots"]), correctAnswer: "Marge maximale, design 100% custom et aucune dependance SaaS", explanation: "Un chatbot custom elimine les frais d'abonnement SaaS (39-300$/mois), offre un design totalement personnalisable et ne depend d'aucun outil tiers. Avec Claude Code, le temps de livraison est comparable a une solution no-code." },
+      { type: "true_false", question: "Avec Claude Code, coder un chatbot custom prend desormais autant de temps qu'utiliser une plateforme no-code.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Claude Code genere le widget React, l'API route et le system prompt en quelques heures. Le temps de livraison (1-2 jours) est comparable aux plateformes no-code, mais avec une flexibilite et une marge bien superieures." },
+      { type: "mcq", question: "Quels sont les 3 fichiers principaux d'un chatbot custom en Next.js ?", options: JSON.stringify(["index.html, style.css, script.js", "ChatWidget.tsx, app/api/chat/route.ts, system prompt", "package.json, tsconfig.json, next.config.js", "App.tsx, server.js, database.sql"]), correctAnswer: "ChatWidget.tsx, app/api/chat/route.ts, system prompt", explanation: "Un chatbot custom en Next.js repose sur 3 elements : le composant React (ChatWidget.tsx) pour l'interface, l'API route (app/api/chat/route.ts) pour l'appel a Claude cote serveur, et le system prompt qui definit le comportement du chatbot." },
+      { type: "true_false", question: "Utiliser une plateforme no-code est toujours preferable pour les petits budgets.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Avec Claude Code, le temps de developpement est comparable. Et un chatbot custom n'a aucun cout d'abonnement mensuel, donc la marge est meilleure meme sur les petits budgets. Le plan gratuit de Vercel suffit pour l'hebergement." },
+      { type: "mcq", question: "Un client vous demande un chatbot pour son site. Comment justifiez-vous le choix d'une solution custom plutot qu'un outil no-code ?", options: JSON.stringify(["Vous dites que les outils no-code sont de mauvaise qualite", "Vous expliquez que la solution custom offre un design sur mesure, aucune dependance et une meilleure marge a long terme", "Vous dites que c'est moins cher", "Vous dites que les outils no-code vont bientot disparaitre"]), correctAnswer: "Vous expliquez que la solution custom offre un design sur mesure, aucune dependance et une meilleure marge a long terme", explanation: "L'argument gagnant : le client obtient un chatbot 100% a son image, sans logo tiers, avec des integrations sur mesure. Et a long terme, pas de frais SaaS recurrents — juste la maintenance que vous facturez." },
     ],
   },
 
@@ -166,109 +163,120 @@ export const MODULE_6_LESSONS = [
   {
     order: 3,
     module: 6,
-    title: "Créer un chatbot avec Voiceflow",
-    slug: "creer-chatbot-voiceflow-step-by-step",
+    title: "Creer ton chatbot avec Claude Code (step by step)",
+    slug: "creer-chatbot-claude-code-step-by-step",
     duration: "35 min",
-    description: "Step by step : crée un chatbot fonctionnel sur Voiceflow, connecte l'API Claude ou OpenAI, entraîne-le sur une base de connaissances, et teste-le avant livraison client.",
+    description: "Step by step : utilise Claude Code pour generer un chatbot complet en Next.js, avec API route, streaming, base de connaissances et widget integrable sur n'importe quel site.",
     content: blocks([
-      { id: "3-1", type: "heading", level: 2, text: "Ce que tu vas créer" },
-      { id: "3-2", type: "text", html: "<p>À la fin de cette leçon, tu as un chatbot Voiceflow complet qui : (1) accueille l'utilisateur, (2) comprend ses questions en langage naturel grâce à l'IA, (3) répond en s'appuyant sur une base de connaissances que tu as fournie, (4) peut être intégré sur n'importe quel site avec un snippet HTML.</p>" },
-      { id: "3-3", type: "callout", variant: "info", html: "Voiceflow utilise son propre modèle IA par défaut, mais tu peux brancher OpenAI (GPT-4o) ou Anthropic (Claude) sur tes propres clés API. C'est ce qu'on va faire." },
+      { id: "3-1", type: "heading", level: 2, text: "Ce que tu vas creer" },
+      { id: "3-2", type: "text", html: "<p>A la fin de cette lecon, tu as un chatbot custom complet qui : (1) accueille l'utilisateur, (2) comprend ses questions en langage naturel grace a Claude, (3) repond en s'appuyant sur une base de connaissances que tu as fournie, (4) streame les reponses en temps reel, (5) peut etre integre sur n'importe quel site.</p>" },
+      { id: "3-3", type: "callout", variant: "info", html: "Tu vas utiliser Claude Code pour generer tout le code. Tu n'as pas besoin de tout ecrire toi-meme — tu supervises, tu testes, tu livres." },
       { id: "3-4", type: "separator", style: "dots" },
 
-      { id: "3-5", type: "heading", level: 2, text: "Étape 1 : Configuration du projet" },
+      { id: "3-5", type: "heading", level: 2, text: "Etape 1 : Initialiser le projet" },
       { id: "3-6", type: "steps", steps: [
-        { title: "Crée un nouveau projet", description: "Dans Voiceflow, clique sur 'New Project'. Choisis 'Chat Assistant'. Nomme-le 'Chatbot Client Demo'." },
-        { title: "Configure les paramètres IA", description: "Va dans Settings > AI Model. Sélectionne 'Custom AI Model'. Colle ta clé API Anthropic ou OpenAI. Choisis claude-3-5-sonnet-20241022 ou gpt-4o." },
-        { title: "Ajoute les variables globales", description: "Dans Variables, crée : user_name (string), user_intent (string), conversation_context (string). Tu t'en serviras pour personnaliser les réponses." },
+        { title: "Cree un nouveau projet Next.js", description: "npx create-next-app@latest chatbot-demo --typescript. Choisis App Router, Tailwind CSS, ESLint." },
+        { title: "Installe le SDK Anthropic", description: "npm install @anthropic-ai/sdk. C'est le seul package supplementaire dont tu as besoin." },
+        { title: "Configure ta cle API", description: "Cree un fichier .env.local avec ANTHROPIC_API_KEY=sk-ant-... Ne commite JAMAIS ce fichier." },
       ]},
-      { id: "3-7", type: "code", language: "text", filename: "Voiceflow — System Prompt de base", code: `Tu es l'assistant virtuel de {company_name}.
-Tu réponds uniquement aux questions liées à {company_domain}.
-Tu es utile, concis et professionnel.
-Si tu ne sais pas répondre, dis-le honnêtement et propose de contacter le support humain.
-Ne réponds jamais aux questions hors sujet.
-Réponds toujours en français.` },
+      { id: "3-7", type: "code", language: "text", filename: "Prompt Claude Code — Generation du chatbot", code: `Cree un chatbot complet pour mon projet Next.js :
 
-      { id: "3-8", type: "heading", level: 2, text: "Étape 2 : Construire le flow principal" },
-      { id: "3-9", type: "diagram", variant: "flow", nodes: [
-        { id: "v1", label: "Start", description: "Bloc de démarrage automatique" },
-        { id: "v2", label: "Speak : Message d'accueil", description: "«Bonjour ! Je suis l'assistant de {company_name}. Comment puis-je vous aider ?»" },
-        { id: "v3", label: "Capture : User Input", description: "Bloc AI — capture la question de l'utilisateur et détecte l'intention" },
-        { id: "v4", label: "Knowledge Base Query", description: "Interroge ta base de connaissances avec la question de l'utilisateur" },
-        { id: "v5", label: "Speak : Réponse IA", description: "Affiche la réponse générée par le modèle" },
-        { id: "v6", label: "Condition : satisfied ?", description: "L'utilisateur a-t-il d'autres questions ? Oui → retour Capture. Non → fin." },
+1. Un composant ChatWidget.tsx avec :
+   - Un historique de messages (user/assistant)
+   - Un input avec bouton d'envoi
+   - Le streaming des reponses token par token
+   - Un design professionnel avec Tailwind
+
+2. Une API route app/api/chat/route.ts avec :
+   - Appel au SDK Anthropic avec streaming
+   - System prompt personnalisable
+   - Injection d'une base de connaissances dans le contexte
+   - Temperature 0.3 pour des reponses fiables
+
+3. Un system prompt pour un chatbot support client.` },
+
+      { id: "3-8", type: "heading", level: 2, text: "Etape 2 : L'API Route (cote serveur)" },
+      { id: "3-9", type: "text", html: "<p>L'API route est le coeur du chatbot. Elle recoit le message de l'utilisateur, injecte le contexte (FAQ, docs), appelle Claude et renvoie la reponse en streaming. <strong>La cle API reste cote serveur</strong> — jamais exposee au client.</p>" },
+      { id: "3-10", type: "code", language: "typescript", filename: "app/api/chat/route.ts", code: `import Anthropic from '@anthropic-ai/sdk';
+
+const anthropic = new Anthropic();
+
+const SYSTEM_PROMPT = \\\`Tu es l'assistant virtuel de [Nom du client].
+Utilise UNIQUEMENT les informations suivantes pour repondre.
+Si la reponse n'est pas dans ces informations, dis :
+"Je n'ai pas cette information. Contactez-nous au [telephone] ou par email."
+Sois concis : maximum 3-4 phrases par reponse.
+Reponds toujours en francais.
+
+--- BASE DE CONNAISSANCES ---
+{knowledgeBase}
+\\\`;
+
+export async function POST(req: Request) {
+  const { messages, knowledgeBase } = await req.json();
+
+  const stream = await anthropic.messages.stream({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 500,
+    system: SYSTEM_PROMPT.replace('{knowledgeBase}', knowledgeBase || ''),
+    messages,
+  });
+
+  return new Response(stream.toReadableStream());
+}` },
+      { id: "3-11", type: "callout", variant: "tip", html: "Claude Code peut generer ce fichier en entier. Demande-lui simplement : <strong>'Cree une API route qui appelle Claude avec streaming et un system prompt pour un chatbot support client.'</strong>" },
+
+      { id: "3-12", type: "heading", level: 2, text: "Etape 3 : Le Widget React (cote client)" },
+      { id: "3-13", type: "text", html: "<p>Le composant ChatWidget gere l'interface : affichage des messages, input utilisateur, et lecture du stream pour afficher les tokens en temps reel. Claude Code peut generer tout ce composant — tu n'as qu'a personnaliser les couleurs.</p>" },
+
+      { id: "3-14", type: "heading", level: 2, text: "Etape 4 : La base de connaissances" },
+      { id: "3-15", type: "steps", steps: [
+        { title: "Redige la FAQ du client", description: "Ecris les 10-20 questions/reponses les plus frequentes. Format simple : Q: ... R: ..." },
+        { title: "Injecte dans le system prompt", description: "Pour moins de 50 Q/R, injecte directement dans le system prompt comme knowledgeBase. Simple et efficace." },
+        { title: "Pour plus de volume : RAG", description: "Pour des centaines de pages, tu utiliseras du RAG avec pgvector (lecon 5). Pour l'instant, l'injection directe suffit." },
       ]},
-      { id: "3-10", type: "callout", variant: "tip", html: "Le bloc <strong>AI Response</strong> de Voiceflow fait tout en un : il prend la question, interroge la Knowledge Base, et génère une réponse contextuelle. Tu n'as pas besoin de coder la logique RAG toi-même." },
+      { id: "3-16", type: "code", language: "text", filename: "Exemple de base de connaissances (FAQ)", code: `Q: Quels sont vos horaires d'ouverture ?
+R: Nous sommes ouverts du lundi au vendredi de 9h a 18h, et le samedi de 10h a 16h.
 
-      { id: "3-11", type: "heading", level: 2, text: "Étape 3 : Alimenter la Knowledge Base" },
-      { id: "3-12", type: "steps", steps: [
-        { title: "Accède à la Knowledge Base", description: "Dans le menu gauche, clique sur l'icône 'Knowledge Base' (livre). C'est ici que tu vas nourrir ton chatbot." },
-        { title: "Upload tes sources", description: "Clique sur 'Add Data Source'. Tu peux ajouter : PDF (max 50 MB), URL à crawler (le site du client), texte brut. Pour la démo : upload une FAQ en PDF." },
-        { title: "Configure le chunking", description: "Laisse les paramètres par défaut pour commencer : chunk size 500 tokens, overlap 50. Tu peux affiner si les réponses sont trop courtes ou coupées." },
-        { title: "Connecte la KB au flow", description: "Dans ton bloc AI Response, active 'Use Knowledge Base'. Voiceflow récupérera automatiquement les passages pertinents avant de générer la réponse." },
+Q: Comment passer commande ?
+R: Vous pouvez commander directement sur notre site. Ajoutez vos articles au panier et suivez le processus de paiement.
+
+Q: Quels sont les delais de livraison ?
+R: La livraison standard prend 3 a 5 jours ouvrables. La livraison express est disponible en 24h pour 9,90 EUR.
+
+Q: Comment retourner un article ?
+R: Vous disposez de 30 jours pour retourner un article. Rendez-vous sur notre page Retours avec votre numero de commande.` },
+
+      { id: "3-17", type: "heading", level: 2, text: "Etape 5 : Tester et deployer" },
+      { id: "3-18", type: "steps", steps: [
+        { title: "Test en local", description: "npm run dev. Teste 10 questions differentes : questions couvertes par la FAQ, questions hors sujet, questions ambigues. Note les reponses ratees." },
+        { title: "Affiner le system prompt", description: "Si le chatbot hallucine (invente des reponses), renforce le prompt : 'Ne genere JAMAIS d'informations qui ne sont pas dans la base de connaissances.'" },
+        { title: "Deployer sur Vercel", description: "git push et deploie sur Vercel. Ajoute ta cle API dans les variables d'environnement Vercel. Le chatbot est en ligne." },
       ]},
 
-      { id: "3-13", type: "heading", level: 2, text: "Étape 4 : Personnaliser le comportement IA" },
-      { id: "3-14", type: "code", language: "text", filename: "Voiceflow — AI Response Block Configuration", code: `System Prompt (dans le bloc AI Response) :
-─────────────────────────────────────────
-Tu es l'assistant de [Nom du client].
-Utilise UNIQUEMENT les informations de la base de connaissances pour répondre.
-Si la réponse n'est pas dans la base de connaissances, dis :
-"Je n'ai pas cette information. Contactez-nous au [téléphone] ou par email à [email]."
+      { id: "3-19", type: "callout", variant: "success", html: "Avec ce setup et Claude Code, tu peux livrer un chatbot professionnel en 1-2 jours. Design personnalise, streaming, base de connaissances — et 0 EUR d'abonnement SaaS." },
 
-Format tes réponses en bullet points si la réponse contient plus de 2 éléments.
-Sois concis : maximum 3-4 phrases par réponse.
-─────────────────────────────────────────
-Temperature : 0.3 (réponses cohérentes)
-Max tokens : 300` },
+      { id: "3-20", type: "quiz-inline", question: "Comment eviter que le chatbot invente des reponses qui ne sont pas dans la FAQ du client ?", options: [
+        { id: "a", text: "Baisser la temperature du modele a 0" },
+        { id: "b", text: "Injecter la FAQ dans le system prompt et specifier de n'utiliser que cette source" },
+        { id: "c", text: "Utiliser un modele plus petit" },
+      ], correctId: "b", explanation: "La combinaison FAQ injectee + system prompt restrictif est la bonne approche. Le prompt doit inclure : 'Utilise UNIQUEMENT les informations suivantes pour repondre.' La temperature basse aide aussi, mais sans la contrainte explicite dans le prompt, le modele peut halluciner." },
 
-      { id: "3-15", type: "heading", level: 2, text: "Étape 5 : Tester et déployer" },
-      { id: "3-16", type: "steps", steps: [
-        { title: "Test dans Voiceflow", description: "Clique sur 'Run' en haut à droite. Teste 10 questions différentes : questions couvertes par la KB, questions hors sujet, questions ambiguës. Note les réponses ratées." },
-        { title: "Affiner le system prompt", description: "Si le chatbot hallucine (invente des réponses), renforce le prompt : 'Ne génère JAMAIS d'informations qui ne sont pas dans la base de connaissances.'" },
-        { title: "Exporter le widget", description: "Dans 'Integrations', copie le snippet HTML. C'est 3 lignes de code que ton client colle avant la balise </body>." },
-      ]},
-      { id: "3-17", type: "code", language: "javascript", filename: "snippet-voiceflow-widget.html", code: `<!-- Chatbot Voiceflow — à coller avant </body> -->
-<script type="text/javascript">
-  (function(d, t) {
-    var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-    v.onload = function() {
-      window.voiceflow.chat.load({
-        verify: { projectID: 'VOTRE_PROJECT_ID' },
-        url: 'https://general-runtime.voiceflow.com',
-        versionID: 'production',
-        assistant: {
-          stylesheet: 'https://yoursite.com/chatbot-custom.css', // optionnel
-        },
-      });
-    }
-    v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>` },
-
-      { id: "3-18", type: "callout", variant: "success", html: "Avec ce setup, tu peux livrer un chatbot professionnel en 1-2 jours. Ajoute 30 minutes pour personnaliser les couleurs dans Voiceflow (Settings > Chat Widget > Appearance) et envoie le snippet au client." },
-
-      { id: "3-19", type: "quiz-inline", question: "Dans Voiceflow, comment éviter que le chatbot invente des réponses qui ne sont pas dans la FAQ du client ?", options: [
-        { id: "a", text: "Baisser la température du modèle à 0" },
-        { id: "b", text: "Activer 'Use Knowledge Base' et spécifier dans le system prompt de n'utiliser que cette source" },
-        { id: "c", text: "Utiliser un modèle plus petit" },
-      ], correctId: "b", explanation: "La combinaison Knowledge Base + system prompt restrictif est la bonne approche. La température basse aide à la cohérence, mais sans la contrainte explicite dans le prompt, le modèle peut quand même halluciner." },
-
-      { id: "3-20", type: "checklist", title: "Ce que tu sais faire maintenant", items: [
-        { id: "c1", text: "Créer un projet Voiceflow et le connecter à une API IA (Claude / OpenAI)" },
-        { id: "c2", text: "Construire un flow conversationnel avec accueil, capture, réponse IA" },
-        { id: "c3", text: "Uploader une base de connaissances (PDF, URL) dans Voiceflow" },
-        { id: "c4", text: "Écrire un system prompt efficace qui limite les hallucinations" },
-        { id: "c5", text: "Tester, affiner et déployer le widget sur un site client" },
+      { id: "3-21", type: "checklist", title: "Ce que tu sais faire maintenant", items: [
+        { id: "c1", text: "Generer un chatbot complet avec Claude Code (widget + API route)" },
+        { id: "c2", text: "Configurer une API route Next.js qui appelle Claude avec streaming" },
+        { id: "c3", text: "Injecter une base de connaissances dans le system prompt" },
+        { id: "c4", text: "Ecrire un system prompt efficace qui limite les hallucinations" },
+        { id: "c5", text: "Tester, affiner et deployer le chatbot sur Vercel" },
       ]},
     ]),
-    exercise: "<p><strong>Exercice :</strong> Crée un chatbot Voiceflow pour une boutique fictive (ex: librairie, restaurant, salon de coiffure). Rédige une FAQ de 10 questions/réponses, uploade-la en PDF dans la Knowledge Base, construis le flow complet et teste 15 questions variées. Capture 3 exemples de bonnes réponses et 1 raté — et corrige-le en améliorant le system prompt.</p>",
+    exercise: "<p><strong>Exercice :</strong> Utilise Claude Code pour creer un chatbot pour une boutique fictive (ex: librairie, restaurant, salon de coiffure). Redige une FAQ de 10 questions/reponses, injecte-la dans le system prompt, genere le widget et l'API route avec Claude Code, et teste 15 questions variees. Capture 3 exemples de bonnes reponses et 1 rate — et corrige-le en ameliorant le system prompt. Deploie sur Vercel.</p>",
     quiz: [
-      { type: "mcq", question: "Dans Voiceflow, comment empêcher le chatbot d'inventer des réponses non présentes dans la FAQ ?", options: JSON.stringify(["Utiliser un modèle IA plus petit", "Activer 'Use Knowledge Base' et spécifier dans le system prompt de n'utiliser que cette source", "Supprimer toutes les variables globales", "Désactiver le bloc AI Response"]), correctAnswer: "Activer 'Use Knowledge Base' et spécifier dans le system prompt de n'utiliser que cette source", explanation: "La combinaison Knowledge Base activée + system prompt restrictif est la bonne approche. Le prompt doit inclure : 'Ne génère JAMAIS d'informations qui ne sont pas dans la base de connaissances.' Cela limite fortement les hallucinations." },
-      { type: "true_false", question: "La Knowledge Base de Voiceflow permet d'uploader des PDFs et de crawler des URLs pour entraîner le chatbot.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Voiceflow accepte plusieurs types de sources dans sa Knowledge Base : PDF (max 50 MB), URLs à crawler (le site du client), et texte brut. Le chatbot s'appuie ensuite automatiquement sur ces données pour répondre." },
-      { type: "mcq", question: "Quelle température recommande-t-on dans le bloc AI Response de Voiceflow pour un chatbot support client ?", options: JSON.stringify(["1.0 — pour des réponses créatives", "0.7 — pour un bon équilibre", "0.3 — pour des réponses cohérentes et fiables", "0.0 — pour des réponses identiques à chaque fois"]), correctAnswer: "0.3 — pour des réponses cohérentes et fiables", explanation: "Pour un chatbot support client, la température 0.3 assure des réponses cohérentes et factuelles. Une température élevée rendrait les réponses trop variées et risquerait d'introduire des erreurs factuelles." },
-      { type: "true_false", question: "Le widget Voiceflow peut être intégré sur un site client avec seulement 3 lignes de code HTML.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Dans la section 'Integrations' de Voiceflow, un snippet HTML de 3 lignes est généré. Le client n'a qu'à le coller avant la balise </body> de son site. C'est l'un des avantages majeurs de Voiceflow pour une livraison rapide." },
-      { type: "mcq", question: "Vous venez de livrer un chatbot Voiceflow pour une librairie. Le client se plaint que le chatbot invente des livres qui n'existent pas dans son catalogue. Quelle est votre première action corrective ?", options: JSON.stringify(["Vous changez le modèle IA pour un modèle moins puissant", "Vous vérifiez que la Knowledge Base est activée dans le bloc AI Response et vous ajoutez dans le system prompt l'instruction de ne jamais inventer", "Vous supprimez le chatbot et recommencez depuis zéro", "Vous augmentez la température à 1.0 pour des réponses plus variées"]), correctAnswer: "Vous vérifiez que la Knowledge Base est activée dans le bloc AI Response et vous ajoutez dans le system prompt l'instruction de ne jamais inventer", explanation: "Les hallucinations viennent souvent d'une Knowledge Base non activée ou d'un system prompt trop permissif. La correction : activer 'Use Knowledge Base' + ajouter dans le prompt 'Ne génère JAMAIS d'informations qui ne sont pas dans la base de connaissances. Si tu ne sais pas, redirige vers le libraire.'" },
+      { type: "mcq", question: "Dans un chatbot custom Next.js, comment empecher le chatbot d'inventer des reponses non presentes dans la FAQ ?", options: JSON.stringify(["Utiliser un modele IA plus petit", "Injecter la FAQ dans le system prompt et specifier de n'utiliser que cette source", "Supprimer toutes les variables", "Desactiver le streaming"]), correctAnswer: "Injecter la FAQ dans le system prompt et specifier de n'utiliser que cette source", explanation: "La combinaison FAQ injectee dans le system prompt + instruction restrictive est la bonne approche. Le prompt doit inclure : 'Utilise UNIQUEMENT les informations suivantes pour repondre.' Cela limite fortement les hallucinations." },
+      { type: "true_false", question: "Injecter toute la FAQ dans le system prompt est une solution viable pour un chatbot avec moins de 50 questions/reponses.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Pour un petit volume de donnees (moins de 50 Q/R), l'injection directe dans le system prompt fonctionne bien. C'est simple et efficace. Pour des volumes plus importants, il faut passer au RAG avec une vector database (lecon 5)." },
+      { type: "mcq", question: "Quelle temperature recommande-t-on pour un chatbot support client ?", options: JSON.stringify(["1.0 — pour des reponses creatives", "0.7 — pour un bon equilibre", "0.3 — pour des reponses coherentes et fiables", "0.0 — pour des reponses identiques a chaque fois"]), correctAnswer: "0.3 — pour des reponses coherentes et fiables", explanation: "Pour un chatbot support client, la temperature 0.3 assure des reponses coherentes et factuelles. Une temperature elevee rendrait les reponses trop variees et risquerait d'introduire des erreurs factuelles." },
+      { type: "true_false", question: "La cle API Anthropic doit etre stockee dans un fichier .env.local et jamais exposee cote client.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "La cle API est stockee en variable d'environnement cote serveur (.env.local). Si elle etait exposee cote client, n'importe qui pourrait l'extraire du code JavaScript et l'utiliser. L'API route agit comme intermediaire securise." },
+      { type: "mcq", question: "Vous venez de livrer un chatbot pour une librairie. Le client se plaint que le chatbot invente des livres qui n'existent pas dans son catalogue. Quelle est votre premiere action corrective ?", options: JSON.stringify(["Vous changez le modele IA pour un modele moins puissant", "Vous renforcez le system prompt avec l'instruction de ne jamais inventer et vous verifiez que la FAQ est bien injectee", "Vous supprimez le chatbot et recommencez depuis zero", "Vous augmentez la temperature a 1.0 pour des reponses plus variees"]), correctAnswer: "Vous renforcez le system prompt avec l'instruction de ne jamais inventer et vous verifiez que la FAQ est bien injectee", explanation: "Les hallucinations viennent souvent d'un system prompt trop permissif ou d'une FAQ manquante. La correction : verifier que la FAQ est injectee + ajouter dans le prompt 'Ne genere JAMAIS d'informations qui ne sont pas dans la base de connaissances.'" },
     ],
   },
 
@@ -282,7 +290,7 @@ Max tokens : 300` },
     description: "Construis un widget chat from scratch en Next.js, avec une API route qui streame les réponses de Claude, un system prompt dynamique et une base de connaissances injectée dans le contexte.",
     content: blocks([
       { id: "4-1", type: "heading", level: 2, text: "Pourquoi coder son propre chatbot ?" },
-      { id: "4-2", type: "text", html: "<p>Le chatbot custom est ta carte maîtresse pour les projets haut de gamme. Aucune dépendance à une plateforme tierce, design 100% intégré au site du client, logique métier sur mesure, et <strong>marge maximale</strong> : pas d'abonnement Voiceflow à 125$/mois à déduire.</p><p>Dans cette leçon, on code un widget chat React + une API route Next.js qui appelle Claude avec streaming. C'est la stack que tu peux réutiliser sur tous tes projets custom.</p>" },
+      { id: "4-2", type: "text", html: "<p>Le chatbot custom est ta carte maîtresse pour les projets haut de gamme. Aucune dépendance à une plateforme tierce, design 100% intégré au site du client, logique métier sur mesure, et <strong>marge maximale</strong> : pas d'abonnement SaaS mensuel a deduire.</p><p>Dans cette leçon, on code un widget chat React + une API route Next.js qui appelle Claude avec streaming. C'est la stack que tu peux réutiliser sur tous tes projets custom.</p>" },
       { id: "4-3", type: "callout", variant: "info", html: "Prérequis : avoir un projet Next.js 14+ (App Router). Si tu pars de zéro : <code>npx create-next-app@latest chatbot-demo --typescript</code>." },
       { id: "4-4", type: "separator", style: "dots" },
 
@@ -533,7 +541,7 @@ export default function Home() {
       { type: "true_false", question: "Injecter toute la FAQ dans le system prompt est une solution viable pour un chatbot avec moins de 50 questions/réponses.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Pour un petit volume de données (moins de 50 Q&R), l'injection directe dans le system prompt comme knowledgeContext fonctionne bien. C'est simple et efficace. Pour des volumes plus importants, il faut passer au RAG avec une vector database." },
       { type: "mcq", question: "Pourquoi utilise-t-on le SDK Anthropic côté serveur (API route) et jamais côté client (composant React) ?", options: JSON.stringify(["Parce que le SDK ne fonctionne pas dans le navigateur", "Pour protéger la clé API qui ne doit jamais être exposée côté client", "Pour améliorer les performances", "Parce que React ne supporte pas les appels API"]), correctAnswer: "Pour protéger la clé API qui ne doit jamais être exposée côté client", explanation: "La clé API Anthropic est stockée en variable d'environnement côté serveur. Si elle était exposée côté client, n'importe qui pourrait l'extraire du code JavaScript et l'utiliser. L'API route agit comme intermédiaire sécurisé." },
       { type: "true_false", question: "Le composant ChatWidget gère l'historique des messages en stockant un tableau de messages avec le rôle (user/assistant) et le contenu.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Vrai", explanation: "Le composant React maintient un state avec un tableau de messages [{role: 'user', content: '...'}, {role: 'assistant', content: '...'}]. Cet historique est envoyé à l'API à chaque requête pour que Claude ait le contexte de la conversation." },
-      { type: "mcq", question: "Un prospect vous demande un chatbot custom pour son SaaS avec un design entièrement personnalisé et intégré dans son dashboard existant. Voiceflow ne convient pas. Quelle architecture technique lui proposez-vous ?", options: JSON.stringify(["Un simple iframe ChatGPT intégré dans le dashboard", "Une API route Next.js qui appelle Claude avec streaming, un composant React ChatWidget avec ReadableStream, et la FAQ injectée dans le system prompt", "Un plugin WordPress avec un formulaire de contact", "Un fichier HTML statique avec des réponses pré-écrites"]), correctAnswer: "Une API route Next.js qui appelle Claude avec streaming, un composant React ChatWidget avec ReadableStream, et la FAQ injectée dans le system prompt", explanation: "Pour un chatbot custom intégré dans un SaaS, l'architecture complète est : API route côté serveur (protection de la clé API) → Claude avec streaming → ReadableStream côté client → composant React personnalisable. Le design s'intègre parfaitement au dashboard existant." },
+      { type: "mcq", question: "Un prospect vous demande un chatbot custom pour son SaaS avec un design entierement personnalise et integre dans son dashboard existant. Quelle architecture technique lui proposez-vous ?", options: JSON.stringify(["Un simple iframe ChatGPT intégré dans le dashboard", "Une API route Next.js qui appelle Claude avec streaming, un composant React ChatWidget avec ReadableStream, et la FAQ injectée dans le system prompt", "Un plugin WordPress avec un formulaire de contact", "Un fichier HTML statique avec des réponses pré-écrites"]), correctAnswer: "Une API route Next.js qui appelle Claude avec streaming, un composant React ChatWidget avec ReadableStream, et la FAQ injectée dans le system prompt", explanation: "Pour un chatbot custom intégré dans un SaaS, l'architecture complète est : API route côté serveur (protection de la clé API) → Claude avec streaming → ReadableStream côté client → composant React personnalisable. Le design s'intègre parfaitement au dashboard existant." },
     ],
   },
 

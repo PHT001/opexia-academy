@@ -50,7 +50,7 @@ const COMING_SOON_MASTERCLASSES = [
     speaker: "Équipe OpexIA",
     estimatedLessons: 6,
     estimatedDuration: "~2h30",
-    tags: ["Agents IA", "Automatisation", "API", "n8n"],
+    tags: ["Agents IA", "Automatisation", "API", "Webhooks"],
     icon: (
       <svg className="w-8 h-8 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="3" />

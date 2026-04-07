@@ -133,7 +133,7 @@ export const MODULE_7_LESSONS = [
       {
         id: "1-13",
         type: "text",
-        html: "<p>Voici les types d'automatisations que tes futurs clients vont te demander le plus souvent :</p><ul><li><strong>Communication automatisée</strong> : emails de suivi, relances, notifications Slack/Discord — tout ce qui concerne l'envoi de messages au bon moment.</li><li><strong>Traitement de données</strong> : import/export de fichiers CSV, transformation de données, synchronisation entre systèmes.</li><li><strong>Surveillance et monitoring</strong> : suivi de prix concurrents, alertes de disponibilité, veille de contenu.</li><li><strong>Génération de contenu</strong> : rapports automatiques, résumés quotidiens, posts planifiés.</li><li><strong>Intégrations sur mesure</strong> : connecter deux outils qui n'ont pas de connexion native, synchroniser des bases de données.</li></ul>",
+        html: "<p>Voici les types d'automatisations que tes futurs clients vont te demander le plus souvent :</p><ul><li><strong>Communication automatisée</strong> : emails de suivi, relances, notifications Discord/Discord — tout ce qui concerne l'envoi de messages au bon moment.</li><li><strong>Traitement de données</strong> : import/export de fichiers CSV, transformation de données, synchronisation entre systèmes.</li><li><strong>Surveillance et monitoring</strong> : suivi de prix concurrents, alertes de disponibilité, veille de contenu.</li><li><strong>Génération de contenu</strong> : rapports automatiques, résumés quotidiens, posts planifiés.</li><li><strong>Intégrations sur mesure</strong> : connecter deux outils qui n'ont pas de connexion native, synchroniser des bases de données.</li></ul>",
       },
       {
         id: "1-14",
@@ -692,7 +692,7 @@ export async function GET(request: Request) {
         type: "callout",
         variant: "warning",
         title: "Piège classique",
-        html: "<p>Un cron job qui échoue silencieusement, c'est le pire scénario. Redirige toujours la sortie vers un fichier de log et mets en place une alerte (email ou Slack) quand une tâche échoue. Tu ne veux pas découvrir 3 semaines plus tard que tes backups ne tournent plus.</p>",
+        html: "<p>Un cron job qui échoue silencieusement, c'est le pire scénario. Redirige toujours la sortie vers un fichier de log et mets en place une alerte (email ou Discord) quand une tâche échoue. Tu ne veux pas découvrir 3 semaines plus tard que tes backups ne tournent plus.</p>",
       },
       {
         id: "3-15b",
@@ -777,7 +777,7 @@ crontab -l`,
     slug: "automatiser-emails-notifications",
     duration: "30 min",
     description:
-      "Envoyer des emails automatiques (Resend/Nodemailer), des SMS (Twilio) et des notifications Slack avec Claude Code.",
+      "Envoyer des emails automatiques (Resend/Nodemailer), des SMS (Twilio) et des notifications Discord avec Claude Code.",
     content: blocks([
       {
         id: "4-1",
@@ -788,12 +788,12 @@ crontab -l`,
       {
         id: "4-2",
         type: "text",
-        html: "<p>Envoyer le bon message, au bon moment, à la bonne personne — c'est le secret d'un business qui tourne. Que ce soit un email de bienvenue quand un client s'inscrit, une notification Slack quand une vente arrive, ou un SMS de rappel avant un rendez-vous, les notifications automatiques sont l'épine dorsale de toute entreprise moderne.</p>",
+        html: "<p>Envoyer le bon message, au bon moment, à la bonne personne — c'est le secret d'un business qui tourne. Que ce soit un email de bienvenue quand un client s'inscrit, une notification Discord quand une vente arrive, ou un SMS de rappel avant un rendez-vous, les notifications automatiques sont l'épine dorsale de toute entreprise moderne.</p>",
       },
       {
         id: "4-3",
         type: "text",
-        html: "<p>Et la bonne nouvelle, c'est que tout ça se code en quelques lignes avec les bons outils. On va voir trois canaux : emails (Resend), Slack (webhooks) et SMS (Twilio). Chaque canal a ses forces, et tu utiliseras souvent les trois ensemble.</p>",
+        html: "<p>Et la bonne nouvelle, c'est que tout ça se code en quelques lignes avec les bons outils. On va voir trois canaux : emails (Resend), Discord (webhooks) et SMS (Twilio). Chaque canal a ses forces, et tu utiliseras souvent les trois ensemble.</p>",
       },
       { id: "4-dia1", type: "heading", level: 3, text: "C'est quoi un email transactionnel concrètement ?" },
       { id: "4-dia1d", type: "diagram", variant: "hub", nodes: [
@@ -876,12 +876,12 @@ sendOrderConfirmation({
         id: "4-8",
         type: "heading",
         level: 2,
-        text: "Notifications Slack avec les webhooks",
+        text: "Notifications Discord avec les webhooks",
       },
       {
         id: "4-9",
         type: "text",
-        html: "<p>Les notifications Slack sont parfaites pour te tenir informé en temps réel de ce qui se passe dans ton business. Nouvelle vente, erreur critique, tâche terminée — un webhook Slack envoie un message dans le channel de ton choix en une seule requête HTTP.</p>",
+        html: "<p>Les notifications Discord sont parfaites pour te tenir informé en temps réel de ce qui se passe dans ton business. Nouvelle vente, erreur critique, tâche terminée — un webhook Discord envoie un message dans le channel de ton choix en une seule requête HTTP.</p>",
       },
       {
         id: "4-10",
@@ -893,14 +893,14 @@ dotenv.config();
 
 const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK_URL!;
 
-interface SlackNotification {
+interface DiscordNotification {
   title: string;
   message: string;
   type: "success" | "warning" | "error" | "info";
   fields?: { label: string; value: string }[];
 }
 
-async function notifySlack(notif: SlackNotification) {
+async function notifyDiscord(notif: DiscordNotification) {
   const colorMap = {
     success: "#22c55e",
     warning: "#f59e0b",
@@ -943,12 +943,12 @@ async function notifySlack(notif: SlackNotification) {
     body: JSON.stringify(payload),
   });
 
-  if (!res.ok) throw new Error(\`Slack error: \${res.status}\`);
-  console.log("✓ Notification Slack envoyée");
+  if (!res.ok) throw new Error(\`Discord error: \${res.status}\`);
+  console.log("✓ Notification Discord envoyée");
 }
 
 // Exemple : notification de nouvelle vente
-notifySlack({
+notifyDiscord({
   title: "Nouvelle vente !",
   message: "Un client vient de passer commande sur la boutique.",
   type: "success",
@@ -1019,7 +1019,7 @@ async function sendAllReminders(appointments: { phone: string; name: string; tim
         type: "callout",
         variant: "info",
         title: "Coûts de référence",
-        html: "<p><strong>Resend</strong> : gratuit jusqu'à 100 emails/jour, puis 20$/mois pour 50 000 emails. <strong>Twilio SMS</strong> : environ 0,07€ par SMS envoyé en France. <strong>Slack webhooks</strong> : totalement gratuit. Pour un business qui envoie 500 emails et 100 SMS par mois, compte environ 25-30€/mois — bien moins cher que la valeur que ça génère.</p>",
+        html: "<p><strong>Resend</strong> : gratuit jusqu'à 100 emails/jour, puis 20$/mois pour 50 000 emails. <strong>Twilio SMS</strong> : environ 0,07€ par SMS envoyé en France. <strong>Discord webhooks</strong> : totalement gratuit. Pour un business qui envoie 500 emails et 100 SMS par mois, compte environ 25-30€/mois — bien moins cher que la valeur que ça génère.</p>",
       },
       {
         id: "4-16",
@@ -1027,7 +1027,7 @@ async function sendAllReminders(appointments: { phone: string; name: string; tim
         question: "Quel canal de notification a le meilleur taux d'ouverture ?",
         options: [
           { id: "a", text: "Email (environ 20%)" },
-          { id: "b", text: "Slack (environ 60%)" },
+          { id: "b", text: "Discord (environ 60%)" },
           { id: "c", text: "SMS (environ 98%)" },
           { id: "d", text: "Notification push (environ 50%)" },
         ],
@@ -1041,7 +1041,7 @@ async function sendAllReminders(appointments: { phone: string; name: string; tim
         title: "Validation de la leçon",
         items: [
           { id: "c1", text: "J'ai créé un compte Resend et envoyé un email de test" },
-          { id: "c2", text: "J'ai configuré un webhook Slack et reçu une notification" },
+          { id: "c2", text: "J'ai configuré un webhook Discord et reçu une notification" },
           { id: "c3", text: "Je comprends comment fonctionne l'API Twilio pour les SMS" },
           { id: "c4", text: "J'ai mis mes clés API dans un fichier .env (jamais en dur)" },
           { id: "c5", text: "J'ai un template d'email HTML propre et réutilisable" },
@@ -1049,7 +1049,7 @@ async function sendAllReminders(appointments: { phone: string; name: string; tim
       },
     ]),
     exercise:
-      "Crée un système de notification multi-canal avec Claude Code : (1) Un script qui envoie un email de bienvenue HTML soigné avec Resend quand tu ajoutes un contact à un fichier JSON. (2) Un webhook Slack qui t'alerte quand le script s'exécute avec les détails du contact ajouté. (3) Combine les deux dans un seul script et planifie-le pour vérifier le fichier JSON toutes les 10 minutes.",
+      "Crée un système de notification multi-canal avec Claude Code : (1) Un script qui envoie un email de bienvenue HTML soigné avec Resend quand tu ajoutes un contact à un fichier JSON. (2) Un webhook Discord qui t'alerte quand le script s'exécute avec les détails du contact ajouté. (3) Combine les deux dans un seul script et planifie-le pour vérifier le fichier JSON toutes les 10 minutes.",
   },
 
   // ═══════════════════════════════════════════════════
@@ -1357,7 +1357,7 @@ monitorPrices();`,
       },
     ]),
     exercise:
-      "Construis un moniteur de veille concurrentielle avec Claude Code : (1) Choisis 3 sites publics dans ta niche et identifie les informations à extraire (prix, titres, descriptions). (2) Écris un scraper avec cheerio qui extrait ces données et les sauvegarde dans un fichier JSON horodaté. (3) Ajoute une fonction de comparaison qui détecte les changements par rapport au scraping précédent. (4) Planifie le scraping toutes les 24h et envoie une notification Slack en cas de changement détecté.",
+      "Construis un moniteur de veille concurrentielle avec Claude Code : (1) Choisis 3 sites publics dans ta niche et identifie les informations à extraire (prix, titres, descriptions). (2) Écris un scraper avec cheerio qui extrait ces données et les sauvegarde dans un fichier JSON horodaté. (3) Ajoute une fonction de comparaison qui détecte les changements par rapport au scraping précédent. (4) Planifie le scraping toutes les 24h et envoie une notification Discord en cas de changement détecté.",
   },
 
   // ═══════════════════════════════════════════════════
@@ -1386,7 +1386,7 @@ monitorPrices();`,
       {
         id: "6-3",
         type: "text",
-        html: "<p>Exemple concret : chaque jour, ton workflow (1) scrape les nouveaux avis Google de ton client, (2) les analyse avec l'API Claude pour détecter le sentiment, (3) génère un résumé, (4) envoie le résumé par email au client, et (5) alerte sur Slack si un avis négatif est détecté. Cinq étapes, zéro intervention manuelle. C'est ce type de workflow que tes clients sont prêts à payer 500€/mois.</p>",
+        html: "<p>Exemple concret : chaque jour, ton workflow (1) scrape les nouveaux avis Google de ton client, (2) les analyse avec l'API Claude pour détecter le sentiment, (3) génère un résumé, (4) envoie le résumé par email au client, et (5) alerte sur Discord si un avis négatif est détecté. Cinq étapes, zéro intervention manuelle. C'est ce type de workflow que tes clients sont prêts à payer 500€/mois.</p>",
       },
       {
         id: "6-4",
@@ -1422,7 +1422,7 @@ monitorPrices();`,
       { id: "6-dia2", type: "heading", level: 3, text: "Comment gérer les erreurs dans un workflow ?" },
       { id: "6-dia2d", type: "diagram", variant: "tree", nodes: [
         { id: "n1", label: "Retry (réessayer)", description: "L'API a juste un hoquet temporaire. On attend 2 secondes et on réessaie. Idéal pour les erreurs réseau." },
-        { id: "n2", label: "Skip (ignorer)", description: "Cette étape n'est pas critique. Si Slack est en panne, le rapport email est déjà parti. On continue." },
+        { id: "n2", label: "Skip (ignorer)", description: "Cette étape n'est pas critique. Si Discord est en panne, le rapport email est déjà parti. On continue." },
         { id: "n3", label: "Abort (arrêter)", description: "Erreur fatale. Si on ne peut pas récupérer les données, inutile de continuer le workflow." },
       ]},
       { id: "6-dia2c", type: "callout", variant: "tip", html: "<strong>Analogie :</strong> dans une cuisine, si le four ne marche pas (abort), tu ne peux pas cuire le plat. Si le micro-ondes est en panne (skip), tu peux quand même servir les plats froids. Si le lave-vaisselle est lent (retry), tu relances un cycle." },
@@ -1594,11 +1594,11 @@ workflow
     retries: 2,
   })
   .addStep({
-    name: "Alerter Slack si avis négatif",
+    name: "Alerter Discord si avis négatif",
     execute: async (report) => {
       const r = report as { negative: number };
       if (r.negative > 0) {
-        await notifySlack({
+        await notifyDiscord({
           title: "Avis négatif détecté",
           message: \`\${r.negative} avis négatif(s) aujourd'hui. Vérifier et répondre.\`,
           type: "warning",
@@ -1638,7 +1638,7 @@ workflow.run();`,
             cells: [
               "Skip (ignorer)",
               "Étape non critique, le workflow peut continuer",
-              "La notification Slack échoue → le rapport email est déjà parti",
+              "La notification Discord échoue → le rapport email est déjà parti",
             ],
           },
           {
@@ -1661,7 +1661,7 @@ workflow.run();`,
         id: "6-15",
         type: "quiz-inline",
         question:
-          "Dans un workflow de veille, l'étape d'envoi de notification Slack échoue. Quel pattern d'erreur est le plus approprié ?",
+          "Dans un workflow de veille, l'étape d'envoi de notification Discord échoue. Quel pattern d'erreur est le plus approprié ?",
         options: [
           { id: "a", text: "Abort — arrêter tout le workflow" },
           { id: "b", text: "Retry indéfiniment jusqu'à ce que ça marche" },
@@ -1670,7 +1670,7 @@ workflow.run();`,
         ],
         correctId: "c",
         explanation:
-          "La notification Slack est une étape non critique. Les données ont déjà été scrapées, analysées et envoyées par email. Utilise 'skip' pour continuer le workflow, mais log l'erreur pour pouvoir diagnostiquer le problème plus tard.",
+          "La notification Discord est une étape non critique. Les données ont déjà été scrapées, analysées et envoyées par email. Utilise 'skip' pour continuer le workflow, mais log l'erreur pour pouvoir diagnostiquer le problème plus tard.",
       },
       {
         id: "6-16",
@@ -1686,7 +1686,7 @@ workflow.run();`,
       },
     ]),
     exercise:
-      "Construis un workflow complet \"Veille concurrentielle automatique\" avec Claude Code en utilisant le WorkflowEngine : Étape 1 — Scrape les prix de 3 produits concurrents. Étape 2 — Compare avec les prix de la veille (fichier JSON). Étape 3 — Génère un résumé des variations en Markdown. Étape 4 — Envoie le résumé par email (ou console.log simulé). Étape 5 — Alerte Slack si une baisse de plus de 10% est détectée. Gère les erreurs de chaque étape avec le bon pattern (retry/skip/abort).",
+      "Construis un workflow complet \"Veille concurrentielle automatique\" avec Claude Code en utilisant le WorkflowEngine : Étape 1 — Scrape les prix de 3 produits concurrents. Étape 2 — Compare avec les prix de la veille (fichier JSON). Étape 3 — Génère un résumé des variations en Markdown. Étape 4 — Envoie le résumé par email (ou console.log simulé). Étape 5 — Alerte Discord si une baisse de plus de 10% est détectée. Gère les erreurs de chaque étape avec le bon pattern (retry/skip/abort).",
   },
 
   // ═══════════════════════════════════════════════════

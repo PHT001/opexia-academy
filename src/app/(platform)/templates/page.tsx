@@ -481,7 +481,7 @@ Contenu : Proposition d'appel avec bénéfice clair et urgence légère.`,
 • Inscrit à la newsletter (+10)
 
 ACTIONS AUTOMATIQUES :
-• Score 80+ → Notification Slack + assignation commercial
+• Score 80+ → Notification Discord + assignation commercial
 • Score 50-79 → Ajout séquence nurturing
 • Score < 50 → Newsletter hebdo`,
       },

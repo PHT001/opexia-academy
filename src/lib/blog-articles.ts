@@ -43,15 +43,15 @@ export const blogArticles: BlogArticle[] = [
 <p>Ne te disperse pas. Choisis 2-3 services maximum au lancement et deviens vraiment bon dessus. Voici les plus accessibles et les plus demandés :</p>
 
 <h3>1. Chatbots IA pour le service client</h3>
-<p>C'est le service le plus facile à vendre. Toute entreprise qui reçoit des questions répétitives (e-commerce, SaaS, cabinets, restaurants) est un prospect. Tu peux construire un chatbot fonctionnel en 2-4 heures avec des outils comme Botpress, Voiceflow ou un custom GPT intégré au site du client.</p>
+<p>C'est le service le plus facile à vendre. Toute entreprise qui reçoit des questions répétitives (e-commerce, SaaS, cabinets, restaurants) est un prospect. Tu peux construire ton propre chatbot fonctionnel en 2-4 heures avec Claude Code et l'API Anthropic, intégré directement au site du client.</p>
 <p><strong>Tarif typique :</strong> 500 € à 2 000 € pour la mise en place + 100-300 €/mois de maintenance.</p>
 
-<h3>2. Automatisation de processus avec n8n ou Make</h3>
-<p>Les entreprises perdent des heures chaque semaine sur des tâches répétitives : saisie de données, envoi d'emails, transfert d'infos entre outils. Avec n8n ou Make, tu peux automatiser tout ça en quelques heures.</p>
+<h3>2. Automatisation de processus avec des scripts et API Routes</h3>
+<p>Les entreprises perdent des heures chaque semaine sur des tâches répétitives : saisie de données, envoi d'emails, transfert d'infos entre outils. Avec des scripts automatisés et des API Routes, tu peux automatiser tout ça en quelques heures.</p>
 <p><strong>Tarif typique :</strong> 300 € à 1 500 € par workflow, selon la complexité.</p>
 
 <h3>3. Agents vocaux IA</h3>
-<p>Les agents vocaux (appels entrants et sortants automatisés) sont un marché en pleine explosion. Des plateformes comme Vapi, Bland.ai ou Retell.ai permettent de créer des agents vocaux convaincants sans coder. Parfait pour la prise de rendez-vous, la qualification de leads ou le support téléphonique.</p>
+<p>Les agents vocaux (appels entrants et sortants automatisés) sont un marché en pleine explosion. Des plateformes comme ElevenLabs permettent de créer des agents vocaux convaincants. Parfait pour la prise de rendez-vous, la qualification de leads ou le support téléphonique.</p>
 <p><strong>Tarif typique :</strong> 1 000 € à 5 000 € pour la mise en place + abonnement mensuel.</p>
 
 <h3>4. Traitement automatisé de documents</h3>
@@ -62,12 +62,12 @@ export const blogArticles: BlogArticle[] = [
 <p>Voici la stack de base pour une agence IA en 2026 :</p>
 <ul>
 <li><strong>Développement :</strong> Claude Code ou Cursor pour coder rapidement des solutions sur mesure</li>
-<li><strong>Automatisation :</strong> n8n (self-hosted, gratuit) ou Make (plus simple, payant)</li>
-<li><strong>Chatbots :</strong> Botpress, Voiceflow, ou custom avec l'API OpenAI/Anthropic</li>
-<li><strong>Agents vocaux :</strong> Vapi, Bland.ai, Retell.ai</li>
+<li><strong>Automatisation :</strong> scripts automatisés avec Claude Code, API Routes Next.js, cron jobs</li>
+<li><strong>Chatbots :</strong> ton propre chatbot (Claude Code) avec l'API Anthropic</li>
+<li><strong>Agents vocaux :</strong> ElevenLabs</li>
 <li><strong>Hébergement :</strong> Vercel (sites), Railway ou VPS (backends)</li>
-<li><strong>CRM :</strong> un simple Notion ou Airtable au début, puis HubSpot gratuit quand tu grandis</li>
-<li><strong>Facturation :</strong> Stripe pour les paiements, Pennylane ou Tiime pour la compta</li>
+<li><strong>CRM :</strong> un simple Notion ou Google Sheets au début, puis ton propre CRM quand tu grandis</li>
+<li><strong>Facturation :</strong> Stripe pour les paiements, ton outil de facturation pour la compta</li>
 </ul>
 
 <h2>Comment trouver tes premiers clients</h2>
@@ -131,7 +131,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: "14 min",
     author: "Équipe OpexIA",
     tags: ["Business", "Services", "Rentabilité"],
-    relatedSlugs: ["automatisation-ia-entreprise", "outils-ia-indispensables-freelance", "automatiser-n8n"],
+    relatedSlugs: ["automatisation-ia-entreprise", "outils-ia-indispensables-freelance", "automatiser-code"],
     content: `
 <h2>Pourquoi vendre des services IA aux entreprises est si rentable</h2>
 <p>Les entreprises sont prêtes à payer cher pour des solutions qui leur font gagner du temps et de l'argent. Un service IA bien packagé peut se vendre entre 500 € et 10 000 €, avec des marges de 60 à 80%. Pourquoi ? Parce que le coût de production est faible (ton temps + quelques abonnements logiciels) et la valeur perçue est énorme.</p>
@@ -141,7 +141,7 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Ce que c'est :</strong> un assistant conversationnel intégré au site web du client qui répond aux questions fréquentes, guide les visiteurs et qualifie les prospects 24h/24.</p>
 <p><strong>Fourchette de prix :</strong> 500 € - 2 500 € (mise en place) + 100-300 €/mois</p>
 <p><strong>Difficulté :</strong> Facile</p>
-<p><strong>Outils :</strong> Botpress, Voiceflow, Chatbase, ou custom avec API Anthropic/OpenAI</p>
+<p><strong>Outils :</strong> ton propre chatbot (Claude Code) avec API Anthropic/OpenAI</p>
 <p><strong>Pour qui :</strong> e-commerce, SaaS, restaurants, hôtels, cabinets médicaux</p>
 <p>C'est le service d'entrée de gamme parfait. Presque toutes les entreprises qui ont un site web peuvent en bénéficier. Le ROI est immédiat : moins de temps passé à répondre aux mêmes questions.</p>
 
@@ -149,15 +149,15 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Ce que c'est :</strong> un système qui gère les appels téléphoniques entrants ou sortants automatiquement. Prise de rendez-vous, qualification de leads, rappels, enquêtes de satisfaction.</p>
 <p><strong>Fourchette de prix :</strong> 1 500 € - 5 000 € + 200-500 €/mois</p>
 <p><strong>Difficulté :</strong> Moyenne</p>
-<p><strong>Outils :</strong> Vapi, Bland.ai, Retell.ai, Synthflow</p>
+<p><strong>Outils :</strong> ElevenLabs, Synthflow</p>
 <p><strong>Pour qui :</strong> cabinets médicaux, agences immobilières, concessions auto, restaurants</p>
 <p>Les agents vocaux sont le service le plus "wow" que tu peux démontrer à un prospect. Quand tu fais une démo en live et que le client entend une voix IA naturelle prendre un rendez-vous, ça close presque tout seul.</p>
 
-<h2>3. Automatisation de workflows avec n8n/Make</h2>
+<h2>3. Automatisation de workflows avec du code</h2>
 <p><strong>Ce que c'est :</strong> tu connectes les outils du client entre eux pour éliminer les tâches manuelles répétitives. Exemple : quand un formulaire est rempli, les données vont automatiquement dans le CRM, un email de bienvenue est envoyé, et une tâche est créée dans le gestionnaire de projet.</p>
 <p><strong>Fourchette de prix :</strong> 300 € - 2 000 € par workflow</p>
 <p><strong>Difficulté :</strong> Facile à Moyenne</p>
-<p><strong>Outils :</strong> n8n (self-hosted), Make, Zapier</p>
+<p><strong>Outils :</strong> Claude Code, API Routes Next.js, scripts TypeScript, cron jobs</p>
 <p><strong>Pour qui :</strong> toute entreprise qui utilise plus de 3 outils SaaS</p>
 <p>Le gros avantage : c'est un service à revenus récurrents. Les workflows nécessitent de la maintenance, des mises à jour, et les clients en veulent toujours plus une fois qu'ils ont goûté à l'automatisation.</p>
 
@@ -165,7 +165,7 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Ce que c'est :</strong> extraction automatique d'informations depuis des factures, bons de commande, contrats, CV. L'IA lit le document, extrait les données pertinentes et les injecte dans le système du client.</p>
 <p><strong>Fourchette de prix :</strong> 1 000 € - 4 000 €</p>
 <p><strong>Difficulté :</strong> Moyenne</p>
-<p><strong>Outils :</strong> API Claude/GPT-4 Vision, Mistral, combiné avec n8n pour l'orchestration</p>
+<p><strong>Outils :</strong> API Claude/GPT-4 Vision, combiné avec des scripts automatisés pour l'orchestration</p>
 <p><strong>Pour qui :</strong> cabinets comptables, services RH, entreprises avec beaucoup de paperasse</p>
 <p>Un cabinet comptable qui traite 200 factures par mois manuellement va adorer payer 3 000 € pour automatiser 80% de ce travail.</p>
 
@@ -173,7 +173,7 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Ce que c'est :</strong> un système qui trie, catégorise et pré-rédige les réponses aux emails du client. L'IA analyse le contenu, identifie l'intention, et propose une réponse adaptée que le client n'a plus qu'à valider.</p>
 <p><strong>Fourchette de prix :</strong> 800 € - 2 500 €</p>
 <p><strong>Difficulté :</strong> Moyenne</p>
-<p><strong>Outils :</strong> API email (Gmail/Outlook) + API LLM + n8n</p>
+<p><strong>Outils :</strong> API email (Gmail/Outlook) + API LLM + scripts automatisés</p>
 <p><strong>Pour qui :</strong> dirigeants, commerciaux, services support qui reçoivent 50+ emails/jour</p>
 <p>Quand un dirigeant passe 2 heures par jour sur ses emails, lui faire gagner 1h30 vaut facilement 2 000 €.</p>
 
@@ -181,7 +181,7 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Ce que c'est :</strong> tu prends le CRM existant du client (ou tu lui en mets un en place) et tu ajoutes des couches d'IA : scoring automatique des leads, résumés de conversations, suggestions de relance, prédictions de closing.</p>
 <p><strong>Fourchette de prix :</strong> 1 500 € - 5 000 €</p>
 <p><strong>Difficulté :</strong> Moyenne à Avancée</p>
-<p><strong>Outils :</strong> HubSpot/Pipedrive + API LLM + n8n pour les automations</p>
+<p><strong>Outils :</strong> ton propre CRM ou Google Sheets + API LLM + API Routes pour les automations</p>
 <p><strong>Pour qui :</strong> équipes commerciales de 3+ personnes</p>
 <p>Ce service a un potentiel de vente élevé parce qu'il touche directement au chiffre d'affaires du client. Si ton IA aide à closer 2 deals de plus par mois, le ROI est massif.</p>
 
@@ -189,7 +189,7 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Ce que c'est :</strong> tu mets en place un système qui génère du contenu pour le client : articles de blog, posts LinkedIn, descriptions produits, newsletters. Pas du contenu générique, mais du contenu personnalisé basé sur le ton et les données du client.</p>
 <p><strong>Fourchette de prix :</strong> 500 € - 2 000 €/mois (abonnement)</p>
 <p><strong>Difficulté :</strong> Facile</p>
-<p><strong>Outils :</strong> API Claude/GPT-4 + templates personnalisés + n8n pour la planification</p>
+<p><strong>Outils :</strong> API Claude/GPT-4 + templates personnalisés + cron jobs pour la planification</p>
 <p><strong>Pour qui :</strong> agences marketing, e-commerce, entreprises B2B</p>
 <p>Le modèle parfait en récurrent. Tu crées le système une fois, tu l'ajustes chaque mois, et tu factures un abonnement mensuel.</p>
 
@@ -205,7 +205,7 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Ce que c'est :</strong> un assistant IA accessible via WhatsApp ou Telegram qui permet aux clients de passer commande, prendre rendez-vous, obtenir des infos ou contacter le support directement depuis leur messagerie préférée.</p>
 <p><strong>Fourchette de prix :</strong> 800 € - 3 000 €</p>
 <p><strong>Difficulté :</strong> Moyenne</p>
-<p><strong>Outils :</strong> API WhatsApp Business, Twilio, Botpress, n8n</p>
+<p><strong>Outils :</strong> API WhatsApp Business, Twilio, API Routes</p>
 <p><strong>Pour qui :</strong> restaurants, commerces locaux, prestataires de services</p>
 <p>WhatsApp a un taux d'ouverture de plus de 90%. Pour les commerces locaux, c'est souvent plus efficace qu'un chatbot sur le site web.</p>
 
@@ -236,7 +236,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: "10 min",
     author: "Équipe OpexIA",
     tags: ["Outils", "Développement", "Comparatif"],
-    relatedSlugs: ["outils-ia-indispensables-freelance", "creer-agence-ia-2026", "automatiser-n8n"],
+    relatedSlugs: ["outils-ia-indispensables-freelance", "creer-agence-ia-2026", "automatiser-code"],
     content: `
 <h2>Deux approches différentes du développement assisté par IA</h2>
 <p>Claude Code et Cursor sont les deux outils de développement IA les plus utilisés en 2026. Mais ils ont des philosophies très différentes. Claude Code est un outil en ligne de commande (CLI) qui fonctionne dans ton terminal. Cursor est un éditeur de code complet (fork de VS Code) avec l'IA intégrée directement dans l'interface.</p>
@@ -413,81 +413,81 @@ export const blogArticles: BlogArticle[] = [
 `,
   },
   {
-    slug: "automatiser-n8n",
-    title: "n8n : automatiser ton business en 5 workflows concrets",
+    slug: "automatiser-code",
+    title: "Automatiser ton business avec du code : 5 workflows concrets",
     description:
-      "5 workflows n8n pratiques pour automatiser ton activité : du lead capture au support client.",
+      "5 automatisations pratiques à construire avec Claude Code et des API Routes : du lead capture au support client.",
     date: "28 février 2026",
     readTime: "10 min",
     author: "Équipe OpexIA",
-    tags: ["Automatisation", "n8n", "Technique"],
+    tags: ["Automatisation", "Code", "Technique"],
     relatedSlugs: ["automatisation-ia-entreprise", "outils-ia-indispensables-freelance", "services-ia-rentables"],
     content: `
-<h2>Pourquoi n8n est l'outil d'automatisation préféré des agences IA</h2>
-<p>n8n est un outil d'automatisation open-source et self-hostable. Contrairement à Zapier ou Make, tu peux l'héberger toi-même (sur un VPS à 5-10 €/mois) et avoir un nombre illimité de workflows sans payer de frais supplémentaires par exécution.</p>
-<p>Pour une agence IA, c'est un avantage énorme : tu peux créer des workflows pour tes clients sans exploser les coûts. Et l'interface visuelle par noeuds rend les automatisations faciles à comprendre, même pour un client non-technique.</p>
-<p>Voici 5 workflows concrets que tu peux construire et vendre.</p>
+<h2>Pourquoi automatiser avec du code est la meilleure approche pour les agences IA</h2>
+<p>L'automatisation par le code (API Routes, scripts TypeScript, cron jobs) te donne un contrôle total sur tes workflows. Pas de limites d'exécutions, pas d'abonnement par workflow, pas de dépendance à un outil tiers qui peut changer ses tarifs du jour au lendemain.</p>
+<p>Pour une agence IA, c'est un avantage énorme : tu construis des automatisations sur mesure avec Claude Code, tu les déploies sur Vercel ou Railway, et tu gardes des marges maximales. Et grâce au vibe coding, même un non-développeur peut construire ces workflows en quelques heures.</p>
+<p>Voici 5 automatisations concrètes que tu peux construire et vendre.</p>
 
-<h2>Workflow 1 : Lead Capture → CRM automatique</h2>
+<h2>Workflow 1 : Lead Capture vers CRM automatique</h2>
 <h3>Ce que ça fait</h3>
-<p>Quand un prospect remplit un formulaire sur le site (Typeform, Tally, formulaire custom), ses informations sont automatiquement ajoutées dans le CRM (HubSpot, Notion, Airtable), un email de bienvenue personnalisé est envoyé, et une notification Slack/Discord prévient l'équipe commerciale.</p>
+<p>Quand un prospect remplit un formulaire sur le site (Typeform, Tally, formulaire custom), ses informations sont automatiquement ajoutées dans le CRM (Notion, Google Sheets ou Supabase), un email de bienvenue personnalisé est envoyé, et une notification Discord ou email prévient l'équipe commerciale.</p>
 
-<h3>Les noeuds utilisés</h3>
+<h3>Les briques techniques</h3>
 <ul>
-<li><strong>Trigger :</strong> Webhook (reçoit les données du formulaire)</li>
-<li><strong>Traitement :</strong> noeud Function (formatage des données)</li>
-<li><strong>CRM :</strong> noeud HubSpot ou Google Sheets (ajout du contact)</li>
-<li><strong>Email :</strong> noeud SendGrid ou Gmail (email de bienvenue)</li>
-<li><strong>Notification :</strong> noeud Slack ou Discord</li>
+<li><strong>Trigger :</strong> API Route Next.js (reçoit les données du formulaire via webhook)</li>
+<li><strong>Traitement :</strong> fonction TypeScript (formatage et validation des données)</li>
+<li><strong>CRM :</strong> appel API Google Sheets ou Supabase (ajout du contact)</li>
+<li><strong>Email :</strong> appel API SendGrid ou Resend (email de bienvenue)</li>
+<li><strong>Notification :</strong> appel API Discord ou email</li>
 </ul>
 
 <h3>Temps de construction</h3>
-<p>1-2 heures pour la version de base. 3-4 heures avec personnalisation avancée (scoring de lead, emails différenciés selon la source).</p>
+<p>1-2 heures pour la version de base avec Claude Code. 3-4 heures avec personnalisation avancée (scoring de lead, emails différenciés selon la source).</p>
 
 <h3>Prix de vente suggéré</h3>
-<p>500-1 000 € pour la mise en place + 50-100 €/mois de maintenance.</p>
+<p>500-1 000 euros pour la mise en place + 50-100 euros/mois de maintenance.</p>
 
 <h2>Workflow 2 : Traitement automatique de factures</h2>
 <h3>Ce que ça fait</h3>
-<p>Le client envoie ses factures par email ou les dépose dans un dossier Google Drive. n8n détecte le nouveau fichier, envoie l'image/PDF à un LLM (Claude ou GPT-4 Vision) pour extraire les informations (montant, date, fournisseur, numéro), puis injecte les données dans un Google Sheet ou un outil comptable.</p>
+<p>Le client envoie ses factures par email ou les dépose dans un dossier Google Drive. Un script détecte le nouveau fichier, envoie l'image/PDF à un LLM (Claude ou GPT-4 Vision) pour extraire les informations (montant, date, fournisseur, numéro), puis injecte les données dans un Google Sheet ou un outil comptable.</p>
 
-<h3>Les noeuds utilisés</h3>
+<h3>Les briques techniques</h3>
 <ul>
-<li><strong>Trigger :</strong> noeud Gmail (nouveau email avec pièce jointe) ou Google Drive (nouveau fichier)</li>
-<li><strong>Extraction :</strong> noeud HTTP Request vers l'API Claude/OpenAI avec l'image en base64</li>
-<li><strong>Parsing :</strong> noeud Function (extraction JSON structuré)</li>
-<li><strong>Stockage :</strong> noeud Google Sheets ou Airtable</li>
-<li><strong>Notification :</strong> noeud Slack (résumé quotidien des factures traitées)</li>
+<li><strong>Trigger :</strong> cron job ou webhook Gmail (nouveau email avec pièce jointe) ou Google Drive API (nouveau fichier)</li>
+<li><strong>Extraction :</strong> appel API Claude/OpenAI avec l'image en base64</li>
+<li><strong>Parsing :</strong> fonction TypeScript (extraction JSON structuré)</li>
+<li><strong>Stockage :</strong> appel API Google Sheets ou Supabase</li>
+<li><strong>Notification :</strong> appel API Discord ou email (résumé quotidien des factures traitées)</li>
 </ul>
 
 <h3>Temps de construction</h3>
 <p>3-5 heures. Le plus long est de calibrer le prompt pour obtenir une extraction fiable sur différents formats de factures.</p>
 
 <h3>Prix de vente suggéré</h3>
-<p>1 500-3 000 € selon le volume et la complexité des factures.</p>
+<p>1 500-3 000 euros selon le volume et la complexité des factures.</p>
 
 <h2>Workflow 3 : Planification de contenu réseaux sociaux</h2>
 <h3>Ce que ça fait</h3>
-<p>Chaque semaine, le workflow génère automatiquement des idées de posts basées sur les tendances du secteur du client et son calendrier éditorial. Il crée des brouillons de posts LinkedIn, les envoie pour validation par email ou Slack, puis les planifie dans un outil comme Buffer ou directement via l'API LinkedIn.</p>
+<p>Chaque semaine, le script génère automatiquement des idées de posts basées sur les tendances du secteur du client et son calendrier éditorial. Il crée des brouillons de posts LinkedIn, les envoie pour validation par email ou Discord, puis les planifie dans un outil comme Buffer ou directement via l'API LinkedIn.</p>
 
-<h3>Les noeuds utilisés</h3>
+<h3>Les briques techniques</h3>
 <ul>
-<li><strong>Trigger :</strong> noeud Schedule (déclenchement hebdomadaire, le lundi matin par exemple)</li>
-<li><strong>Génération :</strong> noeud HTTP Request vers l'API Claude (prompt avec contexte de la marque + tendances)</li>
-<li><strong>Validation :</strong> noeud Gmail ou Slack (envoi des brouillons pour approbation)</li>
-<li><strong>Publication :</strong> noeud HTTP Request vers l'API Buffer/LinkedIn</li>
-<li><strong>Suivi :</strong> noeud Google Sheets (log de tous les posts publiés)</li>
+<li><strong>Trigger :</strong> cron job (déclenchement hebdomadaire, le lundi matin par exemple)</li>
+<li><strong>Génération :</strong> appel API Claude (prompt avec contexte de la marque + tendances)</li>
+<li><strong>Validation :</strong> envoi via API Gmail ou Discord (brouillons pour approbation)</li>
+<li><strong>Publication :</strong> appel API Buffer/LinkedIn</li>
+<li><strong>Suivi :</strong> appel API Google Sheets (log de tous les posts publiés)</li>
 </ul>
 
 <h3>Temps de construction</h3>
 <p>4-6 heures. Le plus important est de créer un bon prompt qui capture la voix de la marque du client.</p>
 
 <h3>Prix de vente suggéré</h3>
-<p>800-2 000 € de mise en place + 200-500 €/mois pour la gestion et l'optimisation.</p>
+<p>800-2 000 euros de mise en place + 200-500 euros/mois pour la gestion et l'optimisation.</p>
 
 <h2>Workflow 4 : Onboarding client automatisé</h2>
 <h3>Ce que ça fait</h3>
-<p>Quand un nouveau client signe (paiement Stripe reçu, ou déclenchement manuel), le workflow :</p>
+<p>Quand un nouveau client signe (paiement Stripe reçu, ou déclenchement manuel), le script :</p>
 <ul>
 <li>Crée un dossier client dans Google Drive avec les templates nécessaires</li>
 <li>Envoie un email de bienvenue personnalisé avec les prochaines étapes</li>
@@ -496,48 +496,48 @@ export const blogArticles: BlogArticle[] = [
 <li>Ajoute un événement dans Google Calendar pour le kick-off</li>
 </ul>
 
-<h3>Les noeuds utilisés</h3>
+<h3>Les briques techniques</h3>
 <ul>
-<li><strong>Trigger :</strong> noeud Stripe (paiement reçu) ou Webhook</li>
-<li><strong>Création dossier :</strong> noeud Google Drive</li>
-<li><strong>Email :</strong> noeud Gmail/SendGrid (séquence de bienvenue)</li>
-<li><strong>Gestion projet :</strong> noeud Notion ou Trello</li>
-<li><strong>Calendrier :</strong> noeud Google Calendar</li>
-<li><strong>Suivi :</strong> noeud Wait + Gmail (emails automatiques J+3, J+7)</li>
+<li><strong>Trigger :</strong> webhook Stripe (paiement reçu) ou API Route</li>
+<li><strong>Création dossier :</strong> appel API Google Drive</li>
+<li><strong>Email :</strong> appel API Resend/SendGrid (séquence de bienvenue)</li>
+<li><strong>Gestion projet :</strong> appel API Notion ou Trello</li>
+<li><strong>Calendrier :</strong> appel API Google Calendar</li>
+<li><strong>Suivi :</strong> cron job + envoi email (emails automatiques J+3, J+7)</li>
 </ul>
 
 <h3>Temps de construction</h3>
-<p>3-5 heures. Beaucoup de noeuds mais chacun est simple à configurer.</p>
+<p>3-5 heures. Beaucoup d'appels API mais chacun est simple à implémenter avec Claude Code.</p>
 
 <h3>Prix de vente suggéré</h3>
-<p>1 000-2 500 €. C'est un workflow à haute valeur perçue car il touche directement à l'expérience client.</p>
+<p>1 000-2 500 euros. C'est un workflow à haute valeur perçue car il touche directement à l'expérience client.</p>
 
 <h2>Workflow 5 : Routage intelligent des tickets support</h2>
 <h3>Ce que ça fait</h3>
 <p>Quand un client envoie un email de support ou remplit un formulaire de contact, l'IA analyse le contenu, catégorise le ticket (technique, facturation, commercial, urgent), attribue une priorité, et le route vers la bonne personne ou le bon canal. Pour les questions simples, elle peut même générer une réponse automatique.</p>
 
-<h3>Les noeuds utilisés</h3>
+<h3>Les briques techniques</h3>
 <ul>
-<li><strong>Trigger :</strong> noeud Gmail ou Webhook (nouveau ticket)</li>
-<li><strong>Analyse IA :</strong> noeud HTTP Request vers l'API Claude (classification + extraction d'intention)</li>
-<li><strong>Routage :</strong> noeud Switch (selon la catégorie : technique → Slack #support-tech, facturation → email compta, etc.)</li>
-<li><strong>Réponse auto :</strong> noeud IF (si question simple) + Gmail (réponse générée par IA)</li>
-<li><strong>Log :</strong> noeud Google Sheets ou Airtable (suivi de tous les tickets)</li>
+<li><strong>Trigger :</strong> webhook Gmail ou API Route (nouveau ticket)</li>
+<li><strong>Analyse IA :</strong> appel API Claude (classification + extraction d'intention)</li>
+<li><strong>Routage :</strong> logique conditionnelle TypeScript (selon la catégorie : technique vers Discord #support-tech, facturation vers email compta, etc.)</li>
+<li><strong>Réponse auto :</strong> condition (si question simple) + envoi email (réponse générée par IA)</li>
+<li><strong>Log :</strong> appel API Google Sheets ou Supabase (suivi de tous les tickets)</li>
 </ul>
 
 <h3>Temps de construction</h3>
 <p>4-6 heures. La partie la plus délicate est de calibrer la classification IA et de définir les règles de routage avec le client.</p>
 
 <h3>Prix de vente suggéré</h3>
-<p>1 500-3 000 € + 100-200 €/mois de maintenance et d'optimisation.</p>
+<p>1 500-3 000 euros + 100-200 euros/mois de maintenance et d'optimisation.</p>
 
-<h2>Conseils pour bien vendre ces workflows</h2>
+<h2>Conseils pour bien vendre ces automatisations</h2>
 <ul>
-<li><strong>Fais toujours une démo live :</strong> montre le workflow en action, déclenche-le devant le client</li>
-<li><strong>Parle en heures gagnées :</strong> "Ce workflow vous fait gagner 8 heures par semaine" est plus parlant que "ça automatise votre CRM"</li>
-<li><strong>Propose un pack de 3 workflows :</strong> les clients achètent rarement un seul workflow, offre un tarif dégressif pour 3</li>
-<li><strong>Documente tout :</strong> livre un document simple qui explique comment fonctionne chaque workflow, les clients adorent ça</li>
-<li><strong>Inclus toujours de la maintenance :</strong> les workflows cassent parfois (un API change, un format évolue), la maintenance mensuelle est ton revenu récurrent</li>
+<li><strong>Fais toujours une démo live :</strong> montre l'automatisation en action, déclenche-la devant le client</li>
+<li><strong>Parle en heures gagnées :</strong> "Cette automatisation vous fait gagner 8 heures par semaine" est plus parlant que "ça automatise votre CRM"</li>
+<li><strong>Propose un pack de 3 automatisations :</strong> les clients achètent rarement un seul workflow, offre un tarif dégressif pour 3</li>
+<li><strong>Documente tout :</strong> livre un document simple qui explique comment fonctionne chaque automatisation, les clients adorent ça</li>
+<li><strong>Inclus toujours de la maintenance :</strong> les automatisations cassent parfois (une API change, un format évolue), la maintenance mensuelle est ton revenu récurrent</li>
 </ul>
 `,
   },
@@ -671,9 +671,9 @@ export const blogArticles: BlogArticle[] = [
 <p>Tu n'as pas besoin de maîtriser 50 outils. Une stack bien choisie de 5 à 8 outils suffit pour couvrir la majorité des projets.</p>
 <ul>
 <li><strong>Développement assisté par IA :</strong> Claude Code pour le scaffolding de projets et Cursor pour le développement quotidien. Ces deux outils te rendent 3 à 5 fois plus productif</li>
-<li><strong>Automatisation :</strong> n8n en self-hosted pour des workflows illimités sans coût par exécution, ou Make si tu préfères une interface plus simple</li>
-<li><strong>Chatbots :</strong> Botpress ou Voiceflow pour des chatbots professionnels déployables en quelques heures</li>
-<li><strong>Agents vocaux :</strong> Vapi ou Retell.ai pour créer des assistants téléphoniques naturels</li>
+<li><strong>Automatisation :</strong> scripts automatisés avec Claude Code, API Routes Next.js et cron jobs pour des workflows sur mesure sans limites</li>
+<li><strong>Chatbots :</strong> ton propre chatbot (Claude Code) avec l'API Anthropic, déployable en quelques heures</li>
+<li><strong>Agents vocaux :</strong> ElevenLabs pour créer des assistants téléphoniques naturels</li>
 <li><strong>APIs IA :</strong> Anthropic Claude et OpenAI GPT-4 comme modèles de langage de base pour tes solutions custom</li>
 </ul>
 <p>L'important n'est pas d'être expert sur chaque outil, mais de savoir lequel utiliser selon le besoin du client et de pouvoir livrer un résultat professionnel en un temps raisonnable.</p>
@@ -754,45 +754,45 @@ export const blogArticles: BlogArticle[] = [
 <p><strong>Usage freelance :</strong> développement quotidien, corrections rapides, implémentation de features, pair programming avec l'IA.</p>
 <p><strong>Prix :</strong> gratuit avec limites, Pro à 20 dollars par mois.</p>
 
-<h2>5. Midjourney - La création visuelle</h2>
-<p>Midjourney produit des images d'une qualité remarquable à partir de prompts textuels. Pour un freelance, c'est un outil précieux pour créer des visuels de présentation, des maquettes conceptuelles, des illustrations pour du contenu ou des mockups rapides.</p>
-<p><strong>Usage freelance :</strong> visuels pour propositions commerciales, illustrations de blog, concepts créatifs, branding rapide.</p>
-<p><strong>Prix :</strong> à partir de 10 dollars par mois.</p>
+<h2>5. Claude - La création assistée par IA</h2>
+<p>Claude peut t'aider à créer des maquettes, rédiger du contenu visuel et produire des supports de présentation professionnels. Combiné avec des outils de design comme Figma, c'est un accélérateur puissant pour tout freelance.</p>
+<p><strong>Usage freelance :</strong> rédaction de propositions commerciales, structures de présentations, briefs créatifs, branding.</p>
+<p><strong>Prix :</strong> inclus dans ton abonnement Claude Pro à 20 dollars par mois.</p>
 
-<h2>6. n8n - L'automatisation sans limites</h2>
-<p>n8n est un outil d'automatisation open-source et self-hostable qui te permet de connecter n'importe quel outil à un autre via des workflows visuels. Contrairement à Zapier ou Make, tu peux l'héberger sur ton propre serveur pour un coût fixe minimal et exécuter autant de workflows que tu veux.</p>
+<h2>6. API Routes et scripts automatisés - L'automatisation sans limites</h2>
+<p>Avec Claude Code, tu peux créer des scripts d'automatisation et des API Routes sur mesure qui connectent n'importe quel outil entre eux. Déployés sur Vercel ou Railway, ces scripts tournent pour un coût minimal et sans aucune limite d'exécution.</p>
 <p><strong>Usage freelance :</strong> automatisation de ta facturation, suivi de prospects, notifications de paiement, envoi automatique de rapports aux clients.</p>
-<p><strong>Prix :</strong> gratuit en self-hosted (coût serveur de 5 à 10 euros par mois).</p>
+<p><strong>Prix :</strong> coût d'hébergement minimal (Vercel gratuit pour les petits projets, Railway à partir de 5 euros par mois).</p>
 
 <h2>7. Notion AI - L'organisation intelligente</h2>
 <p>Notion est déjà l'outil de gestion préféré de nombreux freelances. Avec sa couche IA intégrée, il peut résumer des notes de réunion, générer des plans de projet, rédiger des descriptions de tâches et analyser tes bases de données.</p>
 <p><strong>Usage freelance :</strong> gestion de projet, documentation client, wiki interne, suivi de CRM personnel.</p>
 <p><strong>Prix :</strong> gratuit avec limites, Plus à 10 dollars par mois, IA en add-on.</p>
 
-<h2>8. Perplexity AI - La recherche augmentée</h2>
-<p>Perplexity combine la puissance d'un moteur de recherche avec celle d'un LLM. Il fournit des réponses sourcées et à jour, ce qui en fait un outil de recherche bien plus efficace que Google pour des questions complexes ou techniques.</p>
+<h2>8. Claude avec recherche web - La recherche augmentée</h2>
+<p>Claude intègre des capacités de recherche web qui te permettent d'obtenir des réponses sourcées et à jour. C'est un outil de recherche bien plus efficace que Google pour des questions complexes ou techniques.</p>
 <p><strong>Usage freelance :</strong> veille concurrentielle, recherche de marché, documentation technique, fact-checking.</p>
-<p><strong>Prix :</strong> gratuit avec limites, Pro à 20 dollars par mois.</p>
+<p><strong>Prix :</strong> inclus dans Claude Pro à 20 dollars par mois.</p>
 
 <h2>9. ElevenLabs - La voix synthétique</h2>
 <p>ElevenLabs permet de générer des voix off réalistes en plusieurs langues. Pour les freelances qui créent du contenu vidéo, des formations ou des présentations, c'est un gain de temps considérable par rapport à l'enregistrement manuel.</p>
 <p><strong>Usage freelance :</strong> narration de vidéos explicatives, voix off pour présentations client, prototypage d'agents vocaux.</p>
 <p><strong>Prix :</strong> gratuit avec limites, à partir de 5 dollars par mois.</p>
 
-<h2>10. Make (ex-Integromat) - L'automatisation accessible</h2>
-<p>Make est l'alternative cloud à n8n. Son interface drag-and-drop est plus intuitive et ses intégrations natives sont nombreuses. Moins flexible que n8n pour les cas avancés, mais plus rapide à prendre en main pour les automatisations courantes.</p>
-<p><strong>Usage freelance :</strong> synchronisation d'outils, automatisation d'emails, pipelines de données, workflows clients simples.</p>
-<p><strong>Prix :</strong> gratuit avec limites, à partir de 9 dollars par mois.</p>
+<h2>10. Vercel Cron Jobs - L'automatisation planifiée</h2>
+<p>Vercel permet de configurer des cron jobs directement sur tes API Routes, ce qui te donne un système d'automatisation planifiée sans aucune infrastructure à gérer. Parfait pour des tâches récurrentes comme l'envoi de rapports, la synchronisation de données ou le nettoyage automatique.</p>
+<p><strong>Usage freelance :</strong> synchronisation d'outils, automatisation d'emails, pipelines de données, workflows clients planifiés.</p>
+<p><strong>Prix :</strong> inclus dans le plan Vercel (gratuit pour les petits projets, Pro à 20 dollars par mois).</p>
 
 <h2>Comment organiser ta stack IA</h2>
 <p>Tu n'as pas besoin de tous ces outils dès le départ. Commence par 3 à 4 outils essentiels et ajoute les autres au fur et à mesure de tes besoins :</p>
 <ul>
-<li><strong>Stack minimale :</strong> Claude ou ChatGPT + un outil d'automatisation (n8n ou Make) + Notion</li>
-<li><strong>Stack développeur :</strong> ajoute Claude Code + Cursor à la stack minimale</li>
-<li><strong>Stack créative :</strong> ajoute Midjourney + ElevenLabs à la stack minimale</li>
+<li><strong>Stack minimale :</strong> Claude ou ChatGPT + Claude Code pour les automatisations + Notion</li>
+<li><strong>Stack développeur :</strong> ajoute Cursor à la stack minimale</li>
+<li><strong>Stack créative :</strong> ajoute ElevenLabs + Figma à la stack minimale</li>
 <li><strong>Stack complète :</strong> intègre progressivement tous les outils selon tes projets</li>
 </ul>
-<p>L'essentiel est de maîtriser chaque outil en profondeur plutôt que d'en utiliser dix en surface. Un freelance qui utilise Claude et n8n comme un expert sera toujours plus efficace qu'un autre qui jongle superficiellement avec toute la liste.</p>
+<p>L'essentiel est de maîtriser chaque outil en profondeur plutôt que d'en utiliser dix en surface. Un freelance qui utilise Claude et Claude Code comme un expert sera toujours plus efficace qu'un autre qui jongle superficiellement avec toute la liste.</p>
 `,
   },
   {
@@ -893,7 +893,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: "8 min",
     author: "Équipe OpexIA",
     tags: ["Automatisation", "Vente", "Entreprise"],
-    relatedSlugs: ["services-ia-rentables", "automatiser-n8n", "trouver-clients-agence-ia"],
+    relatedSlugs: ["services-ia-rentables", "automatiser-code", "trouver-clients-agence-ia"],
     content: `
 <h2>L'automatisation IA : le service le plus facile à vendre</h2>
 <p>Parmi tous les services IA que tu peux proposer, l'automatisation est celui qui se vend le mieux aux entreprises. La raison est simple : le ROI est immédiat, mesurable et compréhensible par n'importe quel dirigeant. Tu n'as pas besoin d'expliquer des concepts techniques complexes. Tu dis simplement : cette tâche qui prend 5 heures par semaine à votre équipe, je la réduis à 0. Le reste suit naturellement.</p>
@@ -957,8 +957,8 @@ export const blogArticles: BlogArticle[] = [
 <h3>"Nos processus sont trop complexes pour être automatisés"</h3>
 <p>Aucun processus n'est entièrement automatisable, et ce n'est pas l'objectif. L'idée est d'automatiser les 80 pour cent de tâches répétitives et de laisser les 20 pour cent qui nécessitent du jugement humain à l'équipe. C'est la règle du 80/20 appliquée à l'automatisation.</p>
 
-<h3>"On a déjà essayé Zapier et ça n'a pas marché"</h3>
-<p>Zapier est excellent pour des automatisations simples, mais il a des limites en termes de flexibilité et de coût à l'échelle. Les outils comme n8n combinés à l'IA permettent des workflows beaucoup plus sophistiqués, avec du traitement de langage naturel, de la prise de décision contextuelle et une scalabilité sans coût par exécution.</p>
+<h3>"On a déjà essayé des outils d'automatisation et ça n'a pas marché"</h3>
+<p>Les outils no-code classiques sont pratiques pour des automatisations simples, mais ils ont des limites en termes de flexibilité et de coût à l'échelle. Des automatisations sur mesure construites avec du code et combinées à l'IA permettent des workflows beaucoup plus sophistiqués, avec du traitement de langage naturel, de la prise de décision contextuelle et une scalabilité sans coût par exécution.</p>
 
 <h2>Le process de vente idéal</h2>
 <ol>

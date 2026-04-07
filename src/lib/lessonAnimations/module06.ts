@@ -275,18 +275,18 @@ export const module06: AllLessonAnimations = {
       },
     },
 
-    // Section 4: "Les outils d'automatisation no-code"
-    // → Comparison Grid: Zapier vs n8n
+    // Section 4: "Les outils d'automatisation code-based"
+    // → Comparison Grid: approches d'automatisation
     4: {
       template: "comparison-grid",
       props: {
-        title: "Outils no-code d'automatisation",
-        subtitle: "Automatiser sans écrire de code",
+        title: "Automatisation code-based",
+        subtitle: "Automatiser avec des scripts et des API",
         items: [
-          { label: "Zapier", description: "5000+ apps, le plus simple", icon: "⚡" },
-          { label: "n8n Cloud", description: "Visuel et puissant, bon prix", icon: "🔧" },
-          { label: "n8n Self-hosted", description: "Open source, auto-hébergeable", icon: "🔗" },
-          { label: "OpenClaw", description: "Automatisation IA native", icon: "🤖" },
+          { label: "API Routes (Next.js)", description: "Endpoints serverless, intégration native", icon: "⚡" },
+          { label: "Claude Code", description: "Scripts automatisés générés par l'IA", icon: "🤖" },
+          { label: "Cron Jobs", description: "Tâches planifiées côté serveur", icon: "🔧" },
+          { label: "Webhooks", description: "Réactions en temps réel aux événements", icon: "🔗" },
         ],
       },
     },

@@ -489,23 +489,23 @@ export const LESSONS = [
 <h2>Uptime monitoring : les outils</h2>
 <p>L'uptime monitoring est le plus simple à mettre en place et le plus critique :</p>
 <ul>
-<li><strong>Better Uptime (betterstack.com)</strong> : le plus complet. Monitoring HTTP, pages de statut publiques, alertes par email/SMS/Slack, rapports d'incidents. Plan gratuit généreux (10 monitors, checks toutes les 3 minutes).</li>
+<li><strong>Better Uptime (betterstack.com)</strong> : le plus complet. Monitoring HTTP, pages de statut publiques, alertes par email/SMS/Discord, rapports d'incidents. Plan gratuit généreux (10 monitors, checks toutes les 3 minutes).</li>
 <li><strong>UptimeRobot</strong> : le classique. Gratuit pour 50 monitors avec des checks toutes les 5 minutes. Interface simple, alertes par email et webhook. Parfait pour démarrer.</li>
 <li><strong>Checkly</strong> : monitoring avancé avec des checks programmables en JavaScript. Tu peux vérifier non seulement que ta page charge, mais aussi que le formulaire de login fonctionne, que l'API retourne les bonnes données, etc.</li>
 </ul>
 <p>Configuration recommandée : crée un monitor pour chaque endpoint critique de ton app. Ta page d'accueil, ta page de login, ton API principale, et ta page de pricing (si c'est un SaaS). Si tu as une API, monitore aussi le health check endpoint (/api/health).</p>
 
-<h2>Error tracking : Sentry, la référence</h2>
-<p>Sentry est l'outil d'error tracking le plus utilisé dans l'industrie, et il a un plan gratuit qui suffit largement pour démarrer (5 000 erreurs/mois). Voici comment l'intégrer :</p>
+<h2>Error tracking : Vercel Logs + Error Boundaries</h2>
+<p>Vercel Logs capture automatiquement toutes les erreurs de tes API routes et fonctions serverless. Pour les erreurs cote client, utilise un error boundary React qui envoie les erreurs vers une API route de logging. Pas besoin d'outil tiers.</p>
 <ul>
-<li><strong>Installation</strong> : lance npx @sentry/wizard@latest -i nextjs dans ton projet. Le wizard configure tout automatiquement : SDK, configuration, source maps.</li>
-<li><strong>Ce que Sentry capture</strong> : chaque erreur JavaScript (frontend et backend), avec le stack trace complet, le navigateur de l'utilisateur, l'URL, le breadcrumb des actions qui ont mené à l'erreur. Tu peux reproduire le problème sans deviner.</li>
-<li><strong>Alertes intelligentes</strong> : configure des alertes pour être notifié quand une nouvelle erreur apparaît, quand une erreur se répète plus de X fois, ou quand le taux d'erreur dépasse un seuil. Slack, email, ou PagerDuty pour les alertes critiques.</li>
-<li><strong>Performance monitoring</strong> : Sentry intègre aussi du monitoring de performance — temps de chargement des pages, durée des requêtes API, Web Vitals. Tout dans un seul outil.</li>
+<li><strong>Cote serveur (automatique)</strong> : Vercel Logs affiche toutes les erreurs de tes API routes en temps reel dans le dashboard (Dashboard > Logs). Stack trace, route, timestamp, duree — tout est la.</li>
+<li><strong>Cote client (error boundary)</strong> : cree un error boundary React qui appelle POST /api/log-error quand une erreur survient. Claude Code peut te generer ca en 2 minutes.</li>
+<li><strong>Alertes</strong> : configure les notifications Vercel (Settings > Notifications) pour etre alerte par email quand une erreur survient ou quand le taux d'erreur depasse un seuil.</li>
+<li><strong>Performance monitoring</strong> : Vercel Analytics integre le monitoring de performance — Web Vitals, temps de chargement, duree des API routes. Active-le en un clic dans le dashboard.</li>
 </ul>
 
 <h2>Logs : comprendre ce qui se passe en coulisses</h2>
-<p>Les erreurs captées par Sentry sont la partie visible de l'iceberg. Les logs, c'est tout le reste — les informations de debug, les actions des utilisateurs, les requêtes entrantes. En production, tu ne peux pas faire console.log et regarder le terminal — tu as besoin d'un système de logging centralisé.</p>
+<p>Les erreurs captees automatiquement sont la partie visible de l'iceberg. Les logs, c'est tout le reste — les informations de debug, les actions des utilisateurs, les requêtes entrantes. En production, tu ne peux pas faire console.log et regarder le terminal — tu as besoin d'un système de logging centralisé.</p>
 <ul>
 <li><strong>Vercel Logs</strong> : si tu es sur Vercel, les logs de tes Serverless Functions sont disponibles dans le dashboard. C'est basique mais suffisant pour commencer.</li>
 <li><strong>Axiom</strong> : le meilleur rapport qualité/prix pour les logs. Intégration native avec Vercel et Next.js, requêtes puissantes, plan gratuit généreux (500 MB/mois). Tu peux rechercher, filtrer et analyser tes logs avec une interface moderne.</li>
@@ -519,7 +519,7 @@ export const LESSONS = [
 <h2>La routine de monitoring quotidienne</h2>
 <p>Mets en place cette routine de 5 minutes par jour :</p>
 <ul>
-<li>Matin : vérifie le dashboard Sentry — nouvelles erreurs ? Erreurs récurrentes ?</li>
+<li>Matin : verifie les Vercel Logs — nouvelles erreurs ? Erreurs recurrentes ?</li>
 <li>Vérifie les métriques de performance — temps de réponse stable ? Pics inhabituels ?</li>
 <li>Vérifie tes alertes — des notifications pendant la nuit ?</li>
 <li>Hebdomadaire : analyse les tendances — le nombre d'erreurs augmente ou diminue ? La performance se dégrade ?</li>
@@ -527,7 +527,7 @@ export const LESSONS = [
 <p>5 minutes par jour de monitoring proactif te sauvent des heures de debugging réactif et des clients perdus.</p>`,
     exercise: `<ol>
 <li>Crée un compte UptimeRobot ou Better Uptime et configure un monitor pour chaque page critique de ton app (accueil, API, login). Teste en faisant tomber ton app volontairement et vérifie que l'alerte arrive.</li>
-<li>Intègre Sentry dans un de tes projets Next.js avec npx @sentry/wizard. Déclenche une erreur volontaire en production et vérifie qu'elle apparaît dans le dashboard Sentry avec le stack trace complet.</li>
+<li>Deploie ton projet sur Vercel et ouvre les Logs dans le dashboard. Declenche une erreur volontaire dans une API route en production et verifie qu'elle apparait dans les Vercel Logs avec le stack trace complet.</li>
 <li>Crée une page de statut publique pour ton app avec Better Uptime ou Instatus. Connecte-la à tes monitors et partage l'URL avec un ami pour valider qu'elle est accessible et claire.</li>
 </ol>`,
   },
@@ -553,7 +553,7 @@ export const LESSONS = [
 <h2>Utiliser Claude Code pour la maintenance</h2>
 <p>Claude Code est un outil de maintenance extraordinaire. Voici comment l'utiliser efficacement pour gérer une app en production :</p>
 <ul>
-<li><strong>Résoudre les bugs</strong> : colle le message d'erreur de Sentry à Claude Code avec le contexte ("Cette erreur apparaît quand un utilisateur non authentifié accède à /dashboard"). Claude analyse le code, identifie la cause, et propose un fix.</li>
+<li><strong>Résoudre les bugs</strong> : colle le message d'erreur des Vercel Logs a Claude Code avec le contexte ("Cette erreur apparaît quand un utilisateur non authentifié accède à /dashboard"). Claude analyse le code, identifie la cause, et propose un fix.</li>
 <li><strong>Ajouter des features</strong> : décris la feature en langage naturel ("Ajoute un bouton d'export CSV sur la page /analytics qui exporte les données des 30 derniers jours"). Claude génère le code complet — composant, route API, logique d'export.</li>
 <li><strong>Refactoring</strong> : "Refactore le composant UserDashboard pour séparer la logique de fetch des données et l'affichage." Claude comprend les patterns React et produit du code propre et maintenable.</li>
 <li><strong>Mise à jour des dépendances</strong> : "Mets à jour les dépendances obsolètes et corrige les breaking changes." Claude peut analyser les changelogs et adapter ton code aux nouvelles versions.</li>
@@ -629,7 +629,7 @@ export const LESSONS = [
 <ul>
 <li><strong>.env.local</strong> : stocke tes secrets en local dans un fichier .env.local. Ce fichier ne doit JAMAIS être commité dans git. Vérifie que .env.local est dans ton .gitignore.</li>
 <li><strong>Variables d'environnement sur la plateforme</strong> : en production, configure tes secrets dans les settings de Vercel/Railway/Render. Jamais dans le code.</li>
-<li><strong>Rotation des clés</strong> : si une clé API est exposée accidentellement (dans un commit, un screenshot, un message Slack), considère-la comme compromise. Regénère-la immédiatement.</li>
+<li><strong>Rotation des clés</strong> : si une clé API est exposée accidentellement (dans un commit, un screenshot, un message Discord), considère-la comme compromise. Regénère-la immédiatement.</li>
 <li><strong>Différencier les environnements</strong> : utilise des clés différentes pour le développement, le staging, et la production. Si ta clé de dev est exposée, tes données de production ne sont pas compromises.</li>
 </ul>
 
@@ -677,7 +677,7 @@ export const LESSONS = [
     duration: "50 min",
     description: "Apprends à prioriser les features, collecter du feedback et améliorer continuellement ton produit.",
     content: `<h2>La v1 n'est que le début</h2>
-<p>Tu as lancé. Félicitations — tu fais déjà mieux que 90% des gens qui ont des idées mais ne les exécutent jamais. Mais ta v1 n'est pas un produit fini. C'est un point de départ. Les meilleurs produits du monde — Notion, Figma, Linear — sont le résultat de centaines d'itérations. La magie n'est pas dans le lancement, elle est dans ce qui vient après : écouter, apprendre, améliorer, et recommencer.</p>
+<p>Tu as lancé. Félicitations — tu fais déjà mieux que 90% des gens qui ont des idées mais ne les exécutent jamais. Mais ta v1 n'est pas un produit fini. C'est un point de départ. Les meilleurs produits du monde — Notion, Figma, Vercel — sont le résultat de centaines d'itérations. La magie n'est pas dans le lancement, elle est dans ce qui vient après : écouter, apprendre, améliorer, et recommencer.</p>
 <p>L'erreur classique du maker : tu lances ta v1, tu reçois du feedback, et tu te mets à coder toutes les features demandées en même temps. Résultat : 3 mois plus tard, tu as un produit bloated, incohérent, et tu ne sais plus dans quelle direction aller. L'itération, c'est un process discipliné — pas un buffet à volonté.</p>
 
 <h2>Collecter du feedback qui compte</h2>

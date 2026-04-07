@@ -239,7 +239,7 @@ export const V2_MODULE_14_LESSONS = [
       { id: "5-11", type: "checklist", title: "Vérifications infrastructure", items: [
         { id: "c12", text: "HTTPS forcé (redirection HTTP vers HTTPS)" },
         { id: "c13", text: "Headers de sécurité configurés (CSP, X-Frame-Options, HSTS)" },
-        { id: "c14", text: "Sentry ou équivalent configuré pour capter les erreurs" },
+        { id: "c14", text: "Vercel Analytics ou équivalent configuré pour capter les erreurs" },
         { id: "c15", text: "Sauvegardes automatiques de la base de données" },
         { id: "c16", text: "Domaine et certificat SSL vérifié" },
       ]},
@@ -255,7 +255,7 @@ export const V2_MODULE_14_LESSONS = [
 
       { id: "5-14", type: "callout", variant: "warning", html: "<strong>Rappel :</strong> Cette checklist est un minimum. Pour les projets sensibles (santé, finance, données mineurs), des audits de sécurité professionnels sont recommandés." },
     ]),
-    exercise: "<h3>Exercice : Audit complet de ton projet</h3><p>Applique la checklist complète à ton projet actuel :</p><ol><li>Parcours chaque section et coche les points validés</li><li>Pour chaque point non validé, crée un ticket dans ton outil de gestion (Notion, Linear, GitHub Issues)</li><li>Priorise les corrections : critique (accès non autorisé), important (données exposées), mineur (headers manquants)</li><li>Corrige les points critiques immédiatement</li><li>Planifie les corrections importantes dans le prochain sprint</li></ol>",
+    exercise: "<h3>Exercice : Audit complet de ton projet</h3><p>Applique la checklist complète à ton projet actuel :</p><ol><li>Parcours chaque section et coche les points validés</li><li>Pour chaque point non validé, crée un ticket dans ton outil de gestion (Notion, GitHub Issues)</li><li>Priorise les corrections : critique (accès non autorisé), important (données exposées), mineur (headers manquants)</li><li>Corrige les points critiques immédiatement</li><li>Planifie les corrections importantes dans le prochain sprint</li></ol>",
     quiz: [
       { type: "mcq", question: "Quel est le premier élément à vérifier avant une mise en production ?", options: JSON.stringify(["Le design est pixel-perfect", "RLS est activé sur toutes les tables sensibles", "Le loading spinner est bien animé", "Les favicons sont configurées"]), correctAnswer: "RLS est activé sur toutes les tables sensibles", explanation: "La sécurité des données est la priorité absolue. Si RLS n'est pas activé, n'importe qui peut accéder à toutes les données de ta base via la clé anon publique." },
       { type: "true_false", question: "Il est acceptable d'utiliser CORS avec un wildcard (*) en production.", options: JSON.stringify(["Vrai", "Faux"]), correctAnswer: "Faux", explanation: "Un wildcard CORS en production signifie que n'importe quel site peut envoyer des requêtes à ton API. En production, limite CORS aux domaines de confiance uniquement." },

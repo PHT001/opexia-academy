@@ -146,7 +146,7 @@ export const MODULE_13_LESSONS = [
       { id: "3-6", type: "comparison", headers: ["Outil", "Prix", "Idéal pour"], rows: [
         { cells: ["Henrri", "Gratuit", "Micro-entrepreneurs"] },
         { cells: ["Freebe", "~10€/mois", "Auto-entrepreneurs, tout-en-un"] },
-        { cells: ["Pennylane", "~30€/mois", "SASU/SAS, comptabilité intégrée"] },
+        { cells: ["ton outil de facturation", "~30€/mois", "SASU/SAS, comptabilité intégrée"] },
       ]},
       { id: "3-7", type: "heading", level: 2, text: "Le devis parfait" },
       { id: "3-8", type: "text", html: "<p>Le devis, c'est ton outil de vente autant que ton document légal. Un bon devis ne liste pas juste des tâches et un prix — il <strong>raconte une histoire</strong> : le problème du client, ta solution, les livrables concrets, et le résultat attendu.</p>" },

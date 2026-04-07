@@ -127,7 +127,7 @@
     duration: "90 min",
     description: "Construire un CRM complet avec contacts, pipeline de deals, notes et CRUD.",
     content: `<h2>Objectif du projet</h2>
-<p>C'est le projet le plus ambitieux de cette phase : tu vas construire un mini SaaS complet. Un CRM (Customer Relationship Management) est un outil que toutes les entreprises utilisent pour gérer leurs contacts et leurs opportunités commerciales. Des outils comme HubSpot ou Salesforce facturent des centaines d'euros par mois. Tu vas en construire une version simplifiée mais fonctionnelle.</p>
+<p>C'est le projet le plus ambitieux de cette phase : tu vas construire un mini SaaS complet. Un CRM (Customer Relationship Management) est un outil que toutes les entreprises utilisent pour gérer leurs contacts et leurs opportunités commerciales. Des outils comme ton propre CRM ou Salesforce facturent des centaines d'euros par mois. Tu vas en construire une version simplifiée mais fonctionnelle.</p>
 <p>Ce projet couvre toutes les compétences d'un développeur full-stack : base de données, API, interface utilisateur, authentification, et déploiement. C'est le type de projet qui te positionne comme un professionnel capable de construire de vrais produits.</p>
 <p>Pour contextualiser : un freelance qui peut montrer un CRM fonctionnel dans son portfolio se démarque immédiatement de 95% des autres candidats. Les clients se disent "si cette personne peut construire un CRM complet, elle peut construire n'importe quelle application pour mon business". C'est une pièce maîtresse de portfolio.</p>
 <p>Concrètement, imagine un commercial qui jongle entre des post-it, un fichier Excel et sa mémoire pour suivre ses prospects. Il oublie de relancer un client chaud, perd le numéro d'un contact important, et ne sait jamais où en sont ses négociations. Ton CRM résout tous ces problèmes en centralisant les contacts, les opportunités et les notes dans un seul outil intuitif.</p>
@@ -228,7 +228,7 @@
 <li><strong>Neon :</strong> Offre gratuite généreuse (3 GB de stockage), démarrage instantané, compatible Vercel. C'est le choix recommandé pour les projets Next.js.</li>
 <li><strong>Supabase :</strong> Offre gratuite avec 500 MB de stockage, interface d'administration web incluse, et des fonctionnalités bonus (auth, storage, realtime).</li>
 </ul>
-<p>Ton CRM est maintenant un produit SaaS fonctionnel. Tu peux l'utiliser toi-même, le montrer en portfolio, ou même le proposer à des petites entreprises qui n'ont pas le budget pour HubSpot.</p>
+<p>Ton CRM est maintenant un produit SaaS fonctionnel. Tu peux l'utiliser toi-même, le montrer en portfolio, ou même le proposer à des petites entreprises qui n'ont pas le budget pour ton propre CRM.</p>
 <p><strong>Astuce :</strong> Pour rendre ton CRM encore plus impressionnant, ajoute une page d'accueil publique (landing page) qui présente le CRM, avec un bouton "Essayer gratuitement" qui mène à l'inscription. Ça transforme ton projet technique en un vrai produit avec un parcours utilisateur complet — de la découverte à l'utilisation.</p>`,
     exercise: `<h3>Exercice pratique</h3>
 <ol>

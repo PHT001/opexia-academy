@@ -527,7 +527,7 @@ Ton : direct, sans jargon, inspire confiance et urgence.` },
         { title: "Générer le design initial sur v0", description: "Utilise le prompt v0 de la leçon 2 avec le contenu généré par Claude. Choisis une palette de couleurs premium (ex: noir + or, marine + blanc, vert foncé + beige)." },
         { title: "Exporter et initialiser Next.js", description: "Copie le code v0 dans un nouveau projet Next.js créé avec create-next-app. Structure les composants proprement : un fichier par section." },
         { title: "Finaliser avec Cursor", description: "Ouvre le projet dans Cursor. Demande-lui d'ajouter : responsive mobile, animations au scroll, formulaire de contact, page À propos et page Témoignages." },
-        { title: "Ajouter les images", description: "Utilise des images libres de droits sur unsplash.com ou genère des images avec Midjourney/DALL-E. Optimise-les avec squoosh.app avant de les ajouter." },
+        { title: "Ajouter les images", description: "Utilise des images libres de droits sur unsplash.com ou genère des images avec DALL-E. Optimise-les avec squoosh.app avant de les ajouter." },
       ]},
 
       { id: "6-13", type: "callout", variant: "info", html: "Pour les photos de profil fictives, utilise <strong>thispersondoesnotexist.com</strong> — il génère des portraits photo-réalistes de personnes inexistantes. Parfait pour les témoignages fictifs." },

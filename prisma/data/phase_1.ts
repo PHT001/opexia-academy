@@ -21,7 +21,7 @@ export const LESSONS = [
 <li><strong>1950-1970 : Les pionniers</strong> — Les premiers programmes jouent aux échecs et résolvent des problèmes logiques. L'enthousiasme est énorme dans les labos universitaires. On crée ELIZA, un programme qui simule un psychothérapeute (et qui bluffait déjà les utilisateurs !). Mais les résultats concrets sont décevants face aux promesses, et les financements s'effondrent. C'est le premier "hiver de l'IA" — une période où plus personne ne veut investir. <strong>Leçon business</strong> : même les meilleures technologies traversent des phases de désillusion avant de décoller. Ne confonds jamais "pas encore prêt" avec "ça ne marchera jamais".</li>
 <li><strong>1980-2000 : Les systèmes experts</strong> — Les entreprises utilisent des bases de règles pour automatiser des décisions. Par exemple, une banque programme des règles comme "si le revenu est supérieur à X et l'historique de crédit est bon, alors approuver le prêt". C'est utile mais incroyablement rigide : chaque règle doit être programmée manuellement par un expert humain. Si un cas imprévu se présente, le système est perdu. Imagine devoir écrire une règle pour chaque situation possible — c'est exactement le problème. Ces systèmes coûtaient des millions et devenaient impossibles à maintenir.</li>
 <li><strong>2010-2020 : Le deep learning</strong> — Grâce aux GPU (les processeurs graphiques, initialement conçus pour les jeux vidéo) et aux données massives disponibles sur Internet, les réseaux de neurones deviennent enfin performants. La reconnaissance d'image atteint une précision surhumaine en 2015 — un moment historique. La traduction automatique passe de "à peu près compréhensible" à "vraiment utilisable". Google, Facebook, Amazon investissent des milliards. C'est le printemps de l'IA, et cette fois, les résultats sont réels et mesurables.</li>
-<li><strong>2022-2025 : L'ère des LLM</strong> — ChatGPT lance la révolution en novembre 2022 et atteint 100 millions d'utilisateurs en 2 mois (le record absolu). Claude, GPT-4, Gemini, Mistral... Les modèles de langage deviennent des outils de travail quotidiens utilisés par des centaines de millions de personnes. Pour la première fois dans l'histoire, l'IA comprend et génère du texte de manière véritablement convaincante. Ce n'est plus réservé aux ingénieurs de la Silicon Valley — n'importe qui peut l'utiliser, y compris toi, dès maintenant.</li>
+<li><strong>2022-2025 : L'ère des LLM</strong> — ChatGPT lance la révolution en novembre 2022 et atteint 100 millions d'utilisateurs en 2 mois (le record absolu). Claude, GPT-4, Gemini... Les modeles de langage deviennent des outils de travail quotidiens utilisés par des centaines de millions de personnes. Pour la première fois dans l'histoire, l'IA comprend et génère du texte de manière véritablement convaincante. Ce n'est plus réservé aux ingénieurs de la Silicon Valley — n'importe qui peut l'utiliser, y compris toi, dès maintenant.</li>
 </ul>
 
 <h2>Pourquoi 2025 change tout</h2>
@@ -39,7 +39,7 @@ export const LESSONS = [
 <p><strong>Machine Learning (ML)</strong> : L'ordinateur apprend à partir de données plutôt que de règles programmées. Tu lui montres 10 000 photos de chats, et il apprend à reconnaître un chat — sans que personne ne lui ait écrit une seule règle du type "un chat à des oreilles pointues". C'est fondamentalement différent de la programmation classique. En programmation classique, tu écris les règles. En ML, la machine découvre les règles toute seule à partir des exemples. C'est pour ça que c'est si puissant : la machine peut trouver des patterns que les humains n'auraient jamais identifiés.</p>
 <p><strong>Deep Learning</strong> : Une sous-catégorie du ML qui utilise des réseaux de neurones profonds (avec beaucoup de couches — d'où le "deep"). Pense à ça comme un filtre en cascade : chaque couche extrait des caractéristiques de plus en plus abstraites. La première couche détecte des lignes, la deuxième des formes, la troisième des objets, la quatrième des scènes entières. C'est ce qui fait tourner la reconnaissance vocale (Siri, Alexa), la traduction (Google Translate), et les LLM que tu vas utiliser.</p>
 <p><strong>LLM (Large Language Model)</strong> : Un modèle entraîné sur des milliards de textes qui peut comprendre et générer du langage humain. Claude, GPT-4, Gemini sont des LLM. L'analogie la plus simple : imagine quelqu'un qui a lu tous les livres, tous les articles, tous les forums d'Internet. Il ne "sait" pas tout, mais il a vu tellement de texte qu'il peut produire des réponses pertinentes sur presque n'importe quel sujet. C'est une simplification, mais ça capture l'essentiel.</p>
-<p><strong>IA Générative</strong> : L'IA qui crée du contenu nouveau (texte, images, code, musique) plutôt que de simplement analyser des données existantes. C'est la branche de l'IA qui a explosé depuis 2022 et qui est directement applicable à ton business. Midjourney génère des images, Suno génère de la musique, et Claude génère du texte et du code de qualité professionnelle.</p>
+<p><strong>IA Générative</strong> : L'IA qui crée du contenu nouveau (texte, images, code, musique) plutôt que de simplement analyser des données existantes. C'est la branche de l'IA qui a explosé depuis 2022 et qui est directement applicable à ton business. DALL-E genere des images, Suno genere de la musique, et Claude génère du texte et du code de qualité professionnelle.</p>
 
 <h2>Le marché de l'IA en chiffres</h2>
 <p>Le marché mondial de l'IA est estimé à plus de 500 milliards de dollars en 2025, et les projections parlent de 1 500 milliards d'ici 2030. Pour mettre ça en perspective, c'est plus gros que le marché du smartphone à ses débuts.</p>
@@ -59,8 +59,8 @@ export const LESSONS = [
   {
     order: 2,
     module: 1,
-    title: "Les grands modèles : GPT, Claude, Gemini, Mistral",
-    slug: "grands-modèles-gpt-claude-gemini-mistral",
+    title: "Les grands modèles : GPT, Claude, Gemini",
+    slug: "grands-modeles-gpt-claude-gemini",
     duration: "50 min",
     description: "Comprendre les différences entre les principaux modèles IA du marché.",
     content: `<h2>Le paysage des LLM en 2025</h2>
@@ -95,14 +95,6 @@ export const LESSONS = [
 <li><strong>Idéal pour</strong> : Recherche web en temps réel, intégration Google Workspace (si ton client est déjà dans l'écosystème Google), analyse de vidéos YouTube</li>
 </ul>
 <p><strong>À savoir</strong> : Si un client utilise déjà Google Workspace (Gmail, Docs, Sheets), Gemini peut être un complément utile. Mais pour la création de solutions IA sur mesure, Claude reste supérieur. Connaître Gemini te permet de conseiller tes clients de manière crédible.</p>
-
-<h2>Mistral (France)</h2>
-<p>La fierté française de l'IA ! Mistral AI, fondée à Paris en 2023 par d'anciens chercheurs de Meta et Google DeepMind, produit des modèles open-source étonnamment compétitifs. C'est la preuve que l'Europe peut rivaliser avec les géants américains.</p>
-<ul>
-<li><strong>Forces</strong> : Open-source (le code est public, ce qui permet un audit de sécurité complet), très performant pour sa taille (des modèles plus petits qui rivalisent avec des modèles 10x plus gros), hébergeable en local sur tes propres serveurs (aucune donnée ne quitte ton infrastructure), respect total de la vie privée et conformité RGPD native</li>
-<li><strong>Idéal pour</strong> : Entreprises soucieuses de la confidentialité (avocats, médecins, banques), cas d'usage nécessitant un modèle local sans connexion Internet, organisations avec des contraintes réglementaires strictes (données sensibles, secret professionnel)</li>
-</ul>
-<p><strong>Conseil business</strong> : Certains clients, notamment dans le secteur médical, juridique où financier, ne voudront JAMAIS envoyer leurs données à un serveur américain. Pour ces clients, Mistral est la solution idéale. Savoir proposer Mistral quand c'est pertinent montre que tu comprends les enjeux de confidentialité — et ça inspire une confiance énorme.</p>
 
 <h2>Pourquoi on utilise Claude dans cette formation</h2>
 <p>Claude est le meilleur choix pour construire un business IA, et voici pourquoi de manière concrète :</p>
@@ -789,7 +781,7 @@ audit-seo-local/
 <h2>Bonnes descriptions vs mauvaises</h2>
 <p><strong>Mauvais</strong> : "Aide avec les projets" — Beaucoup trop vague. Ça pourrait être n'importe quoi. Claude ne saura jamais quand utiliser cette Skill.</p>
 <p><strong>Mauvais</strong> : "Crée de la documentation" — Pas de triggers. Même si la description décrit vaguement la fonction, il n'y a aucune indication sur quand l'activer.</p>
-<p><strong>Bon</strong> : "Gère les workflows Linear incluant le sprint planning et la création de tâches. Use when user mentions 'sprint', 'Linear tasks', 'create tickets', 'planifier le sprint' or 'gestion de projet agile'." — Description claire + triggers multiples en anglais et en français.</p>
+<p><strong>Bon</strong> : "Gere les workflows Notion incluant le sprint planning et la creation de taches. Use when user mentions 'sprint', 'Notion tasks', 'create tickets', 'planifier le sprint' or 'gestion de projet agile'." — Description claire + triggers multiples en anglais et en français.</p>
 <p><strong>Bon</strong> : "Analyse des fichiers Figma et génère des docs de handoff pour les développeurs. Use when user uploads .fig files or asks for 'design specs', 'handoff développeur', or 'intégration maquette'." — Description spécifique + triggers liés à des actions concrètes.</p>
 <p><strong>Astuce pro</strong> : Inclus des synonymes et des reformulations dans tes triggers. Les gens ne décrivent pas toujours la même tâche avec les mêmes mots. "SEO", "référencement", "visibilité Google", "ranking" — ce sont tous des triggers pour la même Skill.</p>
 
@@ -810,7 +802,7 @@ audit-seo-local/
 <ol>
 <li><strong>Création de documents</strong> : Templates de rapports, specs, présentations, propositions commerciales. Intègre tes guidelines de style directement dans la Skill — couleurs, police, structure, ton. Résultat : chaque rapport que Claude crée à le même niveau de qualité et de cohérence. Plus de "cette fois le rapport est bien, mais la fois d'avant c'était moyen".</li>
 <li><strong>Automatisation de workflow</strong> : Processus multi-étapes qui doivent tourner de la même façon à chaque fois. Par exemple : "1) Lis le brief client, 2) Extrait les besoins principaux, 3) Génère 3 propositions de solution, 4) Estime le temps et le coût pour chacune, 5) Formate en proposition commerciale". Avec des points de validation intégrés à chaque étape — Claude demande confirmation avant de passer à la suite.</li>
-<li><strong>Enhancement MCP</strong> : Si tu as un serveur MCP connecté (Notion, Linear, Slack, Google Sheets), les Skills ajoutent la couche intelligence. Le MCP donne la cuisine (l'accès aux données et aux outils). Les Skills donnent les recettes (comment utiliser ces outils intelligemment). Par exemple, un MCP Notion te donne accès à tes bases de données. Une Skill "Gestion de sprint" sait comment créer des tâches, les prioriser et les assigner automatiquement selon tes critères.</li>
+<li><strong>Enhancement MCP</strong> : Si tu as un serveur MCP connecte (Notion, Discord, Google Sheets), les Skills ajoutent la couche intelligence. Le MCP donne la cuisine (l'accès aux données et aux outils). Les Skills donnent les recettes (comment utiliser ces outils intelligemment). Par exemple, un MCP Notion te donne accès à tes bases de données. Une Skill "Gestion de sprint" sait comment créer des tâches, les prioriser et les assigner automatiquement selon tes critères.</li>
 </ol>
 <p><strong>Conseil business</strong> : Chaque Skill que tu crées est un actif de ton entreprise. Avec le temps, ta bibliothèque de Skills devient ton avantage compétitif. Un concurrent peut copier ton site web, mais il ne peut pas copier tes 30 Skills optimisées sur 6 mois de travail avec de vrais clients.</p>
 
