@@ -6,7 +6,7 @@ export default withAuth(
     const token = req.nextauth.token;
     const pathname = req.nextUrl.pathname;
 
-    if (token && token.emailVerified === false && !pathname.startsWith("/verify-email") && !pathname.startsWith("/api/")) {
+    if (token && token.emailVerified === false && token.role !== "admin" && !pathname.startsWith("/verify-email") && !pathname.startsWith("/api/")) {
       return NextResponse.redirect(new URL("/verify-email", req.url));
     }
 
