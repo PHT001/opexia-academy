@@ -134,6 +134,7 @@ export async function GET() {
       : null,
     xp,
     tier,
+    role: session.user.role || "student",
     onboardingCompleted,
     emailVerified: user?.emailVerified ?? false,
     recentActivity: recentActivityTop5,

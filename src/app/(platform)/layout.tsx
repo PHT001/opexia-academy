@@ -92,8 +92,8 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         if (data?.emailVerified !== undefined) {
           setEmailVerified(data.emailVerified);
         }
-        // Show onboarding only for PAID users who haven't completed it
-        if (data?.tier && data.tier !== "free" && data?.onboardingCompleted === false) {
+        // Show onboarding only for PAID users who haven't completed it (skip for admins)
+        if (data?.tier && data.tier !== "free" && data?.onboardingCompleted === false && data?.role !== "admin") {
           setShowOnboarding(true);
         }
         setLoadingOnboarding(false);

@@ -114,7 +114,7 @@ export async function POST(req: Request) {
 
       // Users
       const admin = await tx.user.create({
-        data: { name: "Admin Opexia", email: "admin@opexia.com", hashedPassword: adminPassword, role: "admin", emailVerified: true },
+        data: { name: "Admin Opexia", email: "admin@opexia.com", hashedPassword: adminPassword, role: "admin", emailVerified: true, onboardingCompleted: true },
       });
       const student = await tx.user.create({
         data: { name: "Élève Test", email: "etudiant@test.com", hashedPassword: studentPassword, role: "student", emailVerified: true },
