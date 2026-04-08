@@ -80,7 +80,16 @@ export default function PostPurchaseOnboarding({ userName, tier = "free", onComp
     }
   }
 
-  function skip() {
+  async function skip() {
+    try {
+      await fetch("/api/onboarding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name || userName || "", skipped: true }),
+      });
+    } catch {
+      // Silently fail — still dismiss the modal
+    }
     onComplete();
   }
 

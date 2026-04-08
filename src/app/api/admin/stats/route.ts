@@ -85,7 +85,7 @@ export async function GET() {
 
   // Recent enrollments (last 15) — used as payments table
   const recentEnrollments = enrollments.slice(0, 15).map((e) => ({
-    id: e.id,
+    id: e.userId,
     userName: e.user.name,
     userEmail: e.user.email,
     tier: e.tier,

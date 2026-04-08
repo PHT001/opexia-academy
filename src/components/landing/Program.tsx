@@ -6,73 +6,85 @@ import LazyVideo from "@/components/ui/LazyVideo";
 const weeks = [
   {
     num: 1,
-    title: "Fondations",
-    lessons: "8 le\u00e7ons \u00b7 1 module",
+    title: "Le Cadre",
+    lessons: "7 leçons · 2 modules",
     points: [
-      "Comprendre l\u2019IA, les LLMs, APIs et agents",
-      "Choisir les bons outils selon chaque cas client",
-      "Premiers prompts efficaces",
-      "Cr\u00e9er ton premier agent IA",
+      "Comprendre l'IA, les LLMs et le marché",
+      "Découvrir ChatGPT, Claude, Gemini",
+      "Définir ta roadmap personnelle",
+      "Poser les fondations de ton agence",
     ],
-    result: "Tu comprends l\u2019IA et tu ma\u00eetrises les fondamentaux",
+    result: "Tu comprends l'IA et tu as une vision claire",
   },
   {
     num: 2,
-    title: "D\u00e9veloppeur IA",
-    lessons: "28 le\u00e7ons \u00b7 5 modules",
+    title: "Tes Outils de Travail",
+    lessons: "11 leçons · 3 modules",
     points: [
-      "Prompt engineering avanc\u00e9 avec Claude",
-      "Cr\u00e9er des sites web pro (Next.js + Tailwind)",
-      "Design & UI avec Figma",
-      "Backend Supabase, APIs, Stripe & paiements",
+      "Prompt engineering avancé avec Claude",
+      "Maîtriser les IDE IA : Claude Code & Cursor",
+      "Git, GitHub et le workflow développeur",
+      "Premiers projets concrets",
     ],
-    result: "Tu ma\u00eetrises la stack technique compl\u00e8te",
+    result: "Tu maîtrises les outils du développeur IA",
   },
   {
     num: 3,
-    title: "Architecte Solutions",
-    lessons: "44 le\u00e7ons \u00b7 7 modules",
+    title: "Construire un Site Web",
+    lessons: "9 leçons · 2 modules",
     points: [
-      "Automatisations & workflows avec API Routes et scripts",
-      "Chatbots IA (RAG, multi-canal, WhatsApp)",
-      "Agents IA autonomes et Voice AI",
-      "Construire un MVP de A \u00e0 Z",
+      "Frontend moderne avec Next.js + Tailwind",
+      "Backend Supabase, SQL et API Routes",
+      "Intégrer Stripe et les paiements",
+      "Déployer sur Vercel comme un pro",
     ],
-    result: "Tu cr\u00e9es des solutions IA compl\u00e8tes pour tes clients",
+    result: "Tu crées des sites web complets et déployés",
   },
   {
     num: 4,
-    title: "S\u00e9curit\u00e9 & Production",
-    lessons: "12 le\u00e7ons \u00b7 2 modules",
+    title: "Les Services à Vendre",
+    lessons: "19 leçons · 5 modules",
     points: [
-      "S\u00e9curit\u00e9 Supabase & bonnes pratiques (RLS)",
-      "DevOps, CI/CD et monitoring",
-      "Checklist production et maintenance",
-      "D\u00e9ploiement professionnel",
+      "Chatbots IA (RAG, multi-canal, WhatsApp)",
+      "Agents vocaux IA avec ElevenLabs",
+      "Automatisations IA pour entreprises",
+      "Scraping, leads et traitement de documents",
     ],
-    result: "Tu d\u00e9ploies des projets solides et s\u00e9curis\u00e9s",
+    result: "Tu crées des solutions IA complètes pour tes clients",
   },
   {
     num: 5,
-    title: "Entrepreneur",
-    lessons: "26 le\u00e7ons \u00b7 4 modules",
+    title: "Industrialiser",
+    lessons: "13 leçons · 3 modules",
     points: [
-      "Cr\u00e9er ton offre irr\u00e9sistible et ton pricing",
-      "Prospection : LinkedIn, cold email, closing",
-      "Livraison, fid\u00e9lisation et referrals",
-      "Juridique, fiscalit\u00e9, RGPD et admin",
+      "Construire un MVP complet en 48h",
+      "Sécurité Supabase & bonnes pratiques (RLS)",
+      "DevOps, CI/CD et monitoring",
+      "Checklist production et déploiement pro",
     ],
-    result: "Tu es pr\u00eat \u00e0 signer et livrer tes premiers clients",
+    result: "Tu déploies des projets solides et sécurisés",
   },
   {
     num: 6,
-    title: "Scale & Mastery",
-    lessons: "19 le\u00e7ons \u00b7 3 modules",
+    title: "Vendre",
+    lessons: "19 leçons · 5 modules",
     points: [
-      "Scaler de freelance solo \u00e0 agence rentable",
+      "Créer ton offre irrésistible et ton pricing",
+      "Prospection : LinkedIn, cold email, closing",
+      "L'appel de closing et signature du deal",
+      "Livraison, fidélisation et referrals",
+    ],
+    result: "Tu es prêt à signer et livrer tes premiers clients",
+  },
+  {
+    num: 7,
+    title: "Scaler",
+    lessons: "7 leçons · 2 modules",
+    points: [
+      "Juridique, contrats, RGPD et facturation",
+      "Passer de freelance solo à agence rentable",
       "Architecture multi-tenant & white-label",
-      "Masterclass Claude Code, Cursor & Antigravity",
-      "Atteindre 10K\u20ac/mois et au-del\u00e0",
+      "Atteindre 10K€/mois et au-delà",
     ],
     result: "Tu as une agence IA rentable et scalable",
   },
@@ -92,10 +104,10 @@ export default function Program() {
             Programme
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-            6 phases pour tout changer
+            7 phases pour tout changer
           </h2>
           <p className="mt-4 text-lg text-[#6B7280] max-w-2xl mx-auto">
-            85 le\u00e7ons, 22 modules \u2014 du d\u00e9butant complet au freelance IA rentable
+            85 leçons, 22 modules — du débutant complet au freelance IA rentable
           </p>
         </motion.div>
 
