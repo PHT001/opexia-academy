@@ -37,23 +37,11 @@ function IconCheck({ className }: { className?: string }) {
 function IconVideo({ className }: { className?: string }) {
   return <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="15" height="12" rx="2" /><path d="M17 9l5-3v12l-5-3z" /></svg>;
 }
-function IconStar({ className }: { className?: string }) {
-  return <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>;
-}
-function IconUsers({ className }: { className?: string }) {
-  return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>;
-}
 function IconTarget({ className }: { className?: string }) {
   return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>;
 }
-function IconZap({ className }: { className?: string }) {
-  return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>;
-}
 function IconMessageCircle({ className }: { className?: string }) {
   return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>;
-}
-function IconShield({ className }: { className?: string }) {
-  return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>;
 }
 function IconGlobe({ className }: { className?: string }) {
   return <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>;
@@ -81,10 +69,10 @@ const INCLUDES = [
 // advertises "8 visios individuelles (1h)". This discrepancy is known and
 // intentional for now — do NOT change the duration without product decision.
 const STEPS = [
-  { num: "01", title: "Réserve ton créneau", desc: "Choisis la date et l'heure qui te conviennent parmi les créneaux disponibles.", icon: <IconCalendar className="text-white" /> },
-  { num: "02", title: "Prépare tes questions", desc: "Envoie-nous tes sujets à l'avance pour maximiser la session.", icon: <IconMessageCircle className="text-white" /> },
-  { num: "03", title: "Session en visio", desc: "45 min en face à face avec ton coach, partage d'écran et feedback en direct.", icon: <IconVideo className="text-white" /> },
-  { num: "04", title: "Plan d'action", desc: "Tu repars avec des actions concrètes et le replay de la session.", icon: <IconTarget className="text-white" /> },
+  { num: "01", title: "Réserve ton créneau", desc: "Choisis la date et l'heure qui te conviennent.", icon: <IconCalendar className="text-white" /> },
+  { num: "02", title: "Prépare tes questions", desc: "Envoie-nous tes sujets à l'avance.", icon: <IconMessageCircle className="text-white" /> },
+  { num: "03", title: "Session en visio", desc: "45 min en face à face, partage d'écran.", icon: <IconVideo className="text-white" /> },
+  { num: "04", title: "Plan d'action", desc: "Actions concrètes + replay de la session.", icon: <IconTarget className="text-white" /> },
 ];
 
 /* ─── Animations ────────────────────────────────────── */
@@ -153,7 +141,6 @@ function CalendlyPicker({
   const today = new Date();
   const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
-  // When user selects a time slot and wants to confirm
   const handleTimeSelect = (slotDate: string) => {
     onSelect(slotDate);
     setConfirmStep(true);
@@ -163,97 +150,98 @@ function CalendlyPicker({
     setConfirmStep(false);
   };
 
-  // Confirmation step
+  /* ─── Confirmation step ─── */
   if (confirmStep && selectedSlot) {
     const slotDate = new Date(selectedSlot);
     return (
       <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -20 }}
-        className="w-full"
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.98 }}
+        transition={{ duration: 0.25 }}
+        className="w-full max-w-lg mx-auto"
       >
-        {/* Back button */}
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-6 transition-colors"
+          className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600 mb-5 transition-colors group"
         >
-          <IconArrowLeft className="w-4 h-4" />
+          <IconArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
           Retour au calendrier
         </button>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-          {/* Confirmation header */}
-          <div className="p-6 sm:p-8 border-b border-gray-100 bg-gradient-to-br from-gray-50 to-white">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-lg shadow-red-500/20">
-                <IconCheck className="text-white w-6 h-6" />
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-lg shadow-gray-200/50 overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-5 bg-gradient-to-r from-[#FF1744] to-[#D50000]">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+                <IconCheck className="text-white w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Confirmer la réservation</h3>
-                <p className="text-sm text-gray-500">Vérifie les détails ci-dessous</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <IconCalendar className="text-blue-600 w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900 capitalize">
-                    {slotDate.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
-                  </p>
-                  <p className="text-xs text-gray-500">Date sélectionnée</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                  <IconClock className="text-emerald-600 w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">
-                    {slotDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" })} — 45 min
-                  </p>
-                  <p className="text-xs text-gray-500">Heure (Europe/Paris)</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
-                  <IconVideo className="text-purple-600 w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">Google Meet</p>
-                  <p className="text-xs text-gray-500">Le lien sera envoyé par email</p>
-                </div>
+                <h3 className="text-base font-bold text-white">Confirmer la réservation</h3>
+                <p className="text-xs text-white/70">Vérifie les détails ci-dessous</p>
               </div>
             </div>
           </div>
 
-          {/* Topic field */}
-          <div className="px-6 sm:px-8 pt-5 pb-0">
-            <label className="block text-xs font-semibold text-gray-700 mb-1.5">De quoi veux-tu parler ?</label>
+          {/* Details */}
+          <div className="p-6 space-y-3">
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-100">
+              <div className="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <IconCalendar className="text-blue-600 w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-900 capitalize">
+                  {slotDate.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+                </p>
+                <p className="text-[11px] text-gray-400">Date sélectionnée</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-100">
+              <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                <IconClock className="text-emerald-600 w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-900">
+                  {slotDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" })} — 45 min
+                </p>
+                <p className="text-[11px] text-gray-400">Heure (Europe/Paris)</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-100">
+              <div className="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                <IconVideo className="text-purple-600 w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-900">Google Meet</p>
+                <p className="text-[11px] text-gray-400">Le lien sera envoyé par email</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Topic */}
+          <div className="px-6 pb-2">
+            <label className="block text-xs font-semibold text-gray-600 mb-1.5">De quoi veux-tu parler ?</label>
             <textarea
               value={topic}
               onChange={(e) => onTopicChange(e.target.value)}
               placeholder="Ex: Review de mon projet, questions sur le pricing, architecture technique..."
-              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all resize-none"
+              className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 focus:bg-white transition-all resize-none"
               rows={3}
             />
           </div>
 
-          {/* Confirm action */}
-          <div className="p-6 sm:p-8 bg-gray-50/50">
+          {/* CTA */}
+          <div className="p-6 pt-4">
             <button
               disabled={booking || !topic.trim()}
               onClick={onConfirm}
               className={cn(
-                "w-full py-4 rounded-xl font-bold text-sm transition-all text-center",
+                "w-full py-3.5 rounded-xl font-bold text-sm transition-all text-center",
                 !booking && topic.trim()
-                  ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white hover:shadow-lg hover:shadow-red-500/25 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
               )}
             >
               {booking ? (
@@ -262,15 +250,15 @@ function CalendlyPicker({
                   Réservation en cours...
                 </span>
               ) : isOneToOne ? (
-                "Réserver ma session (inclus)"
+                "Réserver ma session (inclus dans ton forfait)"
               ) : (
-                `Réserver ma session — ${COACHING_PRICE_DISPLAY}€ à régler lors de l'appel`
+                `Réserver ma session — ${COACHING_PRICE_DISPLAY}€`
               )}
             </button>
-            <p className="text-xs text-gray-400 text-center mt-3">
+            <p className="text-[11px] text-gray-400 text-center mt-2.5">
               {isOneToOne
-                ? "Session incluse dans ton forfait One-to-One. Tu peux annuler jusqu'à 24h avant."
-                : `${COACHING_PRICE_DISPLAY}€ à régler directement lors de la session. Tu peux annuler jusqu'à 24h avant.`
+                ? "Session incluse dans ton forfait. Annulation jusqu'à 24h avant."
+                : `${COACHING_PRICE_DISPLAY}€ à régler lors de la session. Annulation jusqu'à 24h avant.`
               }
             </p>
           </div>
@@ -279,12 +267,13 @@ function CalendlyPicker({
     );
   }
 
+  /* ─── No slots ─── */
   if (slots.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-10 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center text-3xl mx-auto mb-4">📅</div>
-        <p className="text-base font-semibold text-gray-700 mb-1">Aucun créneau disponible</p>
-        <p className="text-sm text-gray-400">Reviens bientôt, de nouveaux créneaux seront ajoutés.</p>
+      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-10 text-center max-w-md mx-auto">
+        <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-2xl mx-auto mb-3">📅</div>
+        <p className="text-sm font-semibold text-gray-700 mb-1">Aucun créneau disponible</p>
+        <p className="text-xs text-gray-400">Reviens bientôt, de nouveaux créneaux seront ajoutés.</p>
       </div>
     );
   }
@@ -292,41 +281,42 @@ function CalendlyPicker({
   const daySlots = selectedDay ? (slotsByDate[selectedDay] || []) : [];
 
   return (
-    <div className="w-full">
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="w-full max-w-3xl mx-auto">
+      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-lg shadow-gray-200/40 overflow-hidden">
         <div className="flex flex-col lg:flex-row">
+
           {/* ─── LEFT: Calendar ─── */}
-          <div className="flex-1 min-w-0 lg:min-w-[55%] p-5 sm:p-8">
+          <div className="flex-1 p-5 sm:p-6">
             {/* Month navigation */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-5">
               <button
                 onClick={prevMonth}
-                className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 flex items-center justify-center"
               >
                 <IconChevronLeft />
               </button>
-              <h3 className="text-base sm:text-lg font-bold text-gray-900 capitalize">
+              <h3 className="text-sm sm:text-base font-bold text-gray-900 capitalize select-none">
                 {MONTHS_FR[viewMonth]} {viewYear}
               </h3>
               <button
                 onClick={nextMonth}
-                className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 flex items-center justify-center"
               >
                 <IconChevronRight />
               </button>
             </div>
 
             {/* Day headers */}
-            <div className="grid grid-cols-7 mb-2">
+            <div className="grid grid-cols-7 mb-1">
               {DAYS_FR.map((d) => (
-                <div key={d} className="py-2 text-center text-xs font-bold text-gray-400 uppercase tracking-wider">
+                <div key={d} className="py-1.5 text-center text-[11px] font-semibold text-gray-400 uppercase tracking-wider select-none">
                   {d}
                 </div>
               ))}
             </div>
 
-            {/* Calendar grid - bigger cells */}
-            <div className="grid grid-cols-7 gap-1">
+            {/* Calendar grid */}
+            <div className="grid grid-cols-7 gap-0.5">
               {calendarDays.map((day, i) => {
                 if (day === null) {
                   return <div key={`empty-${i}`} className="aspect-square" />;
@@ -346,30 +336,23 @@ function CalendlyPicker({
                     onClick={() => {
                       if (!hasSlots) return;
                       setSelectedDay(isSelected ? null : dateKey);
-                      // Clear the slot selection when switching days
-                      if (!isSelected) {
-                        onSelect("");
-                      }
+                      if (!isSelected) onSelect("");
                     }}
                     className={cn(
-                      "aspect-square rounded-xl flex flex-col items-center justify-center transition-all relative text-sm sm:text-base",
-                      hasSlots && !isPast ? "cursor-pointer" : "",
-                      isPast && "opacity-25 cursor-default",
+                      "aspect-square rounded-lg flex items-center justify-center transition-all text-[13px] sm:text-sm relative",
+                      isPast && "opacity-20 cursor-default",
                       !hasSlots && !isPast && "text-gray-300 cursor-default",
-                      hasSlots && !isPast && !isSelected && "hover:bg-[#FF1744]/[0.06] text-gray-700 font-medium",
-                      isSelected && "bg-[#FF1744] text-white font-bold shadow-lg shadow-red-500/20",
-                      isToday && !isSelected && hasSlots && "ring-2 ring-[#FF1744]/30",
+                      hasSlots && !isPast && !isSelected && "cursor-pointer text-gray-700 font-medium hover:bg-[#FF1744]/5 hover:text-[#FF1744]",
+                      isSelected && "bg-[#FF1744] text-white font-bold shadow-md shadow-red-500/25 scale-105",
+                      isToday && !isSelected && "font-bold",
                     )}
                   >
-                    <span className={cn(
-                      "leading-none",
-                      isToday && !isSelected && !hasSlots && "w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-semibold text-sm",
-                      isToday && !isSelected && hasSlots && "w-8 h-8 rounded-full flex items-center justify-center font-bold",
-                    )}>
-                      {day}
-                    </span>
+                    {isToday && !isSelected && (
+                      <span className="absolute inset-1 rounded-md border-2 border-[#FF1744]/25 pointer-events-none" />
+                    )}
+                    {day}
                     {hasSlots && !isPast && !isSelected && (
-                      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#FF1744]" />
+                      <span className="absolute bottom-[3px] left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#FF1744]" />
                     )}
                   </button>
                 );
@@ -378,42 +361,42 @@ function CalendlyPicker({
           </div>
 
           {/* ─── RIGHT: Time slots panel ─── */}
-          <div className="lg:w-[320px] xl:w-[360px] border-t lg:border-t-0 lg:border-l border-gray-100 bg-gray-50/50">
+          <div className="w-full lg:w-[280px] border-t lg:border-t-0 lg:border-l border-gray-100 bg-gray-50/70">
             <AnimatePresence mode="wait">
               {selectedDay && daySlots.length > 0 ? (
                 <motion.div
                   key={selectedDay}
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="p-5 sm:p-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="p-4 sm:p-5"
                 >
-                  <div className="mb-5">
+                  <div className="mb-4">
                     <p className="text-sm font-bold text-gray-900 capitalize">
                       {new Date(selectedDay + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5">
+                    <p className="text-[11px] text-gray-400 mt-0.5">
                       {daySlots.length} créneau{daySlots.length > 1 ? "x" : ""} disponible{daySlots.length > 1 ? "s" : ""}
                     </p>
                   </div>
 
-                  <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                  <div className="space-y-1.5 max-h-[350px] overflow-y-auto scrollbar-thin">
                     {daySlots.map((slot) => {
-                      const isSelected = slot.date === selectedSlot;
+                      const isSlotSelected = slot.date === selectedSlot;
                       return (
                         <button
                           key={slot.date}
                           onClick={() => handleTimeSelect(slot.date)}
                           className={cn(
-                            "w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full border text-center transition-all",
-                            isSelected
-                              ? "bg-[#FF1744] text-white border-[#FF1744] shadow-md shadow-red-500/15 scale-[1.02]"
-                              : "bg-white text-gray-700 border-gray-200 hover:border-[#FF1744] hover:text-[#FF1744] hover:shadow-sm"
+                            "w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-center transition-all text-sm font-medium",
+                            isSlotSelected
+                              ? "bg-[#FF1744] text-white border-[#FF1744] shadow-md shadow-red-500/15"
+                              : "bg-white text-gray-600 border-gray-200 hover:border-[#FF1744]/40 hover:text-[#FF1744] hover:bg-red-50/50"
                           )}
                         >
-                          <IconClock className={cn("w-4 h-4", isSelected ? "text-white" : "text-gray-400")} />
-                          <span className={cn("text-sm font-semibold", isSelected ? "text-white" : "")}>{slot.time}</span>
+                          <IconClock className={cn("w-3.5 h-3.5", isSlotSelected ? "text-white/80" : "text-gray-400")} />
+                          {slot.time}
                         </button>
                       );
                     })}
@@ -425,13 +408,13 @@ function CalendlyPicker({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col items-center justify-center p-8 sm:p-10 text-center h-full min-h-[300px]"
+                  className="flex flex-col items-center justify-center p-6 text-center h-full min-h-[250px] lg:min-h-[300px]"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
-                    <IconClock className="text-gray-300 w-6 h-6" />
+                  <div className="w-11 h-11 rounded-xl bg-gray-200/60 flex items-center justify-center mb-3">
+                    <IconClock className="text-gray-300 w-5 h-5" />
                   </div>
-                  <p className="text-sm font-medium text-gray-400">Sélectionne un jour</p>
-                  <p className="text-xs text-gray-300 mt-1">pour voir les créneaux disponibles</p>
+                  <p className="text-xs font-medium text-gray-400">Sélectionne un jour</p>
+                  <p className="text-[11px] text-gray-300 mt-0.5">pour voir les horaires</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -464,7 +447,6 @@ function CoachingContent() {
   const [userTier, setUserTier] = useState<string>(sessionTier);
   const [coachingTopic, setCoachingTopic] = useState("");
 
-  // Sync tier from session instantly
   useEffect(() => {
     if (sessionTier && sessionTier !== "free") {
       setUserTier((prev) => prev === "free" ? sessionTier : prev);
@@ -480,7 +462,6 @@ function CoachingContent() {
     }
   }, [searchParams]);
 
-  // Fetch slots on mount + auto-refresh every 30s
   useEffect(() => {
     const fetchSlots = () => {
       fetch("/api/coaching/slots")
@@ -535,129 +516,110 @@ function CoachingContent() {
 
   if (loading) {
     return (
-      <div className="w-full animate-pulse space-y-6">
-        <div className="h-48 bg-gray-200 rounded-2xl" />
-        <div className="h-64 bg-gray-100 rounded-xl" />
-        <div className="h-48 bg-gray-100 rounded-xl" />
+      <div className="w-full max-w-3xl mx-auto animate-pulse space-y-5">
+        <div className="h-24 bg-gray-100 rounded-2xl" />
+        <div className="h-80 bg-gray-100 rounded-2xl" />
       </div>
     );
   }
 
-  /* ─── Admin View ─────────────────────────────────── */
   const previewTier = typeof window !== "undefined" ? localStorage.getItem("admin-preview-tier") : null;
   const effectiveTier = previewTier || userTier;
   const isFreeUser = effectiveTier === "free" || !effectiveTier;
 
+  /* ─── Admin View ─────────────────────────────────── */
   if ((session?.user as any)?.role === "admin" && !previewTier) {
     const allSessions = sessions.filter((s) => s.status === "confirmed");
     const upcomingSessions = allSessions.filter((s) => new Date(s.date) >= new Date());
     const pastAdminSessions = allSessions.filter((s) => new Date(s.date) < new Date());
 
     return (
-      <div className="w-full space-y-8">
+      <div className="w-full max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
+          <h1 className="text-xl font-bold text-gray-900 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
               <IconCalendar className="text-white" />
             </div>
             Coaching — Planning
           </h1>
-          <p className="text-sm text-gray-500 mt-1 ml-[52px]">
-            Vue administrateur : calendrier et sessions de coaching.
-          </p>
+          <p className="text-xs text-gray-500 mt-1 ml-12">Vue administrateur</p>
         </div>
 
-        {/* Google Calendar Embed — admin only */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+        {/* Google Calendar */}
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2">
             <IconCalendar className="text-[#FF1744]" />
             <h2 className="text-sm font-bold text-gray-900">Calendrier Google</h2>
           </div>
-          <div className="w-full overflow-x-auto -mx-px">
-            <iframe
-              src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
-              style={{ border: 0, minWidth: "320px" }}
-              width="100%"
-              height="600"
-              className="sm:h-[600px] h-[400px]"
-              title="Google Calendar OpexIA"
-            />
-          </div>
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
+            style={{ border: 0 }}
+            width="100%"
+            height="500"
+            className="sm:h-[550px]"
+            title="Google Calendar OpexIA"
+          />
         </div>
 
-        {/* Upcoming Sessions */}
+        {/* Upcoming */}
         <div>
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <IconCalendar className="text-emerald-500" />
+          <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <IconCalendar className="text-emerald-500 w-4 h-4" />
             Sessions à venir
             {upcomingSessions.length > 0 && (
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                {upcomingSessions.length}
-              </span>
+              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">{upcomingSessions.length}</span>
             )}
           </h2>
           {upcomingSessions.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-gray-200 p-8 text-center">
-              <p className="text-sm text-gray-400">Aucune session à venir pour le moment.</p>
+            <div className="bg-white rounded-xl border border-dashed border-gray-200 p-6 text-center">
+              <p className="text-xs text-gray-400">Aucune session à venir.</p>
             </div>
           ) : (
             <div className="space-y-2">
               {upcomingSessions.map((s) => {
                 const d = new Date(s.date);
                 return (
-                  <motion.div
-                    key={s.id}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
-                      <span className="text-[9px] font-bold text-emerald-500 uppercase">
-                        {d.toLocaleDateString("fr-FR", { weekday: "short" })}
-                      </span>
-                      <span className="text-lg font-black text-emerald-700 leading-none">{d.getDate()}</span>
+                  <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
+                      <span className="text-[8px] font-bold text-emerald-500 uppercase">{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
+                      <span className="text-base font-black text-emerald-700 leading-none">{d.getDate()}</span>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold text-gray-800">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-800 truncate">
                         {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                       </p>
-                      <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                      <p className="text-[11px] text-gray-500 flex items-center gap-1">
                         <IconClock className="w-3 h-3" />
                         {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 45 min
                       </p>
                     </div>
-                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2.5 py-1 rounded-full">
-                      Confirmée
-                    </span>
-                  </motion.div>
+                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full flex-shrink-0">Confirmée</span>
+                  </div>
                 );
               })}
             </div>
           )}
         </div>
 
-        {/* Past Sessions */}
+        {/* Past */}
         {pastAdminSessions.length > 0 && (
           <div>
-            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Sessions passées</h3>
+            <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sessions passées</h3>
             <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
               {pastAdminSessions.map((s) => {
                 const d = new Date(s.date);
                 return (
-                  <div key={s.id} className="flex items-center gap-4 px-4 py-3">
-                    <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                      <IconVideo className="text-gray-400 w-3.5 h-3.5" />
+                  <div key={s.id} className="flex items-center gap-3 px-4 py-2.5">
+                    <div className="w-7 h-7 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
+                      <IconVideo className="text-gray-400 w-3 h-3" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-700">Session de coaching</p>
-                      <p className="text-[10px] text-gray-400">
+                      <p className="text-xs font-medium text-gray-600">
                         {d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
                       </p>
                     </div>
-                    <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                      Terminée
-                    </span>
+                    <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Terminée</span>
                   </div>
                 );
               })}
@@ -670,14 +632,14 @@ function CoachingContent() {
 
   /* ─── User booking view ─── */
   const bookingContent = (
-    <div className="w-full space-y-3 sm:space-y-8">
+    <div className="w-full max-w-3xl mx-auto space-y-6">
 
-      {/* ═══════════════ SUCCESS MESSAGE ═══════════════ */}
+      {/* Success */}
       {successMessage && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-200"
+          className="flex items-center gap-3 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200"
         >
           <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
             <IconCheck className="text-emerald-600" />
@@ -686,60 +648,45 @@ function CoachingContent() {
         </motion.div>
       )}
 
-      {/* ═══════════════ COACH INFO HEADER (Calendly-style) ═══════════════ */}
+      {/* ─── Coach header card ─── */}
       <motion.div
-        className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
-        initial={{ opacity: 0, y: 15 }}
+        className="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden"
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.3 }}
       >
-        <div className="p-3 sm:p-8">
-          <div className="flex flex-row items-center gap-3 sm:gap-5">
-            {/* Avatar */}
-            <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shadow-lg shadow-red-500/15 flex-shrink-0">
+        <div className="p-4 sm:p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shadow-md shadow-gray-200/50 flex-shrink-0 ring-2 ring-gray-100">
               <img src="/images/chatbot-avatar.jpg" alt="OpexIA" className="w-full h-full object-cover" />
             </div>
-
-            <div className="flex-1">
-              <h1 className="text-lg sm:text-2xl font-bold text-gray-900">
-                Équipe OpexIA
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
-                Session de coaching personnalisée
-              </p>
-
-              {/* Meta badges */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2 sm:mt-3">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
-                  <IconClock className="w-3.5 h-3.5 text-gray-400" />
-                  45 min
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
-                  <IconVideo className="w-3.5 h-3.5 text-gray-400" />
-                  Google Meet
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
-                  <IconGlobe className="w-3.5 h-3.5 text-gray-400" />
-                  Europe/Paris
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF1744]/[0.08] text-xs font-bold text-[#FF1744]">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-base sm:text-lg font-bold text-gray-900">Session coaching OpexIA</h1>
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
+                  <IconClock className="w-3 h-3" /> 45 min
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
+                  <IconVideo className="w-3 h-3" /> Google Meet
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
+                  <IconGlobe className="w-3 h-3" /> Paris
+                </span>
+                <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#FF1744]/10 text-[11px] font-bold text-[#FF1744]">
                   {effectiveTier === "one_to_one" ? "Inclus" : `${COACHING_PRICE_DISPLAY}€`}
-                </div>
+                </span>
               </div>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* ═══════════════ CALENDLY-STYLE PICKER ═══════════════ */}
+      {/* ─── Calendar picker ─── */}
       <motion.div
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
+        transition={{ duration: 0.3, delay: 0.05 }}
       >
-        <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-0.5 sm:mb-1">Choisis ton créneau</h2>
-        <p className="text-xs text-gray-500 mb-2 sm:mb-5">Sélectionne un jour puis un horaire pour réserver ta session.</p>
-
         <CalendlyPicker
           slots={slots}
           selectedSlot={selectedSlot}
@@ -752,94 +699,100 @@ function CoachingContent() {
         />
       </motion.div>
 
-      {/* ═══════════════ HOW IT WORKS ═══════════════ */}
+      {/* ─── What's included ─── */}
       <motion.div
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-5 sm:p-6"
       >
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Comment ça marche</h2>
-        <p className="text-xs text-gray-500 mb-5">4 étapes simples pour ta session de coaching.</p>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {STEPS.map((step, i) => (
-            <motion.div
-              key={i}
-              className="relative bg-white rounded-xl border border-gray-200 p-3 sm:p-5 group hover:shadow-md transition-all"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              transition={{ delay: i * 0.08 }}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
-                  {step.icon}
-                </div>
-                <span className="text-[10px] font-black text-gray-300">{step.num}</span>
-              </div>
-              <h3 className="text-sm font-bold text-gray-900 mb-1">{step.title}</h3>
-              <p className="text-xs text-gray-500 leading-relaxed">{step.desc}</p>
-              {i < STEPS.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-3 z-10 text-gray-300">→</div>
-              )}
-            </motion.div>
+        <h2 className="text-sm font-bold text-gray-900 mb-4">Ce qui est inclus</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          {INCLUDES.map((item, i) => (
+            <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
+              <span className="text-base flex-shrink-0">{item.icon}</span>
+              <span className="text-xs text-gray-600">{item.text}</span>
+            </div>
           ))}
         </div>
       </motion.div>
 
-      {/* ═══════════════ UPCOMING SESSIONS ═══════════════ */}
+      {/* ─── How it works ─── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.15 }}
+      >
+        <h2 className="text-sm font-bold text-gray-900 mb-3">Comment ça marche</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+          {STEPS.map((step, i) => (
+            <div
+              key={i}
+              className="relative bg-white rounded-xl border border-gray-200/80 p-4 group hover:shadow-sm transition-all"
+            >
+              <div className="flex items-center gap-2.5 mb-2.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
+                  {step.icon}
+                </div>
+                <span className="text-[10px] font-black text-gray-300">{step.num}</span>
+              </div>
+              <h3 className="text-xs font-bold text-gray-900 mb-0.5">{step.title}</h3>
+              <p className="text-[11px] text-gray-500 leading-relaxed">{step.desc}</p>
+              {i < STEPS.length - 1 && (
+                <div className="hidden lg:block absolute top-1/2 -right-2 z-10 text-gray-200 text-sm">›</div>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* ─── Upcoming sessions ─── */}
       {confirmedSessions.length > 0 && (
         <div>
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <IconCalendar className="text-emerald-500" />
+          <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <IconCalendar className="text-emerald-500 w-4 h-4" />
             Tes prochaines sessions
           </h2>
           <div className="space-y-2">
             {confirmedSessions.map((s) => {
               const d = new Date(s.date);
               return (
-                <motion.div
-                  key={s.id}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
-                    <span className="text-[9px] font-bold text-emerald-500 uppercase">{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
-                    <span className="text-lg font-black text-emerald-700 leading-none">{d.getDate()}</span>
+                <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
+                    <span className="text-[8px] font-bold text-emerald-500 uppercase">{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
+                    <span className="text-base font-black text-emerald-700 leading-none">{d.getDate()}</span>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-gray-800">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-800 truncate">
                       {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                     </p>
-                    <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                    <p className="text-[11px] text-gray-500 flex items-center gap-1">
                       <IconClock className="w-3 h-3" />
                       {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 45 min
                     </p>
                   </div>
-                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2.5 py-1 rounded-full">Confirmée</span>
-                </motion.div>
+                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full flex-shrink-0">Confirmée</span>
+                </div>
               );
             })}
           </div>
         </div>
       )}
 
-      {/* ═══════════════ PAST SESSIONS ═══════════════ */}
+      {/* ─── Past sessions ─── */}
       {pastSessions.length > 0 && (
         <div>
-          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Sessions passées</h3>
+          <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sessions passées</h3>
           <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
             {pastSessions.map((s) => {
               const d = new Date(s.date);
               return (
-                <div key={s.id} className="flex items-center gap-4 px-4 py-3">
-                  <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <IconVideo className="text-gray-400 w-3.5 h-3.5" />
+                <div key={s.id} className="flex items-center gap-3 px-4 py-2.5">
+                  <div className="w-7 h-7 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <IconVideo className="text-gray-400 w-3 h-3" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-700">Session de coaching</p>
-                    <p className="text-[10px] text-gray-400">
+                    <p className="text-xs font-medium text-gray-600">
                       {d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
                     </p>
                   </div>
@@ -853,7 +806,6 @@ function CoachingContent() {
     </div>
   );
 
-  /* ─── Free users see the upgrade overlay ─── */
   if (isFreeUser) {
     return (
       <UpgradeOverlay
