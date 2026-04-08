@@ -314,7 +314,7 @@ export function dayThreeEmail(name: string): { subject: string; html: string } {
     html: layout(`
       <p>Salut ${firstName},</p>
       <p>Tu as acc&egrave;s &agrave; la formation depuis 3 jours. Si tu bloques sur quelque chose ou si tu veux structurer ton plan d'action, on peut en parler.</p>
-      <p>R&eacute;serve un appel gratuit de 15 min avec moi sur WhatsApp : <a href="https://wa.me/33756803717" style="color: #1a73e8;">wa.me/33756803717</a></p>
+      <p>R&eacute;serve un appel gratuit de 15 min avec moi sur WhatsApp : <a href="https://wa.me/33787858036" style="color: #1a73e8;">wa.me/33787858036</a></p>
       <p>Sinon, r&eacute;ponds &agrave; cet email, je te r&eacute;ponds sous 24h.</p>
     `),
   };

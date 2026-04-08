@@ -5,7 +5,7 @@ import React, { Suspense, useCallback, useEffect, useState, useRef } from "react
 import { motion, useMotionValue, useTransform, animate, useInView, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import { TIERS, TIER_MODULE_ACCESS } from "@/lib/constants";
+import { TIERS, TIER_MODULE_ACCESS, WHATSAPP_LINK } from "@/lib/constants";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
 import FreeDashboard from "@/components/platform/FreeDashboard";
 
@@ -812,7 +812,7 @@ function DashboardContent() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <a
-                href="https://wa.me/message/DUQV2FBF3TF2H1"
+                href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 rounded-xl bg-white/5 border border-white/10 p-4 hover:bg-white/10 transition-colors group"

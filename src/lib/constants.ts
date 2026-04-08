@@ -193,6 +193,10 @@ export const COACHING_SLOTS = [
 export const COACHING_PRICE = 5000; // 50e en centimes
 export const COACHING_PRICE_DISPLAY = "50";
 
+/* ——— WhatsApp ——— */
+export const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
+export const WHATSAPP_PHONE = "https://wa.me/33787858036";
+
 /* ——— Referral / Parrainage ——— */
 export const REFERRAL_COMMISSION_RATES: Record<string, number> = {
   starter: 0.20,     // 20% sur Starter

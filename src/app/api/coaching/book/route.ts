@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
-import { COACHING_PRICE_DISPLAY } from "@/lib/constants";
+import { COACHING_PRICE_DISPLAY, WHATSAPP_PHONE } from "@/lib/constants";
 import { createCalendarEvent } from "@/lib/google-calendar";
 
 const resend = process.env.RESEND_API_KEY
@@ -11,7 +11,7 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 const ADMIN_EMAIL = "opexiapro@gmail.com";
-const WHATSAPP_LINK = "https://wa.me/33756803717";
+const WHATSAPP_LINK = WHATSAPP_PHONE;
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);

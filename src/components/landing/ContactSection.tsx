@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { WHATSAPP_PHONE } from "@/lib/constants";
 
-const WHATSAPP_LINK = "https://wa.me/33787858036";
+const WHATSAPP_LINK = WHATSAPP_PHONE;
 const EMAIL = "support@opexia-formation.com";
 
 const FAQ_ITEMS = [

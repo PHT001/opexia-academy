@@ -4,8 +4,7 @@ import { Suspense, useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-
-const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
+import { WHATSAPP_LINK } from "@/lib/constants";
 
 const TIER_LABELS: Record<string, string> = {
   free: "Gratuit", starter: "Starter", academy: "Academy", one_to_one: "One to One",

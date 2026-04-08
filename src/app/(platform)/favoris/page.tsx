@@ -147,7 +147,7 @@ export default function FavorisPage() {
                       </svg>
                     </button>
                   </div>
-                  <a href={`/lessons?open=${fav.id}`} className="block">
+                  <a href={`/lessons/${fav.id}`} className="block">
                     <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-[#FF1744] transition-colors">
                       {fav.title}
                     </h3>

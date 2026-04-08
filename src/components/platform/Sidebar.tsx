@@ -95,6 +95,14 @@ function IconTemplate({ className }: { className?: string }) {
   );
 }
 
+function IconBookmark({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
 function IconWand({ className }: { className?: string }) {
   return (
     <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -277,6 +285,8 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
     items: [
       { href: "/pipeline", label: "Pipeline", icon: IconPipeline },
       { href: "/generateur", label: "Générateur", icon: IconWand },
+      { href: "/templates", label: "Templates", icon: IconTemplate },
+      { href: "/favoris", label: "Favoris", icon: IconBookmark },
     ],
   },
   {

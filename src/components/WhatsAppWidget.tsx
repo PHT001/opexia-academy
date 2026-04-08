@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
+import { WHATSAPP_PHONE } from "@/lib/constants";
 
-const WHATSAPP_URL = "https://wa.me/33787858036";
+const WHATSAPP_URL = WHATSAPP_PHONE;
 
 export default function WhatsAppWidget() {
   const [open, setOpen] = useState(false);

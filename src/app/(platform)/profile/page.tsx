@@ -74,7 +74,8 @@ export default function ProfilePage() {
 
   const handleChangePassword = async () => {
     setPasswordError(""); setPasswordSuccess(false);
-    if (newPassword.length < 6) { setPasswordError("Le mot de passe doit faire au moins 6 caract\u00e8res"); return; }
+    if (newPassword.length < 8) { setPasswordError("Le mot de passe doit faire au moins 8 caractères"); return; }
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newPassword)) { setPasswordError("Le mot de passe doit contenir au moins un caractère spécial"); return; }
     if (newPassword !== confirmPassword) { setPasswordError("Les mots de passe ne correspondent pas"); return; }
     setSavingPassword(true);
     try {

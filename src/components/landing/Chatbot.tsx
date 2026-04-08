@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { WHATSAPP_LINK } from "@/lib/constants";
 
 interface Message {
   role: "bot" | "user";
@@ -225,7 +226,7 @@ export default function Chatbot() {
             {/* WhatsApp contact button */}
             <div className="px-4 pb-2">
               <a
-                href="https://wa.me/message/DUQV2FBF3TF2H1"
+                href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full rounded-full bg-[#25D366] hover:bg-[#1EBE5A] text-white text-sm font-semibold py-2.5 transition-colors"

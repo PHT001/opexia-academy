@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
-
-const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
+import { WHATSAPP_LINK } from "@/lib/constants";
 
 interface Plan {
   name: string;
