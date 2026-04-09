@@ -1039,23 +1039,32 @@ body {
     el.classList.add('visible');
   });
 
+  // Navigate to next/prev slide
+  function goNext() {
+    var next = Math.min(currentIndex + 1, totalSlides - 1);
+    slides[next].scrollIntoView({ behavior: 'smooth' });
+  }
+  function goPrev() {
+    var prev = Math.max(currentIndex - 1, 0);
+    slides[prev].scrollIntoView({ behavior: 'smooth' });
+  }
+
   // Keyboard navigation
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
       e.preventDefault();
-      var next = Math.min(currentIndex + 1, totalSlides - 1);
-      slides[next].scrollIntoView({ behavior: 'smooth' });
+      goNext();
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
       e.preventDefault();
-      var prev = Math.max(currentIndex - 1, 0);
-      slides[prev].scrollIntoView({ behavior: 'smooth' });
+      goPrev();
     }
   });
 
-  // postMessage listener for parent nav buttons
+  // Listen for parent iframe commands
   window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'keydown' && e.data.key) {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: e.data.key, bubbles: true }));
+    if (e.data && e.data.type === 'slide-nav') {
+      if (e.data.direction === 'next') goNext();
+      if (e.data.direction === 'prev') goPrev();
     }
   });
 })();

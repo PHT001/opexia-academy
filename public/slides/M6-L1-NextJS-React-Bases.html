@@ -219,10 +219,11 @@ body { overflow-x: hidden; }
   var firstInner = slides[0].querySelector('.slide-inner'); if (firstInner) firstInner.classList.add('visible'); slides[0].querySelectorAll('.animate-children').forEach(function(el) { el.classList.add('visible'); });
   document.addEventListener('keydown', function(e) { if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); var next = Math.min(currentIndex + 1, totalSlides - 1); slides[next].scrollIntoView({ behavior: 'smooth' }); } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); var prev = Math.max(currentIndex - 1, 0); slides[prev].scrollIntoView({ behavior: 'smooth' }); } });
 
-  // postMessage listener for parent nav buttons
+  // Listen for parent iframe commands
   window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'keydown' && e.data.key) {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: e.data.key, bubbles: true }));
+    if (e.data && e.data.type === 'slide-nav') {
+      if (e.data.direction === 'next') { var next = Math.min(currentIndex + 1, totalSlides - 1); slides[next].scrollIntoView({ behavior: 'smooth' }); }
+      if (e.data.direction === 'prev') { var prev = Math.max(currentIndex - 1, 0); slides[prev].scrollIntoView({ behavior: 'smooth' }); }
     }
   });
 })();

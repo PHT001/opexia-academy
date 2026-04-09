@@ -157,10 +157,11 @@ html { scroll-snap-type: y mandatory; scroll-behavior: smooth; overflow-y: scrol
 
 <script>
 (function(){const s=document.querySelectorAll('.slide'),t=s.length,c=document.getElementById('currentSlide'),d=document.getElementById('navDots');for(let i=0;i<t;i++){const b=document.createElement('button');b.className='nav-dot'+(i===0?' active':'');b.setAttribute('aria-label','Slide '+(i+1));b.addEventListener('click',function(){s[i].scrollIntoView({behavior:'smooth'})});d.appendChild(b)}const dots=d.querySelectorAll('.nav-dot');let ci=0;const o=new IntersectionObserver(function(e){e.forEach(function(en){const inn=en.target.querySelector('.slide-inner'),ac=en.target.querySelectorAll('.animate-children');if(en.isIntersecting&&en.intersectionRatio>0.4){const idx=parseInt(en.target.dataset.slide);ci=idx;c.textContent=idx+1;dots.forEach(function(dd,di){dd.classList.toggle('active',di===idx)});if(inn)inn.classList.add('visible');ac.forEach(function(el){el.classList.add('visible')})}})},{threshold:[0.4,0.6]});s.forEach(function(sl){o.observe(sl)});var fi=s[0].querySelector('.slide-inner');if(fi)fi.classList.add('visible');s[0].querySelectorAll('.animate-children').forEach(function(el){el.classList.add('visible')});document.addEventListener('keydown',function(e){if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key===' '){e.preventDefault();var n=Math.min(ci+1,t-1);s[n].scrollIntoView({behavior:'smooth'})}else if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();var p=Math.max(ci-1,0);s[p].scrollIntoView({behavior:'smooth'})}})
-  // postMessage listener for parent nav buttons
+  // Listen for parent iframe commands
   window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'keydown' && e.data.key) {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: e.data.key, bubbles: true }));
+    if (e.data && e.data.type === 'slide-nav') {
+      if (e.data.direction === 'next') { var next = Math.min(currentIndex + 1, totalSlides - 1); slides[next].scrollIntoView({ behavior: 'smooth' }); }
+      if (e.data.direction === 'prev') { var prev = Math.max(currentIndex - 1, 0); slides[prev].scrollIntoView({ behavior: 'smooth' }); }
     }
   });
 })();
