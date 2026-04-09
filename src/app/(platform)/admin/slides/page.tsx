@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { GlassCard } from "@/components/ui/GlassCard";
 
 const SLIDES = [
   { file: "M1-L0-Bienvenue", module: 1, lesson: "L0", title: "Bienvenue - Ce qui t'attend" },
@@ -55,26 +54,25 @@ export default function AdminSlidesPage() {
     return (
       <div className="fixed inset-0 z-50 bg-black flex flex-col">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-4 py-2 bg-[#0D0D1A] border-b border-white/10">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#0D0D1A] border-b border-white/10">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
               onClick={() => setActiveSlide(null)}
-              className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-sm text-white/60 hover:text-white transition-colors shrink-0"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
               </svg>
-              Retour
+              <span className="hidden sm:inline">Retour</span>
             </button>
-            <span className="text-sm font-semibold text-white">
+            <span className="text-sm font-semibold text-white truncate">
               {SLIDES.find((s) => s.file === activeSlide)?.title}
             </span>
-            <span className="text-xs text-white/30 ml-2">
+            <span className="text-xs text-white/30 shrink-0">
               {currentIndex + 1}/{SLIDES.length}
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            {/* Prev / Next presentation */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <div className="flex items-center gap-1">
               <button
                 onClick={() => prevSlide && setActiveSlide(prevSlide.file)}
@@ -99,14 +97,14 @@ export default function AdminSlidesPage() {
               rel="noopener noreferrer"
               className="text-xs text-white/40 hover:text-white transition-colors flex items-center gap-1"
             >
-              Nouvel onglet
+              <span className="hidden sm:inline">Nouvel onglet</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
               </svg>
             </a>
           </div>
         </div>
-        {/* Iframe — click to focus for keyboard nav */}
+        {/* Iframe */}
         <iframe
           ref={iframeRef}
           src={`/slides/${activeSlide}.html`}
@@ -120,43 +118,53 @@ export default function AdminSlidesPage() {
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Diapositives</h1>
-          <p className="text-text-secondary">{SLIDES.length} presentations pour les videos</p>
-        </div>
+    <div className="max-w-6xl mx-auto">
+      {/* Header */}
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#111] dark:text-white mb-1">Diapositives</h1>
+        <p className="text-sm text-gray-500 dark:text-white/40">{SLIDES.length} presentations disponibles</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
         {SLIDES.map((slide) => (
           <button
             key={slide.file}
             onClick={() => setActiveSlide(slide.file)}
-            className="text-left"
+            className="group text-left rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.04] hover:border-[#FF1744]/40 hover:shadow-lg hover:shadow-[#FF1744]/5 transition-all duration-200 overflow-hidden"
           >
-            <GlassCard className="p-5 cursor-pointer hover:border-[#FF1744]/40 hover:shadow-lg hover:shadow-[#FF1744]/5 transition-all group h-full">
-              {/* Module badge */}
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 px-2 py-0.5 rounded-full uppercase">
+            {/* Slide preview placeholder */}
+            <div className="relative h-28 sm:h-32 bg-gradient-to-br from-[#0D0D1A] to-[#1a1a3e] flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-3 left-4 w-16 h-1.5 rounded bg-white/40" />
+                <div className="absolute top-7 left-4 w-24 h-1 rounded bg-white/20" />
+                <div className="absolute top-10 left-4 w-20 h-1 rounded bg-white/15" />
+                <div className="absolute bottom-4 right-4 w-8 h-8 rounded-full border border-white/20" />
+              </div>
+              <div className="text-center z-10">
+                <span className="text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/15 px-2.5 py-1 rounded-full uppercase tracking-wider">
                   Module {slide.module}
                 </span>
-                <span className="text-[10px] font-mono text-white/30">{slide.lesson}</span>
               </div>
+              {/* Play icon on hover */}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition-all duration-200">
+                <div className="w-10 h-10 rounded-full bg-white/0 group-hover:bg-white/20 flex items-center justify-center transition-all duration-200 scale-75 group-hover:scale-100 opacity-0 group-hover:opacity-100">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="none">
+                    <polygon points="8 5 20 12 8 19 8 5" />
+                  </svg>
+                </div>
+              </div>
+            </div>
 
-              {/* Title */}
-              <h3 className="text-sm font-semibold text-white group-hover:text-[#FF1744] transition-colors mb-2">
+            {/* Info */}
+            <div className="px-4 py-3">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[10px] font-mono text-gray-400 dark:text-white/30">{slide.lesson}</span>
+              </div>
+              <h3 className="text-[13px] sm:text-sm font-semibold text-gray-900 dark:text-white group-hover:text-[#FF1744] transition-colors leading-snug">
                 {slide.title}
               </h3>
-
-              {/* Preview hint */}
-              <div className="flex items-center gap-1.5 text-[11px] text-white/30">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" />
-                </svg>
-                Cliquer pour ouvrir
-              </div>
-            </GlassCard>
+            </div>
           </button>
         ))}
       </div>
