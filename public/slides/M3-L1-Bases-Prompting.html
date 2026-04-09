@@ -9,7 +9,8 @@
 html { scroll-snap-type: y mandatory; scroll-behavior: smooth; overflow-y: scroll; font-family: var(--font); background: var(--bg); color: var(--text); }
 body { overflow-x: hidden; }
 .slide { width: 100vw; min-height: 100vh; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; position: relative; padding: 60px 40px; overflow: hidden; }
-.slide-inner { max-width: 1100px; width: 100%; opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.slide-inner {
+  overflow-wrap: break-word; max-width: 1100px; width: 100%; opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .slide-inner.visible { opacity: 1; transform: translateY(0); }
 .nav-dots { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
 .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26,26,46,0.15); border: none; cursor: pointer; transition: all 0.3s ease; padding: 0; }
@@ -19,7 +20,8 @@ body { overflow-x: hidden; }
 .slide-counter span { color: var(--red); font-weight: 800; }
 .watermark { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: rgba(26,26,46,0.12); letter-spacing: 2px; text-transform: uppercase; }
 .slide-title { background: var(--navy); color: #fff; }
-.slide-title .slide-inner { text-align: center; }
+.slide-title .slide-inner {
+  overflow-wrap: break-word; text-align: center; }
 .title-badge { display: inline-block; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 30px; padding: 8px 20px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 40px; }
 .title-main { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900; line-height: 1.05; background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px; }
 .title-accent { display: block; background: linear-gradient(135deg, var(--red), #FF6B6B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -43,7 +45,8 @@ body { overflow-x: hidden; }
 .step-item:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
 .step-num { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; box-shadow: 0 4px 12px rgba(255,23,68,0.3); }
 .step-content h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-.step-content p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+.step-content p {
+  word-wrap: break-word; font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
 .comparison-container { position: relative; }
 .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .comp-card { padding: 22px 24px; border-radius: var(--radius-sm); font-size: 0.95rem; line-height: 1.5; }
@@ -98,7 +101,8 @@ body { overflow-x: hidden; }
 .animate-children.visible > *:nth-child(8) { transition-delay: 0.8s; }
 @media (max-width: 900px) { .icon-grid, .points-grid { grid-template-columns: 1fr; gap: 16px; } .stats-grid, .comparison-grid { grid-template-columns: 1fr; } .slide { padding: 40px 20px; } .nav-dots { right: 12px; gap: 8px; } .nav-dot { width: 8px; height: 8px; } }
 @media (max-width: 600px) { .slide { padding: 30px 16px; } .step-item { padding: 20px; gap: 14px; } .step-num { width: 36px; height: 36px; font-size: 0.95rem; } .stat-card { padding: 24px 20px; } .slide-heading { margin-bottom: 28px; } }
-@media print { html { scroll-snap-type: none; } .slide { page-break-after: always; min-height: auto; height: 100vh; padding: 40px; } .slide-inner { opacity: 1 !important; transform: none !important; } .animate-children > * { opacity: 1 !important; transform: none !important; } .nav-dots, .slide-counter { display: none; } @page { size: landscape; margin: 0; } }
+@media print { html { scroll-snap-type: none; } .slide { page-break-after: always; min-height: auto; height: 100vh; padding: 40px; } .slide-inner {
+  overflow-wrap: break-word; opacity: 1 !important; transform: none !important; } .animate-children > * { opacity: 1 !important; transform: none !important; } .nav-dots, .slide-counter { display: none; } @page { size: landscape; margin: 0; } }
 </style>
 </head>
 <body>
