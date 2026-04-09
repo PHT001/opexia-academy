@@ -30,13 +30,20 @@ const nextConfig: NextConfig = {
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' https://plausible.io",
-              "style-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https:",
               "connect-src 'self' https://api.stripe.com https://plausible.io",
-              "frame-src https://js.stripe.com https://calendar.google.com",
-              "font-src 'self' data:",
+              "frame-src 'self' https://js.stripe.com https://calendar.google.com",
+              "font-src 'self' data: https://fonts.gstatic.com",
             ].join("; "),
           },
+        ],
+      },
+      {
+        source: "/slides/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Cache-Control", value: "public, max-age=86400" },
         ],
       },
       {
