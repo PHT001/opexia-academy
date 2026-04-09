@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpexIA Academy &mdash; Module 19 &middot; Le&ccedil;on 1 : L&rsquo;appel de closing</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --navy: #1A1A2E; --red: #FF1744; --red-dark: #D50032; --bg: #FAFAFA; --text: #1A1A2E; --text-muted: #6B7280; --card-bg: #FFFFFF; --shadow-sm: 0 1px 3px rgba(26,26,46,0.06); --shadow-md: 0 4px 20px rgba(26,26,46,0.08); --shadow-lg: 0 8px 40px rgba(26,26,46,0.12); --radius: 16px; --radius-sm: 10px; --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; overflow-y: scroll; font-family: var(--font); background: var(--bg); color: var(--text); } body { overflow-x: hidden; }
+.slide { width: 100vw; min-height: 100vh; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; position: relative; padding: 60px 40px; overflow: hidden; } .slide-inner { max-width: 1100px; width: 100%; opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; } .slide-inner.visible { opacity: 1; transform: translateY(0); }
+.nav-dots { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; } .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26,26,46,0.15); border: none; cursor: pointer; transition: all 0.3s ease; padding: 0; } .nav-dot:hover { background: rgba(26,26,46,0.35); transform: scale(1.3); } .nav-dot.active { background: var(--red); transform: scale(1.3); box-shadow: 0 0 0 3px rgba(255,23,68,0.2); }
+.slide-counter { position: fixed; top: 24px; right: 28px; font-size: 14px; font-weight: 600; color: var(--text-muted); z-index: 100; background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(26,26,46,0.06); } .slide-counter span { color: var(--red); font-weight: 800; }
+.watermark { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: rgba(26,26,46,0.12); letter-spacing: 2px; text-transform: uppercase; }
+.slide-title { background: var(--navy); color: #fff; } .slide-title .slide-inner { text-align: center; } .title-badge { display: inline-block; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 30px; padding: 8px 20px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 40px; } .title-main { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900; line-height: 1.05; background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px; } .title-accent { display: block; background: linear-gradient(135deg, var(--red), #FF6B6B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; } .title-subtitle { font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 500; color: rgba(255,255,255,0.55); margin-top: 24px; line-height: 1.5; } .title-meta { margin-top: 48px; font-size: 14px; color: rgba(255,255,255,0.3); font-weight: 500; } .title-decoration { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(255,23,68,0.08) 0%, transparent 70%); top: -100px; right: -150px; pointer-events: none; } .title-decoration-2 { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,23,68,0.05) 0%, transparent 70%); bottom: -100px; left: -100px; pointer-events: none; } .slide-title .watermark { color: rgba(255,255,255,0.08); }
+.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: var(--navy); margin-bottom: 40px; line-height: 1.15; } .slide-heading .red { color: var(--red); }
+.icon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; } .icon-block { background: var(--card-bg); border: 1px solid rgba(26,26,46,0.06); border-radius: var(--radius); padding: 36px 28px; text-align: center; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease; } .icon-block:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); } .icon-block .icon { font-size: 48px; margin-bottom: 16px; display: block; } .icon-block h3 { font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; } .icon-block p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+.explainer { background: linear-gradient(135deg, var(--navy), #2D2D4E); color: #fff; padding: 24px 32px; border-radius: var(--radius); font-size: 1.05rem; font-weight: 500; text-align: center; line-height: 1.6; } .explainer strong { color: var(--red); font-weight: 700; }
+.steps-list { display: flex; flex-direction: column; gap: 20px; } .step-item { display: flex; gap: 20px; align-items: flex-start; background: var(--card-bg); border: 1px solid rgba(26,26,46,0.06); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; } .step-item:hover { transform: translateX(4px); box-shadow: var(--shadow-md); } .step-num { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; box-shadow: 0 4px 12px rgba(255,23,68,0.3); } .step-content h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; } .step-content p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; } .step-analogy { display: inline-block; background: rgba(255,23,68,0.06); color: var(--red-dark); font-size: 0.82rem; font-weight: 600; padding: 3px 10px; border-radius: 6px; margin-top: 6px; }
+.comparison-container { position: relative; } .vs-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; border-radius: 50%; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 900; z-index: 10; box-shadow: 0 6px 24px rgba(255,23,68,0.35); letter-spacing: 1px; } .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } .comp-card { padding: 22px 24px; border-radius: var(--radius-sm); font-size: 0.95rem; line-height: 1.5; } .comp-card .task { font-weight: 600; margin-bottom: 4px; } .comp-card .result { font-weight: 700; font-size: 1.05rem; } .comp-before { background: rgba(255,23,68,0.04); border: 1px solid rgba(255,23,68,0.12); } .comp-before .result { color: var(--red); } .comp-after { background: rgba(16,185,129,0.04); border: 1px solid rgba(16,185,129,0.12); } .comp-after .result { color: #059669; } .comp-header { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 12px 0; text-align: center; } .comp-header.before-h { color: var(--red); } .comp-header.after-h { color: #059669; }
+.callout-box { background: linear-gradient(135deg, var(--navy), #2D2D4E); color: #fff; padding: 24px 32px; border-radius: var(--radius); font-size: 1.1rem; font-weight: 600; text-align: center; line-height: 1.5; } .callout-box strong { color: var(--red); }
+.slide-final { background: var(--navy); color: #fff; } .slide-final .slide-heading { color: #fff; } .slide-final .slide-heading .red { color: var(--red); }
+.checklist { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; } .check-item { display: flex; align-items: flex-start; gap: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-sm); padding: 18px 22px; transition: background 0.3s ease; } .check-item:hover { background: rgba(255,255,255,0.07); } .check-icon { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: rgba(16,185,129,0.15); color: #10B981; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; } .check-text { font-size: 1rem; color: rgba(255,255,255,0.85); line-height: 1.5; font-weight: 500; }
+.cta-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--red); color: #fff; padding: 16px 36px; border-radius: 12px; font-size: 1.1rem; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 24px rgba(255,23,68,0.35); } .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,23,68,0.45); background: #FF2D55; } .cta-btn .arrow { font-size: 1.2rem; transition: transform 0.3s ease; } .cta-btn:hover .arrow { transform: translateX(4px); } .cta-center { text-align: center; margin-top: 12px; } .slide-final .watermark { color: rgba(255,255,255,0.06); }
+.animate-children > * { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; } .animate-children.visible > * { opacity: 1; transform: translateY(0); } .animate-children.visible > *:nth-child(1) { transition-delay: 0.1s; } .animate-children.visible > *:nth-child(2) { transition-delay: 0.2s; } .animate-children.visible > *:nth-child(3) { transition-delay: 0.3s; } .animate-children.visible > *:nth-child(4) { transition-delay: 0.4s; } .animate-children.visible > *:nth-child(5) { transition-delay: 0.5s; } .animate-children.visible > *:nth-child(6) { transition-delay: 0.6s; } .animate-children.visible > *:nth-child(7) { transition-delay: 0.7s; }
+@media (max-width: 900px) { .icon-grid { grid-template-columns: 1fr; gap: 16px; } .comparison-grid { grid-template-columns: 1fr; gap: 12px; } .vs-badge { position: static; transform: none; margin: -8px auto; } .slide { padding: 40px 20px; } .nav-dots { right: 12px; gap: 8px; } .nav-dot { width: 8px; height: 8px; } }
+@media (max-width: 600px) { .slide { padding: 30px 16px; } .step-item { padding: 20px; gap: 14px; } .step-num { width: 36px; height: 36px; font-size: 0.95rem; } .slide-heading { margin-bottom: 28px; } }
+@media print { html { scroll-snap-type: none; } .slide { page-break-after: always; min-height: auto; height: 100vh; padding: 40px; } .slide-inner { opacity: 1 !important; transform: none !important; } .animate-children > * { opacity: 1 !important; transform: none !important; } .nav-dots, .slide-counter { display: none; } @page { size: landscape; margin: 0; } }
+</style>
+</head>
+<body>
+<nav class="nav-dots" id="navDots"></nav>
+<div class="slide-counter"><span id="currentSlide">1</span>/7</div>
+
+<!-- SLIDE 0: TITLE -->
+<section class="slide slide-title" data-slide="0">
+  <div class="title-decoration"></div><div class="title-decoration-2"></div>
+  <div class="slide-inner">
+    <div class="title-badge">Module 19 &middot; Le&ccedil;on 1</div>
+    <h1 class="title-main">L&rsquo;appel de<span class="title-accent">closing</span></h1>
+    <p class="title-subtitle">Structure, mindset et techniques<br>pour closer tes prospects avec confiance</p>
+    <p class="title-meta">OpexIA Academy &mdash; 2026</p>
+  </div>
+  <div class="watermark">OpexIA Academy</div>
+</section>
+
+<!-- SLIDE 1: MINDSET -->
+<section class="slide" data-slide="1">
+  <div class="slide-inner">
+    <h2 class="slide-heading">Le mindset du <span class="red">closer</span></h2>
+    <div class="icon-grid animate-children">
+      <div class="icon-block">
+        <span class="icon">&#128170;</span>
+        <h3>Confiance</h3>
+        <p>Tu crois en ta solution parce que tu sais qu&rsquo;elle fonctionne. Ton assurance est contagieuse.</p>
+      </div>
+      <div class="icon-block">
+        <span class="icon">&#129498;</span>
+        <h3>D&eacute;tachement</h3>
+        <p>Tu veux le deal, mais tu n&rsquo;en as pas besoin. Cette posture te rend plus convaincant.</p>
+      </div>
+      <div class="icon-block">
+        <span class="icon">&#129309;</span>
+        <h3>Service</h3>
+        <p>Tu es l&agrave; pour aider, pas pour vendre. Le prospect le ressent imm&eacute;diatement.</p>
+      </div>
+    </div>
+    <div class="callout-box animate-children">
+      <p>Le closing n&rsquo;est pas de la manipulation. Tu <strong>aides ton prospect &agrave; prendre une d&eacute;cision</strong> qui est dans son int&eacute;r&ecirc;t.</p>
+    </div>
+  </div>
+  <div class="watermark">OpexIA Academy</div>
+</section>
+
+<!-- SLIDE 2: 5 PHASES -->
+<section class="slide" data-slide="2">
+  <div class="slide-inner">
+    <h2 class="slide-heading">Les <span class="red">5 phases</span> de l&rsquo;appel</h2>
+    <div class="steps-list animate-children">
+      <div class="step-item"><div class="step-num">1</div><div class="step-content"><h3>R&eacute;capitulation (2-3 min)</h3><p>Rappelle le contexte : son probl&egrave;me, ce que vous avez discut&eacute;, la solution propos&eacute;e. &laquo; Est-ce que c&rsquo;est toujours d&rsquo;actualit&eacute; ? &raquo;</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-content"><h3>Validation des enjeux (3-5 min)</h3><p>Fais-lui verbaliser l&rsquo;impact. &laquo; Quel est le co&ucirc;t de ne rien faire pendant encore 3 mois ? &raquo;</p><span class="step-analogy">&#128161; Cr&eacute;e l&rsquo;urgence naturellement</span></div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-content"><h3>Pr&eacute;sentation de l&rsquo;offre (5-7 min)</h3><p>Lie chaque &eacute;l&eacute;ment &agrave; un besoin exprim&eacute;. Pas de features, que des b&eacute;n&eacute;fices. &laquo; Vous aurez X, ce qui vous permettra de Y. &raquo;</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div class="step-content"><h3>Traitement des objections (5-10 min)</h3><p>&Eacute;coute, reformule, r&eacute;ponds. Ne te d&eacute;fends jamais. Chaque objection = une demande d&rsquo;info d&eacute;guis&eacute;e.</p></div></div>
+      <div class="step-item"><div class="step-num">5</div><div class="step-content"><h3>Le close (2-3 min)</h3><p>Propose les next steps concrets. &laquo; Je vous envoie le contrat ce soir, vous signez, on d&eacute;marre lundi. &Ccedil;a vous va ? &raquo;</p></div></div>
+    </div>
+  </div>
+  <div class="watermark">OpexIA Academy</div>
+</section>
+
+<!-- SLIDE 3: AMATEUR VS PRO -->
+<section class="slide" data-slide="3">
+  <div class="slide-inner">
+    <h2 class="slide-heading">Amateur <span class="red">vs</span> Pro</h2>
+    <div class="comparison-container"><div class="vs-badge">VS</div><div class="comparison-grid animate-children">
+      <div class="comp-header before-h">&#128694; Amateur</div>
+      <div class="comp-header after-h">&#127942; Pro</div>
+      <div class="comp-card comp-before"><div class="task">Parle</div><div class="result">80% du temps</div></div>
+      <div class="comp-card comp-after"><div class="task">&Eacute;coute</div><div class="result">70% du temps</div></div>
+      <div class="comp-card comp-before"><div class="task">Pr&eacute;sente des</div><div class="result">Features</div></div>
+      <div class="comp-card comp-after"><div class="task">Pr&eacute;sente des</div><div class="result">R&eacute;sultats</div></div>
+      <div class="comp-card comp-before"><div class="task">&Eacute;vite le sujet</div><div class="result">du prix</div></div>
+      <div class="comp-card comp-after"><div class="task">Annonce le prix</div><div class="result">avec confiance</div></div>
+      <div class="comp-card comp-before"><div class="task">Envoie un devis</div><div class="result">et attend</div></div>
+      <div class="comp-card comp-after"><div class="task">Propose les next steps</div><div class="result">en live</div></div>
+      <div class="comp-card comp-before"><div class="task">Esp&egrave;re que le prospect</div><div class="result">dira oui</div></div>
+      <div class="comp-card comp-after"><div class="task">Guide vers</div><div class="result">la d&eacute;cision</div></div>
+    </div></div>
+  </div>
+  <div class="watermark">OpexIA Academy</div>
+</section>
+
+<!-- SLIDE 4: LA QUESTION QUI TUE -->
+<section class="slide" data-slide="4">
+  <div class="slide-inner">
+    <h2 class="slide-heading">La question qui <span class="red">cr&eacute;e l&rsquo;urgence</span></h2>
+    <div style="background: var(--card-bg); border: 2px solid var(--red); border-radius: var(--radius); padding: 48px 40px; text-align: center; box-shadow: var(--shadow-lg); margin-bottom: 32px;">
+      <p style="font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; color: var(--navy); line-height: 1.4;">&laquo; Quel est le co&ucirc;t de ne rien faire<br>pendant <span style="color: var(--red);">encore 3 mois</span> ? &raquo;</p>
+    </div>
+    <div class="icon-grid animate-children">
+      <div class="icon-block">
+        <span class="icon">&#128176;</span>
+        <h3>Quantifie la perte</h3>
+        <p>Le prospect r&eacute;alise que chaque mois d&rsquo;inaction lui co&ucirc;te de l&rsquo;argent</p>
+      </div>
+      <div class="icon-block">
+        <span class="icon">&#9200;</span>
+        <h3>Urgence naturelle</h3>
+        <p>Pas de pression artificielle. Le prospect cr&eacute;e lui-m&ecirc;me le sentiment d&rsquo;urgence</p>
+      </div>
+      <div class="icon-block">
+        <span class="icon">&#127919;</span>
+        <h3>Ouvre la porte</h3>
+        <p>Apr&egrave;s cette question, la pr&eacute;sentation de ton offre devient la solution logique</p>
+      </div>
+    </div>
+  </div>
+  <div class="watermark">OpexIA Academy</div>
+</section>
+
+<!-- SLIDE 5: ERREURS FATALES -->
+<section class="slide" data-slide="5">
+  <div class="slide-inner">
+    <h2 class="slide-heading">Les erreurs <span class="red">fatales</span></h2>
+    <div class="steps-list animate-children">
+      <div class="step-item"><div class="step-num">&#10060;</div><div class="step-content"><h3>Arriver d&eacute;sesp&eacute;r&eacute;</h3><p>Le prospect sent imm&eacute;diatement que tu as besoin de lui plus qu&rsquo;il n&rsquo;a besoin de toi. &Ccedil;a tue la vente.</p></div></div>
+      <div class="step-item"><div class="step-num">&#10060;</div><div class="step-content"><h3>Parler plus qu&rsquo;&eacute;couter</h3><p>Si tu parles 80% du temps, tu ne comprends pas les vrais besoins. &Eacute;coute 70%, parle 30%.</p></div></div>
+      <div class="step-item"><div class="step-num">&#10060;</div><div class="step-content"><h3>Envoyer un devis et attendre</h3><p>Le prospect refroidit. Le taux de conversion chute. Close en live, propose les next steps imm&eacute;diatement.</p></div></div>
+      <div class="step-item"><div class="step-num">&#10060;</div><div class="step-content"><h3>&Eacute;viter le sujet du prix</h3><p>Annonce ton prix avec confiance. H&eacute;siter sur le prix = douter de ta propre valeur.</p></div></div>
+    </div>
+  </div>
+  <div class="watermark">OpexIA Academy</div>
+</section>
+
+<!-- SLIDE 6: FINAL -->
+<section class="slide slide-final" data-slide="6">
+  <div class="title-decoration"></div><div class="title-decoration-2"></div>
+  <div class="slide-inner">
+    <h2 class="slide-heading" style="text-align:center;">Le closing est une<br><span class="red">comp&eacute;tence, pas un talent</span></h2>
+    <div class="checklist animate-children">
+      <div class="check-item"><div class="check-icon">&#10003;</div><div class="check-text">Mindset : confiance, d&eacute;tachement, service</div></div>
+      <div class="check-item"><div class="check-icon">&#10003;</div><div class="check-text">5 phases : r&eacute;cap &rarr; enjeux &rarr; offre &rarr; objections &rarr; close</div></div>
+      <div class="check-item"><div class="check-icon">&#10003;</div><div class="check-text">&Eacute;couter 70% du temps, parler 30%</div></div>
+      <div class="check-item"><div class="check-icon">&#10003;</div><div class="check-text">Toujours proposer les next steps en live</div></div>
+      <div class="check-item"><div class="check-icon">&#10003;</div><div class="check-text">Enregistre tes appels et r&eacute;&eacute;coute-les pour progresser</div></div>
+    </div>
+    <p style="text-align:center; color:rgba(255,255,255,0.55); font-size:1.05rem; margin-bottom:32px;">Si ta d&eacute;couverte et ta proposition sont solides,<br>le closing devient une formalit&eacute;.</p>
+    <div class="cta-center"><button class="cta-btn" onclick="document.querySelector('[data-slide=&quot;0&quot;]').scrollIntoView({behavior:'smooth'})">Revoir la le&ccedil;on <span class="arrow">&rarr;</span></button></div>
+  </div>
+  <div class="watermark">OpexIA Academy</div>
+</section>
+
+<script>
+(function(){const s=document.querySelectorAll('.slide'),t=s.length,c=document.getElementById('currentSlide'),d=document.getElementById('navDots');for(let i=0;i<t;i++){const b=document.createElement('button');b.className='nav-dot'+(i===0?' active':'');b.setAttribute('aria-label','Slide '+(i+1));b.addEventListener('click',function(){s[i].scrollIntoView({behavior:'smooth'})});d.appendChild(b)}const dots=d.querySelectorAll('.nav-dot');let ci=0;const o=new IntersectionObserver(function(e){e.forEach(function(en){const inn=en.target.querySelector('.slide-inner'),ac=en.target.querySelectorAll('.animate-children');if(en.isIntersecting&&en.intersectionRatio>0.4){const idx=parseInt(en.target.dataset.slide);ci=idx;c.textContent=idx+1;dots.forEach(function(dd,di){dd.classList.toggle('active',di===idx)});if(inn)inn.classList.add('visible');ac.forEach(function(el){el.classList.add('visible')})}})},{threshold:[0.4,0.6]});s.forEach(function(sl){o.observe(sl)});var fi=s[0].querySelector('.slide-inner');if(fi)fi.classList.add('visible');s[0].querySelectorAll('.animate-children').forEach(function(el){el.classList.add('visible')});document.addEventListener('keydown',function(e){if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key===' '){e.preventDefault();var n=Math.min(ci+1,t-1);s[n].scrollIntoView({behavior:'smooth'})}else if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();var p=Math.max(ci-1,0);s[p].scrollIntoView({behavior:'smooth'})}})})();
+</script>
+</body></html>

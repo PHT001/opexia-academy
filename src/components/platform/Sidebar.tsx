@@ -677,6 +677,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               <div className="flex flex-col gap-0.5">
                 {[
                   { href: "/lessons", label: "Formation", icon: IconLessons },
+                  { href: "/admin/slides", label: "Diapositives", icon: IconTemplate },
                   { href: "/leaderboard", label: "Classement", icon: IconTrophy },
                   { href: "/certificats", label: "Certificats", icon: IconCertificate },
                   { href: "/projets", label: "Mes Projets", icon: IconRocket },
