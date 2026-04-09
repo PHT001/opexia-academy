@@ -212,6 +212,56 @@ function IconXP({ className }: { className?: string }) {
   );
 }
 
+function IconUsers({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+function IconQuiz({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 11l3 3L22 4" />
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+    </svg>
+  );
+}
+
+function IconMail({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+      <polyline points="22,6 12,13 2,6" />
+    </svg>
+  );
+}
+
+function IconChart({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
+    </svg>
+  );
+}
+
+function IconDashboard({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" />
+      <rect x="14" y="3" width="7" height="7" />
+      <rect x="14" y="14" width="7" height="7" />
+      <rect x="3" y="14" width="7" height="7" />
+    </svg>
+  );
+}
+
 function IconLogout({ className }: { className?: string }) {
   return (
     <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -648,7 +698,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
 
         {/* Navigation */}
         <nav className="flex-1 px-3 pb-3 flex flex-col gap-0.5 overflow-y-auto sidebar-scroll">
-          {/* Admin-only simplified nav */}
+          {/* Admin-only nav — everything centralized here */}
           {role === "admin" && !previewTier && (<>
             <div className="mb-1.5">
               <div className="px-3 py-1.5">
@@ -656,10 +706,14 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               </div>
               <div className="flex flex-col gap-0.5">
                 {[
-                  { href: "/dashboard", label: "Dashboard", icon: IconHome },
+                  { href: "/admin", label: "Dashboard Admin", icon: IconDashboard },
+                  { href: "/dashboard", label: "Accueil", icon: IconHome },
+                  { href: "/admin/students", label: "Élèves", icon: IconUsers },
                   { href: "/coaching", label: "Coaching", icon: IconPhone },
+                  { href: "/admin/emails", label: "Emails", icon: IconMail },
+                  { href: "/admin/analytics", label: "Analytics", icon: IconChart },
                 ].map((item) => {
-                  const active = pathname === item.href || pathname.startsWith(item.href + "/");
+                  const active = item.href === "/admin" ? pathname === "/admin" : pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
                   return (
                     <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
@@ -677,6 +731,8 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               <div className="flex flex-col gap-0.5">
                 {[
                   { href: "/lessons", label: "Formation", icon: IconLessons },
+                  { href: "/admin/lessons", label: "Gestion leçons", icon: IconNotes },
+                  { href: "/admin/quizzes", label: "Quiz", icon: IconQuiz },
                   { href: "/admin/slides", label: "Diapositives", icon: IconTemplate },
                   { href: "/leaderboard", label: "Classement", icon: IconTrophy },
                   { href: "/certificats", label: "Certificats", icon: IconCertificate },

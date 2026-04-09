@@ -13,7 +13,7 @@
 <h2>Les quatre differenciateurs cles</h2>
 <ul>
   <li><strong>Self-hosted — tu possedes tes donnees</strong> : Contrairement aux assistants IA en SaaS, tout tourne sur ta machine. Tes conversations ne transitent jamais par un serveur tiers au-dela de l'API Anthropic elle-meme.</li>
-  <li><strong>Multi-canal — un assistant, plusieurs applications</strong> : Un seul assistant repond sur WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat simultanement.</li>
+  <li><strong>Multi-canal — un assistant, plusieurs applications</strong> : Un seul assistant repond sur WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat simultanement.</li>
   <li><strong>Acces aux outils — il peut agir, pas seulement repondre</strong> : OpenClaw peut naviguer sur le web, executer des commandes, gerer des fichiers et controler des applications.</li>
   <li><strong>Open source — aucun vendor lock-in</strong> : Le code est public, auditable et modifiable. Tu ne depends d'aucune entreprise pour continuer a l'utiliser.</li>
 </ul>
@@ -67,7 +67,7 @@
     duration: "25 min",
     description: "Apprends a connecter Telegram, WhatsApp et les autres canaux supportes, du plus simple au plus complexe.",
     content: `<h2>Les canaux de messagerie supportes</h2>
-<p>OpenClaw se connecte a sept applications de messagerie : <strong>WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat</strong>. Chaque canal a sa propre procedure de connexion, avec des niveaux de complexite differents.</p>
+<p>OpenClaw se connecte a sept applications de messagerie : <strong>WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat</strong>. Chaque canal a sa propre procedure de connexion, avec des niveaux de complexite differents.</p>
 <h2>Telegram : le point de depart recommande</h2>
 <p>Telegram est le canal le plus simple a connecter et celui recommande pour commencer. La procedure est la suivante :</p>
 <ul>
@@ -81,7 +81,7 @@
 <h2>WhatsApp : connexion par QR code</h2>
 <p>WhatsApp necessite une etape supplementaire : un <strong>scan de QR code</strong>. Lors de la configuration du canal WhatsApp, OpenClaw affiche un QR code dans le terminal que tu dois scanner avec ton telephone via l'option "Appareils connectes" de WhatsApp. Cette methode utilise l'interface WhatsApp Web et ne requiert pas de compte WhatsApp Business ni d'acces a l'API officielle Meta.</p>
 <h2>Les autres canaux</h2>
-<p>Discord, Slack et Google Chat requierent generalement la creation d'une application ou d'un bot dans le portail developpeur du service concerne, puis l'ajout du token ou des credentials dans OpenClaw. iMessage et Signal ont leurs propres specificites documentees sur docs.openclaw.ai.</p>
+<p>Discord, Discord et Google Chat requierent generalement la creation d'une application ou d'un bot dans le portail developpeur du service concerne, puis l'ajout du token ou des credentials dans OpenClaw. iMessage et Signal ont leurs propres specificites documentees sur docs.openclaw.ai.</p>
 <h2>Strategie multi-canal</h2>
 <p>L'un des avantages d'OpenClaw est qu'un seul assistant repond sur tous les canaux actives. Tu peux envoyer un message depuis Telegram au bureau et continuer sur WhatsApp depuis ton telephone — c'est le meme assistant avec le meme contexte.</p>`,
     exercise: `<p>Connecte au moins un canal de messagerie a OpenClaw. Commence par Telegram : cree un bot avec BotFather, recupere le token et configure-le dans OpenClaw. Une fois la passerelle demarree, envoie trois messages differents a ton assistant : une question factuelle, une demande de calcul et une demande de redaction courte. Note les reponses obtenues.</p>`,
@@ -129,7 +129,7 @@
     content: `<h2>Au-dela de la conversation : un assistant qui agit</h2>
 <p>La difference fondamentale entre OpenClaw et un simple chatbot tient a ses <strong>capacites d'action</strong>. Il ne se contente pas de repondre a des questions — il peut interagir avec le monde numerique autour de toi.</p>
 <h2>1. Repondre sur tous les canaux de messagerie</h2>
-<p>L'assistant repond sur WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat. Le meme assistant, la meme memoire de contexte, sur toutes tes applications simultanement.</p>
+<p>L'assistant repond sur WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat. Le meme assistant, la meme memoire de contexte, sur toutes tes applications simultanement.</p>
 <h2>2. Naviguer sur le web et effectuer des recherches</h2>
 <p>OpenClaw peut <strong>naviguer sur Internet, effectuer des recherches Google et compiler des informations</strong>. Tu peux lui demander de faire une veille concurrentielle, de trouver des informations specifiques ou de synthétiser un sujet d'actualite — sans ouvrir ton navigateur.</p>
 <h2>3. Gerer des fichiers et des documents</h2>
@@ -142,7 +142,7 @@
   <li>Google Workspace (Docs, Sheets, Gmail, Calendar)</li>
   <li>Notion</li>
   <li>Todoist</li>
-  <li>Slack</li>
+  <li>Discord</li>
   <li>Generation d'images</li>
   <li>Appels vocaux</li>
 </ul>
@@ -196,7 +196,7 @@
   <li><strong>Google Workspace</strong> : lire et ecrire dans Google Docs, Sheets, Gmail et Calendar</li>
   <li><strong>Notion</strong> : creer des pages, des bases de donnees et des entrees</li>
   <li><strong>Todoist</strong> : ajouter et gerer des taches</li>
-  <li><strong>Slack</strong> : envoyer des messages dans des canaux ou a des personnes specifiques</li>
+  <li><strong>Discord</strong> : envoyer des messages dans des canaux ou a des personnes specifiques</li>
   <li><strong>Generation d'images</strong> : generer des visuels depuis une description textuelle</li>
   <li><strong>Appels vocaux</strong> : passer des appels via Twilio</li>
 </ul>
@@ -253,7 +253,7 @@
     21: [
       { q: "OpenClaw est un outil payant par abonnement mensuel.", o: ["Vrai", "Faux"], a: "Faux", e: "OpenClaw est gratuit et open source. Le seul cout recurrent est l'utilisation de l'API Anthropic, estimee entre 5 et 20 euros par mois selon l'usage.", t: "true_false" },
       { q: "Quel est l'avantage principal d'une installation self-hosted comme OpenClaw par rapport a un assistant SaaS ?", o: ["L'interface est plus belle", "Tu possedes tes donnees et elles ne transitent pas par un serveur tiers", "Il fonctionne sans connexion Internet", "Il ne necessite pas de cle API"], a: "Tu possedes tes donnees et elles ne transitent pas par un serveur tiers", e: "Avec une installation self-hosted, toutes les conversations restent sur ta machine. Aucun serveur tiers ne stocke tes echanges au-dela de l'API Anthropic elle-meme.", t: "mcq" },
-      { q: "Parmi les applications suivantes, laquelle n'est PAS supportee par OpenClaw comme canal de messagerie ?", o: ["Telegram", "Signal", "Snapchat", "Discord"], a: "Snapchat", e: "OpenClaw supporte WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat. Snapchat ne fait pas partie des canaux integres.", t: "mcq" },
+      { q: "Parmi les applications suivantes, laquelle n'est PAS supportee par OpenClaw comme canal de messagerie ?", o: ["Telegram", "Signal", "Snapchat", "Discord"], a: "Snapchat", e: "OpenClaw supporte WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat. Snapchat ne fait pas partie des canaux integres.", t: "mcq" },
       { q: "OpenClaw ne fonctionne qu'avec le modele Claude d'Anthropic et ne supporte pas d'autres fournisseurs d'IA.", o: ["Vrai", "Faux"], a: "Faux", e: "OpenClaw supporte plusieurs fournisseurs d'IA dont OpenAI (GPT), Google (Gemini) et d'autres, en plus de Claude.", t: "true_false" },
       { q: "Qu'est-ce que le 'vendor lock-in' que l'open source d'OpenClaw permet d'eviter ?", o: ["La dependance envers un fournisseur unique dont on ne peut pas se passer", "Le cout d'une licence logicielle", "La necessite d'avoir un developpeur dans son equipe", "L'obligation de mettre a jour regulierement"], a: "La dependance envers un fournisseur unique dont on ne peut pas se passer", e: "Etre open source signifie que le code est public et que n'importe qui peut l'auditer, le modifier ou le forker. Tu ne depends d'aucune entreprise pour continuer a utiliser l'outil.", t: "mcq" },
     ],
@@ -268,8 +268,8 @@
       { q: "Quel canal de messagerie est recommande comme point de depart pour connecter OpenClaw, car il est le plus simple a configurer ?", o: ["WhatsApp", "Discord", "Telegram", "iMessage"], a: "Telegram", e: "Telegram est le canal le plus simple a connecter : il suffit de creer un bot via BotFather, de copier le token API fourni et de le coller dans la configuration OpenClaw.", t: "mcq" },
       { q: "Pour connecter WhatsApp a OpenClaw, quelle etape specifique est requise et absente pour Telegram ?", o: ["Creer un compte WhatsApp Business", "Scanner un QR code avec son telephone", "Payer un abonnement a l'API Meta", "Installer une extension navigateur"], a: "Scanner un QR code avec son telephone", e: "La connexion WhatsApp passe par un scan de QR code affiche dans le terminal, similaire a WhatsApp Web. Cela ne necessite pas de compte WhatsApp Business.", t: "mcq" },
       { q: "OpenClaw permet de gerer un assistant different par canal de messagerie, avec une memoire separee pour chaque.", o: ["Vrai", "Faux"], a: "Faux", e: "Un seul et meme assistant repond sur tous les canaux actives. C'est le meme assistant avec le meme contexte, qu'on l'interroge depuis Telegram, WhatsApp ou Discord.", t: "true_false" },
-      { q: "Quel service met a disposition un 'BotFather' pour creer des bots et obtenir des tokens API ?", o: ["WhatsApp", "Signal", "Telegram", "Slack"], a: "Telegram", e: "BotFather est le bot officiel de Telegram qui permet de creer de nouveaux bots et de recuperer leurs tokens API.", t: "mcq" },
-      { q: "OpenClaw supporte exactement cinq applications de messagerie.", o: ["Vrai", "Faux"], a: "Faux", e: "OpenClaw supporte sept applications de messagerie : WhatsApp, Telegram, Discord, iMessage, Signal, Slack et Google Chat.", t: "true_false" },
+      { q: "Quel service met a disposition un 'BotFather' pour creer des bots et obtenir des tokens API ?", o: ["WhatsApp", "Signal", "Telegram", "Discord"], a: "Telegram", e: "BotFather est le bot officiel de Telegram qui permet de creer de nouveaux bots et de recuperer leurs tokens API.", t: "mcq" },
+      { q: "OpenClaw supporte exactement cinq applications de messagerie.", o: ["Vrai", "Faux"], a: "Faux", e: "OpenClaw supporte sept applications de messagerie : WhatsApp, Telegram, Discord, iMessage, Signal, Discord et Google Chat.", t: "true_false" },
     ],
     24: [
       { q: "Quelle commande OpenClaw permet de verifier les vulnerabilites de securite d'une installation ?", o: ["openclaw check", "openclaw security audit", "openclaw scan", "openclaw verify"], a: "openclaw security audit", e: "La commande 'openclaw security audit' analyse la configuration et signale les points vulnerables : authentification absente, ports ouverts, allowlist vide, etc.", t: "mcq" },

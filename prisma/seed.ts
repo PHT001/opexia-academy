@@ -141,14 +141,14 @@ async function main() {
     { title: "Backend & Déploiement", description: "Supabase, SQL, API Routes, Stripe et Vercel", order: 7 },
     // Bloc 4 — Les services que tu vas vendre
     { title: "Chatbots IA", description: "Créer et déployer des chatbots sur site web et réseaux sociaux", order: 8 },
-    { title: "Agents vocaux IA", description: "Créer des agents téléphoniques avec Vapi & ElevenLabs", order: 9 },
+    { title: "Agents vocaux IA", description: "Créer des agents téléphoniques avec ElevenLabs", order: 9 },
     { title: "Automatisations IA pour entreprises", description: "Automatiser des process métier avec l'IA — cas concrets par secteur", order: 10 },
     { title: "Génération de leads avec l'IA", description: "Scraping, enrichissement et séquences outbound automatisées", order: 11 },
     { title: "IA pour documents & data", description: "PDF, OCR, Excel : traitement de données pour entreprises", order: 12 },
     // Bloc 5 — Industrialiser
     { title: "Construire un MVP complet", description: "Ton premier vrai produit de A à Z en 48h", order: 13 },
     { title: "Sécurité & bonnes pratiques", description: "RLS, validation, secrets et checklist production", order: 14 },
-    { title: "DevOps & Monitoring", description: "Git avancé, CI/CD, Sentry et maintenance pro", order: 15 },
+    { title: "DevOps & Monitoring", description: "Git avancé, CI/CD, Vercel Analytics et maintenance pro", order: 15 },
     // Bloc 6 — Vendre
     { title: "Se structurer pour réussir", description: "Organisation, outils, CRM et image professionnelle", order: 16 },
     { title: "Créer ton offre", description: "Les services IA rentables, pricing et supports de vente", order: 17 },
