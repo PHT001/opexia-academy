@@ -47,10 +47,30 @@ export default function AdminSlidesPage() {
   const prevSlide = currentIndex > 0 ? SLIDES[currentIndex - 1] : null;
   const nextSlide = currentIndex < SLIDES.length - 1 ? SLIDES[currentIndex + 1] : null;
 
-  // Navigate slides inside the presentation via postMessage
+  // Navigate slides inside the presentation — direct DOM access (same-origin)
   const navigateSlide = useCallback((direction: "prev" | "next") => {
-    if (!iframeRef.current?.contentWindow) return;
-    iframeRef.current.contentWindow.postMessage({ type: "slide-nav", direction }, "*");
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      if (!doc) return;
+      const slides = doc.querySelectorAll("section.slide, .slide");
+      if (!slides.length) return;
+
+      // Find which slide is currently visible
+      let visibleIdx = 0;
+      slides.forEach((s, i) => {
+        const rect = s.getBoundingClientRect();
+        if (rect.top >= -100 && rect.top < 300) visibleIdx = i;
+      });
+
+      const targetIdx = direction === "next"
+        ? Math.min(visibleIdx + 1, slides.length - 1)
+        : Math.max(visibleIdx - 1, 0);
+
+      slides[targetIdx].scrollIntoView({ behavior: "smooth" });
+    } catch {
+      // Fallback: try postMessage
+      iframeRef.current?.contentWindow?.postMessage({ type: "slide-nav", direction }, "*");
+    }
   }, []);
 
   /* ── Fullscreen viewer ── */
