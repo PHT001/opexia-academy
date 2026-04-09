@@ -1052,6 +1052,13 @@ body {
       slides[prev].scrollIntoView({ behavior: 'smooth' });
     }
   });
+
+  // postMessage listener for parent nav buttons
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'keydown' && e.data.key) {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: e.data.key, bubbles: true }));
+    }
+  });
 })();
 </script>
 

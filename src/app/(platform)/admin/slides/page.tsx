@@ -47,42 +47,68 @@ export default function AdminSlidesPage() {
   const prevSlide = currentIndex > 0 ? SLIDES[currentIndex - 1] : null;
   const nextSlide = currentIndex < SLIDES.length - 1 ? SLIDES[currentIndex + 1] : null;
 
+  // Send arrow key to iframe to navigate slides inside the presentation
+  const sendKey = useCallback((key: "ArrowLeft" | "ArrowRight") => {
+    if (!iframeRef.current?.contentWindow) return;
+    iframeRef.current.contentWindow.postMessage({ type: "keydown", key }, "*");
+    // Also try dispatching a real keyboard event into the iframe
+    try {
+      const doc = iframeRef.current.contentDocument;
+      if (doc) {
+        doc.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+      }
+    } catch {
+      // cross-origin — fallback: focus iframe and simulate
+      iframeRef.current.focus();
+    }
+  }, []);
+
   /* ── Fullscreen viewer ── */
   if (activeSlide) {
     return (
-      <div className="fixed inset-0 z-50 bg-black flex flex-col">
-        <div className="flex items-center justify-between px-3 sm:px-5 py-2.5 bg-[#111] border-b border-white/10">
+      <div className="fixed inset-0 z-50 bg-[#0a0a0a] flex flex-col">
+        {/* Top bar — subtle, transparent */}
+        <div className="flex items-center justify-between px-3 sm:px-5 py-2 bg-white/[0.04] backdrop-blur-md border-b border-white/[0.06]">
           <div className="flex items-center gap-3 min-w-0">
             <button
               onClick={() => setActiveSlide(null)}
-              className="flex items-center gap-1.5 text-sm text-white/60 hover:text-white transition-colors shrink-0"
+              className="flex items-center gap-1.5 text-[13px] text-white/50 hover:text-white transition-colors shrink-0"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
               </svg>
               <span className="hidden sm:inline">Retour</span>
             </button>
-            <span className="text-sm font-semibold text-white truncate">
+            <div className="h-4 w-px bg-white/10 hidden sm:block" />
+            <span className="text-[13px] font-medium text-white/70 truncate">
               {SLIDES.find((s) => s.file === activeSlide)?.title}
             </span>
-            <span className="text-xs text-white/30 shrink-0">{currentIndex + 1}/{SLIDES.length}</span>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="flex items-center gap-0.5">
-              <button onClick={() => prevSlide && setActiveSlide(prevSlide.file)} disabled={!prevSlide} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-20" title="Precedente">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
-              </button>
-              <button onClick={() => nextSlide && setActiveSlide(nextSlide.file)} disabled={!nextSlide} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-20" title="Suivante">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-              </button>
-            </div>
-            <a href={`/slides/${activeSlide}.html`} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div className="flex items-center gap-1 shrink-0">
+            {/* Prev / Next SLIDE (inside the presentation) */}
+            <button onClick={() => sendKey("ArrowLeft")} className="p-2 rounded-lg text-white/35 hover:text-white/70 hover:bg-white/[0.06] transition-colors" title="Diapo precedente">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <button onClick={() => sendKey("ArrowRight")} className="p-2 rounded-lg text-white/35 hover:text-white/70 hover:bg-white/[0.06] transition-colors" title="Diapo suivante">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+            <div className="h-4 w-px bg-white/10 mx-1" />
+            {/* Prev / Next presentation */}
+            <button onClick={() => prevSlide && setActiveSlide(prevSlide.file)} disabled={!prevSlide} className="p-2 rounded-lg text-white/25 hover:text-white/60 hover:bg-white/[0.06] transition-colors disabled:opacity-15 disabled:cursor-default" title="Presentation precedente">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="11 17 6 12 11 7" /><polyline points="18 17 13 12 18 7" /></svg>
+            </button>
+            <button onClick={() => nextSlide && setActiveSlide(nextSlide.file)} disabled={!nextSlide} className="p-2 rounded-lg text-white/25 hover:text-white/60 hover:bg-white/[0.06] transition-colors disabled:opacity-15 disabled:cursor-default" title="Presentation suivante">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="13 17 18 12 13 7" /><polyline points="6 17 11 12 6 7" /></svg>
+            </button>
+            <div className="h-4 w-px bg-white/10 mx-1" />
+            <a href={`/slides/${activeSlide}.html`} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-white/25 hover:text-white/60 hover:bg-white/[0.06] transition-colors" title="Ouvrir dans un nouvel onglet">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
               </svg>
             </a>
           </div>
         </div>
+        {/* Iframe */}
         <iframe ref={iframeRef} src={`/slides/${activeSlide}.html`} className="flex-1 w-full border-0" title={activeSlide} tabIndex={0} onClick={() => iframeRef.current?.focus()} />
       </div>
     );
