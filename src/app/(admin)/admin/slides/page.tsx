@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 
 const SLIDES = [
@@ -24,6 +24,32 @@ const SLIDES = [
 
 export default function AdminSlidesPage() {
   const [activeSlide, setActiveSlide] = useState<string | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Auto-focus iframe so keyboard nav works immediately
+  useEffect(() => {
+    if (activeSlide && iframeRef.current) {
+      const timer = setTimeout(() => iframeRef.current?.focus(), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [activeSlide]);
+
+  // Escape to close
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape") setActiveSlide(null);
+  }, []);
+
+  useEffect(() => {
+    if (activeSlide) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [activeSlide, handleKeyDown]);
+
+  // Navigate between slides with prev/next
+  const currentIndex = activeSlide ? SLIDES.findIndex((s) => s.file === activeSlide) : -1;
+  const prevSlide = currentIndex > 0 ? SLIDES[currentIndex - 1] : null;
+  const nextSlide = currentIndex < SLIDES.length - 1 ? SLIDES[currentIndex + 1] : null;
 
   if (activeSlide) {
     return (
@@ -43,24 +69,51 @@ export default function AdminSlidesPage() {
             <span className="text-sm font-semibold text-white">
               {SLIDES.find((s) => s.file === activeSlide)?.title}
             </span>
+            <span className="text-xs text-white/30 ml-2">
+              {currentIndex + 1}/{SLIDES.length}
+            </span>
           </div>
-          <a
-            href={`/slides/${activeSlide}.html`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-white/40 hover:text-white transition-colors flex items-center gap-1"
-          >
-            Ouvrir dans un nouvel onglet
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-          </a>
+          <div className="flex items-center gap-3">
+            {/* Prev / Next presentation */}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => prevSlide && setActiveSlide(prevSlide.file)}
+                disabled={!prevSlide}
+                className="p-1.5 rounded-md text-white/40 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-20 disabled:cursor-default"
+                title="Presentation precedente"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+              </button>
+              <button
+                onClick={() => nextSlide && setActiveSlide(nextSlide.file)}
+                disabled={!nextSlide}
+                className="p-1.5 rounded-md text-white/40 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-20 disabled:cursor-default"
+                title="Presentation suivante"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+              </button>
+            </div>
+            <a
+              href={`/slides/${activeSlide}.html`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-white/40 hover:text-white transition-colors flex items-center gap-1"
+            >
+              Nouvel onglet
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            </a>
+          </div>
         </div>
-        {/* Iframe */}
+        {/* Iframe — click to focus for keyboard nav */}
         <iframe
+          ref={iframeRef}
           src={`/slides/${activeSlide}.html`}
           className="flex-1 w-full border-0"
           title={activeSlide}
+          tabIndex={0}
+          onClick={() => iframeRef.current?.focus()}
         />
       </div>
     );
