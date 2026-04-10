@@ -62,6 +62,15 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     }
   }, [isAdmin]);
 
+  // Sync preview tier when changed from dashboard
+  useEffect(() => {
+    const handler = (e: Event) => {
+      setPreviewTier((e as CustomEvent).detail);
+    };
+    window.addEventListener("preview-tier-change", handler);
+    return () => window.removeEventListener("preview-tier-change", handler);
+  }, []);
+
   const handlePreviewTierChange = (tier: string | null) => {
     setPreviewTier(tier);
     if (tier) {

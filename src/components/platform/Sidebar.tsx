@@ -645,7 +645,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                 <AdminNotificationBell />
               )}
             </div>
-            {(tier === "starter" || tier === "free") && (role !== "admin" || previewTier !== null) && (
+            {(tier === "starter" || tier === "free") && role !== "admin" && (
               <a href="/offres" className="text-[9px] text-[#FF1744]/60 hover:text-[#FF1744] transition-colors font-semibold uppercase tracking-wider">
                 Upgrade
               </a>
@@ -653,7 +653,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
           </div>
 
           {/* Free tier upgrade nudge */}
-          {tier === "free" && (role !== "admin" || previewTier !== null) && (
+          {tier === "free" && role !== "admin" && (
             <div className="mt-3 rounded-xl p-3 text-center" style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}>
               <p className="text-[12px] font-semibold text-white leading-snug mb-2">Débloque ta formation complète</p>
               <a
