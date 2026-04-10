@@ -703,11 +703,6 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                   { href: "/admin/lessons", label: "Gestion leçons", icon: IconNotes },
                   { href: "/admin/quizzes", label: "Quiz", icon: IconQuiz },
                   { href: "/admin/slides", label: "Diapositives", icon: IconTemplate },
-                  { href: "/leaderboard", label: "Classement", icon: IconTrophy },
-                  { href: "/certificats", label: "Certificats", icon: IconCertificate },
-                  { href: "/projets", label: "Mes Projets", icon: IconRocket },
-                  { href: "/ressources", label: "Ressources", icon: IconFolder },
-                  { href: "/blog", label: "Blog", icon: IconNotes },
                 ].map((item) => {
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
