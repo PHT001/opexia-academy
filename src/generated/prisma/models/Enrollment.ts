@@ -20,8 +20,18 @@ export type EnrollmentModel = runtime.Types.Result.DefaultSelection<Prisma.$Enro
 
 export type AggregateEnrollment = {
   _count: EnrollmentCountAggregateOutputType | null
+  _avg: EnrollmentAvgAggregateOutputType | null
+  _sum: EnrollmentSumAggregateOutputType | null
   _min: EnrollmentMinAggregateOutputType | null
   _max: EnrollmentMaxAggregateOutputType | null
+}
+
+export type EnrollmentAvgAggregateOutputType = {
+  paidAmount: number | null
+}
+
+export type EnrollmentSumAggregateOutputType = {
+  paidAmount: number | null
 }
 
 export type EnrollmentMinAggregateOutputType = {
@@ -29,6 +39,8 @@ export type EnrollmentMinAggregateOutputType = {
   userId: string | null
   tier: string | null
   status: string | null
+  paidAmount: number | null
+  stripeSessionId: string | null
   createdAt: Date | null
 }
 
@@ -37,6 +49,8 @@ export type EnrollmentMaxAggregateOutputType = {
   userId: string | null
   tier: string | null
   status: string | null
+  paidAmount: number | null
+  stripeSessionId: string | null
   createdAt: Date | null
 }
 
@@ -45,16 +59,28 @@ export type EnrollmentCountAggregateOutputType = {
   userId: number
   tier: number
   status: number
+  paidAmount: number
+  stripeSessionId: number
   createdAt: number
   _all: number
 }
 
+
+export type EnrollmentAvgAggregateInputType = {
+  paidAmount?: true
+}
+
+export type EnrollmentSumAggregateInputType = {
+  paidAmount?: true
+}
 
 export type EnrollmentMinAggregateInputType = {
   id?: true
   userId?: true
   tier?: true
   status?: true
+  paidAmount?: true
+  stripeSessionId?: true
   createdAt?: true
 }
 
@@ -63,6 +89,8 @@ export type EnrollmentMaxAggregateInputType = {
   userId?: true
   tier?: true
   status?: true
+  paidAmount?: true
+  stripeSessionId?: true
   createdAt?: true
 }
 
@@ -71,6 +99,8 @@ export type EnrollmentCountAggregateInputType = {
   userId?: true
   tier?: true
   status?: true
+  paidAmount?: true
+  stripeSessionId?: true
   createdAt?: true
   _all?: true
 }
@@ -113,6 +143,18 @@ export type EnrollmentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: EnrollmentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: EnrollmentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: EnrollmentMinAggregateInputType
@@ -143,6 +185,8 @@ export type EnrollmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: EnrollmentCountAggregateInputType | true
+  _avg?: EnrollmentAvgAggregateInputType
+  _sum?: EnrollmentSumAggregateInputType
   _min?: EnrollmentMinAggregateInputType
   _max?: EnrollmentMaxAggregateInputType
 }
@@ -152,8 +196,12 @@ export type EnrollmentGroupByOutputType = {
   userId: string
   tier: string
   status: string
+  paidAmount: number | null
+  stripeSessionId: string | null
   createdAt: Date
   _count: EnrollmentCountAggregateOutputType | null
+  _avg: EnrollmentAvgAggregateOutputType | null
+  _sum: EnrollmentSumAggregateOutputType | null
   _min: EnrollmentMinAggregateOutputType | null
   _max: EnrollmentMaxAggregateOutputType | null
 }
@@ -181,6 +229,8 @@ export type EnrollmentWhereInput = {
   userId?: Prisma.StringFilter<"Enrollment"> | string
   tier?: Prisma.StringFilter<"Enrollment"> | string
   status?: Prisma.StringFilter<"Enrollment"> | string
+  paidAmount?: Prisma.IntNullableFilter<"Enrollment"> | number | null
+  stripeSessionId?: Prisma.StringNullableFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -190,6 +240,8 @@ export type EnrollmentOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paidAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -203,6 +255,8 @@ export type EnrollmentWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Enrollment"> | string
   tier?: Prisma.StringFilter<"Enrollment"> | string
   status?: Prisma.StringFilter<"Enrollment"> | string
+  paidAmount?: Prisma.IntNullableFilter<"Enrollment"> | number | null
+  stripeSessionId?: Prisma.StringNullableFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId_tier">
@@ -212,10 +266,14 @@ export type EnrollmentOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paidAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.EnrollmentCountOrderByAggregateInput
+  _avg?: Prisma.EnrollmentAvgOrderByAggregateInput
   _max?: Prisma.EnrollmentMaxOrderByAggregateInput
   _min?: Prisma.EnrollmentMinOrderByAggregateInput
+  _sum?: Prisma.EnrollmentSumOrderByAggregateInput
 }
 
 export type EnrollmentScalarWhereWithAggregatesInput = {
@@ -226,6 +284,8 @@ export type EnrollmentScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Enrollment"> | string
   tier?: Prisma.StringWithAggregatesFilter<"Enrollment"> | string
   status?: Prisma.StringWithAggregatesFilter<"Enrollment"> | string
+  paidAmount?: Prisma.IntNullableWithAggregatesFilter<"Enrollment"> | number | null
+  stripeSessionId?: Prisma.StringNullableWithAggregatesFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
 }
 
@@ -233,6 +293,8 @@ export type EnrollmentCreateInput = {
   id?: string
   tier: string
   status?: string
+  paidAmount?: number | null
+  stripeSessionId?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEnrollmentsInput
 }
@@ -242,6 +304,8 @@ export type EnrollmentUncheckedCreateInput = {
   userId: string
   tier: string
   status?: string
+  paidAmount?: number | null
+  stripeSessionId?: string | null
   createdAt?: Date | string
 }
 
@@ -249,6 +313,8 @@ export type EnrollmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paidAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEnrollmentsNestedInput
 }
@@ -258,6 +324,8 @@ export type EnrollmentUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paidAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -266,6 +334,8 @@ export type EnrollmentCreateManyInput = {
   userId: string
   tier: string
   status?: string
+  paidAmount?: number | null
+  stripeSessionId?: string | null
   createdAt?: Date | string
 }
 
@@ -273,6 +343,8 @@ export type EnrollmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paidAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -281,6 +353,8 @@ export type EnrollmentUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paidAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -304,7 +378,13 @@ export type EnrollmentCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paidAmount?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type EnrollmentAvgOrderByAggregateInput = {
+  paidAmount?: Prisma.SortOrder
 }
 
 export type EnrollmentMaxOrderByAggregateInput = {
@@ -312,6 +392,8 @@ export type EnrollmentMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paidAmount?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -320,7 +402,13 @@ export type EnrollmentMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paidAmount?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type EnrollmentSumOrderByAggregateInput = {
+  paidAmount?: Prisma.SortOrder
 }
 
 export type EnrollmentCreateNestedManyWithoutUserInput = {
@@ -369,6 +457,8 @@ export type EnrollmentCreateWithoutUserInput = {
   id?: string
   tier: string
   status?: string
+  paidAmount?: number | null
+  stripeSessionId?: string | null
   createdAt?: Date | string
 }
 
@@ -376,6 +466,8 @@ export type EnrollmentUncheckedCreateWithoutUserInput = {
   id?: string
   tier: string
   status?: string
+  paidAmount?: number | null
+  stripeSessionId?: string | null
   createdAt?: Date | string
 }
 
@@ -413,6 +505,8 @@ export type EnrollmentScalarWhereInput = {
   userId?: Prisma.StringFilter<"Enrollment"> | string
   tier?: Prisma.StringFilter<"Enrollment"> | string
   status?: Prisma.StringFilter<"Enrollment"> | string
+  paidAmount?: Prisma.IntNullableFilter<"Enrollment"> | number | null
+  stripeSessionId?: Prisma.StringNullableFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
 }
 
@@ -420,6 +514,8 @@ export type EnrollmentCreateManyUserInput = {
   id?: string
   tier: string
   status?: string
+  paidAmount?: number | null
+  stripeSessionId?: string | null
   createdAt?: Date | string
 }
 
@@ -427,6 +523,8 @@ export type EnrollmentUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paidAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -434,6 +532,8 @@ export type EnrollmentUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paidAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -441,6 +541,8 @@ export type EnrollmentUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paidAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -451,6 +553,8 @@ export type EnrollmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   userId?: boolean
   tier?: boolean
   status?: boolean
+  paidAmount?: boolean
+  stripeSessionId?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["enrollment"]>
@@ -460,6 +564,8 @@ export type EnrollmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   userId?: boolean
   tier?: boolean
   status?: boolean
+  paidAmount?: boolean
+  stripeSessionId?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["enrollment"]>
@@ -469,6 +575,8 @@ export type EnrollmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   userId?: boolean
   tier?: boolean
   status?: boolean
+  paidAmount?: boolean
+  stripeSessionId?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["enrollment"]>
@@ -478,10 +586,12 @@ export type EnrollmentSelectScalar = {
   userId?: boolean
   tier?: boolean
   status?: boolean
+  paidAmount?: boolean
+  stripeSessionId?: boolean
   createdAt?: boolean
 }
 
-export type EnrollmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tier" | "status" | "createdAt", ExtArgs["result"]["enrollment"]>
+export type EnrollmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tier" | "status" | "paidAmount" | "stripeSessionId" | "createdAt", ExtArgs["result"]["enrollment"]>
 export type EnrollmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -502,6 +612,8 @@ export type $EnrollmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     userId: string
     tier: string
     status: string
+    paidAmount: number | null
+    stripeSessionId: string | null
     createdAt: Date
   }, ExtArgs["result"]["enrollment"]>
   composites: {}
@@ -931,6 +1043,8 @@ export interface EnrollmentFieldRefs {
   readonly userId: Prisma.FieldRef<"Enrollment", 'String'>
   readonly tier: Prisma.FieldRef<"Enrollment", 'String'>
   readonly status: Prisma.FieldRef<"Enrollment", 'String'>
+  readonly paidAmount: Prisma.FieldRef<"Enrollment", 'Int'>
+  readonly stripeSessionId: Prisma.FieldRef<"Enrollment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Enrollment", 'DateTime'>
 }
     

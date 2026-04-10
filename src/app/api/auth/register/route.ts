@@ -113,6 +113,12 @@ export async function POST(request: Request) {
       }
     }
 
+    // Mark lead as converted if they exist in the Lead table
+    await prisma.lead.updateMany({
+      where: { email: email.toLowerCase(), status: "active" },
+      data: { status: "converted", convertedAt: new Date() },
+    }).catch(() => {});
+
     // Handle referral if a code was provided
     if (referralCode) {
       const referrer = await prisma.user.findUnique({

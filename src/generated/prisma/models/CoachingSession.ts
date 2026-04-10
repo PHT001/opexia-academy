@@ -44,6 +44,7 @@ export type CoachingSessionMinAggregateOutputType = {
   stripePaymentId: string | null
   amount: number | null
   topic: string | null
+  meetLink: string | null
   createdAt: Date | null
 }
 
@@ -57,6 +58,7 @@ export type CoachingSessionMaxAggregateOutputType = {
   stripePaymentId: string | null
   amount: number | null
   topic: string | null
+  meetLink: string | null
   createdAt: Date | null
 }
 
@@ -70,6 +72,7 @@ export type CoachingSessionCountAggregateOutputType = {
   stripePaymentId: number
   amount: number
   topic: number
+  meetLink: number
   createdAt: number
   _all: number
 }
@@ -93,6 +96,7 @@ export type CoachingSessionMinAggregateInputType = {
   stripePaymentId?: true
   amount?: true
   topic?: true
+  meetLink?: true
   createdAt?: true
 }
 
@@ -106,6 +110,7 @@ export type CoachingSessionMaxAggregateInputType = {
   stripePaymentId?: true
   amount?: true
   topic?: true
+  meetLink?: true
   createdAt?: true
 }
 
@@ -119,6 +124,7 @@ export type CoachingSessionCountAggregateInputType = {
   stripePaymentId?: true
   amount?: true
   topic?: true
+  meetLink?: true
   createdAt?: true
   _all?: true
 }
@@ -219,6 +225,7 @@ export type CoachingSessionGroupByOutputType = {
   stripePaymentId: string | null
   amount: number
   topic: string | null
+  meetLink: string | null
   createdAt: Date
   _count: CoachingSessionCountAggregateOutputType | null
   _avg: CoachingSessionAvgAggregateOutputType | null
@@ -255,6 +262,7 @@ export type CoachingSessionWhereInput = {
   stripePaymentId?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
   amount?: Prisma.IntFilter<"CoachingSession"> | number
   topic?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
+  meetLink?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CoachingSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -269,6 +277,7 @@ export type CoachingSessionOrderByWithRelationInput = {
   stripePaymentId?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   topic?: Prisma.SortOrderInput | Prisma.SortOrder
+  meetLink?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -286,6 +295,7 @@ export type CoachingSessionWhereUniqueInput = Prisma.AtLeast<{
   stripePaymentId?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
   amount?: Prisma.IntFilter<"CoachingSession"> | number
   topic?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
+  meetLink?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CoachingSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -300,6 +310,7 @@ export type CoachingSessionOrderByWithAggregationInput = {
   stripePaymentId?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   topic?: Prisma.SortOrderInput | Prisma.SortOrder
+  meetLink?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CoachingSessionCountOrderByAggregateInput
   _avg?: Prisma.CoachingSessionAvgOrderByAggregateInput
@@ -321,6 +332,7 @@ export type CoachingSessionScalarWhereWithAggregatesInput = {
   stripePaymentId?: Prisma.StringNullableWithAggregatesFilter<"CoachingSession"> | string | null
   amount?: Prisma.IntWithAggregatesFilter<"CoachingSession"> | number
   topic?: Prisma.StringNullableWithAggregatesFilter<"CoachingSession"> | string | null
+  meetLink?: Prisma.StringNullableWithAggregatesFilter<"CoachingSession"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CoachingSession"> | Date | string
 }
 
@@ -333,6 +345,7 @@ export type CoachingSessionCreateInput = {
   stripePaymentId?: string | null
   amount?: number
   topic?: string | null
+  meetLink?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCoachingSessionsInput
 }
@@ -347,6 +360,7 @@ export type CoachingSessionUncheckedCreateInput = {
   stripePaymentId?: string | null
   amount?: number
   topic?: string | null
+  meetLink?: string | null
   createdAt?: Date | string
 }
 
@@ -359,6 +373,7 @@ export type CoachingSessionUpdateInput = {
   stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCoachingSessionsNestedInput
 }
@@ -373,6 +388,7 @@ export type CoachingSessionUncheckedUpdateInput = {
   stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -386,6 +402,7 @@ export type CoachingSessionCreateManyInput = {
   stripePaymentId?: string | null
   amount?: number
   topic?: string | null
+  meetLink?: string | null
   createdAt?: Date | string
 }
 
@@ -398,6 +415,7 @@ export type CoachingSessionUpdateManyMutationInput = {
   stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -411,6 +429,7 @@ export type CoachingSessionUncheckedUpdateManyInput = {
   stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -434,6 +453,7 @@ export type CoachingSessionCountOrderByAggregateInput = {
   stripePaymentId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  meetLink?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -451,6 +471,7 @@ export type CoachingSessionMaxOrderByAggregateInput = {
   stripePaymentId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  meetLink?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -464,6 +485,7 @@ export type CoachingSessionMinOrderByAggregateInput = {
   stripePaymentId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  meetLink?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -522,6 +544,7 @@ export type CoachingSessionCreateWithoutUserInput = {
   stripePaymentId?: string | null
   amount?: number
   topic?: string | null
+  meetLink?: string | null
   createdAt?: Date | string
 }
 
@@ -534,6 +557,7 @@ export type CoachingSessionUncheckedCreateWithoutUserInput = {
   stripePaymentId?: string | null
   amount?: number
   topic?: string | null
+  meetLink?: string | null
   createdAt?: Date | string
 }
 
@@ -576,6 +600,7 @@ export type CoachingSessionScalarWhereInput = {
   stripePaymentId?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
   amount?: Prisma.IntFilter<"CoachingSession"> | number
   topic?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
+  meetLink?: Prisma.StringNullableFilter<"CoachingSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CoachingSession"> | Date | string
 }
 
@@ -588,6 +613,7 @@ export type CoachingSessionCreateManyUserInput = {
   stripePaymentId?: string | null
   amount?: number
   topic?: string | null
+  meetLink?: string | null
   createdAt?: Date | string
 }
 
@@ -600,6 +626,7 @@ export type CoachingSessionUpdateWithoutUserInput = {
   stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -612,6 +639,7 @@ export type CoachingSessionUncheckedUpdateWithoutUserInput = {
   stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -624,6 +652,7 @@ export type CoachingSessionUncheckedUpdateManyWithoutUserInput = {
   stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -639,6 +668,7 @@ export type CoachingSessionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   stripePaymentId?: boolean
   amount?: boolean
   topic?: boolean
+  meetLink?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["coachingSession"]>
@@ -653,6 +683,7 @@ export type CoachingSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   stripePaymentId?: boolean
   amount?: boolean
   topic?: boolean
+  meetLink?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["coachingSession"]>
@@ -667,6 +698,7 @@ export type CoachingSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   stripePaymentId?: boolean
   amount?: boolean
   topic?: boolean
+  meetLink?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["coachingSession"]>
@@ -681,10 +713,11 @@ export type CoachingSessionSelectScalar = {
   stripePaymentId?: boolean
   amount?: boolean
   topic?: boolean
+  meetLink?: boolean
   createdAt?: boolean
 }
 
-export type CoachingSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "date" | "slot" | "status" | "stripeSessionId" | "stripePaymentId" | "amount" | "topic" | "createdAt", ExtArgs["result"]["coachingSession"]>
+export type CoachingSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "date" | "slot" | "status" | "stripeSessionId" | "stripePaymentId" | "amount" | "topic" | "meetLink" | "createdAt", ExtArgs["result"]["coachingSession"]>
 export type CoachingSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -710,6 +743,7 @@ export type $CoachingSessionPayload<ExtArgs extends runtime.Types.Extensions.Int
     stripePaymentId: string | null
     amount: number
     topic: string | null
+    meetLink: string | null
     createdAt: Date
   }, ExtArgs["result"]["coachingSession"]>
   composites: {}
@@ -1144,6 +1178,7 @@ export interface CoachingSessionFieldRefs {
   readonly stripePaymentId: Prisma.FieldRef<"CoachingSession", 'String'>
   readonly amount: Prisma.FieldRef<"CoachingSession", 'Int'>
   readonly topic: Prisma.FieldRef<"CoachingSession", 'String'>
+  readonly meetLink: Prisma.FieldRef<"CoachingSession", 'String'>
   readonly createdAt: Prisma.FieldRef<"CoachingSession", 'DateTime'>
 }
     

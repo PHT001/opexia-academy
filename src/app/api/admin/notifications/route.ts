@@ -15,7 +15,7 @@ export async function GET() {
 
   // New registrations in last 7 days
   const newUsers = await prisma.user.findMany({
-    where: { role: "student", createdAt: { gte: sevenDaysAgo } },
+    where: { role: "student", isBot: false, createdAt: { gte: sevenDaysAgo } },
     select: { name: true, email: true, createdAt: true },
     orderBy: { createdAt: "desc" },
   });
@@ -29,7 +29,7 @@ export async function GET() {
 
   // Lesson completions in last 7 days
   const recentCompletions = await prisma.lessonProgress.findMany({
-    where: { status: "completed", completedAt: { gte: sevenDaysAgo } },
+    where: { status: "completed", completedAt: { gte: sevenDaysAgo }, user: { isBot: false } },
     include: {
       user: { select: { name: true } },
       lesson: { select: { title: true } },

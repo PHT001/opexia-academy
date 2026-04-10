@@ -1763,6 +1763,8 @@ export const EnrollmentScalarFieldEnum = {
   userId: 'userId',
   tier: 'tier',
   status: 'status',
+  paidAmount: 'paidAmount',
+  stripeSessionId: 'stripeSessionId',
   createdAt: 'createdAt'
 } as const
 
@@ -1779,6 +1781,7 @@ export const CoachingSessionScalarFieldEnum = {
   stripePaymentId: 'stripePaymentId',
   amount: 'amount',
   topic: 'topic',
+  meetLink: 'meetLink',
   createdAt: 'createdAt'
 } as const
 
@@ -1850,6 +1853,7 @@ export const LeadScalarFieldEnum = {
   email: 'email',
   source: 'source',
   status: 'status',
+  convertedAt: 'convertedAt',
   createdAt: 'createdAt'
 } as const
 

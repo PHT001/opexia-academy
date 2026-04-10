@@ -135,8 +135,11 @@ function RegisterForm() {
         </div>
       )}
 
+      {/* TODO: Google OAuth does not currently pass the referral code (refCode).
+          To fix: save refCode to localStorage before signIn, then on dashboard
+          first load check localStorage and POST to a referral endpoint. */}
       <button
-        onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+        onClick={() => signIn("google", { callbackUrl: refCode ? `/dashboard?ref=${refCode}` : "/dashboard" })}
         className="w-full h-12 rounded-xl bg-white border border-gray-200 text-sm font-medium text-gray-700 flex items-center justify-center gap-3 hover:bg-gray-50 hover:border-gray-300 transition-all mb-5"
       >
         <GoogleIcon />

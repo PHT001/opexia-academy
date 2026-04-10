@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 function ShareButtons({ title, slug }: { title: string; slug: string }) {
-  const url = `https://www.opexia-formation.com/blog/${slug}`;
+  const url = `https://opexia-formation.com/blog/${slug}`;
   const encodedTitle = encodeURIComponent(title);
   const encodedUrl = encodeURIComponent(url);
 

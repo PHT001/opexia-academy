@@ -27,10 +27,12 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
+  age: number | null
   discountPercent: number | null
 }
 
 export type UserSumAggregateOutputType = {
+  age: number | null
   discountPercent: number | null
 }
 
@@ -45,7 +47,7 @@ export type UserMinAggregateOutputType = {
   verificationCodeExpiry: Date | null
   phone: string | null
   discordUsername: string | null
-  age: string | null
+  age: number | null
   profession: string | null
   profilePhoto: string | null
   onboardingCompleted: boolean | null
@@ -72,7 +74,7 @@ export type UserMaxAggregateOutputType = {
   verificationCodeExpiry: Date | null
   phone: string | null
   discordUsername: string | null
-  age: string | null
+  age: number | null
   profession: string | null
   profilePhoto: string | null
   onboardingCompleted: boolean | null
@@ -118,10 +120,12 @@ export type UserCountAggregateOutputType = {
 
 
 export type UserAvgAggregateInputType = {
+  age?: true
   discountPercent?: true
 }
 
 export type UserSumAggregateInputType = {
+  age?: true
   discountPercent?: true
 }
 
@@ -304,7 +308,7 @@ export type UserGroupByOutputType = {
   verificationCodeExpiry: Date | null
   phone: string | null
   discordUsername: string | null
-  age: string | null
+  age: number | null
   profession: string | null
   profilePhoto: string | null
   onboardingCompleted: boolean
@@ -354,7 +358,7 @@ export type UserWhereInput = {
   verificationCodeExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   discordUsername?: Prisma.StringNullableFilter<"User"> | string | null
-  age?: Prisma.StringNullableFilter<"User"> | string | null
+  age?: Prisma.IntNullableFilter<"User"> | number | null
   profession?: Prisma.StringNullableFilter<"User"> | string | null
   profilePhoto?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
@@ -434,7 +438,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   verificationCodeExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   discordUsername?: Prisma.StringNullableFilter<"User"> | string | null
-  age?: Prisma.StringNullableFilter<"User"> | string | null
+  age?: Prisma.IntNullableFilter<"User"> | number | null
   profession?: Prisma.StringNullableFilter<"User"> | string | null
   profilePhoto?: Prisma.StringNullableFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
@@ -506,7 +510,7 @@ export type UserScalarWhereWithAggregatesInput = {
   verificationCodeExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   discordUsername?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  age?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  age?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
   profession?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   profilePhoto?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   onboardingCompleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
@@ -533,7 +537,7 @@ export type UserCreateInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -571,7 +575,7 @@ export type UserUncheckedCreateInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -609,7 +613,7 @@ export type UserUpdateInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -647,7 +651,7 @@ export type UserUncheckedUpdateInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -685,7 +689,7 @@ export type UserCreateManyInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -712,7 +716,7 @@ export type UserUpdateManyMutationInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -739,7 +743,7 @@ export type UserUncheckedUpdateManyInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -783,6 +787,7 @@ export type UserCountOrderByAggregateInput = {
 }
 
 export type UserAvgOrderByAggregateInput = {
+  age?: Prisma.SortOrder
   discountPercent?: Prisma.SortOrder
 }
 
@@ -841,6 +846,7 @@ export type UserMinOrderByAggregateInput = {
 }
 
 export type UserSumOrderByAggregateInput = {
+  age?: Prisma.SortOrder
   discountPercent?: Prisma.SortOrder
 }
 
@@ -1042,7 +1048,7 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1079,7 +1085,7 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1132,7 +1138,7 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1169,7 +1175,7 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1206,7 +1212,7 @@ export type UserCreateWithoutProgressInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1243,7 +1249,7 @@ export type UserUncheckedCreateWithoutProgressInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1296,7 +1302,7 @@ export type UserUpdateWithoutProgressInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1333,7 +1339,7 @@ export type UserUncheckedUpdateWithoutProgressInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1370,7 +1376,7 @@ export type UserCreateWithoutStreaksInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1407,7 +1413,7 @@ export type UserUncheckedCreateWithoutStreaksInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1460,7 +1466,7 @@ export type UserUpdateWithoutStreaksInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1497,7 +1503,7 @@ export type UserUncheckedUpdateWithoutStreaksInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1534,7 +1540,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1571,7 +1577,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1624,7 +1630,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1661,7 +1667,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1698,7 +1704,7 @@ export type UserCreateWithoutCoachingSessionsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1735,7 +1741,7 @@ export type UserUncheckedCreateWithoutCoachingSessionsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1788,7 +1794,7 @@ export type UserUpdateWithoutCoachingSessionsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1825,7 +1831,7 @@ export type UserUncheckedUpdateWithoutCoachingSessionsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1862,7 +1868,7 @@ export type UserCreateWithoutDealsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1899,7 +1905,7 @@ export type UserUncheckedCreateWithoutDealsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -1952,7 +1958,7 @@ export type UserUpdateWithoutDealsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1989,7 +1995,7 @@ export type UserUncheckedUpdateWithoutDealsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2026,7 +2032,7 @@ export type UserCreateWithoutReferralsMadeInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2063,7 +2069,7 @@ export type UserUncheckedCreateWithoutReferralsMadeInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2105,7 +2111,7 @@ export type UserCreateWithoutReferredByInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2142,7 +2148,7 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2195,7 +2201,7 @@ export type UserUpdateWithoutReferralsMadeInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2232,7 +2238,7 @@ export type UserUncheckedUpdateWithoutReferralsMadeInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2280,7 +2286,7 @@ export type UserUpdateWithoutReferredByInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2317,7 +2323,7 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2354,7 +2360,7 @@ export type UserCreateWithoutNotesInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2391,7 +2397,7 @@ export type UserUncheckedCreateWithoutNotesInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2444,7 +2450,7 @@ export type UserUpdateWithoutNotesInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2481,7 +2487,7 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2518,7 +2524,7 @@ export type UserCreateWithoutProjectsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2555,7 +2561,7 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2608,7 +2614,7 @@ export type UserUpdateWithoutProjectsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2645,7 +2651,7 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2682,7 +2688,7 @@ export type UserCreateWithoutEmailLogsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2719,7 +2725,7 @@ export type UserUncheckedCreateWithoutEmailLogsInput = {
   verificationCodeExpiry?: Date | string | null
   phone?: string | null
   discordUsername?: string | null
-  age?: string | null
+  age?: number | null
   profession?: string | null
   profilePhoto?: string | null
   onboardingCompleted?: boolean
@@ -2772,7 +2778,7 @@ export type UserUpdateWithoutEmailLogsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2809,7 +2815,7 @@ export type UserUncheckedUpdateWithoutEmailLogsInput = {
   verificationCodeExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discordUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3120,7 +3126,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     verificationCodeExpiry: Date | null
     phone: string | null
     discordUsername: string | null
-    age: string | null
+    age: number | null
     profession: string | null
     profilePhoto: string | null
     onboardingCompleted: boolean
@@ -3578,7 +3584,7 @@ export interface UserFieldRefs {
   readonly verificationCodeExpiry: Prisma.FieldRef<"User", 'DateTime'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
   readonly discordUsername: Prisma.FieldRef<"User", 'String'>
-  readonly age: Prisma.FieldRef<"User", 'String'>
+  readonly age: Prisma.FieldRef<"User", 'Int'>
   readonly profession: Prisma.FieldRef<"User", 'String'>
   readonly profilePhoto: Prisma.FieldRef<"User", 'String'>
   readonly onboardingCompleted: Prisma.FieldRef<"User", 'Boolean'>

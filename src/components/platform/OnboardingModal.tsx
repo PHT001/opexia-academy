@@ -52,6 +52,9 @@ export default function OnboardingModal() {
     }
   }
 
+  // TODO: POST collected data (selectedGoal) to /api/onboarding so it persists
+  // server-side and can be used for analytics / personalisation. Currently only
+  // saved to localStorage.
   function finish() {
     if (selectedGoal) {
       localStorage.setItem(STORAGE_KEY_GOAL, selectedGoal);

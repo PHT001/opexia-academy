@@ -65,13 +65,11 @@ const INCLUDES = [
   { icon: "💬", text: "Accès chat prioritaire 48h après la session" },
 ];
 
-// NOTE: Coaching sessions are 45 min here, but the OneToOne plan on /offres
-// advertises "8 visios individuelles (1h)". This discrepancy is known and
-// intentional for now — do NOT change the duration without product decision.
+// NOTE: Coaching sessions are 1h (aligned with OneToOne plan on /offres).
 const STEPS = [
   { num: "01", title: "Réserve ton créneau", desc: "Choisis la date et l'heure qui te conviennent.", icon: <IconCalendar className="text-white" /> },
   { num: "02", title: "Prépare tes questions", desc: "Envoie-nous tes sujets à l'avance.", icon: <IconMessageCircle className="text-white" /> },
-  { num: "03", title: "Session en visio", desc: "45 min en face à face, partage d'écran.", icon: <IconVideo className="text-white" /> },
+  { num: "03", title: "Session en visio", desc: "1h en face à face, partage d'écran.", icon: <IconVideo className="text-white" /> },
   { num: "04", title: "Plan d'action", desc: "Actions concrètes + replay de la session.", icon: <IconTarget className="text-white" /> },
 ];
 
@@ -203,7 +201,7 @@ function CalendlyPicker({
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-900">
-                  {slotDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" })} — 45 min
+                  {slotDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" })} — 1h
                 </p>
                 <p className="text-[11px] text-gray-400">Heure (Europe/Paris)</p>
               </div>
@@ -591,7 +589,7 @@ function CoachingContent() {
                       </p>
                       <p className="text-[11px] text-gray-500 flex items-center gap-1">
                         <IconClock className="w-3 h-3" />
-                        {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 45 min
+                        {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
                       </p>
                     </div>
                     <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full flex-shrink-0">Confirmée</span>
@@ -664,7 +662,7 @@ function CoachingContent() {
               <h1 className="text-base sm:text-lg font-bold text-gray-900">Session coaching OpexIA</h1>
               <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
-                  <IconClock className="w-3 h-3" /> 45 min
+                  <IconClock className="w-3 h-3" /> 1h
                 </span>
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
                   <IconVideo className="w-3 h-3" /> Google Meet
@@ -768,7 +766,7 @@ function CoachingContent() {
                     </p>
                     <p className="text-[11px] text-gray-500 flex items-center gap-1">
                       <IconClock className="w-3 h-3" />
-                      {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 45 min
+                      {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
                     </p>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full flex-shrink-0">Confirmée</span>

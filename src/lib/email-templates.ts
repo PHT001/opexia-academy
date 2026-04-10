@@ -23,7 +23,7 @@ function layout(content: string): string {
         <span style="color: #6B7280; font-size: 13px;">Fondateur, OpexIA</span>
       </p>
       <p style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #E5E7EB; color: #9CA3AF; font-size: 11px;">
-        <a href="https://www.opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a> · <a href="mailto:support@opexia-formation.com?subject=D%C3%A9sinscription&body=Je%20souhaite%20me%20d%C3%A9sinscrire%20des%20emails." style="color: #9CA3AF;">Se d&eacute;sinscrire</a>
+        <a href="https://opexia-formation.com" style="color: #9CA3AF;">opexia-formation.com</a> · <a href="mailto:support@opexia-formation.com?subject=D%C3%A9sinscription&body=Je%20souhaite%20me%20d%C3%A9sinscrire%20des%20emails." style="color: #9CA3AF;">Se d&eacute;sinscrire</a>
       </p>
     </div>
   `;
@@ -42,7 +42,7 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
       <p>Ton compte OpexIA est activ&eacute;. Merci pour ta confiance.</p>
       <p>Pour bien d&eacute;marrer :</p>
       <p>1. Connecte-toi &agrave; la plateforme<br/>2. Ouvre le Module 1 depuis ton tableau de bord<br/>3. Lance la Le&ccedil;on 1 — elle dure 15 minutes</p>
-      <p>Lien direct : <a href="https://www.opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
+      <p>Lien direct : <a href="https://opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
       <p>Si t'as la moindre question, r&eacute;ponds &agrave; cet email.</p>
     `),
   };
@@ -61,7 +61,7 @@ export function dayOneEmail(name: string): { subject: string; html: string } {
       <p>Salut ${firstName},</p>
       <p>Tu as cr&eacute;&eacute; ton compte hier. La prochaine &eacute;tape c'est de lancer la Le&ccedil;on 1 du Module 1. Elle dure 15 minutes et pose les bases de tout.</p>
       <p>Petite stat : les apprenants qui terminent la premi&egrave;re le&ccedil;on dans les 48h ont 3x plus de chances de finir la formation. Bloque 15 min et lance-toi.</p>
-      <p>Lien direct : <a href="https://www.opexia-formation.com/lessons" style="color: #1a73e8;">opexia-formation.com/lessons</a></p>
+      <p>Lien direct : <a href="https://opexia-formation.com/lessons" style="color: #1a73e8;">opexia-formation.com/lessons</a></p>
       <p>D&eacute;j&agrave; fait ? Parfait, continue sur ta lanc&eacute;e.</p>
     `),
   };
@@ -119,7 +119,7 @@ export function weeklyRecapEmail(
       — Le&ccedil;ons termin&eacute;es : ${stats.lessonsThisWeek} (${stats.totalLessons} au total)<br/>
       — XP gagn&eacute;s : +${stats.xpThisWeek} (${stats.totalXP} au total)</p>
       ${nextLine}
-      <p>Continue ici : <a href="https://www.opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
+      <p>Continue ici : <a href="https://opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
     `),
   };
 }
@@ -141,7 +141,7 @@ export function nurtureDayOne(name: string): { subject: string; html: string } {
       <p>Tu as cr&eacute;&eacute; ton compte hier, c'est un bon d&eacute;but. Mais le vrai parcours commence maintenant.</p>
       <p>La formation compl&egrave;te c'est 22 modules, 86 le&ccedil;ons, et tout ce qu'il faut pour lancer ton agence IA : du prompt engineering au closing client.</p>
       <p>Le pack Starter d&eacute;marre &agrave; 47&euro; — 2 modules pour poser les fondations et voir si c'est fait pour toi.</p>
-      <p>Regarde ici : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Regarde ici : <a href="https://opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>Des questions ? R&eacute;ponds &agrave; cet email.</p>
     `),
   };
@@ -160,7 +160,7 @@ export function nurtureDayThree(name: string): { subject: string; html: string }
       <p>Salut ${firstName},</p>
       <p>Karim a rejoint la formation il y a quelques semaines. Trois jours apr&egrave;s avoir termin&eacute; le Module 3, il a d&eacute;croch&eacute; son premier client en consulting IA. Un contrat &agrave; 2 500&euro;.</p>
       <p>Il &eacute;tait exactement dans la m&ecirc;me situation que toi avant de se lancer. La diff&eacute;rence c'est qu'il a d&eacute;cid&eacute; de passer &agrave; l'action.</p>
-      <p>Si tu veux voir ce que la formation inclut : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Si tu veux voir ce que la formation inclut : <a href="https://opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>Des questions ? R&eacute;ponds ici.</p>
     `),
   };
@@ -179,7 +179,7 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
       <p>Salut ${firstName},</p>
       <p>&Ccedil;a fait une semaine que tu as cr&eacute;&eacute; ton compte. Je t'envoie un dernier message.</p>
       <p>Le march&eacute; de l'IA est en train d'exploser et ceux qui se forment maintenant prennent une avance &eacute;norme. La formation c'est 22 modules, 86 le&ccedil;ons, du coaching, et une communaut&eacute; de +150 entrepreneurs IA. Le Starter d&eacute;marre &agrave; 47&euro;.</p>
-      <p>Si &ccedil;a t'int&eacute;resse : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Si &ccedil;a t'int&eacute;resse : <a href="https://opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>C'est le dernier email. Si t'as des questions, r&eacute;ponds ici.</p>
     `),
   };
@@ -202,7 +202,7 @@ export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { su
       <p>${firstName ? `Salut ${firstName},` : "Salut,"}</p>
       <p>Tu as cr&eacute;&eacute; ton compte gratuit hier. T'as eu le temps d'explorer la plateforme ?</p>
       <p>Avec la formation compl&egrave;te, tu acc&egrave;des &agrave; 22 modules, 86 le&ccedil;ons, un CRM int&eacute;gr&eacute;, et une communaut&eacute; d'entrepreneurs IA. Tout ce qu'il faut pour lancer ton agence de z&eacute;ro.</p>
-      <p>Jette un oeil aux offres : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Jette un oeil aux offres : <a href="https://opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>Des questions ? R&eacute;ponds &agrave; cet email.</p>
     `),
   };
@@ -228,7 +228,7 @@ export function freeFollowupDayTwo(name: string, variant: "a" | "b" = "a"): { su
       1. Terminer le module D&eacute;couverte (15 min)<br/>
       2. Rejoindre le Discord pour poser tes questions<br/>
       3. D&eacute;cider si tu veux la formation compl&egrave;te</p>
-      <p>Reprends ici : <a href="https://www.opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
+      <p>Reprends ici : <a href="https://opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
       <p>Si quelque chose te bloque, r&eacute;ponds &agrave; cet email. Je lis tout.</p>
     `),
   };
@@ -253,7 +253,7 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
       <p>&Ccedil;a fait une semaine que tu as rejoint OpexIA. J'esp&egrave;re que le module D&eacute;couverte t'a plu.</p>
       <p>J'ai un code pour toi : <strong>${discountCode}</strong> — c'est -20% sur la formation, valable 24h.</p>
       <p>Avec l'Academy tu passes de 6 le&ccedil;ons &agrave; 86 : vid&eacute;os, exercices, CRM int&eacute;gr&eacute;, assistant IA, templates pour lancer ton agence.</p>
-      <p>Utilise le code ici : <a href="https://www.opexia-formation.com/offres?code=${discountCode}" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Utilise le code ici : <a href="https://opexia-formation.com/offres?code=${discountCode}" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>Si t'as des questions, r&eacute;ponds &agrave; cet email.</p>
     `),
   };
@@ -271,7 +271,7 @@ export function guideEmail(): { subject: string; html: string } {
       <p>Salut,</p>
       <p>Merci pour ta confiance. Voici ton guide :</p>
       <p style="margin: 20px 0;">
-        <a href="https://www.opexia-formation.com/guide-5-services-ia.pdf" style="color: #1a73e8; font-weight: 600; font-size: 16px;">
+        <a href="https://opexia-formation.com/guide-5-services-ia.pdf" style="color: #1a73e8; font-weight: 600; font-size: 16px;">
           &rarr; T&eacute;l&eacute;charger le guide PDF
         </a>
       </p>
@@ -300,7 +300,7 @@ export function leadFollowupDaySeven(): { subject: string; html: string } {
       <p>&Ccedil;a fait une semaine que tu as t&eacute;l&eacute;charg&eacute; le guide. Je t'envoie un dernier message parce que je pense sinc&egrave;rement que le timing est bon pour toi.</p>
       <p>Moins de 3% des PME en Europe ont adopt&eacute; de vraies automatisations IA. Le march&eacute; est vierge. Mais chaque mois, de nouveaux freelances se positionnent.</p>
       <p>La formation d&eacute;marre &agrave; 47&euro; avec le pack Starter. C'est 2 modules pour d&eacute;couvrir l'IA et voir si c'est fait pour toi — sans risque avec la garantie 14 jours.</p>
-      <p>Si &ccedil;a t'int&eacute;resse : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
+      <p>Si &ccedil;a t'int&eacute;resse : <a href="https://opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>C'est le dernier email de cette s&eacute;rie. Si t'as des questions, r&eacute;ponds ici, je suis dispo.</p>
     `),
   };

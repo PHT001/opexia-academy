@@ -30,14 +30,16 @@ export async function GET() {
   const totalLessons = await prisma.lesson.count();
 
   const completions = await prisma.lessonProgress.findMany({
-    where: { status: "completed" },
+    where: { status: "completed", user: { isBot: false } },
   });
 
   const avgCompletion = totalStudents > 0 && totalLessons > 0
     ? Math.round((completions.length / (totalStudents * totalLessons)) * 100)
     : 0;
 
-  const submissions = await prisma.quizSubmission.findMany();
+  const submissions = await prisma.quizSubmission.findMany({
+    where: { user: { isBot: false } },
+  });
   const avgQuizScore = submissions.length > 0
     ? Math.round(submissions.reduce((sum, s) => sum + s.score, 0) / submissions.length)
     : 0;
@@ -45,17 +47,18 @@ export async function GET() {
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
   const completionsToday = await prisma.lessonProgress.count({
-    where: { status: "completed", completedAt: { gte: oneDayAgo } },
+    where: { status: "completed", completedAt: { gte: oneDayAgo }, user: { isBot: false } },
   });
 
   // ── Enrollments & Revenue ──
   const enrollments = await prisma.enrollment.findMany({
+    where: { status: "active" },
     include: { user: { select: { name: true, email: true } } },
     orderBy: { createdAt: "desc" },
   });
 
   const totalRevenue = enrollments.reduce(
-    (sum, e) => sum + (TIER_PRICES[e.tier] || 0),
+    (sum, e) => sum + (e.paidAmount || TIER_PRICES[e.tier] || 0),
     0
   );
 
@@ -79,7 +82,7 @@ export async function GET() {
     const key = `${e.createdAt.getFullYear()}-${String(e.createdAt.getMonth() + 1).padStart(2, "0")}`;
     const entry = monthlyRevenue.find((m) => m.month === key);
     if (entry) {
-      entry.revenue += TIER_PRICES[e.tier] || 0;
+      entry.revenue += e.paidAmount || TIER_PRICES[e.tier] || 0;
     }
   }
 
@@ -89,7 +92,7 @@ export async function GET() {
     userName: e.user.name,
     userEmail: e.user.email,
     tier: e.tier,
-    amount: TIER_PRICES[e.tier] || 0,
+    amount: e.paidAmount || TIER_PRICES[e.tier] || 0,
     status: e.status,
     createdAt: e.createdAt.toISOString(),
   }));
@@ -98,13 +101,13 @@ export async function GET() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthlyRevenueThisMonth = enrollments
     .filter((e) => e.createdAt >= monthStart)
-    .reduce((sum, e) => sum + (TIER_PRICES[e.tier] || 0), 0);
+    .reduce((sum, e) => sum + (e.paidAmount || TIER_PRICES[e.tier] || 0), 0);
 
   // Revenue breakdown by tier
   const revenueByTier: Record<string, number> = { starter: 0, academy: 0, one_to_one: 0 };
   for (const e of enrollments) {
     if (e.tier in revenueByTier) {
-      revenueByTier[e.tier] += TIER_PRICES[e.tier] || 0;
+      revenueByTier[e.tier] += e.paidAmount || TIER_PRICES[e.tier] || 0;
     }
   }
 

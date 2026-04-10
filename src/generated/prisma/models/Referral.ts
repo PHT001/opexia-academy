@@ -259,11 +259,11 @@ export type ReferralOrderByWithRelationInput = {
 
 export type ReferralWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  referredId?: string
   AND?: Prisma.ReferralWhereInput | Prisma.ReferralWhereInput[]
   OR?: Prisma.ReferralWhereInput[]
   NOT?: Prisma.ReferralWhereInput | Prisma.ReferralWhereInput[]
   referrerId?: Prisma.StringFilter<"Referral"> | string
-  referredId?: Prisma.StringFilter<"Referral"> | string
   referredTier?: Prisma.StringNullableFilter<"Referral"> | string | null
   commission?: Prisma.IntFilter<"Referral"> | number
   status?: Prisma.StringFilter<"Referral"> | string
@@ -271,7 +271,7 @@ export type ReferralWhereUniqueInput = Prisma.AtLeast<{
   paidAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   referrer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   referred?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id">
+}, "id" | "referredId">
 
 export type ReferralOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
