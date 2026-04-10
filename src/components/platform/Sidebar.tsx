@@ -666,36 +666,6 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
           )}
         </div>
 
-        {/* Admin: Tier Preview */}
-        {role === "admin" && onPreviewTierChange && (
-          <div className="px-4 pb-3 shrink-0">
-            <p className="text-[9px] uppercase tracking-[0.15em] text-white/20 font-semibold mb-2">Simuler un abonnement</p>
-            <div className="flex flex-col gap-1">
-              {[
-                { id: null, label: "Admin", icon: "👑" },
-                { id: "free", label: "Gratuit" },
-                { id: "starter", label: "Starter" },
-                { id: "academy", label: "Academy" },
-                { id: "one_to_one", label: "One-to-One" },
-              ].map((t) => (
-                <button
-                  key={t.id || "admin"}
-                  onClick={() => onPreviewTierChange(t.id)}
-                  className={cn(
-                    "text-[11px] font-medium px-3 py-1.5 rounded-lg transition-all text-left",
-                    previewTier === t.id
-                      ? "bg-[#FF1744]/15 text-[#FF1744] border border-[#FF1744]/25"
-                      : "text-white/40 hover:text-white/60 hover:bg-white/5 border border-transparent"
-                  )}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-            <div className="h-px bg-gradient-to-r from-transparent via-white/8 to-transparent mt-3" />
-          </div>
-        )}
-
         {/* Navigation */}
         <nav className="flex-1 px-3 pb-3 flex flex-col gap-0.5 overflow-y-auto sidebar-scroll">
           {/* Admin-only nav — everything centralized here */}
