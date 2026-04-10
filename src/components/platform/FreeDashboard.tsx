@@ -309,7 +309,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="text-lg font-bold text-[#111] mb-1">D{"é"}couvrir la formation</h2>
-                <p className="text-sm text-gray-500">22 modules, 85 le{"ç"}ons — explore ce qui t{"'"}attend</p>
+                <p className="text-sm text-gray-500">22 modules, 86 le{"ç"}ons — explore ce qui t{"'"}attend</p>
               </div>
               <ArrowRightIcon className="w-5 h-5 text-[#FF1744] group-hover:translate-x-1 transition-transform flex-shrink-0" />
             </div>

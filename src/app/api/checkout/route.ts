@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import rateLimit from "@/lib/rate-limit";
+import { TIER_PRIORITY } from "@/lib/constants";
 
 const limiter = rateLimit({ interval: 60_000, uniqueTokenPerInterval: 500 });
 
@@ -55,7 +56,6 @@ export async function POST(req: NextRequest) {
 
     // Block downgrades and re-purchases for authenticated users
     if (isAuthenticated) {
-      const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
       const enrollments = await prisma.enrollment.findMany({
         where: { userId: session.user.id, status: "active" },
       });

@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { WHATSAPP_LINK } from "@/lib/constants";
+import { WHATSAPP_LINK, TIER_PRIORITY } from "@/lib/constants";
 
 const TIER_LABELS: Record<string, string> = {
   free: "Gratuit", starter: "Starter", academy: "Academy", one_to_one: "One to One",
@@ -27,7 +27,7 @@ const plans: Plan[] = [
   {
     name: "Academy", slug: "academy", price: "497", oldPrice: "897", period: "paiement en plusieurs fois possible",
     description: "La formation compl\u00e8te pour lancer ton agence IA", popular: true,
-    features: ["Tout le pack Starter", "85 le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Gamification (XP, streaks, badges)", "Programme de parrainage"],
+    features: ["Tout le pack Starter", "86 le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Gamification (XP, streaks, badges)", "Programme de parrainage"],
     notIncluded: ["Visios individuelles"],
     cta: "Rejoindre l\u2019Academy \u2014 497\u20ac",
   },
@@ -215,7 +215,6 @@ function OffresContent() {
       {/* Cards — same style as landing page */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {plans.map((plan, i) => {
-          const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
           const isCurrent = effectiveTier === plan.slug;
           const isLower = (TIER_PRIORITY[effectiveTier] ?? 0) > (TIER_PRIORITY[plan.slug] ?? 0);
 

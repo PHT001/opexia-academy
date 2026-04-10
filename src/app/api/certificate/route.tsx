@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { TIER_MODULE_ACCESS } from "@/lib/constants";
+import { TIER_MODULE_ACCESS, TIER_PRIORITY } from "@/lib/constants";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { CertificatePDF } from "@/lib/pdf/CertificatePDF";
 import React from "react";
@@ -93,7 +93,6 @@ export async function GET(req: NextRequest) {
   // Tier/access check — admin bypasses
   const isAdmin = session.user.role === "admin";
   if (!isAdmin) {
-    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
     let userTier = "starter";
     const enrollments = await prisma.enrollment.findMany({
       where: { userId, status: "active" },

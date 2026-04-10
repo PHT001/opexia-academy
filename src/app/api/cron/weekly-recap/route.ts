@@ -59,6 +59,12 @@ export async function GET(req: NextRequest) {
 
     for (const user of users) {
       try {
+        // Dedup: skip if a weekly_recap was already sent in the last 24h
+        const alreadySent = await prisma.emailLog.findFirst({
+          where: { userId: user.id, type: "weekly_recap", createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
+        });
+        if (alreadySent) continue;
+
         // Lessons completed this week
         const lessonsThisWeek = await prisma.lessonProgress.count({
           where: {

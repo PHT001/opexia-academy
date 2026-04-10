@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { TIER_PRIORITY } from "@/lib/constants";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const TIER_LIMITS: Record<string, number> = {
@@ -70,7 +71,6 @@ export async function POST(req: NextRequest) {
     const enrollments = await prisma.enrollment.findMany({
       where: { userId: session.user.id, status: "active" },
     });
-    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
     const bestEnrollment = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] || 0) - (TIER_PRIORITY[a.tier] || 0))[0];
     userTier = bestEnrollment?.tier || "free";
     if (userTier === "free") {

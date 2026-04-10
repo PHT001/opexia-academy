@@ -126,7 +126,11 @@ export async function POST(req: NextRequest) {
       if (existing) {
         await prisma.enrollment.update({
           where: { id: existing.id },
-          data: { status: "active" },
+          data: {
+            status: "active",
+            paidAmount: session.amount_total || null,
+            stripeSessionId: session.id,
+          },
         });
       } else {
         await prisma.enrollment.create({
@@ -134,6 +138,8 @@ export async function POST(req: NextRequest) {
             userId,
             tier,
             status: "active",
+            paidAmount: session.amount_total || null,
+            stripeSessionId: session.id,
           },
         });
       }
@@ -193,7 +199,7 @@ export async function POST(req: NextRequest) {
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Premium inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>Tout le contenu Academy (85 le\u00e7ons)</li>
+                      <li>Tout le contenu Academy (86 le\u00e7ons)</li>
                       <li>8 visios individuelles (1h) avec ton coach</li>
                       <li>Support prioritaire illimit\u00e9</li>
                       <li>Acc\u00e8s direct WhatsApp avec Marius & Igor</li>
@@ -217,7 +223,7 @@ export async function POST(req: NextRequest) {
                     </div>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Ton pack Academy inclut :</p>
                     <ul style="color: #374151; font-size: 14px; margin-bottom: 16px; padding-left: 20px;">
-                      <li>85 le\u00e7ons vid\u00e9o & texte</li>
+                      <li>86 le\u00e7ons vid\u00e9o & texte</li>
                       <li>Assistant IA int\u00e9gr\u00e9</li>
                       <li>Pipeline CRM int\u00e9gr\u00e9</li>
                       <li>Templates IA premium</li>

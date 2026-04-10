@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { TIER_MODULE_ACCESS } from "@/lib/constants";
+import { TIER_MODULE_ACCESS, TIER_PRIORITY } from "@/lib/constants";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -15,7 +15,6 @@ export async function GET() {
     const isAdmin = session.user.role === "admin";
 
     // Fetch user's enrollment tier (highest tier wins)
-    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
     let userTier = "free";
     if (isAdmin) {
       userTier = "academy";

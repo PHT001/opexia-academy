@@ -14,7 +14,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["prix", "tarif", "combien", "co\u00fbt", "cher", "gratuit", "payer", "paiement", "plusieurs fois"],
     answer:
-      "Tu peux d\u00e9couvrir la plateforme gratuitement en cr\u00e9ant un compte ! Ensuite on a 3 formules : Starter \u00e0 47\u20ac (2 modules D\u00e9couverte, 7 le\u00e7ons), Academy \u00e0 497\u20ac (formation compl\u00e8te 85 le\u00e7ons + plateforme + CRM \u2014 payable en 3x), et One-to-One \u00e0 2\u00a0497\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor). Garantie 14 jours satisfait ou rembours\u00e9.",
+      "Tu peux d\u00e9couvrir la plateforme gratuitement en cr\u00e9ant un compte ! Ensuite on a 3 formules : Starter \u00e0 47\u20ac (2 modules D\u00e9couverte, 7 le\u00e7ons), Academy \u00e0 497\u20ac (formation compl\u00e8te 86 le\u00e7ons + plateforme + CRM \u2014 payable en 3x), et One-to-One \u00e0 2\u00a0497\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor). Garantie 14 jours satisfait ou rembours\u00e9.",
   },
   {
     keywords: ["d\u00e9butant", "z\u00e9ro", "aucune", "connaissance", "niveau", "pr\u00e9requis", "base"],
@@ -49,7 +49,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["contenu", "programme", "module", "le\u00e7on", "apprendre"],
     answer:
-      "85 le\u00e7ons r\u00e9parties en 6 phases : Fondations IA, Construction d'infrastructures, Packaging de ton offre, Acquisition clients, et bien plus. Plus des templates, un CRM, et un g\u00e9n\u00e9rateur de projets.",
+      "86 le\u00e7ons r\u00e9parties en 6 phases : Fondations IA, Construction d'infrastructures, Packaging de ton offre, Acquisition clients, et bien plus. Plus des templates, un CRM, et un g\u00e9n\u00e9rateur de projets.",
   },
 ];
 

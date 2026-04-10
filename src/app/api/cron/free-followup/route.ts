@@ -73,6 +73,7 @@ export async function GET(req: NextRequest) {
           createdAt: { gte: windowStart, lte: windowEnd },
           // Make sure user hasn't upgraded (no other non-free enrollment)
           user: {
+            isBot: false,
             enrollments: {
               none: {
                 tier: { not: "free" },

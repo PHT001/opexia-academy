@@ -139,7 +139,7 @@ export function nurtureDayOne(name: string): { subject: string; html: string } {
     html: layout(`
       <p>Salut ${firstName},</p>
       <p>Tu as cr&eacute;&eacute; ton compte hier, c'est un bon d&eacute;but. Mais le vrai parcours commence maintenant.</p>
-      <p>La formation compl&egrave;te c'est 22 modules, 85 le&ccedil;ons, et tout ce qu'il faut pour lancer ton agence IA : du prompt engineering au closing client.</p>
+      <p>La formation compl&egrave;te c'est 22 modules, 86 le&ccedil;ons, et tout ce qu'il faut pour lancer ton agence IA : du prompt engineering au closing client.</p>
       <p>Le pack Starter d&eacute;marre &agrave; 47&euro; — 2 modules pour poser les fondations et voir si c'est fait pour toi.</p>
       <p>Regarde ici : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>Des questions ? R&eacute;ponds &agrave; cet email.</p>
@@ -178,7 +178,7 @@ export function nurtureDaySeven(name: string): { subject: string; html: string }
     html: layout(`
       <p>Salut ${firstName},</p>
       <p>&Ccedil;a fait une semaine que tu as cr&eacute;&eacute; ton compte. Je t'envoie un dernier message.</p>
-      <p>Le march&eacute; de l'IA est en train d'exploser et ceux qui se forment maintenant prennent une avance &eacute;norme. La formation c'est 22 modules, 85 le&ccedil;ons, du coaching, et une communaut&eacute; de +150 entrepreneurs IA. Le Starter d&eacute;marre &agrave; 47&euro;.</p>
+      <p>Le march&eacute; de l'IA est en train d'exploser et ceux qui se forment maintenant prennent une avance &eacute;norme. La formation c'est 22 modules, 86 le&ccedil;ons, du coaching, et une communaut&eacute; de +150 entrepreneurs IA. Le Starter d&eacute;marre &agrave; 47&euro;.</p>
       <p>Si &ccedil;a t'int&eacute;resse : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>C'est le dernier email. Si t'as des questions, r&eacute;ponds ici.</p>
     `),
@@ -201,7 +201,7 @@ export function freeFollowupDayOne(name: string, variant: "a" | "b" = "a"): { su
     html: layout(`
       <p>${firstName ? `Salut ${firstName},` : "Salut,"}</p>
       <p>Tu as cr&eacute;&eacute; ton compte gratuit hier. T'as eu le temps d'explorer la plateforme ?</p>
-      <p>Avec la formation compl&egrave;te, tu acc&egrave;des &agrave; 22 modules, 85 le&ccedil;ons, un CRM int&eacute;gr&eacute;, et une communaut&eacute; d'entrepreneurs IA. Tout ce qu'il faut pour lancer ton agence de z&eacute;ro.</p>
+      <p>Avec la formation compl&egrave;te, tu acc&egrave;des &agrave; 22 modules, 86 le&ccedil;ons, un CRM int&eacute;gr&eacute;, et une communaut&eacute; d'entrepreneurs IA. Tout ce qu'il faut pour lancer ton agence de z&eacute;ro.</p>
       <p>Jette un oeil aux offres : <a href="https://www.opexia-formation.com/offres" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>Des questions ? R&eacute;ponds &agrave; cet email.</p>
     `),
@@ -252,7 +252,7 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
       <p>${firstName ? `Salut ${firstName},` : "Salut,"}</p>
       <p>&Ccedil;a fait une semaine que tu as rejoint OpexIA. J'esp&egrave;re que le module D&eacute;couverte t'a plu.</p>
       <p>J'ai un code pour toi : <strong>${discountCode}</strong> — c'est -20% sur la formation, valable 24h.</p>
-      <p>Avec l'Academy tu passes de 6 le&ccedil;ons &agrave; 85 : vid&eacute;os, exercices, CRM int&eacute;gr&eacute;, assistant IA, templates pour lancer ton agence.</p>
+      <p>Avec l'Academy tu passes de 6 le&ccedil;ons &agrave; 86 : vid&eacute;os, exercices, CRM int&eacute;gr&eacute;, assistant IA, templates pour lancer ton agence.</p>
       <p>Utilise le code ici : <a href="https://www.opexia-formation.com/offres?code=${discountCode}" style="color: #1a73e8;">opexia-formation.com/offres</a></p>
       <p>Si t'as des questions, r&eacute;ponds &agrave; cet email.</p>
     `),

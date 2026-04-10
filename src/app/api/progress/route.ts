@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { TIER_PRIORITY } from "@/lib/constants";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -64,7 +65,6 @@ export async function GET() {
     tier = "academy";
   } else {
     // Get the highest tier enrollment (one_to_one > academy > starter > free)
-    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
     const enrollments = await prisma.enrollment.findMany({
       where: { userId, status: "active" },
     });

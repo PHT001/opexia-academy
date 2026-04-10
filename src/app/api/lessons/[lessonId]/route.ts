@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { TIER_MODULE_ACCESS } from "@/lib/constants";
+import { TIER_MODULE_ACCESS, TIER_PRIORITY } from "@/lib/constants";
 
 export async function GET(
   request: Request,
@@ -41,7 +41,6 @@ export async function GET(
 
   // Tier/access check — ensure user has access to this module
   if (!isAdmin) {
-    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
     let userTier = "free";
     const enrollments = await prisma.enrollment.findMany({
       where: { userId, status: "active" },
