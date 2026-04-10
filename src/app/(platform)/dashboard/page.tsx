@@ -693,10 +693,36 @@ function DashboardContent() {
         )}
       </AnimatePresence>
 
+      {/* ════ ADMIN TIER SWITCHER — always visible for admin ════ */}
+      {isAdmin && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-[10px] uppercase tracking-[0.12em] text-gray-400 font-semibold mr-1">Vue :</span>
+          {[
+            { id: null, label: "Admin" },
+            { id: "free", label: "Gratuit" },
+            { id: "starter", label: "Starter" },
+            { id: "academy", label: "Academy" },
+            { id: "one_to_one", label: "One-to-One" },
+          ].map((t) => (
+            <button
+              key={t.id || "admin"}
+              onClick={() => handlePreviewTierChange(t.id)}
+              className={`text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all ${
+                previewTier === t.id
+                  ? "bg-[#FF1744] text-white shadow-sm"
+                  : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* ════ ADMIN-ONLY VIEW: show admin panel directly ════ */}
       {isAdmin && !previewTier && (
         <>
-          <AdminDashboardSection stats={adminStats} loading={adminLoading} projects={projects} onProjectUpdate={handleProjectUpdate} onTestOnboarding={() => setShowOnboarding(true)} userTier={userTier} previewTier={previewTier} onPreviewTierChange={handlePreviewTierChange} />
+          <AdminDashboardSection stats={adminStats} loading={adminLoading} projects={projects} onProjectUpdate={handleProjectUpdate} onTestOnboarding={() => setShowOnboarding(true)} userTier={userTier} />
         </>
       )}
 
@@ -1304,7 +1330,7 @@ function AdminAvatarCircle({ name, size = "md" }: { name: string; size?: "sm" | 
 const adminFadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, } } };
 const adminStagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
 
-function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTestOnboarding, userTier, previewTier, onPreviewTierChange }: { stats: AdminStats | null; loading: boolean; projects: Project[]; onProjectUpdate: (id: string, status: string, feedback: string) => Promise<void>; onTestOnboarding?: () => void; userTier?: string; previewTier?: string | null; onPreviewTierChange?: (tier: string | null) => void }) {
+function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTestOnboarding, userTier }: { stats: AdminStats | null; loading: boolean; projects: Project[]; onProjectUpdate: (id: string, status: string, feedback: string) => Promise<void>; onTestOnboarding?: () => void; userTier?: string }) {
   const [adminTab, setAdminTab] = useState<"overview" | "students" | "projects" | "referrals" | "leads">("overview");
 
   if (loading) {
@@ -1380,31 +1406,6 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
               >
                 {todayStr}
               </motion.p>
-              {/* Tier preview pills */}
-              {onPreviewTierChange && (
-                <div className="flex items-center gap-1.5 mt-3 flex-wrap">
-                  <span className="text-[9px] uppercase tracking-[0.12em] text-white/25 font-semibold mr-1">Simuler</span>
-                  {[
-                    { id: null, label: "Admin" },
-                    { id: "free", label: "Gratuit" },
-                    { id: "starter", label: "Starter" },
-                    { id: "academy", label: "Academy" },
-                    { id: "one_to_one", label: "One-to-One" },
-                  ].map((t) => (
-                    <button
-                      key={t.id || "admin"}
-                      onClick={() => onPreviewTierChange(t.id)}
-                      className={`text-[10px] font-semibold px-3 py-1 rounded-full transition-all ${
-                        previewTier === t.id
-                          ? "bg-[#FF1744]/20 text-[#FF1744] ring-1 ring-[#FF1744]/30"
-                          : "text-white/35 hover:text-white/60 hover:bg-white/8"
-                      }`}
-                    >
-                      {t.label}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
             <motion.div
