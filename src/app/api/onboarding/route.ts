@@ -11,7 +11,20 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { name, phone, discordUsername, age, profession } = body;
+    let { name, phone, discordUsername, age, profession } = body;
+
+    // Input validation & truncation
+    if (name && typeof name === "string") name = name.slice(0, 100);
+    if (phone && typeof phone === "string") phone = phone.slice(0, 20);
+    if (discordUsername && typeof discordUsername === "string") discordUsername = discordUsername.slice(0, 50);
+    if (profession && typeof profession === "string") profession = profession.slice(0, 100);
+    if (age !== undefined && age !== null) {
+      const parsedAge = parseInt(String(age), 10);
+      if (isNaN(parsedAge) || parsedAge < 10 || parsedAge > 120) {
+        return NextResponse.json({ error: "Âge invalide (10-120)" }, { status: 400 });
+      }
+      age = parsedAge;
+    }
 
     await prisma.user.update({
       where: { email: session.user.email },

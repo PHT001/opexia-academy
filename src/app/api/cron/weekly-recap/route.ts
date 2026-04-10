@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   try {
     // Fetch all users with an active enrollment
     const enrolledUsers = await prisma.enrollment.findMany({
-      where: { status: "active" },
+      where: { status: "active", user: { isBot: false } },
       select: {
         user: {
           select: {

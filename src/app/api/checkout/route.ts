@@ -16,17 +16,12 @@ const PLANS: Record<string, { name: string; price: number; description: string }
   academy: {
     name: "OpexIA Academy",
     price: 49700, // in cents
-    description: "Formation complete : 85 lecons, plateforme, CRM, aide rapide, templates premium",
+    description: "Formation complete : 86 lecons, plateforme, CRM, aide rapide, templates premium",
   },
   one_to_one: {
     name: "OpexIA One-to-One",
     price: 249700, // 2497 EUR in cents
     description: "Accompagnement individuel premium avec coaching personnalise",
-  },
-  one_to_one_test: {
-    name: "OpexIA One-to-One (Test)",
-    price: 80000, // 800 EUR in cents — test price
-    description: "Accompagnement individuel premium (mode test)",
   },
 };
 
@@ -44,7 +39,8 @@ export async function POST(req: NextRequest) {
   const plan = body.plan as string | undefined;
   const coupon = body.coupon as string | undefined;
   const guest = body.guest === true;
-  const ref = (body.ref as string | undefined) || "";
+  let ref: string | undefined = (body.ref as string | undefined) || "";
+  if (ref && (typeof ref !== "string" || ref.length > 32 || !/^[a-zA-Z0-9]+$/.test(ref))) ref = undefined;
 
   // Allow guest checkout (from landing page) or authenticated checkout (from /offres)
   const isAuthenticated = !!session?.user?.id;
@@ -59,7 +55,7 @@ export async function POST(req: NextRequest) {
 
     // Block downgrades and re-purchases for authenticated users
     if (isAuthenticated) {
-      const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3, one_to_one_test: 3 };
+      const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
       const enrollments = await prisma.enrollment.findMany({
         where: { userId: session.user.id, status: "active" },
       });
@@ -68,8 +64,7 @@ export async function POST(req: NextRequest) {
       )[0];
       const currentTierLevel = TIER_PRIORITY[best?.tier ?? "free"] ?? 0;
       const requestedTierLevel = TIER_PRIORITY[plan] ?? 0;
-      // Skip downgrade check for test plans
-      if (requestedTierLevel <= currentTierLevel && !plan.endsWith("_test")) {
+      if (requestedTierLevel <= currentTierLevel) {
         return NextResponse.json(
           { error: "Tu as déjà ce plan ou un plan supérieur" },
           { status: 400 }
@@ -99,7 +94,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const origin = req.headers.get("origin") || process.env.NEXTAUTH_URL || "http://localhost:3000";
+    const origin = process.env.NEXTAUTH_URL || req.headers.get("origin") || "https://opexia-formation.com";
 
     // Look up or create a Stripe customer (only for authenticated users)
     let customerId: string | undefined;
@@ -178,18 +173,6 @@ export async function POST(req: NextRequest) {
 
     if (!checkoutSession.url) {
       return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
-    }
-
-    // Consume the coupon immediately after checkout session creation to prevent reuse
-    if (hasCustomDiscount && isAuthenticated) {
-      try {
-        await prisma.user.update({
-          where: { id: session.user.id },
-          data: { discountCode: null, discountPercent: null, discountExpiresAt: null },
-        });
-      } catch (discountErr) {
-        console.error("Failed to clear discount after checkout:", discountErr instanceof Error ? discountErr.message : discountErr);
-      }
     }
 
     return NextResponse.json({ url: checkoutSession.url });

@@ -483,15 +483,18 @@ export default function PipelinePage() {
   }, [deals, search, filterPriority, sortBy]);
 
   const handleSave = async (data: { name: string; company: string; value: number; stage: string; notes: string }) => {
-    if (editingDeal) {
-      await fetch(`/api/pipeline/${editingDeal.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-    } else {
-      await fetch("/api/pipeline", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+    try {
+      const url = editingDeal ? `/api/pipeline/${editingDeal.id}` : "/api/pipeline";
+      const method = editingDeal ? "PATCH" : "POST";
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (!res.ok) throw new Error("Failed");
+      setModalOpen(false);
+      setEditingDeal(null);
+      setDetailDeal(null);
+      fetchDeals();
+    } catch {
+      alert("Une erreur est survenue. Réessayez.");
     }
-    setModalOpen(false);
-    setEditingDeal(null);
-    setDetailDeal(null);
-    fetchDeals();
   };
 
   const handleMove = async (deal: Deal, direction: "left" | "right") => {
@@ -499,17 +502,27 @@ export default function PipelinePage() {
     const idx = allStages.indexOf(deal.stage);
     const newIdx = direction === "right" ? idx + 1 : idx - 1;
     if (newIdx < 0 || newIdx >= allStages.length) return;
-    await fetch(`/api/pipeline/${deal.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ stage: allStages[newIdx] }) });
-    setDetailDeal(null);
-    fetchDeals();
+    try {
+      const res = await fetch(`/api/pipeline/${deal.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ stage: allStages[newIdx] }) });
+      if (!res.ok) throw new Error("Failed");
+      setDetailDeal(null);
+      fetchDeals();
+    } catch {
+      alert("Une erreur est survenue. Réessayez.");
+    }
   };
 
   const handleDelete = async (id: string) => {
     if (confirmDelete !== id) { setConfirmDelete(id); return; }
-    await fetch(`/api/pipeline/${id}`, { method: "DELETE" });
-    setConfirmDelete(null);
-    setDetailDeal(null);
-    fetchDeals();
+    try {
+      const res = await fetch(`/api/pipeline/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed");
+      setConfirmDelete(null);
+      setDetailDeal(null);
+      fetchDeals();
+    } catch {
+      alert("Une erreur est survenue. Réessayez.");
+    }
   };
 
   // Stats

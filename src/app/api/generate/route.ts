@@ -67,14 +67,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
-  // Tier check: only academy and one_to_one can use the generator
-  const enrollment = await prisma.enrollment.findFirst({
-    where: { userId: session.user.id, status: "active" },
-    orderBy: { createdAt: "desc" },
-  });
-  const userTier = enrollment?.tier || "free";
-  if (userTier !== "academy" && userTier !== "one_to_one") {
-    return NextResponse.json({ error: "Accès réservé au pack Academy" }, { status: 403 });
+  // Tier check: only academy and one_to_one can use the generator (admins bypass)
+  const isAdmin = session.user.role === "admin";
+  let userTier = "free";
+
+  if (!isAdmin) {
+    const enrollments = await prisma.enrollment.findMany({
+      where: { userId: session.user.id, status: "active" },
+    });
+    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+    const bestEnrollment = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] || 0) - (TIER_PRIORITY[a.tier] || 0))[0];
+    userTier = bestEnrollment?.tier || "free";
+    if (userTier !== "academy" && userTier !== "one_to_one") {
+      return NextResponse.json({ error: "Accès réservé au pack Academy" }, { status: 403 });
+    }
+  } else {
+    userTier = "one_to_one";
   }
 
   // Rate limit by userId

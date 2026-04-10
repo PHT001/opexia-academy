@@ -25,8 +25,8 @@ export async function POST(req: NextRequest) {
     orderBy: { createdAt: "desc" },
   });
   const userTier = enrollment?.tier || "free";
-  if (userTier === "free" && session.user.role !== "admin") {
-    return NextResponse.json({ error: "Réservation réservée aux membres payants" }, { status: 403 });
+  if (userTier !== "one_to_one" && session.user.role !== "admin") {
+    return NextResponse.json({ error: "Utilisez le paiement en ligne pour réserver" }, { status: 403 });
   }
 
   try {
@@ -42,6 +42,14 @@ export async function POST(req: NextRequest) {
 
     const isFree = userTier === "one_to_one";
     const amount = isFree ? 0 : parseInt(COACHING_PRICE_DISPLAY) * 100;
+
+    // Enforce 8-session limit for One-to-One users
+    const sessionCount = await prisma.coachingSession.count({
+      where: { userId: session.user.id, status: { in: ["pending", "confirmed"] } }
+    });
+    if (sessionCount >= 8 && session.user.role !== "admin") {
+      return NextResponse.json({ error: "Vous avez atteint la limite de 8 sessions gratuites" }, { status: 403 });
+    }
 
     // Use transaction to prevent race condition (check + create atomically)
     const coachingSession = await prisma.$transaction(async (tx) => {
@@ -75,12 +83,20 @@ export async function POST(req: NextRequest) {
     // Create Google Calendar event with Google Meet
     try {
       const endDate = new Date(slotDate.getTime() + 60 * 60 * 1000);
-      await createCalendarEvent(
+      const calendarResult = await createCalendarEvent(
         `Coaching OpexIA — ${session.user.name || "Élève"}`,
         slotDate.toISOString(),
         endDate.toISOString(),
         session.user.email
       );
+
+      // Store the Meet link on the coaching session if available
+      if (calendarResult?.meetLink) {
+        await prisma.coachingSession.update({
+          where: { id: coachingSession.id },
+          data: { meetLink: calendarResult.meetLink },
+        }).catch(() => {});
+      }
     } catch (calErr) {
       console.error("[Book] Failed to create calendar event:", calErr);
     }

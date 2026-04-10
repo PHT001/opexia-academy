@@ -67,11 +67,12 @@ export async function POST(req: NextRequest) {
   let userTier = "free";
 
   if (!isAdmin) {
-    const enrollment = await prisma.enrollment.findFirst({
+    const enrollments = await prisma.enrollment.findMany({
       where: { userId: session.user.id, status: "active" },
-      orderBy: { createdAt: "desc" },
     });
-    userTier = enrollment?.tier || "free";
+    const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+    const bestEnrollment = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] || 0) - (TIER_PRIORITY[a.tier] || 0))[0];
+    userTier = bestEnrollment?.tier || "free";
     if (userTier === "free") {
       return NextResponse.json({ error: "Acces reserve aux membres payants" }, { status: 403 });
     }

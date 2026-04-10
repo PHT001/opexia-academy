@@ -107,7 +107,7 @@ export default function Program() {
             7 phases pour tout changer
           </h2>
           <p className="mt-4 text-lg text-[#6B7280] max-w-2xl mx-auto">
-            85 leçons, 22 modules — du débutant complet au freelance IA rentable
+            86 leçons, 22 modules — du débutant complet au freelance IA rentable
           </p>
         </motion.div>
 

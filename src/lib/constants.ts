@@ -9,7 +9,7 @@ export const BADGES = [
   { id: "first_lesson", name: "Premier pas", description: "Complète ta première leçon", icon: "target" },
   { id: "module_1", name: "Fondations IA", description: "Termine le Module 1", icon: "cpu" },
   { id: "halfway", name: "Mi-parcours", description: "43 leçons complétées", icon: "bolt" },
-  { id: "graduate", name: "Diplôme Opexia", description: "85 leçons complétées", icon: "award" },
+  { id: "graduate", name: "Diplôme Opexia", description: "86 leçons complétées", icon: "award" },
 ] as const;
 
 export const MODULES = [
@@ -58,7 +58,7 @@ export interface ModuleMetadata {
 
 export const MODULE_METADATA: Record<number, ModuleMetadata> = {
   // Bloc 1 — Le cadre
-  1:  { brands: [],            difficulty: "debutant",       estimatedTime: "~1h",    lessonCount: 3  },
+  1:  { brands: [],            difficulty: "debutant",       estimatedTime: "~1h30",  lessonCount: 4  },
   2:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~1h30",  lessonCount: 4  },
   // Bloc 2 — Tes outils de travail
   3:  { brands: ["claude"],    difficulty: "debutant",       estimatedTime: "~2h",    lessonCount: 4  },
@@ -125,7 +125,7 @@ export const TIERS = [
     period: "one-shot",
     description: "Pour les curieux qui veulent comprendre avant de se lancer",
     features: [
-      { text: "Modules 1 & 2 de la formation (7 leçons)", included: true },
+      { text: "Modules 1 & 2 de la formation (8 leçons)", included: true },
       { text: "Atelier pratique : comparer les IA", included: true },
       { text: "Accès au Discord communautaire", included: true },
       { text: "Modules 3 à 22 (prompting, code, vente...)", included: false },
@@ -142,7 +142,7 @@ export const TIERS = [
     description: "La formation complète pour lancer ton agence IA",
     features: [
       { text: "Tout ce qui est dans Starter", included: true },
-      { text: "85 leçons progressives en 22 modules", included: true },
+      { text: "86 leçons progressives en 22 modules", included: true },
       { text: "Quiz de validation par leçon", included: true },
       { text: "Exercices pratiques + projets fil rouge", included: true },
       { text: "Aide rapide intégrée", included: true },

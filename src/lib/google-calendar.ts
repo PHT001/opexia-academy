@@ -105,8 +105,14 @@ export async function createCalendarEvent(
       sendUpdates: attendeeEmail ? "all" : "none",
     });
 
-    console.log("[Google Calendar] Event created:", response.data.id);
-    return response.data;
+    // Extract Meet link from conference data or hangout link
+    const meetLink =
+      response.data.conferenceData?.entryPoints?.find(
+        (ep: { entryPointType?: string }) => ep.entryPointType === "video"
+      )?.uri || response.data.hangoutLink || null;
+
+    console.log("[Google Calendar] Event created:", response.data.id, "Meet:", meetLink);
+    return { ...response.data, meetLink };
   } catch (error) {
     console.error("[Google Calendar] Error creating event:", error);
     return null;

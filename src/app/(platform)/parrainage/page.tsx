@@ -176,8 +176,8 @@ function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: 
               <div className="relative">
                 <div className="absolute inset-0 rounded-2xl bg-[#FF1744]/20 blur-xl" />
                 <div className="relative bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-8 text-center min-w-[180px]">
-                  <p className="text-5xl sm:text-6xl font-black text-white mb-1">20<span className="text-[#FF1744]">%</span></p>
-                  <p className="text-xs text-white/40 font-medium">par inscription</p>
+                  <p className="text-3xl sm:text-4xl font-black text-white mb-1">jusqu&apos;à 20<span className="text-[#FF1744]">%</span></p>
+                  <p className="text-xs text-white/40 font-medium">de commission par inscription</p>
                 </div>
               </div>
             </div>
@@ -272,7 +272,7 @@ function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: 
           {[
             { num: "1", title: "Partage", desc: "Envoie ton lien par message, email ou réseaux.", color: "#6C5CE7", emoji: "🔗" },
             { num: "2", title: "Inscription", desc: "Ton filleul choisit un forfait et crée son compte.", color: "#0984E3", emoji: "✍️" },
-            { num: "3", title: "Commission", desc: "Tu reçois 20% automatiquement. Simple.", color: "#10B981", emoji: "💰" },
+            { num: "3", title: "Commission", desc: "Tu reçois jusqu'à 20% automatiquement. Simple.", color: "#10B981", emoji: "💰" },
           ].map((s, i) => (
             <div key={s.num} className="relative">
               {/* Connector arrow (hidden on first, visible between cards) */}

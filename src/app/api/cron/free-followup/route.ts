@@ -102,6 +102,11 @@ export async function GET(req: NextRequest) {
     const dayOneUsers = await findFreeUsers(24);
     for (const user of dayOneUsers) {
       try {
+        const alreadySent = await prisma.emailLog.findFirst({
+          where: { userId: user.id, type: "free_followup", sequence: 1 },
+        });
+        if (alreadySent) continue;
+
         const variant = getAbVariant(user.email);
         const emailData = freeFollowupDayOne(user.name || "", variant);
         await resend.emails.send({
@@ -139,6 +144,11 @@ export async function GET(req: NextRequest) {
     const dayTwoUsers = await findFreeUsers(48);
     for (const user of dayTwoUsers) {
       try {
+        const alreadySent = await prisma.emailLog.findFirst({
+          where: { userId: user.id, type: "free_followup", sequence: 2 },
+        });
+        if (alreadySent) continue;
+
         const variant = getAbVariant(user.email);
         const emailData = freeFollowupDayTwo(user.name || "", variant);
         await resend.emails.send({
@@ -189,6 +199,18 @@ export async function GET(req: NextRequest) {
 
         const variant = getAbVariant(user.email);
         const emailData = freeFollowupDaySeven(user.name || "", variant, uniqueCode);
+
+        // Save discount code BEFORE sending email to avoid race condition
+        // If DB write fails, skip the email entirely
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            discountCode: uniqueCode,
+            discountPercent: 20,
+            discountExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          },
+        });
+
         await resend.emails.send({
           from: "Marius d'OpexIA <support@opexia-formation.com>",
           to: user.email,
@@ -197,19 +219,6 @@ export async function GET(req: NextRequest) {
         });
         sent++;
         daySevenSent++;
-        // Set discount expiry (24h from now) for the user
-        try {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: {
-              discountCode: uniqueCode,
-              discountPercent: 20,
-              discountExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-            },
-          });
-        } catch (discountErr) {
-          console.error(`Failed to set discount for ${user.email}:`, discountErr instanceof Error ? discountErr.message : discountErr);
-        }
         try {
           await prisma.emailLog.create({
             data: {

@@ -593,7 +593,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               )}
 
               <div className="mb-5 text-left space-y-2">
-                {["22 modules complets", "85 leçons progressives", "Quiz de validation", "Aide rapide intégrée"].map((f) => (
+                {["22 modules complets", "86 leçons progressives", "Quiz de validation", "Aide rapide intégrée"].map((f) => (
                   <div key={f} className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full bg-[#FF1744]/15 flex items-center justify-center flex-shrink-0">
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-[#FF1744]"><polyline points="20 6 9 17 4 12" /></svg>

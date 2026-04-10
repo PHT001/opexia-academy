@@ -12,7 +12,6 @@ const PLAN_TO_TIER: Record<string, string> = {
   starter: "starter",
   academy: "academy",
   one_to_one: "one_to_one",
-  one_to_one_test: "one_to_one",
 };
 
 export async function POST(req: NextRequest) {
@@ -71,23 +70,16 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        // Look up existing user by email
-        let user = await prisma.user.findFirst({
+        // Upsert to avoid race condition if two webhooks fire for the same guest email
+        const user = await prisma.user.upsert({
           where: { email: customerEmail.toLowerCase() },
+          create: {
+            email: customerEmail.toLowerCase(),
+            emailVerified: true,
+            role: "student",
+          },
+          update: {},
         });
-
-        if (!user) {
-          // Create a guest user (no password) — they must register to set a password
-          user = await prisma.user.create({
-            data: {
-              email: customerEmail.toLowerCase(),
-              emailVerified: false,
-              onboardingCompleted: false,
-              role: "student",
-            },
-          });
-          console.log(`Guest checkout: created user ${user.id} for email ${customerEmail}`);
-        }
 
         userId = user.id;
       } catch (guestErr) {
@@ -253,6 +245,11 @@ export async function POST(req: NextRequest) {
                 </div>
               `,
             });
+
+            // Log the welcome email
+            await prisma.emailLog.create({
+              data: { userId, type: "welcome", subject: emailContent.subject, status: "sent" },
+            }).catch(() => {});
           }
         } catch (emailError) {
           console.error("Failed to send welcome email:", emailError instanceof Error ? emailError.message : "Unknown error");
@@ -268,6 +265,12 @@ export async function POST(req: NextRequest) {
       };
 
       try {
+        // Idempotency: skip referral processing if already confirmed or paid
+        const existingReferral = await prisma.referral.findFirst({
+          where: { referredId: userId, status: { in: ["confirmed", "paid"] } },
+        });
+
+        if (!existingReferral) {
         // First check if a pending referral already exists (created at registration)
         let pendingReferral = await prisma.referral.findFirst({
           where: {
@@ -313,6 +316,7 @@ export async function POST(req: NextRequest) {
             console.warn(`Referral ${pendingReferral.id}: no commission for tier "${tier}"`);
           }
         }
+        } // end if (!existingReferral)
       } catch (referralError) {
         console.error("Failed to process referral commission:", referralError instanceof Error ? referralError.message : "Unknown error");
         // Don't fail the webhook if referral processing fails
@@ -348,12 +352,23 @@ export async function POST(req: NextRequest) {
           });
 
           if (user) {
-            // Suspend all active enrollments for this user
-            await prisma.enrollment.updateMany({
-              where: { userId: user.id, status: "active" },
-              data: { status: "suspended" },
-            });
-            console.log(`Suspended enrollments for user ${user.id} after ${invoice.attempt_count} failed payment attempts`);
+            // Suspend only the enrollment matching the subscription's tier
+            // Note: subscription.metadata.plan may not always be set (e.g. legacy subscriptions)
+            const subTier = PLAN_TO_TIER[subscription.metadata?.plan] || null;
+            if (subTier) {
+              await prisma.enrollment.updateMany({
+                where: { userId: user.id, status: "active", tier: subTier },
+                data: { status: "suspended" },
+              });
+              console.log(`Suspended ${subTier} enrollment for user ${user.id} after ${invoice.attempt_count} failed payment attempts`);
+            } else {
+              // Fallback: suspend all active enrollments if we cannot determine the tier
+              await prisma.enrollment.updateMany({
+                where: { userId: user.id, status: "active" },
+                data: { status: "suspended" },
+              });
+              console.warn(`Suspended ALL enrollments for user ${user.id} (could not determine tier from subscription metadata)`);
+            }
           }
         }
       } catch (err) {

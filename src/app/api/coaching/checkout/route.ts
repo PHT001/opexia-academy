@@ -20,6 +20,9 @@ export async function POST(req: NextRequest) {
   if (userTier === "free" && session.user.role !== "admin") {
     return NextResponse.json({ error: "Coaching reserve aux membres avec un abonnement actif" }, { status: 403 });
   }
+  if (userTier === "one_to_one") {
+    return NextResponse.json({ error: "En tant que membre One-to-One, tes sessions sont gratuites. Utilise la reservation directe." }, { status: 400 });
+  }
 
   try {
     const { slot, topic } = await req.json();
@@ -32,32 +35,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Creneau passe" }, { status: 400 });
     }
 
-    // Check slot is not already booked
-    const existing = await prisma.coachingSession.findFirst({
-      where: {
-        slot,
-        status: { in: ["pending", "confirmed"] },
-      },
-    });
+    // Use transaction to prevent race condition (check + create atomically)
+    const coachingSession = await prisma.$transaction(async (tx) => {
+      const existing = await tx.coachingSession.findFirst({
+        where: {
+          slot,
+          status: { in: ["pending", "confirmed"] },
+        },
+      });
 
-    if (existing) {
-      return NextResponse.json({ error: "Creneau deja reserve" }, { status: 409 });
-    }
+      if (existing) {
+        throw new Error("SLOT_TAKEN");
+      }
 
-    // Create pending coaching session
-    const coachingSession = await prisma.coachingSession.create({
-      data: {
-        userId: session.user.id,
-        date: slotDate,
-        slot,
-        status: "pending",
-        amount: COACHING_PRICE,
-        topic: topic || null,
-      },
+      return tx.coachingSession.create({
+        data: {
+          userId: session.user.id,
+          date: slotDate,
+          slot,
+          status: "pending",
+          amount: COACHING_PRICE,
+          topic: topic || null,
+        },
+      });
     });
 
     // Create Stripe Checkout session
-    const origin = req.headers.get("origin") || process.env.NEXTAUTH_URL || "http://localhost:3000";
+    const origin = process.env.NEXTAUTH_URL || req.headers.get("origin") || "https://opexia-formation.com";
 
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -95,6 +99,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
+    if (error instanceof Error && error.message === "SLOT_TAKEN") {
+      return NextResponse.json({ error: "Ce créneau vient d'être réservé. Choisis un autre horaire." }, { status: 409 });
+    }
     console.error("POST /api/coaching/checkout error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }

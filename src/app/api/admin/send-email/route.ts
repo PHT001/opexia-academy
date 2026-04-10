@@ -57,17 +57,17 @@ export async function POST(req: NextRequest) {
 
     // Build user filter based on tier/filter value
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let where: any = { role: "student" };
+    let where: any = { role: "student", isBot: false };
     let users: { id: string; email: string; name: string | null }[];
 
     if (tier === "free") {
       // Users with "free" enrollment or no enrollment at all
       const freeEnrolled = await prisma.user.findMany({
-        where: { role: "student", enrollments: { some: { tier: "free" } } },
+        where: { role: "student", isBot: false, enrollments: { some: { tier: "free" } } },
         select: { id: true, email: true, name: true },
       });
       const noEnrollment = await prisma.user.findMany({
-        where: { role: "student", enrollments: { none: {} } },
+        where: { role: "student", isBot: false, enrollments: { none: {} } },
         select: { id: true, email: true, name: true },
       });
       const seen = new Set<string>();
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       const fourteenDaysAgo = new Date();
       fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
       const allStudents = await prisma.user.findMany({
-        where: { role: "student" },
+        where: { role: "student", isBot: false },
         select: {
           id: true,
           email: true,
@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
     } else if (tier === "no_purchase") {
       // Users with no enrollment at all
       users = await prisma.user.findMany({
-        where: { role: "student", enrollments: { none: {} } },
+        where: { role: "student", isBot: false, enrollments: { none: {} } },
         select: { id: true, email: true, name: true },
       });
     } else {
@@ -186,10 +186,10 @@ export async function GET(req: NextRequest) {
 
       if (tier === "free") {
         const freeEnrolled = await prisma.user.count({
-          where: { role: "student", enrollments: { some: { tier: "free" } } },
+          where: { role: "student", isBot: false, enrollments: { some: { tier: "free" } } },
         });
         const noEnrollment = await prisma.user.count({
-          where: { role: "student", enrollments: { none: {} } },
+          where: { role: "student", isBot: false, enrollments: { none: {} } },
         });
         // Approximate (may double-count, but close enough for preview)
         count = freeEnrolled + noEnrollment;
@@ -197,7 +197,7 @@ export async function GET(req: NextRequest) {
         const fourteenDaysAgo = new Date();
         fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
         const allStudents = await prisma.user.findMany({
-          where: { role: "student" },
+          where: { role: "student", isBot: false },
           select: { streaks: { orderBy: { date: "desc" as const }, take: 1 } },
         });
         count = allStudents.filter((u) => {
@@ -206,14 +206,14 @@ export async function GET(req: NextRequest) {
         }).length;
       } else if (tier === "no_purchase") {
         count = await prisma.user.count({
-          where: { role: "student", enrollments: { none: {} } },
+          where: { role: "student", isBot: false, enrollments: { none: {} } },
         });
       } else if (tier && tier !== "tous") {
         count = await prisma.user.count({
-          where: { role: "student", enrollments: { some: { tier } } },
+          where: { role: "student", isBot: false, enrollments: { some: { tier } } },
         });
       } else {
-        count = await prisma.user.count({ where: { role: "student" } });
+        count = await prisma.user.count({ where: { role: "student", isBot: false } });
       }
 
       return NextResponse.json({ count });

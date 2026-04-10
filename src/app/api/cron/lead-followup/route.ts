@@ -34,9 +34,9 @@ export async function GET(req: NextRequest) {
   let errors = 0;
 
   try {
-    // Find leads created ~7 days ago (±2h window)
-    const windowStart = new Date(now.getTime() - (168 + 2) * 60 * 60 * 1000);
-    const windowEnd = new Date(now.getTime() - (168 - 2) * 60 * 60 * 1000);
+    // Find leads created ~7 days ago (±1h window to reduce duplicate risk)
+    const windowStart = new Date(now.getTime() - (168 + 1) * 60 * 60 * 1000);
+    const windowEnd = new Date(now.getTime() - (168 - 1) * 60 * 60 * 1000);
 
     const leads = await prisma.lead.findMany({
       where: {
@@ -69,6 +69,15 @@ export async function GET(req: NextRequest) {
           html: emailData.html,
         });
         sent++;
+        // Mark lead as contacted to prevent duplicate sends on retry
+        try {
+          await prisma.lead.update({
+            where: { id: lead.id },
+            data: { status: "contacted" },
+          });
+        } catch (updateErr) {
+          console.error(`[Lead followup] Failed to update status for ${lead.email}:`, updateErr instanceof Error ? updateErr.message : updateErr);
+        }
       } catch (err) {
         console.error(`[Lead followup] Failed J+7 for ${lead.email}:`, err instanceof Error ? err.message : err);
         errors++;

@@ -39,6 +39,7 @@ export async function GET(req: NextRequest) {
       where: {
         status: "active",
         createdAt: { gte: dayOneStart, lte: dayOneEnd },
+        user: { isBot: false },
       },
       select: {
         user: {
@@ -58,6 +59,11 @@ export async function GET(req: NextRequest) {
 
     for (const user of dayOneUsers.values()) {
       try {
+        const alreadySent = await prisma.emailLog.findFirst({
+          where: { userId: user.id, type: "drip", sequence: 1 },
+        });
+        if (alreadySent) continue;
+
         const emailData = dayOneEmail(user.name || "");
         await resend.emails.send({
           from: "Marius d'OpexIA <support@opexia-formation.com>",
@@ -96,6 +102,7 @@ export async function GET(req: NextRequest) {
       where: {
         status: "active",
         createdAt: { gte: dayThreeStart, lte: dayThreeEnd },
+        user: { isBot: false },
       },
       select: {
         user: {
@@ -114,6 +121,11 @@ export async function GET(req: NextRequest) {
 
     for (const user of dayThreeUsers.values()) {
       try {
+        const alreadySent = await prisma.emailLog.findFirst({
+          where: { userId: user.id, type: "drip", sequence: 2 },
+        });
+        if (alreadySent) continue;
+
         const emailData = dayThreeEmail(user.name || "");
         await resend.emails.send({
           from: "Marius d'OpexIA <support@opexia-formation.com>",
