@@ -2,6 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 
+const GREEN_MODULES = new Set([3, 4, 5, 6, 7]);
+function mc(mod: number) { return GREEN_MODULES.has(mod) ? "#22C55E" : "#FF1744"; }
+
 const SLIDES = [
   { file: "M1-L0-Bienvenue", module: 1, lesson: "L0", title: "Bienvenue - Ce qui t'attend" },
   { file: "M1-L2-Vibe-Coding", module: 1, lesson: "L2", title: "Le Vibe Coding" },
@@ -137,23 +140,24 @@ export default function AdminSlidesPage() {
           <button
             key={slide.file}
             onClick={() => setActiveSlide(slide.file)}
-            className="group flex items-center gap-4 p-4 rounded-xl border border-gray-200 bg-white hover:border-[#FF1744]/30 hover:bg-gray-50 transition-all duration-150 text-left"
+            className="group flex items-center gap-4 p-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-all duration-150 text-left"
+            style={{ "--mc": mc(slide.module) } as React.CSSProperties}
           >
             {/* Module number circle */}
-            <div className="w-11 h-11 rounded-xl bg-[#FF1744]/8 flex items-center justify-center shrink-0 group-hover:bg-[#FF1744]/15 transition-colors">
-              <span className="text-sm font-bold text-[#FF1744]">M{slide.module}</span>
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors" style={{ backgroundColor: `${mc(slide.module)}14` }}>
+              <span className="text-sm font-bold" style={{ color: mc(slide.module) }}>M{slide.module}</span>
             </div>
 
             {/* Text */}
             <div className="min-w-0 flex-1">
-              <p className="text-[13px] font-semibold text-[#111] leading-snug truncate group-hover:text-[#FF1744] transition-colors">
+              <p className="text-[13px] font-semibold text-[#111] leading-snug truncate transition-colors">
                 {slide.title}
               </p>
               <p className="text-[11px] text-gray-400 mt-0.5">{slide.lesson}</p>
             </div>
 
             {/* Arrow */}
-            <svg className="w-4 h-4 text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="w-4 h-4 text-gray-300 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
