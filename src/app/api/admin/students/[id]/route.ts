@@ -167,6 +167,10 @@ export async function GET(
     (a, b) => a.moduleOrder - b.moduleOrder
   );
 
+  const totalLessons = moduleProgress.reduce((s, m) => s + m.totalLessons, 0);
+  const completedLessons = moduleProgress.reduce((s, m) => s + m.completedLessons, 0);
+  const completionPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
   // XP timeline from progress entries
   const xpTimeline = user.progress
     .filter((p) => p.xpEarned > 0 && p.completedAt)
@@ -200,8 +204,11 @@ export async function GET(
         }
       : null,
     totalXP,
+    totalLessons,
+    completedLessons,
+    completionPercentage,
     moduleProgress,
-    quizHistory: user.quizSubmissions.map((q) => ({
+    quizSubmissions: user.quizSubmissions.map((q) => ({
       id: q.id,
       lessonTitle: q.quiz.lesson.title,
       lessonSlug: q.quiz.lesson.slug,

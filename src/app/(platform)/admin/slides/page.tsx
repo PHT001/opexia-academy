@@ -129,35 +129,32 @@ export default function AdminSlidesPage() {
 
   /* ── Grid view ── */
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#111] mb-1">Diapositives</h1>
-        <p className="text-sm text-gray-500">{SLIDES.length} presentations</p>
-      </div>
+    <div>
+      <h1 className="text-3xl font-bold mb-2">Diapositives</h1>
+      <p className="text-text-secondary mb-8">{SLIDES.length} presentations</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {SLIDES.map((slide, i) => (
+        {SLIDES.map((slide) => (
           <button
             key={slide.file}
             onClick={() => setActiveSlide(slide.file)}
-            className="group flex items-center gap-4 p-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-all duration-150 text-left"
-            style={{ "--mc": mc(slide.module) } as React.CSSProperties}
+            className="group flex items-center gap-4 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-150 text-left"
           >
             {/* Module number circle */}
-            <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors" style={{ backgroundColor: `${mc(slide.module)}14` }}>
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors" style={{ backgroundColor: `${mc(slide.module)}20` }}>
               <span className="text-sm font-bold" style={{ color: mc(slide.module) }}>M{slide.module}</span>
             </div>
 
             {/* Text */}
             <div className="min-w-0 flex-1">
-              <p className="text-[13px] font-semibold text-[#111] leading-snug truncate transition-colors">
+              <p className="text-[13px] font-semibold text-white leading-snug truncate transition-colors">
                 {slide.title}
               </p>
-              <p className="text-[11px] text-gray-400 mt-0.5">{slide.lesson}</p>
+              <p className="text-[11px] text-white/40 mt-0.5">{slide.lesson}</p>
             </div>
 
             {/* Arrow */}
-            <svg className="w-4 h-4 text-gray-300 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="w-4 h-4 text-white/20 group-hover:text-white/50 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>

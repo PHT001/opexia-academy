@@ -15,13 +15,15 @@ export default function AdminQuizzesPage() {
   useEffect(() => {
     fetch("/api/lessons")
       .then((r) => r.json())
-      .then((data: { modules: Array<{ lessons: Array<{ title: string; order: number; questionCount?: number }> }> }) => {
+      .then((data: { modules: Array<{ lessons: Array<{ title: string; order: number; hasQuiz?: boolean; questionCount?: number }> }> }) => {
         const flat = (data.modules || []).flatMap((m) =>
-          m.lessons.map((l) => ({
-            lessonTitle: l.title,
-            lessonOrder: l.order,
-            questionCount: l.questionCount ?? 5,
-          }))
+          m.lessons
+            .filter((l) => l.hasQuiz)
+            .map((l) => ({
+              lessonTitle: l.title,
+              lessonOrder: l.order,
+              questionCount: l.questionCount ?? 0,
+            }))
         );
         setQuizzes(flat);
       })

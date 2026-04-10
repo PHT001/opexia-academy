@@ -47,7 +47,6 @@ export default function StudentsPage() {
   const [search, setSearch] = useState("");
   const [tier, setTier] = useState("all");
   const [sort, setSort] = useState("createdAt_desc");
-  const [hideBots, setHideBots] = useState(false);
   const [page, setPage] = useState(1);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -58,14 +57,12 @@ export default function StudentsPage() {
     const params = new URLSearchParams({ page: String(page), sort });
     if (search) params.set("search", search);
     if (tier !== "all") params.set("tier", tier);
-    if (hideBots) params.set("hideBots", "true");
-
     fetch(`/api/admin/students?${params}`)
       .then((r) => r.json())
       .then((d: StudentsResponse) => setData(d))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [page, search, tier, sort, hideBots]);
+  }, [page, search, tier, sort]);
 
   useEffect(() => {
     const timeout = setTimeout(fetchStudents, search ? 300 : 0);
@@ -75,7 +72,7 @@ export default function StudentsPage() {
   // Reset page when filters change
   useEffect(() => {
     setPage(1);
-  }, [search, tier, sort, hideBots]);
+  }, [search, tier, sort]);
 
   const formatRelative = (dateStr: string | null) => {
     if (!dateStr) return "—";
@@ -148,16 +145,6 @@ export default function StudentsPage() {
             </option>
           ))}
         </select>
-        <button
-          onClick={() => setHideBots((h) => !h)}
-          className={`px-4 py-2.5 rounded-xl text-sm font-medium border transition-all whitespace-nowrap ${
-            hideBots
-              ? "bg-red-500/20 border-red-500/40 text-red-400"
-              : "bg-glass-bg border-glass-border text-text-secondary hover:text-text-primary"
-          }`}
-        >
-          {hideBots ? "Afficher les bots" : "Masquer les bots"}
-        </button>
       </div>
 
       {/* Table */}
