@@ -706,14 +706,13 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               </div>
               <div className="flex flex-col gap-0.5">
                 {[
-                  { href: "/admin", label: "Dashboard Admin", icon: IconDashboard },
                   { href: "/dashboard", label: "Accueil", icon: IconHome },
                   { href: "/admin/students", label: "Élèves", icon: IconUsers },
                   { href: "/coaching", label: "Coaching", icon: IconPhone },
                   { href: "/admin/emails", label: "Emails", icon: IconMail },
                   { href: "/admin/analytics", label: "Analytics", icon: IconChart },
                 ].map((item) => {
-                  const active = item.href === "/admin" ? pathname === "/admin" : pathname === item.href || pathname.startsWith(item.href + "/");
+                  const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
                   return (
                     <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
