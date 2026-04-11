@@ -113,6 +113,57 @@ export async function POST(request: Request) {
       }
     }
 
+    // Notify admin of new registration
+    if (resend) {
+      try {
+        // Determine the user's tier
+        const enrollment = await prisma.enrollment.findFirst({
+          where: { userId: user.id, status: "active" },
+          orderBy: { createdAt: "desc" },
+        });
+        const tier = enrollment?.tier || "free";
+        const tierLabels: Record<string, string> = {
+          free: "Gratuit (0€)",
+          starter: "Starter (47€)",
+          academy: "Academy (497€)",
+          one_to_one: "One-to-One (2 497€)",
+        };
+        const tierLabel = tierLabels[tier] || tier;
+
+        await resend.emails.send({
+          from: "OpexIA Notifications <support@opexia-formation.com>",
+          to: "support@opexia-formation.com",
+          subject: `🎓 Nouvel élève inscrit — ${tierLabel}`,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 520px; margin: 0 auto; padding: 32px 20px;">
+              <h2 style="color: #1A1A2E; margin-bottom: 16px;">Nouvel élève inscrit</h2>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+                <tr>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px; width: 100px;">Nom</td>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #111; font-size: 14px; font-weight: 600;">${user.name || "Non renseigné"}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px;">Email</td>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #111; font-size: 14px; font-weight: 600;">${user.email}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px;">Formule</td>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #FF1744; font-size: 14px; font-weight: 700;">${tierLabel}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; color: #6B7280; font-size: 13px;">Date</td>
+                  <td style="padding: 10px 12px; color: #111; font-size: 14px;">${new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" })}</td>
+                </tr>
+              </table>
+              <a href="https://www.opexia-formation.com/admin" style="display: inline-block; background: #1A1A2E; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 10px; font-size: 13px; font-weight: 600;">Voir le dashboard admin</a>
+            </div>
+          `,
+        });
+      } catch (notifError) {
+        console.error("Failed to send admin notification:", notifError instanceof Error ? notifError.message : "Unknown error");
+      }
+    }
+
     // Mark lead as converted if they exist in the Lead table
     await prisma.lead.updateMany({
       where: { email: email.toLowerCase(), status: "active" },
