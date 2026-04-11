@@ -16,6 +16,7 @@ interface Student {
   discordUsername: string | null;
   totalXP: number;
   isBot: boolean;
+  isLead?: boolean;
 }
 
 interface StudentsResponse {
@@ -26,6 +27,7 @@ interface StudentsResponse {
 }
 
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string }> = {
+  lead: { bg: "bg-purple-50", text: "text-purple-600", label: "Lead" },
   free: { bg: "bg-gray-100", text: "text-gray-500", label: "Gratuit" },
   starter: { bg: "bg-emerald-50", text: "text-emerald-600", label: "Starter" },
   academy: { bg: "bg-blue-50", text: "text-blue-600", label: "Academy" },
@@ -128,7 +130,8 @@ export default function StudentsPage() {
           onChange={(e) => setTier(e.target.value)}
           className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[#111] text-sm focus:outline-none focus:border-gray-400 transition-all appearance-none cursor-pointer"
         >
-          <option value="all">Tous les tiers</option>
+          <option value="all">Tous</option>
+          <option value="lead">Leads</option>
           <option value="free">Gratuit</option>
           <option value="starter">Starter</option>
           <option value="academy">Academy</option>
@@ -176,36 +179,39 @@ export default function StudentsPage() {
                 data.students.map((student) => {
                   const pct = student.totalLessons > 0 ? Math.round((student.completedLessons / student.totalLessons) * 100) : 0;
                   const badge = student.tier ? TIER_BADGE[student.tier] : null;
+                  const isLead = student.isLead;
 
-                  return (
-                    <Link key={student.id} href={`/admin/students/${student.id}`} className="contents">
-                      <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer group">
-                        <td className="px-5 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-[#111] shrink-0">
-                              {(student.name || student.email)[0].toUpperCase()}
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-1.5">
-                                <p className="text-sm font-medium text-[#111] truncate group-hover:text-[#FF1744] transition-colors">
-                                  {student.name || "Sans nom"}
-                                </p>
-                                {student.isBot && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" title="Bot" />}
-                              </div>
-                              <p className="text-xs text-gray-400 truncate">{student.email}</p>
-                            </div>
+                  const row = (
+                    <tr key={student.id} className={`border-b border-gray-50 hover:bg-gray-50 transition-colors group ${isLead ? "" : "cursor-pointer"}`}>
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isLead ? "bg-purple-100 text-purple-600" : "bg-gray-100 text-[#111]"}`}>
+                            {(student.name || student.email)[0].toUpperCase()}
                           </div>
-                        </td>
-                        <td className="px-5 py-4">
-                          {badge ? (
-                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}>
-                              {badge.label}
-                            </span>
-                          ) : (
-                            <span className="text-xs text-gray-400">{"\u2014"}</span>
-                          )}
-                        </td>
-                        <td className="px-5 py-4">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <p className={`text-sm font-medium truncate transition-colors ${isLead ? "text-gray-500" : "text-[#111] group-hover:text-[#FF1744]"}`}>
+                                {student.name || (isLead ? student.email.split("@")[0] : "Sans nom")}
+                              </p>
+                              {student.isBot && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" title="Bot" />}
+                            </div>
+                            <p className="text-xs text-gray-400 truncate">{student.email}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-5 py-4">
+                        {badge ? (
+                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}>
+                            {badge.label}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-gray-400">{"\u2014"}</span>
+                        )}
+                      </td>
+                      <td className="px-5 py-4">
+                        {isLead ? (
+                          <span className="text-xs text-gray-300">{"\u2014"}</span>
+                        ) : (
                           <div className="flex items-center gap-3">
                             <div className="w-24">
                               <ProgressBar value={pct} size="sm" showLabel={false} />
@@ -214,17 +220,27 @@ export default function StudentsPage() {
                               {student.completedLessons}/{student.totalLessons}
                             </span>
                           </div>
-                        </td>
-                        <td className="px-5 py-4">
+                        )}
+                      </td>
+                      <td className="px-5 py-4">
+                        {isLead ? (
+                          <span className="text-xs text-gray-300">{"\u2014"}</span>
+                        ) : (
                           <span className="text-sm font-medium text-[#111]">{student.totalXP.toLocaleString("fr-FR")}</span>
-                        </td>
-                        <td className="px-5 py-4">
-                          <span className="text-sm text-gray-500">{formatRelative(student.lastActive)}</span>
-                        </td>
-                        <td className="px-5 py-4 text-center">
+                        )}
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className="text-sm text-gray-500">{formatRelative(student.lastActive || student.createdAt)}</span>
+                      </td>
+                      <td className="px-5 py-4 text-center">
+                        {isLead ? (
+                          <span className="text-xs text-gray-300">{"\u2014"}</span>
+                        ) : (
                           <span className={`inline-block w-2.5 h-2.5 rounded-full ${student.discordUsername ? "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.4)]" : "bg-gray-200"}`} />
-                        </td>
-                        <td className="px-3 py-4 text-center">
+                        )}
+                      </td>
+                      <td className="px-3 py-4 text-center">
+                        {!isLead && (
                           <button
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
                             disabled={deletingId === student.id}
@@ -236,10 +252,13 @@ export default function StudentsPage() {
                             </svg>
                             Supprimer
                           </button>
-                        </td>
-                      </tr>
-                    </Link>
+                        )}
+                      </td>
+                    </tr>
                   );
+
+                  if (isLead) return row;
+                  return <Link key={student.id} href={`/admin/students/${student.id}`} className="contents">{row}</Link>;
                 })
               )}
             </tbody>

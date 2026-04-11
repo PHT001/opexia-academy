@@ -144,6 +144,22 @@ export async function POST(req: NextRequest) {
         });
       }
 
+      // Mark lower-tier enrollments as upgraded
+      const TIER_RANK: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+      const newRank = TIER_RANK[tier] ?? 0;
+      if (newRank > 0) {
+        const lowerTiers = Object.entries(TIER_RANK)
+          .filter(([, rank]) => rank < newRank)
+          .map(([t]) => t);
+
+        if (lowerTiers.length > 0) {
+          await prisma.enrollment.updateMany({
+            where: { userId, tier: { in: lowerTiers }, status: "active" },
+            data: { status: "upgraded" },
+          });
+        }
+      }
+
       // Clear discount code after successful payment to prevent reuse
       await prisma.user.update({
         where: { id: userId },

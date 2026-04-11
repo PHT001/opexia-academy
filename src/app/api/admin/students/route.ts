@@ -20,7 +20,56 @@ export async function GET(req: NextRequest) {
 
   const totalLessons = await prisma.lesson.count();
 
-  // Build where clause — always exclude bots
+  // ── Lead-only query ──
+  if (tier === "lead") {
+    // Get all user emails to exclude leads who already have accounts
+    const userEmails = new Set(
+      (await prisma.user.findMany({ where: { role: "student" }, select: { email: true } }))
+        .map((u) => u.email.toLowerCase())
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const leadWhere: any = {};
+    if (search) {
+      leadWhere.email = { contains: search, mode: "insensitive" };
+    }
+
+    const totalLeads = await prisma.lead.count({ where: leadWhere });
+    const leads = await prisma.lead.findMany({
+      where: leadWhere,
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    // Filter out leads who have accounts
+    const pureLeads = leads.filter((l) => !userEmails.has(l.email.toLowerCase()));
+    const totalPure = totalLeads - (leads.length - pureLeads.length); // approximate
+
+    const result = pureLeads.map((l) => ({
+      id: `lead_${l.id}`,
+      name: null,
+      email: l.email,
+      createdAt: l.createdAt.toISOString(),
+      completedLessons: 0,
+      totalLessons,
+      tier: "lead" as string | null,
+      lastActive: null as string | null,
+      discordUsername: null as string | null,
+      totalXP: 0,
+      isBot: false,
+      isLead: true,
+    }));
+
+    return NextResponse.json({
+      students: result,
+      total: totalPure,
+      page,
+      totalPages: Math.ceil(totalPure / limit),
+    });
+  }
+
+  // ── Standard user query ──
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = { role: "student", isBot: false };
 
@@ -31,13 +80,12 @@ export async function GET(req: NextRequest) {
     ];
   }
 
-  if (tier) {
+  if (tier && tier !== "all") {
     where.enrollments = { some: { tier } };
   }
 
-  // Count total
-  const total = await prisma.user.count({ where });
-  const totalPages = Math.ceil(total / limit);
+  // Count total users
+  const totalUsers = await prisma.user.count({ where });
 
   // Determine sort field
   const dbSorts = ["createdAt", "name", "email"];
@@ -53,7 +101,7 @@ export async function GET(req: NextRequest) {
     include: {
       progress: { where: { status: "completed" } },
       streaks: { orderBy: { date: "desc" }, take: 1 },
-      enrollments: { orderBy: { createdAt: "desc" }, take: 1 },
+      enrollments: { where: { status: "active" }, orderBy: { createdAt: "desc" }, take: 1 },
     },
   });
 
@@ -81,6 +129,7 @@ export async function GET(req: NextRequest) {
     discordUsername: s.discordUsername || null,
     totalXP: xpMap[s.id] || 0,
     isBot: s.isBot,
+    isLead: false,
   }));
 
   // Post-sort by XP or progress if needed
@@ -91,11 +140,61 @@ export async function GET(req: NextRequest) {
   // Paginate post-sorted results
   if (isPostSort) result = result.slice((page - 1) * limit, page * limit);
 
+  // ── If "all": also fetch pure leads (no account) and merge ──
+  let totalWithLeads = totalUsers;
+  if (!tier || tier === "all") {
+    // Get emails of all students to exclude from leads
+    const allStudentEmails = new Set(
+      (await prisma.user.findMany({
+        where: { role: "student" },
+        select: { email: true },
+      })).map((u) => u.email.toLowerCase())
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const leadSearch: any = {};
+    if (search) {
+      leadSearch.email = { contains: search, mode: "insensitive" };
+    }
+
+    const allLeads = await prisma.lead.findMany({
+      where: leadSearch,
+      orderBy: { createdAt: "desc" },
+      take: 50, // cap leads shown in "all" view
+    });
+
+    const pureLeads = allLeads.filter((l) => !allStudentEmails.has(l.email.toLowerCase()));
+
+    const leadResults = pureLeads.map((l) => ({
+      id: `lead_${l.id}`,
+      name: null,
+      email: l.email,
+      createdAt: l.createdAt.toISOString(),
+      completedLessons: 0,
+      totalLessons,
+      tier: "lead" as string | null,
+      lastActive: null as string | null,
+      discordUsername: null as string | null,
+      totalXP: 0,
+      isBot: false,
+      isLead: true,
+    }));
+
+    // Merge: add leads at the end, then re-sort by date
+    result = [...result, ...leadResults].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    // Re-paginate merged results
+    totalWithLeads = totalUsers + pureLeads.length;
+    result = result.slice((page - 1) * limit, page * limit);
+  }
+
   return NextResponse.json({
     students: result,
-    total,
+    total: (!tier || tier === "all") ? totalWithLeads : totalUsers,
     page,
-    totalPages,
+    totalPages: Math.ceil(((!tier || tier === "all") ? totalWithLeads : totalUsers) / limit),
   });
   } catch (error) {
     console.error("GET /api/admin/students error:", error);

@@ -83,11 +83,20 @@ const html = `<!DOCTYPE html>
   h3 {
     font-size: 13pt;
     font-weight: 700;
-    margin-top: 22px;
-    margin-bottom: 8px;
+    margin-top: 18px;
+    margin-bottom: 6px;
     color: #1a1a2e;
+    page-break-after: avoid;
+    break-after: avoid;
   }
-  p, li { color: #374151; margin-bottom: 6px; }
+  p, li {
+    color: #374151;
+    margin-bottom: 6px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
 
   .subtitle {
     color: #6B7280;
@@ -126,7 +135,10 @@ const html = `<!DOCTYPE html>
     border-collapse: collapse;
     margin: 14px 0 20px;
     font-size: 10pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
+  thead { display: table-header-group; }
   th {
     background: #1a1a2e;
     color: white;
@@ -152,6 +164,8 @@ const html = `<!DOCTYPE html>
     font-style: italic;
     color: #374151;
     font-size: 10.5pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   .tip-box {
@@ -160,6 +174,8 @@ const html = `<!DOCTYPE html>
     border-radius: 12px;
     padding: 20px 24px;
     margin: 20px 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
   .tip-box p { color: #E5E7EB; }
   .tip-box strong { color: #FF1744; }

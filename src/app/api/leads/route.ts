@@ -59,12 +59,42 @@ export async function POST(request: Request) {
         console.error("[Lead] Failed to send guide email:", err);
       });
 
-      // Send notification to admin
+      // Send notification to admin (styled HTML)
+      const leadDate = new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
       await resend.emails.send({
-        from: "OpexIA <support@opexia-formation.com>",
+        from: "OpexIA Notifications <support@opexia-formation.com>",
         to: "support@opexia-formation.com",
-        subject: `Nouveau lead — ${email}`,
-        text: `Un nouveau lead a téléchargé le guide des 5 niches IA.\n\nEmail : ${email}\nDate : ${new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" })}`,
+        subject: `Nouveau lead - Guide IA`,
+        html: `
+          <meta charset="utf-8" />
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 520px; margin: 0 auto; padding: 32px 20px;">
+            <div style="background: #7C3AED; color: #fff; padding: 14px 20px; border-radius: 12px 12px 0 0; font-size: 15px; font-weight: 700;">Nouveau lead</div>
+            <div style="border: 1px solid #E5E7EB; border-top: none; border-radius: 0 0 12px 12px; padding: 0;">
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px; width: 100px;">Email</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #111; font-size: 14px; font-weight: 600;">${email}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px;">Source</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #7C3AED; font-size: 14px; font-weight: 700;">Guide 5 niches IA</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px;">Statut</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #111; font-size: 14px;">Lead (non inscrit)</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; color: #6B7280; font-size: 13px;">Date</td>
+                  <td style="padding: 12px 16px; color: #111; font-size: 14px;">${leadDate}</td>
+                </tr>
+              </table>
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+              <a href="https://www.opexia-formation.com/admin/students" style="display: inline-block; background: #1A1A2E; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 10px; font-size: 13px; font-weight: 600;">Voir les leads</a>
+            </div>
+            <p style="color: #9CA3AF; font-size: 11px; text-align: center; margin-top: 16px;">OpexIA Academy - Notification automatique</p>
+          </div>
+        `,
       }).catch((err) => {
         console.error("[Lead] Failed to send admin notification:", err);
       });
