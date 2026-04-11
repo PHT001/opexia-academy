@@ -47,14 +47,6 @@ const TYPES = [
       "Décris le produit, la cible, le canal (newsletter, landing page, pub)...",
   },
   {
-    value: "email",
-    label: "Email client",
-    desc: "Rédige un email professionnel à un client",
-    icon: "M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75",
-    placeholder:
-      "Décris le contexte (suivi projet, relance, onboarding, facturation)...",
-  },
-  {
     value: "prompt",
     label: "Prompt IA",
     desc: "Génère un prompt pro pour Claude ou ChatGPT",
