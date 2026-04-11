@@ -27,6 +27,7 @@ interface StudentsResponse {
 }
 
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string }> = {
+  free: { bg: "bg-white/[0.08]", text: "text-text-secondary", label: "Gratuit" },
   starter: { bg: "bg-emerald-500/20", text: "text-emerald-400", label: "Starter" },
   academy: { bg: "bg-blue-500/20", text: "text-blue-400", label: "Academy" },
   one_to_one: { bg: "bg-[#FF1744]/20", text: "text-[#FF1744]", label: "One-to-One" },
@@ -130,6 +131,7 @@ export default function StudentsPage() {
           className="px-4 py-2.5 bg-glass-bg border border-glass-border rounded-xl text-text-primary text-sm focus:outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
         >
           <option value="all">Tous les tiers</option>
+          <option value="free">Gratuit</option>
           <option value="starter">Starter</option>
           <option value="academy">Academy</option>
           <option value="one_to_one">One-to-One</option>
@@ -181,13 +183,13 @@ export default function StudentsPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-5 py-12 text-center text-text-tertiary text-sm">
+                  <td colSpan={8} className="px-5 py-12 text-center text-text-tertiary text-sm">
                     Chargement...
                   </td>
                 </tr>
               ) : !data?.students.length ? (
                 <tr>
-                  <td colSpan={7} className="px-5 py-12 text-center text-text-tertiary text-sm">
+                  <td colSpan={8} className="px-5 py-12 text-center text-text-tertiary text-sm">
                     Aucun eleve trouve
                   </td>
                 </tr>

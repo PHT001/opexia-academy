@@ -45,7 +45,7 @@ interface StudentDetail {
   completionPercentage: number;
   totalXP: number;
   moduleProgress: ModuleProgress[];
-  quizSubmissions: QuizSubmission[];
+  quizHistory: QuizSubmission[];
   streaks: { date: string }[];
   currentStreak: number;
   longestStreak: number;
@@ -71,6 +71,7 @@ const EMAIL_TYPE_BADGE: Record<string, { bg: string; text: string; label: string
 };
 
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string; avatar: string }> = {
+  free: { bg: "bg-white/[0.08]", text: "text-text-secondary", label: "Gratuit", avatar: "bg-white/[0.08] text-white" },
   starter: { bg: "bg-emerald-500/20", text: "text-emerald-400", label: "Starter", avatar: "bg-emerald-500/30 text-emerald-300" },
   academy: { bg: "bg-blue-500/20", text: "text-blue-400", label: "Academy", avatar: "bg-blue-500/30 text-blue-300" },
   one_to_one: { bg: "bg-[#FF1744]/20", text: "text-[#FF1744]", label: "One-to-One", avatar: "bg-[#FF1744]/30 text-[#FF1744]" },
@@ -184,9 +185,9 @@ export default function StudentDetailPage() {
   }, [student]);
 
   const avgQuizScore = useMemo(() => {
-    if (!student?.quizSubmissions.length) return 0;
-    const sum = student.quizSubmissions.reduce((a, q) => a + q.score, 0);
-    return Math.round(sum / student.quizSubmissions.length);
+    if (!student?.quizHistory.length) return 0;
+    const sum = student.quizHistory.reduce((a, q) => a + q.score, 0);
+    return Math.round(sum / student.quizHistory.length);
   }, [student]);
 
   if (loading) {
@@ -394,8 +395,8 @@ export default function StudentDetailPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {student.quizSubmissions.length ? (
-                    student.quizSubmissions.map((quiz, i) => (
+                  {student.quizHistory.length ? (
+                    student.quizHistory.map((quiz, i) => (
                       <tr key={i} className="border-b border-white/[0.03]">
                         <td className="px-5 py-3 text-sm text-text-primary truncate max-w-[200px]">
                           {quiz.lessonTitle}
