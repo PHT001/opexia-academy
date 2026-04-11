@@ -208,7 +208,7 @@ export async function GET(
     completedLessons,
     completionPercentage,
     moduleProgress,
-    quizSubmissions: user.quizSubmissions.map((q) => ({
+    quizHistory: user.quizSubmissions.map((q) => ({
       id: q.id,
       lessonTitle: q.quiz.lesson.title,
       lessonSlug: q.quiz.lesson.slug,
