@@ -3,7 +3,6 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 interface EmailLog {
@@ -67,15 +66,24 @@ const EMAIL_TYPE_BADGE: Record<string, { bg: string; text: string; label: string
   drip: { bg: "bg-blue-500/20", text: "text-blue-400", label: "Drip" },
   free_followup: { bg: "bg-amber-500/20", text: "text-amber-400", label: "Free Followup" },
   weekly_recap: { bg: "bg-emerald-500/20", text: "text-emerald-400", label: "Weekly Recap" },
-  manual: { bg: "bg-white/[0.08]", text: "text-text-tertiary", label: "Manuel" },
+  manual: { bg: "bg-white/[0.08]", text: "text-white/30", label: "Manuel" },
 };
 
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string; avatar: string }> = {
-  free: { bg: "bg-white/[0.08]", text: "text-text-secondary", label: "Gratuit", avatar: "bg-white/[0.08] text-white" },
+  free: { bg: "bg-white/[0.08]", text: "text-white/50", label: "Gratuit", avatar: "bg-white/[0.08] text-white" },
   starter: { bg: "bg-emerald-500/20", text: "text-emerald-400", label: "Starter", avatar: "bg-emerald-500/30 text-emerald-300" },
   academy: { bg: "bg-blue-500/20", text: "text-blue-400", label: "Academy", avatar: "bg-blue-500/30 text-blue-300" },
   one_to_one: { bg: "bg-[#FF1744]/20", text: "text-[#FF1744]", label: "One-to-One", avatar: "bg-[#FF1744]/30 text-[#FF1744]" },
 };
+
+/* Solid dark card — no glass, no backdrop-filter */
+function Card({ className = "", children }: { className?: string; children: React.ReactNode }) {
+  return (
+    <div className={`bg-[#111118] border border-white/[0.08] rounded-2xl shadow-lg ${className}`}>
+      {children}
+    </div>
+  );
+}
 
 export default function StudentDetailPage() {
   const params = useParams();
@@ -144,7 +152,6 @@ export default function StudentDetailPage() {
     }
   }, [studentId, adminNotes, savingNotes]);
 
-  // Sequence progress computation
   const sequenceProgress = useMemo(() => {
     if (!student?.emailLogs) return [];
     const sequences: Record<string, { total: number; label: string }> = {
@@ -169,7 +176,6 @@ export default function StudentDetailPage() {
       }));
   }, [student]);
 
-  // Build streak calendar (last 90 days)
   const streakCalendar = useMemo(() => {
     if (!student) return [];
     const streakDates = new Set(student.streaks.map((s) => s.date.split("T")[0]));
@@ -192,38 +198,38 @@ export default function StudentDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-text-tertiary text-sm">Chargement...</p>
+      <div className="-m-4 sm:-m-6 lg:-m-8 xl:-m-10 p-4 sm:p-6 lg:p-8 xl:p-10 min-h-screen flex items-center justify-center" style={{ background: "#0A0A0A" }}>
+        <p className="text-white/30 text-sm">Chargement...</p>
       </div>
     );
   }
 
   if (error || !student) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <p className="text-text-tertiary text-sm">Eleve introuvable</p>
-        <Link href="/admin/students" className="text-sm text-text-secondary hover:text-white transition-colors">
+      <div className="-m-4 sm:-m-6 lg:-m-8 xl:-m-10 p-4 sm:p-6 lg:p-8 xl:p-10 min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#0A0A0A" }}>
+        <p className="text-white/30 text-sm">Eleve introuvable</p>
+        <Link href="/admin/students" className="text-sm text-white/50 hover:text-white transition-colors">
           &larr; Retour aux eleves
         </Link>
       </div>
     );
   }
 
-  const tier = student.enrollment?.tier || null;
-  const badge = tier ? TIER_BADGE[tier] : null;
+  const tierVal = student.enrollment?.tier || null;
+  const badge = tierVal ? TIER_BADGE[tierVal] : null;
 
   return (
-    <div>
+    <div className="-m-4 sm:-m-6 lg:-m-8 xl:-m-10 p-4 sm:p-6 lg:p-8 xl:p-10 min-h-screen" style={{ background: "#0A0A0A", color: "rgba(255,255,255,0.92)" }}>
       {/* Back button */}
       <Link
         href="/admin/students"
-        className="inline-flex items-center gap-1 text-sm text-text-secondary hover:text-white transition-colors mb-6"
+        className="inline-flex items-center gap-1 text-sm text-white/50 hover:text-white transition-colors mb-6"
       >
         &larr; Retour aux eleves
       </Link>
 
       {/* Profile Header */}
-      <GlassCard hover={false} className="p-6 mb-6">
+      <Card className="p-6 mb-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
           <div
             className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold shrink-0 ${
@@ -233,12 +239,12 @@ export default function StudentDetailPage() {
             {(student.name || student.email)[0].toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-bold text-text-primary truncate">
+            <h1 className="text-2xl font-bold text-white truncate">
               {student.name || "Sans nom"}
             </h1>
-            <p className="text-sm text-text-tertiary truncate">{student.email}</p>
+            <p className="text-sm text-white/30 truncate">{student.email}</p>
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              <span className="text-xs text-text-tertiary">
+              <span className="text-xs text-white/30">
                 Inscrit le {new Date(student.createdAt).toLocaleDateString("fr-FR")}
               </span>
               {badge && (
@@ -269,11 +275,11 @@ export default function StudentDetailPage() {
             </div>
           </div>
         </div>
-      </GlassCard>
+      </Card>
 
       {/* Contact Alert */}
       {student.shouldContact && (
-        <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 backdrop-blur-sm">
+        <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/20">
           <div className="flex items-start gap-3">
             <span className="text-lg">&#9888;&#65039;</span>
             <div>
@@ -293,12 +299,12 @@ export default function StudentDetailPage() {
 
       {/* Sequence Progress Overview */}
       {sequenceProgress.length > 0 && (
-        <GlassCard hover={false} className="p-4 mb-6">
+        <Card className="p-4 mb-6">
           <div className="flex flex-wrap items-center gap-4">
-            <span className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">Sequences</span>
+            <span className="text-xs font-semibold text-white/30 uppercase tracking-wider">Sequences</span>
             {sequenceProgress.map((seq) => (
               <div key={seq.type} className="flex items-center gap-2">
-                <span className="text-xs text-text-secondary">{seq.label}:</span>
+                <span className="text-xs text-white/50">{seq.label}:</span>
                 <div className="flex items-center gap-0.5">
                   {Array.from({ length: seq.total }).map((_, i) => (
                     <span
@@ -309,37 +315,37 @@ export default function StudentDetailPage() {
                     />
                   ))}
                 </div>
-                <span className="text-xs text-text-tertiary">
+                <span className="text-xs text-white/30">
                   {seq.sent}/{seq.total}
                   {seq.completed && " \u2713"}
                 </span>
               </div>
             ))}
           </div>
-        </GlassCard>
+        </Card>
       )}
 
       {/* Stats Strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <GlassCard hover={false} className="p-4 text-center">
+        <Card className="p-4 text-center">
           <p className="text-3xl font-bold text-white">{student.completionPercentage}%</p>
-          <p className="text-xs text-text-tertiary mt-1">Completion</p>
-        </GlassCard>
-        <GlassCard hover={false} className="p-4 text-center">
+          <p className="text-xs text-white/30 mt-1">Completion</p>
+        </Card>
+        <Card className="p-4 text-center">
           <p className="text-3xl font-bold text-white">{student.totalXP.toLocaleString("fr-FR")}</p>
-          <p className="text-xs text-text-tertiary mt-1">XP Total</p>
-        </GlassCard>
-        <GlassCard hover={false} className="p-4 text-center">
+          <p className="text-xs text-white/30 mt-1">XP Total</p>
+        </Card>
+        <Card className="p-4 text-center">
           <p className="text-3xl font-bold text-white">
             {student.currentStreak}
-            <span className="text-sm font-normal text-text-tertiary ml-1">/ {student.longestStreak}</span>
+            <span className="text-sm font-normal text-white/30 ml-1">/ {student.longestStreak}</span>
           </p>
-          <p className="text-xs text-text-tertiary mt-1">Streak actuel / Record</p>
-        </GlassCard>
-        <GlassCard hover={false} className="p-4 text-center">
+          <p className="text-xs text-white/30 mt-1">Streak actuel / Record</p>
+        </Card>
+        <Card className="p-4 text-center">
           <p className="text-3xl font-bold text-white">{avgQuizScore}%</p>
-          <p className="text-xs text-text-tertiary mt-1">Quiz score moyen</p>
-        </GlassCard>
+          <p className="text-xs text-white/30 mt-1">Quiz score moyen</p>
+        </Card>
       </div>
 
       {/* Two Columns */}
@@ -347,16 +353,16 @@ export default function StudentDetailPage() {
         {/* Left Column (2/3) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Module Progress */}
-          <GlassCard hover={false} className="p-5">
-            <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
+          <Card className="p-5">
+            <h2 className="text-sm font-semibold text-white/90 uppercase tracking-wider mb-4">
               Progression par module
             </h2>
             <div className="space-y-4">
               {student.moduleProgress.map((mod) => (
                 <div key={mod.moduleOrder}>
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-sm text-text-primary truncate pr-4">{mod.moduleTitle}</span>
-                    <span className="text-xs text-text-tertiary whitespace-nowrap">
+                    <span className="text-sm text-white/90 truncate pr-4">{mod.moduleTitle}</span>
+                    <span className="text-xs text-white/30 whitespace-nowrap">
                       {mod.completedLessons}/{mod.totalLessons}
                     </span>
                   </div>
@@ -364,15 +370,15 @@ export default function StudentDetailPage() {
                 </div>
               ))}
               {!student.moduleProgress.length && (
-                <p className="text-sm text-text-tertiary text-center py-4">Aucun module</p>
+                <p className="text-sm text-white/30 text-center py-4">Aucun module</p>
               )}
             </div>
-          </GlassCard>
+          </Card>
 
           {/* Quiz History */}
-          <GlassCard hover={false} className="overflow-hidden">
+          <Card className="overflow-hidden">
             <div className="p-5 pb-3">
-              <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider">
+              <h2 className="text-sm font-semibold text-white/90 uppercase tracking-wider">
                 Historique des quiz
               </h2>
             </div>
@@ -380,83 +386,55 @@ export default function StudentDetailPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-white/[0.06]">
-                    <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-2">
-                      Lecon
-                    </th>
-                    <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-2">
-                      Score
-                    </th>
-                    <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-2">
-                      Resultat
-                    </th>
-                    <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-2">
-                      Date
-                    </th>
+                    <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-2">Lecon</th>
+                    <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-2">Score</th>
+                    <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-2">Resultat</th>
+                    <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-2">Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {student.quizHistory.length ? (
                     student.quizHistory.map((quiz, i) => (
                       <tr key={i} className="border-b border-white/[0.03]">
-                        <td className="px-5 py-3 text-sm text-text-primary truncate max-w-[200px]">
-                          {quiz.lessonTitle}
-                        </td>
-                        <td className="px-5 py-3 text-sm font-medium text-text-primary">
-                          {quiz.score}%
-                        </td>
+                        <td className="px-5 py-3 text-sm text-white/90 truncate max-w-[200px]">{quiz.lessonTitle}</td>
+                        <td className="px-5 py-3 text-sm font-medium text-white/90">{quiz.score}%</td>
                         <td className="px-5 py-3">
-                          <span
-                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                              quiz.passed
-                                ? "bg-emerald-500/20 text-emerald-400"
-                                : "bg-red-500/20 text-red-400"
-                            }`}
-                          >
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${quiz.passed ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"}`}>
                             {quiz.passed ? "Reussi" : "Echoue"}
                           </span>
                         </td>
-                        <td className="px-5 py-3 text-sm text-text-tertiary">
-                          {new Date(quiz.createdAt).toLocaleDateString("fr-FR")}
-                        </td>
+                        <td className="px-5 py-3 text-sm text-white/30">{new Date(quiz.createdAt).toLocaleDateString("fr-FR")}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="px-5 py-8 text-center text-text-tertiary text-sm">
-                        Aucun quiz soumis
-                      </td>
+                      <td colSpan={4} className="px-5 py-8 text-center text-white/30 text-sm">Aucun quiz soumis</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
-          </GlassCard>
+          </Card>
 
           {/* Email Timeline */}
-          <GlassCard hover={false} className="p-5">
-            <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
+          <Card className="p-5">
+            <h2 className="text-sm font-semibold text-white/90 uppercase tracking-wider mb-4">
               Historique des emails
             </h2>
             {student.emailLogs && student.emailLogs.length > 0 ? (
               <div className="relative space-y-0">
-                {/* Vertical line */}
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-white/[0.08]" />
                 {student.emailLogs.map((log, i) => {
                   const typeBadge = EMAIL_TYPE_BADGE[log.type] || EMAIL_TYPE_BADGE.manual;
                   return (
                     <div key={log.id || i} className="relative pl-7 py-3">
-                      {/* Dot */}
                       <div className="absolute left-0 top-[18px] w-[15px] h-[15px] rounded-full bg-white/[0.06] border-2 border-white/[0.15] flex items-center justify-center">
                         <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
                       </div>
                       <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <span className="text-xs text-text-tertiary">
+                        <span className="text-xs text-white/30">
                           {new Date(log.createdAt).toLocaleDateString("fr-FR", {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
+                            day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
                           })}
                         </span>
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${typeBadge.bg} ${typeBadge.text}`}>
@@ -465,27 +443,27 @@ export default function StudentDetailPage() {
                         <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] ${
                           log.status === "sent" ? "bg-emerald-500/10 text-emerald-400" :
                           log.status === "failed" ? "bg-red-500/10 text-red-400" :
-                          "bg-white/[0.04] text-text-tertiary"
+                          "bg-white/[0.04] text-white/30"
                         }`}>
                           {log.status}
                         </span>
                       </div>
-                      <p className="text-sm text-text-primary truncate">{log.subject}</p>
+                      <p className="text-sm text-white/90 truncate">{log.subject}</p>
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <p className="text-sm text-text-tertiary text-center py-4">Aucun email envoye</p>
+              <p className="text-sm text-white/30 text-center py-4">Aucun email envoye</p>
             )}
-          </GlassCard>
+          </Card>
         </div>
 
         {/* Right Column (1/3) */}
         <div className="space-y-6">
           {/* Streak Calendar */}
-          <GlassCard hover={false} className="p-5">
-            <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
+          <Card className="p-5">
+            <h2 className="text-sm font-semibold text-white/90 uppercase tracking-wider mb-4">
               Streak (90 jours)
             </h2>
             <div className="grid grid-cols-[repeat(13,1fr)] gap-[3px]">
@@ -493,30 +471,28 @@ export default function StudentDetailPage() {
                 <div
                   key={i}
                   title={day.date}
-                  className={`w-3 h-3 rounded-sm ${
-                    day.active ? "bg-emerald-500/60" : "bg-white/[0.04]"
-                  }`}
+                  className={`w-3 h-3 rounded-sm ${day.active ? "bg-emerald-500/60" : "bg-white/[0.04]"}`}
                 />
               ))}
             </div>
-          </GlassCard>
+          </Card>
 
           {/* Actions */}
-          <GlassCard hover={false} className="p-5">
-            <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
+          <Card className="p-5">
+            <h2 className="text-sm font-semibold text-white/90 uppercase tracking-wider mb-4">
               Actions
             </h2>
             <div className="space-y-4">
-              {/* Change tier */}
               <div>
-                <label className="text-xs text-text-tertiary block mb-1.5">Changer le tier</label>
+                <label className="text-xs text-white/30 block mb-1.5">Changer le tier</label>
                 <div className="flex gap-2">
                   <select
                     value={selectedTier}
                     onChange={(e) => setSelectedTier(e.target.value)}
-                    className="flex-1 px-3 py-2 bg-white/[0.04] border border-glass-border rounded-lg text-text-primary text-sm focus:outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
+                    className="flex-1 px-3 py-2 bg-[#0A0A12] border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
                   >
                     <option value="">Aucun</option>
+                    <option value="free">Gratuit</option>
                     <option value="starter">Starter</option>
                     <option value="academy">Academy</option>
                     <option value="one_to_one">One-to-One</option>
@@ -524,18 +500,17 @@ export default function StudentDetailPage() {
                   <button
                     onClick={handleTierChange}
                     disabled={saving}
-                    className="px-4 py-2 bg-white/[0.08] hover:bg-white/[0.12] border border-glass-border rounded-lg text-sm text-text-primary transition-all disabled:opacity-50"
+                    className="px-4 py-2 bg-white/[0.08] hover:bg-white/[0.12] border border-white/[0.08] rounded-lg text-sm text-white transition-all disabled:opacity-50"
                   >
                     {saving ? "..." : "Sauvegarder"}
                   </button>
                 </div>
               </div>
 
-              {/* Send email */}
               <div>
                 <a
                   href={`mailto:${student.email}`}
-                  className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-white/[0.04] hover:bg-white/[0.08] border border-glass-border rounded-lg text-sm text-text-secondary hover:text-white transition-all"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#0A0A12] hover:bg-white/[0.08] border border-white/[0.08] rounded-lg text-sm text-white/50 hover:text-white transition-all"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
@@ -544,11 +519,11 @@ export default function StudentDetailPage() {
                 </a>
               </div>
             </div>
-          </GlassCard>
+          </Card>
 
           {/* Admin Notes */}
-          <GlassCard hover={false} className="p-5">
-            <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
+          <Card className="p-5">
+            <h2 className="text-sm font-semibold text-white/90 uppercase tracking-wider mb-4">
               Notes admin
             </h2>
             <textarea
@@ -556,21 +531,21 @@ export default function StudentDetailPage() {
               onChange={(e) => setAdminNotes(e.target.value)}
               placeholder="Ajouter des notes sur cet etudiant..."
               rows={5}
-              className="w-full px-3 py-2 bg-white/[0.04] border border-glass-border rounded-lg text-text-primary text-sm placeholder:text-text-tertiary focus:outline-none focus:border-white/20 transition-all resize-y"
+              className="w-full px-3 py-2 bg-[#0A0A12] border border-white/[0.08] rounded-lg text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all resize-y"
             />
             <div className="flex items-center justify-between mt-3">
-              <div className="text-xs text-text-tertiary">
+              <div className="text-xs text-white/30">
                 {notesSavedAt && `Sauvegarde le ${notesSavedAt}`}
               </div>
               <button
                 onClick={handleSaveNotes}
                 disabled={savingNotes}
-                className="px-4 py-2 bg-white/[0.08] hover:bg-white/[0.12] border border-glass-border rounded-lg text-sm text-text-primary transition-all disabled:opacity-50"
+                className="px-4 py-2 bg-white/[0.08] hover:bg-white/[0.12] border border-white/[0.08] rounded-lg text-sm text-white transition-all disabled:opacity-50"
               >
                 {savingNotes ? "..." : "Sauvegarder"}
               </button>
             </div>
-          </GlassCard>
+          </Card>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 interface Student {
@@ -27,7 +26,7 @@ interface StudentsResponse {
 }
 
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string }> = {
-  free: { bg: "bg-white/[0.08]", text: "text-text-secondary", label: "Gratuit" },
+  free: { bg: "bg-white/[0.08]", text: "text-white/50", label: "Gratuit" },
   starter: { bg: "bg-emerald-500/20", text: "text-emerald-400", label: "Starter" },
   academy: { bg: "bg-blue-500/20", text: "text-blue-400", label: "Academy" },
   one_to_one: { bg: "bg-[#FF1744]/20", text: "text-[#FF1744]", label: "One-to-One" },
@@ -76,7 +75,7 @@ export default function StudentsPage() {
   }, [search, tier, sort]);
 
   const formatRelative = (dateStr: string | null) => {
-    if (!dateStr) return "—";
+    if (!dateStr) return "\u2014";
     const diff = Date.now() - new Date(dateStr).getTime();
     const mins = Math.floor(diff / 60000);
     if (mins < 60) return `Il y a ${mins}min`;
@@ -105,12 +104,12 @@ export default function StudentsPage() {
   };
 
   return (
-    <div>
+    <div className="-m-4 sm:-m-6 lg:-m-8 xl:-m-10 p-4 sm:p-6 lg:p-8 xl:p-10 min-h-screen" style={{ background: "#0A0A0A", color: "rgba(255,255,255,0.92)" }}>
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
-        <h1 className="text-3xl font-bold">Eleves</h1>
+        <h1 className="text-3xl font-bold text-white">Eleves</h1>
         {data && (
-          <span className="text-xs bg-white/[0.08] text-text-secondary px-2.5 py-1 rounded-full font-medium">
+          <span className="text-xs bg-white/[0.08] text-white/50 px-2.5 py-1 rounded-full font-medium">
             {data.total}
           </span>
         )}
@@ -123,12 +122,12 @@ export default function StudentsPage() {
           placeholder="Rechercher un eleve..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 max-w-sm px-4 py-2.5 bg-glass-bg border border-glass-border rounded-xl text-text-primary text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-text-tertiary"
+          className="flex-1 max-w-sm px-4 py-2.5 bg-[#161622] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/30"
         />
         <select
           value={tier}
           onChange={(e) => setTier(e.target.value)}
-          className="px-4 py-2.5 bg-glass-bg border border-glass-border rounded-xl text-text-primary text-sm focus:outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
+          className="px-4 py-2.5 bg-[#161622] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
         >
           <option value="all">Tous les tiers</option>
           <option value="free">Gratuit</option>
@@ -139,7 +138,7 @@ export default function StudentsPage() {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="px-4 py-2.5 bg-glass-bg border border-glass-border rounded-xl text-text-primary text-sm focus:outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
+          className="px-4 py-2.5 bg-[#161622] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
         >
           {SORT_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
@@ -150,32 +149,32 @@ export default function StudentsPage() {
       </div>
 
       {/* Table */}
-      <GlassCard hover={false} className="overflow-hidden">
+      <div className="bg-[#111118] border border-white/[0.08] rounded-2xl overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-white/[0.06]">
-                <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3">
+                <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-3">
                   Eleve
                 </th>
-                <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3">
+                <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-3">
                   Tier
                 </th>
-                <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3">
+                <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-3">
                   Progression
                 </th>
-                <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3">
+                <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-3">
                   XP
                 </th>
-                <th className="text-left text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3">
+                <th className="text-left text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-3">
                   Derniere activite
                 </th>
-                <th className="text-center text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3">
+                <th className="text-center text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-3">
                   Discord
                 </th>
-                <th className="text-center text-xs font-medium text-text-tertiary uppercase tracking-wider px-5 py-3 w-12">
+                <th className="text-center text-xs font-medium text-white/30 uppercase tracking-wider px-5 py-3 w-12">
                 </th>
-                <th className="text-center text-xs font-medium text-text-tertiary uppercase tracking-wider px-3 py-3">
+                <th className="text-center text-xs font-medium text-white/30 uppercase tracking-wider px-3 py-3">
                   Actions
                 </th>
               </tr>
@@ -183,13 +182,13 @@ export default function StudentsPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="px-5 py-12 text-center text-text-tertiary text-sm">
+                  <td colSpan={8} className="px-5 py-12 text-center text-white/30 text-sm">
                     Chargement...
                   </td>
                 </tr>
               ) : !data?.students.length ? (
                 <tr>
-                  <td colSpan={8} className="px-5 py-12 text-center text-text-tertiary text-sm">
+                  <td colSpan={8} className="px-5 py-12 text-center text-white/30 text-sm">
                     Aucun eleve trouve
                   </td>
                 </tr>
@@ -216,14 +215,14 @@ export default function StudentsPage() {
                             </div>
                             <div className="min-w-0">
                               <div className="flex items-center gap-1.5">
-                                <p className="text-sm font-medium text-text-primary truncate group-hover:text-white transition-colors">
+                                <p className="text-sm font-medium text-white/90 truncate group-hover:text-white transition-colors">
                                   {student.name || "Sans nom"}
                                 </p>
                                 {student.isBot && (
                                   <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" title="Bot" />
                                 )}
                               </div>
-                              <p className="text-xs text-text-tertiary truncate">{student.email}</p>
+                              <p className="text-xs text-white/30 truncate">{student.email}</p>
                             </div>
                           </div>
                         </td>
@@ -237,7 +236,7 @@ export default function StudentsPage() {
                               {badge.label}
                             </span>
                           ) : (
-                            <span className="text-xs text-text-tertiary">—</span>
+                            <span className="text-xs text-white/30">{"\u2014"}</span>
                           )}
                         </td>
 
@@ -247,7 +246,7 @@ export default function StudentsPage() {
                             <div className="w-24">
                               <ProgressBar value={pct} size="sm" showLabel={false} />
                             </div>
-                            <span className="text-xs text-text-secondary whitespace-nowrap">
+                            <span className="text-xs text-white/50 whitespace-nowrap">
                               {student.completedLessons}/{student.totalLessons}
                             </span>
                           </div>
@@ -255,14 +254,14 @@ export default function StudentsPage() {
 
                         {/* XP */}
                         <td className="px-5 py-4">
-                          <span className="text-sm font-medium text-text-primary">
+                          <span className="text-sm font-medium text-white/90">
                             {student.totalXP.toLocaleString("fr-FR")}
                           </span>
                         </td>
 
                         {/* Last active */}
                         <td className="px-5 py-4">
-                          <span className="text-sm text-text-secondary">
+                          <span className="text-sm text-white/50">
                             {formatRelative(student.lastActive)}
                           </span>
                         </td>
@@ -311,23 +310,23 @@ export default function StudentsPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="text-sm text-text-secondary hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="text-sm text-white/50 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               &larr; Precedent
             </button>
-            <span className="text-sm text-text-tertiary">
+            <span className="text-sm text-white/30">
               Page {data.page} sur {data.totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(data.totalPages, p + 1))}
               disabled={page >= data.totalPages}
-              className="text-sm text-text-secondary hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="text-sm text-white/50 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               Suivant &rarr;
             </button>
           </div>
         )}
-      </GlassCard>
+      </div>
 
       {/* Confirmation Dialog */}
       {confirmDeleteId && (
@@ -341,13 +340,13 @@ export default function StudentsPage() {
               </div>
               <h3 className="text-lg font-semibold text-white">Supprimer cet eleve ?</h3>
             </div>
-            <p className="text-sm text-text-secondary mb-6">
+            <p className="text-sm text-white/50 mb-6">
               Cette action est irreversible. Toutes les donnees de cet eleve seront definitivement supprimees.
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setConfirmDeleteId(null)}
-                className="px-4 py-2 rounded-xl text-sm font-medium bg-white/[0.08] text-text-secondary hover:text-white hover:bg-white/[0.12] transition-all"
+                className="px-4 py-2 rounded-xl text-sm font-medium bg-white/[0.08] text-white/50 hover:text-white hover:bg-white/[0.12] transition-all"
               >
                 Annuler
               </button>
@@ -365,7 +364,7 @@ export default function StudentsPage() {
 
       {/* Success Toast */}
       {deleteSuccess && (
-        <div className="fixed bottom-6 right-6 z-50 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 px-5 py-3 rounded-xl text-sm font-medium shadow-lg backdrop-blur-sm animate-in fade-in slide-in-from-bottom-2">
+        <div className="fixed bottom-6 right-6 z-50 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 px-5 py-3 rounded-xl text-sm font-medium shadow-lg">
           Eleve supprime avec succes
         </div>
       )}
