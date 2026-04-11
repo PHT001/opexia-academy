@@ -336,7 +336,6 @@ const SIDEBAR_SECTIONS: SidebarSection[] = [
       { href: "/pipeline", label: "Pipeline", icon: IconPipeline },
       { href: "/generateur", label: "Générateur", icon: IconWand },
       { href: "/templates", label: "Templates", icon: IconTemplate },
-      { href: "/favoris", label: "Favoris", icon: IconBookmark },
     ],
   },
   {
@@ -679,30 +678,6 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                   { href: "/dashboard", label: "Accueil", icon: IconHome },
                   { href: "/admin/students", label: "Élèves", icon: IconUsers },
                   { href: "/coaching", label: "Coaching", icon: IconPhone },
-                  { href: "/admin/emails", label: "Emails", icon: IconMail },
-                  { href: "/admin/analytics", label: "Analytics", icon: IconChart },
-                ].map((item) => {
-                  const active = pathname === item.href || pathname.startsWith(item.href + "/");
-                  const Icon = item.icon;
-                  return (
-                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
-                      <Icon className={active ? "text-[#FF1744]" : "text-white/35"} />
-                      <span className="truncate">{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="mb-1.5">
-              <div className="px-3 py-1.5">
-                <span className="text-[10px] uppercase tracking-[0.12em] text-white/20 font-semibold">Contenu</span>
-              </div>
-              <div className="flex flex-col gap-0.5">
-                {[
-                  { href: "/lessons", label: "Formation", icon: IconLessons },
-                  { href: "/admin/lessons", label: "Gestion leçons", icon: IconNotes },
-                  { href: "/admin/quizzes", label: "Quiz", icon: IconQuiz },
-                  { href: "/admin/slides", label: "Diapositives", icon: IconTemplate },
                 ].map((item) => {
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
