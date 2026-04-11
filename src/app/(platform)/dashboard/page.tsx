@@ -1944,13 +1944,20 @@ function AdminStudentsTab() {
     setDetailLoading(true);
     setStudentDetail(null);
     fetch(`/api/admin/students/${studentId}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
       .then((d) => {
+        if (d.error) throw new Error(d.error);
         setStudentDetail(d);
         setEditTier(d.enrollment?.tier || "starter");
         setDetailLoading(false);
       })
-      .catch(() => setDetailLoading(false));
+      .catch(() => {
+        setDetailLoading(false);
+        setExpandedId(null);
+      });
   };
 
   const handleSaveTier = () => {

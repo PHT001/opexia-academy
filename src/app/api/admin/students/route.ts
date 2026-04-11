@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
     completedLessons: s.progress.length,
     totalLessons,
     tier: s.enrollments[0]?.tier || null,
-    lastActive: s.streaks[0]?.date?.toISOString() || null,
+    lastActive: s.updatedAt?.toISOString() || s.streaks[0]?.date?.toISOString() || null,
     discordUsername: s.discordUsername || null,
     totalXP: xpMap[s.id] || 0,
     isBot: s.isBot,
