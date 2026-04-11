@@ -1353,9 +1353,122 @@ function TemplateModal({
 
         {/* Modal body */}
         <div className="flex-1 overflow-y-auto px-5 py-5">
-          <pre className="text-[13px] md:text-sm text-gray-700 leading-[1.8] whitespace-pre-wrap font-sans">
-            {resource.content}
-          </pre>
+          <div className="text-[13px] md:text-sm text-gray-700 leading-[1.8] font-sans space-y-1">
+            {resource.content?.split("\n").map((line, i) => {
+              const trimmed = line.trim();
+
+              // Empty line = spacing
+              if (!trimmed) return <div key={i} className="h-3" />;
+
+              // Main title (ALL CAPS with ━━━ or ═══)
+              if (/^[━═]{2,}/.test(trimmed) && /[━═]{2,}$/.test(trimmed)) {
+                const titleText = trimmed.replace(/[━═]/g, "").trim();
+                if (titleText) {
+                  return (
+                    <div key={i} className="mt-6 mb-3 pb-2 border-b-2 border-[#FF1744]/20">
+                      <h3 className="text-sm md:text-base font-bold text-[#1A1A2E] tracking-wide uppercase">{titleText}</h3>
+                    </div>
+                  );
+                }
+                return null;
+              }
+
+              // Section headers: lines starting with ━━━ TITLE ━━━
+              if (/^━━━/.test(trimmed) || /^═══/.test(trimmed)) {
+                const titleText = trimmed.replace(/[━═]/g, "").trim();
+                return (
+                  <div key={i} className="mt-6 mb-3 pb-2 border-b-2 border-[#FF1744]/20">
+                    <h3 className="text-sm md:text-base font-bold text-[#1A1A2E] tracking-wide">{titleText}</h3>
+                  </div>
+                );
+              }
+
+              // Sub-headers: ALL CAPS lines (min 3 chars, no special prefix)
+              if (/^[A-ZÀÂÄÉÈÊËÏÎÔÙÛÜŸÇ\s()/:—\-&]{4,}$/.test(trimmed) && !trimmed.startsWith("•") && !trimmed.startsWith("☐") && !trimmed.startsWith("→") && !trimmed.startsWith("❌") && !trimmed.startsWith("✅")) {
+                return (
+                  <div key={i} className="mt-4 mb-1">
+                    <h4 className="text-[13px] md:text-sm font-semibold text-[#374151] uppercase tracking-wide">{trimmed}</h4>
+                  </div>
+                );
+              }
+
+              // Numbered items: 1. or 1)
+              if (/^\d+[.)]\s/.test(trimmed)) {
+                const match = trimmed.match(/^(\d+[.)])\s(.+)/);
+                if (match) {
+                  return (
+                    <div key={i} className="flex gap-2 py-0.5 pl-1">
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#FF1744]/10 text-[#FF1744] text-[11px] font-bold flex items-center justify-center mt-0.5">{match[1].replace(/[.)]/, "")}</span>
+                      <span className="flex-1">{match[2]}</span>
+                    </div>
+                  );
+                }
+              }
+
+              // Checkboxes
+              if (trimmed.startsWith("☐")) {
+                return (
+                  <div key={i} className="flex items-start gap-2.5 py-0.5 pl-2">
+                    <span className="flex-shrink-0 w-4 h-4 rounded border-2 border-gray-300 mt-1" />
+                    <span className="flex-1">{trimmed.slice(1).trim()}</span>
+                  </div>
+                );
+              }
+
+              // Green check items
+              if (trimmed.startsWith("✅")) {
+                return (
+                  <div key={i} className="flex items-start gap-2.5 py-0.5 pl-2">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-green-100 text-green-600 text-[11px] flex items-center justify-center mt-0.5">&#10003;</span>
+                    <span className="flex-1">{trimmed.slice(2).trim()}</span>
+                  </div>
+                );
+              }
+
+              // Red cross items
+              if (trimmed.startsWith("❌")) {
+                return (
+                  <div key={i} className="flex items-start gap-2.5 py-0.5 pl-2">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-red-100 text-red-500 text-[11px] flex items-center justify-center mt-0.5">&#10005;</span>
+                    <span className="flex-1">{trimmed.slice(2).trim()}</span>
+                  </div>
+                );
+              }
+
+              // Arrow items
+              if (trimmed.startsWith("→")) {
+                return (
+                  <div key={i} className="flex items-start gap-2 py-0.5 pl-2 text-[#FF1744] font-medium">
+                    <span className="flex-shrink-0 mt-0.5">&#8594;</span>
+                    <span className="flex-1">{trimmed.slice(1).trim()}</span>
+                  </div>
+                );
+              }
+
+              // Bullet points
+              if (trimmed.startsWith("•") || trimmed.startsWith("—") || trimmed.startsWith("-")) {
+                const text = trimmed.replace(/^[•—-]\s*/, "");
+                return (
+                  <div key={i} className="flex items-start gap-2.5 py-0.5 pl-3">
+                    <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-gray-400 mt-2" />
+                    <span className="flex-1">{text}</span>
+                  </div>
+                );
+              }
+
+              // Quoted example / highlighted text
+              if (trimmed.startsWith('"') || trimmed.startsWith("\u00AB")) {
+                return (
+                  <div key={i} className="bg-gray-50 border-l-3 border-[#FF1744]/30 px-4 py-2.5 rounded-r-lg my-1 text-gray-600 italic text-[12px] md:text-[13px]">
+                    {trimmed}
+                  </div>
+                );
+              }
+
+              // Regular text
+              return <p key={i} className="py-0.5">{trimmed}</p>;
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -1571,7 +1684,13 @@ export default function RessourcesPage() {
                             Bientot disponible
                           </span>
                         )}
-                        {r.content && (
+                        {r.content && r.type === "guide" && (
+                          <span className="inline-flex items-center gap-1 mt-2 text-[10px] text-[#00C853] font-semibold">
+                            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                            Lire le guide
+                          </span>
+                        )}
+                        {r.content && r.type !== "guide" && (
                           <span className="inline-block mt-2 text-[10px] text-[#FF6D00] font-medium">
                             Cliquer pour voir le template
                           </span>
