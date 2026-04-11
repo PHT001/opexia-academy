@@ -678,6 +678,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                   { href: "/dashboard", label: "Accueil", icon: IconHome },
                   { href: "/admin/students", label: "Élèves", icon: IconUsers },
                   { href: "/coaching", label: "Coaching", icon: IconPhone },
+                  { href: "/admin/slides", label: "Diapositives", icon: IconTemplate },
                 ].map((item) => {
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
