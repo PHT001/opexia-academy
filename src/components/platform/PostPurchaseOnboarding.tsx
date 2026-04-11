@@ -31,6 +31,24 @@ interface TierConfig {
 }
 
 const TIER_CONFIG: Record<string, TierConfig> = {
+  free: {
+    label: "Gratuit",
+    tagline: "Decouvre la plateforme",
+    description: "Explore OpexIA Academy gratuitement. Decouvre les modules, la gamification et la communaute.",
+    gradient: "linear-gradient(135deg, #1A1A2E 0%, #374151 100%)",
+    accentColor: "#6B7280",
+    accentHover: "#4B5563",
+    glowColor: "rgba(107,114,128,0.15)",
+    icon: "rocket",
+    features: [
+      "Acces au dashboard complet",
+      "Vue de tous les modules",
+      "Gamification (XP, streaks)",
+      "Acces Discord communautaire",
+    ],
+    readyTitle: "Ton espace est pret",
+    readySubtitle: "Explore la plateforme et decouvre ce qui t'attend.",
+  },
   starter: {
     label: "Starter",
     tagline: "Premiers pas dans l'IA",

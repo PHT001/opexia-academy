@@ -463,7 +463,7 @@ const html = `<!DOCTYPE html>
 <!-- CTA -->
 <div class="cta-page">
   <h2>Prêt à lancer<br/>ton agence IA ?</h2>
-  <p>Ce guide te donne la vue d'ensemble. La formation OpexIA Academy te donne le mode d'emploi complet : 85 leçons, coaching, CRM, templates, communauté.</p>
+  <p>Ce guide te donne la vue d'ensemble. La formation OpexIA Academy te donne le mode d'emploi complet : 86 leçons, coaching, CRM, templates, communauté.</p>
   <a href="https://www.opexia-formation.com/offres" class="cta-btn">Découvrir la formation</a>
   <div class="small">opexia-formation.com/offres</div>
 </div>

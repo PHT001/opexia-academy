@@ -78,9 +78,9 @@ function calcBadges(lessonsCompleted: number): string[] {
   if (lessonsCompleted >= 1) earned.push("first_lesson");
   // Module 1 has 3 lessons
   if (lessonsCompleted >= 3) earned.push("module_1");
-  // 85 total lessons — halfway = 43
+  // 86 total lessons — halfway = 43
   if (lessonsCompleted >= 43) earned.push("halfway");
-  if (lessonsCompleted >= 85) earned.push("graduate");
+  if (lessonsCompleted >= 86) earned.push("graduate");
   return earned;
 }
 
