@@ -110,7 +110,19 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       .catch(() => setLoadingOnboarding(false));
   }, []);
 
-  if (showOnboarding && !loadingOnboarding) {
+  // Block ALL content while checking onboarding status — prevents dashboard flash
+  if (loadingOnboarding) {
+    return (
+      <div className="fixed inset-0 z-[200] flex items-center justify-center" style={{ background: "linear-gradient(180deg, #FAFAFA 0%, #FFFFFF 50%, #F5F5F5 100%)" }}>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-3 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+          <span className="text-sm text-gray-400 font-medium">Chargement...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (showOnboarding) {
     return (
       <PostPurchaseOnboarding
         userName={session?.user?.name || undefined}

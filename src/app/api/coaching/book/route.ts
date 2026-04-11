@@ -25,7 +25,8 @@ export async function POST(req: NextRequest) {
     orderBy: { createdAt: "desc" },
   });
   const userTier = enrollment?.tier || "free";
-  if (userTier !== "one_to_one" && session.user.role !== "admin") {
+  const PAID_TIERS = ["starter", "academy", "one_to_one"];
+  if (!PAID_TIERS.includes(userTier) && session.user.role !== "admin") {
     return NextResponse.json({ error: "Utilisez le paiement en ligne pour réserver" }, { status: 403 });
   }
 
