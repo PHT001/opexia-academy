@@ -26,10 +26,9 @@ export default function CGUPage() {
         <ul className="list-none space-y-1 text-[#6B7280] leading-relaxed mb-6">
           <li><strong>OpexIA Academy</strong></li>
           <li>Micro-entreprise</li>
-          <li>SIRET : [SIRET &agrave; compl&eacute;ter]</li>
-          <li>Si&egrave;ge social : [Adresse &agrave; compl&eacute;ter]</li>
+          <li>SIRET : 909 749 541</li>
           <li>Email : support@opexia-formation.com</li>
-          <li>T&eacute;l&eacute;phone : [T&eacute;l&eacute;phone &agrave; compl&eacute;ter]</li>
+          <li>T&eacute;l&eacute;phone : 07 56 80 37 17</li>
           <li>Responsable de la publication : Marius AUGEREAU</li>
         </ul>
 

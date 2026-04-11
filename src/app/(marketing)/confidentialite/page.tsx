@@ -34,10 +34,9 @@ export default function ConfidentialitePage() {
         <ul className="list-none space-y-1 text-[#6B7280] leading-relaxed mb-6">
           <li><strong>Identit&eacute; :</strong> OpexIA Academy &mdash; Micro-entreprise</li>
           <li><strong>Repr&eacute;sentant :</strong> Marius AUGEREAU</li>
-          <li><strong>SIRET :</strong> [SIRET &agrave; compl&eacute;ter]</li>
-          <li><strong>Adresse :</strong> [Adresse &agrave; compl&eacute;ter]</li>
+          <li><strong>SIRET :</strong> 909 749 541</li>
           <li><strong>Email :</strong> support@opexia-formation.com</li>
-          <li><strong>T&eacute;l&eacute;phone :</strong> [T&eacute;l&eacute;phone &agrave; compl&eacute;ter]</li>
+          <li><strong>T&eacute;l&eacute;phone :</strong> 07 56 80 37 17</li>
           <li><strong>D&eacute;l&eacute;gu&eacute; &agrave; la protection des donn&eacute;es (DPO) :</strong> support@opexia-formation.com</li>
         </ul>
 
