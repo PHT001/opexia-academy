@@ -271,7 +271,7 @@ export default function Hero() {
               className="h-8 w-auto"
             />
             <span className="text-sm text-[#111] font-medium">
-              <strong>4.8</strong>/5 par <strong>+50 clients</strong>
+              <strong>4.8</strong>/5 par <strong>+50 &eacute;l&egrave;ves</strong>
             </span>
             <Image
               src="/images/blue-badge.svg"
