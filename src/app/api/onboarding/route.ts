@@ -18,12 +18,12 @@ export async function POST(req: Request) {
     if (phone && typeof phone === "string") phone = phone.slice(0, 20);
     if (discordUsername && typeof discordUsername === "string") discordUsername = discordUsername.slice(0, 50);
     if (profession && typeof profession === "string") profession = profession.slice(0, 100);
-    if (age !== undefined && age !== null) {
-      const parsedAge = parseInt(String(age), 10);
-      if (isNaN(parsedAge) || parsedAge < 10 || parsedAge > 120) {
-        return NextResponse.json({ error: "Âge invalide (10-120)" }, { status: 400 });
-      }
-      age = parsedAge;
+    // age comes as a range string like "16-20", "21-25" etc. or empty string
+    if (age && typeof age === "string" && age.trim()) {
+      const match = age.match(/(\d+)/);
+      age = match ? parseInt(match[1], 10) : null;
+    } else {
+      age = null;
     }
 
     await prisma.user.update({
