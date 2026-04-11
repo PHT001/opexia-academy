@@ -35,7 +35,8 @@ providers.push(
       const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
       if (!passwordMatch) return null;
 
-      if (!user.emailVerified && user.role !== "admin") return null;
+      // Allow login even if email not verified — verification page needs session
+      // Access control for unverified emails is handled by middleware
 
       return {
         id: user.id,
