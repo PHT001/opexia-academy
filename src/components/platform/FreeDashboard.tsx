@@ -366,7 +366,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
           <p className="text-sm text-gray-400 mb-4">Passe au niveau sup{"é"}rieur quand tu es pr{"ê"}t</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { value: "91", label: "Le\u00e7ons" },
+              { value: "86", label: "Le\u00e7ons" },
               { value: "22", label: "Modules" },
               { value: "IA", label: "Assistant int\u00e9gr\u00e9" },
               { value: "CRM", label: "Pipeline clients" },
