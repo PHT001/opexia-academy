@@ -17,6 +17,14 @@ export default function VerifyEmailPage() {
   const [resendCooldown, setResendCooldown] = useState(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  // If email is already verified, redirect to dashboard immediately
+  useEffect(() => {
+    if (session?.user?.emailVerified) {
+      router.push("/dashboard");
+      router.refresh();
+    }
+  }, [session, router]);
+
   const startCooldown = useCallback(() => {
     setResendCooldown(60);
   }, []);
