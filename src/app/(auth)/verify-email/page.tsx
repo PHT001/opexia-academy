@@ -20,10 +20,16 @@ export default function VerifyEmailPage() {
   // If email is already verified, redirect to dashboard immediately
   useEffect(() => {
     if (session?.user?.emailVerified) {
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
+      return;
     }
-  }, [session, router]);
+    // Also check via API for faster detection (session can be slow)
+    fetch("/api/auth/session").then(r => r.json()).then(d => {
+      if (d?.user?.emailVerified) {
+        window.location.href = "/dashboard";
+      }
+    }).catch(() => {});
+  }, [session]);
 
   const startCooldown = useCallback(() => {
     setResendCooldown(60);
@@ -87,9 +93,8 @@ export default function VerifyEmailPage() {
 
     setSuccess(true);
     setTimeout(() => {
-      router.push("/dashboard");
-      router.refresh();
-    }, 2000);
+      window.location.href = "/dashboard";
+    }, 1500);
   }
 
   async function handleResendCode() {
