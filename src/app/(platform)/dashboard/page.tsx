@@ -1283,8 +1283,8 @@ const adminTierConfig: Record<string, { label: string; color: string; bg: string
 };
 
 function formatEuro(n: number) {
-  if (n >= 1000) return `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}k \u20ac`;
-  return `${n} \u20ac`;
+  if (n >= 1000) return `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}k EUR`;
+  return `${n} EUR`;
 }
 
 function adminRelativeTime(dateStr: string) {
@@ -1553,12 +1553,12 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
             icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>),
           },
           {
-            label: "Revenue Total", value: stats.totalRevenue, suffix: " \u20ac", sub: "revenue cumul\u00e9",
+            label: "Revenue Total", value: stats.totalRevenue, suffix: " EUR", sub: "revenue cumule",
             borderColor: "border-l-[#FF1744]", iconBg: "bg-red-50", iconColor: "text-[#FF1744]",
             icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M14.25 7.756a4.5 4.5 0 100 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>),
           },
           {
-            label: "Actifs 7j", value: stats.activeStudents, suffix: "", sub: "\u00e9l\u00e8ves actifs",
+            label: "Actifs 7j", value: stats.activeStudents, suffix: "", sub: "eleves actifs",
             borderColor: "border-l-[#FF6B6B]", iconBg: "bg-red-50", iconColor: "text-[#FF6B6B]",
             icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>),
           },
@@ -1580,7 +1580,7 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
               </div>
             </div>
             <p className="text-3xl font-bold text-[#111] tracking-tight tabular-nums">
-              {kpi.suffix === " \u20ac" ? formatEuro(kpi.value) : <><AnimatedNumber value={kpi.value} className="" />{kpi.suffix}</>}
+              {kpi.suffix === " EUR" ? formatEuro(kpi.value) : <><AnimatedNumber value={kpi.value} className="" />{kpi.suffix}</>}
             </p>
             <p className="text-[11px] text-gray-400 mt-1.5">{kpi.sub}</p>
           </motion.div>
@@ -1637,7 +1637,7 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
                 </defs>
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} tickFormatter={(v: number) => `${v >= 1000 ? `${v / 1000}k` : v}`} width={40} />
-                <Tooltip content={<AdminChartTooltip valueSuffix=" \u20ac" />} cursor={{ stroke: "#FF1744", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.3 }} />
+                <Tooltip content={<AdminChartTooltip valueSuffix=" EUR" />} cursor={{ stroke: "#FF1744", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.3 }} />
                 <Area type="monotone" dataKey="revenue" stroke="#FF1744" strokeWidth={2.5} fill="url(#adminRevenueGradient)" dot={false} activeDot={{ r: 5, fill: "#FF1744", stroke: "#fff", strokeWidth: 2 }} />
               </AreaChart>
             </ResponsiveContainer>
