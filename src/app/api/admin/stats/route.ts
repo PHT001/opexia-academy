@@ -51,14 +51,24 @@ export async function GET() {
   });
 
   // ── Enrollments & Revenue ──
-  const enrollments = await prisma.enrollment.findMany({
-    where: { status: "active" },
+  // Only count real students (no bots), only latest enrollment per user
+  const allEnrollments = await prisma.enrollment.findMany({
+    where: { status: "active", user: { isBot: false, role: "student" } },
     include: { user: { select: { name: true, email: true } } },
     orderBy: { createdAt: "desc" },
   });
 
+  // Deduplicate: keep only the latest enrollment per user
+  const seenUserIds = new Set<string>();
+  const enrollments = allEnrollments.filter((e) => {
+    if (seenUserIds.has(e.userId)) return false;
+    seenUserIds.add(e.userId);
+    return true;
+  });
+
+  // Only count paid tiers (exclude free)
   const totalRevenue = enrollments.reduce(
-    (sum, e) => sum + (e.paidAmount || TIER_PRICES[e.tier] || 0),
+    (sum, e) => e.tier === "free" ? sum : sum + (e.paidAmount || TIER_PRICES[e.tier] || 0),
     0
   );
 
@@ -79,6 +89,7 @@ export async function GET() {
     monthlyRevenue.push({ month: key, revenue: 0 });
   }
   for (const e of enrollments) {
+    if (e.tier === "free") continue;
     const key = `${e.createdAt.getFullYear()}-${String(e.createdAt.getMonth() + 1).padStart(2, "0")}`;
     const entry = monthlyRevenue.find((m) => m.month === key);
     if (entry) {
@@ -100,13 +111,13 @@ export async function GET() {
   // Revenue this month
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthlyRevenueThisMonth = enrollments
-    .filter((e) => e.createdAt >= monthStart)
+    .filter((e) => e.createdAt >= monthStart && e.tier !== "free")
     .reduce((sum, e) => sum + (e.paidAmount || TIER_PRICES[e.tier] || 0), 0);
 
   // Revenue breakdown by tier
   const revenueByTier: Record<string, number> = { starter: 0, academy: 0, one_to_one: 0 };
   for (const e of enrollments) {
-    if (e.tier in revenueByTier) {
+    if (e.tier !== "free" && e.tier in revenueByTier) {
       revenueByTier[e.tier] += e.paidAmount || TIER_PRICES[e.tier] || 0;
     }
   }
@@ -117,9 +128,10 @@ export async function GET() {
     ? Math.round(last3Months.reduce((s, m) => s + m.revenue, 0) / last3Months.length)
     : 0;
 
-  // Average cart value
-  const avgCartValue = enrollments.length > 0
-    ? Math.round(totalRevenue / enrollments.length)
+  // Average cart value (paid tiers only)
+  const paidEnrollments = enrollments.filter((e) => e.tier !== "free");
+  const avgCartValue = paidEnrollments.length > 0
+    ? Math.round(totalRevenue / paidEnrollments.length)
     : 0;
 
   // ── Recent activity (last 20 merged) ──
