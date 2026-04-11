@@ -101,6 +101,11 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         if (data?.emailVerified !== undefined) {
           setEmailVerified(data.emailVerified);
         }
+        // If email not verified, redirect to verification page first
+        if (data?.emailVerified === false && data?.role !== "admin") {
+          window.location.href = "/verify-email";
+          return;
+        }
         // Show onboarding for ALL users who haven't completed it (skip for admins)
         if (data?.onboardingCompleted === false && data?.role !== "admin") {
           setShowOnboarding(true);

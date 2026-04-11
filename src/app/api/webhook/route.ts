@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
           where: { email: customerEmail.toLowerCase() },
           create: {
             email: customerEmail.toLowerCase(),
-            emailVerified: true,
+            emailVerified: false,
             role: "student",
           },
           update: {},
@@ -143,11 +143,6 @@ export async function POST(req: NextRequest) {
           },
         });
       }
-
-      await prisma.user.update({
-        where: { id: userId },
-        data: { emailVerified: true },
-      });
 
       // Clear discount code after successful payment to prevent reuse
       await prisma.user.update({

@@ -56,7 +56,7 @@ export async function POST(request: Request) {
           hashedPassword,
           verificationCode,
           verificationCodeExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000),
-          emailVerified: existingUser.emailVerified || false,
+          emailVerified: false,
         },
       });
 
