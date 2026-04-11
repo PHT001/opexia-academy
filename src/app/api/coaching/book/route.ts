@@ -10,7 +10,7 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
-const ADMIN_EMAIL = "opexiapro@gmail.com";
+const ADMIN_EMAIL = "support@opexia-formation.com";
 const WHATSAPP_LINK = WHATSAPP_PHONE;
 
 export async function POST(req: NextRequest) {

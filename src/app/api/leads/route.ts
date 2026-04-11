@@ -62,7 +62,7 @@ export async function POST(request: Request) {
       // Send notification to admin
       await resend.emails.send({
         from: "OpexIA <support@opexia-formation.com>",
-        to: "opexiapro@gmail.com",
+        to: "support@opexia-formation.com",
         subject: `Nouveau lead — ${email}`,
         text: `Un nouveau lead a téléchargé le guide des 5 niches IA.\n\nEmail : ${email}\nDate : ${new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" })}`,
       }).catch((err) => {

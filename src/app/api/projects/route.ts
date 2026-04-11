@@ -71,7 +71,7 @@ export async function POST(req: Request) {
     if (resend) {
       await resend.emails.send({
         from: "Marius d'OpexIA <support@opexia-formation.com>",
-        to: "opexiapro@gmail.com",
+        to: "support@opexia-formation.com",
         subject: `Nouveau projet soumis — ${title}`,
         html: `<p>Salut,</p>
 <p>Un étudiant (${session.user.name || session.user.email || "inconnu"}) vient de soumettre un nouveau projet : <strong>${title}</strong>.</p>
