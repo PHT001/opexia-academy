@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: "Comment fonctionne la garantie ?",
-    a: "Tu as 14 jours pour tester. Si apr\u00e8s avoir suivi au moins 50% de la formation et fait un appel bilan avec notre \u00e9quipe tu n\u2019es toujours pas convaincu, on te rembourse int\u00e9gralement. On veut que tu r\u00e9ussisses, pas juste que tu paies.",
+    a: "Tu as 14 jours pour tester. Si apr\u00e8s avoir compl\u00e9t\u00e9 au moins 80% de la formation et fait au moins un appel bilan avec notre \u00e9quipe tu n\u2019es toujours pas convaincu, on te rembourse int\u00e9gralement. On veut que tu r\u00e9ussisses, pas juste que tu paies. D\u00e9tails dans nos CGU.",
   },
   {
     q: "Y a-t-il un support si je suis bloqu\u00e9 ?",

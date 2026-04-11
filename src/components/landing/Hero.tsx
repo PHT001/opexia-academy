@@ -346,7 +346,7 @@ export default function Hero() {
               <svg className="h-3 w-3 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              Garantie 14 jours
+              Garantie 14 jours*
             </span>
             <span className="mx-2 text-gray-300">&middot;</span>
             <span className="flex items-center gap-1">

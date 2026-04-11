@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const miniFaqs = [
   {
     q: "Comment fonctionne la garantie ?",
-    a: "C\u2019est simple : si tu n\u2019es pas satisfait dans les 14 jours suivant ton achat, on te rembourse int\u00e9gralement, sans poser de questions. Z\u00e9ro risque.",
+    a: "Tu as 14 jours pour tester. Si apr\u00e8s avoir compl\u00e9t\u00e9 au moins 80% de la formation et fait un appel bilan avec notre \u00e9quipe tu n\u2019es pas convaincu, on te rembourse int\u00e9gralement. D\u00e9tails dans nos CGU.",
   },
   {
     q: "Je suis d\u00e9butant, c\u2019est pour moi ?",

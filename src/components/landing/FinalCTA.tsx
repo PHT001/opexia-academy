@@ -55,7 +55,7 @@ export default function FinalCTA() {
           </div>
 
           <p className="mt-6 text-sm text-gray-500">
-            Garantie remboursement 14 jours &bull; Acc&egrave;s imm&eacute;diat &bull; Paiement s&eacute;curis&eacute; &bull; Payable en plusieurs fois
+            Garantie remboursement 14 jours<a href="/cgu#garantie" className="text-[#FF1744]/60 hover:text-[#FF1744] no-underline">*</a> &bull; Acc&egrave;s imm&eacute;diat &bull; Paiement s&eacute;curis&eacute; &bull; Payable en plusieurs fois
           </p>
         </motion.div>
       </div>

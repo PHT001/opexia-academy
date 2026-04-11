@@ -479,6 +479,7 @@ export default function Pricing() {
             </svg>
             <span className="text-sm font-medium">
               {"Garantie satisfait ou rembours\u00e9 \u2014 14 jours"}
+              <a href="/cgu#garantie" className="text-[10px] text-[#FF1744]/60 hover:text-[#FF1744] ml-1 align-super no-underline">*conditions</a>
             </span>
           </div>
         </motion.div>

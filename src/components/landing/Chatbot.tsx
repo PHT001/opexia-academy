@@ -14,7 +14,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["prix", "tarif", "combien", "co\u00fbt", "cher", "gratuit", "payer", "paiement", "plusieurs fois"],
     answer:
-      "Tu peux d\u00e9couvrir la plateforme gratuitement en cr\u00e9ant un compte ! Ensuite on a 3 formules : Starter \u00e0 47\u20ac (2 modules D\u00e9couverte, 7 le\u00e7ons), Academy \u00e0 497\u20ac (formation compl\u00e8te 86 le\u00e7ons + plateforme + CRM \u2014 payable en 3x), et One-to-One \u00e0 2\u00a0497\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor). Garantie 14 jours satisfait ou rembours\u00e9.",
+      "Tu peux d\u00e9couvrir la plateforme gratuitement en cr\u00e9ant un compte ! Ensuite on a 3 formules : Starter \u00e0 47\u20ac (2 modules D\u00e9couverte, 8 le\u00e7ons), Academy \u00e0 497\u20ac (formation compl\u00e8te 86 le\u00e7ons + plateforme + CRM \u2014 payable en 3x), et One-to-One \u00e0 2\u00a0497\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor). Garantie 14 jours satisfait ou rembours\u00e9 (sous conditions, voir CGU).",
   },
   {
     keywords: ["d\u00e9butant", "z\u00e9ro", "aucune", "connaissance", "niveau", "pr\u00e9requis", "base"],
@@ -34,7 +34,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["garantie", "rembours", "satisfait", "risque"],
     answer:
-      "Oui, garantie 14 jours. Si apr\u00e8s avoir suivi au moins 50% de la formation et fait un appel bilan avec l\u2019\u00e9quipe tu n\u2019es pas convaincu, on te rembourse. On veut que tu t\u2019engages avant de juger \ud83d\udcaa",
+      "Oui, garantie 14 jours sous conditions. Si apr\u00e8s avoir compl\u00e9t\u00e9 au moins 80% de la formation et fait un appel bilan avec l\u2019\u00e9quipe tu n\u2019es pas convaincu, on te rembourse. On veut que tu t\u2019engages avant de juger \ud83d\udcaa D\u00e9tails dans nos CGU.",
   },
   {
     keywords: ["satur\u00e9", "concurrence", "trop tard", "march\u00e9"],

@@ -125,7 +125,7 @@ export default function CGUPage() {
         </p>
 
         {/* Article 6 — Garantie et droit de rétractation */}
-        <h2 className="text-xl font-semibold mt-10 mb-4">Article 6 &mdash; Garantie satisfait ou rembours&eacute; et droit de r&eacute;tractation</h2>
+        <h2 id="garantie" className="text-xl font-semibold mt-10 mb-4">Article 6 &mdash; Garantie satisfait ou rembours&eacute; et droit de r&eacute;tractation</h2>
 
         <h3 className="text-lg font-medium mt-6 mb-3">6.1 &mdash; Garantie commerciale &laquo;&nbsp;Satisfait ou rembours&eacute;&nbsp;&raquo;</h3>
         <p className="text-[#6B7280] leading-relaxed mb-4">
@@ -133,8 +133,8 @@ export default function CGUPage() {
           compter de la date d&apos;achat. Cette garantie est soumise aux conditions cumulatives suivantes&nbsp;:
         </p>
         <ul className="list-disc list-inside space-y-2 text-[#6B7280] leading-relaxed mb-4">
-          <li>L&apos;utilisateur doit avoir <strong>suivi et compl&eacute;t&eacute; au minimum 50% des le&ccedil;ons</strong> de la formation souscrite (progression v&eacute;rifiable sur la plateforme)&nbsp;;</li>
-          <li>L&apos;utilisateur doit avoir <strong>r&eacute;alis&eacute; un appel bilan</strong> avec l&apos;&eacute;quipe p&eacute;dagogique d&apos;OpexIA (planifiable depuis la plateforme ou par email)&nbsp;;</li>
+          <li>L&apos;utilisateur doit avoir <strong>suivi et compl&eacute;t&eacute; au minimum 80% des le&ccedil;ons</strong> de la formation souscrite (progression v&eacute;rifiable sur la plateforme)&nbsp;;</li>
+          <li>L&apos;utilisateur doit avoir <strong>r&eacute;alis&eacute; au moins un appel bilan</strong> avec l&apos;&eacute;quipe p&eacute;dagogique d&apos;OpexIA (planifiable depuis la plateforme ou par email)&nbsp;;</li>
           <li>La demande de remboursement doit &ecirc;tre formul&eacute;e <strong>dans les 14 jours suivant l&apos;achat</strong> par email &agrave; support@opexia-formation.com.</li>
         </ul>
         <p className="text-[#6B7280] leading-relaxed mb-4">
