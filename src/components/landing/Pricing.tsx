@@ -34,7 +34,7 @@ const plans: Plan[] = [
     features: [
       "Acc\u00e8s au dashboard complet",
       "Vue de tous les modules",
-      "Gamification (XP, streaks)",
+      "Syst\u00e8me de progression (XP)",
       "Acc\u00e8s Discord communautaire",
     ],
     notIncluded: [
@@ -85,7 +85,7 @@ const plans: Plan[] = [
       "Pipeline CRM int\u00e9gr\u00e9",
       "Templates IA premium",
       "G\u00e9n\u00e9rateur de projets",
-      "Gamification (XP, streaks, badges)",
+      "Syst\u00e8me de progression (XP, classement)",
       "Programme de parrainage",
     ],
     notIncluded: ["Visios individuelles"],

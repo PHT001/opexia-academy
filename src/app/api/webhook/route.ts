@@ -228,7 +228,7 @@ export async function POST(req: NextRequest) {
                       <li>Pipeline CRM int\u00e9gr\u00e9</li>
                       <li>Templates IA premium</li>
                       <li>G\u00e9n\u00e9rateur de projets</li>
-                      <li>Gamification (XP, streaks, badges)</li>
+                      <li>Syst\u00e8me de progression (XP, classement)</li>
                     </ul>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
                     <div style="margin-bottom: 24px;">
