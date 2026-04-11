@@ -123,20 +123,21 @@ export async function POST(request: Request) {
         });
         const tier = enrollment?.tier || "free";
         const tierLabels: Record<string, string> = {
-          free: "Gratuit (0€)",
-          starter: "Starter (47€)",
-          academy: "Academy (497€)",
-          one_to_one: "One-to-One (2 497€)",
+          free: "Gratuit (0 EUR)",
+          starter: "Starter (47 EUR)",
+          academy: "Academy (497 EUR)",
+          one_to_one: "One-to-One (2 497 EUR)",
         };
         const tierLabel = tierLabels[tier] || tier;
 
         await resend.emails.send({
           from: "OpexIA Notifications <support@opexia-formation.com>",
           to: "support@opexia-formation.com",
-          subject: `🎓 Nouvel élève inscrit — ${tierLabel}`,
+          subject: `Nouvel eleve inscrit - ${tierLabel}`,
           html: `
+            <meta charset="utf-8" />
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 520px; margin: 0 auto; padding: 32px 20px;">
-              <h2 style="color: #1A1A2E; margin-bottom: 16px;">Nouvel élève inscrit</h2>
+              <h2 style="color: #1A1A2E; margin-bottom: 16px;">Nouvel &#233;l&#232;ve inscrit</h2>
               <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
                 <tr>
                   <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px; width: 100px;">Nom</td>
