@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
@@ -11,6 +12,7 @@ import { ChatWidget } from "@/components/platform/ChatWidget";
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
 
   // Force logout if session is invalid (user deleted by admin)
   useEffect(() => {
@@ -38,12 +40,14 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     }
     return true;
   });
+  const isAdminRoute = pathname?.startsWith("/admin");
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("opexia-dark-mode") === "true";
     }
     return false;
   });
+  const effectiveDarkMode = darkMode || isAdminRoute;
 
   useEffect(() => {
     const handler = () => {
@@ -139,7 +143,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
 
   return (
     <XPToastProvider>
-    <div className={`min-h-screen ${darkMode ? "theme-dark" : "bg-[#F8F9FA]"}`}>
+    <div className={`min-h-screen ${effectiveDarkMode ? "theme-dark" : "bg-[#F8F9FA]"}`}>
       <Sidebar
         userName={session?.user?.name}
         role={session?.user?.role}
@@ -152,7 +156,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       />
 
       {/* Mobile topbar */}
-      <div className={`lg:hidden fixed top-0 left-0 right-0 z-30 h-14 border-b flex items-center px-4 shadow-sm ${darkMode ? "bg-[#0A0A0A] border-white/10" : "bg-white border-gray-200"}`}>
+      <div className={`lg:hidden fixed top-0 left-0 right-0 z-30 h-14 border-b flex items-center px-4 shadow-sm ${effectiveDarkMode ? "bg-[#0A0A0A] border-white/10" : "bg-white border-gray-200"}`}>
         <button
           onClick={() => setSidebarOpen(true)}
           className="p-2.5 -ml-1 text-gray-500 min-w-[44px] min-h-[44px] flex items-center justify-center"
