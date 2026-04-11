@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: "C\u2019est pas un scam / une arnaque ?",
-    a: "On comprend la m\u00e9fiance \u2014 il y a beaucoup de formations bidon sur le march\u00e9. OpexIA est une vraie agence IA qui a accompagn\u00e9 +200 entreprises. On ne vend pas du r\u00eave : on te donne les outils, la m\u00e9thode, et le support pour lancer. Et si apr\u00e8s avoir suivi la formation les r\u00e9sultats ne sont pas au rendez-vous, on te rembourse sous 14 jours (voir conditions dans nos CGU).",
+    a: "On comprend la m\u00e9fiance \u2014 il y a beaucoup de formations bidon sur le march\u00e9. OpexIA est une vraie agence IA qui a accompagn\u00e9 +200 entreprises. On ne vend pas du r\u00eave : on te donne les outils, la m\u00e9thode, et le support pour lancer.",
   },
   {
     q: "Comment fonctionne la garantie ?",

@@ -31,7 +31,7 @@ const FAQ_ITEMS = [
   {
     question: "Puis-je obtenir un remboursement si la formation ne me convient pas ?",
     answer:
-      "Nous offrons une garantie satisfait ou remboursé de 14 jours sous conditions : avoir complété au moins 80% de la formation et réalisé un appel bilan avec notre équipe. Détails dans nos CGU.",
+      "Oui, nous proposons une garantie satisfait ou remboursé sous conditions. Consulte nos CGU pour les détails.",
   },
 ];
 

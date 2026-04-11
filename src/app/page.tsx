@@ -86,9 +86,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                 </svg>
               </div>
-              <h3 className="text-base font-bold text-[#111] mb-1">Garantie 14 jours*</h3>
+              <h3 className="text-base font-bold text-[#111] mb-1">Support illimit&eacute;</h3>
               <p className="text-sm text-[#6B7280] leading-relaxed">
-                Suis la formation, et si les r&eacute;sultats ne sont pas l&agrave;, on te rembourse. <a href="/cgu#garantie" className="text-[#FF1744]/60 hover:text-[#FF1744] text-xs">Voir conditions</a>
+                Aide IA int&eacute;gr&eacute;e + communaut&eacute; Discord pour ne jamais rester bloqu&eacute;
               </p>
             </div>
           </div>
