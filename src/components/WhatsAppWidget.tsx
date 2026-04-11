@@ -18,6 +18,9 @@ export default function WhatsAppWidget() {
   // Hide on landing page (has its own chatbot) and marketing pages
   const isLandingPage = pathname === "/" || pathname === "/blog" || pathname?.startsWith("/blog/");
 
+  // Hide on platform routes — ChatWidget handles support there (avoids overlap)
+  const isPlatformRoute = pathname?.startsWith("/dashboard") || pathname?.startsWith("/lessons") || pathname?.startsWith("/coaching") || pathname?.startsWith("/pipeline") || pathname?.startsWith("/generateur") || pathname?.startsWith("/templates") || pathname?.startsWith("/offres") || pathname?.startsWith("/settings") || pathname?.startsWith("/leaderboard") || pathname?.startsWith("/certificats") || pathname?.startsWith("/notes") || pathname?.startsWith("/admin");
+
   // Fetch tier directly from API — don't rely on JWT which may be stale
   useEffect(() => {
     if (status === "authenticated") {
@@ -38,7 +41,7 @@ export default function WhatsAppWidget() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLandingPage || hiddenByTier) return null;
+  if (isLandingPage || hiddenByTier || isPlatformRoute) return null;
 
   return (
     <AnimatePresence>
