@@ -32,8 +32,19 @@ export async function POST(request: Request) {
     });
 
     if (existingLead) {
-      // Already downloaded — don't send again but return success
-      return NextResponse.json({ message: "Guide déjà envoyé à cette adresse" });
+      // Already exists — resend the guide email anyway
+      if (resend) {
+        const guide = guideEmail();
+        await resend.emails.send({
+          from: "Marius d'OpexIA <support@opexia-formation.com>",
+          to: email,
+          subject: guide.subject,
+          html: guide.html,
+        }).catch((err) => {
+          console.error("[Lead] Failed to resend guide email:", err);
+        });
+      }
+      return NextResponse.json({ message: "Guide renvoyé !" });
     }
 
     // Save lead in database

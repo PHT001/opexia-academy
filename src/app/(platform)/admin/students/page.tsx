@@ -90,7 +90,12 @@ export default function StudentsPage() {
   const handleDelete = async (id: string) => {
     setDeletingId(id);
     try {
-      const res = await fetch(`/api/admin/students/${id}`, { method: "DELETE" });
+      // Lead IDs start with "lead_"
+      const isLead = id.startsWith("lead_");
+      const realId = isLead ? id.replace("lead_", "") : id;
+      const res = isLead
+        ? await fetch("/api/admin/leads", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: realId }) })
+        : await fetch(`/api/admin/students/${id}`, { method: "DELETE" });
       if (res.ok) {
         setDeleteSuccess(true);
         setTimeout(() => setDeleteSuccess(false), 3000);
@@ -240,7 +245,6 @@ export default function StudentsPage() {
                         )}
                       </td>
                       <td className="px-3 py-4 text-center">
-                        {!isLead && (
                           <button
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
                             disabled={deletingId === student.id}
@@ -252,7 +256,6 @@ export default function StudentsPage() {
                             </svg>
                             Supprimer
                           </button>
-                        )}
                       </td>
                     </tr>
                   );

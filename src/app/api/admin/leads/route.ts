@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -48,6 +48,24 @@ export async function GET() {
     });
   } catch (error) {
     console.error("GET /api/admin/leads error:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id || (session.user as any).role !== "admin") {
+    return NextResponse.json({ error: "Non autorise" }, { status: 403 });
+  }
+
+  try {
+    const { id } = await req.json();
+    if (!id) return NextResponse.json({ error: "ID requis" }, { status: 400 });
+
+    await prisma.lead.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("DELETE /api/admin/leads error:", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
