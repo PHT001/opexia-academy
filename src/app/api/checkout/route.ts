@@ -147,12 +147,40 @@ export async function POST(req: NextRequest) {
       : `${origin}/dashboard?checkout=success&plan=${plan}`;
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 
-    // 2 installments for Academy: one-time payment at 507 EUR (497 + 10 EUR surcharge)
+    // 2 installments for Academy: subscription mode (253.50 EUR x 2 months)
     if (installments === 2 && plan === "academy") {
-      basePrice = 50700; // 507 EUR in cents
+      const subSession = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        payment_method_types: ["card"],
+        ...(customerId
+          ? { customer: customerId }
+          : userEmail
+            ? { customer_email: userEmail }
+            : {}),
+        metadata,
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: { name: `${p.name} \u2014 Paiement en 2 fois` },
+              unit_amount: 25350, // 253.50 EUR per month
+              recurring: { interval: "month" },
+            },
+            quantity: 1,
+          },
+        ],
+        subscription_data: { metadata },
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+      });
+
+      if (!subSession.url) {
+        return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
+      }
+      return NextResponse.json({ url: subSession.url });
     }
 
-    // Standard one-time payment (card only, no Klarna)
+    // Standard one-time payment (card only)
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
@@ -166,7 +194,7 @@ export async function POST(req: NextRequest) {
         {
           price_data: {
             currency: "eur",
-            product_data: { name: installments === 2 ? `${p.name} (paiement 2x)` : p.name, description: p.description },
+            product_data: { name: p.name, description: p.description },
             unit_amount: basePrice,
           },
           quantity: 1,
