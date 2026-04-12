@@ -395,5 +395,36 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Auto-cancel 2-installment subscriptions after 2nd payment
+  if (event.type === "invoice.paid") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const invoice = event.data.object as any;
+    const subscriptionId: string | null = typeof invoice.subscription === "string"
+      ? invoice.subscription
+      : invoice.subscription?.id ?? null;
+
+    if (subscriptionId) {
+      try {
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        // Check if this is a 2-installment plan
+        if (subscription.metadata?.installments === "2") {
+          // Count paid invoices for this subscription
+          const invoices = await stripe.invoices.list({
+            subscription: subscriptionId,
+            status: "paid",
+            limit: 10,
+          });
+          if (invoices.data.length >= 2) {
+            // 2 payments done — cancel the subscription
+            await stripe.subscriptions.cancel(subscriptionId);
+            console.log(`Auto-cancelled 2-installment subscription ${subscriptionId} after 2 payments`);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to handle invoice.paid for installments:", err instanceof Error ? err.message : err);
+      }
+    }
+  }
+
   return NextResponse.json({ received: true }, { status: 200 });
 }
