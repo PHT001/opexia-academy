@@ -66,7 +66,7 @@ export async function GET() {
   } else {
     // Get the highest tier enrollment (one_to_one > academy > starter > free)
     const enrollments = await prisma.enrollment.findMany({
-      where: { userId, status: "active" },
+      where: { userId, status: { in: ["active", "upgraded"] } },
     });
     const best = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0))[0];
     tier = best?.tier || null;

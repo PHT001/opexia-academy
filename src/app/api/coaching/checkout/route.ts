@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   // Verify user has Academy or One-to-One tier (or is admin)
   const enrollment = await prisma.enrollment.findFirst({
-    where: { userId: session.user.id, status: "active" },
+    where: { userId: session.user.id, status: { in: ["active", "upgraded"] } },
     orderBy: { createdAt: "desc" },
   });
   const userTier = enrollment?.tier || "free";

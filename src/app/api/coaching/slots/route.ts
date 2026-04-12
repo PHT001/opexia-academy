@@ -158,7 +158,7 @@ export async function GET(req: NextRequest) {
         take: 10,
       }),
       prisma.enrollment.findFirst({
-        where: { userId: session.user.id, status: "active" },
+        where: { userId: session.user.id, status: { in: ["active", "upgraded"] } },
         orderBy: { createdAt: "desc" },
         select: { tier: true },
       }),

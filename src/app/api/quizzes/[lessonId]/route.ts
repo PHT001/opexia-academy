@@ -40,7 +40,7 @@ export async function GET(
     if (!isAdmin) {
       let userTier = "free";
       const enrollments = await prisma.enrollment.findMany({
-        where: { userId, status: "active" },
+        where: { userId, status: { in: ["active", "upgraded"] } },
       });
       const bestEnrollment = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0))[0];
       if (bestEnrollment) {

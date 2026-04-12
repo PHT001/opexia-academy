@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   const isAdmin = session.user.role === "admin";
   if (!isAdmin) {
     const enrollments = await prisma.enrollment.findMany({
-      where: { userId: userId, status: "active" },
+      where: { userId: userId, status: { in: ["active", "upgraded"] } },
     });
     const bestEnrollment = enrollments.sort((a, b) => (TIER_PRIORITY[b.tier] ?? 0) - (TIER_PRIORITY[a.tier] ?? 0))[0];
     const userTier = bestEnrollment?.tier || "free";

@@ -13,7 +13,7 @@ export async function GET() {
   const isAdmin = session.user.role === "admin";
   if (!isAdmin) {
     const enrollment = await prisma.enrollment.findFirst({
-      where: { userId: session.user.id, status: "active" },
+      where: { userId: session.user.id, status: { in: ["active", "upgraded"] } },
       orderBy: { createdAt: "desc" },
     });
     const userTier = enrollment?.tier || "free";
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
   const isAdmin = session.user.role === "admin";
   if (!isAdmin) {
     const enrollment = await prisma.enrollment.findFirst({
-      where: { userId: session.user.id, status: "active" },
+      where: { userId: session.user.id, status: { in: ["active", "upgraded"] } },
       orderBy: { createdAt: "desc" },
     });
     const userTier = enrollment?.tier || "free";

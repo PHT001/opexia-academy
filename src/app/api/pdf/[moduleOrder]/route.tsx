@@ -39,7 +39,7 @@ export async function GET(
   if (!isAdmin) {
     let userTier = "starter";
     const enrollment = await prisma.enrollment.findFirst({
-      where: { userId, status: "active" },
+      where: { userId, status: { in: ["active", "upgraded"] } },
       orderBy: { createdAt: "desc" },
     });
     if (enrollment) {
