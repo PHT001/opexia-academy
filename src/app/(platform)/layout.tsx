@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
@@ -12,6 +12,8 @@ import { ChatWidget } from "@/components/platform/ChatWidget";
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
+  const isAdminRoute = pathname?.startsWith("/admin");
 
 
   // Force logout if session is invalid (user deleted by admin)
@@ -201,7 +203,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           </div>
         )}
         {/* Email verification soft reminder */}
-        {!emailVerified && !emailBannerDismissed && (
+        {!emailVerified && !emailBannerDismissed && session?.user?.role !== "admin" && (
           <div className="bg-amber-50 border-b border-amber-200/60">
             <div className="flex items-center justify-between gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8 xl:px-10 py-2">
               <div className="flex items-center gap-2 min-w-0">
@@ -239,7 +241,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           {children}
         </div>
       </main>
-      <ChatWidget />
+      {!isAdminRoute && <ChatWidget />}
     </div>
     </XPToastProvider>
   );
