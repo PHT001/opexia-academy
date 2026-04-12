@@ -36,8 +36,8 @@ export default function AgencyLaunchAnimation() {
 
   const leads = [
     { name: "Boulangerie Martin", status: "Nouveau", value: "1 200" },
-    { name: "Garage Auto Plus", status: "Contact", value: "2 500" },
-    { name: "Cabinet Durand", status: "Devis", value: "3 800" },
+    { name: "Garage Auto Plus", status: "Contact", value: "1 500" },
+    { name: "Cabinet Durand", status: "Devis", value: "2 200" },
   ];
 
   const pipelineStages = [
@@ -237,7 +237,7 @@ export default function AgencyLaunchAnimation() {
               <div className="px-3 py-2 space-y-1">
                 <div className="flex justify-between text-[8px]">
                   <span className="text-gray-600">{"Chatbot IA r\u00e9servation"}</span>
-                  <span className="font-semibold text-gray-800">{"2 500€"}</span>
+                  <span className="font-semibold text-gray-800">{"800€"}</span>
                 </div>
                 <div className="flex justify-between text-[8px]">
                   <span className="text-gray-600">{"Int\u00e9gration site web"}</span>

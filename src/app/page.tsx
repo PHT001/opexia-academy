@@ -75,7 +75,7 @@ export default function Home() {
               </div>
               <h3 className="text-base font-bold text-[#111] mb-1">10K&euro;/mois, c&apos;est r&eacute;aliste ?</h3>
               <p className="text-sm text-[#6B7280] leading-relaxed">
-                3 chatbots &agrave; 2&nbsp;500&euro; = 7&nbsp;500&euro;/mois. Nos &eacute;l&egrave;ves signent leur premier client en 14 jours.
+                Quelques projets IA par mois suffisent pour g&eacute;n&eacute;rer un revenu solide. Nos &eacute;l&egrave;ves signent leur premier client rapidement.
               </p>
             </div>
 

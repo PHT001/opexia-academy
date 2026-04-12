@@ -12,7 +12,7 @@ const services = [
     ),
     title: "Chatbots IA",
     desc: "Support 24/7, prise de RDV, qualification de leads.",
-    price: "800 – 2 500€",
+    price: "200 – 1 000€",
     tag: "Le plus demandé",
     accent: "#3B82F6",
     accentLight: "rgba(59,130,246,0.08)",
