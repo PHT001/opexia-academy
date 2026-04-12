@@ -30,6 +30,24 @@ function layout(content: string): string {
 }
 
 /**
+ * Free tier welcome — sent after registration (free plan).
+ */
+export function freeWelcomeEmail(name: string): { subject: string; html: string } {
+  const firstName = name?.split(" ")[0] || "there";
+  return {
+    subject: `${firstName}, bienvenue sur OpexIA`,
+    html: layout(`
+      <p>Salut ${firstName},</p>
+      <p>Bienvenue sur OpexIA Academy. Ton compte gratuit est actif.</p>
+      <p>Voici ce que tu peux faire d&egrave;s maintenant :</p>
+      <p>1. D&eacute;couvre les 2 premiers modules (7 le&ccedil;ons)<br/>2. Passe les quiz pour valider tes acquis<br/>3. Rejoins la communaut&eacute; Discord</p>
+      <p>Lien direct : <a href="https://opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
+      <p>Si tu veux d&eacute;bloquer la formation compl&egrave;te (86 le&ccedil;ons, coaching, templates...) : <a href="https://opexia-formation.com/#tarifs" style="color: #1a73e8;">voir les offres</a></p>
+    `),
+  };
+}
+
+/**
  * Welcome email — sent immediately after purchase.
  */
 export function welcomeEmail(name: string): { subject: string; html: string } {
@@ -350,6 +368,27 @@ export function dayThreeEmail(name: string): { subject: string; html: string } {
       <p>Tu as acc&egrave;s &agrave; la formation depuis 3 jours. Si tu bloques sur quelque chose ou si tu veux structurer ton plan d'action, on peut en parler.</p>
       <p>R&eacute;serve un appel gratuit de 15 min avec moi sur WhatsApp : <a href="https://wa.me/33787858036" style="color: #1a73e8;">wa.me/33787858036</a></p>
       <p>Sinon, r&eacute;ponds &agrave; cet email, je te r&eacute;ponds sous 24h.</p>
+    `),
+  };
+}
+
+/**
+ * Re-engagement email — sent to inactive users (14+ days no activity).
+ */
+export function reEngagementEmail(name: string, lastLessonTitle?: string): { subject: string; html: string } {
+  const firstName = name?.split(" ")[0] || "there";
+  const lessonText = lastLessonTitle
+    ? `<p>Tu en &eacute;tais &agrave; <strong>${lastLessonTitle}</strong>. Reprends l&agrave; o&ugrave; tu t'es arr&ecirc;t&eacute; :</p>`
+    : `<p>Tu n'as pas encore commenc&eacute;. Lance-toi avec la premi&egrave;re le&ccedil;on :</p>`;
+
+  return {
+    subject: `${firstName}, ta formation t'attend`,
+    html: layout(`
+      <p>Salut ${firstName},</p>
+      <p>&Ccedil;a fait un moment qu'on ne t'a pas vu sur la plateforme.</p>
+      ${lessonText}
+      <p><a href="https://opexia-formation.com/lessons" style="color: #1a73e8; font-weight: 600;">Reprendre la formation &rarr;</a></p>
+      <p>15 minutes suffisent pour avancer. Bloque un cr&eacute;neau et lance-toi.</p>
     `),
   };
 }

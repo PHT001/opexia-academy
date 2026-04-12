@@ -19,6 +19,14 @@
     {
       "path": "/api/cron/update-bots",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/re-engagement",
+      "schedule": "0 14 * * 3"
+    },
+    {
+      "path": "/api/cron/referral-payout",
+      "schedule": "0 8 1 * *"
     }
   ]
 }

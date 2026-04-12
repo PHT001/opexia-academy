@@ -5,6 +5,7 @@ import crypto from "crypto";
 import { z } from "zod";
 import { Resend } from "resend";
 import rateLimit from "@/lib/rate-limit";
+import { freeWelcomeEmail } from "@/lib/email-templates";
 
 const limiter = rateLimit({ interval: 15 * 60 * 1000, uniqueTokenPerInterval: 500 });
 
@@ -110,6 +111,21 @@ export async function POST(request: Request) {
         });
       } catch (emailError) {
         console.error("Failed to send verification email:", emailError instanceof Error ? emailError.message : "Unknown error");
+      }
+
+      // Send free welcome email (only for new free users, not guest checkout upgrades)
+      if (!existingUser) {
+        try {
+          const welcome = freeWelcomeEmail(name || email.split("@")[0]);
+          await resend.emails.send({
+            from: "Marius d'OpexIA <support@opexia-formation.com>",
+            to: email,
+            subject: welcome.subject,
+            html: welcome.html,
+          });
+        } catch (welcomeErr) {
+          console.error("Failed to send free welcome email:", welcomeErr instanceof Error ? welcomeErr.message : "Unknown");
+        }
       }
     }
 
