@@ -1381,14 +1381,6 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
         <div className="relative z-10">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              {onTestOnboarding && (
-                <button
-                  onClick={onTestOnboarding}
-                  className="mb-3 px-4 py-1.5 rounded-lg bg-purple-500/20 border border-purple-400/30 text-purple-300 text-[11px] font-semibold hover:bg-purple-500/30 transition-colors"
-                >
-                  🧪 Tester onboarding ({userTier || "admin"})
-                </button>
-              )}
               <p className="text-[11px] uppercase tracking-[0.2em] text-[#FF1744] font-semibold mb-2">Administration</p>
               <motion.h1
                 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-1"
