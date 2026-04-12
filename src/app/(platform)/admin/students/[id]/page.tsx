@@ -21,9 +21,9 @@ interface StudentDetail {
 }
 
 const ENGAGEMENT_BADGE: Record<string, { bg: string; text: string; label: string; dot: string }> = {
-  chaud: { bg: "bg-emerald-50", text: "text-emerald-600", label: "Chaud", dot: "bg-emerald-500" },
-  tiede: { bg: "bg-amber-50", text: "text-amber-600", label: "Tiede", dot: "bg-amber-500" },
-  froid: { bg: "bg-red-50", text: "text-red-600", label: "Froid", dot: "bg-red-500" },
+  chaud: { bg: "bg-emerald-50", text: "text-emerald-600", label: "Actif", dot: "bg-emerald-500" },
+  tiede: { bg: "bg-amber-50", text: "text-amber-600", label: "Peu actif", dot: "bg-amber-500" },
+  froid: { bg: "bg-red-50", text: "text-red-600", label: "Inactif", dot: "bg-red-500" },
 };
 
 const EMAIL_TYPE_BADGE: Record<string, { bg: string; text: string; label: string }> = {
@@ -129,6 +129,12 @@ export default function StudentDetailPage() {
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl font-bold text-[#111] truncate">{student.name || "Sans nom"}</h1>
             <p className="text-sm text-gray-400 truncate">{student.email}</p>
+            {student.phone && (
+              <p className="text-sm text-gray-500 flex items-center gap-1.5 mt-0.5">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+                {student.phone}
+              </p>
+            )}
             <div className="flex flex-wrap items-center gap-3 mt-2">
               <span className="text-xs text-gray-400">Inscrit le {new Date(student.createdAt).toLocaleDateString("fr-FR")}</span>
               {badge && <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}>{badge.label}</span>}
