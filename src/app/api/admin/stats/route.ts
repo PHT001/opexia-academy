@@ -232,6 +232,24 @@ export async function GET() {
   });
   const funnelActiveUsers = activeStudents.length; // users with streak in last 7 days
 
+  // ── Email Stats ──
+  const sevenDaysAgoEmail = new Date();
+  sevenDaysAgoEmail.setDate(sevenDaysAgoEmail.getDate() - 7);
+
+  const [emailsSent, emailsFailed, emailsThisWeek, emailsByTypeRaw, totalLeads, convertedLeads] = await Promise.all([
+    prisma.emailLog.count(),
+    prisma.emailLog.count({ where: { status: "failed" } }),
+    prisma.emailLog.count({ where: { createdAt: { gte: sevenDaysAgoEmail } } }),
+    prisma.emailLog.groupBy({ by: ["type"], _count: true }),
+    prisma.lead.count(),
+    prisma.lead.count({ where: { status: "converted" } }),
+  ]);
+
+  const emailsByType: Record<string, number> = {};
+  for (const e of emailsByTypeRaw) {
+    emailsByType[e.type] = e._count;
+  }
+
   return NextResponse.json({
     totalStudents,
     activeStudents: activeStudents.length,
@@ -256,6 +274,17 @@ export async function GET() {
       verifiedUsers: funnelVerifiedUsers,
       enrolledUsers: funnelEnrolledUsers,
       activeUsers: funnelActiveUsers,
+    },
+    emails: {
+      sent: emailsSent,
+      failed: emailsFailed,
+      thisWeek: emailsThisWeek,
+      byType: emailsByType,
+    },
+    leads: {
+      total: totalLeads,
+      converted: convertedLeads,
+      conversionRate: totalLeads > 0 ? Math.round((convertedLeads / totalLeads) * 100) : 0,
     },
   });
   } catch (error) {

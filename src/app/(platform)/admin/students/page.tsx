@@ -17,6 +17,9 @@ interface Student {
   totalXP: number;
   isBot: boolean;
   isLead?: boolean;
+  leadStatus?: string;
+  leadSource?: string;
+  leadConvertedAt?: string | null;
 }
 
 interface StudentsResponse {
@@ -24,6 +27,15 @@ interface StudentsResponse {
   total: number;
   page: number;
   totalPages: number;
+}
+
+interface AdminStats {
+  totalStudents: number;
+  activeStudents: number;
+  totalRevenue: number;
+  avgCompletion: number;
+  emails: { sent: number; failed: number; thisWeek: number; byType: Record<string, number> };
+  leads: { total: number; converted: number; conversionRate: number };
 }
 
 const TIER_CONFIG: Record<string, { bg: string; text: string; label: string; sectionBg: string; sectionBorder: string; dot: string }> = {
@@ -36,29 +48,43 @@ const TIER_CONFIG: Record<string, { bg: string; text: string; label: string; sec
 
 const TIER_ORDER = ["one_to_one", "academy", "starter", "free", "lead"];
 
+const EMAIL_TYPE_LABELS: Record<string, string> = {
+  drip: "Onboarding", free_followup: "Free follow-up", manual: "Manuel",
+  weekly_recap: "Recap hebdo", nurture: "Nurture", welcome: "Bienvenue",
+};
+
+const LEAD_STATUS_BADGE: Record<string, { bg: string; text: string; label: string }> = {
+  active: { bg: "bg-amber-50", text: "text-amber-600", label: "Actif" },
+  contacted: { bg: "bg-blue-50", text: "text-blue-600", label: "Contacte" },
+  converted: { bg: "bg-emerald-50", text: "text-emerald-600", label: "Converti" },
+};
+
 export default function StudentsPage() {
   const [data, setData] = useState<StudentsResponse | null>(null);
+  const [stats, setStats] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [expandedLeadId, setExpandedLeadId] = useState<string | null>(null);
 
-  const fetchStudents = useCallback(() => {
-    fetch("/api/admin/students?limit=200&sort=createdAt&order=desc")
-      .then((r) => r.json())
-      .then((d: StudentsResponse) => { setData(d); setLoading(false); })
-      .catch(() => setLoading(false));
+  const fetchAll = useCallback(() => {
+    Promise.all([
+      fetch("/api/admin/students?limit=200&sort=createdAt&order=desc").then((r) => r.json()),
+      fetch("/api/admin/stats").then((r) => r.json()),
+    ]).then(([studentsData, statsData]) => {
+      setData(studentsData);
+      setStats(statsData);
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, []);
 
-  // Initial fetch
-  useEffect(() => { fetchStudents(); }, [fetchStudents]);
-
-  // Auto-refresh every 15 seconds
+  useEffect(() => { fetchAll(); }, [fetchAll]);
   useEffect(() => {
-    const interval = setInterval(fetchStudents, 15000);
+    const interval = setInterval(fetchAll, 15000);
     return () => clearInterval(interval);
-  }, [fetchStudents]);
+  }, [fetchAll]);
 
   const formatRelative = (dateStr: string | null) => {
     if (!dateStr) return "\u2014";
@@ -73,6 +99,11 @@ export default function StudentsPage() {
     return new Date(dateStr).toLocaleDateString("fr-FR");
   };
 
+  const formatEuro = (n: number) => {
+    const parts = n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return `${parts} EUR`;
+  };
+
   const handleDelete = async (id: string) => {
     setDeletingId(id);
     try {
@@ -84,10 +115,32 @@ export default function StudentsPage() {
       if (res.ok) {
         setDeleteSuccess(true);
         setTimeout(() => setDeleteSuccess(false), 3000);
-        fetchStudents();
+        fetchAll();
       }
     } catch { /* ignore */ }
     finally { setDeletingId(null); setConfirmDeleteId(null); }
+  };
+
+  const handleExportCSV = () => {
+    if (!data?.students) return;
+    const headers = ["Nom", "Email", "Tier", "Progression (%)", "XP", "Derniere activite", "Date inscription"];
+    const rows = data.students.map((s) => [
+      s.name || (s.isLead ? "Lead" : "Sans nom"),
+      s.email,
+      s.isLead ? "Lead" : (TIER_CONFIG[s.tier || ""]?.label || s.tier || ""),
+      s.isLead ? "" : String(s.totalLessons > 0 ? Math.round((s.completedLessons / s.totalLessons) * 100) : 0),
+      s.isLead ? "" : String(s.totalXP),
+      s.lastActive || s.createdAt,
+      s.createdAt,
+    ]);
+    const csvContent = "\uFEFF" + [headers, ...rows].map((r) => r.map((c) => `"${(c || "").replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `eleves-opexia-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   // Group students by tier
@@ -96,7 +149,6 @@ export default function StudentsPage() {
     for (const s of data.students) {
       const key = s.isLead ? "lead" : (s.tier || "free");
       if (!grouped[key]) grouped[key] = [];
-      // Apply search filter client-side
       if (search) {
         const q = search.toLowerCase();
         if (!(s.name?.toLowerCase().includes(q) || s.email.toLowerCase().includes(q))) continue;
@@ -105,11 +157,8 @@ export default function StudentsPage() {
     }
   }
 
-  // Count per tier for badges
   const tierCounts: Record<string, number> = {};
-  for (const [key, list] of Object.entries(grouped)) {
-    tierCounts[key] = list.length;
-  }
+  for (const [key, list] of Object.entries(grouped)) tierCounts[key] = list.length;
 
   return (
     <div>
@@ -117,17 +166,69 @@ export default function StudentsPage() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <h1 className="text-3xl font-bold text-[#111]">Eleves</h1>
-          {data && (
-            <span className="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full font-medium">
-              {data.total}
-            </span>
-          )}
+          {data && <span className="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full font-medium">{data.total}</span>}
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs text-gray-400">Actualisation auto</span>
+        <div className="flex items-center gap-4">
+          <button onClick={handleExportCSV} disabled={!data?.students?.length} className="px-4 py-2 bg-[#111] text-white text-xs font-medium rounded-lg hover:bg-[#333] transition-all disabled:opacity-30">
+            Exporter CSV
+          </button>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-xs text-gray-400">Live</span>
+          </div>
         </div>
       </div>
+
+      {/* KPI Stats Cards */}
+      {stats && (
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <p className="text-xs text-gray-400 mb-1">Eleves</p>
+            <p className="text-2xl font-bold text-[#111]">{stats.totalStudents}</p>
+            <p className="text-xs text-gray-400 mt-0.5">{stats.activeStudents} actifs 7j</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <p className="text-xs text-gray-400 mb-1">Revenue</p>
+            <p className="text-2xl font-bold text-[#FF1744]">{formatEuro(stats.totalRevenue)}</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <p className="text-xs text-gray-400 mb-1">Leads</p>
+            <p className="text-2xl font-bold text-purple-600">{stats.leads.total}</p>
+            <p className="text-xs text-gray-400 mt-0.5">{stats.leads.conversionRate}% convertis</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <p className="text-xs text-gray-400 mb-1">Emails envoyes</p>
+            <p className="text-2xl font-bold text-[#111]">{stats.emails.sent}</p>
+            <p className="text-xs text-gray-400 mt-0.5">{stats.emails.thisWeek} cette semaine</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <p className="text-xs text-gray-400 mb-1">Completion</p>
+            <p className="text-2xl font-bold text-[#111]">{stats.avgCompletion}%</p>
+            <p className="text-xs text-gray-400 mt-0.5">taux moyen</p>
+          </div>
+        </div>
+      )}
+
+      {/* Email breakdown */}
+      {stats?.emails && Object.keys(stats.emails.byType).length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6">
+          <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-3">Emails par type</p>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(stats.emails.byType).map(([type, count]) => (
+              <span key={type} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-full text-xs">
+                <span className="font-medium text-[#111]">{count}</span>
+                <span className="text-gray-400">{EMAIL_TYPE_LABELS[type] || type}</span>
+              </span>
+            ))}
+            {stats.emails.failed > 0 && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 rounded-full text-xs">
+                <span className="font-medium text-red-600">{stats.emails.failed}</span>
+                <span className="text-red-400">echoues</span>
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Search */}
       <div className="mb-6">
@@ -167,7 +268,6 @@ export default function StudentsPage() {
 
             return (
               <div key={tierKey} className={`rounded-2xl border ${cfg.sectionBorder} overflow-hidden`}>
-                {/* Section header */}
                 <div className={`${cfg.sectionBg} px-5 py-3 flex items-center justify-between border-b ${cfg.sectionBorder}`}>
                   <div className="flex items-center gap-2.5">
                     <span className={`w-2.5 h-2.5 rounded-full ${cfg.dot}`} />
@@ -176,63 +276,103 @@ export default function StudentsPage() {
                   </div>
                 </div>
 
-                {/* Students list */}
-                <div className="bg-white">
-                  {students.map((student, i) => {
+                <div className="bg-white divide-y divide-gray-50">
+                  {students.map((student) => {
                     const pct = student.totalLessons > 0 ? Math.round((student.completedLessons / student.totalLessons) * 100) : 0;
+                    const isExpanded = expandedLeadId === student.id;
+                    const statusBadge = student.leadStatus ? LEAD_STATUS_BADGE[student.leadStatus] : null;
 
                     const row = (
-                      <div
-                        key={student.id}
-                        className={`flex items-center gap-4 px-5 py-3.5 ${i < students.length - 1 ? "border-b border-gray-50" : ""} hover:bg-gray-50/50 transition-colors group ${isLeadSection ? "" : "cursor-pointer"}`}
-                      >
-                        {/* Avatar */}
-                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isLeadSection ? "bg-purple-100 text-purple-600" : "bg-gray-100 text-[#111]"}`}>
-                          {(student.name || student.email)[0].toUpperCase()}
-                        </div>
-
-                        {/* Name + Email */}
-                        <div className="min-w-0 flex-1">
-                          <p className={`text-sm font-medium truncate ${isLeadSection ? "text-gray-600" : "text-[#111] group-hover:text-[#FF1744]"} transition-colors`}>
-                            {student.name || (isLeadSection ? student.email.split("@")[0] : "Sans nom")}
-                          </p>
-                          <p className="text-xs text-gray-400 truncate">{student.email}</p>
-                        </div>
-
-                        {/* Progress (not for leads) */}
-                        <div className="hidden sm:flex items-center gap-2 w-32">
-                          {isLeadSection ? (
-                            <span className="text-xs text-gray-300">{"\u2014"}</span>
-                          ) : (
-                            <>
-                              <div className="w-20"><ProgressBar value={pct} size="sm" showLabel={false} /></div>
-                              <span className="text-xs text-gray-400">{student.completedLessons}/{student.totalLessons}</span>
-                            </>
-                          )}
-                        </div>
-
-                        {/* XP */}
-                        <div className="hidden md:block w-16 text-right">
-                          {isLeadSection ? (
-                            <span className="text-xs text-gray-300">{"\u2014"}</span>
-                          ) : (
-                            <span className="text-sm font-medium text-[#111]">{student.totalXP}</span>
-                          )}
-                        </div>
-
-                        {/* Last active */}
-                        <div className="hidden lg:block w-28 text-right">
-                          <span className="text-xs text-gray-400">{formatRelative(student.lastActive || student.createdAt)}</span>
-                        </div>
-
-                        {/* Delete */}
-                        <button
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
-                          disabled={deletingId === student.id}
-                          className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 transition-all disabled:opacity-50 text-xs font-medium shrink-0 opacity-0 group-hover:opacity-100"
+                      <div key={student.id}>
+                        <div
+                          className={`flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50/50 transition-colors group ${isLeadSection ? "cursor-pointer" : "cursor-pointer"}`}
+                          onClick={isLeadSection ? () => setExpandedLeadId(isExpanded ? null : student.id) : undefined}
                         >
-                          Supprimer
-                        </button>
+                          <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isLeadSection ? "bg-purple-100 text-purple-600" : "bg-gray-100 text-[#111]"}`}>
+                            {(student.name || student.email)[0].toUpperCase()}
+                          </div>
+
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <p className={`text-sm font-medium truncate ${isLeadSection ? "text-gray-600" : "text-[#111] group-hover:text-[#FF1744]"} transition-colors`}>
+                                {student.name || (isLeadSection ? student.email.split("@")[0] : "Sans nom")}
+                              </p>
+                              {isLeadSection && statusBadge && (
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${statusBadge.bg} ${statusBadge.text}`}>
+                                  {statusBadge.label}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-gray-400 truncate">{student.email}</p>
+                          </div>
+
+                          <div className="hidden sm:flex items-center gap-2 w-32">
+                            {isLeadSection ? (
+                              <span className="text-xs text-gray-300">{"\u2014"}</span>
+                            ) : (
+                              <>
+                                <div className="w-20"><ProgressBar value={pct} size="sm" showLabel={false} /></div>
+                                <span className="text-xs text-gray-400">{student.completedLessons}/{student.totalLessons}</span>
+                              </>
+                            )}
+                          </div>
+
+                          <div className="hidden md:block w-16 text-right">
+                            {isLeadSection ? (
+                              <span className="text-xs text-gray-300">{"\u2014"}</span>
+                            ) : (
+                              <span className="text-sm font-medium text-[#111]">{student.totalXP}</span>
+                            )}
+                          </div>
+
+                          <div className="hidden lg:block w-28 text-right">
+                            <span className="text-xs text-gray-400">{formatRelative(student.lastActive || student.createdAt)}</span>
+                          </div>
+
+                          <button
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
+                            disabled={deletingId === student.id}
+                            className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 transition-all disabled:opacity-50 text-xs font-medium shrink-0 opacity-0 group-hover:opacity-100"
+                          >
+                            Supprimer
+                          </button>
+                        </div>
+
+                        {/* Expandable lead detail */}
+                        {isLeadSection && isExpanded && (
+                          <div className="px-5 pb-4 pt-1 bg-purple-50/30 border-t border-purple-100">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                              <div>
+                                <p className="text-gray-400 mb-0.5">Email</p>
+                                <p className="text-[#111] font-medium">{student.email}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-400 mb-0.5">Source</p>
+                                <p className="text-[#111] font-medium">{student.leadSource === "guide_niches" ? "Guide 5 niches IA" : (student.leadSource || "\u2014")}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-400 mb-0.5">Date inscription</p>
+                                <p className="text-[#111] font-medium">{new Date(student.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-400 mb-0.5">Statut</p>
+                                {statusBadge ? (
+                                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${statusBadge.bg} ${statusBadge.text}`}>
+                                    {statusBadge.label}
+                                  </span>
+                                ) : (
+                                  <p className="text-[#111]">{"\u2014"}</p>
+                                )}
+                              </div>
+                              {student.leadConvertedAt && (
+                                <div className="col-span-2">
+                                  <p className="text-gray-400 mb-0.5">Date conversion</p>
+                                  <p className="text-emerald-600 font-medium">{new Date(student.leadConvertedAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     );
 

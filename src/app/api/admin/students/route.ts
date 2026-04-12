@@ -59,6 +59,9 @@ export async function GET(req: NextRequest) {
       totalXP: 0,
       isBot: false,
       isLead: true,
+      leadStatus: l.status,
+      leadSource: l.source,
+      leadConvertedAt: l.convertedAt?.toISOString() || null,
     }));
 
     return NextResponse.json({
@@ -178,6 +181,9 @@ export async function GET(req: NextRequest) {
       totalXP: 0,
       isBot: false,
       isLead: true,
+      leadStatus: l.status,
+      leadSource: l.source,
+      leadConvertedAt: l.convertedAt?.toISOString() || null,
     }));
 
     // Merge: add leads at the end, then re-sort by date
