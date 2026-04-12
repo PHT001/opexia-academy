@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
   const plan = body.plan as string | undefined;
   const coupon = body.coupon as string | undefined;
   const guest = body.guest === true;
+  const installments = body.installments as number | undefined;
   let ref: string | undefined = (body.ref as string | undefined) || "";
   if (ref && (typeof ref !== "string" || ref.length > 32 || !/^[a-zA-Z0-9]+$/.test(ref))) ref = undefined;
 
@@ -120,13 +121,21 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const hasCustomDiscount = basePrice !== p.price;
+    // 2-installment surcharge for Academy: 497 → 507 EUR (+10 EUR)
+    if (installments === 2 && plan === "academy") {
+      basePrice = basePrice + 1000; // +10 EUR in cents
+    }
+
+    const hasCustomDiscount = basePrice !== p.price && installments !== 2;
 
     // For guest checkout: no userId, mark as guest
     const metadata: Record<string, string> = {
       plan: plan,
       coupon: coupon || "",
     };
+    if (installments === 2) {
+      metadata.installments = "2";
+    }
     if (ref) {
       metadata.ref = ref;
     }
@@ -144,8 +153,9 @@ export async function POST(req: NextRequest) {
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 
     // Klarna for Academy/OneToOne — Stripe handles installments natively
+    // Force Klarna-only when 2 installments selected
     const paymentMethodTypes: ("card" | "klarna")[] =
-      plan !== "starter" ? ["card", "klarna"] : ["card"];
+      installments === 2 ? ["klarna"] : (plan !== "starter" ? ["card", "klarna"] : ["card"]);
 
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",

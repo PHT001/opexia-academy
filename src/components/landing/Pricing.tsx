@@ -159,6 +159,7 @@ export default function Pricing() {
   const [bypassLoading, setBypassLoading] = useState<string | null>(null);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   const [userTier, setUserTier] = useState<string | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     fetch("/api/progress")
@@ -175,41 +176,43 @@ export default function Pricing() {
       });
   }, []);
 
-  async function handleCheckout(slug: string) {
-    setLoading(slug);
-    try {
-      // Read referral code from localStorage (set by RefCapture or register page)
-      const ref = typeof window !== "undefined" ? localStorage.getItem("opexia-ref") || "" : "";
+  async function handleCheckout(slug: string, installments?: number) {
+    // For Academy: show payment choice modal first
+    if (slug === "academy" && !installments) {
+      setShowPaymentModal(true);
+      return;
+    }
 
-      // First try normal checkout (works if user is logged in)
+    setLoading(slug);
+    setShowPaymentModal(false);
+    try {
+      const ref = typeof window !== "undefined" ? localStorage.getItem("opexia-ref") || "" : "";
+      const payload: Record<string, unknown> = { plan: slug, ...(ref ? { ref } : {}) };
+      if (installments) payload.installments = installments;
+
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: slug, ...(ref ? { ref } : {}) }),
+        body: JSON.stringify(payload),
       });
 
       if (res.status === 401) {
-        // Not logged in — retry as guest checkout (pay first, register after)
         const guestRes = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ plan: slug, guest: true, ...(ref ? { ref } : {}) }),
+          body: JSON.stringify({ ...payload, guest: true }),
         });
         const guestData = await guestRes.json();
-        if (!guestRes.ok) {
-          throw new Error(guestData.error || "Erreur lors du checkout");
-        }
+        if (!guestRes.ok) throw new Error(guestData.error || "Erreur lors du checkout");
         window.location.href = guestData.url;
         return;
       }
 
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Erreur lors du checkout");
-      }
+      if (!res.ok) throw new Error(data.error || "Erreur lors du checkout");
       window.location.href = data.url;
     } catch {
-      alert("Une erreur est survenue. Veuillez réessayer.");
+      alert("Une erreur est survenue. Veuillez r\u00e9essayer.");
     } finally {
       setLoading(null);
     }
@@ -320,7 +323,7 @@ export default function Pricing() {
                 )}
 
                 {plan.slug === "academy" && (
-                  <p className="text-xs text-[#6B7280] mt-2 text-center">paiement en plusieurs fois disponible</p>
+                  <p className="text-xs text-[#6B7280] mt-2 text-center">ou en 2 fois : 253,50 EUR x2</p>
                 )}
               </div>
 
@@ -485,6 +488,44 @@ export default function Pricing() {
         </motion.div>
 
       </div>
+
+      {/* Payment choice modal for Academy */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowPaymentModal(false)}>
+          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full mx-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-[#111] text-center mb-1">Comment veux-tu payer ?</h3>
+            <p className="text-xs text-gray-400 text-center mb-6">Formation Academy — Acc&egrave;s complet</p>
+
+            <div className="space-y-3">
+              <button
+                onClick={() => handleCheckout("academy", 1)}
+                disabled={loading === "academy"}
+                className="w-full p-4 rounded-xl border-2 border-[#FF1744] bg-[#FF1744]/5 hover:bg-[#FF1744]/10 transition-all text-left relative"
+              >
+                <span className="absolute top-3 right-3 text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 px-2 py-0.5 rounded-full">Recommand&eacute;</span>
+                <p className="text-sm font-bold text-[#111]">Paiement unique</p>
+                <p className="text-2xl font-black text-[#111] mt-1">497 EUR</p>
+                <p className="text-xs text-gray-400 mt-1">Meilleur prix — Paiement par carte</p>
+              </button>
+
+              <button
+                onClick={() => handleCheckout("academy", 2)}
+                disabled={loading === "academy"}
+                className="w-full p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-left"
+              >
+                <p className="text-sm font-bold text-[#111]">En 2 fois</p>
+                <p className="text-2xl font-black text-[#111] mt-1">253,50 EUR <span className="text-sm font-medium text-gray-400">x 2</span></p>
+                <p className="text-xs text-gray-400 mt-1">507 EUR total — Paiement via Klarna</p>
+              </button>
+            </div>
+
+            <div className="mt-5 flex items-center justify-center gap-2 text-[10px] text-gray-400">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+              Paiement s&eacute;curis&eacute; par Stripe
+            </div>
+          </div>
+        </div>
+      )}
 
     </section>
   );
