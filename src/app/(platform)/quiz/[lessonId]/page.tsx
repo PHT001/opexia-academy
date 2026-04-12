@@ -79,7 +79,7 @@ export default function QuizPage() {
   if (phase === "intro") {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
-        <div className="bg-white rounded-2xl border border-gray-200 p-10 shadow-sm">
+        <div className="bg-white rounded-2xl border border-gray-200 p-5 sm:p-10 shadow-sm">
           <div className="text-5xl mb-6">📝</div>
           <h1 className="text-2xl font-bold mb-3 text-[#111]">Quiz — {lessonTitle}</h1>
           <p className="text-gray-500 mb-2">{questions.length} questions</p>
@@ -183,7 +183,7 @@ export default function QuizPage() {
         Question {currentIdx + 1} sur {questions.length}
       </p>
 
-      <div className="bg-white rounded-2xl border border-gray-200 p-8 mb-8 shadow-sm">
+      <div className="bg-white rounded-2xl border border-gray-200 p-5 sm:p-8 mb-6 sm:mb-8 shadow-sm">
         <h2 className="text-lg font-bold mb-6 text-[#111]">{currentQ.question}</h2>
 
         <div className="space-y-3">

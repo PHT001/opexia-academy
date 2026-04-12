@@ -932,7 +932,7 @@ function DashboardContent() {
       )}
 
       {/* ════ STATS CARDS ════ */}
-      <motion.div className="grid grid-cols-3 gap-4" variants={stagger}>
+      <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4" variants={stagger}>
         {[
           { label: "Le\u00e7ons", numValue: data?.completedLessons || 0, displaySuffix: `/${data?.totalLessons || 80}`, sub: "termin\u00e9es", accentClass: "text-[#111]", icon: IconBook },
           { label: "XP total", numValue: data?.xp || 0, displaySuffix: "", sub: "points gagn\u00e9s", accentClass: "text-[#FF1744]", icon: IconBolt },

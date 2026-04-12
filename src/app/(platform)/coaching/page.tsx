@@ -268,7 +268,7 @@ function CalendlyPicker({
   /* ─── No slots ─── */
   if (slots.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-10 text-center max-w-md mx-auto">
+      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 sm:p-10 text-center max-w-md mx-auto">
         <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-2xl mx-auto mb-3">📅</div>
         <p className="text-sm font-semibold text-gray-700 mb-1">Aucun créneau disponible</p>
         <p className="text-xs text-gray-400">Reviens bientôt, de nouveaux créneaux seront ajoutés.</p>

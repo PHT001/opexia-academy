@@ -244,7 +244,7 @@ function LessonReaderPanel({
 
       {/* Upsell */}
       {lesson.order === 10 && (
-        <div className="bg-gradient-to-br from-[#FF1744]/5 to-[#FF1744]/10 rounded-2xl p-8 border border-[#FF1744]/20 text-center">
+        <div className="bg-gradient-to-br from-[#FF1744]/5 to-[#FF1744]/10 rounded-2xl p-5 sm:p-8 border border-[#FF1744]/20 text-center">
           <h3 className="text-xl font-bold text-[#111] mb-3">Tu veux aller plus vite ?</h3>
           <p className="text-sm text-[#6B7280] mb-6">Passe {"\u00e0"} la formule One-to-One et b{"\u00e9"}n{"\u00e9"}ficie d&apos;un accompagnement personnalis{"\u00e9"}.</p>
           <a href="/offres" className="inline-block bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors">
@@ -862,26 +862,26 @@ export default function LessonsPage() {
       </div>
 
       {/* ── Bottom spacer so content isn't hidden behind floating CTA ── */}
-      {(userTier === "free" || userTier === "starter") && <div className="h-24" />}
+      {(userTier === "free" || userTier === "starter") && <div className="h-28 sm:h-24" />}
 
       {/* ── Floating fixed CTA for non-academy users ── */}
       {(userTier === "free" || userTier === "starter") && (
-        <div className="fixed bottom-6 left-0 right-0 px-4 lg:left-[260px] z-50 flex justify-center" style={{ pointerEvents: "none" }}>
+        <div className="fixed bottom-0 left-0 right-0 lg:left-[260px] z-40 flex justify-center pb-4 pt-3 px-4 bg-gradient-to-t from-white via-white/95 to-transparent" style={{ pointerEvents: "none" }}>
           <motion.a
             href="/offres"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 1, duration: 0.4, ease: "easeOut" }}
-            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform"
+            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform max-w-[90vw]"
             style={{
               pointerEvents: "auto",
               background: "linear-gradient(135deg, #FF1744, #D50000)",
               boxShadow: "0 8px 32px rgba(255,23,68,0.4), 0 2px 8px rgba(0,0,0,0.1)",
             }}
           >
-            <IconLock className="w-4 h-4 opacity-80" />
+            <IconLock className="w-4 h-4 opacity-80 shrink-0" />
             D{"é"}bloquer tous les modules
-            <IconArrowRight className="w-4 h-4" />
+            <IconArrowRight className="w-4 h-4 shrink-0" />
           </motion.a>
         </div>
       )}
