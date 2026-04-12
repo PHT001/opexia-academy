@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useTierGate } from "@/hooks/useTierGate";
 
 /* ─── Types ─────────────────────────────────────────── */
 interface Template {
@@ -1298,11 +1299,13 @@ function IconChevron({ className }: { className?: string }) {
 
 /* ─── Page ──────────────────────────────────────────── */
 export default function TemplatesPage() {
+  const { isLocked, loading } = useTierGate();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
 
   const handleCopy = (content: string, idx: number) => {
+    if (isLocked) return;
     navigator.clipboard.writeText(content);
     setCopiedIdx(idx);
     setTimeout(() => setCopiedIdx(null), 2000);
@@ -1408,8 +1411,19 @@ export default function TemplatesPage() {
   // ─── Category grid view
   const totalTemplates = CATEGORIES.reduce((sum, c) => sum + c.templates.length, 0);
 
+  if (loading) return <div className="flex items-center justify-center min-h-[300px]"><p className="text-sm text-gray-400">Chargement...</p></div>;
+
   return (
     <div>
+      {isLocked && (
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+          <div>
+            <p className="text-sm font-semibold text-[#111]">Contenu premium</p>
+            <p className="text-xs text-[#6B7280]">Les templates sont r&eacute;serv&eacute;s aux membres Starter, Academy et One-to-One.</p>
+          </div>
+          <a href="/offres" className="px-4 py-2 bg-[#FF1744] text-white text-xs font-semibold rounded-lg hover:bg-[#D50000] transition-colors flex-shrink-0">Voir les offres</a>
+        </div>
+      )}
       <div className="mb-8">
         <h1 className="text-2xl font-semibold tracking-tight text-gray-900 mb-1">Templates IA</h1>
         <p className="text-sm text-gray-500">
@@ -1421,8 +1435,8 @@ export default function TemplatesPage() {
         {CATEGORIES.map((c, i) => (
           <button
             key={c.title}
-            onClick={() => setSelectedCategory(i)}
-            className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer group text-left"
+            onClick={() => { if (!isLocked) setSelectedCategory(i); }}
+            className={`bg-white rounded-2xl border border-gray-200 shadow-sm p-6 transition-all duration-300 text-left ${isLocked ? "opacity-60 cursor-not-allowed" : "hover:shadow-md hover:-translate-y-0.5 cursor-pointer group"}`}
           >
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center text-lg mb-4"
