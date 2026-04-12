@@ -13,8 +13,8 @@ const html = `<!DOCTYPE html>
   body {
     font-family: 'Inter', -apple-system, sans-serif;
     color: #1a1a2e;
-    line-height: 1.7;
-    font-size: 11pt;
+    line-height: 1.65;
+    font-size: 10.5pt;
   }
 
   .cover {
@@ -60,10 +60,17 @@ const html = `<!DOCTYPE html>
   .cover-footer strong { color: white; }
 
   .page {
-    padding: 50px 55px;
+    padding: 45px 50px;
     page-break-after: always;
+    page-break-inside: avoid;
   }
   .page:last-child { page-break-after: avoid; }
+
+  /* Prevent ALL content splitting across pages */
+  .page > * {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
 
   h2 {
     font-size: 22pt;

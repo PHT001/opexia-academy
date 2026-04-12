@@ -29,9 +29,9 @@ const s = StyleSheet.create({
     paddingBottom: 50,
     paddingHorizontal: 45,
     fontFamily: "Helvetica",
-    fontSize: 8.5,
+    fontSize: 9.5,
     color: C.text,
-    lineHeight: 1.5,
+    lineHeight: 1.55,
     backgroundColor: C.white,
   },
 
@@ -333,8 +333,8 @@ function RenderCallout({ el }: { el: Extract<RecapElement, { type: "callout" }> 
 }
 
 function RenderBullets({ el }: { el: Extract<RecapElement, { type: "bullets" }> }) {
-  // Limit to 5 bullets max for space
-  const items = el.items.slice(0, 5);
+  // Allow more bullets for richer content
+  const items = el.items.slice(0, 8);
   return (
     <View style={s.keyPointsWrap}>
       {items.map((item, i) => {
@@ -359,8 +359,7 @@ function RenderBullets({ el }: { el: Extract<RecapElement, { type: "bullets" }> 
 }
 
 function RenderTable({ el }: { el: Extract<RecapElement, { type: "table" }> }) {
-  // Limit to 5 rows for space
-  const rows = el.rows.slice(0, 5);
+  const rows = el.rows.slice(0, 8);
   return (
     <View style={s.tableWrap}>
       <View style={s.tableHeaderRow}>
@@ -408,12 +407,12 @@ function RenderFlow({ el }: { el: Extract<RecapElement, { type: "flow" }> }) {
 function RenderElement({ el }: { el: RecapElement }) {
   switch (el.type) {
     case "heading":
-      return el.level === 2 ? (
-        <Text style={s.sectionTitle}>
+      return (
+        <Text style={[s.sectionTitle, el.level === 3 ? { fontSize: 9, marginTop: 6 } : {}]}>
           <Text style={s.sectionAccent}>— </Text>
           {cleanText(el.text)}
         </Text>
-      ) : null; // Skip h3 to save space
+      );
     case "callout":
       return <RenderCallout el={el} />;
     case "bullets":
@@ -429,11 +428,11 @@ function RenderElement({ el }: { el: RecapElement }) {
 
 /* ─── Condensed Lesson Section ─── */
 function LessonElements({ lesson }: { lesson: LessonRecap }) {
-  // Pick only the most important elements: max 2 per lesson
+  // Show up to 3 elements per lesson for richer content
   const important = lesson.elements.filter(
     (el) => el.type === "callout" || el.type === "table" || el.type === "bullets" || el.type === "flow"
   );
-  const toShow = important.slice(0, 2);
+  const toShow = important.slice(0, 3);
   return (
     <>
       {toShow.map((el, i) => (
@@ -443,7 +442,7 @@ function LessonElements({ lesson }: { lesson: LessonRecap }) {
   );
 }
 
-/* ─── Main Document — 2 pages max ─── */
+/* ─── Main Document — 3-4 pages, clean layout ─── */
 export function ModuleRecapPDF({ data }: { data: ModuleRecap }) {
   // Estimate total lesson duration
   const totalLessons = data.lessons.length;
@@ -460,8 +459,8 @@ export function ModuleRecapPDF({ data }: { data: ModuleRecap }) {
     }
   }
 
-  // Split elements to fit 2 pages: page 1 = overview, page 2 = key takeaways
-  const page2Elements = allElements.slice(0, 6); // Max 6 key elements
+  // Allow more elements for 3-4 page layout
+  const page2Elements = allElements.slice(0, 10); // Up to 10 key elements
 
   return (
     <Document
