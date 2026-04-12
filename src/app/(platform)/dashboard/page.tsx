@@ -1283,7 +1283,8 @@ const adminTierConfig: Record<string, { label: string; color: string; bg: string
 };
 
 function formatEuro(n: number) {
-  return `${n.toLocaleString("fr-FR")} EUR`;
+  const parts = n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return `${parts} EUR`;
 }
 
 function adminRelativeTime(dateStr: string) {
