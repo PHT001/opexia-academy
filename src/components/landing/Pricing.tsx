@@ -197,11 +197,6 @@ export default function Pricing() {
       });
 
       if (res.status === 401) {
-        // 2 installments requires account — redirect to register
-        if (installments === 2) {
-          window.location.href = "/register?redirect=offres";
-          return;
-        }
         const guestRes = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

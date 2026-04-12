@@ -147,41 +147,9 @@ export async function POST(req: NextRequest) {
       : `${origin}/dashboard?checkout=success&plan=${plan}`;
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 
-    // 2 installments for Academy: Stripe subscription (2 monthly card payments)
+    // 2 installments for Academy: one-time payment at 507 EUR (497 + 10 EUR surcharge)
     if (installments === 2 && plan === "academy") {
-      // Subscription requires a customer — guest must register first
-      if (!customerId && !userEmail) {
-        return NextResponse.json({ error: "Cr\u00e9e un compte d'abord pour payer en 2 fois" }, { status: 400 });
-      }
-
-      const installmentPrice = 25350; // 253.50 EUR per month
-      const subSession = await stripe.checkout.sessions.create({
-        mode: "subscription",
-        payment_method_types: ["card"],
-        ...(customerId ? { customer: customerId } : { customer_email: userEmail }),
-        metadata,
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              product_data: { name: `${p.name} \u2014 Paiement 2x`, description: p.description },
-              unit_amount: installmentPrice,
-              recurring: { interval: "month" },
-            },
-            quantity: 1,
-          },
-        ],
-        subscription_data: {
-          metadata,
-        },
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-      });
-
-      if (!subSession.url) {
-        return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
-      }
-      return NextResponse.json({ url: subSession.url });
+      basePrice = 50700; // 507 EUR in cents
     }
 
     // Standard one-time payment (card only, no Klarna)
@@ -198,7 +166,7 @@ export async function POST(req: NextRequest) {
         {
           price_data: {
             currency: "eur",
-            product_data: { name: p.name, description: p.description },
+            product_data: { name: installments === 2 ? `${p.name} (paiement 2x)` : p.name, description: p.description },
             unit_amount: basePrice,
           },
           quantity: 1,
