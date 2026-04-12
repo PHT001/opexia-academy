@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { WHATSAPP_PHONE } from "@/lib/constants";
 
@@ -32,8 +33,12 @@ const QUICK_QUESTIONS = [
 ];
 
 export function ChatWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+
+  // Hide on admin routes
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <>

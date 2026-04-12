@@ -17,6 +17,7 @@ interface Student {
   totalXP: number;
   isBot: boolean;
   isLead?: boolean;
+  isSuspended?: boolean;
   leadStatus?: string;
   leadSource?: string;
   leadConvertedAt?: string | null;
@@ -102,6 +103,17 @@ export default function StudentsPage() {
   const formatEuro = (n: number) => {
     const parts = n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return `${parts} EUR`;
+  };
+
+  const handleToggleSuspend = async (id: string, currentlySuspended: boolean) => {
+    try {
+      const res = await fetch(`/api/admin/students/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ suspended: !currentlySuspended }),
+      });
+      if (res.ok) fetchAll();
+    } catch { /* ignore */ }
   };
 
   const handleDelete = async (id: string) => {
@@ -302,6 +314,11 @@ export default function StudentsPage() {
                                   {statusBadge.label}
                                 </span>
                               )}
+                              {!isLeadSection && student.isSuspended && (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-orange-50 text-orange-600">
+                                  Desactive
+                                </span>
+                              )}
                             </div>
                             <p className="text-xs text-gray-400 truncate">{student.email}</p>
                           </div>
@@ -329,13 +346,23 @@ export default function StudentsPage() {
                             <span className="text-xs text-gray-400">{formatRelative(student.lastActive || student.createdAt)}</span>
                           </div>
 
-                          <button
-                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
-                            disabled={deletingId === student.id}
-                            className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 transition-all disabled:opacity-50 text-xs font-medium shrink-0 opacity-0 group-hover:opacity-100"
-                          >
-                            Supprimer
-                          </button>
+                          <div className="flex items-center gap-1.5 shrink-0 opacity-0 group-hover:opacity-100 transition-all">
+                            {!isLeadSection && (
+                              <button
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleToggleSuspend(student.id, !!student.isSuspended); }}
+                                className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${student.isSuspended ? "bg-emerald-50 text-emerald-600 hover:bg-emerald-100" : "bg-orange-50 text-orange-500 hover:bg-orange-100"}`}
+                              >
+                                {student.isSuspended ? "Reactiver" : "Desactiver"}
+                              </button>
+                            )}
+                            <button
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
+                              disabled={deletingId === student.id}
+                              className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 transition-all disabled:opacity-50 text-xs font-medium"
+                            >
+                              Supprimer
+                            </button>
+                          </div>
                         </div>
 
                         {/* Expandable lead detail */}

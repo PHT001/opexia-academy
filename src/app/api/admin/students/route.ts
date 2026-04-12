@@ -104,7 +104,7 @@ export async function GET(req: NextRequest) {
     include: {
       progress: { where: { status: "completed" } },
       streaks: { orderBy: { date: "desc" }, take: 1 },
-      enrollments: { where: { status: "active" }, orderBy: { createdAt: "desc" }, take: 1 },
+      enrollments: { where: { status: { in: ["active", "suspended"] } }, orderBy: { createdAt: "desc" }, take: 1 },
     },
   });
 
@@ -133,6 +133,7 @@ export async function GET(req: NextRequest) {
     totalXP: xpMap[s.id] || 0,
     isBot: s.isBot,
     isLead: false,
+    isSuspended: s.enrollments[0]?.status === "suspended",
   }));
 
   // Post-sort by XP or progress if needed

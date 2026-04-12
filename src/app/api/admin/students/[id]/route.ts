@@ -284,12 +284,30 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await req.json();
-    const { tier, adminNotes } = body;
+    const { tier, adminNotes, suspended } = body;
 
     // Check user exists
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user || user.role !== "student") {
       return NextResponse.json({ error: "Etudiant introuvable" }, { status: 404 });
+    }
+
+    // Handle suspend/reactivate (uses enrollment status)
+    if (suspended !== undefined) {
+      if (suspended) {
+        // Suspend: mark all active enrollments as suspended
+        await prisma.enrollment.updateMany({
+          where: { userId: id, status: "active" },
+          data: { status: "suspended" },
+        });
+      } else {
+        // Reactivate: mark all suspended enrollments as active
+        await prisma.enrollment.updateMany({
+          where: { userId: id, status: "suspended" },
+          data: { status: "active" },
+        });
+      }
+      return NextResponse.json({ success: true, suspended: !!suspended });
     }
 
     // Handle adminNotes update

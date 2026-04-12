@@ -676,9 +676,10 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               <div className="flex flex-col gap-0.5">
                 {[
                   { href: "/dashboard", label: "Accueil", icon: IconHome },
-                  { href: "/admin/students", label: "Élèves", icon: IconUsers },
+                  { href: "/admin/students", label: "Élèves & Leads", icon: IconUsers },
                   { href: "/coaching", label: "Coaching", icon: IconPhone },
                   { href: "/admin/slides", label: "Diapositives", icon: IconTemplate },
+                  { href: "/lessons", label: "Voir la formation", icon: IconLessons },
                 ].map((item) => {
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
