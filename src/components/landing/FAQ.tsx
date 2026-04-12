@@ -14,11 +14,11 @@ const faqs = [
   },
   {
     q: "C\u2019est quoi la diff\u00e9rence entre Starter, Academy et One-to-One ?",
-    a: "Le Starter \u00e0 47\u20ac te donne 2 modules D\u00e9couverte (7 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 497\u20ac (paiement en 3x disponible), c\u2019est la formation compl\u00e8te avec 86 le\u00e7ons, la plateforme interactive, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 2\u00a0497\u20ac (paiement en 4x disponible), c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
+    a: "Le Starter \u00e0 47\u20ac te donne 2 modules D\u00e9couverte (7 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 497\u20ac (paiement en 2x disponible), c\u2019est la formation compl\u00e8te avec 86 le\u00e7ons, la plateforme interactive, le CRM, et tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 2\u00a0497\u20ac, c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
   },
   {
     q: "Est-ce que je peux payer en plusieurs fois ?",
-    a: "Oui ! L\u2019Academy est disponible en paiement en 3x sans frais, et le One-to-One en paiement en 4x sans frais. Le Starter est \u00e0 47\u20ac en une seule fois. Tous les paiements sont s\u00e9curis\u00e9s.",
+    a: "Oui ! L\u2019Academy est disponible en paiement en 2 fois par carte. Le Starter est \u00e0 47\u20ac en une seule fois. Tous les paiements sont s\u00e9curis\u00e9s par Stripe.",
   },
   {
     q: "Est-ce que je peux faire \u00e7a en parall\u00e8le de mon travail ?",
@@ -30,11 +30,7 @@ const faqs = [
   },
   {
     q: "10K\u20ac/mois, c\u2019est r\u00e9aliste ?",
-    a: "Avec les bons outils et la bonne approche, oui. Un chatbot se facture 800-2 500\u20ac, une automatisation business 500-2 000\u20ac, un agent IA 1 500-5 000\u20ac. Il suffit de 3 \u00e0 5 clients par mois pour d\u00e9passer les 10K\u20ac. La formation te montre exactement comment y arriver.",
-  },
-  {
-    q: "C\u2019est pas un scam / une arnaque ?",
-    a: "On comprend la m\u00e9fiance \u2014 il y a beaucoup de formations bidon sur le march\u00e9. OpexIA est une vraie agence IA qui a accompagn\u00e9 +200 entreprises. On ne vend pas du r\u00eave : on te donne les outils, la m\u00e9thode, et le support pour lancer.",
+    a: "Avec les bons outils et la bonne approche, oui. Un chatbot se facture 200-1 000\u20ac, une automatisation business 500-2 000\u20ac, un agent IA 1 500-5 000\u20ac. Il suffit de quelques clients par mois pour g\u00e9n\u00e9rer un revenu solide. La formation te montre exactement comment y arriver.",
   },
   {
     q: "Comment fonctionne la garantie ?",

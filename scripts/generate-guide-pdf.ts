@@ -248,7 +248,7 @@ const html = `<!DOCTYPE html>
   </ul>
 
   <div class="tip-box">
-    <p><strong>Le calcul est simple :</strong> un chatbot se facture 800-2 500€, une automatisation 500-2 000€, un agent IA 1 500-5 000€. Avec 3 à 5 clients par mois, tu dépasses les 10 000€/mois.</p>
+    <p><strong>Le calcul est simple :</strong> un chatbot se facture 200-1 000€, une automatisation 500-2 000€, un agent IA 1 500-5 000€. Avec 3 à 5 clients par mois, tu dépasses les 10 000€/mois.</p>
   </div>
 </div>
 
@@ -256,7 +256,7 @@ const html = `<!DOCTYPE html>
 <div class="page">
   <div class="tag">Le plus demandé</div>
   <h2><span class="num">Service n°1</span>Chatbots IA</h2>
-  <div class="price-tag">800 – 2 500€ / projet</div>
+  <div class="price-tag">200 – 1 000€ / projet</div>
 
   <h3>Ce que tu vends</h3>
   <p>Un chatbot intelligent intégré au site web du client (ou WhatsApp, Instagram, Messenger). Il répond aux questions 24/7, qualifie les leads, prend des rendez-vous, et redirige vers un humain si nécessaire.</p>
@@ -279,9 +279,9 @@ const html = `<!DOCTYPE html>
   <h3>Grille tarifaire</h3>
   <table>
     <tr><th>Complexité</th><th>Prix</th><th>Exemple</th></tr>
-    <tr><td>Basique (FAQ + prise de RDV)</td><td>800 – 1 200€</td><td>Restaurant, cabinet médical</td></tr>
-    <tr><td>Intermédiaire (qualification leads)</td><td>1 200 – 1 800€</td><td>Agence immobilière, e-commerce</td></tr>
-    <tr><td>Avancé (multi-canal + CRM)</td><td>1 800 – 2 500€</td><td>SaaS, cabinet de conseil</td></tr>
+    <tr><td>Basique (FAQ + prise de RDV)</td><td>200 – 400€</td><td>Restaurant, cabinet médical</td></tr>
+    <tr><td>Intermédiaire (qualification leads)</td><td>400 – 700€</td><td>Agence immobilière, e-commerce</td></tr>
+    <tr><td>Avancé (multi-canal + CRM)</td><td>700 – 1 000€</td><td>SaaS, cabinet de conseil</td></tr>
   </table>
 
   <div class="pitch-box">

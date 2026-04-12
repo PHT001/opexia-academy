@@ -14,7 +14,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["prix", "tarif", "combien", "co\u00fbt", "cher", "gratuit", "payer", "paiement", "plusieurs fois"],
     answer:
-      "Tu peux d\u00e9couvrir la plateforme gratuitement en cr\u00e9ant un compte ! Ensuite on a 3 formules : Starter \u00e0 47\u20ac (2 modules D\u00e9couverte, 8 le\u00e7ons), Academy \u00e0 497\u20ac (formation compl\u00e8te 86 le\u00e7ons + plateforme + CRM \u2014 payable en 3x), et One-to-One \u00e0 2\u00a0497\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor).",
+      "Tu peux d\u00e9couvrir la plateforme gratuitement en cr\u00e9ant un compte ! Ensuite on a 3 formules : Starter \u00e0 47\u20ac (2 modules D\u00e9couverte), Academy \u00e0 497\u20ac (formation compl\u00e8te 86 le\u00e7ons + plateforme + CRM \u2014 payable en 2x), et One-to-One \u00e0 2\u00a0497\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor).",
   },
   {
     keywords: ["d\u00e9butant", "z\u00e9ro", "aucune", "connaissance", "niveau", "pr\u00e9requis", "base"],

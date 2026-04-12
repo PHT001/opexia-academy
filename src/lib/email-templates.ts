@@ -310,7 +310,7 @@ export function guideEmail(): { subject: string; html: string } {
             <p style="margin: 0 0 12px; font-weight: 700; color: #111; font-size: 14px;">Ce que tu vas d&eacute;couvrir :</p>
             <table style="width: 100%; border-collapse: collapse;">
               <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Les 5 services IA que les PME s'arrachent</td></tr>
-              <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Les prix du march&eacute; (500 &agrave; 5 000 EUR/projet)</td></tr>
+              <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Les prix du march&eacute; (200 &agrave; 5 000 EUR/projet)</td></tr>
               <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Les outils concrets pour chaque service</td></tr>
               <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Un pitch pr&ecirc;t &agrave; l'emploi pour d&eacute;marcher</td></tr>
               <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;La m&eacute;thode en 5 &eacute;tapes pour tes premiers clients</td></tr>

@@ -14,7 +14,7 @@ const miniFaqs = [
   },
   {
     q: "Je peux payer en plusieurs fois ?",
-    a: "Oui ! L\u2019Academy est disponible en paiement en 3x sans frais. Le One-to-One en paiement en 4x sans frais. Paiement 100% s\u00e9curis\u00e9.",
+    a: "Oui ! L\u2019Academy est disponible en paiement en 2 fois par carte. Paiement 100% s\u00e9curis\u00e9 par Stripe.",
   },
 ];
 
