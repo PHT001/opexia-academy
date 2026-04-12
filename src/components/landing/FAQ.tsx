@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: "Y a-t-il un support si je suis bloqu\u00e9 ?",
-    a: "Oui. Tu as acc\u00e8s au Discord communautaire avec +150 entrepreneurs (toutes les offres), \u00e0 l\u2019aide rapide int\u00e9gr\u00e9e (Academy), et au support prioritaire illimit\u00e9 avec review de tes projets (One-to-One). Tu n\u2019es jamais seul.",
+    a: "Oui. Tu as acc\u00e8s au Discord communautaire (toutes les offres), \u00e0 l\u2019aide rapide int\u00e9gr\u00e9e (Academy), et au support prioritaire illimit\u00e9 avec review de tes projets (One-to-One). Tu n\u2019es jamais seul.",
   },
 ];
 

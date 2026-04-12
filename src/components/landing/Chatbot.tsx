@@ -44,7 +44,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["support", "aide", "bloqu\u00e9", "question", "discord", "communaut\u00e9"],
     answer:
-      "Tu as acc\u00e8s \u00e0 notre Discord communautaire avec +150 entrepreneurs. L'offre Academy inclut aussi une aide rapide int\u00e9gr\u00e9e. Pour le One-to-One, tu as un support prioritaire illimit\u00e9 + 8 visios individuelles avec Marius & Igor.",
+      "Tu as acc\u00e8s \u00e0 notre Discord communautaire. L'offre Academy inclut aussi une aide rapide int\u00e9gr\u00e9e. Pour le One-to-One, tu as un support prioritaire illimit\u00e9 + 8 visios individuelles avec Marius & Igor.",
   },
   {
     keywords: ["contenu", "programme", "module", "le\u00e7on", "apprendre"],
