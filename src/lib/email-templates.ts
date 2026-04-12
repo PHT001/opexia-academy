@@ -267,24 +267,58 @@ export function freeFollowupDaySeven(name: string, variant: "a" | "b" = "a", dis
 export function guideEmail(): { subject: string; html: string } {
   return {
     subject: "Ton guide est prêt",
-    html: layout(`
-      <p>Salut,</p>
-      <p>Merci pour ta confiance. Voici ton guide :</p>
-      <p style="margin: 20px 0;">
-        <a href="https://opexia-formation.com/guide-5-services-ia.pdf" style="color: #1a73e8; font-weight: 600; font-size: 16px;">
-          &rarr; T&eacute;l&eacute;charger le guide PDF
-        </a>
-      </p>
-      <p>Dedans tu trouveras :</p>
-      <p style="margin-left: 8px;">
-        &bull; Les 5 services IA que les PME s'arrachent<br/>
-        &bull; Les prix du march&eacute; (de 500&euro; &agrave; 5 000&euro;/projet)<br/>
-        &bull; Les outils concrets pour chaque service<br/>
-        &bull; Un pitch pr&ecirc;t &agrave; l'emploi pour d&eacute;marcher<br/>
-        &bull; La m&eacute;thode en 5 &eacute;tapes pour d&eacute;crocher tes premiers clients
-      </p>
-      <p>Lis-le tranquillement et si tu as des questions, r&eacute;ponds &agrave; cet email. Je lis tout.</p>
-    `),
+    html: `
+      <meta charset="utf-8" />
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 0; color: #1a1a1a; font-size: 15px; line-height: 1.7;">
+
+        <!-- Header -->
+        <div style="background: #1A1A2E; padding: 28px 32px; border-radius: 16px 16px 0 0; text-align: center;">
+          <span style="color: #fff; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">Opex<span style="color: #FF1744;">IA</span></span>
+        </div>
+
+        <!-- Body -->
+        <div style="background: #ffffff; padding: 32px; border-left: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
+
+          <p style="margin: 0 0 16px; color: #111;">Salut,</p>
+          <p style="margin: 0 0 24px; color: #374151;">Merci pour ta confiance. Ton guide <strong>Les 5 services IA les plus rentables</strong> est pr&ecirc;t.</p>
+
+          <!-- CTA Button -->
+          <div style="text-align: center; margin: 28px 0;">
+            <a href="https://opexia-formation.com/guide-5-services-ia.pdf" style="display: inline-block; background: #FF1744; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: 0.3px;">T&eacute;l&eacute;charger le guide PDF</a>
+          </div>
+
+          <!-- Content list -->
+          <div style="background: #F9FAFB; border-radius: 12px; padding: 20px 24px; margin: 24px 0;">
+            <p style="margin: 0 0 12px; font-weight: 700; color: #111; font-size: 14px;">Ce que tu vas d&eacute;couvrir :</p>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Les 5 services IA que les PME s'arrachent</td></tr>
+              <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Les prix du march&eacute; (500 &agrave; 5 000 EUR/projet)</td></tr>
+              <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Les outils concrets pour chaque service</td></tr>
+              <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;Un pitch pr&ecirc;t &agrave; l'emploi pour d&eacute;marcher</td></tr>
+              <tr><td style="padding: 6px 0; color: #374151; font-size: 14px;">&#10003;&nbsp;&nbsp;La m&eacute;thode en 5 &eacute;tapes pour tes premiers clients</td></tr>
+            </table>
+          </div>
+
+          <p style="margin: 24px 0 0; color: #374151;">Lis-le tranquillement. Si tu as des questions, r&eacute;ponds directement &agrave; cet email, je lis tout.</p>
+
+          <!-- Signature -->
+          <p style="margin: 32px 0 0; color: #111;">
+            Marius<br/>
+            <span style="color: #6B7280; font-size: 13px;">Fondateur, OpexIA</span>
+          </p>
+        </div>
+
+        <!-- Footer -->
+        <div style="background: #F9FAFB; padding: 16px 32px; border-radius: 0 0 16px 16px; border: 1px solid #E5E7EB; border-top: none; text-align: center;">
+          <p style="margin: 0; color: #9CA3AF; font-size: 11px;">
+            <a href="https://opexia-formation.com" style="color: #9CA3AF; text-decoration: none;">opexia-formation.com</a>
+            &nbsp;&middot;&nbsp;
+            <a href="mailto:support@opexia-formation.com?subject=D%C3%A9sinscription&body=Je%20souhaite%20me%20d%C3%A9sinscrire%20des%20emails." style="color: #9CA3AF; text-decoration: none;">Se d&eacute;sinscrire</a>
+          </p>
+        </div>
+
+      </div>
+    `,
   };
 }
 
