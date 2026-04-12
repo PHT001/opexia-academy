@@ -62,14 +62,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Nom requis" }, { status: 400 });
     }
 
+    // Limit field sizes to prevent abuse
+    const safeName = name.trim().slice(0, 200);
+    const safeCompany = company?.trim().slice(0, 200) || null;
+    const safeNotes = notes?.trim().slice(0, 5000) || null;
+    const safeStage = ["lead", "negotiation", "won", "lost"].includes(stage) ? stage : "lead";
+
     const deal = await prisma.pipelineDeal.create({
       data: {
         userId: session.user.id,
-        name: name.trim(),
-        company: company?.trim() || null,
+        name: safeName,
+        company: safeCompany,
         value: Number(value) || 0,
-        stage: stage || "lead",
-        notes: notes?.trim() || null,
+        stage: safeStage,
+        notes: safeNotes,
       },
     });
 

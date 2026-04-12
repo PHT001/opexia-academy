@@ -26,11 +26,11 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const deal = await prisma.pipelineDeal.update({
       where: { id },
       data: {
-        ...(name !== undefined && { name: name.trim() }),
-        ...(company !== undefined && { company: company?.trim() || null }),
+        ...(name !== undefined && { name: name.trim().slice(0, 200) }),
+        ...(company !== undefined && { company: company?.trim().slice(0, 200) || null }),
         ...(value !== undefined && { value: Number(value) || 0 }),
-        ...(stage !== undefined && { stage }),
-        ...(notes !== undefined && { notes: notes?.trim() || null }),
+        ...(stage !== undefined && ["lead", "negotiation", "won", "lost"].includes(stage) && { stage }),
+        ...(notes !== undefined && { notes: notes?.trim().slice(0, 5000) || null }),
       },
     });
 

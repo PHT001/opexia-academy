@@ -196,7 +196,8 @@ export async function GET(req: NextRequest) {
         }
 
         // Generate unique discount code for this user
-        const uniqueCode = "OPEX" + user.id.slice(-6).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
+        const { randomBytes } = await import("crypto");
+        const uniqueCode = "OPEX" + randomBytes(6).toString("hex").toUpperCase();
 
         const variant = getAbVariant(user.email);
         const emailData = freeFollowupDaySeven(user.name || "", variant, uniqueCode);
