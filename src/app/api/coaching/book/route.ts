@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   // All paid tiers (starter, academy, one_to_one) + admins can book
   const enrollment = await prisma.enrollment.findFirst({
-    where: { userId: session.user.id, status: "active" },
+    where: { userId: session.user.id, status: { in: ["active", "upgraded"] } },
     orderBy: { createdAt: "desc" },
   });
   const userTier = enrollment?.tier || "free";
