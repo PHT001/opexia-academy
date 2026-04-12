@@ -121,12 +121,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 2-installment surcharge for Academy: 497 → 507 EUR (+10 EUR)
-    if (installments === 2 && plan === "academy") {
-      basePrice = basePrice + 1000; // +10 EUR in cents
-    }
-
-    const hasCustomDiscount = basePrice !== p.price && installments !== 2;
+    const hasCustomDiscount = basePrice !== p.price;
 
     // For guest checkout: no userId, mark as guest
     const metadata: Record<string, string> = {
@@ -152,14 +147,48 @@ export async function POST(req: NextRequest) {
       : `${origin}/dashboard?checkout=success&plan=${plan}`;
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 
-    // Klarna for Academy/OneToOne — Stripe handles installments natively
-    // Force Klarna-only when 2 installments selected
-    const paymentMethodTypes: ("card" | "klarna")[] =
-      installments === 2 ? ["klarna"] : (plan !== "starter" ? ["card", "klarna"] : ["card"]);
+    // 2 installments: use Stripe subscription mode (2 monthly payments by card)
+    if (installments === 2 && plan === "academy") {
+      const installmentPrice = 25350; // 253.50 EUR in cents per month
+      const checkoutSession = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        payment_method_types: ["card"],
+        ...(customerId
+          ? { customer: customerId }
+          : userEmail
+            ? { customer_email: userEmail }
+            : {}),
+        metadata,
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: { name: `${p.name} — Paiement en 2 fois`, description: p.description },
+              unit_amount: installmentPrice,
+              recurring: { interval: "month", interval_count: 1 },
+            },
+            quantity: 1,
+          },
+        ],
+        subscription_data: {
+          metadata,
+          // Cancel after 2 payments automatically
+          cancel_at: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 62, // ~2 months
+        },
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+      });
 
+      if (!checkoutSession.url) {
+        return NextResponse.json({ error: "Erreur Stripe" }, { status: 500 });
+      }
+      return NextResponse.json({ url: checkoutSession.url });
+    }
+
+    // Standard one-time payment (card only, no Klarna)
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_types: paymentMethodTypes,
+      payment_method_types: ["card"],
       ...(customerId
         ? { customer: customerId }
         : userEmail

@@ -368,7 +368,7 @@ function OffresContent() {
               >
                 <p className="text-sm font-bold text-[#111]">En 2 fois</p>
                 <p className="text-2xl font-black text-[#111] mt-1">253,50 EUR <span className="text-sm font-medium text-gray-400">x 2</span></p>
-                <p className="text-xs text-gray-400 mt-1">507 EUR total — Paiement via Klarna</p>
+                <p className="text-xs text-gray-400 mt-1">507 EUR total — 2 pr&eacute;l&egrave;vements par carte</p>
               </button>
             </div>
 
