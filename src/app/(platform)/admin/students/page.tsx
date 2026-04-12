@@ -26,59 +26,45 @@ interface StudentsResponse {
   totalPages: number;
 }
 
-const TIER_BADGE: Record<string, { bg: string; text: string; label: string }> = {
-  lead: { bg: "bg-purple-50", text: "text-purple-600", label: "Lead" },
-  free: { bg: "bg-gray-100", text: "text-gray-500", label: "Gratuit" },
-  starter: { bg: "bg-emerald-50", text: "text-emerald-600", label: "Starter" },
-  academy: { bg: "bg-blue-50", text: "text-blue-600", label: "Academy" },
-  one_to_one: { bg: "bg-red-50", text: "text-[#FF1744]", label: "One-to-One" },
+const TIER_CONFIG: Record<string, { bg: string; text: string; label: string; sectionBg: string; sectionBorder: string; dot: string }> = {
+  lead:       { bg: "bg-purple-50", text: "text-purple-600", label: "Lead",       sectionBg: "bg-purple-50/50", sectionBorder: "border-purple-200", dot: "bg-purple-400" },
+  free:       { bg: "bg-gray-100",  text: "text-gray-500",   label: "Gratuit",    sectionBg: "bg-gray-50/50",   sectionBorder: "border-gray-200",   dot: "bg-gray-400" },
+  starter:    { bg: "bg-emerald-50",text: "text-emerald-600",label: "Starter",    sectionBg: "bg-emerald-50/50",sectionBorder: "border-emerald-200",dot: "bg-emerald-400" },
+  academy:    { bg: "bg-blue-50",   text: "text-blue-600",   label: "Academy",    sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
+  one_to_one: { bg: "bg-red-50",    text: "text-[#FF1744]",  label: "One-to-One", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#FF1744]" },
 };
 
-const SORT_OPTIONS = [
-  { value: "createdAt_desc", label: "Plus recents" },
-  { value: "createdAt_asc", label: "Plus anciens" },
-  { value: "name_asc", label: "Nom A-Z" },
-  { value: "name_desc", label: "Nom Z-A" },
-  { value: "xp_desc", label: "XP decroissant" },
-  { value: "progress_desc", label: "Progression decroissante" },
-];
+const TIER_ORDER = ["one_to_one", "academy", "starter", "free", "lead"];
 
 export default function StudentsPage() {
   const [data, setData] = useState<StudentsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [tier, setTier] = useState("all");
-  const [sort, setSort] = useState("createdAt_desc");
-  const [page, setPage] = useState(1);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
 
   const fetchStudents = useCallback(() => {
-    setLoading(true);
-    const params = new URLSearchParams({ page: String(page), sort });
-    if (search) params.set("search", search);
-    if (tier !== "all") params.set("tier", tier);
-    fetch(`/api/admin/students?${params}`)
+    fetch("/api/admin/students?limit=200&sort=createdAt&order=desc")
       .then((r) => r.json())
-      .then((d: StudentsResponse) => setData(d))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [page, search, tier, sort]);
+      .then((d: StudentsResponse) => { setData(d); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, []);
 
+  // Initial fetch
+  useEffect(() => { fetchStudents(); }, [fetchStudents]);
+
+  // Auto-refresh every 15 seconds
   useEffect(() => {
-    const timeout = setTimeout(fetchStudents, search ? 300 : 0);
-    return () => clearTimeout(timeout);
+    const interval = setInterval(fetchStudents, 15000);
+    return () => clearInterval(interval);
   }, [fetchStudents]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [search, tier, sort]);
 
   const formatRelative = (dateStr: string | null) => {
     if (!dateStr) return "\u2014";
     const diff = Date.now() - new Date(dateStr).getTime();
     const mins = Math.floor(diff / 60000);
+    if (mins < 1) return "A l'instant";
     if (mins < 60) return `Il y a ${mins}min`;
     const hours = Math.floor(mins / 60);
     if (hours < 24) return `Il y a ${hours}h`;
@@ -90,7 +76,6 @@ export default function StudentsPage() {
   const handleDelete = async (id: string) => {
     setDeletingId(id);
     try {
-      // Lead IDs start with "lead_"
       const isLead = id.startsWith("lead_");
       const realId = isLead ? id.replace("lead_", "") : id;
       const res = isLead
@@ -101,185 +86,175 @@ export default function StudentsPage() {
         setTimeout(() => setDeleteSuccess(false), 3000);
         fetchStudents();
       }
-    } catch {
-      // ignore
-    } finally {
-      setDeletingId(null);
-      setConfirmDeleteId(null);
-    }
+    } catch { /* ignore */ }
+    finally { setDeletingId(null); setConfirmDeleteId(null); }
   };
+
+  // Group students by tier
+  const grouped: Record<string, Student[]> = {};
+  if (data?.students) {
+    for (const s of data.students) {
+      const key = s.isLead ? "lead" : (s.tier || "free");
+      if (!grouped[key]) grouped[key] = [];
+      // Apply search filter client-side
+      if (search) {
+        const q = search.toLowerCase();
+        if (!(s.name?.toLowerCase().includes(q) || s.email.toLowerCase().includes(q))) continue;
+      }
+      grouped[key].push(s);
+    }
+  }
+
+  // Count per tier for badges
+  const tierCounts: Record<string, number> = {};
+  for (const [key, list] of Object.entries(grouped)) {
+    tierCounts[key] = list.length;
+  }
 
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center gap-3 mb-8">
-        <h1 className="text-3xl font-bold text-[#111]">Eleves</h1>
-        {data && (
-          <span className="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full font-medium">
-            {data.total}
-          </span>
-        )}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-[#111]">Eleves</h1>
+          {data && (
+            <span className="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full font-medium">
+              {data.total}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-xs text-gray-400">Actualisation auto</span>
+        </div>
       </div>
 
-      {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      {/* Search */}
+      <div className="mb-6">
         <input
           type="text"
-          placeholder="Rechercher un eleve..."
+          placeholder="Rechercher par nom ou email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 max-w-sm px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[#111] text-sm focus:outline-none focus:border-gray-400 transition-all placeholder:text-gray-400"
+          className="w-full max-w-md px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[#111] text-sm focus:outline-none focus:border-gray-400 transition-all placeholder:text-gray-400"
         />
-        <select
-          value={tier}
-          onChange={(e) => setTier(e.target.value)}
-          className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[#111] text-sm focus:outline-none focus:border-gray-400 transition-all appearance-none cursor-pointer"
-        >
-          <option value="all">Tous</option>
-          <option value="lead">Leads</option>
-          <option value="free">Gratuit</option>
-          <option value="starter">Starter</option>
-          <option value="academy">Academy</option>
-          <option value="one_to_one">One-to-One</option>
-        </select>
-        <select
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-          className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[#111] text-sm focus:outline-none focus:border-gray-400 transition-all appearance-none cursor-pointer"
-        >
-          {SORT_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
       </div>
 
-      {/* Table */}
-      <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wider px-5 py-3">Eleve</th>
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wider px-5 py-3">Tier</th>
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wider px-5 py-3">Progression</th>
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wider px-5 py-3">XP</th>
-                <th className="text-left text-xs font-medium text-gray-400 uppercase tracking-wider px-5 py-3">Derniere activite</th>
-                <th className="text-center text-xs font-medium text-gray-400 uppercase tracking-wider px-5 py-3">Discord</th>
-                <th className="text-center text-xs font-medium text-gray-400 uppercase tracking-wider px-5 py-3 w-12"></th>
-                <th className="text-center text-xs font-medium text-gray-400 uppercase tracking-wider px-3 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={8} className="px-5 py-12 text-center text-gray-400 text-sm">Chargement...</td>
-                </tr>
-              ) : !data?.students.length ? (
-                <tr>
-                  <td colSpan={8} className="px-5 py-12 text-center text-gray-400 text-sm">Aucun eleve trouve</td>
-                </tr>
-              ) : (
-                data.students.map((student) => {
-                  const pct = student.totalLessons > 0 ? Math.round((student.completedLessons / student.totalLessons) * 100) : 0;
-                  const badge = student.tier ? TIER_BADGE[student.tier] : null;
-                  const isLead = student.isLead;
+      {/* Tier summary chips */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {TIER_ORDER.map((t) => {
+          const cfg = TIER_CONFIG[t];
+          const count = tierCounts[t] || 0;
+          if (count === 0) return null;
+          return (
+            <span key={t} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${cfg.bg} ${cfg.text}`}>
+              <span className={`w-2 h-2 rounded-full ${cfg.dot}`} />
+              {cfg.label}: {count}
+            </span>
+          );
+        })}
+      </div>
 
-                  const row = (
-                    <tr key={student.id} className={`border-b border-gray-50 hover:bg-gray-50 transition-colors group ${isLead ? "" : "cursor-pointer"}`}>
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isLead ? "bg-purple-100 text-purple-600" : "bg-gray-100 text-[#111]"}`}>
-                            {(student.name || student.email)[0].toUpperCase()}
-                          </div>
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-1.5">
-                              <p className={`text-sm font-medium truncate transition-colors ${isLead ? "text-gray-500" : "text-[#111] group-hover:text-[#FF1744]"}`}>
-                                {student.name || (isLead ? student.email.split("@")[0] : "Sans nom")}
-                              </p>
-                              {student.isBot && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" title="Bot" />}
-                            </div>
-                            <p className="text-xs text-gray-400 truncate">{student.email}</p>
-                          </div>
+      {loading ? (
+        <div className="text-center py-16 text-gray-400 text-sm">Chargement...</div>
+      ) : (
+        <div className="space-y-6">
+          {TIER_ORDER.map((tierKey) => {
+            const students = grouped[tierKey];
+            if (!students?.length) return null;
+            const cfg = TIER_CONFIG[tierKey];
+            const isLeadSection = tierKey === "lead";
+
+            return (
+              <div key={tierKey} className={`rounded-2xl border ${cfg.sectionBorder} overflow-hidden`}>
+                {/* Section header */}
+                <div className={`${cfg.sectionBg} px-5 py-3 flex items-center justify-between border-b ${cfg.sectionBorder}`}>
+                  <div className="flex items-center gap-2.5">
+                    <span className={`w-2.5 h-2.5 rounded-full ${cfg.dot}`} />
+                    <span className={`text-sm font-semibold ${cfg.text}`}>{cfg.label}</span>
+                    <span className="text-xs text-gray-400 font-medium">{students.length}</span>
+                  </div>
+                </div>
+
+                {/* Students list */}
+                <div className="bg-white">
+                  {students.map((student, i) => {
+                    const pct = student.totalLessons > 0 ? Math.round((student.completedLessons / student.totalLessons) * 100) : 0;
+
+                    const row = (
+                      <div
+                        key={student.id}
+                        className={`flex items-center gap-4 px-5 py-3.5 ${i < students.length - 1 ? "border-b border-gray-50" : ""} hover:bg-gray-50/50 transition-colors group ${isLeadSection ? "" : "cursor-pointer"}`}
+                      >
+                        {/* Avatar */}
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isLeadSection ? "bg-purple-100 text-purple-600" : "bg-gray-100 text-[#111]"}`}>
+                          {(student.name || student.email)[0].toUpperCase()}
                         </div>
-                      </td>
-                      <td className="px-5 py-4">
-                        {badge ? (
-                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}>
-                            {badge.label}
-                          </span>
-                        ) : (
-                          <span className="text-xs text-gray-400">{"\u2014"}</span>
-                        )}
-                      </td>
-                      <td className="px-5 py-4">
-                        {isLead ? (
-                          <span className="text-xs text-gray-300">{"\u2014"}</span>
-                        ) : (
-                          <div className="flex items-center gap-3">
-                            <div className="w-24">
-                              <ProgressBar value={pct} size="sm" showLabel={false} />
-                            </div>
-                            <span className="text-xs text-gray-500 whitespace-nowrap">
-                              {student.completedLessons}/{student.totalLessons}
-                            </span>
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-5 py-4">
-                        {isLead ? (
-                          <span className="text-xs text-gray-300">{"\u2014"}</span>
-                        ) : (
-                          <span className="text-sm font-medium text-[#111]">{student.totalXP.toLocaleString("fr-FR")}</span>
-                        )}
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className="text-sm text-gray-500">{formatRelative(student.lastActive || student.createdAt)}</span>
-                      </td>
-                      <td className="px-5 py-4 text-center">
-                        {isLead ? (
-                          <span className="text-xs text-gray-300">{"\u2014"}</span>
-                        ) : (
-                          <span className={`inline-block w-2.5 h-2.5 rounded-full ${student.discordUsername ? "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.4)]" : "bg-gray-200"}`} />
-                        )}
-                      </td>
-                      <td className="px-3 py-4 text-center">
-                          <button
-                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
-                            disabled={deletingId === student.id}
-                            className="px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all disabled:opacity-50 flex items-center gap-1.5 text-xs font-medium shadow-sm"
-                            title="Supprimer"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                            Supprimer
-                          </button>
-                      </td>
-                    </tr>
-                  );
 
-                  if (isLead) return row;
-                  return <Link key={student.id} href={`/admin/students/${student.id}`} className="contents">{row}</Link>;
-                })
-              )}
-            </tbody>
-          </table>
+                        {/* Name + Email */}
+                        <div className="min-w-0 flex-1">
+                          <p className={`text-sm font-medium truncate ${isLeadSection ? "text-gray-600" : "text-[#111] group-hover:text-[#FF1744]"} transition-colors`}>
+                            {student.name || (isLeadSection ? student.email.split("@")[0] : "Sans nom")}
+                          </p>
+                          <p className="text-xs text-gray-400 truncate">{student.email}</p>
+                        </div>
+
+                        {/* Progress (not for leads) */}
+                        <div className="hidden sm:flex items-center gap-2 w-32">
+                          {isLeadSection ? (
+                            <span className="text-xs text-gray-300">{"\u2014"}</span>
+                          ) : (
+                            <>
+                              <div className="w-20"><ProgressBar value={pct} size="sm" showLabel={false} /></div>
+                              <span className="text-xs text-gray-400">{student.completedLessons}/{student.totalLessons}</span>
+                            </>
+                          )}
+                        </div>
+
+                        {/* XP */}
+                        <div className="hidden md:block w-16 text-right">
+                          {isLeadSection ? (
+                            <span className="text-xs text-gray-300">{"\u2014"}</span>
+                          ) : (
+                            <span className="text-sm font-medium text-[#111]">{student.totalXP}</span>
+                          )}
+                        </div>
+
+                        {/* Last active */}
+                        <div className="hidden lg:block w-28 text-right">
+                          <span className="text-xs text-gray-400">{formatRelative(student.lastActive || student.createdAt)}</span>
+                        </div>
+
+                        {/* Delete */}
+                        <button
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setConfirmDeleteId(student.id); }}
+                          disabled={deletingId === student.id}
+                          className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 transition-all disabled:opacity-50 text-xs font-medium shrink-0 opacity-0 group-hover:opacity-100"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    );
+
+                    if (isLeadSection) return row;
+                    return (
+                      <Link key={student.id} href={`/admin/students/${student.id}`} className="block">
+                        {row}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          {Object.keys(grouped).length === 0 && (
+            <div className="text-center py-16 text-gray-400 text-sm">
+              {search ? "Aucun resultat" : "Aucun eleve"}
+            </div>
+          )}
         </div>
-
-        {data && data.totalPages > 1 && (
-          <div className="flex items-center justify-center gap-4 px-5 py-4 border-t border-gray-100">
-            <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1} className="text-sm text-gray-500 hover:text-[#111] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-              &larr; Precedent
-            </button>
-            <span className="text-sm text-gray-400">Page {data.page} sur {data.totalPages}</span>
-            <button onClick={() => setPage((p) => Math.min(data.totalPages, p + 1))} disabled={page >= data.totalPages} className="text-sm text-gray-500 hover:text-[#111] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-              Suivant &rarr;
-            </button>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Confirmation Dialog */}
       {confirmDeleteId && (
@@ -291,13 +266,13 @@ export default function StudentsPage() {
                   <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-[#111]">Supprimer cet eleve ?</h3>
+              <h3 className="text-lg font-semibold text-[#111]">Supprimer ?</h3>
             </div>
-            <p className="text-sm text-gray-500 mb-6">Cette action est irreversible. Toutes les donnees de cet eleve seront definitivement supprimees.</p>
+            <p className="text-sm text-gray-500 mb-6">Cette action est irreversible.</p>
             <div className="flex gap-3 justify-end">
               <button onClick={() => setConfirmDeleteId(null)} className="px-4 py-2 rounded-xl text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all">Annuler</button>
               <button onClick={() => handleDelete(confirmDeleteId)} disabled={deletingId !== null} className="px-4 py-2 rounded-xl text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-all disabled:opacity-50">
-                {deletingId ? "Suppression..." : "Supprimer"}
+                {deletingId ? "..." : "Supprimer"}
               </button>
             </div>
           </div>
@@ -306,7 +281,7 @@ export default function StudentsPage() {
 
       {deleteSuccess && (
         <div className="fixed bottom-6 right-6 z-50 bg-emerald-50 border border-emerald-200 text-emerald-600 px-5 py-3 rounded-xl text-sm font-medium shadow-lg">
-          Eleve supprime avec succes
+          Supprime avec succes
         </div>
       )}
     </div>
