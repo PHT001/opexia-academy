@@ -38,6 +38,7 @@ export async function GET(req: NextRequest) {
     const dayOneEnrollments = await prisma.enrollment.findMany({
       where: {
         status: "active",
+        tier: { in: ["starter", "academy", "one_to_one"] },
         createdAt: { gte: dayOneStart, lte: dayOneEnd },
         user: { isBot: false },
       },
@@ -101,6 +102,7 @@ export async function GET(req: NextRequest) {
     const dayThreeEnrollments = await prisma.enrollment.findMany({
       where: {
         status: "active",
+        tier: { in: ["starter", "academy", "one_to_one"] },
         createdAt: { gte: dayThreeStart, lte: dayThreeEnd },
         user: { isBot: false },
       },
