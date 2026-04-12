@@ -162,7 +162,10 @@ export async function POST(req: NextRequest) {
           {
             price_data: {
               currency: "eur",
-              product_data: { name: `${p.name} \u2014 Paiement en 2 fois` },
+              product_data: {
+                name: `${p.name} \u2014 2 mensualit\u00e9s uniquement`,
+                description: "253,50 EUR x 2 mois (507 EUR total) \u2014 Annulation automatique apr\u00e8s le 2e paiement",
+              },
               unit_amount: 25350, // 253.50 EUR per month
               recurring: { interval: "month" },
             },
