@@ -82,7 +82,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Create Google Calendar event with Google Meet
+    let calendarStatus = "not_attempted";
     try {
+      console.log("[Book] Attempting calendar event creation...");
+      console.log("[Book] GOOGLE_SERVICE_ACCOUNT_JSON exists:", !!process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+      console.log("[Book] GOOGLE_CALENDAR_ID:", process.env.GOOGLE_CALENDAR_ID || "NOT SET");
+
       const endDate = new Date(slotDate.getTime() + 60 * 60 * 1000);
       const calendarResult = await createCalendarEvent(
         `Coaching OpexIA — ${session.user.name || "Élève"}`,
@@ -91,16 +96,23 @@ export async function POST(req: NextRequest) {
         session.user.email
       );
 
-      // Store the Meet link on the coaching session if available
-      if (calendarResult?.meetLink) {
-        await prisma.coachingSession.update({
-          where: { id: coachingSession.id },
-          data: { meetLink: calendarResult.meetLink },
-        }).catch(() => {});
+      if (calendarResult) {
+        calendarStatus = "created:" + (calendarResult.id || "no-id");
+        // Store the Meet link on the coaching session if available
+        if (calendarResult.meetLink) {
+          await prisma.coachingSession.update({
+            where: { id: coachingSession.id },
+            data: { meetLink: calendarResult.meetLink },
+          }).catch(() => {});
+        }
+        console.log("[Book] Calendar event CREATED:", calendarResult.id, "Meet:", calendarResult.meetLink);
+      } else {
+        calendarStatus = "returned_null";
+        console.error("[Book] createCalendarEvent returned NULL - client not configured?");
       }
-      console.log("[Book] Calendar event created successfully:", calendarResult?.id || "no id");
     } catch (calErr) {
-      console.error("[Book] Failed to create calendar event:", calErr instanceof Error ? calErr.message : calErr);
+      calendarStatus = "error:" + (calErr instanceof Error ? calErr.message : String(calErr));
+      console.error("[Book] Calendar event FAILED:", calErr instanceof Error ? calErr.message : calErr);
     }
 
     // Format date for emails
@@ -147,7 +159,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, calendarStatus });
   } catch (error) {
     if (error instanceof Error && error.message === "SLOT_TAKEN") {
       return NextResponse.json({ error: "Ce créneau vient d'être réservé par quelqu'un d'autre. Choisis un autre horaire." }, { status: 409 });

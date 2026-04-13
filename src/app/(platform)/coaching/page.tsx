@@ -486,10 +486,9 @@ function CoachingContent() {
       });
       const data = await res.json();
       if (res.ok) {
+        const calInfo = data.calendarStatus ? ` [Calendar: ${data.calendarStatus}]` : "";
         setSuccessMessage(
-          effectiveTier === "one_to_one"
-            ? "Session réservée avec succès ! Tu recevras un email de confirmation."
-            : "Session réservée ! Tu recevras un email de confirmation. Le paiement de 50€ se fera lors de l'appel."
+          `Session reservee ! Tu recevras un email de confirmation.${calInfo}`
         );
         setSelectedSlot(null);
         setCoachingTopic("");
