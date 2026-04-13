@@ -524,9 +524,10 @@ function CoachingContent() {
 
   /* ─── Admin View ─────────────────────────────────── */
   if ((session?.user as any)?.role === "admin" && !previewTier) {
-    const allSessions = sessions.filter((s) => s.status === "confirmed");
+    const allSessions = sessions.filter((s) => s.status !== "cancelled");
     const upcomingSessions = allSessions.filter((s) => new Date(s.date) >= new Date());
     const pastAdminSessions = allSessions.filter((s) => new Date(s.date) < new Date());
+    const cancelledSessions = sessions.filter((s) => s.status === "cancelled");
 
     return (
       <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -563,61 +564,88 @@ function CoachingContent() {
           />
         </div>
 
-        {/* All sessions from DB */}
-        <div>
-          <h2 className="text-sm font-bold text-[#111] mb-3 flex items-center gap-2">
-            <IconCalendar className="text-emerald-500 w-4 h-4" />
-            Sessions planifiees
-            {sessions.length > 0 && (
-              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">{sessions.length}</span>
-            )}
-          </h2>
-          {sessions.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-gray-200 p-6 text-center">
-              <p className="text-xs text-gray-400">Aucune session planifiee.</p>
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
+            <p className="text-2xl font-bold text-emerald-600">{upcomingSessions.length}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">A venir</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
+            <p className="text-2xl font-bold text-[#111]">{pastAdminSessions.length}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Terminees</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
+            <p className="text-2xl font-bold text-[#111]">{allSessions.length}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Total</p>
+          </div>
+        </div>
+
+        {/* Sessions list */}
+        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-[#111] flex items-center gap-2">
+              <IconCalendar className="text-emerald-500 w-4 h-4" />
+              Sessions
+              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">{allSessions.length}</span>
+            </h2>
+          </div>
+
+          {allSessions.length === 0 ? (
+            <div className="p-8 text-center">
+              <p className="text-sm text-gray-400">Aucune session.</p>
             </div>
           ) : (
-            <div className="space-y-3">
-              {allSessions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((s: any) => {
+            <div className="divide-y divide-gray-50">
+              {/* Upcoming first, then past */}
+              {[...upcomingSessions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()), ...pastAdminSessions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())].map((s: any) => {
                 const d = new Date(s.date);
                 const isPast = d < new Date();
                 return (
-                  <div key={s.id} className={`rounded-xl bg-white border border-gray-200 overflow-hidden ${isPast ? "opacity-40" : ""}`}>
-                    <div className="flex items-center gap-3 p-3.5">
-                      <div className={`w-12 h-12 rounded-xl flex flex-col items-center justify-center flex-shrink-0 ${isPast ? "bg-gray-100" : "bg-emerald-50"}`}>
-                        <span className={`text-[8px] font-bold uppercase ${isPast ? "text-gray-400" : "text-emerald-500"}`}>{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
-                        <span className={`text-lg font-black leading-none ${isPast ? "text-gray-500" : "text-emerald-600"}`}>{d.getDate()}</span>
+                  <div key={s.id} className={`p-4 hover:bg-gray-50/50 transition-colors ${isPast ? "opacity-50" : ""}`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`w-11 h-11 rounded-xl flex flex-col items-center justify-center flex-shrink-0 ${isPast ? "bg-gray-100" : "bg-emerald-50"}`}>
+                        <span className={`text-[7px] font-bold uppercase ${isPast ? "text-gray-400" : "text-emerald-500"}`}>{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
+                        <span className={`text-base font-black leading-none ${isPast ? "text-gray-500" : "text-emerald-600"}`}>{d.getDate()}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-[#111] truncate">
-                          {s.user?.name || "Eleve"}
-                        </p>
-                        <p className="text-[11px] text-[#111] opacity-40 truncate">{s.user?.email}</p>
-                        <p className="text-[11px] text-[#111] opacity-50 flex items-center gap-1 mt-0.5">
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-bold text-[#111] truncate">{s.user?.name || "Eleve"}</p>
+                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isPast ? "text-gray-400 bg-gray-100" : "text-emerald-600 bg-emerald-50"}`}>
+                            {isPast ? "Terminee" : "Confirmee"}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-gray-400 truncate">{s.user?.email}</p>
+                        <p className="text-[11px] text-[#111] opacity-50 flex items-center gap-1 mt-1">
                           <IconClock className="w-3 h-3" />
                           {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })} — {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
                         </p>
+                        {s.topic && (
+                          <div className="mt-2 bg-gray-50 rounded-lg px-3 py-1.5 inline-block">
+                            <span className="text-[10px] text-gray-400 font-semibold">Motif : </span>
+                            <span className="text-[11px] text-[#111]">{s.topic}</span>
+                          </div>
+                        )}
                       </div>
-                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full flex-shrink-0 ${isPast ? "text-gray-400 bg-gray-100" : "text-emerald-600 bg-emerald-50"}`}>
-                        {isPast ? "Passee" : "Confirmee"}
-                      </span>
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        {s.user?.email && (
+                          <a href={`mailto:${s.user.email}`} className="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="Envoyer un email">
+                            <IconMessageCircle className="w-3.5 h-3.5 text-gray-400" />
+                          </a>
+                        )}
+                        <button
+                          onClick={async () => {
+                            if (!confirm("Supprimer cette session ?")) return;
+                            await fetch("/api/admin/coaching", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: s.id }) });
+                            const r = await fetch("/api/coaching/slots");
+                            const d2 = await r.json();
+                            setSessions(d2.sessions || []);
+                          }}
+                          className="p-2 rounded-lg hover:bg-red-50 transition-colors" title="Supprimer"
+                        >
+                          <svg className="w-3.5 h-3.5 text-gray-400 hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                      </div>
                     </div>
-                    {s.topic && (
-                      <div className="px-3.5 pb-3 pt-0">
-                        <div className="bg-gray-50 rounded-lg px-3 py-2">
-                          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Motif</p>
-                          <p className="text-xs text-[#111]">{s.topic}</p>
-                        </div>
-                      </div>
-                    )}
-                    {s.meetLink && !isPast && (
-                      <div className="px-3.5 pb-3">
-                        <a href={s.meetLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-blue-600 hover:text-blue-700 font-medium">
-                          <IconVideo className="w-3.5 h-3.5" />
-                          Rejoindre Google Meet
-                        </a>
-                      </div>
-                    )}
                   </div>
                 );
               })}
