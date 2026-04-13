@@ -28,8 +28,8 @@ export async function PATCH(req: NextRequest) {
   // Handle profile photo update
   if ("profilePhoto" in body) {
     const photo = body.profilePhoto;
-    // Allow null (remove photo) or base64 string up to 2MB
-    if (photo !== null && (typeof photo !== "string" || photo.length > 2_800_000)) {
+    // Allow null (remove photo) or base64 string up to 500KB
+    if (photo !== null && (typeof photo !== "string" || photo.length > 700_000 || (!photo.startsWith("data:image/") && photo.length > 100))) {
       return NextResponse.json({ error: "Photo invalide ou trop lourde" }, { status: 400 });
     }
     const updated = await prisma.user.update({

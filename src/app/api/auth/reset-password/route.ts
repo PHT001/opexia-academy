@@ -2,9 +2,19 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import rateLimit from "@/lib/rate-limit";
+
+const limiter = rateLimit({ interval: 15 * 60 * 1000, uniqueTokenPerInterval: 200 });
 
 export async function POST(request: Request) {
   try {
+    // Rate limit reset attempts
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+    const { success } = limiter.check(5, ip);
+    if (!success) {
+      return NextResponse.json({ error: "Trop de tentatives. Reessayez plus tard." }, { status: 429 });
+    }
+
     const { token, password } = await request.json();
 
     if (!token || !password) {
