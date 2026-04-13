@@ -18,6 +18,10 @@ export async function POST(request: Request) {
     answers: Record<string, string>;
   };
 
+  if (!lessonSlug || !answers || typeof answers !== "object") {
+    return NextResponse.json({ error: "lessonSlug et answers requis" }, { status: 400 });
+  }
+
   // Get quiz with correct answers
   const lesson = await prisma.lesson.findUnique({
     where: { slug: lessonSlug },

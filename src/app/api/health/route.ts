@@ -39,8 +39,8 @@ export async function GET() {
 
   // Google Calendar check
   checks.googleCalendar = {
-    status: process.env.GOOGLE_CLIENT_EMAIL && process.env.GOOGLE_PRIVATE_KEY ? "ok" : "warning",
-    detail: process.env.GOOGLE_CLIENT_EMAIL ? "Configured" : "Missing credentials",
+    status: process.env.GOOGLE_SERVICE_ACCOUNT_JSON ? "ok" : "warning",
+    detail: process.env.GOOGLE_SERVICE_ACCOUNT_JSON ? "Configured" : "Missing credentials",
   };
 
   // Email stats (last 24h)
