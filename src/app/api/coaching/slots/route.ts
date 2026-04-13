@@ -151,7 +151,8 @@ export async function GET(req: NextRequest) {
     });
 
     // Get sessions: admin sees ALL sessions, users see only their own
-    const isAdminUser = (session.user as any).role === "admin";
+    const dbUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
+    const isAdminUser = dbUser?.role === "admin";
     const [userSessions, enrollment] = await Promise.all([
       prisma.coachingSession.findMany({
         where: isAdminUser ? {} : { userId: session.user.id },
