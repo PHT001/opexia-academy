@@ -571,28 +571,47 @@ function CoachingContent() {
               <p className="text-xs text-gray-400">Aucune session planifiee.</p>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3">
               {allSessions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((s: any) => {
                 const d = new Date(s.date);
                 const isPast = d < new Date();
                 return (
-                  <div key={s.id} className={`flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200 ${isPast ? "opacity-50" : ""}`}>
-                    <div className={`w-10 h-10 rounded-lg flex flex-col items-center justify-center flex-shrink-0 ${isPast ? "bg-gray-100" : "bg-emerald-50"}`}>
-                      <span className={`text-[8px] font-bold uppercase ${isPast ? "text-gray-400" : "text-emerald-500"}`}>{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
-                      <span className={`text-base font-black leading-none ${isPast ? "text-gray-500" : "text-emerald-600"}`}>{d.getDate()}</span>
+                  <div key={s.id} className={`rounded-xl bg-white border border-gray-200 overflow-hidden ${isPast ? "opacity-40" : ""}`}>
+                    <div className="flex items-center gap-3 p-3.5">
+                      <div className={`w-12 h-12 rounded-xl flex flex-col items-center justify-center flex-shrink-0 ${isPast ? "bg-gray-100" : "bg-emerald-50"}`}>
+                        <span className={`text-[8px] font-bold uppercase ${isPast ? "text-gray-400" : "text-emerald-500"}`}>{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
+                        <span className={`text-lg font-black leading-none ${isPast ? "text-gray-500" : "text-emerald-600"}`}>{d.getDate()}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-[#111] truncate">
+                          {s.user?.name || "Eleve"}
+                        </p>
+                        <p className="text-[11px] text-[#111] opacity-40 truncate">{s.user?.email}</p>
+                        <p className="text-[11px] text-[#111] opacity-50 flex items-center gap-1 mt-0.5">
+                          <IconClock className="w-3 h-3" />
+                          {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })} — {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                        </p>
+                      </div>
+                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full flex-shrink-0 ${isPast ? "text-gray-400 bg-gray-100" : "text-emerald-600 bg-emerald-50"}`}>
+                        {isPast ? "Passee" : "Confirmee"}
+                      </span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-[#111] truncate">
-                        {s.user?.name || s.user?.email || "Eleve"}
-                      </p>
-                      <p className="text-[11px] text-[#111] opacity-50 flex items-center gap-1">
-                        <IconClock className="w-3 h-3" />
-                        {d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" })} — {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-                      </p>
-                    </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isPast ? "text-gray-400 bg-gray-100" : "text-emerald-600 bg-emerald-50"}`}>
-                      {isPast ? "Passee" : "Confirmee"}
-                    </span>
+                    {s.topic && (
+                      <div className="px-3.5 pb-3 pt-0">
+                        <div className="bg-gray-50 rounded-lg px-3 py-2">
+                          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Motif</p>
+                          <p className="text-xs text-[#111]">{s.topic}</p>
+                        </div>
+                      </div>
+                    )}
+                    {s.meetLink && !isPast && (
+                      <div className="px-3.5 pb-3">
+                        <a href={s.meetLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-blue-600 hover:text-blue-700 font-medium">
+                          <IconVideo className="w-3.5 h-3.5" />
+                          Rejoindre Google Meet
+                        </a>
+                      </div>
+                    )}
                   </div>
                 );
               })}
