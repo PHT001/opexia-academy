@@ -471,7 +471,7 @@ function CoachingContent() {
         .catch(() => setLoading(false));
     };
     fetchSlots();
-    const interval = setInterval(fetchSlots, 30_000);
+    const interval = setInterval(fetchSlots, 15_000);
     return () => clearInterval(interval);
   }, []);
 
@@ -543,11 +543,18 @@ function CoachingContent() {
 
         {/* Google Calendar */}
         <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
-          <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2">
-            <IconCalendar className="text-[#FF1744]" />
-            <h2 className="text-sm font-bold text-[#111]">Google Calendar</h2>
+          <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <IconCalendar className="text-[#FF1744]" />
+              <h2 className="text-sm font-bold text-[#111]">Google Calendar</h2>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] text-gray-400">Auto-refresh</span>
+            </div>
           </div>
           <iframe
+            key={Math.floor(Date.now() / 60000)}
             src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
             style={{ border: 0 }}
             width="100%"
