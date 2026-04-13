@@ -42,7 +42,7 @@ const TIER_BADGE: Record<string, { bg: string; text: string; label: string; avat
 };
 
 function Card({ className = "", children }: { className?: string; children: React.ReactNode }) {
-  return <div className={`bg-white border border-gray-200 rounded-2xl shadow-sm ${className}`}>{children}</div>;
+  return <div className={`bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 ${className}`}>{children}</div>;
 }
 
 export default function StudentDetailPage() {

@@ -623,7 +623,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
 
       <aside
         className={cn(
-          "fixed top-0 left-0 h-full w-[260px] bg-[#1A1A2E] z-50 flex flex-col transition-transform duration-300",
+          "fixed top-0 left-0 h-full w-[260px] bg-[#1A1A2E] z-50 flex flex-col transition-transform duration-200 ease-out",
           "lg:translate-x-0",
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}

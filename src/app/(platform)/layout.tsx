@@ -8,6 +8,7 @@ import { Sidebar } from "@/components/platform/Sidebar";
 import { XPToastProvider } from "@/components/platform/XPToast";
 import PostPurchaseOnboarding from "@/components/platform/PostPurchaseOnboarding";
 import { ChatWidget } from "@/components/platform/ChatWidget";
+import PageTransition from "@/components/platform/PageTransition";
 
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
@@ -238,7 +239,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           </div>
         )}
         <div className="p-4 sm:p-6 lg:p-8 xl:p-10 w-full">
-          {children}
+          <PageTransition>{children}</PageTransition>
         </div>
       </main>
       {!isAdminRoute && <ChatWidget />}

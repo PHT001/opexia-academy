@@ -194,26 +194,26 @@ export default function StudentsPage() {
       {/* KPI Stats Cards */}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <p className="text-xs text-gray-400 mb-1">Eleves</p>
             <p className="text-2xl font-bold text-[#111]">{stats.totalStudents}</p>
             <p className="text-xs text-gray-400 mt-0.5">{stats.activeStudents} actifs 7j</p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <p className="text-xs text-gray-400 mb-1">Revenue</p>
             <p className="text-2xl font-bold text-[#FF1744]">{formatEuro(stats.totalRevenue)}</p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <p className="text-xs text-gray-400 mb-1">Leads</p>
             <p className="text-2xl font-bold text-purple-600">{stats.leads.total}</p>
             <p className="text-xs text-gray-400 mt-0.5">{stats.leads.conversionRate}% convertis</p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <p className="text-xs text-gray-400 mb-1">Emails envoyes</p>
             <p className="text-2xl font-bold text-[#111]">{stats.emails.sent}</p>
             <p className="text-xs text-gray-400 mt-0.5">{stats.emails.thisWeek} cette semaine</p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <p className="text-xs text-gray-400 mb-1">Completion</p>
             <p className="text-2xl font-bold text-[#111]">{stats.avgCompletion}%</p>
             <p className="text-xs text-gray-400 mt-0.5">taux moyen</p>
@@ -223,7 +223,7 @@ export default function StudentsPage() {
 
       {/* Email breakdown */}
       {stats?.emails && Object.keys(stats.emails.byType).length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 mb-6">
           <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-3">Emails par type</p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(stats.emails.byType).map(([type, count]) => (
