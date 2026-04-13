@@ -79,12 +79,6 @@ export async function createCalendarEvent(
       summary,
       start: { dateTime: startTime, timeZone: "Europe/Paris" },
       end: { dateTime: endTime, timeZone: "Europe/Paris" },
-      conferenceData: {
-        createRequest: {
-          requestId: `opexia-${Date.now()}`,
-          conferenceSolutionKey: { type: "hangoutsMeet" },
-        },
-      },
       reminders: {
         useDefault: false,
         overrides: [
@@ -94,25 +88,19 @@ export async function createCalendarEvent(
       },
     };
 
+    // Service accounts cannot add attendees or create Meet links
+    // without Domain-Wide Delegation. Include email in description instead.
     if (attendeeEmail) {
-      event.attendees = [{ email: attendeeEmail }];
+      event.description = `Participant : ${attendeeEmail}`;
     }
 
     const response = await calendar.events.insert({
       calendarId: CALENDAR_ID(),
       requestBody: event,
-      conferenceDataVersion: 1,
-      sendUpdates: attendeeEmail ? "all" : "none",
     });
 
-    // Extract Meet link from conference data or hangout link
-    const meetLink =
-      response.data.conferenceData?.entryPoints?.find(
-        (ep: { entryPointType?: string }) => ep.entryPointType === "video"
-      )?.uri || response.data.hangoutLink || null;
-
-    console.log("[Google Calendar] Event created:", response.data.id, "Meet:", meetLink);
-    return { ...response.data, meetLink };
+    console.log("[Google Calendar] Event created:", response.data.id);
+    return { ...response.data, meetLink: null };
   } catch (error) {
     console.error("[Google Calendar] Error creating event:", error);
     return null;
