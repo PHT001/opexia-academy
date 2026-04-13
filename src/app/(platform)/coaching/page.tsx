@@ -188,7 +188,7 @@ function CalendlyPicker({
                 <IconCalendar className="text-blue-600 w-4 h-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900 capitalize">
+                <p className="text-sm font-semibold text-[#111] capitalize">
                   {slotDate.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
                 </p>
                 <p className="text-[11px] text-gray-400">Date sélectionnée</p>
@@ -200,7 +200,7 @@ function CalendlyPicker({
                 <IconClock className="text-emerald-600 w-4 h-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="text-sm font-semibold text-[#111]">
                   {slotDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" })} — 1h
                 </p>
                 <p className="text-[11px] text-gray-400">Heure (Europe/Paris)</p>
@@ -212,7 +212,7 @@ function CalendlyPicker({
                 <IconVideo className="text-purple-600 w-4 h-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">Google Meet</p>
+                <p className="text-sm font-semibold text-[#111]">Google Meet</p>
                 <p className="text-[11px] text-gray-400">Le lien sera envoyé par email</p>
               </div>
             </div>
@@ -225,7 +225,7 @@ function CalendlyPicker({
               value={topic}
               onChange={(e) => onTopicChange(e.target.value)}
               placeholder="Ex: Review de mon projet, questions sur le pricing, architecture technique..."
-              className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 focus:bg-white transition-all resize-none"
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-white/10 border border-gray-200 dark:border-white/10 text-sm text-[#111] placeholder:text-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 focus:bg-white transition-all resize-none"
               rows={3}
             />
           </div>
@@ -247,10 +247,8 @@ function CalendlyPicker({
                   <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
                   Réservation en cours...
                 </span>
-              ) : isOneToOne ? (
-                "Réserver ma session (inclus dans ton forfait)"
               ) : (
-                `Réserver ma session — ${COACHING_PRICE_DISPLAY}€`
+                "Réserver ma session"
               )}
             </button>
             <p className="text-[11px] text-gray-400 text-center mt-2.5">
@@ -270,7 +268,7 @@ function CalendlyPicker({
     return (
       <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 sm:p-10 text-center max-w-md mx-auto">
         <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-2xl mx-auto mb-3">📅</div>
-        <p className="text-sm font-semibold text-gray-700 mb-1">Aucun créneau disponible</p>
+        <p className="text-sm font-semibold text-[#111] mb-1">Aucun créneau disponible</p>
         <p className="text-xs text-gray-400">Reviens bientôt, de nouveaux créneaux seront ajoutés.</p>
       </div>
     );
@@ -289,16 +287,16 @@ function CalendlyPicker({
             <div className="flex items-center justify-between mb-5">
               <button
                 onClick={prevMonth}
-                className="w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 flex items-center justify-center"
+                className="w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-[#111] flex items-center justify-center"
               >
                 <IconChevronLeft />
               </button>
-              <h3 className="text-sm sm:text-base font-bold text-gray-900 capitalize select-none">
+              <h3 className="text-sm sm:text-base font-bold text-[#111] capitalize select-none">
                 {MONTHS_FR[viewMonth]} {viewYear}
               </h3>
               <button
                 onClick={nextMonth}
-                className="w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700 flex items-center justify-center"
+                className="w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-[#111] flex items-center justify-center"
               >
                 <IconChevronRight />
               </button>
@@ -340,7 +338,7 @@ function CalendlyPicker({
                       "aspect-square rounded-lg flex items-center justify-center transition-all text-[13px] sm:text-sm relative",
                       isPast && "opacity-20 cursor-default",
                       !hasSlots && !isPast && "text-gray-300 cursor-default",
-                      hasSlots && !isPast && !isSelected && "cursor-pointer text-gray-700 font-medium hover:bg-[#FF1744]/5 hover:text-[#FF1744]",
+                      hasSlots && !isPast && !isSelected && "cursor-pointer text-[#111] font-medium hover:bg-[#FF1744]/5 hover:text-[#FF1744]",
                       isSelected && "bg-[#FF1744] text-white font-bold shadow-md shadow-red-500/25 scale-105",
                       isToday && !isSelected && "font-bold",
                     )}
@@ -371,7 +369,7 @@ function CalendlyPicker({
                   className="p-4 sm:p-5"
                 >
                   <div className="mb-4">
-                    <p className="text-sm font-bold text-gray-900 capitalize">
+                    <p className="text-sm font-bold text-[#111] capitalize">
                       {new Date(selectedDay + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                     </p>
                     <p className="text-[11px] text-gray-400 mt-0.5">
@@ -390,7 +388,7 @@ function CalendlyPicker({
                             "w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-center transition-all text-sm font-medium",
                             isSlotSelected
                               ? "bg-[#FF1744] text-white border-[#FF1744] shadow-md shadow-red-500/15"
-                              : "bg-white text-gray-600 border-gray-200 hover:border-[#FF1744]/40 hover:text-[#FF1744] hover:bg-red-50/50"
+                              : "bg-gray-50 text-[#111] border-gray-200 hover:border-[#FF1744]/40 hover:text-[#FF1744] hover:bg-red-50/50"
                           )}
                         >
                           <IconClock className={cn("w-3.5 h-3.5", isSlotSelected ? "text-white/80" : "text-gray-400")} />
@@ -535,7 +533,7 @@ function CoachingContent() {
       <div className="w-full max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-xl font-bold text-gray-900 flex items-center gap-3">
+          <h1 className="text-xl font-bold text-[#111] flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
               <IconCalendar className="text-white" />
             </div>
@@ -548,7 +546,7 @@ function CoachingContent() {
         <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2">
             <IconCalendar className="text-[#FF1744]" />
-            <h2 className="text-sm font-bold text-gray-900">Calendrier Google</h2>
+            <h2 className="text-sm font-bold text-[#111]">Calendrier Google</h2>
           </div>
           <iframe
             src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
@@ -562,7 +560,7 @@ function CoachingContent() {
 
         {/* Upcoming */}
         <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+          <h2 className="text-sm font-bold text-[#111] mb-3 flex items-center gap-2">
             <IconCalendar className="text-emerald-500 w-4 h-4" />
             Sessions à venir
             {upcomingSessions.length > 0 && (
@@ -584,7 +582,7 @@ function CoachingContent() {
                       <span className="text-base font-black text-emerald-700 leading-none">{d.getDate()}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-800 truncate">
+                      <p className="text-sm font-semibold text-[#111] truncate">
                         {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                       </p>
                       <p className="text-[11px] text-gray-500 flex items-center gap-1">
@@ -632,18 +630,24 @@ function CoachingContent() {
   const bookingContent = (
     <div className="w-full max-w-3xl mx-auto space-y-6">
 
-      {/* Success */}
+      {/* Success popup */}
       {successMessage && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-3 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200"
-        >
-          <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
-            <IconCheck className="text-emerald-600" />
-          </div>
-          <p className="text-sm text-emerald-700">{successMessage}</p>
-        </motion.div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full shadow-2xl text-center"
+          >
+            <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h3 className="text-lg font-bold text-[#111] mb-2">Session reservee !</h3>
+            <p className="text-sm text-gray-500 mb-6">{successMessage}</p>
+            <button onClick={() => setSuccessMessage(null)} className="w-full py-3 bg-[#111] text-white text-sm font-semibold rounded-xl hover:bg-[#333] transition-colors">
+              Fermer
+            </button>
+          </motion.div>
+        </div>
       )}
 
       {/* ─── Coach header card ─── */}
@@ -659,7 +663,7 @@ function CoachingContent() {
               <img src="/images/chatbot-avatar.jpg" alt="OpexIA" className="w-full h-full object-cover" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-base sm:text-lg font-bold text-gray-900">Session coaching OpexIA</h1>
+              <h1 className="text-base sm:text-lg font-bold text-[#111]">Session coaching OpexIA</h1>
               <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
                   <IconClock className="w-3 h-3" /> 1h
@@ -704,7 +708,7 @@ function CoachingContent() {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-5 sm:p-6"
       >
-        <h2 className="text-sm font-bold text-gray-900 mb-4">Ce qui est inclus</h2>
+        <h2 className="text-sm font-bold text-[#111] mb-4">Ce qui est inclus</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {INCLUDES.map((item, i) => (
             <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
@@ -721,7 +725,7 @@ function CoachingContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.15 }}
       >
-        <h2 className="text-sm font-bold text-gray-900 mb-3">Comment ça marche</h2>
+        <h2 className="text-sm font-bold text-[#111] mb-3">Comment ça marche</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
           {STEPS.map((step, i) => (
             <div
@@ -734,7 +738,7 @@ function CoachingContent() {
                 </div>
                 <span className="text-[10px] font-black text-gray-300">{step.num}</span>
               </div>
-              <h3 className="text-xs font-bold text-gray-900 mb-0.5">{step.title}</h3>
+              <h3 className="text-xs font-bold text-[#111] mb-0.5">{step.title}</h3>
               <p className="text-[11px] text-gray-500 leading-relaxed">{step.desc}</p>
               {i < STEPS.length - 1 && (
                 <div className="hidden lg:block absolute top-1/2 -right-2 z-10 text-gray-200 text-sm">›</div>
@@ -747,7 +751,7 @@ function CoachingContent() {
       {/* ─── Upcoming sessions ─── */}
       {confirmedSessions.length > 0 && (
         <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+          <h2 className="text-sm font-bold text-[#111] mb-3 flex items-center gap-2">
             <IconCalendar className="text-emerald-500 w-4 h-4" />
             Tes prochaines sessions
           </h2>
@@ -761,7 +765,7 @@ function CoachingContent() {
                     <span className="text-base font-black text-emerald-700 leading-none">{d.getDate()}</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">
+                    <p className="text-sm font-semibold text-[#111] truncate">
                       {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                     </p>
                     <p className="text-[11px] text-gray-500 flex items-center gap-1">
