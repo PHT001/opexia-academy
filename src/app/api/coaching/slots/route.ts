@@ -150,12 +150,14 @@ export async function GET(req: NextRequest) {
       return true;
     });
 
-    // Also get user's own sessions + enrollment tier
+    // Get sessions: admin sees ALL sessions, users see only their own
+    const isAdminUser = (session.user as any).role === "admin";
     const [userSessions, enrollment] = await Promise.all([
       prisma.coachingSession.findMany({
-        where: { userId: session.user.id },
+        where: isAdminUser ? {} : { userId: session.user.id },
         orderBy: { date: "desc" },
-        take: 10,
+        take: isAdminUser ? 50 : 10,
+        include: isAdminUser ? { user: { select: { name: true, email: true } } } : undefined,
       }),
       prisma.enrollment.findFirst({
         where: { userId: session.user.id, status: { in: ["active", "upgraded"] } },

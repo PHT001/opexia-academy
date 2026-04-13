@@ -542,55 +542,42 @@ function CoachingContent() {
           <p className="text-xs text-gray-500 mt-1 ml-12">Vue administrateur</p>
         </div>
 
-        {/* Google Calendar */}
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
-          <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2">
-            <IconCalendar className="text-[#FF1744]" />
-            <h2 className="text-sm font-bold text-[#111]">Calendrier Google</h2>
-          </div>
-          <iframe
-            src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
-            style={{ border: 0 }}
-            width="100%"
-            height="500"
-            className="sm:h-[550px]"
-            title="Google Calendar OpexIA"
-          />
-        </div>
-
-        {/* Upcoming */}
+        {/* All sessions from DB */}
         <div>
           <h2 className="text-sm font-bold text-[#111] mb-3 flex items-center gap-2">
             <IconCalendar className="text-emerald-500 w-4 h-4" />
-            Sessions à venir
-            {upcomingSessions.length > 0 && (
-              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">{upcomingSessions.length}</span>
+            Sessions planifiees
+            {sessions.length > 0 && (
+              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">{sessions.length}</span>
             )}
           </h2>
-          {upcomingSessions.length === 0 ? (
+          {sessions.length === 0 ? (
             <div className="bg-white rounded-xl border border-dashed border-gray-200 p-6 text-center">
-              <p className="text-xs text-gray-400">Aucune session à venir.</p>
+              <p className="text-xs text-gray-400">Aucune session planifiee.</p>
             </div>
           ) : (
             <div className="space-y-2">
-              {upcomingSessions.map((s) => {
+              {allSessions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((s: any) => {
                 const d = new Date(s.date);
+                const isPast = d < new Date();
                 return (
-                  <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-50 flex flex-col items-center justify-center flex-shrink-0">
-                      <span className="text-[8px] font-bold text-emerald-500 uppercase">{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
-                      <span className="text-base font-black text-emerald-600 leading-none">{d.getDate()}</span>
+                  <div key={s.id} className={`flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200 ${isPast ? "opacity-50" : ""}`}>
+                    <div className={`w-10 h-10 rounded-lg flex flex-col items-center justify-center flex-shrink-0 ${isPast ? "bg-gray-100" : "bg-emerald-50"}`}>
+                      <span className={`text-[8px] font-bold uppercase ${isPast ? "text-gray-400" : "text-emerald-500"}`}>{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
+                      <span className={`text-base font-black leading-none ${isPast ? "text-gray-500" : "text-emerald-600"}`}>{d.getDate()}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-[#111] truncate">
-                        {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                        {s.user?.name || s.user?.email || "Eleve"}
                       </p>
                       <p className="text-[11px] text-[#111] opacity-50 flex items-center gap-1">
                         <IconClock className="w-3 h-3" />
-                        {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
+                        {d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" })} — {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
                       </p>
                     </div>
-                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex-shrink-0">Confirmee</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isPast ? "text-gray-400 bg-gray-100" : "text-emerald-600 bg-emerald-50"}`}>
+                      {isPast ? "Passee" : "Confirmee"}
+                    </span>
                   </div>
                 );
               })}
@@ -598,30 +585,6 @@ function CoachingContent() {
           )}
         </div>
 
-        {/* Past */}
-        {pastAdminSessions.length > 0 && (
-          <div>
-            <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sessions passées</h3>
-            <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
-              {pastAdminSessions.map((s) => {
-                const d = new Date(s.date);
-                return (
-                  <div key={s.id} className="flex items-center gap-3 px-4 py-2.5">
-                    <div className="w-7 h-7 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
-                      <IconVideo className="text-gray-400 w-3 h-3" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-600">
-                        {d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
-                      </p>
-                    </div>
-                    <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Terminée</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
     );
   }
@@ -703,34 +666,6 @@ function CoachingContent() {
 
       {/* ─── What's included ─── */}
       {/* ─── How it works ─── */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.15 }}
-      >
-        <h2 className="text-sm font-bold text-[#111] mb-3">Comment ça marche</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
-          {STEPS.map((step, i) => (
-            <div
-              key={i}
-              className="relative bg-white rounded-xl border border-gray-200/80 p-4 group hover:shadow-sm transition-all"
-            >
-              <div className="flex items-center gap-2.5 mb-2.5">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center shadow-sm shadow-red-500/20">
-                  {step.icon}
-                </div>
-                <span className="text-[10px] font-black text-gray-300">{step.num}</span>
-              </div>
-              <h3 className="text-xs font-bold text-[#111] mb-0.5">{step.title}</h3>
-              <p className="text-[11px] text-gray-500 leading-relaxed">{step.desc}</p>
-              {i < STEPS.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-2 z-10 text-gray-200 text-sm">›</div>
-              )}
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
       {/* ─── Upcoming sessions ─── */}
       {confirmedSessions.length > 0 && (
         <div>
