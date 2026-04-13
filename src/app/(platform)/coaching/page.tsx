@@ -542,6 +542,21 @@ function CoachingContent() {
           <p className="text-xs text-gray-500 mt-1 ml-12">Vue administrateur</p>
         </div>
 
+        {/* Google Calendar */}
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2">
+            <IconCalendar className="text-[#FF1744]" />
+            <h2 className="text-sm font-bold text-[#111]">Google Calendar</h2>
+          </div>
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=opexiapro%40gmail.com&ctz=Europe%2FParis"
+            style={{ border: 0 }}
+            width="100%"
+            height="450"
+            title="Google Calendar OpexIA"
+          />
+        </div>
+
         {/* All sessions from DB */}
         <div>
           <h2 className="text-sm font-bold text-[#111] mb-3 flex items-center gap-2">
