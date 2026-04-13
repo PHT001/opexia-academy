@@ -98,8 +98,9 @@ export async function POST(req: NextRequest) {
           data: { meetLink: calendarResult.meetLink },
         }).catch(() => {});
       }
+      console.log("[Book] Calendar event created successfully:", calendarResult?.id || "no id");
     } catch (calErr) {
-      console.error("[Book] Failed to create calendar event:", calErr);
+      console.error("[Book] Failed to create calendar event:", calErr instanceof Error ? calErr.message : calErr);
     }
 
     // Format date for emails

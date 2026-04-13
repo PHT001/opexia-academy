@@ -576,21 +576,21 @@ function CoachingContent() {
               {upcomingSessions.map((s) => {
                 const d = new Date(s.date);
                 return (
-                  <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
+                  <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-50 flex flex-col items-center justify-center flex-shrink-0">
                       <span className="text-[8px] font-bold text-emerald-500 uppercase">{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
-                      <span className="text-base font-black text-emerald-700 leading-none">{d.getDate()}</span>
+                      <span className="text-base font-black text-emerald-600 leading-none">{d.getDate()}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-[#111] truncate">
                         {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                       </p>
-                      <p className="text-[11px] text-gray-500 flex items-center gap-1">
+                      <p className="text-[11px] text-[#111] opacity-50 flex items-center gap-1">
                         <IconClock className="w-3 h-3" />
                         {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
                       </p>
                     </div>
-                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full flex-shrink-0">Confirmée</span>
+                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex-shrink-0">Confirmee</span>
                   </div>
                 );
               })}
@@ -702,23 +702,6 @@ function CoachingContent() {
       </motion.div>
 
       {/* ─── What's included ─── */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-5 sm:p-6"
-      >
-        <h2 className="text-sm font-bold text-[#111] mb-4">Ce qui est inclus</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {INCLUDES.map((item, i) => (
-            <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
-              <span className="text-base flex-shrink-0">{item.icon}</span>
-              <span className="text-xs text-gray-600">{item.text}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
       {/* ─── How it works ─── */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -759,21 +742,21 @@ function CoachingContent() {
             {confirmedSessions.map((s) => {
               const d = new Date(s.date);
               return (
-                <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-100 flex flex-col items-center justify-center flex-shrink-0">
+                <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-50 flex flex-col items-center justify-center flex-shrink-0">
                     <span className="text-[8px] font-bold text-emerald-500 uppercase">{d.toLocaleDateString("fr-FR", { weekday: "short" })}</span>
-                    <span className="text-base font-black text-emerald-700 leading-none">{d.getDate()}</span>
+                    <span className="text-base font-black text-emerald-600 leading-none">{d.getDate()}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-[#111] truncate">
                       {d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
                     </p>
-                    <p className="text-[11px] text-gray-500 flex items-center gap-1">
+                    <p className="text-[11px] text-[#111] opacity-50 flex items-center gap-1">
                       <IconClock className="w-3 h-3" />
                       {d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — 1h
                     </p>
                   </div>
-                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full flex-shrink-0">Confirmée</span>
+                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex-shrink-0">Confirmee</span>
                 </div>
               );
             })}
