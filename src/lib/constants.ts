@@ -197,7 +197,6 @@ export const COACHING_PRICE_DISPLAY = "50";
 export const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
 
 export const WHATSAPP_LINK = "https://wa.me/message/DUQV2FBF3TF2H1";
-export const WHATSAPP_PHONE = "https://wa.me/33787858036";
 
 /* ——— Referral / Parrainage ——— */
 export const REFERRAL_COMMISSION_RATES: Record<string, number> = {
