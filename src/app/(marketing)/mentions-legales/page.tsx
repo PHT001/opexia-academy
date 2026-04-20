@@ -27,7 +27,7 @@ export default function MentionsLegalesPage() {
           <li><strong>Forme juridique :</strong> Micro-entreprise</li>
           <li><strong>SIRET :</strong> 909 749 541</li>
           <li><strong>Email :</strong> support@opexia-formation.com</li>
-          <li><strong>T&eacute;l&eacute;phone :</strong> 07 56 80 37 17</li>
+          <li><strong>T&eacute;l&eacute;phone :</strong> 07 56 88 52 25</li>
         </ul>
         <p className="text-[#6B7280] leading-relaxed mb-6 text-sm italic">
           En tant que micro-entreprise, OpexIA Academy est exon&eacute;r&eacute;e de TVA

@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { WHATSAPP_LINK, TIER_PRIORITY } from "@/lib/constants";
+import { WHATSAPP_PHONE, TIER_PRIORITY } from "@/lib/constants";
 
 const TIER_LABELS: Record<string, string> = {
   free: "Gratuit", starter: "Starter", academy: "Academy", one_to_one: "One to One",
@@ -36,7 +36,7 @@ const plans: Plan[] = [
     description: "Accompagnement premium avec nos experts", popular: false, limited: true,
     features: ["Tout le pack Academy", "8 visios individuelles (1h)", "Review de tes projets en live", "Support prioritaire illimit\u00e9", "R\u00e9seau priv\u00e9 VIP fondateurs", "Acc\u00e8s \u00e0 vie \u00e0 toutes les mises \u00e0 jour", "Audit personnalis\u00e9 de ton agence", "Strat\u00e9gie de lancement sur-mesure", "Suivi hebdomadaire pendant 3 mois", "Acc\u00e8s direct WhatsApp avec Marius & Igor"],
     notIncluded: [],
-    cta: "Postuler via WhatsApp", href: WHATSAPP_LINK, external: true,
+    cta: "Postuler via WhatsApp", href: WHATSAPP_PHONE, external: true,
   },
 ];
 

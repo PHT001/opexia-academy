@@ -61,7 +61,7 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
       <p>Pour bien d&eacute;marrer :</p>
       <p>1. Connecte-toi &agrave; la plateforme<br/>2. Ouvre le Module 1 depuis ton tableau de bord<br/>3. Lance la Le&ccedil;on 1 — elle dure 15 minutes</p>
       <p>Lien direct : <a href="https://opexia-formation.com/dashboard" style="color: #1a73e8;">opexia-formation.com/dashboard</a></p>
-      <p>Si t'as la moindre question, r&eacute;ponds &agrave; cet email.</p>
+      <p>Si t'as la moindre question, r&eacute;ponds &agrave; cet email ou contacte-moi sur WhatsApp : <a href="https://wa.me/33756885225" style="color: #1a73e8;">wa.me/33756885225</a></p>
     `),
   };
 }
@@ -366,7 +366,7 @@ export function dayThreeEmail(name: string): { subject: string; html: string } {
     html: layout(`
       <p>Salut ${firstName},</p>
       <p>Tu as acc&egrave;s &agrave; la formation depuis 3 jours. Si tu bloques sur quelque chose ou si tu veux structurer ton plan d'action, on peut en parler.</p>
-      <p>R&eacute;serve un appel gratuit de 15 min avec moi sur <a href="https://wa.me/message/DUQV2FBF3TF2H1" style="color: #1a73e8;">WhatsApp</a></p>
+      <p>R&eacute;serve un appel gratuit de 15 min avec moi sur WhatsApp : <a href="https://wa.me/33756885225" style="color: #1a73e8;">wa.me/33756885225</a></p>
       <p>Sinon, r&eacute;ponds &agrave; cet email, je te r&eacute;ponds sous 24h.</p>
     `),
   };

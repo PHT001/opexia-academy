@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
-import { COACHING_PRICE_DISPLAY, WHATSAPP_LINK } from "@/lib/constants";
+import { COACHING_PRICE_DISPLAY, WHATSAPP_PHONE } from "@/lib/constants";
 import { createCalendarEvent } from "@/lib/google-calendar";
 
 const resend = process.env.RESEND_API_KEY
@@ -243,7 +243,7 @@ function buildStudentEmail({ firstName, dateStr, timeStr, topicText, isFree }: {
 
       <!-- CTA WhatsApp -->
       <div style="text-align:center;margin-bottom:20px;">
-        <a href="${WHATSAPP_LINK}" style="display:inline-block;background:#25D366;color:#fff;text-decoration:none;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:600;">
+        <a href="${WHATSAPP_PHONE}" style="display:inline-block;background:#25D366;color:#fff;text-decoration:none;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:600;">
           💬 Une question ? Écris-nous sur WhatsApp
         </a>
       </div>

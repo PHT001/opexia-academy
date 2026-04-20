@@ -36,7 +36,7 @@ export default function ConfidentialitePage() {
           <li><strong>Repr&eacute;sentant :</strong> Marius AUGEREAU</li>
           <li><strong>SIRET :</strong> 909 749 541</li>
           <li><strong>Email :</strong> support@opexia-formation.com</li>
-          <li><strong>T&eacute;l&eacute;phone :</strong> 07 56 80 37 17</li>
+          <li><strong>T&eacute;l&eacute;phone :</strong> 07 56 88 52 25</li>
           <li><strong>D&eacute;l&eacute;gu&eacute; &agrave; la protection des donn&eacute;es (DPO) :</strong> support@opexia-formation.com</li>
         </ul>
 

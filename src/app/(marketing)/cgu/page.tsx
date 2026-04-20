@@ -28,7 +28,7 @@ export default function CGUPage() {
           <li>Micro-entreprise</li>
           <li>SIRET : 909 749 541</li>
           <li>Email : support@opexia-formation.com</li>
-          <li>T&eacute;l&eacute;phone : 07 56 80 37 17</li>
+          <li>T&eacute;l&eacute;phone : 07 56 88 52 25</li>
           <li>Responsable de la publication : Marius AUGEREAU</li>
         </ul>
 

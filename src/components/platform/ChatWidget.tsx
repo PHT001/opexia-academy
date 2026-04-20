@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { WHATSAPP_LINK } from "@/lib/constants";
+import { WHATSAPP_PHONE } from "@/lib/constants";
 
 const QUICK_QUESTIONS = [
   {
@@ -157,7 +157,7 @@ export function ChatWidget() {
             {/* Footer */}
             <div className="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-gray-50/50 space-y-2">
               <a
-                href={WHATSAPP_LINK}
+                href={WHATSAPP_PHONE}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full rounded-xl bg-[#25D366] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#1DA851] transition-colors"
