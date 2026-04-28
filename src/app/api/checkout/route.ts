@@ -147,7 +147,7 @@ export async function POST(req: NextRequest) {
       : `${origin}/dashboard?checkout=success&plan=${plan}`;
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 
-    // 2 installments for Academy: subscription mode (198.50 EUR x 2 months)
+    // 2 installments for Academy: subscription mode (218.35 EUR x 2 months = 436.70 EUR, +10% surcharge)
     if (installments === 2 && plan === "academy") {
       const subSession = await stripe.checkout.sessions.create({
         mode: "subscription",
@@ -164,9 +164,9 @@ export async function POST(req: NextRequest) {
               currency: "eur",
               product_data: {
                 name: `${p.name} \u2014 2 mensualit\u00e9s uniquement`,
-                description: "198,50 EUR x 2 mois (397 EUR total) \u2014 Annulation automatique apr\u00e8s le 2e paiement",
+                description: "218,35 EUR x 2 mois (436,70 EUR total, +10% pour paiement \u00e9chelonn\u00e9) \u2014 Annulation automatique apr\u00e8s le 2e paiement",
               },
-              unit_amount: 19850, // 198.50 EUR per month
+              unit_amount: 21835, // 218.35 EUR per month (10% surcharge over 397\u20ac one-shot)
               recurring: { interval: "month" },
             },
             quantity: 1,

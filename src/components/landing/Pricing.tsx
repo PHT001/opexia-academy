@@ -297,7 +297,7 @@ export default function Pricing() {
                 )}
 
                 {plan.slug === "academy" && (
-                  <p className="text-xs text-[#6B7280] mt-2 text-center">ou en 2 fois : 198,50 EUR x2</p>
+                  <p className="text-xs text-[#6B7280] mt-2 text-center">ou en 2 fois : 218,35 EUR x2 (+10%)</p>
                 )}
               </div>
 
@@ -480,8 +480,8 @@ export default function Pricing() {
                 className="w-full p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-left"
               >
                 <p className="text-sm font-bold text-[#111]">En 2 fois</p>
-                <p className="text-2xl font-black text-[#111] mt-1">198,50 EUR <span className="text-sm font-medium text-gray-400">x 2</span></p>
-                <p className="text-xs text-gray-400 mt-1">397 EUR total — 2 pr&eacute;l&egrave;vements par carte</p>
+                <p className="text-2xl font-black text-[#111] mt-1">218,35 EUR <span className="text-sm font-medium text-gray-400">x 2</span></p>
+                <p className="text-xs text-gray-400 mt-1">436,70 EUR total (+10%) — 2 pr&eacute;l&egrave;vements par carte</p>
               </button>
             </div>
 
