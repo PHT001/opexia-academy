@@ -77,7 +77,7 @@ export default function ProjectBuilderAnimation() {
                 <span className="text-[8px] text-gray-400">Contact</span>
                 <div className="h-4 px-2 rounded bg-[#FF1744] flex items-center">
                   <span className="text-[7px] text-white font-medium">
-                    Devis gratuit
+                    Devis
                   </span>
                 </div>
               </div>

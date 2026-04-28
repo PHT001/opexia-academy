@@ -191,7 +191,7 @@ export default function AgencyLaunchAnimation() {
                 <span className="text-[9px] font-semibold text-gray-800">{"Prospection envoy\u00e9e"}</span>
               </div>
               <div className="bg-gray-50 rounded-lg px-2.5 py-2 text-[8px] text-gray-600 leading-[1.4]">
-                {"Bonjour, je propose des solutions IA (chatbot, automatisation) pour les restaurants. Int\u00e9ress\u00e9 par une d\u00e9mo gratuite ?"}
+                {"Bonjour, je propose des solutions IA (chatbot, automatisation) pour les restaurants. Int\u00e9ress\u00e9 par une d\u00e9mo ?"}
               </div>
             </motion.div>
           )}
