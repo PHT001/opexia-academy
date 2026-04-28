@@ -147,7 +147,7 @@ export async function POST(req: NextRequest) {
       : `${origin}/dashboard?checkout=success&plan=${plan}`;
     const cancelUrl = guest ? `${origin}/#pricing` : `${origin}/offres`;
 
-    // 2 installments for Academy: subscription mode (253.50 EUR x 2 months)
+    // 2 installments for Academy: subscription mode (198.50 EUR x 2 months)
     if (installments === 2 && plan === "academy") {
       const subSession = await stripe.checkout.sessions.create({
         mode: "subscription",

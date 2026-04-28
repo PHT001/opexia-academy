@@ -297,7 +297,7 @@ export default function Pricing() {
                 )}
 
                 {plan.slug === "academy" && (
-                  <p className="text-xs text-[#6B7280] mt-2 text-center">ou en 2 fois : 253,50 EUR x2</p>
+                  <p className="text-xs text-[#6B7280] mt-2 text-center">ou en 2 fois : 198,50 EUR x2</p>
                 )}
               </div>
 
