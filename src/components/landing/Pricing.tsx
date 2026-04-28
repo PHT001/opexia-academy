@@ -24,29 +24,6 @@ interface Plan {
 
 const plans: Plan[] = [
   {
-    name: "Gratuit",
-    slug: "free",
-    price: "0",
-    oldPrice: "",
-    period: "aucune carte bancaire requise",
-    description: "D\u00e9couvre la plateforme sans risque",
-    popular: false,
-    features: [
-      "Acc\u00e8s au dashboard complet",
-      "Vue de tous les modules",
-      "Syst\u00e8me de progression (XP)",
-      "Acc\u00e8s Discord communautaire",
-    ],
-    notIncluded: [
-      "Acc\u00e8s aux le\u00e7ons",
-      "Assistant IA",
-      "Visios individuelles",
-    ],
-    cta: "D\u00e9couvrir gratuitement",
-    href: "/register",
-    external: false,
-  },
-  {
     name: "Starter",
     slug: "starter",
     price: "47",
