@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const navLinks = [
+  { label: "Tarifs", href: "/#pricing" },
   { label: "Témoignages", href: "/#testimonials" },
   { label: "FAQ", href: "/#faq" },
   { label: "Blog", href: "/blog" },
@@ -314,7 +315,7 @@ export default function Navbar() {
                     Se connecter
                   </Link>
                   <Link
-                    href="/register"
+                    href="#pricing"
                     onClick={() => setMobileOpen(false)}
                     className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white"
                     style={{
@@ -322,7 +323,7 @@ export default function Navbar() {
                       boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
                     }}
                   >
-                    S&apos;inscrire
+                    Voir les offres
                   </Link>
                 </>
               )}

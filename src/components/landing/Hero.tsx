@@ -310,10 +310,10 @@ export default function Hero() {
               </motion.div>
 
               <a
-                href="/register"
+                href="#pricing"
                 className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200 whitespace-nowrap"
               >
-                Me former d&egrave;s maintenant
+                Rejoindre la formation
                 <svg
                   className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
                   fill="none"
