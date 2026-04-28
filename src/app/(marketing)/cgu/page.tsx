@@ -105,7 +105,7 @@ export default function CGUPage() {
         </p>
         <ul className="list-disc list-inside space-y-2 text-[#6B7280] leading-relaxed mb-4">
           <li><strong>Starter</strong> &mdash; 47&nbsp;&euro; : acc&egrave;s au module d&apos;introduction</li>
-          <li><strong>Academy</strong> &mdash; 497&nbsp;&euro; : acc&egrave;s &agrave; l&apos;ensemble des modules de formation</li>
+          <li><strong>Academy</strong> &mdash; 397&nbsp;&euro; : acc&egrave;s &agrave; l&apos;ensemble des modules de formation + 1 appel coaching one-to-one offert (1h)</li>
           <li><strong>One-to-One</strong> &mdash; 2&nbsp;497&nbsp;&euro; : acc&egrave;s complet avec accompagnement personnalis&eacute;</li>
         </ul>
         <p className="text-[#6B7280] leading-relaxed mb-4">

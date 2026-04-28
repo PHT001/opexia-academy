@@ -279,7 +279,7 @@ export async function POST(req: NextRequest) {
       // --- Referral commission logic ---
       const TIER_COMMISSION: Record<string, number> = {
         starter: 940,      // 20% of 4700 cents (47EUR)
-        academy: 7455,     // 15% of 49700 cents (497EUR)
+        academy: 5955,     // 15% of 39700 cents (397EUR)
         one_to_one: 24970, // 10% of 249700 cents (2497EUR)
       };
 

@@ -16,8 +16,8 @@ const PLANS: Record<string, { name: string; price: number; description: string }
   },
   academy: {
     name: "OpexIA Academy",
-    price: 49700, // in cents
-    description: "Formation complete : 86 lecons, plateforme, CRM, aide rapide, templates premium",
+    price: 39700, // in cents
+    description: "Formation complete : 86 lecons, plateforme, CRM, aide rapide, templates premium, 1 appel coaching one-to-one offert",
   },
   one_to_one: {
     name: "OpexIA One-to-One",
@@ -164,9 +164,9 @@ export async function POST(req: NextRequest) {
               currency: "eur",
               product_data: {
                 name: `${p.name} \u2014 2 mensualit\u00e9s uniquement`,
-                description: "253,50 EUR x 2 mois (507 EUR total) \u2014 Annulation automatique apr\u00e8s le 2e paiement",
+                description: "198,50 EUR x 2 mois (397 EUR total) \u2014 Annulation automatique apr\u00e8s le 2e paiement",
               },
-              unit_amount: 25350, // 253.50 EUR per month
+              unit_amount: 19850, // 198.50 EUR per month
               recurring: { interval: "month" },
             },
             quantity: 1,

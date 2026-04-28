@@ -141,7 +141,7 @@ export async function POST(request: Request) {
         const tierLabels: Record<string, string> = {
           free: "Gratuit (0 EUR)",
           starter: "Starter (47 EUR)",
-          academy: "Academy (497 EUR)",
+          academy: "Academy (397 EUR)",
           one_to_one: "One-to-One (2 497 EUR)",
         };
         const tierLabel = tierLabels[tier] || tier;

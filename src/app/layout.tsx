@@ -136,7 +136,7 @@ export default function RootLayout({
                 },
                 {
                   "@type": "Offer",
-                  price: "497",
+                  price: "397",
                   priceCurrency: "EUR",
                   name: "Academy",
                   url: "https://opexia-formation.com/#pricing",

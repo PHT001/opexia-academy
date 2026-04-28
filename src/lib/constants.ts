@@ -137,7 +137,7 @@ export const TIERS = [
   {
     id: "academy",
     name: "Academy",
-    price: 497,
+    price: 397,
     period: "one-shot",
     description: "La formation complète pour lancer ton agence IA",
     features: [
@@ -146,7 +146,7 @@ export const TIERS = [
       { text: "Quiz de validation par leçon", included: true },
       { text: "Exercices pratiques + projets fil rouge", included: true },
       { text: "Aide rapide intégrée", included: true },
-      { text: "Accompagnement personnalisé", included: false },
+      { text: "1 appel coaching one-to-one offert (1h)", included: true },
     ],
     cta: "Rejoindre l'Academy",
     popular: true,
@@ -208,6 +208,6 @@ export const REFERRAL_COMMISSION_RATES: Record<string, number> = {
 export const REFERRAL_COMMISSION_RATE = 0.20; // max pour affichage "Gagne jusqu'à 20%"
 export const TIER_PRICES_CENTS: Record<string, number> = {
   starter: 4700,
-  academy: 49700,
+  academy: 39700,
   one_to_one: 249700,
 };

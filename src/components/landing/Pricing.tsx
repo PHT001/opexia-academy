@@ -71,7 +71,7 @@ const plans: Plan[] = [
   {
     name: "Academy",
     slug: "academy",
-    price: "497",
+    price: "397",
     oldPrice: "897",
     period: "paiement en plusieurs fois possible",
     description: "La formation compl\u00e8te pour lancer ton agence IA",
@@ -87,9 +87,10 @@ const plans: Plan[] = [
       "G\u00e9n\u00e9rateur de projets",
       "Syst\u00e8me de progression (XP, classement)",
       "Programme de parrainage",
+      "1 appel coaching one-to-one offert (1h)",
     ],
-    notIncluded: ["Visios individuelles"],
-    cta: "Rejoindre l\u2019Academy \u2014 497\u20ac",
+    notIncluded: ["Visios individuelles suppl\u00e9mentaires"],
+    cta: "Rejoindre l\u2019Academy \u2014 397\u20ac",
   },
   {
     name: "One-to-One",
@@ -469,7 +470,7 @@ export default function Pricing() {
               >
                 <span className="absolute top-3 right-3 text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 px-2 py-0.5 rounded-full">Recommand&eacute;</span>
                 <p className="text-sm font-bold text-[#111]">Paiement unique</p>
-                <p className="text-2xl font-black text-[#111] mt-1">497 EUR</p>
+                <p className="text-2xl font-black text-[#111] mt-1">397 EUR</p>
                 <p className="text-xs text-gray-400 mt-1">Meilleur prix — Paiement par carte</p>
               </button>
 
@@ -479,8 +480,8 @@ export default function Pricing() {
                 className="w-full p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-left"
               >
                 <p className="text-sm font-bold text-[#111]">En 2 fois</p>
-                <p className="text-2xl font-black text-[#111] mt-1">253,50 EUR <span className="text-sm font-medium text-gray-400">x 2</span></p>
-                <p className="text-xs text-gray-400 mt-1">507 EUR total — 2 pr&eacute;l&egrave;vements par carte</p>
+                <p className="text-2xl font-black text-[#111] mt-1">198,50 EUR <span className="text-sm font-medium text-gray-400">x 2</span></p>
+                <p className="text-xs text-gray-400 mt-1">397 EUR total — 2 pr&eacute;l&egrave;vements par carte</p>
               </button>
             </div>
 
