@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Bienvenue dans OpexIA Academy</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0a0c10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #08090c;
+    --card: #1a1d27;
+    --line: #262a35;
+    --text: #f1f3f7;
+    --text-dim: #b8bcc8;
+    --text-mute: #6c7080;
+    --accent: #06b6d4;
+    --accent-glow: rgba(6,182,212,0.25);
+    --green: #10b981;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 1000px 700px at 50% -100px, rgba(6,182,212,0.10), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 100% 30%, rgba(8,145,178,0.06), transparent 60%);
+  }
+  .wrap {
+    max-width: 560px;
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: 44px 36px;
+    text-align: center;
+    box-shadow: 0 40px 100px -30px rgba(0,0,0,0.7);
+    position: relative;
+    z-index: 1;
+  }
+  .check {
+    width: 80px; height: 80px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: linear-gradient(120deg, var(--green), #34d399);
+    display: grid; place-items: center;
+    box-shadow: 0 20px 50px -10px rgba(16,185,129,0.45);
+  }
+  .check svg { width: 40px; height: 40px; color: white; }
+  h1 {
+    font-size: clamp(28px, 5vw, 36px);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  h1 .em { color: var(--accent); }
+  p.lead {
+    font-size: 16px; color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .steps {
+    background: rgba(6,182,212,0.05);
+    border: 1px solid rgba(6,182,212,0.2);
+    border-radius: 18px;
+    padding: 22px 24px;
+    text-align: left;
+    margin-bottom: 28px;
+  }
+  .steps-title {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: 14px;
+  }
+  .steps ol { padding-left: 22px; }
+  .steps li {
+    font-size: 14.5px; line-height: 1.6; color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .steps li strong { color: var(--text); font-weight: 700; }
+  .cta-wa {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 18px 32px; border-radius: 999px;
+    background: #25D366; color: white;
+    font-family: inherit; font-weight: 700; font-size: 16px;
+    text-decoration: none; cursor: pointer;
+    box-shadow: 0 18px 40px -8px rgba(37,211,102,0.55), 0 0 0 4px rgba(37,211,102,0.18);
+    transition: transform 0.18s;
+  }
+  .cta-wa:hover { transform: translateY(-2px); }
+  .small {
+    margin-top: 22px;
+    font-size: 12px; color: var(--text-mute);
+    line-height: 1.5;
+  }
+  .brand {
+    margin-bottom: 28px;
+    font-weight: 800; font-size: 22px; letter-spacing: -0.01em;
+  }
+  .brand .x { color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">Opex<span class="x">IA</span></div>
+
+    <div class="check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+
+    <h1>Bienvenue dans <span class="em">OpexIA Academy.</span></h1>
+    <p class="lead">Ton abonnement est actif. Marius va te contacter sur WhatsApp dans les prochaines heures pour planifier ton appel offert de 30 min et te donner tes accès.</p>
+
+    <div class="steps">
+      <div class="steps-title">— La suite —</div>
+      <ol>
+        <li><strong>Tu vas recevoir un email Stripe</strong> avec le reçu de ton abonnement.</li>
+        <li><strong>Marius te contacte sur WhatsApp</strong> sous 24h (souvent beaucoup plus vite) pour caler ton appel et te transmettre tes accès à la plateforme.</li>
+        <li><strong>Pendant ton appel</strong>, on cadre ton démarrage et on définit ton premier objectif concret.</li>
+      </ol>
+    </div>
+
+    <a id="wa-cta" target="_blank" rel="noopener" href="#" class="cta-wa">💬 Écrire directement à Marius</a>
+
+    <p class="small">
+      Tu peux résilier ton abonnement à tout moment depuis Stripe.<br>
+      Une question urgente ? Réponds à l'email Stripe, ou écris à <a href="mailto:opexiapro@gmail.com" style="color:var(--accent);">opexiapro@gmail.com</a>.
+    </p>
+  </div>
+
+  <script>
+    const PHONE = '33756885225';
+    const MSG = `Salut Marius, je viens de m'abonner à OpexIA Academy. Quand est-ce qu'on cale mon appel offert ?`;
+    document.getElementById('wa-cta').href = `https://wa.me/${PHONE}?text=${encodeURIComponent(MSG)}`;
+  </script>
+</body>
+</html>
