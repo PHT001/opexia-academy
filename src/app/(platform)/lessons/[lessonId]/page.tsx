@@ -145,20 +145,31 @@ export default function LessonPage() {
   const [lesson, setLesson] = useState<LessonData | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [accessBlock, setAccessBlock] = useState<null | { reason: string; blockingModule?: number; message: string }>(null);
+
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setLesson(null);
+    setAccessBlock(null);
     fetch(`/api/lessons/${params.lessonId}`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
+      .then(async (r) => {
+        if (r.ok) return { ok: true, data: await r.json() } as const;
+        // 403 from MVP gating · capture so we can show a useful screen
+        const body = await r.json().catch(() => ({}));
+        if (r.status === 403 && body?.reason) {
+          return { ok: false, block: body as { reason: string; blockingModule?: number; message: string } } as const;
+        }
+        throw new Error(`HTTP ${r.status}`);
       })
-      .then((data) => {
+      .then((res) => {
         if (cancelled) return;
-        setLesson(data);
+        if (res.ok) {
+          setLesson(res.data);
+        } else {
+          setAccessBlock(res.block);
+        }
         setLoading(false);
-        // Scroll to top so the new lesson opens fresh, not at the previous scroll position.
         if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
       })
       .catch(() => { if (!cancelled) setLoading(false); });
@@ -178,6 +189,36 @@ export default function LessonPage() {
           <div className="h-32 w-full rounded-xl bg-gray-100 mb-6" />
           <div className="h-4 w-full rounded bg-gray-100 mb-2" />
           <div className="h-4 w-4/5 rounded bg-gray-100 mb-2" />
+        </div>
+      </div>
+    );
+  }
+
+  if (accessBlock) {
+    return (
+      <div className="lesson-article-wrapper">
+        <div className="max-w-xl mx-auto px-4 py-20 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 mb-5">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+          </div>
+          <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-amber-600 mb-2">Module verrouillé</p>
+          <h2 className="text-2xl font-bold text-[#111] mb-3">
+            {accessBlock.blockingModule
+              ? `Valide d'abord le MVP du Module ${accessBlock.blockingModule}`
+              : "Cette leçon est verrouillée"}
+          </h2>
+          <p className="text-[#6B7280] mb-6 leading-relaxed">{accessBlock.message}</p>
+          {accessBlock.blockingModule ? (
+            <Link
+              href={`/lessons`}
+              prefetch
+              className="inline-flex items-center gap-2 bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-bold hover:bg-[#D50000] transition-colors"
+            >
+              Retour aux modules →
+            </Link>
+          ) : (
+            <Button href="/lessons">Retour aux leçons</Button>
+          )}
         </div>
       </div>
     );
