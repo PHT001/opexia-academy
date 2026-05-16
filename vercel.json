@@ -23,6 +23,10 @@
     {
       "path": "/api/cron/referral-payout",
       "schedule": "0 8 1 * *"
+    },
+    {
+      "path": "/api/cron/reset-monthly-call",
+      "schedule": "5 0 1 * *"
     }
   ]
 }
