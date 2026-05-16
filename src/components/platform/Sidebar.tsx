@@ -378,9 +378,13 @@ function TierBadge({ tier, role }: { tier: string; role?: string }) {
     );
   }
   const config = {
-    one_to_one: { label: "One to One", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
-    academy: { label: "Academy", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
-    starter: { label: "Starter", classes: "bg-white/8 text-white/60 border-white/10" },
+    // New tiers (QCM landing)
+    standard: { label: "Standard", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
+    accompagnement: { label: "Accompagnement", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
+    // Legacy tiers (still in DB for older accounts) · mapped to the same neutral label
+    one_to_one: { label: "Accompagnement", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
+    academy: { label: "Standard", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
+    starter: { label: "Standard", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
     free: { label: "Gratuit", classes: "bg-white/5 text-white/40 border-white/8" },
   }[tier] || { label: "Gratuit", classes: "bg-white/5 text-white/40 border-white/8" };
 

@@ -368,9 +368,12 @@ function Card({ children, className, ...props }: React.ComponentProps<typeof mot
 
 /* ——— Post-Purchase Celebration Modal ——— */
 const PLAN_LABELS: Record<string, string> = {
-  starter: "Starter",
-  academy: "Academy",
-  one_to_one: "One-to-One",
+  starter: "Standard",
+  academy: "Standard",
+  one_to_one: "Accompagnement",
+  standard: "Standard",
+  standard_lifetime: "Standard",
+  accompagnement: "Accompagnement",
 };
 
 function CelebrationModal({ plan, onClose }: { plan: string; onClose: () => void }) {
@@ -700,9 +703,8 @@ function DashboardContent() {
           {[
             { id: null, label: "Admin" },
             { id: "free", label: "Gratuit" },
-            { id: "starter", label: "Starter" },
-            { id: "academy", label: "Academy" },
-            { id: "one_to_one", label: "One-to-One" },
+            { id: "standard", label: "Standard" },
+            { id: "accompagnement", label: "Accompagnement" },
           ].map((t) => (
             <button
               key={t.id || "admin"}
