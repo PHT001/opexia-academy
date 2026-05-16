@@ -152,8 +152,8 @@ function IconExercise({ className }: { className?: string }) {
 
 /* Estimated video count per module (rough, based on lesson count) */
 const MODULE_VIDEO_COUNT: Record<number, number> = {
-  1: 2, 2: 3, 3: 3, 4: 3, 5: 2, 6: 3, 7: 4, 8: 3, 9: 2, 10: 3, 11: 3, 12: 3,
-  13: 3, 14: 4, 15: 3, 16: 3, 17: 2, 18: 4, 19: 2, 20: 3, 21: 2, 22: 3,
+  1: 2, 2: 3, 3: 3, 4: 3, 5: 2, 6: 3, 7: 4, 8: 3, 9: 3, 10: 3, 11: 3, 12: 3,
+  13: 3, 14: 2, 15: 3, 16: 3, 17: 2, 18: 4, 19: 2, 20: 3, 21: 3, 22: 3, 23: 3,
 };
 
 /* Content type tags for lessons based on order within module */
@@ -429,7 +429,7 @@ export default function LessonsPage() {
       })
       .then((data) => {
         const mods = Array.isArray(data) ? data : (data.modules ?? []);
-        const apiTier = Array.isArray(data) ? "academy" : (data.userTier ?? "free");
+        const apiTier = Array.isArray(data) ? "standard" : (data.userTier ?? "free");
         // Check for admin preview tier override
         const previewTier = localStorage.getItem("admin-preview-tier");
         const tier = previewTier || apiTier;
@@ -577,7 +577,7 @@ export default function LessonsPage() {
                         </span>
                         {weekAccessible ? (
                           <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full border", theme.accentBg, theme.accent, theme.border)}>
-                            {userTier === "free" ? "Gratuit" : userTier === "starter" && week.week <= 2 ? "Starter" : "Academy"}
+                            {userTier === "free" ? "Gratuit" : userTier === "accompagnement" || userTier === "one_to_one" ? "Accompagnement" : "Standard"}
                           </span>
                         ) : userTier === "free" ? (
                           <span className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full border border-gray-200">
@@ -585,7 +585,7 @@ export default function LessonsPage() {
                           </span>
                         ) : (
                           <span className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full border border-gray-200">
-                            <IconLock className="w-2.5 h-2.5" /> Academy
+                            <IconLock className="w-2.5 h-2.5" /> Verrouillé
                           </span>
                         )}
                       </div>

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { TIER_MODULE_ACCESS, TIER_PRIORITY } from "@/lib/constants";
+import { findBlockingModule } from "@/lib/mvp-gating";
 
 export async function GET(
   request: Request,
@@ -53,6 +54,17 @@ export async function GET(
     if (!accessibleModules.includes(lesson.module.order)) {
       return NextResponse.json({ error: "Acces non autorise pour votre forfait" }, { status: 403 });
     }
+
+    // MVP gating · block lessons in modules whose previous MVPs are not approved
+    const blockingModule = await findBlockingModule(userId, lesson.module.order);
+    if (blockingModule !== null) {
+      return NextResponse.json({
+        error: "Module verrouille",
+        reason: "mvp_required",
+        blockingModule,
+        message: `Tu dois d'abord soumettre et faire valider ton MVP du Module ${blockingModule} pour debloquer ce module.`,
+      }, { status: 403 });
+    }
   }
 
   const prog = lesson.progress[0];
@@ -84,15 +96,20 @@ export async function GET(
     }
   }
 
-  // Get prev/next slugs
+  // Get prev/next slugs + count lessons in module to know if last in module
   const allLessons = await prisma.lesson.findMany({
     orderBy: [{ module: { order: "asc" } }, { order: "asc" }],
-    select: { slug: true, order: true },
+    select: { slug: true, order: true, moduleId: true },
   });
 
   const idx = allLessons.findIndex((l) => l.slug === slug);
   const prevSlug = idx > 0 ? allLessons[idx - 1].slug : null;
   const nextSlug = idx > -1 && idx < allLessons.length - 1 ? allLessons[idx + 1].slug : null;
+
+  const lessonsInModule = allLessons.filter((l) => l.moduleId === lesson.moduleId);
+  const isLastInModule =
+    lessonsInModule.length > 0 &&
+    lessonsInModule[lessonsInModule.length - 1].slug === lesson.slug;
 
   return NextResponse.json({
     id: lesson.id,
@@ -112,5 +129,6 @@ export async function GET(
     status: prog?.status || "in_progress",
     prevSlug,
     nextSlug,
+    isLastInModule,
   });
 }

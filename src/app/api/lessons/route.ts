@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { TIER_MODULE_ACCESS, TIER_PRIORITY } from "@/lib/constants";
+import { findBlockingModule, MVP_GATING_STARTS_AT } from "@/lib/mvp-gating";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -17,7 +18,7 @@ export async function GET() {
     // Fetch user's enrollment tier (highest tier wins)
     let userTier = "free";
     if (isAdmin) {
-      userTier = "academy";
+      userTier = "standard";
     } else {
       const enrollments = await prisma.enrollment.findMany({
         where: { userId, status: { in: ["active", "upgraded"] } },
@@ -31,7 +32,6 @@ export async function GET() {
     const accessibleModules = TIER_MODULE_ACCESS[userTier] ?? TIER_MODULE_ACCESS.free;
 
     const modules = await prisma.module.findMany({
-      where: { order: { notIn: [23, 24] } },
       orderBy: { order: "asc" },
       include: {
         lessons: {
@@ -54,20 +54,37 @@ export async function GET() {
       },
     });
 
+    // Determine the first MVP-blocked module (if any).
+    // Admins bypass MVP gating entirely.
+    let mvpBlockedFrom: number | null = null;
+    if (!isAdmin) {
+      for (const mod of modules) {
+        if (mod.order <= MVP_GATING_STARTS_AT) continue;
+        const blocking = await findBlockingModule(userId, mod.order);
+        if (blocking !== null) {
+          mvpBlockedFrom = mod.order;
+          break;
+        }
+      }
+    }
+
     const result = modules.map((mod) => {
-      const hasAccess = accessibleModules.includes(mod.order);
+      const hasTierAccess = accessibleModules.includes(mod.order);
+      const mvpLocked = mvpBlockedFrom !== null && mod.order >= mvpBlockedFrom;
+      const locked = !hasTierAccess || mvpLocked;
 
       return {
         id: mod.id,
         title: mod.title,
         description: mod.description,
         order: mod.order,
+        locked,
+        lockReason: !hasTierAccess ? "tier" : mvpLocked ? "mvp" : null,
         lessons: mod.lessons.map((lesson) => {
           const prog = lesson.progress[0];
           let status: string = "locked";
 
-          if (!hasAccess) {
-            // Module not accessible for this tier — all lessons locked
+          if (locked) {
             status = "locked";
           } else if (prog?.status === "completed") {
             status = "completed";
@@ -93,7 +110,7 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json({ modules: result, userTier });
+    return NextResponse.json({ modules: result, userTier, mvpBlockedFrom });
   } catch (error) {
     console.error("GET /api/lessons error:", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });

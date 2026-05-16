@@ -32,6 +32,109 @@ interface LessonData {
   status: string;
   prevSlug: string | null;
   nextSlug: string | null;
+  isLastInModule?: boolean;
+}
+
+/* ── Inline MVP submission form — shown on the last lesson of a module ── */
+function InlineMvpSubmission({ moduleOrder, moduleTitle }: { moduleOrder: number; moduleTitle: string }) {
+  const [title, setTitle] = useState(`Module ${moduleOrder} — ${moduleTitle}`);
+  const [description, setDescription] = useState("");
+  const [url, setUrl] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setSuccess(false);
+    if (!description.trim()) {
+      setError("Ajoute une description rapide.");
+      return;
+    }
+    if (url && !/^https?:\/\//.test(url)) {
+      setError("L'URL doit commencer par https://");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const r = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description, url, moduleOrder }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data?.error || "Erreur de soumission");
+      setSuccess(true);
+      setDescription("");
+      setUrl("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erreur");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="mt-10 rounded-2xl p-6 sm:p-7 border border-[#FF1744]/25 bg-gradient-to-br from-[#FF1744]/[0.06] to-white">
+      <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#FF1744] mb-1.5">Dernière étape du module {moduleOrder}</p>
+      <h3 className="text-xl sm:text-2xl font-black text-[#111] mb-2">🚀 Dépose ton MVP du Module {moduleOrder}</h3>
+      <p className="text-sm text-[#4B5563] mb-6 leading-relaxed">
+        Tu viens de finir <strong>{moduleTitle}</strong>. Construis le mini-projet de l&apos;exercice, déploie-le sur Vercel (ou Notion / Loom / Drive selon le cas), et soumets le lien ci-dessous. Marius te review en perso sous <strong>24h</strong>. Le module suivant se débloque dès validation.
+      </p>
+
+      {success ? (
+        <div className="rounded-xl p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-medium">
+          ✓ MVP soumis. Marius va te répondre sous 24h sur l&apos;email de ton compte. Tu reçois une notif quand le module suivant se débloque.
+        </div>
+      ) : (
+        <form onSubmit={submit} className="space-y-4">
+          <div>
+            <label className="block text-[11px] uppercase tracking-wider font-bold text-[#6B7280] mb-1.5">Titre du projet</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#FF1744]/60 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/10 text-sm transition-all"
+              placeholder="Ex: Landing cabinet Dr Lefebvre"
+              maxLength={200}
+            />
+          </div>
+          <div>
+            <label className="block text-[11px] uppercase tracking-wider font-bold text-[#6B7280] mb-1.5">Description (qu&apos;est-ce que ça fait, pour quel client)</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#FF1744]/60 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/10 text-sm transition-all resize-none"
+              placeholder="3 lignes claires. Ce que tu as construit et pourquoi."
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-[11px] uppercase tracking-wider font-bold text-[#6B7280] mb-1.5">URL (Vercel · Notion · Loom · Drive…)</label>
+            <input
+              type="url"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#FF1744]/60 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/10 text-sm transition-all"
+              placeholder="https://…"
+            />
+          </div>
+          {error && (
+            <div className="rounded-xl p-3 bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>
+          )}
+          <button
+            type="submit"
+            disabled={submitting}
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-[#FF1744] hover:bg-[#D50000] text-white text-sm font-bold transition-all disabled:opacity-60 disabled:cursor-wait"
+          >
+            {submitting ? "Envoi…" : "Soumettre mon MVP →"}
+          </button>
+        </form>
+      )}
+    </div>
+  );
 }
 
 export default function LessonPage() {
@@ -229,6 +332,9 @@ export default function LessonPage() {
         footer={navigationFooter}
       >
         <LessonBlockRenderer blocks={blocks} lessonSlug={lesson.slug} />
+        {lesson.isLastInModule && lesson.moduleOrder >= 2 && (
+          <InlineMvpSubmission moduleOrder={lesson.moduleOrder} moduleTitle={lesson.moduleTitle} />
+        )}
       </LessonArticleLayout>
     );
   }
@@ -254,6 +360,9 @@ export default function LessonPage() {
             Quiz validé ✓
           </Badge>
         </div>
+      )}
+      {lesson.isLastInModule && lesson.moduleOrder >= 2 && (
+        <InlineMvpSubmission moduleOrder={lesson.moduleOrder} moduleTitle={lesson.moduleTitle} />
       )}
     </LessonArticleLayout>
   );
