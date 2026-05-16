@@ -15,6 +15,7 @@ const createProjectSchema = z.object({
   url: z
     .union([z.literal(""), z.string().url("URL invalide").max(500, "L'URL ne doit pas depasser 500 caracteres")])
     .optional(),
+  moduleOrder: z.number().int().min(2).max(50).optional(),
 });
 
 export async function GET() {
@@ -56,7 +57,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { title, description, url } = parsed.data;
+    const { title, description, url, moduleOrder } = parsed.data;
 
     const project = await prisma.project.create({
       data: {
@@ -64,6 +65,7 @@ export async function POST(req: Request) {
         title,
         description,
         url: url || null,
+        moduleOrder: moduleOrder ?? null,
       },
     });
 

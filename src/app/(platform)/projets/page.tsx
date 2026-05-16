@@ -85,6 +85,7 @@ export default function ProjetsPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
+  const [moduleOrder, setModuleOrder] = useState<number>(2);
   const [submitting, setSubmitting] = useState(false);
 
   // Admin filter
@@ -118,12 +119,18 @@ export default function ProjetsPage() {
       const res = await fetch("/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: title.trim(), description: description.trim(), url: url.trim() || null }),
+        body: JSON.stringify({
+          title: title.trim(),
+          description: description.trim(),
+          url: url.trim() || null,
+          moduleOrder,
+        }),
       });
       if (res.ok) {
         setTitle("");
         setDescription("");
         setUrl("");
+        setModuleOrder(2);
         setShowForm(false);
         fetchProjects();
       }
@@ -195,6 +202,8 @@ export default function ProjetsPage() {
           setDescription={setDescription}
           url={url}
           setUrl={setUrl}
+          moduleOrder={moduleOrder}
+          setModuleOrder={setModuleOrder}
           submitting={submitting}
           handleSubmit={handleSubmit}
           userTier={previewTier || userTier}
@@ -210,7 +219,7 @@ export default function ProjetsPage() {
 function StudentView({
   projects, loading, showForm, setShowForm,
   title, setTitle, description, setDescription,
-  url, setUrl, submitting, handleSubmit, userTier,
+  url, setUrl, moduleOrder, setModuleOrder, submitting, handleSubmit, userTier,
 }: {
   projects: Project[];
   loading: boolean;
@@ -222,6 +231,8 @@ function StudentView({
   setDescription: (v: string) => void;
   url: string;
   setUrl: (v: string) => void;
+  moduleOrder: number;
+  setModuleOrder: (v: number) => void;
   submitting: boolean;
   handleSubmit: (e: React.FormEvent) => void;
   userTier: string;
@@ -317,6 +328,20 @@ function StudentView({
             <div className="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm">
               <h3 className="text-base font-semibold text-[#111] mb-4">Nouveau projet</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5">Module concerné *</label>
+                  <select
+                    value={moduleOrder}
+                    onChange={(e) => setModuleOrder(Number(e.target.value))}
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                    required
+                  >
+                    {Array.from({ length: 22 }, (_, i) => i + 2).map((m) => (
+                      <option key={m} value={m}>Module {m}</option>
+                    ))}
+                  </select>
+                  <p className="text-[11px] text-gray-400 mt-1">Le module suivant se débloque une fois ton MVP validé.</p>
+                </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1.5">Titre du projet *</label>
                   <input
