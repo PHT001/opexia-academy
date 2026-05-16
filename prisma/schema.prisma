@@ -30,6 +30,8 @@ model User {
   discountCode        String?
   discountPercent     Int?
   discountExpiresAt   DateTime?
+  freeCallUsed        Boolean  @default(false)
+  freeCallUsedAt      DateTime?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
@@ -151,6 +153,7 @@ model Enrollment {
   id              String   @id @default(cuid())
   userId          String
   tier            String
+  isLifetime      Boolean  @default(false)
   status          String   @default("active")
   paidAmount      Int?
   stripeSessionId String?
@@ -240,6 +243,7 @@ model Project {
   title       String
   description String
   url         String?
+  moduleOrder Int?
   status      String   @default("submitted")
   feedback    String?
   userId      String
@@ -249,6 +253,7 @@ model Project {
 
   @@index([userId])
   @@index([status, createdAt])
+  @@index([userId, moduleOrder, status])
 }
 
 model Lead {
@@ -279,4 +284,30 @@ model EmailLog {
   @@index([userId])
   @@index([type])
   @@index([userId, type, sequence])
+}
+
+model Ticket {
+  id        String   @id @default(cuid())
+  userId    String
+  subject   String
+  body      String
+  status    String   @default("open") // "open" | "replied" | "closed"
+  reply     String?
+  repliedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status, createdAt])
+}
+
+model MasterclassPurchase {
+  id            String   @id @default(cuid())
+  userId        String
+  masterclassId String
+  amountCents   Int
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, masterclassId])
+  @@index([userId])
 }
