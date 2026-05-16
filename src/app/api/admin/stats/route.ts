@@ -37,12 +37,8 @@ export async function GET() {
     ? Math.round((completions.length / (totalStudents * totalLessons)) * 100)
     : 0;
 
-  const submissions = await prisma.quizSubmission.findMany({
-    where: { user: { isBot: false } },
-  });
-  const avgQuizScore = submissions.length > 0
-    ? Math.round(submissions.reduce((sum, s) => sum + s.score, 0) / submissions.length)
-    : 0;
+  // Quizzes deprecated · the formation switched to MVP-based exercises
+  const avgQuizScore = 0;
 
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
@@ -152,27 +148,12 @@ export async function GET() {
     },
   });
 
-  const recentQuizSubmissions = await prisma.quizSubmission.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 20,
-    include: {
-      user: { select: { name: true } },
-      quiz: { include: { lesson: { select: { title: true } } } },
-    },
-  });
-
   const activityItems = [
     ...recentCompletions.map((c) => ({
       type: "lesson_completion" as const,
       userName: c.user.name || "Inconnu",
       detail: c.lesson.title,
       createdAt: c.completedAt?.toISOString() || "",
-    })),
-    ...recentQuizSubmissions.map((q) => ({
-      type: "quiz_submission" as const,
-      userName: q.user.name || "Inconnu",
-      detail: `${q.quiz.lesson.title} — ${q.score}%${q.passed ? " (reussi)" : ""}`,
-      createdAt: q.createdAt.toISOString(),
     })),
   ];
   activityItems.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

@@ -38,17 +38,6 @@ export async function GET() {
           orderBy: { order: "asc" },
           include: {
             progress: { where: { userId } },
-            quiz: {
-              include: {
-                submissions: {
-                  where: { userId, passed: true },
-                  take: 1,
-                },
-                _count: {
-                  select: { questions: true },
-                },
-              },
-            },
           },
         },
       },
@@ -101,9 +90,6 @@ export async function GET() {
             order: lesson.order,
             duration: lesson.duration,
             status,
-            quizPassed: (lesson.quiz?.submissions?.length ?? 0) > 0,
-            hasQuiz: !!lesson.quiz,
-            questionCount: lesson.quiz?._count?.questions ?? 0,
             xpEarned: prog?.xpEarned || 0,
           };
         }),

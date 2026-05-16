@@ -11,7 +11,7 @@ interface AdminLesson {
   order: number;
   moduleTitle: string;
   moduleOrder: number;
-  hasQuiz: boolean;
+  hasQuiz?: boolean;
 }
 
 export default function AdminLessonsPage() {
@@ -20,13 +20,12 @@ export default function AdminLessonsPage() {
   useEffect(() => {
     fetch("/api/lessons")
       .then((r) => r.json())
-      .then((data: { modules: Array<{ title: string; order: number; lessons: Array<{ id: string; title: string; slug: string; order: number; hasQuiz: boolean }> }> }) => {
+      .then((data: { modules: Array<{ title: string; order: number; lessons: Array<{ id: string; title: string; slug: string; order: number }> }> }) => {
         const flat = data.modules.flatMap((m) =>
           m.lessons.map((l) => ({
             ...l,
             moduleTitle: m.title,
             moduleOrder: m.order,
-            hasQuiz: l.hasQuiz,
           }))
         );
         setLessons(flat);

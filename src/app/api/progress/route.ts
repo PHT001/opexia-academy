@@ -114,17 +114,9 @@ export async function GET() {
   );
   const recentActivityTop5 = recentActivity.slice(0, 5);
 
-  // Count quizzes completed (passed)
-  const quizzesCompleted = await prisma.quizSubmission.count({
-    where: { userId, passed: true },
-  });
-
-  // Average quiz score
-  const scoreAgg = await prisma.quizSubmission.aggregate({
-    where: { userId, passed: true },
-    _avg: { score: true },
-  });
-  const averageScore = scoreAgg._avg.score ?? 0;
+  // Quizzes deprecated · the formation switched to MVP-based exercises
+  const quizzesCompleted = 0;
+  const averageScore = 0;
 
   return NextResponse.json({
     totalLessons,

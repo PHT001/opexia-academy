@@ -105,9 +105,6 @@ export async function GET() {
       streaks: {
         select: { date: true },
       },
-      quizSubmissions: {
-        select: { score: true, passed: true, createdAt: true },
-      },
     },
   });
 
@@ -119,11 +116,6 @@ export async function GET() {
     const lessonsCompleted = u.progress.filter((lp) => lp.status === "completed").length;
     const streak = calcStreak(u.streaks.map((s) => s.date));
     const bestStreak = calcBestStreak(u.streaks.map((s) => s.date));
-    const passedQuizzes = u.quizSubmissions.filter((q) => q.passed);
-    const quizAverage = passedQuizzes.length > 0
-      ? Math.round(passedQuizzes.reduce((sum, q) => sum + q.score, 0) / passedQuizzes.length)
-      : 0;
-    const perfectQuizzes = u.quizSubmissions.filter((q) => q.score === 100).length;
 
     return {
       id: u.id,
@@ -133,9 +125,9 @@ export async function GET() {
       lessonsCompleted,
       streak,
       bestStreak,
-      quizAverage,
-      perfectQuizzes,
-      quizCount: passedQuizzes.length,
+      quizAverage: 0,
+      perfectQuizzes: 0,
+      quizCount: 0,
     };
   });
 

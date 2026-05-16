@@ -14,14 +14,7 @@ interface LessonDetail {
   moduleTitle: string;
   moduleOrder: number;
   content: Array<{ type: string; [key: string]: unknown }>;
-  hasQuiz: boolean;
-  quiz?: {
-    questions: Array<{
-      question: string;
-      options: string[];
-      correctAnswer: number;
-    }>;
-  };
+  hasQuiz?: boolean;
 }
 
 export default function AdminLessonDetailPage() {
@@ -92,18 +85,14 @@ export default function AdminLessonDetailPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <GlassCard className="p-4 text-center">
           <p className="text-2xl font-bold">{contentBlocks.length}</p>
           <p className="text-xs text-white/50">Blocs de contenu</p>
         </GlassCard>
         <GlassCard className="p-4 text-center">
-          <p className="text-2xl font-bold">{lesson.hasQuiz ? "Oui" : "Non"}</p>
-          <p className="text-xs text-white/50">Quiz</p>
-        </GlassCard>
-        <GlassCard className="p-4 text-center">
-          <p className="text-2xl font-bold">{lesson.quiz?.questions?.length || 0}</p>
-          <p className="text-xs text-white/50">Questions</p>
+          <p className="text-2xl font-bold">{lesson.order}</p>
+          <p className="text-xs text-white/50">Position dans le module</p>
         </GlassCard>
       </div>
 

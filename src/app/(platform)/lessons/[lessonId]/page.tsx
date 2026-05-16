@@ -27,8 +27,6 @@ interface LessonData {
   order: number;
   moduleTitle: string;
   moduleOrder: number;
-  hasQuiz: boolean;
-  quizPassed: boolean;
   status: string;
   prevSlug: string | null;
   nextSlug: string | null;
@@ -348,15 +346,7 @@ export default function LessonPage() {
           </Link>
         ) : <div />}
 
-        {lesson.hasQuiz && !lesson.quizPassed ? (
-          <Link
-            href={`/quiz/${lesson.slug}`}
-            prefetch
-            className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors"
-          >
-            Passer le Quiz →
-          </Link>
-        ) : lesson.nextSlug ? (
+        {lesson.nextSlug ? (
           <Link
             href={`/lessons/${lesson.nextSlug}`}
             prefetch
@@ -414,13 +404,6 @@ export default function LessonPage() {
           lessonSlug={lesson.slug}
         />
       </div>
-      {lesson.quizPassed && (
-        <div className="mt-4">
-          <Badge className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200">
-            Quiz validé ✓
-          </Badge>
-        </div>
-      )}
       {lesson.isLastInModule && lesson.moduleOrder >= 2 && (
         <InlineMvpSubmission moduleOrder={lesson.moduleOrder} moduleTitle={lesson.moduleTitle} />
       )}

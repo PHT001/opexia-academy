@@ -22,8 +22,8 @@ interface LessonItem {
   order: number;
   duration: string;
   status: "locked" | "in_progress" | "completed";
-  quizPassed: boolean;
-  hasQuiz: boolean;
+  quizPassed?: boolean;
+  hasQuiz?: boolean;
   xpEarned: number;
 }
 
@@ -50,8 +50,8 @@ interface LessonData {
   order: number;
   moduleTitle: string;
   moduleOrder: number;
-  hasQuiz: boolean;
-  quizPassed: boolean;
+  hasQuiz?: boolean;
+  quizPassed?: boolean;
   status: string;
   prevSlug: string | null;
   nextSlug: string | null;

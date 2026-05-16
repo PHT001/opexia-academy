@@ -36,10 +36,8 @@ model User {
   updatedAt           DateTime @updatedAt
 
   progress         LessonProgress[]
-  quizSubmissions  QuizSubmission[]
   streaks          Streak[]
   enrollments      Enrollment[]
-  coachingSessions CoachingSession[]
   referralsMade    Referral[] @relation("referrerReferrals")
   referredBy       Referral[] @relation("referredReferrals")
   deals            PipelineDeal[]
@@ -76,50 +74,9 @@ model Lesson {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  quiz     Quiz?
   progress LessonProgress[]
 
   @@unique([moduleId, order])
-}
-
-model Quiz {
-  id           String         @id @default(cuid())
-  lessonId     String         @unique
-  lesson       Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  passingScore Int            @default(80)
-  questions    QuizQuestion[]
-  submissions  QuizSubmission[]
-}
-
-model QuizQuestion {
-  id            String @id @default(cuid())
-  quizId        String
-  quiz          Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  type          String
-  question      String
-  options       String
-  correctAnswer String
-  explanation   String?
-  order         Int
-
-  @@unique([quizId, order])
-}
-
-model QuizSubmission {
-  id        String   @id @default(cuid())
-  userId    String
-  quizId    String
-  score     Int
-  answers   String
-  passed    Boolean
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([userId, quizId])
-  @@index([userId, createdAt])
 }
 
 model LessonProgress {
@@ -166,26 +123,6 @@ model Enrollment {
   @@index([tier])
   @@index([status, createdAt])
   @@index([tier, status, createdAt])
-}
-
-model CoachingSession {
-  id              String   @id @default(cuid())
-  userId          String
-  date            DateTime
-  slot            String
-  status          String   @default("pending")
-  stripeSessionId String?
-  stripePaymentId String?
-  amount          Int      @default(5000)
-  topic           String?
-  meetLink        String?
-  createdAt       DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, status])
-  @@index([slot, status])
-  @@index([status, date])
 }
 
 model PipelineDeal {

@@ -29,16 +29,6 @@ export async function GET(
         },
         orderBy: { completedAt: "desc" },
       },
-      quizSubmissions: {
-        include: {
-          quiz: {
-            include: {
-              lesson: { select: { title: true, slug: true } },
-            },
-          },
-        },
-        orderBy: { createdAt: "desc" },
-      },
       streaks: { orderBy: { date: "desc" } },
     },
   });
@@ -208,14 +198,7 @@ export async function GET(
     completedLessons,
     completionPercentage,
     moduleProgress,
-    quizHistory: user.quizSubmissions.map((q) => ({
-      id: q.id,
-      lessonTitle: q.quiz.lesson.title,
-      lessonSlug: q.quiz.lesson.slug,
-      score: q.score,
-      passed: q.passed,
-      createdAt: q.createdAt.toISOString(),
-    })),
+    quizHistory: [],
     streaks: user.streaks.map((s) => ({
       id: s.id,
       date: s.date.toISOString(),
@@ -252,10 +235,8 @@ export async function DELETE(
     // Delete all related records, then the user
     await prisma.$transaction([
       prisma.lessonProgress.deleteMany({ where: { userId: id } }),
-      prisma.quizSubmission.deleteMany({ where: { userId: id } }),
       prisma.streak.deleteMany({ where: { userId: id } }),
       prisma.enrollment.deleteMany({ where: { userId: id } }),
-      prisma.coachingSession.deleteMany({ where: { userId: id } }),
       prisma.referral.deleteMany({ where: { referrerId: id } }),
       prisma.referral.deleteMany({ where: { referredId: id } }),
       prisma.pipelineDeal.deleteMany({ where: { userId: id } }),

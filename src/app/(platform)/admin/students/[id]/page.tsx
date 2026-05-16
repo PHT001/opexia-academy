@@ -14,7 +14,7 @@ interface StudentDetail {
   discordUsername: string | null; age: number | null; profession: string | null;
   createdAt: string; enrollment: { tier: string; status: string; createdAt: string } | null;
   totalLessons: number; completedLessons: number; completionPercentage: number; totalXP: number;
-  moduleProgress: ModuleProgress[]; quizHistory: QuizSubmission[];
+  moduleProgress: ModuleProgress[]; quizHistory?: QuizSubmission[];
   streaks: { date: string }[]; currentStreak: number; longestStreak: number;
   emailLogs: EmailLog[]; engagement: "chaud" | "tiede" | "froid";
   shouldContact: boolean; daysSinceLastActivity: number; adminNotes: string | null;
@@ -103,7 +103,7 @@ export default function StudentDetailPage() {
   }, [student]);
 
   const avgQuizScore = useMemo(() => {
-    if (!student?.quizHistory.length) return 0;
+    if (!student?.quizHistory?.length) return 0;
     return Math.round(student.quizHistory.reduce((a, q) => a + q.score, 0) / student.quizHistory.length);
   }, [student]);
 
@@ -253,7 +253,7 @@ export default function StudentDetailPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {student.quizHistory.length ? student.quizHistory.map((quiz, i) => (
+                  {student.quizHistory?.length ? student.quizHistory.map((quiz, i) => (
                     <tr key={i} className="border-b border-gray-50">
                       <td className="px-5 py-3 text-sm text-[#111] truncate max-w-[200px]">{quiz.lessonTitle}</td>
                       <td className="px-5 py-3 text-sm font-medium text-[#111]">{quiz.score}%</td>

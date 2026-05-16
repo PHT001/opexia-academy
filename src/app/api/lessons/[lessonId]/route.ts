@@ -21,14 +21,6 @@ export async function GET(
     where: { slug },
     include: {
       module: true,
-      quiz: {
-        include: {
-          submissions: {
-            where: { userId, passed: true },
-            take: 1,
-          },
-        },
-      },
       progress: { where: { userId } },
     },
   });
@@ -145,8 +137,6 @@ export async function GET(
     order: lesson.order,
     moduleTitle: lesson.module.title,
     moduleOrder: lesson.module.order,
-    hasQuiz: !!lesson.quiz,
-    quizPassed: (lesson.quiz?.submissions?.length ?? 0) > 0,
     status: prog?.status || "in_progress",
     prevSlug,
     nextSlug,
