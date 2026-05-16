@@ -74,7 +74,7 @@ export default function UpgradeOverlay({
           </Link>
 
           <p className="mt-4 text-xs text-[#9CA3AF]">
-            Disponible avec les formules Starter, Academy ou One-to-One
+            Disponible avec les formules Standard ou Accompagnement
           </p>
         </motion.div>
       </div>

@@ -16,9 +16,8 @@ interface EmailBatch {
 
 const FILTER_OPTIONS = [
   { value: "tous", label: "Tous les eleves" },
-  { value: "starter", label: "Starter uniquement" },
-  { value: "academy", label: "Academy uniquement" },
-  { value: "one_to_one", label: "One-to-One uniquement" },
+  { value: "standard", label: "Standard uniquement" },
+  { value: "accompagnement", label: "Accompagnement uniquement" },
   { value: "free", label: "Free uniquement" },
   { value: "inactive", label: "Eleves inactifs (>14j)" },
   { value: "no_purchase", label: "Eleves sans achat" },

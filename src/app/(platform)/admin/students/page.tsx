@@ -40,14 +40,16 @@ interface AdminStats {
 }
 
 const TIER_CONFIG: Record<string, { bg: string; text: string; label: string; sectionBg: string; sectionBorder: string; dot: string }> = {
-  lead:       { bg: "bg-purple-50", text: "text-purple-600", label: "Lead",       sectionBg: "bg-purple-50/50", sectionBorder: "border-purple-200", dot: "bg-purple-400" },
-  free:       { bg: "bg-gray-100",  text: "text-gray-500",   label: "Gratuit",    sectionBg: "bg-gray-50/50",   sectionBorder: "border-gray-200",   dot: "bg-gray-400" },
-  starter:    { bg: "bg-emerald-50",text: "text-emerald-600",label: "Starter",    sectionBg: "bg-emerald-50/50",sectionBorder: "border-emerald-200",dot: "bg-emerald-400" },
-  academy:    { bg: "bg-blue-50",   text: "text-blue-600",   label: "Academy",    sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
-  one_to_one: { bg: "bg-red-50",    text: "text-[#FF1744]",  label: "One-to-One", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#FF1744]" },
+  lead:           { bg: "bg-purple-50", text: "text-purple-600", label: "Lead",           sectionBg: "bg-purple-50/50", sectionBorder: "border-purple-200", dot: "bg-purple-400" },
+  free:           { bg: "bg-gray-100",  text: "text-gray-500",   label: "Gratuit",        sectionBg: "bg-gray-50/50",   sectionBorder: "border-gray-200",   dot: "bg-gray-400" },
+  starter:        { bg: "bg-blue-50",   text: "text-blue-600",   label: "Standard",       sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
+  academy:        { bg: "bg-blue-50",   text: "text-blue-600",   label: "Standard",       sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
+  standard:       { bg: "bg-blue-50",   text: "text-blue-600",   label: "Standard",       sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
+  one_to_one:     { bg: "bg-red-50",    text: "text-[#FF1744]",  label: "Accompagnement", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#FF1744]" },
+  accompagnement: { bg: "bg-red-50",    text: "text-[#FF1744]",  label: "Accompagnement", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#FF1744]" },
 };
 
-const TIER_ORDER = ["one_to_one", "academy", "starter", "free", "lead"];
+const TIER_ORDER = ["accompagnement", "one_to_one", "standard", "academy", "starter", "free", "lead"];
 
 const EMAIL_TYPE_LABELS: Record<string, string> = {
   drip: "Onboarding", free_followup: "Free follow-up", manual: "Manuel",

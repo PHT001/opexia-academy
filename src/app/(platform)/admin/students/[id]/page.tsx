@@ -36,9 +36,11 @@ const EMAIL_TYPE_BADGE: Record<string, { bg: string; text: string; label: string
 
 const TIER_BADGE: Record<string, { bg: string; text: string; label: string; avatar: string }> = {
   free: { bg: "bg-gray-100", text: "text-gray-500", label: "Gratuit", avatar: "bg-gray-200 text-gray-600" },
-  starter: { bg: "bg-emerald-50", text: "text-emerald-600", label: "Starter", avatar: "bg-emerald-100 text-emerald-700" },
-  academy: { bg: "bg-blue-50", text: "text-blue-600", label: "Academy", avatar: "bg-blue-100 text-blue-700" },
-  one_to_one: { bg: "bg-red-50", text: "text-[#FF1744]", label: "One-to-One", avatar: "bg-red-100 text-[#FF1744]" },
+  starter: { bg: "bg-blue-50", text: "text-blue-600", label: "Standard", avatar: "bg-blue-100 text-blue-700" },
+  academy: { bg: "bg-blue-50", text: "text-blue-600", label: "Standard", avatar: "bg-blue-100 text-blue-700" },
+  standard: { bg: "bg-blue-50", text: "text-blue-600", label: "Standard", avatar: "bg-blue-100 text-blue-700" },
+  one_to_one: { bg: "bg-red-50", text: "text-[#FF1744]", label: "Accompagnement", avatar: "bg-red-100 text-[#FF1744]" },
+  accompagnement: { bg: "bg-red-50", text: "text-[#FF1744]", label: "Accompagnement", avatar: "bg-red-100 text-[#FF1744]" },
 };
 
 function Card({ className = "", children }: { className?: string; children: React.ReactNode }) {
@@ -321,9 +323,8 @@ export default function StudentDetailPage() {
                   <select value={selectedTier} onChange={(e) => setSelectedTier(e.target.value)} className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[#111] text-sm focus:outline-none focus:border-gray-400 transition-all appearance-none cursor-pointer">
                     <option value="">Aucun</option>
                     <option value="free">Gratuit</option>
-                    <option value="starter">Starter</option>
-                    <option value="academy">Academy</option>
-                    <option value="one_to_one">One-to-One</option>
+                    <option value="standard">Standard</option>
+                    <option value="accompagnement">Accompagnement</option>
                   </select>
                   <button onClick={handleTierChange} disabled={saving} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-200 rounded-lg text-sm text-[#111] transition-all disabled:opacity-50">
                     {saving ? "..." : "Sauvegarder"}

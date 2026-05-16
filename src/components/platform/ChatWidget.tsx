@@ -23,8 +23,8 @@ const QUICK_QUESTIONS = [
     a: "Pas de panique ! Relis la leçon une fois, tente le quiz sans pression. Si t'es toujours bloqué, réserve un appel coaching — on t'aide en direct.",
   },
   {
-    q: "C'est quoi la différence Starter / Academy ?",
-    a: "Starter = les 2 premiers modules pour découvrir. Academy = la formation complète (22 modules) + masterclass + pipeline clients. Le vrai package pour lancer ton agence.",
+    q: "C'est quoi la différence Standard mensuel / Lifetime ?",
+    a: "Standard mensuel · 89€/mois, accès complet à la plateforme, 1 appel offert/mois avec Marius. Lifetime · 697€ une fois, accès à vie + 3 appels offerts en bonus + mises à jour à vie. Même plateforme, même expérience · seule la durée et les appels changent.",
   },
   {
     q: "Comment contacter le support ?",
