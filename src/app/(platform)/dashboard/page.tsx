@@ -1279,9 +1279,13 @@ function DashboardContent() {
 /* ══════════════════════════════════════════════════════════════════════ */
 
 const adminTierConfig: Record<string, { label: string; color: string; bg: string; bar: string; border: string; dot: string }> = {
-  starter:    { label: "Starter",  color: "text-emerald-700", bg: "bg-emerald-50",  bar: "bg-emerald-500", border: "border-emerald-200", dot: "bg-emerald-500" },
-  academy:    { label: "Academy",  color: "text-blue-700",    bg: "bg-blue-50",     bar: "bg-blue-500",    border: "border-blue-200",    dot: "bg-blue-500" },
-  one_to_one: { label: "1-to-1",   color: "text-[#06B6D4]",   bg: "bg-red-50",      bar: "bg-[#06B6D4]",   border: "border-red-200",     dot: "bg-[#06B6D4]" },
+  starter:           { label: "Starter",            color: "text-emerald-700", bg: "bg-emerald-50",       bar: "bg-emerald-500", border: "border-emerald-200",      dot: "bg-emerald-500" },
+  academy:           { label: "Academy",            color: "text-blue-700",    bg: "bg-blue-50",          bar: "bg-blue-500",    border: "border-blue-200",         dot: "bg-blue-500" },
+  standard:          { label: "Standard",           color: "text-[#06B6D4]",   bg: "bg-[#06B6D4]/10",     bar: "bg-[#06B6D4]",   border: "border-[#06B6D4]/30",     dot: "bg-[#06B6D4]" },
+  standard_lifetime: { label: "Standard Lifetime",  color: "text-[#06B6D4]",   bg: "bg-[#06B6D4]/10",     bar: "bg-[#06B6D4]",   border: "border-[#06B6D4]/30",     dot: "bg-[#06B6D4]" },
+  one_to_one:        { label: "1-to-1",             color: "text-purple-700",  bg: "bg-purple-50",        bar: "bg-purple-500",  border: "border-purple-200",       dot: "bg-purple-500" },
+  accompagnement:    { label: "Accompagnement",     color: "text-purple-700",  bg: "bg-purple-50",        bar: "bg-purple-500",  border: "border-purple-200",       dot: "bg-purple-500" },
+  free:              { label: "Gratuit",            color: "text-gray-600",    bg: "bg-gray-100",         bar: "bg-gray-400",    border: "border-gray-200",         dot: "bg-gray-400" },
 };
 
 function formatEuro(n: number) {
