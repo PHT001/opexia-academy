@@ -101,7 +101,7 @@ function saveHistory(items: HistoryItem[]) {
 }
 
 export default function GenerateurPage() {
-  const { isLocked } = useTierGate(["academy", "one_to_one"]);
+  const { isLocked } = useTierGate(["standard", "accompagnement", "academy", "one_to_one"]);
   const [type, setType] = useState("");
   const [tone, setTone] = useState("professionnel");
   const [length, setLength] = useState("moyen");

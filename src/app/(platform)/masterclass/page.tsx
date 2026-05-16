@@ -63,7 +63,9 @@ const COMING_SOON_MASTERCLASSES = [
 ];
 
 export default function MasterclassPage() {
-  const { isLocked, tier } = useTierGate(["academy", "one_to_one"]);
+  // Masterclass access · gated to Accompagnement only (per Marius's tier spec)
+  // Legacy one_to_one + academy kept so old enrollments still have access.
+  const { isLocked, tier } = useTierGate(["accompagnement", "one_to_one", "academy"]);
   const [notifyId, setNotifyId] = useState<Record<string, boolean>>({});
 
   const toggleNotify = (id: string) => {

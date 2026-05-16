@@ -75,11 +75,14 @@ export async function GET() {
     0
   );
 
-  // Enrollments by tier
-  const enrollmentsByTier: Record<string, number> = { starter: 0, academy: 0, one_to_one: 0 };
+  // Enrollments by tier · group legacy tiers (starter/academy) into "standard"
+  // and (one_to_one) into "accompagnement" so the admin sees the current model.
+  const enrollmentsByTier: Record<string, number> = { standard: 0, accompagnement: 0 };
   for (const e of enrollments) {
-    if (e.tier in enrollmentsByTier) {
-      enrollmentsByTier[e.tier]++;
+    if (e.tier === "standard" || e.tier === "starter" || e.tier === "academy") {
+      enrollmentsByTier.standard++;
+    } else if (e.tier === "accompagnement" || e.tier === "one_to_one") {
+      enrollmentsByTier.accompagnement++;
     }
   }
 
@@ -117,11 +120,14 @@ export async function GET() {
     .filter((e) => e.createdAt >= monthStart && e.tier !== "free")
     .reduce((sum, e) => sum + (revenueOf(e)), 0);
 
-  // Revenue breakdown by tier
-  const revenueByTier: Record<string, number> = { starter: 0, academy: 0, one_to_one: 0 };
+  // Revenue breakdown by tier · group legacy → new buckets
+  const revenueByTier: Record<string, number> = { standard: 0, accompagnement: 0 };
   for (const e of enrollments) {
-    if (e.tier !== "free" && e.tier in revenueByTier) {
-      revenueByTier[e.tier] += revenueOf(e);
+    if (e.tier === "free") continue;
+    if (e.tier === "standard" || e.tier === "starter" || e.tier === "academy") {
+      revenueByTier.standard += revenueOf(e);
+    } else if (e.tier === "accompagnement" || e.tier === "one_to_one") {
+      revenueByTier.accompagnement += revenueOf(e);
     }
   }
 

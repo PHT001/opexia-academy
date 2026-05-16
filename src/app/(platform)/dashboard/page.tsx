@@ -24,7 +24,7 @@ import {
 
 /* ——— Admin Stats Types ——— */
 interface AdminMonthlyRevenue { month: string; revenue: number; }
-interface AdminEnrollmentsByTier { starter: number; academy: number; one_to_one: number; }
+interface AdminEnrollmentsByTier { standard: number; accompagnement: number; }
 interface AdminRecentEnrollment { id: string; userName: string; userEmail: string; tier: string; date: string; }
 interface AdminRecentActivity { type: string; userName: string; detail: string; createdAt: string; }
 interface AdminUserGrowth { month: string; count: number; }
@@ -1356,14 +1356,12 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
   if (!stats) return null;
 
   const totalTier =
-    (stats.enrollmentsByTier.starter || 0) +
-    (stats.enrollmentsByTier.academy || 0) +
-    (stats.enrollmentsByTier.one_to_one || 0);
+    (stats.enrollmentsByTier.standard || 0) +
+    (stats.enrollmentsByTier.accompagnement || 0);
 
   const tierData = [
-    { key: "starter", count: stats.enrollmentsByTier.starter || 0 },
-    { key: "academy", count: stats.enrollmentsByTier.academy || 0 },
-    { key: "one_to_one", count: stats.enrollmentsByTier.one_to_one || 0 },
+    { key: "standard", count: stats.enrollmentsByTier.standard || 0 },
+    { key: "accompagnement", count: stats.enrollmentsByTier.accompagnement || 0 },
   ];
 
   const todayStr = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
