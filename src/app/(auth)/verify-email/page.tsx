@@ -130,13 +130,13 @@ export default function VerifyEmailPage() {
     <div className="w-full max-w-md text-center">
       {success ? (
         <div>
-          <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-4">
-            <svg className="h-8 w-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="w-16 h-16 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4">
+            <svg className="h-8 w-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">Email v&eacute;rifi&eacute; !</h1>
-          <p className="text-sm text-gray-500 mt-2">Redirection vers ton espace...</p>
+          <h1 className="text-2xl font-bold text-white tracking-tight">Email v&eacute;rifi&eacute; !</h1>
+          <p className="text-sm text-white/50 mt-2">Redirection vers ton espace...</p>
         </div>
       ) : (
         <>
@@ -145,20 +145,20 @@ export default function VerifyEmailPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">V&eacute;rifie ton email</h1>
-          <p className="text-sm text-gray-500 mt-2">
+          <h1 className="text-2xl font-bold text-white tracking-tight">V&eacute;rifie ton email</h1>
+          <p className="text-sm text-white/50 mt-2">
             Un code &agrave; 6 chiffres a &eacute;t&eacute; envoy&eacute; &agrave;{" "}
-            <span className="font-medium text-[#1A1A2E]">{session?.user?.email || "ton adresse"}</span>
+            <span className="font-medium text-white">{session?.user?.email || "ton adresse"}</span>
           </p>
 
           {error && (
-            <div className="mt-4 p-3 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm">
+            <div className="mt-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
               {error}
             </div>
           )}
 
           {resendMessage && (
-            <div className="mt-4 p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 text-sm">
+            <div className="mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 text-sm">
               {resendMessage}
             </div>
           )}
@@ -175,7 +175,7 @@ export default function VerifyEmailPage() {
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold rounded-xl bg-white border border-gray-200 text-[#1A1A2E] focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
+                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/40 focus:border-[#06B6D4]/60 transition-all"
                 />
               ))}
             </div>
@@ -183,7 +183,7 @@ export default function VerifyEmailPage() {
             <button
               type="submit"
               disabled={loading || code.join("").length !== 6}
-              className="w-full h-12 mt-6 rounded-xl bg-[#1A1A2E] text-white text-sm font-semibold hover:bg-[#2A2A40] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+              className="w-full h-12 mt-6 rounded-xl bg-[#1F1F36] border border-white/10 text-white text-sm font-semibold hover:bg-[#262644] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
             >
               {loading ? "V\u00e9rification..." : "V\u00e9rifier"}
             </button>
@@ -202,7 +202,7 @@ export default function VerifyEmailPage() {
                 : "Renvoyer le code"}
           </button>
 
-          <p className="text-xs text-gray-400 mt-4">
+          <p className="text-xs text-white/40 mt-4">
             Tu n&apos;as pas re&ccedil;u le code ? V&eacute;rifie tes spams ou{" "}
             <Link href="/register" className="text-[#06B6D4] hover:underline">
               r&eacute;essaye l&apos;inscription

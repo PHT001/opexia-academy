@@ -55,12 +55,12 @@ function LoginContent() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">Connexion</h1>
-        <p className="text-sm text-gray-500 mt-1">Accède à ton espace de formation</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">Connexion</h1>
+        <p className="text-sm text-white/50 mt-1">Accède à ton espace de formation</p>
       </div>
 
       {error && (
-        <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-2.5">
+        <div className="mb-6 p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex items-center gap-2.5">
           <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
           </svg>
@@ -71,7 +71,7 @@ function LoginContent() {
       {/* Google Sign In */}
       <button
         onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-        className="w-full h-12 rounded-xl bg-white border border-gray-200 text-sm font-medium text-gray-700 flex items-center justify-center gap-3 hover:bg-gray-50 hover:border-gray-300 transition-all mb-6"
+        className="w-full h-12 rounded-xl bg-white text-sm font-medium text-gray-800 flex items-center justify-center gap-3 hover:bg-white/95 transition-all mb-6"
       >
         <GoogleIcon />
         Continuer avec Google
@@ -79,14 +79,14 @@ function LoginContent() {
 
       {/* Divider */}
       <div className="flex items-center gap-4 mb-6">
-        <div className="flex-1 h-px bg-gray-200" />
-        <span className="text-xs text-gray-400 uppercase tracking-wider">ou</span>
-        <div className="flex-1 h-px bg-gray-200" />
+        <div className="flex-1 h-px bg-white/10" />
+        <span className="text-xs text-white/30 uppercase tracking-wider">ou</span>
+        <div className="flex-1 h-px bg-white/10" />
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-1.5">
             Email
           </label>
           <input
@@ -96,13 +96,13 @@ function LoginContent() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/40 focus:border-[#06B6D4]/60 transition-all"
           />
         </div>
 
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-white/80">
               Mot de passe
             </label>
             <Link href="/forgot-password" className="text-xs text-[#06B6D4] hover:underline">
@@ -116,14 +116,14 @@ function LoginContent() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/40 focus:border-[#06B6D4]/60 transition-all"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-12 rounded-xl bg-[#1A1A2E] text-white text-sm font-semibold hover:bg-[#2A2A40] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+          className="w-full h-12 rounded-xl bg-[#1F1F36] border border-white/10 text-white text-sm font-semibold hover:bg-[#262644] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -139,7 +139,7 @@ function LoginContent() {
         </button>
       </form>
 
-      <p className="text-center text-sm text-gray-500 mt-8">
+      <p className="text-center text-sm text-white/50 mt-8">
         Pas encore de compte ?{" "}
         <Link href={`/register${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}&plan=${searchParams.get("plan") || ""}` : ""}`} className="text-[#06B6D4] font-medium hover:underline">
           Créer un compte
@@ -151,7 +151,7 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="w-full max-w-md animate-pulse"><div className="h-8 bg-gray-200 rounded mb-4" /><div className="h-12 bg-gray-200 rounded" /></div>}>
+    <Suspense fallback={<div className="w-full max-w-md animate-pulse"><div className="h-8 bg-white/5 rounded mb-4" /><div className="h-12 bg-white/5 rounded" /></div>}>
       <LoginContent />
     </Suspense>
   );

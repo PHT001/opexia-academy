@@ -70,13 +70,13 @@ function ResetPasswordForm() {
   if (!token) {
     return (
       <div className="w-full max-w-md text-center">
-        <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 rounded-full bg-red-500/15 flex items-center justify-center mx-auto mb-4">
           <svg className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">Lien invalide</h1>
-        <p className="text-sm text-gray-500 mt-2">
+        <h1 className="text-2xl font-bold text-white tracking-tight">Lien invalide</h1>
+        <p className="text-sm text-white/50 mt-2">
           Ce lien de réinitialisation est invalide ou a expiré.
         </p>
         <Link
@@ -92,13 +92,13 @@ function ResetPasswordForm() {
   if (success) {
     return (
       <div className="w-full max-w-md text-center">
-        <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-4">
-          <svg className="h-8 w-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="w-16 h-16 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4">
+          <svg className="h-8 w-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">Mot de passe modifié !</h1>
-        <p className="text-sm text-gray-500 mt-2">Redirection vers la connexion...</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">Mot de passe modifié !</h1>
+        <p className="text-sm text-white/50 mt-2">Redirection vers la connexion...</p>
       </div>
     );
   }
@@ -106,14 +106,14 @@ function ResetPasswordForm() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#1A1A2E] tracking-tight">Nouveau mot de passe</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-white tracking-tight">Nouveau mot de passe</h1>
+        <p className="text-sm text-white/50 mt-1">
           Choisis un nouveau mot de passe pour ton compte
         </p>
       </div>
 
       {error && (
-        <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-2.5">
+        <div className="mb-6 p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex items-center gap-2.5">
           <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
           </svg>
@@ -123,7 +123,7 @@ function ResetPasswordForm() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label htmlFor="password" className="block text-sm font-medium text-white/80 mb-1.5">
             Nouveau mot de passe
           </label>
           <input
@@ -134,13 +134,13 @@ function ResetPasswordForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/40 focus:border-[#06B6D4]/60 transition-all"
           />
-          <p className="text-xs text-gray-400 mt-1.5">Minimum 8 caractères, dont un caractère spécial</p>
+          <p className="text-xs text-white/40 mt-1.5">Minimum 8 caractères, dont un caractère spécial</p>
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-white/80 mb-1.5">
             Confirmer le mot de passe
           </label>
           <input
@@ -151,14 +151,14 @@ function ResetPasswordForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/40 focus:border-[#06B6D4]/60 transition-all"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-12 rounded-xl bg-[#1A1A2E] text-white text-sm font-semibold hover:bg-[#2A2A40] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+          className="w-full h-12 rounded-xl bg-[#1F1F36] border border-white/10 text-white text-sm font-semibold hover:bg-[#262644] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -174,7 +174,7 @@ function ResetPasswordForm() {
         </button>
       </form>
 
-      <p className="text-center text-sm text-gray-500 mt-8">
+      <p className="text-center text-sm text-white/50 mt-8">
         <Link href="/login" className="text-[#06B6D4] font-medium hover:underline">
           Retour à la connexion
         </Link>
@@ -188,7 +188,7 @@ export default function ResetPasswordPage() {
     <Suspense
       fallback={
         <div className="w-full max-w-md text-center">
-          <div className="animate-spin h-8 w-8 border-2 border-gray-300 border-t-[#1A1A2E] rounded-full mx-auto" />
+          <div className="animate-spin h-8 w-8 border-2 border-white/10 border-t-[#06B6D4] rounded-full mx-auto" />
         </div>
       }
     >
