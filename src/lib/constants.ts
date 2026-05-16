@@ -18,7 +18,7 @@ export const MODULES = [
   { order: 2,  title: "Découvrir les IA", description: "ChatGPT, Claude, Gemini — les IA qu'on va utiliser et pourquoi", category: "formation" },
   // ── Bloc 2 — Tes outils de travail ──
   { order: 3,  title: "Apprendre à prompter", description: "Les bases et techniques avancées pour des résultats précis", category: "formation" },
-  { order: 4,  title: "Les IDE IA : Claude Code & Cursor", description: "Installer, configurer et coder avec les IDE augmentés par l'IA", category: "formation" },
+  { order: 4,  title: "Claude Code en profondeur", description: "Maîtriser Claude Code : projet avancé, MCP servers, sub-agents, hooks et skills", category: "formation" },
   { order: 5,  title: "Git, GitHub & le workflow développeur", description: "Versionner ton code et collaborer comme un pro", category: "formation" },
   // ── Bloc 3 — Construire un site web ──
   { order: 6,  title: "Frontend : Next.js + Tailwind", description: "Créer des interfaces web modernes et responsive", category: "formation" },
@@ -38,10 +38,12 @@ export const MODULES = [
   { order: 17, title: "Créer ton offre", description: "Les services IA rentables, pricing et supports de vente", category: "formation" },
   { order: 18, title: "Prospection", description: "Réseau, LinkedIn, cold email, cold call et automatisation", category: "formation" },
   { order: 19, title: "Closer", description: "L'appel de closing, objections et signature du deal", category: "formation" },
-  { order: 20, title: "Livrer & Fidéliser", description: "Process de livraison, retainers et referrals", category: "formation" },
-  // ── Bloc 7 — Scaler ──
-  { order: 21, title: "Juridique & Admin", description: "Statuts, contrats, RGPD, facturation et assurances", category: "formation" },
-  { order: 22, title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", category: "formation" },
+  // ── Bloc 7 — Sprint client puis ops ──
+  { order: 20, title: "Sprint : ton 1er client à 500€ en 30 jours", description: "Avant de scaler : prouve-toi que tu peux signer un client. Portfolio, réseau, découverte, fermeture.", category: "formation" },
+  { order: 21, title: "Livrer & Fidéliser", description: "Process de livraison, retainers et referrals", category: "formation" },
+  // ── Bloc 8 — Scaler ──
+  { order: 22, title: "Juridique & Admin", description: "Statuts, contrats, RGPD, facturation et assurances", category: "formation" },
+  { order: 23, title: "Scaler à 10K€/mois", description: "De freelance solo à agence rentable", category: "formation" },
 ] as const;
 
 /* ——— Module metadata (brand, difficulty, estimated time) ——— */
@@ -82,10 +84,12 @@ export const MODULE_METADATA: Record<number, ModuleMetadata> = {
   17: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~1h30",  lessonCount: 3  },
   18: { brands: [],            difficulty: "avance",         estimatedTime: "~2h30",  lessonCount: 5  },
   19: { brands: [],            difficulty: "avance",         estimatedTime: "~1h30",  lessonCount: 3  },
-  20: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
-  // Bloc 7 — Scaler
-  21: { brands: [],            difficulty: "avance",         estimatedTime: "~1h30",  lessonCount: 3  },
-  22: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 4  },
+  // Bloc 7 — Sprint client puis ops
+  20: { brands: [],            difficulty: "debutant",       estimatedTime: "~2h",    lessonCount: 4  },
+  21: { brands: [],            difficulty: "intermediaire",  estimatedTime: "~2h",    lessonCount: 4  },
+  // Bloc 8 — Scaler
+  22: { brands: [],            difficulty: "avance",         estimatedTime: "~1h30",  lessonCount: 3  },
+  23: { brands: [],            difficulty: "avance",         estimatedTime: "~2h",    lessonCount: 4  },
 };
 
 export const DIFFICULTY_CONFIG = {
@@ -98,12 +102,13 @@ export const DIFFICULTY_CONFIG = {
 
 export const WEEKS = [
   { week: 1, title: "Le cadre",                subtitle: "Comprendre l'IA et poser les bases",                              modules: [1, 2] },
-  { week: 2, title: "Tes outils de travail",   subtitle: "Prompting, IDE IA et workflow développeur",                       modules: [3, 4, 5] },
+  { week: 2, title: "Tes outils de travail",   subtitle: "Prompting, Claude Code en profondeur et workflow Git",            modules: [3, 4, 5] },
   { week: 3, title: "Construire un site web",  subtitle: "Frontend, backend et déploiement",                                modules: [6, 7] },
   { week: 4, title: "Les services à vendre",   subtitle: "Chatbots, agents vocaux, automatisations, leads et documents",    modules: [8, 9, 10, 11, 12] },
-  { week: 5, title: "Industrialiser",           subtitle: "MVP, sécurité et DevOps",                                        modules: [13, 14, 15] },
-  { week: 6, title: "Vendre",                   subtitle: "Structure, offre, prospection, closing et fidélisation",          modules: [16, 17, 18, 19, 20] },
-  { week: 7, title: "Scaler",                   subtitle: "Juridique et passage à l'agence",                                modules: [21, 22] },
+  { week: 5, title: "Industrialiser",          subtitle: "MVP, sécurité et DevOps",                                         modules: [13, 14, 15] },
+  { week: 6, title: "Vendre",                  subtitle: "Structure, offre, prospection et closing",                        modules: [16, 17, 18, 19] },
+  { week: 7, title: "Premiers clients & ops",  subtitle: "Sprint 1er client puis livraison et fidélisation",                modules: [20, 21] },
+  { week: 8, title: "Scaler",                  subtitle: "Juridique et passage à l'agence",                                 modules: [22, 23] },
 ] as const;
 
 export const MASTERCLASS_MODULES = [] as const;
@@ -111,10 +116,12 @@ export const MASTERCLASS_MODULES = [] as const;
 /* ——— Tier-based module access ——— */
 
 export const TIER_MODULE_ACCESS: Record<string, number[]> = {
-  free:       [],
-  starter:    [1, 2],
-  academy:    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
-  one_to_one: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+  free:           [],
+  starter:        [1, 2],
+  academy:        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+  one_to_one:     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+  standard:       [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+  accompagnement: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
 };
 
 export const TIERS = [
@@ -194,7 +201,7 @@ export const COACHING_PRICE = 5000; // 50e en centimes
 export const COACHING_PRICE_DISPLAY = "50";
 
 /* ——— WhatsApp ——— */
-export const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+export const TIER_PRIORITY: Record<string, number> = { free: 0, starter: 1, academy: 2, standard: 2, one_to_one: 3, accompagnement: 3 };
 
 export const WHATSAPP_LINK = "https://wa.me/33756885225";
 export const WHATSAPP_PHONE = "https://wa.me/33756885225";
@@ -210,4 +217,8 @@ export const TIER_PRICES_CENTS: Record<string, number> = {
   starter: 4700,
   academy: 39700,
   one_to_one: 249700,
+  // ── New offering (QCM landing) ──
+  standard: 8900,            // 89€/mois (recurring) · also used as one-shot lifetime upgrade base
+  standard_lifetime: 69700,  // 697€ paiement unique
+  accompagnement: 249700,    // accompagnement One-to-One · même prix que legacy one_to_one
 };
