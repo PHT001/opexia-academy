@@ -33,6 +33,8 @@ interface ModuleGroup {
   description: string;
   order: number;
   lessons: LessonItem[];
+  locked?: boolean;
+  lockReason?: "tier" | "mvp" | null;
 }
 
 interface LessonData {
@@ -605,7 +607,11 @@ export default function LessonsPage() {
 
                 {/* ── Module Nodes ── */}
                 {weekModules.map((mod, modIdx) => {
-                  const modAccessible = accessibleModules.includes(mod.order);
+                  // Module is accessible only if tier + MVP gating both pass
+                  // (the API sets mod.locked = true when either fails)
+                  const modAccessible = mod.locked !== undefined
+                    ? !mod.locked
+                    : accessibleModules.includes(mod.order);
                   const completed = mod.lessons.filter((l) => l.status === "completed").length;
                   const pct = mod.lessons.length > 0 ? Math.round((completed / mod.lessons.length) * 100) : 0;
                   const isExpanded = (!modAccessible && isTeaser) ? true : (userTier === "free" ? true : expandedModule === mod.order);
