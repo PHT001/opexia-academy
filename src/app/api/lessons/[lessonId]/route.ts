@@ -96,20 +96,41 @@ export async function GET(
     }
   }
 
-  // Get prev/next slugs + count lessons in module to know if last in module
-  const allLessons = await prisma.lesson.findMany({
-    orderBy: [{ module: { order: "asc" } }, { order: "asc" }],
-    select: { slug: true, order: true, moduleId: true },
+  // Compute prev/next slugs + isLastInModule via targeted queries
+  // (the previous global findMany scanned 111+ lessons on every lesson load).
+  const lessonsInModule = await prisma.lesson.findMany({
+    where: { moduleId: lesson.moduleId },
+    orderBy: { order: "asc" },
+    select: { slug: true, order: true },
   });
 
-  const idx = allLessons.findIndex((l) => l.slug === slug);
-  const prevSlug = idx > 0 ? allLessons[idx - 1].slug : null;
-  const nextSlug = idx > -1 && idx < allLessons.length - 1 ? allLessons[idx + 1].slug : null;
+  const isFirstInModule = lessonsInModule[0]?.slug === lesson.slug;
+  const isLastInModule = lessonsInModule[lessonsInModule.length - 1]?.slug === lesson.slug;
+  const lessonIdxInModule = lessonsInModule.findIndex((l) => l.slug === lesson.slug);
 
-  const lessonsInModule = allLessons.filter((l) => l.moduleId === lesson.moduleId);
-  const isLastInModule =
-    lessonsInModule.length > 0 &&
-    lessonsInModule[lessonsInModule.length - 1].slug === lesson.slug;
+  let prevSlug: string | null = lessonIdxInModule > 0 ? lessonsInModule[lessonIdxInModule - 1].slug : null;
+  let nextSlug: string | null =
+    lessonIdxInModule > -1 && lessonIdxInModule < lessonsInModule.length - 1
+      ? lessonsInModule[lessonIdxInModule + 1].slug
+      : null;
+
+  // If this lesson is first/last of its module, hop to the adjacent module's edge lesson
+  if (!prevSlug && isFirstInModule) {
+    const prevModule = await prisma.module.findFirst({
+      where: { order: { lt: lesson.module.order } },
+      orderBy: { order: "desc" },
+      include: { lessons: { orderBy: { order: "desc" }, take: 1, select: { slug: true } } },
+    });
+    prevSlug = prevModule?.lessons[0]?.slug ?? null;
+  }
+  if (!nextSlug && isLastInModule) {
+    const nextModule = await prisma.module.findFirst({
+      where: { order: { gt: lesson.module.order } },
+      orderBy: { order: "asc" },
+      include: { lessons: { orderBy: { order: "asc" }, take: 1, select: { slug: true } } },
+    });
+    nextSlug = nextModule?.lessons[0]?.slug ?? null;
+  }
 
   return NextResponse.json({
     id: lesson.id,

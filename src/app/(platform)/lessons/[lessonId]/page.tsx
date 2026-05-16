@@ -146,23 +146,38 @@ export default function LessonPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setLesson(null);
     fetch(`/api/lessons/${params.lessonId}`)
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
       })
       .then((data) => {
+        if (cancelled) return;
         setLesson(data);
         setLoading(false);
+        // Scroll to top so the new lesson opens fresh, not at the previous scroll position.
+        if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
       })
-      .catch(() => setLoading(false));
+      .catch(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [params.lessonId]);
 
   if (loading) {
     return (
       <div className="lesson-article-wrapper">
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="w-8 h-8 border-2 border-[#FF1744] border-t-transparent rounded-full animate-spin" />
+        <div className="max-w-3xl mx-auto px-4 py-10 animate-pulse">
+          <div className="h-3 w-32 rounded bg-gray-200 mb-3" />
+          <div className="h-9 w-3/4 rounded bg-gray-200 mb-4" />
+          <div className="h-4 w-1/3 rounded bg-gray-100 mb-8" />
+          <div className="h-4 w-full rounded bg-gray-100 mb-2" />
+          <div className="h-4 w-5/6 rounded bg-gray-100 mb-2" />
+          <div className="h-4 w-11/12 rounded bg-gray-100 mb-6" />
+          <div className="h-32 w-full rounded-xl bg-gray-100 mb-6" />
+          <div className="h-4 w-full rounded bg-gray-100 mb-2" />
+          <div className="h-4 w-4/5 rounded bg-gray-100 mb-2" />
         </div>
       </div>
     );
@@ -280,41 +295,45 @@ export default function LessonPage() {
       {/* Navigation */}
       <div className="flex items-center justify-between gap-4">
         {lesson.prevSlug ? (
-          <a
+          <Link
             href={`/lessons/${lesson.prevSlug}`}
+            prefetch
             className="text-[#6B7280] hover:text-[#111] transition-colors text-sm font-medium flex items-center gap-1"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
             Leçon précédente
-          </a>
+          </Link>
         ) : <div />}
 
         {lesson.hasQuiz && !lesson.quizPassed ? (
-          <a
+          <Link
             href={`/quiz/${lesson.slug}`}
+            prefetch
             className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors"
           >
             Passer le Quiz →
-          </a>
+          </Link>
         ) : lesson.nextSlug ? (
-          <a
+          <Link
             href={`/lessons/${lesson.nextSlug}`}
+            prefetch
             className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors flex items-center gap-1"
           >
             Leçon suivante
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
-          </a>
+          </Link>
         ) : (
-          <a
+          <Link
             href="/congratulations"
+            prefetch
             className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors"
           >
             Terminer le parcours
-          </a>
+          </Link>
         )}
       </div>
     </div>
