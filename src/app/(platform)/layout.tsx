@@ -45,14 +45,17 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   });
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("opexia-dark-mode") === "true";
+      const stored = localStorage.getItem("opexia-dark-mode");
+      if (stored === "false") return false;
+      return true;
     }
-    return false;
+    return true;
   });
 
   useEffect(() => {
     const handler = () => {
-      setDarkMode(localStorage.getItem("opexia-dark-mode") === "true");
+      const stored = localStorage.getItem("opexia-dark-mode");
+      setDarkMode(stored !== "false");
     };
     window.addEventListener("dark-mode-change", handler);
     return () => window.removeEventListener("dark-mode-change", handler);
@@ -123,10 +126,10 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   // Block ALL content while checking onboarding status — prevents dashboard flash
   if (loadingOnboarding) {
     return (
-      <div className="fixed inset-0 z-[200] flex items-center justify-center" style={{ background: "linear-gradient(180deg, #FAFAFA 0%, #FFFFFF 50%, #F5F5F5 100%)" }}>
+      <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#0A0A0A]">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-3 border-gray-200 border-t-[#06B6D4] rounded-full animate-spin" />
-          <span className="text-sm text-gray-400 font-medium">Chargement...</span>
+          <div className="w-10 h-10 border-3 border-white/10 border-t-[#06B6D4] rounded-full animate-spin" />
+          <span className="text-sm text-white/40 font-medium">Chargement...</span>
         </div>
       </div>
     );
