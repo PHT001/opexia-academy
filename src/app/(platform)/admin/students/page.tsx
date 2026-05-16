@@ -45,8 +45,8 @@ const TIER_CONFIG: Record<string, { bg: string; text: string; label: string; sec
   starter:        { bg: "bg-blue-50",   text: "text-blue-600",   label: "Standard",       sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
   academy:        { bg: "bg-blue-50",   text: "text-blue-600",   label: "Standard",       sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
   standard:       { bg: "bg-blue-50",   text: "text-blue-600",   label: "Standard",       sectionBg: "bg-blue-50/50",   sectionBorder: "border-blue-200",   dot: "bg-blue-400" },
-  one_to_one:     { bg: "bg-red-50",    text: "text-[#FF1744]",  label: "Accompagnement", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#FF1744]" },
-  accompagnement: { bg: "bg-red-50",    text: "text-[#FF1744]",  label: "Accompagnement", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#FF1744]" },
+  one_to_one:     { bg: "bg-red-50",    text: "text-[#06B6D4]",  label: "Accompagnement", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#06B6D4]" },
+  accompagnement: { bg: "bg-red-50",    text: "text-[#06B6D4]",  label: "Accompagnement", sectionBg: "bg-red-50/50",    sectionBorder: "border-red-200",    dot: "bg-[#06B6D4]" },
 };
 
 const TIER_ORDER = ["accompagnement", "one_to_one", "standard", "academy", "starter", "free", "lead"];
@@ -203,7 +203,7 @@ export default function StudentsPage() {
           </div>
           <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <p className="text-xs text-gray-400 mb-1">Revenue</p>
-            <p className="text-2xl font-bold text-[#FF1744]">{formatEuro(stats.totalRevenue)}</p>
+            <p className="text-2xl font-bold text-[#06B6D4]">{formatEuro(stats.totalRevenue)}</p>
           </div>
           <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <p className="text-xs text-gray-400 mb-1">Leads</p>
@@ -308,7 +308,7 @@ export default function StudentsPage() {
 
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <p className={`text-sm font-medium truncate ${isLeadSection ? "text-gray-600" : "text-[#111] group-hover:text-[#FF1744]"} transition-colors`}>
+                              <p className={`text-sm font-medium truncate ${isLeadSection ? "text-gray-600" : "text-[#111] group-hover:text-[#06B6D4]"} transition-colors`}>
                                 {student.name || (isLeadSection ? student.email.split("@")[0] : "Sans nom")}
                               </p>
                               {isLeadSection && statusBadge && (

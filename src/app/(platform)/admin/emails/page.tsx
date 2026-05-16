@@ -155,7 +155,7 @@ export default function AdminEmailsPage() {
           <select
             value={tier}
             onChange={(e) => setTier(e.target.value)}
-            className="w-full bg-white/[0.06] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF1744]/50 transition-colors appearance-none cursor-pointer"
+            className="w-full bg-white/[0.06] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#06B6D4]/50 transition-colors appearance-none cursor-pointer"
           >
             {FILTER_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value} className="bg-[#1a1a1a]">
@@ -182,7 +182,7 @@ export default function AdminEmailsPage() {
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             placeholder="Sujet de l'email..."
-            className="w-full bg-white/[0.06] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#FF1744]/50 transition-colors"
+            className="w-full bg-white/[0.06] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#06B6D4]/50 transition-colors"
           />
         </div>
 
@@ -194,7 +194,7 @@ export default function AdminEmailsPage() {
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Contenu de l'email..."
             rows={8}
-            className="w-full bg-white/[0.06] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#FF1744]/50 transition-colors resize-y leading-relaxed"
+            className="w-full bg-white/[0.06] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#06B6D4]/50 transition-colors resize-y leading-relaxed"
           />
           <p className="text-xs text-white/20 mt-1">
             Les retours a la ligne seront preserves. Le nom de l&apos;eleve est ajoute automatiquement.
@@ -206,7 +206,7 @@ export default function AdminEmailsPage() {
           <button
             onClick={() => setShowConfirm(true)}
             disabled={sending || !subject.trim() || !message.trim() || recipientCount === 0}
-            className="px-6 py-3 bg-[#FF1744] text-white rounded-xl text-sm font-semibold hover:bg-[#FF1744]/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-[#06B6D4] text-white rounded-xl text-sm font-semibold hover:bg-[#06B6D4]/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {sending ? "Envoi en cours..." : "Envoyer"}
           </button>
@@ -241,7 +241,7 @@ export default function AdminEmailsPage() {
               </button>
               <button
                 onClick={handleSend}
-                className="flex-1 px-4 py-2.5 bg-[#FF1744] text-white rounded-xl text-sm font-semibold hover:bg-[#FF1744]/90 transition-colors"
+                className="flex-1 px-4 py-2.5 bg-[#06B6D4] text-white rounded-xl text-sm font-semibold hover:bg-[#06B6D4]/90 transition-colors"
               >
                 Confirmer l&apos;envoi
               </button>

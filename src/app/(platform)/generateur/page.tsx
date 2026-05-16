@@ -191,7 +191,7 @@ export default function GenerateurPage() {
           {/* ── Step 1: Type de contenu ── */}
           <div>
             <label className="flex items-center gap-2 mb-3">
-              <span className="w-6 h-6 rounded-full bg-[#FF1744]/10 text-[#FF1744] text-xs font-bold flex items-center justify-center">
+              <span className="w-6 h-6 rounded-full bg-[#06B6D4]/10 text-[#06B6D4] text-xs font-bold flex items-center justify-center">
                 1
               </span>
               <span className="text-sm font-semibold text-[#111]">
@@ -208,19 +208,19 @@ export default function GenerateurPage() {
                     className={cn(
                       "flex flex-col items-center sm:items-start gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-xl border text-center sm:text-left transition-all",
                       active
-                        ? "border-[#FF1744] bg-[#FF1744]/5 shadow-sm"
+                        ? "border-[#06B6D4] bg-[#06B6D4]/5 shadow-sm"
                         : "border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300"
                     )}
                   >
                     <div
                       className={cn(
                         "w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center",
-                        active ? "bg-[#FF1744]/10" : "bg-gray-100"
+                        active ? "bg-[#06B6D4]/10" : "bg-gray-100"
                       )}
                     >
                       <svg
                         className="w-4 h-4 sm:w-4.5 sm:h-4.5"
-                        style={{ color: active ? "#FF1744" : "#6b7280" }}
+                        style={{ color: active ? "#06B6D4" : "#6b7280" }}
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -235,7 +235,7 @@ export default function GenerateurPage() {
                       <p
                         className={cn(
                           "text-[11px] sm:text-xs font-semibold leading-tight",
-                          active ? "text-[#FF1744]" : "text-[#111]"
+                          active ? "text-[#06B6D4]" : "text-[#111]"
                         )}
                       >
                         {t.label}
@@ -253,7 +253,7 @@ export default function GenerateurPage() {
           {/* ── Step 2: Ton + Longueur ── */}
           <div>
             <label className="flex items-center gap-2 mb-3">
-              <span className="w-6 h-6 rounded-full bg-[#FF1744]/10 text-[#FF1744] text-xs font-bold flex items-center justify-center">
+              <span className="w-6 h-6 rounded-full bg-[#06B6D4]/10 text-[#06B6D4] text-xs font-bold flex items-center justify-center">
                 2
               </span>
               <span className="text-sm font-semibold text-[#111]">
@@ -321,7 +321,7 @@ export default function GenerateurPage() {
           {/* ── Step 3: Contexte ── */}
           <div>
             <label className="flex items-center gap-2 mb-3">
-              <span className="w-6 h-6 rounded-full bg-[#FF1744]/10 text-[#FF1744] text-xs font-bold flex items-center justify-center">
+              <span className="w-6 h-6 rounded-full bg-[#06B6D4]/10 text-[#06B6D4] text-xs font-bold flex items-center justify-center">
                 3
               </span>
               <span className="text-sm font-semibold text-[#111]">
@@ -332,7 +332,7 @@ export default function GenerateurPage() {
               value={context}
               onChange={(e) => setContext(e.target.value)}
               placeholder={placeholderText}
-              className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder:text-gray-400 min-h-[130px] resize-y focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744]/40 transition-all"
+              className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder:text-gray-400 min-h-[130px] resize-y focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4]/40 transition-all"
             />
             <div className="flex items-center justify-between mt-1.5">
               <p className="text-[10px] text-gray-400">
@@ -351,7 +351,7 @@ export default function GenerateurPage() {
             className={cn(
               "w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200",
               canGenerate && !generating
-                ? "bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white shadow-lg shadow-[#FF1744]/25 hover:shadow-[#FF1744]/40 hover:-translate-y-0.5"
+                ? "bg-gradient-to-r from-[#06B6D4] to-[#0891B2] text-white shadow-lg shadow-[#06B6D4]/25 hover:shadow-[#06B6D4]/40 hover:-translate-y-0.5"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             )}
           >
@@ -491,15 +491,15 @@ export default function GenerateurPage() {
               <div className="flex flex-col items-center py-8 gap-2">
                 <div className="flex gap-1">
                   <div
-                    className="w-2 h-2 rounded-full bg-[#FF1744] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-[#06B6D4] animate-bounce"
                     style={{ animationDelay: "0ms" }}
                   />
                   <div
-                    className="w-2 h-2 rounded-full bg-[#FF1744] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-[#06B6D4] animate-bounce"
                     style={{ animationDelay: "150ms" }}
                   />
                   <div
-                    className="w-2 h-2 rounded-full bg-[#FF1744] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-[#06B6D4] animate-bounce"
                     style={{ animationDelay: "300ms" }}
                   />
                 </div>
@@ -542,7 +542,7 @@ export default function GenerateurPage() {
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-bold text-[#06B6D4] bg-[#06B6D4]/10 px-2 py-0.5 rounded-full">
                           {h.typeLabel}
                         </span>
                         <span className="text-[10px] text-gray-400">
@@ -602,7 +602,7 @@ export default function GenerateurPage() {
                               behavior: "smooth",
                             });
                           }}
-                          className="text-[10px] font-medium text-[#FF1744] hover:text-[#D50000] border border-[#FF1744]/20 px-2.5 py-1 rounded-lg hover:bg-[#FF1744]/5 transition-colors"
+                          className="text-[10px] font-medium text-[#06B6D4] hover:text-[#0891B2] border border-[#06B6D4]/20 px-2.5 py-1 rounded-lg hover:bg-[#06B6D4]/5 transition-colors"
                         >
                           Réutiliser ce contexte
                         </button>
@@ -621,12 +621,12 @@ export default function GenerateurPage() {
   return (
     <div className="w-full">
       {isLocked && (
-        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#06B6D4]/10 to-[#06B6D4]/5 border border-[#06B6D4]/20 p-4">
           <div>
             <p className="text-sm font-semibold text-[#111]">Fonctionnalité premium</p>
             <p className="text-xs text-[#6B7280]">Upgrade pour accéder à cette fonctionnalité.</p>
           </div>
-          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#06B6D4] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0891B2] transition-colors">
             Voir les offres
           </a>
         </div>

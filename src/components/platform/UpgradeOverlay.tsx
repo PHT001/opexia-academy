@@ -53,8 +53,8 @@ export default function UpgradeOverlay({
             href="/offres"
             className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white transition-all hover:shadow-lg"
             style={{
-              background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-              boxShadow: "0 4px 14px rgba(255,23,68,0.3)",
+              background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
+              boxShadow: "0 4px 14px rgba(6,182,212,0.3)",
             }}
           >
             Voir les offres

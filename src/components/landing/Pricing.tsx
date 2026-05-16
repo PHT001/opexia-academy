@@ -123,7 +123,7 @@ function CountdownTimer() {
   }, []);
 
   return (
-    <span className="text-sm font-mono font-bold text-[#FF1744] tabular-nums">
+    <span className="text-sm font-mono font-bold text-[#06B6D4] tabular-nums">
       {mounted
         ? `${String(timeLeft.hours).padStart(2, "0")}h ${String(timeLeft.minutes).padStart(2, "0")}m ${String(timeLeft.seconds).padStart(2, "0")}s`
         : "08h 00m 00s"}
@@ -206,7 +206,7 @@ export default function Pricing() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+          <span className="text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
             Tarifs
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -215,11 +215,11 @@ export default function Pricing() {
           <p className="mt-4 text-lg text-[#6B7280]">
             {"Investis dans toi. Rentabilise d\u00e8s le premier mois."}
           </p>
-          <div className="mt-4 inline-flex items-center gap-3 rounded-full bg-[#FF1744]/10 border border-[#FF1744]/20 px-5 py-2.5">
-            <span className="flex items-center gap-2 text-sm text-[#FF1744] font-medium">
+          <div className="mt-4 inline-flex items-center gap-3 rounded-full bg-[#06B6D4]/10 border border-[#06B6D4]/20 px-5 py-2.5">
+            <span className="flex items-center gap-2 text-sm text-[#06B6D4] font-medium">
               <span>{"\u26A1"}</span> Offre du jour
             </span>
-            <span className="w-px h-4 bg-[#FF1744]/20" />
+            <span className="w-px h-4 bg-[#06B6D4]/20" />
             <CountdownTimer />
           </div>
         </motion.div>
@@ -237,7 +237,7 @@ export default function Pricing() {
               transition={{ delay: i * 0.1 }}
               className={`relative rounded-2xl p-6 sm:p-8 lg:p-10 ${
                 plan.popular
-                  ? "bg-white border-2 border-[#FF1744] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
+                  ? "bg-white border-2 border-[#06B6D4] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
                   : plan.slug === "free"
                     ? "bg-[#F8F9FA] border border-dashed border-gray-300"
                     : "bg-white border border-gray-200"
@@ -245,7 +245,7 @@ export default function Pricing() {
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center rounded-full bg-[#FF1744] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">
+                  <span className="inline-flex items-center rounded-full bg-[#06B6D4] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">
                     Populaire
                   </span>
                 </div>
@@ -330,7 +330,7 @@ export default function Pricing() {
                     disabled={loading === plan.slug}
                     className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${
                       plan.popular
-                        ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200"
+                        ? "bg-[#06B6D4] text-white hover:bg-[#0891B2] hover:shadow-lg hover:shadow-red-200"
                         : "bg-[#111] text-white hover:bg-[#333]"
                     }`}
                   >
@@ -341,7 +341,7 @@ export default function Pricing() {
 
               {plan.limited && (
                 <div className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-red-50 border border-red-200 px-3 py-2">
-                  <svg className="h-3.5 w-3.5 text-[#FF1744] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="h-3.5 w-3.5 text-[#06B6D4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span className="text-xs font-medium text-red-700">
@@ -366,7 +366,7 @@ export default function Pricing() {
                       {visible.map((item) => (
                         <div key={item.text} className={`flex items-start gap-3 ${!item.included ? "opacity-40" : ""}`}>
                           <svg
-                            className={`h-5 w-5 flex-shrink-0 mt-0.5 ${item.included ? "text-[#FF1744]" : "text-gray-300"}`}
+                            className={`h-5 w-5 flex-shrink-0 mt-0.5 ${item.included ? "text-[#06B6D4]" : "text-gray-300"}`}
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -384,7 +384,7 @@ export default function Pricing() {
                       {hasMore && (
                         <button
                           onClick={() => setExpandedCards(prev => ({ ...prev, [plan.slug]: !prev[plan.slug] }))}
-                          className="flex items-center gap-1 text-sm font-medium text-[#FF1744] hover:text-[#D50000] transition-colors pt-1 py-2 min-h-[44px]"
+                          className="flex items-center gap-1 text-sm font-medium text-[#06B6D4] hover:text-[#0891B2] transition-colors pt-1 py-2 min-h-[44px]"
                         >
                           {isExpanded ? "Voir moins" : `Voir tout (${allItems.length})`}
                           <svg className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -411,7 +411,7 @@ export default function Pricing() {
         >
           <div className="inline-flex items-center gap-3 text-[#6B7280]">
             <svg
-              className="h-6 w-6 text-[#FF1744]"
+              className="h-6 w-6 text-[#06B6D4]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -425,7 +425,7 @@ export default function Pricing() {
             </svg>
             <span className="text-sm font-medium">
               {"Garantie satisfait ou rembours\u00e9 \u2014 14 jours"}
-              <a href="/cgu#garantie" className="text-[10px] text-[#FF1744]/60 hover:text-[#FF1744] ml-1 align-super no-underline">*conditions</a>
+              <a href="/cgu#garantie" className="text-[10px] text-[#06B6D4]/60 hover:text-[#06B6D4] ml-1 align-super no-underline">*conditions</a>
             </span>
           </div>
         </motion.div>
@@ -443,9 +443,9 @@ export default function Pricing() {
               <button
                 onClick={() => handleCheckout("academy", 1)}
                 disabled={loading === "academy"}
-                className="w-full p-4 rounded-xl border-2 border-[#FF1744] bg-[#FF1744]/5 hover:bg-[#FF1744]/10 transition-all text-left relative"
+                className="w-full p-4 rounded-xl border-2 border-[#06B6D4] bg-[#06B6D4]/5 hover:bg-[#06B6D4]/10 transition-all text-left relative"
               >
-                <span className="absolute top-3 right-3 text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 px-2 py-0.5 rounded-full">Recommand&eacute;</span>
+                <span className="absolute top-3 right-3 text-[10px] font-bold text-[#06B6D4] bg-[#06B6D4]/10 px-2 py-0.5 rounded-full">Recommand&eacute;</span>
                 <p className="text-sm font-bold text-[#111]">Paiement unique</p>
                 <p className="text-2xl font-black text-[#111] mt-1">397 EUR</p>
                 <p className="text-xs text-gray-400 mt-1">Meilleur prix — Paiement par carte</p>

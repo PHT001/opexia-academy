@@ -80,7 +80,7 @@ export default function FavorisPage() {
           </p>
           <a
             href="/lessons"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#FF1744] hover:underline"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#06B6D4] hover:underline"
           >
             Voir les lecons
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -96,7 +96,7 @@ export default function FavorisPage() {
               onClick={() => setFilter("all")}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                 filter === "all"
-                  ? "bg-[#FF1744] text-white"
+                  ? "bg-[#06B6D4] text-white"
                   : "bg-gray-100 text-gray-500 hover:bg-gray-200"
               }`}
             >
@@ -111,7 +111,7 @@ export default function FavorisPage() {
                   onClick={() => setFilter(String(n))}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                     filter === String(n)
-                      ? "bg-[#FF1744] text-white"
+                      ? "bg-[#06B6D4] text-white"
                       : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                   }`}
                 >
@@ -134,7 +134,7 @@ export default function FavorisPage() {
                   className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 group hover:shadow-md hover:-translate-y-0.5 transition-all"
                 >
                   <div className="flex items-start justify-between gap-3 mb-3">
-                    <span className="text-[10px] font-bold text-[#FF1744] bg-red-50 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-[#06B6D4] bg-red-50 px-2 py-0.5 rounded-full">
                       Module {fav.moduleOrder}
                     </span>
                     <button
@@ -148,7 +148,7 @@ export default function FavorisPage() {
                     </button>
                   </div>
                   <a href={`/lessons/${fav.id}`} className="block">
-                    <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-[#FF1744] transition-colors">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-[#06B6D4] transition-colors">
                       {fav.title}
                     </h3>
                     <p className="text-[11px] text-gray-400">{fav.moduleTitle}</p>

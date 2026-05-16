@@ -26,7 +26,7 @@ const CATEGORIES: Category[] = [
     icon: "🎯",
     title: "Prospection",
     desc: "Scripts d'emails et messages LinkedIn pour trouver des clients",
-    color: "#FF1744",
+    color: "#06B6D4",
     templates: [
       {
         title: "Email de premier contact B2B",
@@ -1391,7 +1391,7 @@ export default function TemplatesPage() {
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-[#FF1744] transition-colors truncate">{t.title}</h3>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-[#06B6D4] transition-colors truncate">{t.title}</h3>
                   <p className="text-xs text-gray-500 mb-3 line-clamp-2">{t.desc}</p>
                   <div className="flex gap-1.5 flex-wrap">
                     {t.tags.map((tag) => (
@@ -1399,7 +1399,7 @@ export default function TemplatesPage() {
                     ))}
                   </div>
                 </div>
-                <IconChevron className="text-gray-300 group-hover:text-[#FF1744] mt-0.5 flex-shrink-0 transition-colors" />
+                <IconChevron className="text-gray-300 group-hover:text-[#06B6D4] mt-0.5 flex-shrink-0 transition-colors" />
               </div>
             </button>
           ))}
@@ -1416,12 +1416,12 @@ export default function TemplatesPage() {
   return (
     <div>
       {isLocked && (
-        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#06B6D4]/10 to-[#06B6D4]/5 border border-[#06B6D4]/20 p-4">
           <div>
             <p className="text-sm font-semibold text-[#111]">Contenu premium</p>
             <p className="text-xs text-[#6B7280]">Les templates sont r&eacute;serv&eacute;s aux membres Starter, Academy et One-to-One.</p>
           </div>
-          <a href="/offres" className="px-4 py-2 bg-[#FF1744] text-white text-xs font-semibold rounded-lg hover:bg-[#D50000] transition-colors flex-shrink-0">Voir les offres</a>
+          <a href="/offres" className="px-4 py-2 bg-[#06B6D4] text-white text-xs font-semibold rounded-lg hover:bg-[#0891B2] transition-colors flex-shrink-0">Voir les offres</a>
         </div>
       )}
       <div className="mb-8">
@@ -1444,7 +1444,7 @@ export default function TemplatesPage() {
             >
               {c.icon}
             </div>
-            <h3 className="font-semibold text-sm text-gray-900 mb-1 group-hover:text-[#FF1744] transition-colors">{c.title}</h3>
+            <h3 className="font-semibold text-sm text-gray-900 mb-1 group-hover:text-[#06B6D4] transition-colors">{c.title}</h3>
             <p className="text-xs text-gray-500 mb-3">{c.desc}</p>
             <div className="flex items-center justify-between">
               <span className={cn(
@@ -1452,7 +1452,7 @@ export default function TemplatesPage() {
               )} style={{ background: `${c.color}15`, color: c.color }}>
                 {c.templates.length} templates
               </span>
-              <IconChevron className="text-gray-300 group-hover:text-[#FF1744] transition-colors" />
+              <IconChevron className="text-gray-300 group-hover:text-[#06B6D4] transition-colors" />
             </div>
           </button>
         ))}

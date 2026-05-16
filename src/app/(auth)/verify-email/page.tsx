@@ -175,7 +175,7 @@ export default function VerifyEmailPage() {
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold rounded-xl bg-white border border-gray-200 text-[#1A1A2E] focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold rounded-xl bg-white border border-gray-200 text-[#1A1A2E] focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
                 />
               ))}
             </div>
@@ -193,7 +193,7 @@ export default function VerifyEmailPage() {
             type="button"
             onClick={handleResendCode}
             disabled={resendLoading || resendCooldown > 0}
-            className="mt-4 text-sm font-medium text-[#FF1744] hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline transition-all"
+            className="mt-4 text-sm font-medium text-[#06B6D4] hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline transition-all"
           >
             {resendLoading
               ? "Envoi en cours..."
@@ -204,7 +204,7 @@ export default function VerifyEmailPage() {
 
           <p className="text-xs text-gray-400 mt-4">
             Tu n&apos;as pas re&ccedil;u le code ? V&eacute;rifie tes spams ou{" "}
-            <Link href="/register" className="text-[#FF1744] hover:underline">
+            <Link href="/register" className="text-[#06B6D4] hover:underline">
               r&eacute;essaye l&apos;inscription
             </Link>
           </p>

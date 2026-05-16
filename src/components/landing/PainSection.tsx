@@ -52,7 +52,7 @@ export default function PainSection() {
               transition={{ duration: 0.5, delay: i * 0.15 }}
               className={`text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight ${
                 line.accent
-                  ? "text-[#FF1744] mt-4"
+                  ? "text-[#06B6D4] mt-4"
                   : line.muted
                   ? "text-white/25"
                   : "text-white"

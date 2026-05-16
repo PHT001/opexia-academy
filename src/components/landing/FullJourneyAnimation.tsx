@@ -90,7 +90,7 @@ export default function FullJourneyAnimation() {
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
                   className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-colors duration-300 ${
                     i === activeStep
-                      ? "bg-[#FF1744] text-white shadow-md shadow-red-200"
+                      ? "bg-[#06B6D4] text-white shadow-md shadow-red-200"
                       : i < activeStep
                       ? "bg-green-500 text-white"
                       : "bg-gray-200 text-gray-500"
@@ -138,7 +138,7 @@ export default function FullJourneyAnimation() {
                 className="absolute inset-0 p-5"
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-lg bg-[#FF1744]/10 flex items-center justify-center text-sm">📚</div>
+                  <div className="w-8 h-8 rounded-lg bg-[#06B6D4]/10 flex items-center justify-center text-sm">📚</div>
                   <div>
                     <p className="text-xs font-bold text-gray-900">Module 3 — Prompt Engineering</p>
                     <p className="text-[10px] text-gray-400">Leçon 12/15</p>
@@ -166,7 +166,7 @@ export default function FullJourneyAnimation() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[10px] font-medium text-gray-500">Progression du module</span>
                     <motion.span
-                      className="text-[10px] font-bold text-[#FF1744]"
+                      className="text-[10px] font-bold text-[#06B6D4]"
                       key={phase}
                     >
                       {phase === "formation-start" ? "65%" : phase === "formation-progress" ? "88%" : "100%"}
@@ -174,7 +174,7 @@ export default function FullJourneyAnimation() {
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                     <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252]"
+                      className="h-full rounded-full bg-gradient-to-r from-[#06B6D4] to-[#FF5252]"
                       initial={{ width: "65%" }}
                       animate={{
                         width: phase === "formation-start" ? "65%" : phase === "formation-progress" ? "88%" : "100%",
@@ -224,7 +224,7 @@ export default function FullJourneyAnimation() {
                     <div className="flex gap-2 text-[8px] text-gray-400">
                       <span>Services</span>
                       <span>Tarifs</span>
-                      <span className="bg-[#FF1744] text-white px-2 py-0.5 rounded text-[7px]">Devis</span>
+                      <span className="bg-[#06B6D4] text-white px-2 py-0.5 rounded text-[7px]">Devis</span>
                     </div>
                   </motion.div>
 
@@ -272,14 +272,14 @@ export default function FullJourneyAnimation() {
                         ? "Ajout des services IA..."
                         : "Projet prêt !"}
                     </motion.span>
-                    <motion.span className={`text-[10px] font-bold ${phase === "project-done" ? "text-green-600" : "text-[#FF1744]"}`}>
+                    <motion.span className={`text-[10px] font-bold ${phase === "project-done" ? "text-green-600" : "text-[#06B6D4]"}`}>
                       {phase === "project-build" ? "33%" : phase === "project-services" ? "66%" : "100%"}
                     </motion.span>
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                     <motion.div
                       className={`h-full rounded-full ${
-                        phase === "project-done" ? "bg-green-500" : "bg-gradient-to-r from-[#FF1744] to-[#FF5252]"
+                        phase === "project-done" ? "bg-green-500" : "bg-gradient-to-r from-[#06B6D4] to-[#FF5252]"
                       }`}
                       animate={{
                         width: phase === "project-build" ? "33%" : phase === "project-services" ? "66%" : "100%",

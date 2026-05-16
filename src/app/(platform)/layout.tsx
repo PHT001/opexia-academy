@@ -125,7 +125,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     return (
       <div className="fixed inset-0 z-[200] flex items-center justify-center" style={{ background: "linear-gradient(180deg, #FAFAFA 0%, #FFFFFF 50%, #F5F5F5 100%)" }}>
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-3 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+          <div className="w-10 h-10 border-3 border-gray-200 border-t-[#06B6D4] rounded-full animate-spin" />
           <span className="text-sm text-gray-400 font-medium">Chargement...</span>
         </div>
       </div>
@@ -170,22 +170,22 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
 
         <span className="ml-3 text-lg font-bold tracking-tight">
           <span className="text-[#111]">Opex</span>
-          <span className="text-[#FF1744]">IA</span>
+          <span className="text-[#06B6D4]">IA</span>
         </span>
       </div>
 
       <main className="lg:ml-[260px] pt-14 lg:pt-0 min-h-screen">
         {/* Free tier upgrade banner */}
         {(previewTier || stats.tier) === "free" && !freeBannerDismissed && session?.user?.role !== "admin" && (
-          <div className="bg-gradient-to-r from-[#FF1744]/8 to-[#FF1744]/4 border-b border-[#FF1744]/10">
+          <div className="bg-gradient-to-r from-[#06B6D4]/8 to-[#06B6D4]/4 border-b border-[#06B6D4]/10">
             <div className="flex items-center justify-between gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8 xl:px-10 py-2">
               <p className="text-xs sm:text-sm text-[#111] min-w-0 truncate sm:whitespace-normal">
-                Plan <span className="font-semibold text-[#FF1744]">Gratuit</span> <span className="hidden sm:inline">— D&eacute;bloque toute la formation</span>
+                Plan <span className="font-semibold text-[#06B6D4]">Gratuit</span> <span className="hidden sm:inline">— D&eacute;bloque toute la formation</span>
               </p>
               <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <Link
                   href="/offres"
-                  className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold bg-[#FF1744] text-white hover:bg-[#D50000] transition-colors shadow-sm min-h-[44px]"
+                  className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold bg-[#06B6D4] text-white hover:bg-[#0891B2] transition-colors shadow-sm min-h-[44px]"
                 >
                   <span className="hidden sm:inline">Voir les offres</span>
                   <span className="sm:hidden">Upgrade</span>

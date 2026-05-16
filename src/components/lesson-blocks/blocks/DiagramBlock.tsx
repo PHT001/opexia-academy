@@ -29,13 +29,13 @@ function TimelineDiagram({ nodes }: { nodes: DiagramBlockType["nodes"] }) {
   return (
     <div className="relative pl-6">
       {/* Vertical line */}
-      <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-[#FF1744]/20 rounded-full" />
+      <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-[#06B6D4]/20 rounded-full" />
 
       <div className="space-y-6">
         {nodes.map((node) => (
           <div key={node.id} className="relative flex items-start gap-4">
             {/* Dot on line */}
-            <div className="absolute left-[-17px] top-1.5 w-3 h-3 rounded-full bg-[#FF1744] border-2 border-white shadow-sm" />
+            <div className="absolute left-[-17px] top-1.5 w-3 h-3 rounded-full bg-[#06B6D4] border-2 border-white shadow-sm" />
             <div>
               <p className="font-semibold text-[#111] text-[0.95rem]">{node.label}</p>
               {node.description && (
@@ -65,7 +65,7 @@ function TreeDiagram({ nodes }: { nodes: DiagramBlockType["nodes"] }) {
             <span className="text-gray-300 text-xs">└─</span>
           )}
           <div className={`rounded-xl border border-gray-200 px-3 py-2 text-sm ${
-            depth === 0 ? "bg-[#FF1744]/5 border-[#FF1744]/20 font-semibold text-[#111]" : "bg-white text-[#374151]"
+            depth === 0 ? "bg-[#06B6D4]/5 border-[#06B6D4]/20 font-semibold text-[#111]" : "bg-white text-[#374151]"
           }`}>
             {node.label}
             {node.description && (

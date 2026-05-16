@@ -27,13 +27,13 @@ function MiniItem({ q, a }: { q: string; a: string }) {
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between py-4 text-left group"
       >
-        <span className="text-sm lg:text-base font-semibold text-[#111] pr-6 group-hover:text-[#FF1744] transition-colors">
+        <span className="text-sm lg:text-base font-semibold text-[#111] pr-6 group-hover:text-[#06B6D4] transition-colors">
           {q}
         </span>
         <span
           className={`flex-shrink-0 h-7 w-7 rounded-full flex items-center justify-center transition-all ${
             open
-              ? "bg-[#FF1744] text-white rotate-45"
+              ? "bg-[#06B6D4] text-white rotate-45"
               : "bg-gray-100 text-[#6B7280]"
           }`}
         >

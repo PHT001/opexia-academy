@@ -122,7 +122,7 @@ export default function Chatbot() {
               initial={{ rotate: -90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
               exit={{ rotate: 90, opacity: 0 }}
-              className="h-14 w-14 rounded-full bg-[#FF1744] flex items-center justify-center"
+              className="h-14 w-14 rounded-full bg-[#06B6D4] flex items-center justify-center"
             >
               <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -134,7 +134,7 @@ export default function Chatbot() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="h-14 w-14 rounded-full bg-[#FF1744] flex items-center justify-center"
+              className="h-14 w-14 rounded-full bg-[#06B6D4] flex items-center justify-center"
             >
               <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -181,7 +181,7 @@ export default function Chatbot() {
                   <div
                     className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                       msg.role === "user"
-                        ? "bg-[#FF1744] text-white rounded-br-md"
+                        ? "bg-[#06B6D4] text-white rounded-br-md"
                         : "bg-gray-100 text-gray-800 rounded-bl-md"
                     }`}
                   >
@@ -247,12 +247,12 @@ export default function Chatbot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Pose ta question..."
-                className="flex-1 text-sm border border-gray-200 rounded-full px-4 py-2.5 outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                className="flex-1 text-sm border border-gray-200 rounded-full px-4 py-2.5 outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all"
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim()}
-                className="h-10 w-10 rounded-full bg-[#FF1744] text-white flex items-center justify-center hover:bg-[#D50000] transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+                className="h-10 w-10 rounded-full bg-[#06B6D4] text-white flex items-center justify-center hover:bg-[#0891B2] transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />

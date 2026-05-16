@@ -39,8 +39,8 @@ const TIER_BADGE: Record<string, { bg: string; text: string; label: string; avat
   starter: { bg: "bg-blue-50", text: "text-blue-600", label: "Standard", avatar: "bg-blue-100 text-blue-700" },
   academy: { bg: "bg-blue-50", text: "text-blue-600", label: "Standard", avatar: "bg-blue-100 text-blue-700" },
   standard: { bg: "bg-blue-50", text: "text-blue-600", label: "Standard", avatar: "bg-blue-100 text-blue-700" },
-  one_to_one: { bg: "bg-red-50", text: "text-[#FF1744]", label: "Accompagnement", avatar: "bg-red-100 text-[#FF1744]" },
-  accompagnement: { bg: "bg-red-50", text: "text-[#FF1744]", label: "Accompagnement", avatar: "bg-red-100 text-[#FF1744]" },
+  one_to_one: { bg: "bg-red-50", text: "text-[#06B6D4]", label: "Accompagnement", avatar: "bg-red-100 text-[#06B6D4]" },
+  accompagnement: { bg: "bg-red-50", text: "text-[#06B6D4]", label: "Accompagnement", avatar: "bg-red-100 text-[#06B6D4]" },
 };
 
 function Card({ className = "", children }: { className?: string; children: React.ReactNode }) {

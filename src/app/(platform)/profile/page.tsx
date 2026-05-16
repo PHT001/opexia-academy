@@ -125,7 +125,7 @@ export default function ProfilePage() {
     reader.readAsDataURL(file);
   };
 
-  const inputClass = "w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all";
+  const inputClass = "w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all";
 
   return (
     <div className="max-w-3xl mx-auto w-full space-y-5 py-4">
@@ -133,7 +133,7 @@ export default function ProfilePage() {
       {/* ═══ Header ═══ */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
         <div className="flex items-center gap-4">
-          <label className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-xl font-bold text-white shadow-lg flex-shrink-0 cursor-pointer group overflow-hidden">
+          <label className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#06B6D4] to-[#0891B2] flex items-center justify-center text-xl font-bold text-white shadow-lg flex-shrink-0 cursor-pointer group overflow-hidden">
             {profilePhoto ? (
               <img src={profilePhoto} alt="Photo" className="absolute inset-0 w-full h-full object-cover" />
             ) : (
@@ -148,7 +148,7 @@ export default function ProfilePage() {
             <h1 className="text-lg font-bold text-[#111] truncate">{displayName || session?.user?.name || "Élève"}</h1>
             <p className="text-xs text-gray-400 mt-0.5">{session?.user?.email}</p>
             <div className="flex items-center gap-2 mt-2">
-              <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#FF1744]/10 text-[#FF1744]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#06B6D4]/10 text-[#06B6D4]">
                 {stats.tier === "one_to_one" ? "One-to-One" : stats.tier === "academy" ? "Academy" : stats.tier === "starter" ? "Starter" : "Free"}
               </span>
               <span className="text-[10px] text-gray-400">
@@ -167,13 +167,13 @@ export default function ProfilePage() {
         </div>
         <div className="flex items-center gap-3 mb-4">
           <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-            <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
+            <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, #06B6D4, #FF5252)" }} initial={{ width: 0 }} animate={{ width: `${Math.max(xpProgress, 3)}%` }} transition={{ duration: 1 }} />
           </div>
           <span className="text-[10px] font-mono text-gray-400 flex-shrink-0">{xpInLevel}/500</span>
         </div>
         <div className="flex items-center justify-between">
           {[
-            { label: "XP", value: stats.xp.toLocaleString(), color: "#FF1744" },
+            { label: "XP", value: stats.xp.toLocaleString(), color: "#06B6D4" },
             { label: "Le\u00e7ons", value: String(stats.lessonsCompleted), color: "#3B82F6" },
             { label: "Quiz", value: String(stats.quizzesPassed), color: "#10B981" },
           ].map((s) => (
@@ -194,7 +194,7 @@ export default function ProfilePage() {
             <label className="block text-xs font-medium text-gray-500 mb-1.5">Nom</label>
             <div className="flex gap-2">
               <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} className={inputClass} />
-              <button onClick={handleSaveName} disabled={savingName || nameInput === session?.user?.name} className="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] disabled:opacity-40 disabled:cursor-not-allowed transition-all flex-shrink-0">
+              <button onClick={handleSaveName} disabled={savingName || nameInput === session?.user?.name} className="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-[#06B6D4] hover:bg-[#0891B2] disabled:opacity-40 disabled:cursor-not-allowed transition-all flex-shrink-0">
                 {savingName ? "..." : nameSaved ? "\u2713" : "Sauvegarder"}
               </button>
             </div>
@@ -228,7 +228,7 @@ export default function ProfilePage() {
           </div>
           {passwordError && <p className="text-xs text-red-500 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{passwordError}</p>}
           {passwordSuccess && <p className="text-xs text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">Mot de passe mis à jour !</p>}
-          <button onClick={handleChangePassword} disabled={savingPassword || !currentPassword || !newPassword} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+          <button onClick={handleChangePassword} disabled={savingPassword || !currentPassword || !newPassword} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#06B6D4] hover:bg-[#0891B2] disabled:opacity-40 disabled:cursor-not-allowed transition-all">
             {savingPassword ? "Modification..." : "Modifier le mot de passe"}
           </button>
         </div>
@@ -238,7 +238,7 @@ export default function ProfilePage() {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
         <h3 className="text-sm font-bold text-[#111] mb-4">Affichage</h3>
         <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => { if (darkMode) toggleDarkMode(); }} className={`p-4 rounded-xl border-2 transition-all ${!darkMode ? "border-[#FF1744] bg-red-50/30" : "border-gray-200 hover:border-gray-300"}`}>
+          <button onClick={() => { if (darkMode) toggleDarkMode(); }} className={`p-4 rounded-xl border-2 transition-all ${!darkMode ? "border-[#06B6D4] bg-red-50/30" : "border-gray-200 hover:border-gray-300"}`}>
             <div className="w-full h-16 rounded-lg bg-white border border-gray-200 mb-3 flex items-center justify-center">
               <div className="space-y-1.5 w-2/3">
                 <div className="h-1.5 bg-gray-200 rounded-full" />
@@ -246,9 +246,9 @@ export default function ProfilePage() {
               </div>
             </div>
             <p className="text-xs font-semibold text-[#111]">Clair</p>
-            {!darkMode && <p className="text-[10px] text-[#FF1744] font-medium mt-0.5">Actif</p>}
+            {!darkMode && <p className="text-[10px] text-[#06B6D4] font-medium mt-0.5">Actif</p>}
           </button>
-          <button onClick={() => { if (!darkMode) toggleDarkMode(); }} className={`p-4 rounded-xl border-2 transition-all ${darkMode ? "border-[#FF1744] bg-red-50/30" : "border-gray-200 hover:border-gray-300"}`}>
+          <button onClick={() => { if (!darkMode) toggleDarkMode(); }} className={`p-4 rounded-xl border-2 transition-all ${darkMode ? "border-[#06B6D4] bg-red-50/30" : "border-gray-200 hover:border-gray-300"}`}>
             <div className="w-full h-16 rounded-lg bg-[#1A1A2E] border border-gray-700 mb-3 flex items-center justify-center">
               <div className="space-y-1.5 w-2/3">
                 <div className="h-1.5 bg-white/20 rounded-full" />
@@ -256,7 +256,7 @@ export default function ProfilePage() {
               </div>
             </div>
             <p className="text-xs font-semibold text-[#111]">Sombre</p>
-            {darkMode && <p className="text-[10px] text-[#FF1744] font-medium mt-0.5">Actif</p>}
+            {darkMode && <p className="text-[10px] text-[#06B6D4] font-medium mt-0.5">Actif</p>}
           </button>
         </div>
       </motion.div>

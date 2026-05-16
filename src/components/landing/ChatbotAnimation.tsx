@@ -82,7 +82,7 @@ export default function ChatbotAnimation() {
           </span>
           <span className="text-[9px] text-gray-400 font-medium">Outils</span>
           <span className="text-[9px] text-gray-400 font-medium">CRM</span>
-          <div className="h-5 px-2.5 rounded-md bg-[#FF1744] flex items-center">
+          <div className="h-5 px-2.5 rounded-md bg-[#06B6D4] flex items-center">
             <span className="text-[8px] text-white font-medium">
               Mon compte
             </span>
@@ -154,8 +154,8 @@ export default function ChatbotAnimation() {
                   {/* Contexte vs Rôle comparison */}
                   <div className="text-[10px] font-bold text-gray-800">{"Contexte vs Rôle"}</div>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-[#FF1744]/5 border border-[#FF1744]/20 rounded-lg p-2.5 text-center">
-                      <div className="text-[9px] font-bold text-[#FF1744] mb-1">{"Contexte"}</div>
+                    <div className="bg-[#06B6D4]/5 border border-[#06B6D4]/20 rounded-lg p-2.5 text-center">
+                      <div className="text-[9px] font-bold text-[#06B6D4] mb-1">{"Contexte"}</div>
                       <div className="text-[8px] text-gray-500">{"Infos de fond"}</div>
                       <div className="text-[7px] text-gray-400 mt-0.5 italic">{"\"Tu travailles pour X\""}</div>
                     </div>
@@ -192,7 +192,7 @@ export default function ChatbotAnimation() {
               className="absolute inset-0 p-4 pb-10 overflow-hidden"
             >
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="h-7 w-7 rounded-full bg-[#FF1744] flex items-center justify-center">
+                <div className="h-7 w-7 rounded-full bg-[#06B6D4] flex items-center justify-center">
                   <span className="text-[11px] text-white">{"✓"}</span>
                 </div>
                 <div className="text-[12px] font-semibold text-gray-900">
@@ -285,19 +285,19 @@ export default function ChatbotAnimation() {
                 scale: 1,
                 boxShadow:
                   phase === "stuck"
-                    ? "0 0 0 4px rgba(255,23,68,0.3)"
+                    ? "0 0 0 4px rgba(6,182,212,0.3)"
                     : "none",
               }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               {phase === "stuck" && (
                 <motion.div
-                  className="absolute inset-0 rounded-full bg-[#FF1744]/20"
+                  className="absolute inset-0 rounded-full bg-[#06B6D4]/20"
                   animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 />
               )}
-              <div className="relative h-8 w-8 rounded-full bg-[#FF1744] flex items-center justify-center shadow-lg cursor-pointer">
+              <div className="relative h-8 w-8 rounded-full bg-[#06B6D4] flex items-center justify-center shadow-lg cursor-pointer">
                 <svg
                   className="h-4 w-4 text-white"
                   fill="none"
@@ -381,7 +381,7 @@ export default function ChatbotAnimation() {
               {/* Messages */}
               <div className="p-2.5 space-y-2 min-h-[80px]">
                 <div className="flex justify-end">
-                  <div className="bg-[#FF1744] rounded-lg rounded-tr-sm px-2.5 py-1.5 max-w-[90%]">
+                  <div className="bg-[#06B6D4] rounded-lg rounded-tr-sm px-2.5 py-1.5 max-w-[90%]">
                     <span className="text-[9px] text-white leading-[1.2]">
                       {userQuestion}
                     </span>
@@ -405,7 +405,7 @@ export default function ChatbotAnimation() {
                       <div className="bg-gray-100 rounded-lg rounded-tl-sm px-2.5 py-1.5 max-w-[90%]">
                         <span className="text-[9px] text-gray-700 leading-[1.2]">
                           {botReply1}
-                          <span className="text-[#FF1744] font-semibold">
+                          <span className="text-[#06B6D4] font-semibold">
                             {botReplyContext}
                           </span>
                           {botReply2}
@@ -460,7 +460,7 @@ export default function ChatbotAnimation() {
                   <span className="text-[9px] text-gray-400 flex-1">
                     Pose ta question...
                   </span>
-                  <div className="h-5 w-5 rounded bg-[#FF1744] flex items-center justify-center">
+                  <div className="h-5 w-5 rounded bg-[#06B6D4] flex items-center justify-center">
                     <svg
                       className="h-2.5 w-2.5 text-white"
                       fill="none"
@@ -486,7 +486,7 @@ export default function ChatbotAnimation() {
           <button
             className={`flex-1 py-2 text-center text-[9px] font-medium transition-colors ${
               !quizVisible
-                ? "text-[#FF1744] border-t-2 border-[#FF1744]"
+                ? "text-[#06B6D4] border-t-2 border-[#06B6D4]"
                 : "text-gray-400"
             }`}
           >
@@ -495,7 +495,7 @@ export default function ChatbotAnimation() {
           <button
             className={`flex-1 py-2 text-center text-[9px] font-medium transition-colors ${
               quizVisible
-                ? "text-[#FF1744] border-t-2 border-[#FF1744]"
+                ? "text-[#06B6D4] border-t-2 border-[#06B6D4]"
                 : "text-gray-400"
             }`}
           >

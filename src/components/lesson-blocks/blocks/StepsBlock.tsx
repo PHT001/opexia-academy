@@ -14,7 +14,7 @@ export default function StepsBlock({ block }: { block: StepsBlockType }) {
             )}
 
             {/* Step number */}
-            <div className="w-10 h-10 rounded-xl bg-[#FF1744] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 relative z-10">
+            <div className="w-10 h-10 rounded-xl bg-[#06B6D4] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 relative z-10">
               {step.icon || i + 1}
             </div>
 

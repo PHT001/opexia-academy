@@ -148,7 +148,7 @@ export default function AnalyticsPage() {
           <p className="text-white/40 text-sm mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-[#FF1744]/20 text-[#FF1744] rounded-lg text-sm font-medium hover:bg-[#FF1744]/30 transition-colors"
+            className="px-4 py-2 bg-[#06B6D4]/20 text-[#06B6D4] rounded-lg text-sm font-medium hover:bg-[#06B6D4]/30 transition-colors"
           >
             Reessayer
           </button>

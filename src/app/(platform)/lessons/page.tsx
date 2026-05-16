@@ -122,7 +122,7 @@ function IconBack({ className }: { className?: string }) {
 }
 
 /* ——— Circular Progress ——— */
-function CircularProgress({ percentage, size = 56, strokeWidth = 4, strokeColor = "stroke-[#FF1744]", className }: {
+function CircularProgress({ percentage, size = 56, strokeWidth = 4, strokeColor = "stroke-[#06B6D4]", className }: {
   percentage: number; size?: number; strokeWidth?: number; strokeColor?: string; className?: string;
 }) {
   const radius = (size - strokeWidth) / 2;
@@ -223,7 +223,7 @@ function LessonReaderPanel({
             <p className="font-semibold text-[#111] text-sm">R{"\u00e9"}sum{"\u00e9"} de la le{"\u00e7"}on (PDF)</p>
             <p className="text-xs text-[#6B7280]">T{"\u00e9"}l{"\u00e9"}charge le r{"\u00e9"}sum{"\u00e9"} pour r{"\u00e9"}viser</p>
           </div>
-          <a href={lesson.pdfUrl} className="bg-[#FF1744] text-white rounded-xl px-5 py-2.5 text-sm font-semibold hover:bg-[#D50000] transition-colors">
+          <a href={lesson.pdfUrl} className="bg-[#06B6D4] text-white rounded-xl px-5 py-2.5 text-sm font-semibold hover:bg-[#0891B2] transition-colors">
             T{"\u00e9"}l{"\u00e9"}charger
           </a>
         </div>
@@ -233,7 +233,7 @@ function LessonReaderPanel({
       {lesson.exercise && (
         <div className="bg-[#F8F9FA] rounded-2xl p-5 border border-gray-200">
           <h3 className="font-bold text-[#111] mb-3 flex items-center gap-2">
-            <span className="w-8 h-8 rounded-xl bg-[#FF1744]/10 text-[#FF1744] flex items-center justify-center text-sm">
+            <span className="w-8 h-8 rounded-xl bg-[#06B6D4]/10 text-[#06B6D4] flex items-center justify-center text-sm">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
               </svg>
@@ -246,10 +246,10 @@ function LessonReaderPanel({
 
       {/* Upsell */}
       {lesson.order === 10 && (
-        <div className="bg-gradient-to-br from-[#FF1744]/5 to-[#FF1744]/10 rounded-2xl p-5 sm:p-8 border border-[#FF1744]/20 text-center">
+        <div className="bg-gradient-to-br from-[#06B6D4]/5 to-[#06B6D4]/10 rounded-2xl p-5 sm:p-8 border border-[#06B6D4]/20 text-center">
           <h3 className="text-xl font-bold text-[#111] mb-3">Tu veux aller plus vite ?</h3>
           <p className="text-sm text-[#6B7280] mb-6">Passe {"\u00e0"} la formule One-to-One et b{"\u00e9"}n{"\u00e9"}ficie d&apos;un accompagnement personnalis{"\u00e9"}.</p>
-          <a href="/offres" className="inline-block bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors">
+          <a href="/offres" className="inline-block bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#0891B2] transition-colors">
             D{"\u00e9"}couvrir le One-to-One
           </a>
         </div>
@@ -265,16 +265,16 @@ function LessonReaderPanel({
         ) : <div />}
 
         {lesson.hasQuiz && !lesson.quizPassed ? (
-          <a href={`/quiz/${lesson.slug}`} className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors">
+          <a href={`/quiz/${lesson.slug}`} className="bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#0891B2] transition-colors">
             Passer le Quiz {"\u2192"}
           </a>
         ) : lesson.nextSlug ? (
-          <button onClick={() => onNavigate(lesson.nextSlug!)} className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors flex items-center gap-1">
+          <button onClick={() => onNavigate(lesson.nextSlug!)} className="bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#0891B2] transition-colors flex items-center gap-1">
             Le{"\u00e7"}on suivante
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
           </button>
         ) : (
-          <a href="/congratulations" className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors">
+          <a href="/congratulations" className="bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#0891B2] transition-colors">
             Terminer le parcours
           </a>
         )}
@@ -334,7 +334,7 @@ function LessonReaderPanel({
         <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain">
           {loading && (
             <div className="flex items-center justify-center min-h-[50vh]">
-              <div className="w-8 h-8 border-2 border-[#FF1744] border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-[#06B6D4] border-t-transparent rounded-full animate-spin" />
             </div>
           )}
 
@@ -342,7 +342,7 @@ function LessonReaderPanel({
             <div className="text-center py-20">
               <h2 className="text-xl font-bold text-[#111] mb-2">Le{"\u00e7"}on introuvable</h2>
               <p className="text-[#6B7280] mb-6">Cette le{"\u00e7"}on n&apos;existe pas ou tu n&apos;y as pas acc{"\u00e8"}s.</p>
-              <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-[#FF1744] text-white text-sm font-semibold hover:bg-[#D50000] transition-colors">
+              <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-[#06B6D4] text-white text-sm font-semibold hover:bg-[#0891B2] transition-colors">
                 Retour aux le{"\u00e7"}ons
               </button>
             </div>
@@ -495,13 +495,13 @@ export default function LessonsPage() {
           <div className="rounded-2xl overflow-hidden" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
             <div className="relative p-6 sm:p-8">
               <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#FF1744]/15 blur-[60px]" />
+                <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#06B6D4]/15 blur-[60px]" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-purple-500/10 blur-[40px]" />
               </div>
               <div className="relative">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                    <IconBook className="w-5 h-5 text-[#FF1744]" />
+                    <IconBook className="w-5 h-5 text-[#06B6D4]" />
                   </div>
                   <div>
                     <h1 className="text-2xl font-bold tracking-tight text-white">Formation</h1>
@@ -521,7 +521,7 @@ export default function LessonsPage() {
                     { icon: IconClock, text: `${WEEKS.length} phases` },
                   ].map((pill) => (
                     <span key={pill.text} className="flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-white/70 bg-white/10 px-2.5 sm:px-3 py-1.5 rounded-full">
-                      <pill.icon className="w-3.5 h-3.5 text-[#FF1744]" />
+                      <pill.icon className="w-3.5 h-3.5 text-[#06B6D4]" />
                       {pill.text}
                     </span>
                   ))}
@@ -530,12 +530,12 @@ export default function LessonsPage() {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-semibold text-white/60">{totalCompleted}/{totalLessons} le{"\u00e7"}ons compl{"\u00e9"}t{"\u00e9"}es</span>
-                      <span className="text-xs font-bold text-[#FF1744]">{totalProgress}%</span>
+                      <span className="text-xs font-bold text-[#06B6D4]">{totalProgress}%</span>
                     </div>
                     <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                       <motion.div
                         className="h-full rounded-full"
-                        style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }}
+                        style={{ background: "linear-gradient(90deg, #06B6D4, #FF5252)" }}
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.max(totalProgress, 2)}%` }}
                         transition={{ duration: 1, ease: "easeOut" }}
@@ -666,7 +666,7 @@ export default function LessonsPage() {
                           <div className={cn(
                             "w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 border",
                             (modAccessible || isTeaser)
-                              ? cn(theme.lightBg, theme.border, hasActive && "ring-2 ring-offset-1 ring-[#FF1744]/20")
+                              ? cn(theme.lightBg, theme.border, hasActive && "ring-2 ring-offset-1 ring-[#06B6D4]/20")
                               : "bg-gray-100 border-gray-200"
                           )}>
                             {(modAccessible || isTeaser) ? (
@@ -799,7 +799,7 @@ export default function LessonsPage() {
                                           </span>
                                         )}
                                         {isCompleted && lesson.xpEarned > 0 && (
-                                          <span className="text-[10px] text-[#FF1744] font-semibold">+{lesson.xpEarned} XP</span>
+                                          <span className="text-[10px] text-[#06B6D4] font-semibold">+{lesson.xpEarned} XP</span>
                                         )}
                                       </div>
                                       {/* Content type badges — blurred for teaser users */}
@@ -825,7 +825,7 @@ export default function LessonsPage() {
                                   !isLast && "border-b border-gray-50",
                                   isFreeUser ? "cursor-default" : isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-gray-50/50",
                                   !isFreeUser && isActive && "bg-gray-50/30",
-                                  !isFreeUser && isSelected && "bg-[#FF1744]/5 border-l-2 border-l-[#FF1744]"
+                                  !isFreeUser && isSelected && "bg-[#06B6D4]/5 border-l-2 border-l-[#06B6D4]"
                                 );
 
                                 return (isFreeUser || isLocked) ? (
@@ -840,7 +840,7 @@ export default function LessonsPage() {
                                   <a
                                     href={`/api/pdf/${mod.order}`}
                                     download
-                                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:border-[#FF1744]/30 hover:text-[#FF1744] hover:bg-[#FF1744]/[0.02] transition-all"
+                                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:border-[#06B6D4]/30 hover:text-[#06B6D4] hover:bg-[#06B6D4]/[0.02] transition-all"
                                   >
                                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -881,8 +881,8 @@ export default function LessonsPage() {
             className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-bold text-white shadow-2xl hover:scale-[1.04] transition-transform max-w-[90vw]"
             style={{
               pointerEvents: "auto",
-              background: "linear-gradient(135deg, #FF1744, #D50000)",
-              boxShadow: "0 8px 32px rgba(255,23,68,0.4), 0 2px 8px rgba(0,0,0,0.1)",
+              background: "linear-gradient(135deg, #06B6D4, #0891B2)",
+              boxShadow: "0 8px 32px rgba(6,182,212,0.4), 0 2px 8px rgba(0,0,0,0.1)",
             }}
           >
             <IconLock className="w-4 h-4 opacity-80 shrink-0" />

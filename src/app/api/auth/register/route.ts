@@ -165,7 +165,7 @@ export async function POST(request: Request) {
                 </tr>
                 <tr>
                   <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 13px;">Formule</td>
-                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #FF1744; font-size: 14px; font-weight: 700;">${tierLabel}</td>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid #E5E7EB; color: #06B6D4; font-size: 14px; font-weight: 700;">${tierLabel}</td>
                 </tr>
                 <tr>
                   <td style="padding: 10px 12px; color: #6B7280; font-size: 13px;">Date</td>

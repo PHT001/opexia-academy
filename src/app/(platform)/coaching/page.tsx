@@ -33,7 +33,7 @@ export default function CoachingPage() {
   return (
     <div className="max-w-4xl mx-auto w-full px-4 py-8 sm:py-12">
       <div className="mb-8">
-        <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#FF1744] mb-1.5">Appels coaching</p>
+        <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#06B6D4] mb-1.5">Appels coaching</p>
         <h1 className="text-3xl sm:text-4xl font-black text-[#111] tracking-tight mb-3">
           Réserve un appel avec Marius
         </h1>
@@ -58,7 +58,7 @@ export default function CoachingPage() {
               ✓ Ton appel offert de ce mois est utilisé · le compteur se reset le 1er du mois prochain
             </div>
           ) : (
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 bg-[#FF1744]/10 border border-[#FF1744]/30 text-sm font-semibold text-[#FF1744]">
+            <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-sm font-semibold text-[#06B6D4]">
               🎁 Ton appel offert ce mois t&apos;attend · réserve un créneau ci-dessous
             </div>
           )}
@@ -73,7 +73,7 @@ export default function CoachingPage() {
           <Link
             href="/offres"
             prefetch
-            className="inline-flex items-center gap-2 bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-bold hover:bg-[#D50000] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-bold hover:bg-[#0891B2] transition-colors"
           >
             Voir les offres →
           </Link>

@@ -6,7 +6,7 @@ import FullJourneyAnimation from "./FullJourneyAnimation";
 
 function IconGraduation() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#FF1744" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
       <path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5" />
     </svg>
@@ -15,7 +15,7 @@ function IconGraduation() {
 
 function IconCode() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#FF1744" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <polyline points="16 18 22 12 16 6" />
       <polyline points="8 6 2 12 8 18" />
       <line x1="14" y1="4" x2="10" y2="20" />
@@ -25,7 +25,7 @@ function IconCode() {
 
 function IconUsers() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#FF1744" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
       <circle cx="9" cy="7" r="4" />
       <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -36,7 +36,7 @@ function IconUsers() {
 
 function IconTrendingUp() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#FF1744" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
       <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
       <polyline points="17 6 23 6 23 12" />
     </svg>
@@ -82,7 +82,7 @@ export default function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+          <span className="text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
             Processus
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -111,12 +111,12 @@ export default function HowItWorks() {
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 className="flex gap-4 items-start"
               >
-                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#FF1744]/10 flex items-center justify-center">
+                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#06B6D4]/10 flex items-center justify-center">
                   <step.Icon />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold text-[#FF1744]/50 uppercase tracking-wider">
+                    <span className="text-[10px] font-bold text-[#06B6D4]/50 uppercase tracking-wider">
                       Étape {step.num}
                     </span>
                   </div>

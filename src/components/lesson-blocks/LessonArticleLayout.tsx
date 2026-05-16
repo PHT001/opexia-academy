@@ -26,7 +26,7 @@ export default function LessonArticleLayout({
         <header className="mb-10 sm:mb-14">
           {moduleTitle && (
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-sm font-medium text-[#FF1744]">
+              <span className="text-sm font-medium text-[#06B6D4]">
                 {moduleTitle}
               </span>
               {lessonNumber !== undefined && (

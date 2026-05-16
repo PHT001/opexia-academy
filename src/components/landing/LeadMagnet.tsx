@@ -48,7 +48,7 @@ export default function LeadMagnet() {
           className="relative bg-white rounded-2xl border border-gray-200 shadow-xl p-8 lg:p-12 text-center overflow-hidden"
         >
           {/* Subtle red glow */}
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#FF1744]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#06B6D4]/5 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative">
             {/* Gift box animation */}
@@ -66,7 +66,7 @@ export default function LeadMagnet() {
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
                 {/* Lid */}
-                <div className="h-5 bg-[#FF1744] rounded-t-lg relative mx-[-4px]">
+                <div className="h-5 bg-[#06B6D4] rounded-t-lg relative mx-[-4px]">
                   {/* Ribbon on lid */}
                   <div className="absolute inset-x-0 top-0 bottom-0 flex justify-center">
                     <div className="w-3 bg-[#FFD54F]" />
@@ -93,7 +93,7 @@ export default function LeadMagnet() {
                 transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
               >&#10022;</motion.span>
               <motion.span
-                className="absolute -top-1 -left-3 text-[#FF1744] text-[10px]"
+                className="absolute -top-1 -left-3 text-[#06B6D4] text-[10px]"
                 animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 1 }}
               >&#10022;</motion.span>
@@ -103,7 +103,7 @@ export default function LeadMagnet() {
                 transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
               >&#10022;</motion.span>
             </motion.div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#FF1744] mb-6">
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-medium text-[#06B6D4] mb-6">
               Bonus PDF
             </span>
 
@@ -136,12 +136,12 @@ export default function LeadMagnet() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="flex-1 rounded-full border border-gray-200 px-5 py-3 text-sm text-[#111] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744]"
+                  className="flex-1 rounded-full border border-gray-200 px-5 py-3 text-sm text-[#111] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4]"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="rounded-full bg-[#FF1744] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-full bg-[#06B6D4] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#0891B2] hover:shadow-lg hover:shadow-red-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? "Envoi..." : "Recevoir le guide"}
                 </button>

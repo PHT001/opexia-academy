@@ -96,7 +96,7 @@ function LoginContent() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
           />
         </div>
 
@@ -105,7 +105,7 @@ function LoginContent() {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Mot de passe
             </label>
-            <Link href="/forgot-password" className="text-xs text-[#FF1744] hover:underline">
+            <Link href="/forgot-password" className="text-xs text-[#06B6D4] hover:underline">
               Mot de passe oublié ?
             </Link>
           </div>
@@ -116,7 +116,7 @@ function LoginContent() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
           />
         </div>
 
@@ -141,7 +141,7 @@ function LoginContent() {
 
       <p className="text-center text-sm text-gray-500 mt-8">
         Pas encore de compte ?{" "}
-        <Link href={`/register${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}&plan=${searchParams.get("plan") || ""}` : ""}`} className="text-[#FF1744] font-medium hover:underline">
+        <Link href={`/register${searchParams.get("redirect") ? `?redirect=${searchParams.get("redirect")}&plan=${searchParams.get("plan") || ""}` : ""}`} className="text-[#06B6D4] font-medium hover:underline">
           Créer un compte
         </Link>
       </p>

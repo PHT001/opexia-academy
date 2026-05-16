@@ -214,7 +214,7 @@ function OffresContent() {
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl p-5 sm:p-6 text-center mb-6"
-          style={{ background: "linear-gradient(135deg, #FF1744 0%, #FF6D00 100%)" }}
+          style={{ background: "linear-gradient(135deg, #06B6D4 0%, #FF6D00 100%)" }}
         >
           <p className="text-white/90 text-xs font-semibold uppercase tracking-widest mb-1">Offre limit&eacute;e</p>
           <p className="text-white text-xl sm:text-2xl font-black mb-2">
@@ -233,7 +233,7 @@ function OffresContent() {
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl overflow-hidden mb-10" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
         <div className="relative p-6 sm:p-8">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#FF1744]/15 blur-[60px]" />
+            <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#06B6D4]/15 blur-[60px]" />
           </div>
           <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -270,7 +270,7 @@ function OffresContent() {
               transition={{ delay: 0.1 + i * 0.08 }}
               className={`relative rounded-2xl bg-white p-8 ${
                 plan.popular
-                  ? "border-2 border-[#FF1744] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
+                  ? "border-2 border-[#06B6D4] shadow-xl shadow-red-100 lg:scale-105 lg:-my-4 z-10"
                   : isCurrent
                   ? "border-2 border-emerald-400"
                   : "border border-gray-200"
@@ -278,7 +278,7 @@ function OffresContent() {
             >
               {plan.popular && !isCurrent && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center rounded-full bg-[#FF1744] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">Populaire</span>
+                  <span className="inline-flex items-center rounded-full bg-[#06B6D4] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">Populaire</span>
                 </div>
               )}
               {isCurrent && (
@@ -297,7 +297,7 @@ function OffresContent() {
                   {discount && !plan.external ? (
                     <>
                       <span className="text-lg font-medium text-[#6B7280] line-through">{plan.price}{"\u20ac"}</span>
-                      <span className="text-5xl font-black tracking-tight text-[#FF1744]">{getDiscountedPrice(plan.price)}</span>
+                      <span className="text-5xl font-black tracking-tight text-[#06B6D4]">{getDiscountedPrice(plan.price)}</span>
                       <span className="text-lg font-medium text-[#6B7280]">{"\u20ac"}</span>
                     </>
                   ) : (
@@ -313,7 +313,7 @@ function OffresContent() {
                 )}
 
                 {plan.slug === "standard_lifetime" && (
-                  <p className="text-xs text-[#FF1744] mt-2 text-center font-semibold">⚡ Le plus populaire</p>
+                  <p className="text-xs text-[#06B6D4] mt-2 text-center font-semibold">⚡ Le plus populaire</p>
                 )}
               </div>
 
@@ -332,14 +332,14 @@ function OffresContent() {
                     {plan.cta}
                 </a>
               ) : (
-                <button onClick={() => handleCheckout(plan.slug)} disabled={loading === plan.slug} className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${plan.popular ? "bg-[#FF1744] text-white hover:bg-[#D50000] hover:shadow-lg hover:shadow-red-200" : "bg-[#111] text-white hover:bg-[#333]"}`}>
+                <button onClick={() => handleCheckout(plan.slug)} disabled={loading === plan.slug} className={`flex items-center justify-center gap-2 w-full rounded-full py-3.5 text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-wait ${plan.popular ? "bg-[#06B6D4] text-white hover:bg-[#0891B2] hover:shadow-lg hover:shadow-red-200" : "bg-[#111] text-white hover:bg-[#333]"}`}>
                   {loading === plan.slug ? "Redirection..." : (discount ? `${plan.name} \u2014 ${getDiscountedPrice(plan.price)}\u20ac` : plan.cta)}
                 </button>
               )}
 
               {plan.limited && (
                 <div className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-red-50 border border-red-200 px-3 py-2">
-                  <svg className="h-3.5 w-3.5 text-[#FF1744] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <svg className="h-3.5 w-3.5 text-[#06B6D4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   <span className="text-xs font-medium text-red-700">Limit&eacute; &agrave; 10 places / mois</span>
                 </div>
               )}
@@ -356,14 +356,14 @@ function OffresContent() {
                     <>
                       {visible.map((item) => (
                         <div key={item.text} className={`flex items-start gap-3 ${!item.included ? "opacity-40" : ""}`}>
-                          <svg className={`h-5 w-5 flex-shrink-0 mt-0.5 ${item.included ? "text-[#FF1744]" : "text-gray-300"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <svg className={`h-5 w-5 flex-shrink-0 mt-0.5 ${item.included ? "text-[#06B6D4]" : "text-gray-300"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d={item.included ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
                           </svg>
                           <span className={`text-sm ${item.included ? "text-[#111]" : "text-[#6B7280]"}`}>{item.text}</span>
                         </div>
                       ))}
                       {hasMore && (
-                        <button onClick={() => setExpandedCards(prev => ({ ...prev, [plan.slug]: !prev[plan.slug] }))} className="flex items-center gap-1 text-sm font-medium text-[#FF1744] hover:text-[#D50000] transition-colors pt-1">
+                        <button onClick={() => setExpandedCards(prev => ({ ...prev, [plan.slug]: !prev[plan.slug] }))} className="flex items-center gap-1 text-sm font-medium text-[#06B6D4] hover:text-[#0891B2] transition-colors pt-1">
                           {isExpanded ? "Voir moins" : `Voir tout (${allItems.length})`}
                           <svg className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                         </button>

@@ -110,9 +110,9 @@ const TOAST_CONFIG: Record<
     ),
   },
   levelup: {
-    borderColor: "#FF1744",
+    borderColor: "#06B6D4",
     iconBg: "#FFE0E6",
-    iconColor: "#FF1744",
+    iconColor: "#06B6D4",
     label: (d) => `Level ${d.level ?? 0} atteint!`,
     sub: () => null,
     icon: (

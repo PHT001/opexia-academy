@@ -102,7 +102,7 @@ function DiscountBanner() {
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       className="rounded-2xl p-5 sm:p-6 text-center"
-      style={{ background: "linear-gradient(135deg, #FF1744 0%, #FF6D00 100%)" }}
+      style={{ background: "linear-gradient(135deg, #06B6D4 0%, #FF6D00 100%)" }}
     >
       <p className="text-white/90 text-xs font-semibold uppercase tracking-widest mb-1">Offre limit{"é"}e</p>
       <p className="text-white text-xl sm:text-2xl font-black mb-2">
@@ -127,7 +127,7 @@ function DiscountBanner() {
       </p>
       <Link
         href={`/offres?code=${discountData.discountCode}`}
-        className="inline-flex items-center gap-2 bg-white text-[#FF1744] font-bold text-sm px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
+        className="inline-flex items-center gap-2 bg-white text-[#06B6D4] font-bold text-sm px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
       >
         Profiter de l{"'"}offre
         <ArrowRightIcon className="w-4 h-4" />
@@ -205,22 +205,22 @@ function ProgressComparison() {
   return (
     <motion.div
       variants={fadeUp}
-      className="rounded-2xl border border-[#FF1744]/15 bg-gradient-to-r from-[#FF1744]/5 to-orange-50 p-4 sm:p-5"
+      className="rounded-2xl border border-[#06B6D4]/15 bg-gradient-to-r from-[#06B6D4]/5 to-orange-50 p-4 sm:p-5"
     >
       <div className="flex items-start gap-3">
-        <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#FF1744]/10 flex items-center justify-center text-base">
+        <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#06B6D4]/10 flex items-center justify-center text-base">
           {"\uD83C\uDFC6"}
         </div>
         <div>
           <p className="text-sm font-semibold text-[#111] leading-snug">
-            Tu es dans le <span className="text-[#FF1744]">top 40%</span> des inscrits gratuits
+            Tu es dans le <span className="text-[#06B6D4]">top 40%</span> des inscrits gratuits
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            Passe {"\u00e0"} l{"'"}Academy pour rejoindre le <span className="font-semibold text-[#FF1744]">top 5%</span> et acc{"é"}l{"é"}rer ta progression
+            Passe {"\u00e0"} l{"'"}Academy pour rejoindre le <span className="font-semibold text-[#06B6D4]">top 5%</span> et acc{"é"}l{"é"}rer ta progression
           </p>
           <Link
             href="/offres"
-            className="inline-flex items-center gap-1 text-xs font-bold text-[#FF1744] mt-2 hover:underline"
+            className="inline-flex items-center gap-1 text-xs font-bold text-[#06B6D4] mt-2 hover:underline"
           >
             D{"é"}couvrir l{"'"}Academy
             <ArrowRightIcon className="w-3 h-3" />
@@ -264,9 +264,9 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
         style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #16162A 60%, #0F0F1E 100%)" }}
         variants={fadeUp}
       >
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF1744]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#06B6D4]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
         <div className="relative z-10">
-          <p className="text-[#FF1744] text-sm font-medium mb-1">
+          <p className="text-[#06B6D4] text-sm font-medium mb-1">
             Bienvenue, {firstName} {"\uD83D\uDC4B"}
           </p>
           <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
@@ -280,12 +280,12 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-white/60">{completedCount}/{CHECKLIST.length} {"é"}tapes</span>
-              <span className="text-xs font-bold text-[#FF1744]">{progressPercent}%</span>
+              <span className="text-xs font-bold text-[#06B6D4]">{progressPercent}%</span>
             </div>
             <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
               <motion.div
                 className="h-full rounded-full"
-                style={{ background: "linear-gradient(90deg, #FF1744, #FF5252)" }}
+                style={{ background: "linear-gradient(90deg, #06B6D4, #FF5252)" }}
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.max(progressPercent, 2)}%` }}
                 transition={{ duration: 1, ease: "easeOut" }}
@@ -302,16 +302,16 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
       {/* ════ START MODULE CTA ════ */}
       <motion.div variants={fadeUp}>
         <Link href="/lessons" className="block">
-          <div className="relative overflow-hidden rounded-2xl border-2 border-[#FF1744]/30 bg-gradient-to-br from-[#FF1744]/5 to-white p-6 sm:p-8 hover:border-[#FF1744]/60 hover:shadow-lg transition-all group cursor-pointer">
+          <div className="relative overflow-hidden rounded-2xl border-2 border-[#06B6D4]/30 bg-gradient-to-br from-[#06B6D4]/5 to-white p-6 sm:p-8 hover:border-[#06B6D4]/60 hover:shadow-lg transition-all group cursor-pointer">
             <div className="flex items-center gap-5">
-              <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#FF1744] flex items-center justify-center shadow-lg shadow-[#FF1744]/20 group-hover:scale-105 transition-transform">
+              <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#06B6D4] flex items-center justify-center shadow-lg shadow-[#06B6D4]/20 group-hover:scale-105 transition-transform">
                 <PlayIcon className="w-7 h-7 text-white ml-0.5" />
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="text-lg font-bold text-[#111] mb-1">D{"é"}couvrir la formation</h2>
                 <p className="text-sm text-gray-500">22 modules, 86 le{"ç"}ons — explore ce qui t{"'"}attend</p>
               </div>
-              <ArrowRightIcon className="w-5 h-5 text-[#FF1744] group-hover:translate-x-1 transition-transform flex-shrink-0" />
+              <ArrowRightIcon className="w-5 h-5 text-[#06B6D4] group-hover:translate-x-1 transition-transform flex-shrink-0" />
             </div>
           </div>
         </Link>
@@ -336,7 +336,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
                 className={`flex-shrink-0 w-11 h-11 sm:w-7 sm:h-7 rounded-lg border-2 flex items-center justify-center transition-all ${
                   checked[step.id]
                     ? "bg-emerald-500 border-emerald-500 text-white"
-                    : "border-gray-300 hover:border-[#FF1744] text-transparent"
+                    : "border-gray-300 hover:border-[#06B6D4] text-transparent"
                 }`}
               >
                 <CheckIcon className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
@@ -352,7 +352,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
                 <p className="text-xs text-gray-400">{step.desc}</p>
               </Link>
               <Link href={step.href} target={step.external ? "_blank" : undefined} className="p-2 -m-2 flex-shrink-0">
-                <ArrowRightIcon className="w-4 h-4 text-gray-300 group-hover:text-[#FF1744] transition-colors" />
+                <ArrowRightIcon className="w-4 h-4 text-gray-300 group-hover:text-[#06B6D4] transition-colors" />
               </Link>
             </div>
           ))}
@@ -372,7 +372,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
               { value: "CRM", label: "Pipeline clients" },
             ].map((item) => (
               <div key={item.label} className="rounded-xl bg-gray-50 p-4 text-center">
-                <div className="text-lg font-bold text-[#FF1744]">{item.value}</div>
+                <div className="text-lg font-bold text-[#06B6D4]">{item.value}</div>
                 <div className="text-xs text-gray-500 mt-0.5">{item.label}</div>
               </div>
             ))}
@@ -380,7 +380,7 @@ export default function FreeDashboard({ firstName }: FreeDashboardProps) {
           <div className="mt-4 flex justify-center">
             <Link
               href="/offres"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#FF1744] hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#06B6D4] hover:underline"
             >
               D{"é"}couvrir les offres
               <ArrowRightIcon className="w-4 h-4" />

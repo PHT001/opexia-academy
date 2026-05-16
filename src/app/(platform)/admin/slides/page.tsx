@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 
 const GREEN_MODULES = new Set([3, 4, 5, 6, 7]);
-function mc(mod: number) { return GREEN_MODULES.has(mod) ? "#22C55E" : "#FF1744"; }
+function mc(mod: number) { return GREEN_MODULES.has(mod) ? "#22C55E" : "#06B6D4"; }
 
 const SLIDES = [
   { file: "M1-L0-Bienvenue", module: 1, lesson: "L0", title: "Bienvenue - Ce qui t'attend" },
@@ -147,7 +147,7 @@ export default function AdminSlidesPage() {
 
             {/* Text */}
             <div className="min-w-0 flex-1">
-              <p className="text-[13px] font-semibold text-[#111] leading-snug truncate transition-colors group-hover:text-[#FF1744]">
+              <p className="text-[13px] font-semibold text-[#111] leading-snug truncate transition-colors group-hover:text-[#06B6D4]">
                 {slide.title}
               </p>
               <p className="text-[11px] text-gray-400 mt-0.5">{slide.lesson}</p>

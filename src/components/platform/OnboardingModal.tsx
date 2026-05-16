@@ -151,8 +151,8 @@ export default function OnboardingModal() {
                       className={cn(
                         "w-full rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-all",
                         selectedGoal === goal
-                          ? "border-[#FF1744] bg-[#FF1744]/5 text-[#FF1744]"
-                          : "border-gray-200 text-[#111] hover:border-[#FF1744]/40"
+                          ? "border-[#06B6D4] bg-[#06B6D4]/5 text-[#06B6D4]"
+                          : "border-gray-200 text-[#111] hover:border-[#06B6D4]/40"
                       )}
                     >
                       {goal}
@@ -171,7 +171,7 @@ export default function OnboardingModal() {
               key={i}
               className={cn(
                 "h-2 rounded-full transition-all duration-300",
-                i === step ? "w-6 bg-[#FF1744]" : "w-2 bg-gray-300"
+                i === step ? "w-6 bg-[#06B6D4]" : "w-2 bg-gray-300"
               )}
             />
           ))}
@@ -186,7 +186,7 @@ export default function OnboardingModal() {
               className={cn(
                 "rounded-xl px-8 py-3 text-sm font-semibold text-white transition-all",
                 selectedGoal
-                  ? "bg-[#FF1744] hover:bg-[#FF1744]/90 shadow-lg shadow-[#FF1744]/25"
+                  ? "bg-[#06B6D4] hover:bg-[#06B6D4]/90 shadow-lg shadow-[#06B6D4]/25"
                   : "bg-gray-300 cursor-not-allowed"
               )}
             >
@@ -195,7 +195,7 @@ export default function OnboardingModal() {
           ) : (
             <button
               onClick={next}
-              className="rounded-xl bg-[#FF1744] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#FF1744]/25 transition-all hover:bg-[#FF1744]/90"
+              className="rounded-xl bg-[#06B6D4] px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-[#06B6D4]/25 transition-all hover:bg-[#06B6D4]/90"
             >
               Suivant
             </button>

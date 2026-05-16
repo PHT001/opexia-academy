@@ -204,7 +204,7 @@ export async function POST(req: NextRequest) {
                     </ul>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
                     <div style="margin-bottom: 24px;">
-                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #06B6D4; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
                       <a href="https://opexia-formation.com/lessons" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Commence par le Module 1</a>
                     </div>`,
                 };
@@ -227,7 +227,7 @@ export async function POST(req: NextRequest) {
                     </ul>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
                     <div style="margin-bottom: 24px;">
-                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #06B6D4; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
                       <a href="https://opexia-formation.com/coaching" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">R\u00e9server ta premi\u00e8re visio</a>
                       <a href="${WHATSAPP_PHONE}" style="display: block; background: #25D366; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">\uD83D\uDCAC Me contacter sur WhatsApp</a>
                     </div>`,
@@ -252,7 +252,7 @@ export async function POST(req: NextRequest) {
                     </ul>
                     <p style="color: #374151; font-size: 14px; margin-bottom: 16px;">Voici comment commencer :</p>
                     <div style="margin-bottom: 24px;">
-                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #FF1744; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
+                      <a href="https://opexia-formation.com/dashboard" style="display: block; background: #06B6D4; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px;">Acc\u00e9der \u00e0 ton tableau de bord</a>
                       <a href="https://opexia-formation.com/lessons" style="display: block; background: #1A1A2E; color: #ffffff; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px;">Commence par le Module 1</a>
                     </div>`,
                 };

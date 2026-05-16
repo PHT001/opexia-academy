@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
         </p>
         <Link
           href="/login"
-          className="inline-block mt-8 text-sm text-[#FF1744] font-medium hover:underline"
+          className="inline-block mt-8 text-sm text-[#06B6D4] font-medium hover:underline"
         >
           Retour à la connexion
         </Link>
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
           />
         </div>
 
@@ -112,7 +112,7 @@ export default function ForgotPasswordPage() {
       </form>
 
       <p className="text-center text-sm text-gray-500 mt-8">
-        <Link href="/login" className="text-[#FF1744] font-medium hover:underline">
+        <Link href="/login" className="text-[#06B6D4] font-medium hover:underline">
           Retour à la connexion
         </Link>
       </p>

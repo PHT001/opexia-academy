@@ -13,7 +13,7 @@ export default function VideoBlock() {
           className="text-center mb-8"
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white/80">
-            <span className="h-2 w-2 rounded-full bg-[#FF1744] animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-[#06B6D4] animate-pulse" />
             Découvre la formation
           </span>
         </motion.div>

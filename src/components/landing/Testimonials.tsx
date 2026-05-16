@@ -45,7 +45,7 @@ export default function Testimonials() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+            <span className="text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
               R&eacute;sultats r&eacute;els
             </span>
             <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111]">
@@ -105,8 +105,8 @@ export default function Testimonials() {
                 onClick={expanded ? handleCollapse : handleExpand}
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 ${
                   expanded
-                    ? "border border-gray-200 bg-white text-[#111] hover:border-[#FF1744] hover:text-[#FF1744]"
-                    : "bg-[#111] text-white hover:bg-[#FF1744]"
+                    ? "border border-gray-200 bg-white text-[#111] hover:border-[#06B6D4] hover:text-[#06B6D4]"
+                    : "bg-[#111] text-white hover:bg-[#06B6D4]"
                 }`}
               >
                 {expanded ? (
@@ -170,8 +170,8 @@ export default function Testimonials() {
                 onClick={expanded ? handleCollapse : handleExpand}
                 className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 ${
                   expanded
-                    ? "border border-gray-200 bg-white text-[#111] hover:border-[#FF1744] hover:text-[#FF1744]"
-                    : "bg-[#111] text-white hover:bg-[#FF1744]"
+                    ? "border border-gray-200 bg-white text-[#111] hover:border-[#06B6D4] hover:text-[#06B6D4]"
+                    : "bg-[#111] text-white hover:bg-[#06B6D4]"
                 }`}
               >
                 {expanded ? (

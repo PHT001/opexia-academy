@@ -1365,7 +1365,7 @@ function TemplateModal({
                 const titleText = trimmed.replace(/[━═]/g, "").trim();
                 if (titleText) {
                   return (
-                    <div key={i} className="mt-6 mb-3 pb-2 border-b-2 border-[#FF1744]/20">
+                    <div key={i} className="mt-6 mb-3 pb-2 border-b-2 border-[#06B6D4]/20">
                       <h3 className="text-sm md:text-base font-bold text-[#1A1A2E] tracking-wide uppercase">{titleText}</h3>
                     </div>
                   );
@@ -1377,7 +1377,7 @@ function TemplateModal({
               if (/^━━━/.test(trimmed) || /^═══/.test(trimmed)) {
                 const titleText = trimmed.replace(/[━═]/g, "").trim();
                 return (
-                  <div key={i} className="mt-6 mb-3 pb-2 border-b-2 border-[#FF1744]/20">
+                  <div key={i} className="mt-6 mb-3 pb-2 border-b-2 border-[#06B6D4]/20">
                     <h3 className="text-sm md:text-base font-bold text-[#1A1A2E] tracking-wide">{titleText}</h3>
                   </div>
                 );
@@ -1398,7 +1398,7 @@ function TemplateModal({
                 if (match) {
                   return (
                     <div key={i} className="flex gap-2 py-0.5 pl-1">
-                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#FF1744]/10 text-[#FF1744] text-[11px] font-bold flex items-center justify-center mt-0.5">{match[1].replace(/[.)]/, "")}</span>
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#06B6D4]/10 text-[#06B6D4] text-[11px] font-bold flex items-center justify-center mt-0.5">{match[1].replace(/[.)]/, "")}</span>
                       <span className="flex-1">{match[2]}</span>
                     </div>
                   );
@@ -1438,7 +1438,7 @@ function TemplateModal({
               // Arrow items
               if (trimmed.startsWith("→")) {
                 return (
-                  <div key={i} className="flex items-start gap-2 py-0.5 pl-2 text-[#FF1744] font-medium">
+                  <div key={i} className="flex items-start gap-2 py-0.5 pl-2 text-[#06B6D4] font-medium">
                     <span className="flex-shrink-0 mt-0.5">&#8594;</span>
                     <span className="flex-1">{trimmed.slice(1).trim()}</span>
                   </div>
@@ -1459,7 +1459,7 @@ function TemplateModal({
               // Quoted example / highlighted text
               if (trimmed.startsWith('"') || trimmed.startsWith("\u00AB")) {
                 return (
-                  <div key={i} className="bg-gray-50 border-l-3 border-[#FF1744]/30 px-4 py-2.5 rounded-r-lg my-1 text-gray-600 italic text-[12px] md:text-[13px]">
+                  <div key={i} className="bg-gray-50 border-l-3 border-[#06B6D4]/30 px-4 py-2.5 rounded-r-lg my-1 text-gray-600 italic text-[12px] md:text-[13px]">
                     {trimmed}
                   </div>
                 );
@@ -1476,7 +1476,7 @@ function TemplateModal({
 }
 
 const SECTION_COLORS: Record<string, string> = {
-  "outils-ia": "#FF1744",
+  "outils-ia": "#06B6D4",
   plateformes: "#2979FF",
   templates: "#FF6D00",
   guides: "#00C853",
@@ -1518,12 +1518,12 @@ export default function RessourcesPage() {
     <div className="w-full max-w-5xl mx-auto">
       {/* Upgrade banner for free users */}
       {isLocked && (
-        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#06B6D4]/10 to-[#06B6D4]/5 border border-[#06B6D4]/20 p-4">
           <div>
             <p className="text-sm font-semibold text-[#111]">Fonctionnalit&eacute; premium</p>
             <p className="text-xs text-[#6B7280]">Les ressources sont visibles mais l&apos;acc&egrave;s complet n&eacute;cessite un abonnement.</p>
           </div>
-          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#06B6D4] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0891B2] transition-colors">
             Voir les offres
           </a>
         </div>
@@ -1540,7 +1540,7 @@ export default function RessourcesPage() {
           </div>
           <div className="flex items-center gap-4 text-xs text-gray-400">
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF1744]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
               <span className="font-medium text-gray-600">{totalResources}</span> ressources
             </span>
             <span className="flex items-center gap-1.5">
@@ -1571,7 +1571,7 @@ export default function RessourcesPage() {
             placeholder="Rechercher une ressource..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744]/40 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4]/40 transition-all"
           />
         </div>
         <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5">
@@ -1667,11 +1667,11 @@ export default function RessourcesPage() {
                       {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="text-[13px] font-semibold text-[#111] group-hover:text-[#FF1744] transition-colors truncate">
+                          <h3 className="text-[13px] font-semibold text-[#111] group-hover:text-[#06B6D4] transition-colors truncate">
                             {r.title}
                           </h3>
                           {r.url && (
-                            <svg className="w-3 h-3 text-gray-300 group-hover:text-[#FF1744] transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <svg className="w-3 h-3 text-gray-300 group-hover:text-[#06B6D4] transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
                             </svg>
                           )}

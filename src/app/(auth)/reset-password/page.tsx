@@ -81,7 +81,7 @@ function ResetPasswordForm() {
         </p>
         <Link
           href="/forgot-password"
-          className="inline-block mt-8 text-sm text-[#FF1744] font-medium hover:underline"
+          className="inline-block mt-8 text-sm text-[#06B6D4] font-medium hover:underline"
         >
           Demander un nouveau lien
         </Link>
@@ -134,7 +134,7 @@ function ResetPasswordForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
           />
           <p className="text-xs text-gray-400 mt-1.5">Minimum 8 caractères, dont un caractère spécial</p>
         </div>
@@ -151,7 +151,7 @@ function ResetPasswordForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
           />
         </div>
 
@@ -175,7 +175,7 @@ function ResetPasswordForm() {
       </form>
 
       <p className="text-center text-sm text-gray-500 mt-8">
-        <Link href="/login" className="text-[#FF1744] font-medium hover:underline">
+        <Link href="/login" className="text-[#06B6D4] font-medium hover:underline">
           Retour à la connexion
         </Link>
       </p>

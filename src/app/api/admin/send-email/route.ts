@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
               <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px 24px;">
                 <div style="text-align: center; margin-bottom: 32px;">
                   <span style="font-size: 24px; font-weight: bold;">
-                    <span style="color: #111;">Opex</span><span style="color: #FF1744;">IA</span>
+                    <span style="color: #111;">Opex</span><span style="color: #06B6D4;">IA</span>
                   </span>
                 </div>
                 <p style="color: #111; font-size: 15px; margin-bottom: 8px;">Bonjour ${escapeHtml(user.name || "")},</p>

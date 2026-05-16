@@ -103,14 +103,14 @@ export default function MasterclassPage() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#F8F9FA] to-transparent z-10" />
         <div className="absolute inset-0 flex items-center justify-center z-20">
           <div className="text-center bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200 p-8 max-w-md mx-4">
-            <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-4">
-              <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-[#06B6D4]/10 flex items-center justify-center mb-4">
+              <svg className="h-7 w-7 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
             </div>
             <h3 className="text-xl font-bold text-[#111] mb-2">Masterclass exclusives</h3>
             <p className="text-sm text-[#6B7280] mb-6">Acc{"è"}de aux masterclass vid{"é"}o et sessions live pour d{"é"}velopper ton agence IA.</p>
-            <a href="/offres" className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:scale-[1.02]" style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}>
+            <a href="/offres" className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:scale-[1.02]" style={{ background: "linear-gradient(135deg, #06B6D4, #0891B2)", boxShadow: "0 4px 20px rgba(6,182,212,0.3)" }}>
               D{"é"}couvrir nos offres <span>{"\u2192"}</span>
             </a>
           </div>
@@ -132,13 +132,13 @@ export default function MasterclassPage() {
 
       {/* ── Coming Soon Banner ── */}
       <div className="relative overflow-hidden rounded-2xl mb-8" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #16162A 60%, #0F0F1E 100%)" }}>
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF1744]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#06B6D4]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
         <div className="absolute bottom-0 left-1/4 w-40 h-40 bg-purple-500/10 rounded-full translate-y-1/2 blur-2xl" />
         <div className="relative z-10 p-6 sm:p-8 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF1744] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF1744]" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#06B6D4] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#06B6D4]" />
             </span>
             <span className="text-[11px] font-bold text-white/80 uppercase tracking-widest">En pr{"é"}paration</span>
           </div>
@@ -179,7 +179,7 @@ export default function MasterclassPage() {
 
             {/* Content */}
             <div className="p-5">
-              <h3 className="text-base font-bold text-[#111] mb-1 group-hover:text-[#FF1744] transition-colors">
+              <h3 className="text-base font-bold text-[#111] mb-1 group-hover:text-[#06B6D4] transition-colors">
                 {mc.title}
               </h3>
               <p className="text-xs text-gray-400 font-medium mb-2">{mc.speaker}</p>
@@ -197,7 +197,7 @@ export default function MasterclassPage() {
                 onClick={() => toggleNotify(mc.id)}
                 className={`flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   notifyId[mc.id]
-                    ? "bg-[#FF1744]/10 text-[#FF1744] border border-[#FF1744]/20"
+                    ? "bg-[#06B6D4]/10 text-[#06B6D4] border border-[#06B6D4]/20"
                     : "bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 hover:text-gray-800"
                 }`}
               >

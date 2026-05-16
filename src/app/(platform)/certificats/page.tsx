@@ -76,8 +76,8 @@ const certificates = [
     modules: Array.from({ length: 22 }, (_, i) => i + 1),
     modulesLabel: "Tous les modules",
     icon: "\u{1F393}",
-    color: "#FF1744",
-    colorLight: "rgba(255,23,68,0.08)",
+    color: "#06B6D4",
+    colorLight: "rgba(6,182,212,0.08)",
   },
 ];
 
@@ -144,7 +144,7 @@ export default function CertificatsPage() {
   if (loading) {
     return (
       <div className="w-full flex items-center justify-center py-20">
-        <div className="w-6 h-6 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-gray-200 border-t-[#06B6D4] rounded-full animate-spin" />
       </div>
     );
   }
@@ -187,7 +187,7 @@ export default function CertificatsPage() {
         <div className="w-full sm:w-48">
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] rounded-full"
+              className="h-full bg-gradient-to-r from-[#06B6D4] to-[#FF5252] rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(completedModules.size / 22) * 100}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
@@ -276,11 +276,11 @@ export default function CertificatsPage() {
                     <button
                       onClick={() => handleDownload(i + 1)}
                       disabled={downloadingPhase === i + 1}
-                      className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] font-semibold text-[#FF1744] bg-[#FF1744]/10 hover:bg-[#FF1744]/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] font-semibold text-[#06B6D4] bg-[#06B6D4]/10 hover:bg-[#06B6D4]/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       title="Télécharger le certificat PDF"
                     >
                       {downloadingPhase === i + 1 ? (
-                        <div className="w-2.5 h-2.5 border border-[#FF1744] border-t-transparent rounded-full animate-spin" />
+                        <div className="w-2.5 h-2.5 border border-[#06B6D4] border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />

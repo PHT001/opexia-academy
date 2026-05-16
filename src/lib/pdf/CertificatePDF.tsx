@@ -8,7 +8,7 @@ import {
 } from "@react-pdf/renderer";
 
 const C = {
-  red: "#FF1744",
+  red: "#06B6D4",
   dark: "#0A0A0A",
   text: "#333333",
   muted: "#777777",

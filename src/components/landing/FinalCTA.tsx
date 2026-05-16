@@ -6,7 +6,7 @@ export default function FinalCTA() {
   return (
     <section className="relative py-16 lg:py-20 bg-[#0A0A0A] overflow-hidden">
       {/* Glow effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#FF1744]/8 rounded-full blur-[80px] will-change-transform" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#06B6D4]/8 rounded-full blur-[80px] will-change-transform" />
 
       <div className="relative mx-auto max-w-4xl px-6 lg:px-8 text-center">
         <motion.div
@@ -16,14 +16,14 @@ export default function FinalCTA() {
           transition={{ duration: 0.7 }}
         >
           {/* Badge */}
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#FF1744]/15 border border-[#FF1744]/30 px-5 py-2 text-sm font-medium text-[#FF5252] mb-8">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#06B6D4]/15 border border-[#06B6D4]/30 px-5 py-2 text-sm font-medium text-[#FF5252] mb-8">
             <span className="text-base">&#127891;</span> Formation compl&egrave;te &bull; CRM inclus &bull; Acc&egrave;s &agrave; vie
           </span>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white leading-tight">
             Dans 90 jours, tu te
             <br />
-            <span className="text-[#FF1744]">remercieras.</span>
+            <span className="text-[#06B6D4]">remercieras.</span>
           </h2>
 
           <p className="mt-6 text-lg text-gray-400 max-w-xl mx-auto leading-relaxed">
@@ -35,7 +35,7 @@ export default function FinalCTA() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#pricing"
-              className="inline-flex items-center justify-center rounded-full bg-[#FF1744] px-10 py-5 text-lg font-bold text-white transition-all hover:bg-[#D50000] hover:shadow-2xl hover:shadow-red-900/40"
+              className="inline-flex items-center justify-center rounded-full bg-[#06B6D4] px-10 py-5 text-lg font-bold text-white transition-all hover:bg-[#0891B2] hover:shadow-2xl hover:shadow-red-900/40"
             >
               Choisir ma formule
               <svg

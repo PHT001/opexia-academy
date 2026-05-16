@@ -14,7 +14,7 @@ export default function WindowClosing() {
   return (
     <section className="relative py-16 lg:py-24 bg-[#0A0A0A] overflow-hidden">
       {/* Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#FF1744]/5 rounded-full blur-[80px] will-change-transform" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#06B6D4]/5 rounded-full blur-[80px] will-change-transform" />
 
       <div className="relative mx-auto max-w-3xl px-6 lg:px-8">
         <motion.div
@@ -34,7 +34,7 @@ export default function WindowClosing() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-[22px] top-0 bottom-0 w-px bg-gradient-to-b from-white/5 via-[#FF1744]/40 to-white/5" />
+          <div className="absolute left-[22px] top-0 bottom-0 w-px bg-gradient-to-b from-white/5 via-[#06B6D4]/40 to-white/5" />
 
           <div className="space-y-0">
             {timeline.map((item, i) => (
@@ -51,7 +51,7 @@ export default function WindowClosing() {
                   <div
                     className={`h-3 w-3 rounded-full border-2 ${
                       item.highlight
-                        ? "bg-[#FF1744] border-[#FF1744] shadow-[0_0_12px_rgba(255,23,68,0.6)]"
+                        ? "bg-[#06B6D4] border-[#06B6D4] shadow-[0_0_12px_rgba(6,182,212,0.6)]"
                         : "bg-transparent border-white/20"
                     }`}
                   />
@@ -60,7 +60,7 @@ export default function WindowClosing() {
                 <div className="flex-1 -mt-1">
                   <span
                     className={`text-xs font-mono tracking-wider ${
-                      item.highlight ? "text-[#FF1744]" : "text-white/20"
+                      item.highlight ? "text-[#06B6D4]" : "text-white/20"
                     }`}
                   >
                     {item.year}
@@ -71,7 +71,7 @@ export default function WindowClosing() {
                 </div>
 
                 {item.highlight && (
-                  <span className="flex-shrink-0 text-xs font-bold text-[#FF1744] bg-[#FF1744]/10 border border-[#FF1744]/30 rounded-full px-3 py-1 mt-0.5">
+                  <span className="flex-shrink-0 text-xs font-bold text-[#06B6D4] bg-[#06B6D4]/10 border border-[#06B6D4]/30 rounded-full px-3 py-1 mt-0.5">
                     Tu es ici
                   </span>
                 )}

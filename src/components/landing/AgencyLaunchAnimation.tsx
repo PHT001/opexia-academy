@@ -43,7 +43,7 @@ export default function AgencyLaunchAnimation() {
   const pipelineStages = [
     { label: "Prospects", count: 12, color: "#6366F1" },
     { label: "Contact", count: 5, color: "#F59E0B" },
-    { label: "Devis", count: 3, color: "#FF1744" },
+    { label: "Devis", count: 3, color: "#06B6D4" },
     { label: "Gagn\u00e9", count: 2, color: "#22C55E" },
   ];
 
@@ -79,9 +79,9 @@ export default function AgencyLaunchAnimation() {
         </span>
         <div className="ml-auto flex items-center gap-3">
           <span className="text-[9px] text-gray-400 font-medium">Formation</span>
-          <span className="text-[9px] text-[#FF1744] font-semibold">CRM</span>
+          <span className="text-[9px] text-[#06B6D4] font-semibold">CRM</span>
           <span className="text-[9px] text-gray-400 font-medium">Outils</span>
-          <div className="h-5 px-2.5 rounded-md bg-[#FF1744] flex items-center">
+          <div className="h-5 px-2.5 rounded-md bg-[#06B6D4] flex items-center">
             <span className="text-[8px] text-white font-medium">Mon compte</span>
           </div>
         </div>
@@ -249,7 +249,7 @@ export default function AgencyLaunchAnimation() {
                 </div>
                 <div className="border-t border-gray-100 pt-1 mt-1 flex justify-between">
                   <span className="text-[9px] font-bold text-gray-900">{"Total"}</span>
-                  <span className="text-[11px] font-bold text-[#FF1744]">{"4 500€"}</span>
+                  <span className="text-[11px] font-bold text-[#06B6D4]">{"4 500€"}</span>
                 </div>
               </div>
 

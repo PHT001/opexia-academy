@@ -103,7 +103,7 @@ function RadarChart() {
             Impact de l&apos;IA par secteur
           </p>
           <p className="text-xs text-gray-400 text-center mt-1">
-            <span className="text-[#4285F4] font-semibold">Potentiel</span> vs <span className="text-[#FF1744] font-semibold">R&eacute;alit&eacute;</span> &mdash; 2026
+            <span className="text-[#4285F4] font-semibold">Potentiel</span> vs <span className="text-[#06B6D4] font-semibold">R&eacute;alit&eacute;</span> &mdash; 2026
           </p>
         </div>
 
@@ -159,8 +159,8 @@ function RadarChart() {
             {showObserved && (
               <path
                 d={pointsToPath(radarSectors, "observed", obsProgress)}
-                fill="rgba(255,23,68,0.12)"
-                stroke="#FF1744"
+                fill="rgba(6,182,212,0.12)"
+                stroke="#06B6D4"
                 strokeWidth="2"
                 strokeLinejoin="round"
               />
@@ -186,7 +186,7 @@ function RadarChart() {
                 <circle
                   key={`o-${i}`}
                   cx={x} cy={y} r="3.5"
-                  fill="white" stroke="#FF1744" strokeWidth="2"
+                  fill="white" stroke="#06B6D4" strokeWidth="2"
                   style={{ opacity: obsProgress > 0.1 ? 1 : 0 }}
                 />
               );
@@ -202,7 +202,7 @@ function RadarChart() {
               <span className="text-xs text-gray-600 font-medium">Potentiel IA</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-3 w-6 rounded-sm bg-[#FF1744]/15 border border-[#FF1744]" />
+              <div className="h-3 w-6 rounded-sm bg-[#06B6D4]/15 border border-[#06B6D4]" />
               <span className="text-xs text-gray-600 font-medium">Adoption actuelle</span>
             </div>
           </div>
@@ -240,12 +240,12 @@ export default function UrgenceIA() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <span className="block text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+            <span className="block text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
               L&apos;opportunit&eacute;
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[44px] font-bold text-gray-900 leading-[1.15] mb-6">
               97% des PME n&apos;ont{" "}
-              <span className="text-[#FF1744]">aucun prestataire IA</span>.
+              <span className="text-[#06B6D4]">aucun prestataire IA</span>.
             </h2>
 
             <p className="text-gray-500 text-base leading-relaxed mb-8">
@@ -292,7 +292,7 @@ export default function UrgenceIA() {
           viewport={{ once: true }}
           className="mt-16 rounded-2xl bg-[#0A0A0A] p-8 lg:p-12 overflow-hidden relative"
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[#FF1744]/5 rounded-full blur-[100px]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[#06B6D4]/5 rounded-full blur-[100px]" />
 
           <div className="relative">
             <h3 className="text-2xl sm:text-3xl font-bold text-white text-center mb-8">
@@ -300,7 +300,7 @@ export default function UrgenceIA() {
             </h3>
 
             <div className="relative max-w-xl mx-auto">
-              <div className="absolute left-[18px] top-0 bottom-0 w-px bg-gradient-to-b from-white/5 via-[#FF1744]/40 to-white/5" />
+              <div className="absolute left-[18px] top-0 bottom-0 w-px bg-gradient-to-b from-white/5 via-[#06B6D4]/40 to-white/5" />
 
               {timeline.map((item, i) => (
                 <motion.div
@@ -315,13 +315,13 @@ export default function UrgenceIA() {
                     <div
                       className={`h-2.5 w-2.5 rounded-full border-2 ${
                         item.highlight
-                          ? "bg-[#FF1744] border-[#FF1744] shadow-[0_0_10px_rgba(255,23,68,0.6)]"
+                          ? "bg-[#06B6D4] border-[#06B6D4] shadow-[0_0_10px_rgba(6,182,212,0.6)]"
                           : "bg-transparent border-white/20"
                       }`}
                     />
                   </div>
                   <div className="flex-1 -mt-0.5">
-                    <span className={`text-[10px] font-mono tracking-wider ${item.highlight ? "text-[#FF1744]" : "text-white/20"}`}>
+                    <span className={`text-[10px] font-mono tracking-wider ${item.highlight ? "text-[#06B6D4]" : "text-white/20"}`}>
                       {item.year}
                     </span>
                     <p className={`text-base font-medium leading-snug mt-0.5 ${item.opacity}`}>
@@ -329,7 +329,7 @@ export default function UrgenceIA() {
                     </p>
                   </div>
                   {item.highlight && (
-                    <span className="flex-shrink-0 text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 border border-[#FF1744]/30 rounded-full px-2.5 py-0.5 mt-0.5">
+                    <span className="flex-shrink-0 text-[10px] font-bold text-[#06B6D4] bg-[#06B6D4]/10 border border-[#06B6D4]/30 rounded-full px-2.5 py-0.5 mt-0.5">
                       Tu es ici
                     </span>
                   )}

@@ -291,7 +291,7 @@ export function guideEmail(): { subject: string; html: string } {
 
         <!-- Header -->
         <div style="background: #1A1A2E; padding: 28px 32px; border-radius: 16px 16px 0 0; text-align: center;">
-          <span style="color: #fff; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">Opex<span style="color: #FF1744;">IA</span></span>
+          <span style="color: #fff; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">Opex<span style="color: #06B6D4;">IA</span></span>
         </div>
 
         <!-- Body -->
@@ -302,7 +302,7 @@ export function guideEmail(): { subject: string; html: string } {
 
           <!-- CTA Button -->
           <div style="text-align: center; margin: 28px 0;">
-            <a href="https://opexia-formation.com/guide-5-services-ia.pdf" style="display: inline-block; background: #FF1744; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: 0.3px;">T&eacute;l&eacute;charger le guide PDF</a>
+            <a href="https://opexia-formation.com/guide-5-services-ia.pdf" style="display: inline-block; background: #06B6D4; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: 0.3px;">T&eacute;l&eacute;charger le guide PDF</a>
           </div>
 
           <!-- Content list -->

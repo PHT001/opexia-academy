@@ -12,7 +12,7 @@ export default function QuizInlineBlock({ block }: { block: QuizInlineBlockType 
     <div className="rounded-2xl border border-gray-200 p-5 sm:p-6 my-8 bg-white">
       {/* Question */}
       <div className="flex items-start gap-3 mb-5">
-        <span className="w-7 h-7 rounded-lg bg-[#FF1744]/10 text-[#FF1744] flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">
+        <span className="w-7 h-7 rounded-lg bg-[#06B6D4]/10 text-[#06B6D4] flex items-center justify-center flex-shrink-0 mt-0.5 text-sm font-bold">
           ?
         </span>
         <p className="font-semibold text-[#111] text-[1rem] leading-snug">

@@ -48,10 +48,10 @@ export default function DreamSection() {
             </motion.div>
 
             {/* Red aura behind card */}
-            <div className="absolute inset-0 z-[5] rounded-2xl bg-[#FF1744]/10 blur-2xl scale-105 pointer-events-none" />
+            <div className="absolute inset-0 z-[5] rounded-2xl bg-[#06B6D4]/10 blur-2xl scale-105 pointer-events-none" />
 
             <div className="relative z-10 bg-white rounded-2xl border border-gray-200 shadow-xl p-10 lg:p-12 text-center">
-              <div className="text-6xl lg:text-7xl font-black text-[#FF1744] leading-none">
+              <div className="text-6xl lg:text-7xl font-black text-[#06B6D4] leading-none">
                 10 000&euro;
               </div>
               <p className="text-[#6B7280] mt-3 text-sm">
@@ -90,7 +90,7 @@ export default function DreamSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+            <span className="text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
               La vision
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-8">
@@ -109,7 +109,7 @@ export default function DreamSection() {
                   transition={{ delay: 0.2 + i * 0.1 }}
                   className="flex gap-4 items-start"
                 >
-                  <span className="text-[#FF1744] font-bold mt-0.5 flex-shrink-0">
+                  <span className="text-[#06B6D4] font-bold mt-0.5 flex-shrink-0">
                     &rarr;
                   </span>
                   <span className="text-[#6B7280] leading-relaxed">

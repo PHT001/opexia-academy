@@ -26,7 +26,7 @@ export default function StickyFloatingCTA() {
         >
           <a
             href="#pricing"
-            className="inline-flex items-center rounded-full bg-[#FF1744] px-7 py-3.5 text-sm font-bold text-white shadow-[0_0_20px_4px_rgba(255,23,68,0.35),0_0_40px_8px_rgba(255,23,68,0.15)] hover:bg-[#D50000] transition-colors"
+            className="inline-flex items-center rounded-full bg-[#06B6D4] px-7 py-3.5 text-sm font-bold text-white shadow-[0_0_20px_4px_rgba(6,182,212,0.35),0_0_40px_8px_rgba(6,182,212,0.15)] hover:bg-[#0891B2] transition-colors"
           >
             Voir les tarifs
           </a>

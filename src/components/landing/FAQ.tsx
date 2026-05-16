@@ -51,13 +51,13 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between py-6 text-left group"
       >
-        <span className="text-base lg:text-lg font-semibold text-[#111] pr-8 group-hover:text-[#FF1744] transition-colors">
+        <span className="text-base lg:text-lg font-semibold text-[#111] pr-8 group-hover:text-[#06B6D4] transition-colors">
           {q}
         </span>
         <span
           className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center transition-all ${
             open
-              ? "bg-[#FF1744] text-white rotate-45"
+              ? "bg-[#06B6D4] text-white rotate-45"
               : "bg-gray-100 text-[#6B7280]"
           }`}
         >
@@ -105,7 +105,7 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+          <span className="text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
             FAQ
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">

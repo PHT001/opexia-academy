@@ -164,7 +164,7 @@ function RegisterForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
           />
         </div>
 
@@ -180,7 +180,7 @@ function RegisterForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full h-12 px-4 pr-11 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] transition-all"
+              className="w-full h-12 px-4 pr-11 rounded-xl bg-white border border-gray-200 text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] transition-all"
             />
             <button
               type="button"
@@ -220,7 +220,7 @@ function RegisterForm() {
               className={`w-full h-12 px-4 pr-11 rounded-xl bg-white border text-[#1A1A2E] placeholder:text-gray-400 text-base focus:outline-none focus:ring-2 transition-all ${
                 confirmPassword.length > 0 && !passwordsMatch
                   ? "border-red-300 focus:ring-red-200 focus:border-red-400"
-                  : "border-gray-200 focus:ring-[#FF1744]/20 focus:border-[#FF1744]"
+                  : "border-gray-200 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4]"
               }`}
             />
             <button
@@ -258,7 +258,7 @@ function RegisterForm() {
 
       <p className="text-center text-sm text-gray-500 mt-6">
         Déjà un compte ?{" "}
-        <Link href="/login" className="text-[#FF1744] font-medium hover:underline">
+        <Link href="/login" className="text-[#06B6D4] font-medium hover:underline">
           Se connecter
         </Link>
       </p>

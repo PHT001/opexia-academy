@@ -100,14 +100,14 @@ export default function ParrainagePage() {
         </div>
         <div className="absolute inset-0 flex items-start justify-center pt-40 z-10">
           <div className="text-center bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md mx-4">
-            <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-4">
-              <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-[#06B6D4]/10 flex items-center justify-center mb-4">
+              <svg className="h-7 w-7 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
             </div>
             <h3 className="text-xl font-bold text-[#111] mb-2">Programme Partenaire</h3>
             <p className="text-sm text-[#6B7280] mb-6">Recommande Opexia et gagne jusqu&apos;à 20% de commission. Disponible avec un abonnement.</p>
-            <a href="/offres" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-colors">
+            <a href="/offres" className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[#06B6D4] hover:bg-[#0891B2] transition-colors">
               Voir les offres &rarr;
             </a>
           </div>
@@ -146,23 +146,23 @@ function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: 
             20%
           </span>
           {/* Gradient orbs */}
-          <div className="absolute top-0 right-1/4 w-64 h-64 rounded-full bg-[#FF1744]/10 blur-[100px]" />
+          <div className="absolute top-0 right-1/4 w-64 h-64 rounded-full bg-[#06B6D4]/10 blur-[100px]" />
           <div className="absolute bottom-0 left-1/4 w-48 h-48 rounded-full bg-violet-500/8 blur-[80px]" />
           {/* Diagonal line accent */}
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#FF1744]/[0.06] to-transparent" />
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#06B6D4]/[0.06] to-transparent" />
         </div>
 
         <div className="relative z-10 px-8 sm:px-12 py-12 sm:py-16">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div className="max-w-lg">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] mb-6">
-                <IconGift className="text-[#FF1744] w-3.5 h-3.5" />
+                <IconGift className="text-[#06B6D4] w-3.5 h-3.5" />
                 <span className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">Programme Partenaire</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.15] text-white mb-4">
                 Recommande Opexia,
                 <br />
-                <span className="bg-gradient-to-r from-[#FF1744] to-[#FF5252] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#06B6D4] to-[#FF5252] bg-clip-text text-transparent">
                   gagne jusqu&apos;à 20% de commission.
                 </span>
               </h1>
@@ -174,9 +174,9 @@ function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: 
             {/* Right side — big commission highlight */}
             <div className="flex-shrink-0">
               <div className="relative">
-                <div className="absolute inset-0 rounded-2xl bg-[#FF1744]/20 blur-xl" />
+                <div className="absolute inset-0 rounded-2xl bg-[#06B6D4]/20 blur-xl" />
                 <div className="relative bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-8 text-center min-w-[180px]">
-                  <p className="text-3xl sm:text-4xl font-black text-white mb-1">jusqu&apos;à 20<span className="text-[#FF1744]">%</span></p>
+                  <p className="text-3xl sm:text-4xl font-black text-white mb-1">jusqu&apos;à 20<span className="text-[#06B6D4]">%</span></p>
                   <p className="text-xs text-white/40 font-medium">de commission par inscription</p>
                 </div>
               </div>
@@ -202,7 +202,7 @@ function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: 
 
           <div className="flex flex-col sm:flex-row items-stretch gap-3">
             <div className="flex-1 relative group">
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#FF1744]/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#06B6D4]/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-sm text-gray-700 font-mono truncate">
                 {referralLink || "Connecte-toi pour obtenir ton lien"}
               </div>
@@ -211,9 +211,9 @@ function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: 
               onClick={copyLink}
               className="flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl text-sm font-bold shrink-0 transition-all duration-200"
               style={{
-                background: copied ? "#10B981" : "linear-gradient(135deg, #FF1744, #D50000)",
+                background: copied ? "#10B981" : "linear-gradient(135deg, #06B6D4, #0891B2)",
                 color: "white",
-                boxShadow: copied ? "0 4px 14px rgba(16,185,129,0.3)" : "0 4px 14px rgba(255,23,68,0.25)",
+                boxShadow: copied ? "0 4px 14px rgba(16,185,129,0.3)" : "0 4px 14px rgba(6,182,212,0.25)",
               }}
               whileHover={{ scale: 1.02, y: -1 }}
               whileTap={{ scale: 0.98 }}
@@ -437,7 +437,7 @@ function ParrainageContent({ d: defaultData, copied, setCopied, loading }: { d: 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         {[
           { icon: <IconShield />, title: "100% transparent", desc: "Suivi en temps réel de tes filleuls, forfaits et commissions. Aucun frais caché.", color: "#6C5CE7" },
-          { icon: <IconTrendingUp />, title: "Aucun plafond", desc: "5 filleuls Academy = 297\u20AC. 10 = 595\u20AC. Le calcul est simple.", color: "#FF1744" },
+          { icon: <IconTrendingUp />, title: "Aucun plafond", desc: "5 filleuls Academy = 297\u20AC. 10 = 595\u20AC. Le calcul est simple.", color: "#06B6D4" },
         ].map((item, i) => (
           <motion.div
             key={i}

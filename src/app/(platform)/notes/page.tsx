@@ -14,7 +14,7 @@ interface Note {
   pinned: boolean;
 }
 
-const COLORS = ["#FF1744", "#FF6D00", "#00C853", "#2979FF", "#AA00FF", "#78909C"];
+const COLORS = ["#06B6D4", "#FF6D00", "#00C853", "#2979FF", "#AA00FF", "#78909C"];
 const ICONS = ["📝", "💡", "🚀", "🎯", "📊", "⚡", "🔥", "📌", "💰", "🧠"];
 
 const DEFAULT_FOLDERS = ["Général", "Module 1", "Module 2", "Idées business"];
@@ -40,7 +40,7 @@ const EXAMPLE_NOTES: Note[] = [
 
 > "Le meilleur moment pour commencer, c'est maintenant." — OpexIA`,
     folder: "Général",
-    color: "#FF1744",
+    color: "#06B6D4",
     icon: "🚀",
     updatedAt: new Date().toISOString(),
     pinned: true,
@@ -410,7 +410,7 @@ export default function NotesPage() {
   if (loading) {
     return (
       <div className="w-full h-[calc(100dvh-5rem)] lg:h-[calc(100vh-2rem)] flex items-center justify-center bg-white rounded-2xl border border-gray-200">
-        <div className="w-5 h-5 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+        <div className="w-5 h-5 border-2 border-gray-200 border-t-[#06B6D4] rounded-full animate-spin" />
       </div>
     );
   }
@@ -496,7 +496,7 @@ export default function NotesPage() {
             <div className="flex flex-col items-center justify-center h-48 px-6 text-center">
               <p className="text-sm text-gray-400 mb-2">Aucune note</p>
               {!isFreeUser && (
-                <button onClick={createNote} className="text-xs text-[#FF1744] hover:underline">
+                <button onClick={createNote} className="text-xs text-[#06B6D4] hover:underline">
                   + Créer une note
                 </button>
               )}
@@ -522,7 +522,7 @@ export default function NotesPage() {
                         {note.title || "Sans titre"}
                       </h4>
                       {note.pinned && (
-                        <svg className="w-3 h-3 text-[#FF1744] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <svg className="w-3 h-3 text-[#06B6D4] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z" />
                         </svg>
                       )}
@@ -576,7 +576,7 @@ export default function NotesPage() {
                     onClick={() => setEditing(!editing)}
                     className={`h-8 px-3 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
                       editing
-                        ? "bg-[#FF1744] text-white shadow-sm"
+                        ? "bg-[#06B6D4] text-white shadow-sm"
                         : "bg-white/80 backdrop-blur text-gray-600 hover:bg-white"
                     }`}
                   >
@@ -589,7 +589,7 @@ export default function NotesPage() {
                   <button
                     onClick={() => togglePin(activeNote.id)}
                     className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
-                      activeNote.pinned ? "bg-[#FF1744]/10 text-[#FF1744]" : "bg-white/80 backdrop-blur text-gray-400 hover:bg-white"
+                      activeNote.pinned ? "bg-[#06B6D4]/10 text-[#06B6D4]" : "bg-white/80 backdrop-blur text-gray-400 hover:bg-white"
                     }`}
                   >
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">

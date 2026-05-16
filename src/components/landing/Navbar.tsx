@@ -65,7 +65,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="/" className="flex items-center">
             <span className="text-xl font-extrabold text-white tracking-tight">
-              Opex<span className="text-[#FF1744]">IA</span>
+              Opex<span className="text-[#06B6D4]">IA</span>
             </span>
           </a>
 
@@ -106,8 +106,8 @@ export default function Navbar() {
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-[13px] font-semibold text-white transition-all hover:opacity-90"
                   style={{
-                    background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-                    boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
+                    background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
+                    boxShadow: "0 2px 12px rgba(6,182,212,0.4)",
                   }}
                 >
                   Mon compte
@@ -191,8 +191,8 @@ export default function Navbar() {
                   href="#pricing"
                   className="inline-flex items-center justify-center rounded-full px-5 py-2 text-[13px] font-semibold text-white transition-all hover:opacity-90"
                   style={{
-                    background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-                    boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
+                    background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
+                    boxShadow: "0 2px 12px rgba(6,182,212,0.4)",
                   }}
                 >
                   Voir les offres
@@ -319,8 +319,8 @@ export default function Navbar() {
                     onClick={() => setMobileOpen(false)}
                     className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white"
                     style={{
-                      background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-                      boxShadow: "0 2px 12px rgba(255,23,68,0.4)",
+                      background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
+                      boxShadow: "0 2px 12px rgba(6,182,212,0.4)",
                     }}
                   >
                     Voir les offres

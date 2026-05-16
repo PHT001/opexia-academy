@@ -29,7 +29,7 @@ export default function ChecklistBlock({ block, lessonSlug }: Props) {
       {/* Progress bar */}
       <div className="h-1 bg-gray-200 rounded-full mb-5 overflow-hidden">
         <div
-          className="h-full bg-[#FF1744] rounded-full transition-all duration-500 ease-out"
+          className="h-full bg-[#06B6D4] rounded-full transition-all duration-500 ease-out"
           style={{ width: `${total ? (done / total) * 100 : 0}%` }}
         />
       </div>
@@ -48,7 +48,7 @@ export default function ChecklistBlock({ block, lessonSlug }: Props) {
               <span
                 className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                   isChecked
-                    ? "bg-[#FF1744] border-[#FF1744]"
+                    ? "bg-[#06B6D4] border-[#06B6D4]"
                     : "border-gray-300 bg-white"
                 }`}
               >

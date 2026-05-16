@@ -17,7 +17,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <Link href="/" className="inline-block">
             <span className="text-2xl font-bold tracking-tight">
               <span className="text-white">Opex</span>
-              <span className="text-[#FF1744]">IA</span>
+              <span className="text-[#06B6D4]">IA</span>
             </span>
           </Link>
         </div>
@@ -40,7 +40,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <Link href="/" className="mb-6 lg:mb-8 lg:hidden">
           <span className="text-2xl font-bold tracking-tight">
             <span className="text-[#1A1A2E]">Opex</span>
-            <span className="text-[#FF1744]">IA</span>
+            <span className="text-[#06B6D4]">IA</span>
           </span>
         </Link>
         {children}

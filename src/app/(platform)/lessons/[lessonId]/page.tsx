@@ -78,8 +78,8 @@ function InlineMvpSubmission({ moduleOrder, moduleTitle }: { moduleOrder: number
   }
 
   return (
-    <div className="mt-10 rounded-2xl p-6 sm:p-7 border border-[#FF1744]/25 bg-gradient-to-br from-[#FF1744]/[0.06] to-white">
-      <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#FF1744] mb-1.5">Dernière étape du module {moduleOrder}</p>
+    <div className="mt-10 rounded-2xl p-6 sm:p-7 border border-[#06B6D4]/25 bg-gradient-to-br from-[#06B6D4]/[0.06] to-white">
+      <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#06B6D4] mb-1.5">Dernière étape du module {moduleOrder}</p>
       <h3 className="text-xl sm:text-2xl font-black text-[#111] mb-2">🚀 Dépose ton MVP du Module {moduleOrder}</h3>
       <p className="text-sm text-[#4B5563] mb-6 leading-relaxed">
         Tu viens de finir <strong>{moduleTitle}</strong>. Construis le mini-projet de l&apos;exercice, déploie-le sur Vercel (ou Notion / Loom / Drive selon le cas), et soumets le lien ci-dessous. Marius te review en perso sous <strong>24h</strong>. Le module suivant se débloque dès validation.
@@ -97,7 +97,7 @@ function InlineMvpSubmission({ moduleOrder, moduleTitle }: { moduleOrder: number
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#FF1744]/60 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/10 text-sm transition-all"
+              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#06B6D4]/60 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/10 text-sm transition-all"
               placeholder="Ex: Landing cabinet Dr Lefebvre"
               maxLength={200}
             />
@@ -108,7 +108,7 @@ function InlineMvpSubmission({ moduleOrder, moduleTitle }: { moduleOrder: number
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#FF1744]/60 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/10 text-sm transition-all resize-none"
+              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#06B6D4]/60 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/10 text-sm transition-all resize-none"
               placeholder="3 lignes claires. Ce que tu as construit et pourquoi."
               required
             />
@@ -119,7 +119,7 @@ function InlineMvpSubmission({ moduleOrder, moduleTitle }: { moduleOrder: number
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#FF1744]/60 focus:outline-none focus:ring-2 focus:ring-[#FF1744]/10 text-sm transition-all"
+              className="w-full rounded-xl px-4 py-3 bg-white border border-gray-200 text-[#111] placeholder:text-gray-400 focus:border-[#06B6D4]/60 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/10 text-sm transition-all"
               placeholder="https://…"
             />
           </div>
@@ -129,7 +129,7 @@ function InlineMvpSubmission({ moduleOrder, moduleTitle }: { moduleOrder: number
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-[#FF1744] hover:bg-[#D50000] text-white text-sm font-bold transition-all disabled:opacity-60 disabled:cursor-wait"
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-[#06B6D4] hover:bg-[#0891B2] text-white text-sm font-bold transition-all disabled:opacity-60 disabled:cursor-wait"
           >
             {submitting ? "Envoi…" : "Soumettre mon MVP →"}
           </button>
@@ -241,7 +241,7 @@ export default function LessonPage() {
             <Link
               href={`/lessons`}
               prefetch
-              className="inline-flex items-center gap-2 bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-bold hover:bg-[#D50000] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-bold hover:bg-[#0891B2] transition-colors"
             >
               Retour aux modules →
             </Link>
@@ -282,7 +282,7 @@ export default function LessonPage() {
           </div>
           <a
             href={lesson.pdfUrl}
-            className="bg-[#FF1744] text-white rounded-xl px-5 py-2.5 text-sm font-semibold hover:bg-[#D50000] transition-colors"
+            className="bg-[#06B6D4] text-white rounded-xl px-5 py-2.5 text-sm font-semibold hover:bg-[#0891B2] transition-colors"
           >
             Télécharger
           </a>
@@ -293,7 +293,7 @@ export default function LessonPage() {
       {lesson.exercise && (
         <div className="bg-[#F8F9FA] rounded-2xl p-5 border border-gray-200">
           <h3 className="font-bold text-[#111] mb-3 flex items-center gap-2">
-            <span className="w-8 h-8 rounded-xl bg-[#FF1744]/10 text-[#FF1744] flex items-center justify-center text-sm">
+            <span className="w-8 h-8 rounded-xl bg-[#06B6D4]/10 text-[#06B6D4] flex items-center justify-center text-sm">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
               </svg>
@@ -309,7 +309,7 @@ export default function LessonPage() {
 
       {/* Starter funnel CTA — last lesson of module 2 */}
       {isStarterLastLesson && (
-        <div className="rounded-2xl overflow-hidden border border-[#FF1744]/20">
+        <div className="rounded-2xl overflow-hidden border border-[#06B6D4]/20">
           <div className="bg-gradient-to-br from-[#1A1A2E] to-[#0F0F1E] p-8">
             <h3 className="text-xl font-bold text-white mb-3">Tu as les bases. Et maintenant ?</h3>
             <p className="text-sm text-gray-400 mb-5 leading-relaxed">
@@ -328,7 +328,7 @@ export default function LessonPage() {
                 <div key={i} className="flex items-center gap-3 text-sm">
                   <span className="text-base">{item.icon}</span>
                   <span className="text-gray-300">{item.text}</span>
-                  <span className="ml-auto text-[10px] text-[#FF1744]/60 font-medium">Academy</span>
+                  <span className="ml-auto text-[10px] text-[#06B6D4]/60 font-medium">Academy</span>
                 </div>
               ))}
             </div>
@@ -337,7 +337,7 @@ export default function LessonPage() {
             </p>
             <Link
               href="/offres"
-              className="inline-flex items-center gap-2 bg-[#FF1744] hover:bg-[#D50000] text-white rounded-xl px-8 py-3.5 text-sm font-bold transition-colors shadow-lg shadow-red-500/20"
+              className="inline-flex items-center gap-2 bg-[#06B6D4] hover:bg-[#0891B2] text-white rounded-xl px-8 py-3.5 text-sm font-bold transition-colors shadow-lg shadow-red-500/20"
             >
               Débloquer la plateforme
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
@@ -348,14 +348,14 @@ export default function LessonPage() {
 
       {/* Upsell after lesson 10 */}
       {showUpsell && (
-        <div className="bg-gradient-to-br from-[#FF1744]/5 to-[#FF1744]/10 rounded-2xl p-8 border border-[#FF1744]/20 text-center">
+        <div className="bg-gradient-to-br from-[#06B6D4]/5 to-[#06B6D4]/10 rounded-2xl p-8 border border-[#06B6D4]/20 text-center">
           <h3 className="text-xl font-bold text-[#111] mb-3">Tu veux aller plus vite ?</h3>
           <p className="text-sm text-[#6B7280] mb-6">
             Passe à la formule One-to-One et bénéficie d&apos;un accompagnement personnalisé.
           </p>
           <a
             href="/offres"
-            className="inline-block bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors"
+            className="inline-block bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#0891B2] transition-colors"
           >
             Découvrir le One-to-One
           </a>
@@ -381,7 +381,7 @@ export default function LessonPage() {
           <Link
             href={`/lessons/${lesson.nextSlug}`}
             prefetch
-            className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors flex items-center gap-1"
+            className="bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#0891B2] transition-colors flex items-center gap-1"
           >
             Leçon suivante
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -392,7 +392,7 @@ export default function LessonPage() {
           <Link
             href="/congratulations"
             prefetch
-            className="bg-[#FF1744] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#D50000] transition-colors"
+            className="bg-[#06B6D4] text-white rounded-xl px-6 py-3 text-sm font-semibold hover:bg-[#0891B2] transition-colors"
           >
             Terminer le parcours
           </Link>

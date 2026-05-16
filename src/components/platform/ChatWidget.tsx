@@ -53,8 +53,8 @@ export function ChatWidget() {
             onClick={() => setOpen(true)}
             className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
             style={{
-              background: "linear-gradient(135deg, #FF1744, #D50000)",
-              boxShadow: "0 8px 32px rgba(255,23,68,0.35), 0 2px 8px rgba(0,0,0,0.1)",
+              background: "linear-gradient(135deg, #06B6D4, #0891B2)",
+              boxShadow: "0 8px 32px rgba(6,182,212,0.35), 0 2px 8px rgba(0,0,0,0.1)",
             }}
             aria-label="Aide rapide"
           >
@@ -118,7 +118,7 @@ export function ChatWidget() {
                     onClick={() => setSelectedIdx(selectedIdx === idx ? null : idx)}
                     className={`w-full text-left px-3.5 py-3 rounded-xl text-sm font-medium transition-all ${
                       selectedIdx === idx
-                        ? "bg-[#FF1744]/5 text-[#FF1744] border border-[#FF1744]/20"
+                        ? "bg-[#06B6D4]/5 text-[#06B6D4] border border-[#06B6D4]/20"
                         : "bg-gray-50 text-[#111] border border-transparent hover:bg-gray-100 hover:border-gray-200"
                     }`}
                   >
@@ -169,7 +169,7 @@ export function ChatWidget() {
               </a>
               <p className="text-[11px] text-gray-400 text-center">
                 Besoin d{"'"}aide personnalis{"é"}e ?{" "}
-                <a href="/coaching" className="text-[#FF1744] font-semibold hover:underline">
+                <a href="/coaching" className="text-[#06B6D4] font-semibold hover:underline">
                   R{"é"}serve un appel coaching
                 </a>
               </p>

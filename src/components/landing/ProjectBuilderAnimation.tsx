@@ -75,7 +75,7 @@ export default function ProjectBuilderAnimation() {
                 <span className="text-[8px] text-gray-400">Services</span>
                 <span className="text-[8px] text-gray-400">Tarifs</span>
                 <span className="text-[8px] text-gray-400">Contact</span>
-                <div className="h-4 px-2 rounded bg-[#FF1744] flex items-center">
+                <div className="h-4 px-2 rounded bg-[#06B6D4] flex items-center">
                   <span className="text-[7px] text-white font-medium">
                     Devis
                   </span>
@@ -108,7 +108,7 @@ export default function ProjectBuilderAnimation() {
                 Chatbots, automatisations et solutions IA sur mesure
               </div>
               <div className="flex gap-1.5">
-                <div className="h-5 px-2.5 rounded-md bg-[#FF1744] flex items-center">
+                <div className="h-5 px-2.5 rounded-md bg-[#06B6D4] flex items-center">
                   <span className="text-[7px] font-medium">Prendre RDV</span>
                 </div>
                 <div className="h-5 px-2.5 rounded-md border border-gray-500 flex items-center">
@@ -186,7 +186,7 @@ export default function ProjectBuilderAnimation() {
                 className="bg-white rounded-xl border border-gray-200 shadow-lg p-2.5 w-36 mb-2"
               >
                 <div className="flex items-center gap-1.5 mb-2">
-                  <div className="h-4 w-4 rounded-full bg-[#FF1744] flex items-center justify-center">
+                  <div className="h-4 w-4 rounded-full bg-[#06B6D4] flex items-center justify-center">
                     <span className="text-[6px] text-white font-bold">IA</span>
                   </div>
                   <span className="text-[8px] font-semibold text-gray-700">
@@ -204,16 +204,16 @@ export default function ProjectBuilderAnimation() {
                     <motion.div
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-[#FF1744]/10 rounded-md px-2 py-1 ml-auto w-fit"
+                      className="bg-[#06B6D4]/10 rounded-md px-2 py-1 ml-auto w-fit"
                     >
-                      <span className="text-[7px] text-[#FF1744]">
+                      <span className="text-[7px] text-[#06B6D4]">
                         Je veux un devis
                       </span>
                     </motion.div>
                   )}
                 </div>
               </motion.div>
-              <div className="bg-[#FF1744] rounded-full h-8 w-8 flex items-center justify-center shadow-lg ml-auto">
+              <div className="bg-[#06B6D4] rounded-full h-8 w-8 flex items-center justify-center shadow-lg ml-auto">
                 <svg
                   className="h-4 w-4 text-white"
                   fill="none"
@@ -251,7 +251,7 @@ export default function ProjectBuilderAnimation() {
           </AnimatePresence>
           <span
             className={`text-[11px] font-semibold ${
-              step === 3 ? "text-green-600" : "text-[#FF1744]"
+              step === 3 ? "text-green-600" : "text-[#06B6D4]"
             }`}
           >
             {currentProgress}%
@@ -260,7 +260,7 @@ export default function ProjectBuilderAnimation() {
         <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
           <motion.div
             className={`h-full rounded-full ${
-              step === 3 ? "bg-green-500" : "bg-[#FF1744]"
+              step === 3 ? "bg-green-500" : "bg-[#06B6D4]"
             }`}
             initial={{ width: "0%" }}
             animate={{ width: `${currentProgress}%` }}

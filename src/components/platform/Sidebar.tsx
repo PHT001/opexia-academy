@@ -372,19 +372,19 @@ interface SidebarProps {
 function TierBadge({ tier, role }: { tier: string; role?: string }) {
   if (role === "admin") {
     return (
-      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25">
+      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/25">
         Admin
       </div>
     );
   }
   const config = {
     // New tiers (QCM landing)
-    standard: { label: "Standard", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
-    accompagnement: { label: "Accompagnement", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
+    standard: { label: "Standard", classes: "bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/25" },
+    accompagnement: { label: "Accompagnement", classes: "bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/25" },
     // Legacy tiers (still in DB for older accounts) · mapped to the same neutral label
-    one_to_one: { label: "Accompagnement", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
-    academy: { label: "Standard", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
-    starter: { label: "Standard", classes: "bg-[#FF1744]/15 text-[#FF1744] border-[#FF1744]/25" },
+    one_to_one: { label: "Accompagnement", classes: "bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/25" },
+    academy: { label: "Standard", classes: "bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/25" },
+    starter: { label: "Standard", classes: "bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/25" },
     free: { label: "Gratuit", classes: "bg-white/5 text-white/40 border-white/8" },
   }[tier] || { label: "Gratuit", classes: "bg-white/5 text-white/40 border-white/8" };
 
@@ -452,8 +452,8 @@ function AdminNotificationBell() {
       </div>
     );
     return (
-      <div className="w-6 h-6 rounded-full bg-[#FF1744]/15 flex items-center justify-center shrink-0">
-        <svg className="w-3 h-3 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+      <div className="w-6 h-6 rounded-full bg-[#06B6D4]/15 flex items-center justify-center shrink-0">
+        <svg className="w-3 h-3 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
       </div>
     );
   };
@@ -488,7 +488,7 @@ function AdminNotificationBell() {
           <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
         </svg>
         {loaded && unreadCount > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#FF1744] text-[8px] font-bold text-white flex items-center justify-center ring-2 ring-[#1A1A2E]">
+          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#06B6D4] text-[8px] font-bold text-white flex items-center justify-center ring-2 ring-[#1A1A2E]">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
@@ -577,8 +577,8 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
             onClick={(e) => e.stopPropagation()}
           >
             <div className="bg-[#111] rounded-2xl border border-white/10 p-7 text-center shadow-2xl">
-              <div className="mx-auto w-12 h-12 rounded-xl bg-[#FF1744]/10 flex items-center justify-center mb-4 ring-1 ring-[#FF1744]/20">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#FF1744]">
+              <div className="mx-auto w-12 h-12 rounded-xl bg-[#06B6D4]/10 flex items-center justify-center mb-4 ring-1 ring-[#06B6D4]/20">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#06B6D4]">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                   <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
@@ -598,8 +598,8 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               <div className="mb-5 text-left space-y-2">
                 {["22 modules complets", "86 leçons progressives", "Quiz de validation", "Aide rapide intégrée"].map((f) => (
                   <div key={f} className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#FF1744]/15 flex items-center justify-center flex-shrink-0">
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-[#FF1744]"><polyline points="20 6 9 17 4 12" /></svg>
+                    <div className="w-4 h-4 rounded-full bg-[#06B6D4]/15 flex items-center justify-center flex-shrink-0">
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-[#06B6D4]"><polyline points="20 6 9 17 4 12" /></svg>
                     </div>
                     <span className="text-[11px] text-white/45">{f}</span>
                   </div>
@@ -609,7 +609,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               <a
                 href="/offres"
                 className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200"
-                style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)", boxShadow: "0 4px 20px rgba(255,23,68,0.3)" }}
+                style={{ background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)", boxShadow: "0 4px 20px rgba(6,182,212,0.3)" }}
               >
                 Voir les offres →
               </a>
@@ -637,7 +637,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
           <Link href="/dashboard" className="flex items-center gap-2.5">
             <span className="text-xl font-bold tracking-tight">
               <span className="text-white">Opex</span>
-              <span className="text-[#FF1744]">IA</span>
+              <span className="text-[#06B6D4]">IA</span>
             </span>
           </Link>
           <div className="h-px bg-gradient-to-r from-transparent via-white/8 to-transparent mt-4 mb-3" />
@@ -649,7 +649,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
               )}
             </div>
             {(tier === "starter" || tier === "free") && (role !== "admin" || previewTier !== null) && (
-              <a href="/offres" className="text-[9px] text-[#FF1744]/60 hover:text-[#FF1744] transition-colors font-semibold uppercase tracking-wider">
+              <a href="/offres" className="text-[9px] text-[#06B6D4]/60 hover:text-[#06B6D4] transition-colors font-semibold uppercase tracking-wider">
                 Upgrade
               </a>
             )}
@@ -657,7 +657,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
 
           {/* Free tier upgrade nudge */}
           {tier === "free" && (role !== "admin" || previewTier !== null) && (
-            <div className="mt-3 rounded-xl p-3 text-center" style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}>
+            <div className="mt-3 rounded-xl p-3 text-center" style={{ background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" }}>
               <p className="text-[12px] font-semibold text-white leading-snug mb-2">Débloque ta formation complète</p>
               <a
                 href="/offres"
@@ -688,8 +688,8 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                   const active = pathname === item.href || pathname.startsWith(item.href + "/");
                   const Icon = item.icon;
                   return (
-                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]", active ? "bg-[#FF1744]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
-                      <Icon className={active ? "text-[#FF1744]" : "text-white/35"} />
+                    <Link key={item.href} href={item.href} onClick={onClose} className={cn("flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]", active ? "bg-[#06B6D4]/10 text-white" : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]")}>
+                      <Icon className={active ? "text-[#06B6D4]" : "text-white/35"} />
                       <span className="truncate">{item.label}</span>
                     </Link>
                   );
@@ -733,7 +733,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                   const linkClasses = cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 min-h-[44px]",
                     active
-                      ? "bg-[#FF1744]/10 text-white"
+                      ? "bg-[#06B6D4]/10 text-white"
                       : "text-white/50 hover:text-white/80 hover:bg-white/[0.04]"
                   );
 
@@ -764,7 +764,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                       onClick={onClose}
                       className={linkClasses}
                     >
-                      <Icon className={active ? "text-[#FF1744]" : "text-white/35"} />
+                      <Icon className={active ? "text-[#06B6D4]" : "text-white/35"} />
                       <span className="truncate">{item.label}</span>
                       {item.badge && (
                         <span className="text-[9px] font-semibold text-white/25 bg-white/[0.06] px-1.5 py-0.5 rounded-full ml-auto shrink-0">
@@ -781,8 +781,8 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
           {/* XP - hidden for admin */}
           {role !== "admin" && <div className="mt-auto mx-1 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-[#FF1744]/15 flex items-center justify-center">
-                <IconXP className="text-[#FF1744]" />
+              <div className="w-7 h-7 rounded-lg bg-[#06B6D4]/15 flex items-center justify-center">
+                <IconXP className="text-[#06B6D4]" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline justify-between">
@@ -790,7 +790,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
                   <p className="text-[10px] text-white/20">{xpInLevel}/500</p>
                 </div>
                 <div className="w-full h-1 rounded-full bg-white/[0.04] mt-1 overflow-hidden">
-                  <div className="h-full rounded-full bg-[#FF1744]/40 transition-all duration-500" style={{ width: `${xpProgress}%` }} />
+                  <div className="h-full rounded-full bg-[#06B6D4]/40 transition-all duration-500" style={{ width: `${xpProgress}%` }} />
                 </div>
                 <p className="text-sm font-bold text-white/90 mt-0.5">{xp.toLocaleString()} XP</p>
               </div>
@@ -801,7 +801,7 @@ export function Sidebar({ userName, xp = 0, tier = "starter", role, open, onClos
         {/* User section */}
         <div className="p-3 border-t border-white/[0.06] shrink-0">
           <div className="flex items-center gap-3 px-2 py-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF1744]/20 to-[#FF1744]/5 flex items-center justify-center text-[11px] font-bold text-white ring-1 ring-[#FF1744]/15 overflow-hidden flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#06B6D4]/20 to-[#06B6D4]/5 flex items-center justify-center text-[11px] font-bold text-white ring-1 ring-[#06B6D4]/15 overflow-hidden flex-shrink-0">
               {profilePhoto ? (
                 <img src={profilePhoto} alt="" className="w-full h-full object-cover" />
               ) : (

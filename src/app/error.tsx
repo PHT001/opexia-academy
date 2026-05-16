@@ -19,7 +19,7 @@ export default function GlobalError({
         {/* Logo / Brand */}
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#06B6D4] to-[#0891B2] flex items-center justify-center">
               <span className="text-white font-black text-lg">O</span>
             </div>
             <span className="text-white font-bold text-xl tracking-tight">
@@ -55,7 +55,7 @@ export default function GlobalError({
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={reset}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF1744] hover:bg-[#D50000] text-white text-sm font-semibold rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#06B6D4] hover:bg-[#0891B2] text-white text-sm font-semibold rounded-xl transition-colors"
           >
             <svg
               className="w-4 h-4"

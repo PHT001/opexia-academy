@@ -207,8 +207,8 @@ function Podium({ users, currentUserId }: { users: RankedUser[]; currentUserId: 
                 className={cn(
                   "rounded-full flex items-center justify-center font-semibold shrink-0",
                   size.avatar,
-                  isMe ? "bg-[#FF1744] text-white" : "bg-[#111] text-white",
-                  isFirst && "ring-2 ring-[#FF1744]/30 ring-offset-2"
+                  isMe ? "bg-[#06B6D4] text-white" : "bg-[#111] text-white",
+                  isFirst && "ring-2 ring-[#06B6D4]/30 ring-offset-2"
                 )}
               >
                 {user.name.charAt(0).toUpperCase()}
@@ -217,7 +217,7 @@ function Podium({ users, currentUserId }: { users: RankedUser[]; currentUserId: 
               <div className={cn(
                 "absolute -bottom-1 -right-1 flex items-center justify-center rounded-full text-[10px] font-bold",
                 "h-5 w-5 border-2 border-white",
-                isFirst ? "bg-[#FF1744] text-white" : "bg-gray-200 text-gray-600"
+                isFirst ? "bg-[#06B6D4] text-white" : "bg-gray-200 text-gray-600"
               )}>
                 {rank}
               </div>
@@ -242,7 +242,7 @@ function Podium({ users, currentUserId }: { users: RankedUser[]; currentUserId: 
               className={cn(
                 "mt-3 w-20 md:w-24 rounded-t-lg",
                 PODIUM_HEIGHTS[i],
-                isFirst ? "bg-[#FF1744]/8 border-t-2 border-[#FF1744]" : "bg-gray-50 border-t-2 border-gray-200"
+                isFirst ? "bg-[#06B6D4]/8 border-t-2 border-[#06B6D4]" : "bg-gray-50 border-t-2 border-gray-200"
               )}
             />
           </motion.div>
@@ -291,7 +291,7 @@ function StatsCards({ user, totalStudents }: { user: CurrentUser; totalStudents:
             <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">{s.label}</span>
             {s.trend && s.trend !== "same" && (
               s.trend === "up"
-                ? <IconArrowUp className="text-[#FF1744]" />
+                ? <IconArrowUp className="text-[#06B6D4]" />
                 : <IconArrowDown className="text-gray-400" />
             )}
           </div>
@@ -305,7 +305,7 @@ function StatsCards({ user, totalStudents }: { user: CurrentUser; totalStudents:
                 initial={{ width: 0 }}
                 animate={{ width: `${s.progress}%` }}
                 transition={{ delay: 0.9, duration: 0.6 }}
-                className="h-full rounded-full bg-[#FF1744]"
+                className="h-full rounded-full bg-[#06B6D4]"
               />
             </div>
           )}
@@ -396,13 +396,13 @@ function RankingSection({
                     transition={{ delay: i * 0.025 }}
                     className={cn(
                       "flex items-center gap-3 px-4 py-2.5 transition-colors",
-                      isMe ? "bg-[#FF1744]/[0.04]" : "hover:bg-gray-50/60"
+                      isMe ? "bg-[#06B6D4]/[0.04]" : "hover:bg-gray-50/60"
                     )}
                   >
                     {/* Rank */}
                     <span className={cn(
                       "flex h-6 w-6 items-center justify-center rounded text-[11px] font-bold shrink-0",
-                      isMe ? "bg-[#FF1744] text-white" : user.rank <= 3 ? "bg-[#111] text-white" : "text-gray-400"
+                      isMe ? "bg-[#06B6D4] text-white" : user.rank <= 3 ? "bg-[#111] text-white" : "text-gray-400"
                     )}>
                       {user.rank}
                     </span>
@@ -410,7 +410,7 @@ function RankingSection({
                     {/* Avatar */}
                     <div className={cn(
                       "flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold shrink-0",
-                      isMe ? "bg-[#FF1744] text-white" : "bg-gray-100 text-gray-500"
+                      isMe ? "bg-[#06B6D4] text-white" : "bg-gray-100 text-gray-500"
                     )}>
                       {user.name.charAt(0).toUpperCase()}
                     </div>
@@ -419,7 +419,7 @@ function RankingSection({
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-[#111] truncate">
                         <span className={cn(isMe && "font-semibold")}>{user.name}</span>
-                        {isMe && <span className="ml-1 text-[10px] text-[#FF1744]">(vous)</span>}
+                        {isMe && <span className="ml-1 text-[10px] text-[#06B6D4]">(vous)</span>}
                       </p>
                       <p className="text-[10px] text-gray-400">Niv. {user.level}</p>
                     </div>
@@ -427,7 +427,7 @@ function RankingSection({
                     {/* Metric */}
                     <span className={cn(
                       "text-sm font-semibold tabular-nums shrink-0",
-                      isMe ? "text-[#FF1744]" : "text-[#111]"
+                      isMe ? "text-[#06B6D4]" : "text-[#111]"
                     )}>
                       {currentTab.metric(user)}
                     </span>
@@ -468,7 +468,7 @@ function BadgesRow({ allBadges, earned }: { allBadges: Badge[]; earned: string[]
             >
               <div className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-full",
-                isEarned ? "bg-[#FF1744]/10 text-[#FF1744]" : "bg-gray-100 text-gray-300"
+                isEarned ? "bg-[#06B6D4]/10 text-[#06B6D4]" : "bg-gray-100 text-gray-300"
               )}>
                 {isEarned ? <IconCheck /> : <IconLock />}
               </div>
@@ -505,7 +505,7 @@ function ActivityFeed({ activities }: { activities: Activity[] }) {
       transition={{ delay: 0.7 }}
     >
       <div className="flex items-center gap-2 mb-2">
-        <div className="h-1.5 w-1.5 rounded-full bg-[#FF1744] animate-pulse" />
+        <div className="h-1.5 w-1.5 rounded-full bg-[#06B6D4] animate-pulse" />
         <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">Activite</p>
       </div>
       <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden divide-y divide-gray-100/60">
@@ -518,7 +518,7 @@ function ActivityFeed({ activities }: { activities: Activity[] }) {
               <span className="font-medium text-[#111]">{a.userName}</span>{" "}{a.action}
             </p>
             {a.xp > 0 && (
-              <span className="text-[10px] font-medium text-[#FF1744] shrink-0">+{a.xp}</span>
+              <span className="text-[10px] font-medium text-[#06B6D4] shrink-0">+{a.xp}</span>
             )}
             <span className="text-[10px] text-gray-300 shrink-0 flex items-center gap-0.5">
               <IconClock />
@@ -600,7 +600,7 @@ export default function LeaderboardPage() {
           <p className="text-sm text-gray-500">{error ?? "Impossible de charger le classement."}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-3 rounded-lg bg-[#FF1744] px-4 py-2 text-sm font-medium text-white hover:bg-[#D50000] transition-colors"
+            className="mt-3 rounded-lg bg-[#06B6D4] px-4 py-2 text-sm font-medium text-white hover:bg-[#0891B2] transition-colors"
           >
             Reessayer
           </button>
@@ -673,8 +673,8 @@ export default function LeaderboardPage() {
               >
                 <div className="rounded-2xl bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg p-8">
                   {/* Lock icon */}
-                  <div className="mx-auto w-14 h-14 rounded-2xl bg-[#FF1744]/10 flex items-center justify-center mb-5">
-                    <svg className="h-7 w-7 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <div className="mx-auto w-14 h-14 rounded-2xl bg-[#06B6D4]/10 flex items-center justify-center mb-5">
+                    <svg className="h-7 w-7 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                     </svg>
                   </div>
@@ -690,8 +690,8 @@ export default function LeaderboardPage() {
                     href="/offres"
                     className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
                     style={{
-                      background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-                      boxShadow: "0 4px 14px rgba(255,23,68,0.3)",
+                      background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
+                      boxShadow: "0 4px 14px rgba(6,182,212,0.3)",
                     }}
                   >
                     Voir les offres

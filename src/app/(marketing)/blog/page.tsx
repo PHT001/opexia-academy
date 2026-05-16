@@ -46,7 +46,7 @@ export default function BlogPage() {
       {/* Hero */}
       <div className="relative overflow-hidden pt-32 pb-20 px-6">
         {/* Decorative blobs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[#FF1744]/5 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#06B6D4]/5 rounded-full blur-3xl" />
         <div className="absolute top-40 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
 
         <motion.div
@@ -55,12 +55,12 @@ export default function BlogPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FF1744]/5 border border-[#FF1744]/10 text-xs text-[#FF1744] font-semibold mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#06B6D4]/5 border border-[#06B6D4]/10 text-xs text-[#06B6D4] font-semibold mb-6">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
             {blogArticles.length} articles
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-[#111] mb-4">
-            Blog Opex<span className="text-[#FF1744]">IA</span>
+            Blog Opex<span className="text-[#06B6D4]">IA</span>
           </h1>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Ressources &amp; Guides pour lancer et developper ton agence IA
@@ -77,14 +77,14 @@ export default function BlogPage() {
         >
           <Link
             href={`/blog/${featured.slug}`}
-            className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1A1A2E] to-[#0F0F1A] p-8 md:p-12 hover:shadow-2xl hover:shadow-[#FF1744]/10 transition-all duration-500"
+            className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1A1A2E] to-[#0F0F1A] p-8 md:p-12 hover:shadow-2xl hover:shadow-[#06B6D4]/10 transition-all duration-500"
           >
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF1744]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl group-hover:bg-[#FF1744]/15 transition-all duration-500" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#06B6D4]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl group-hover:bg-[#06B6D4]/15 transition-all duration-500" />
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs text-white/60 font-medium mb-4">
                 Article a la une
               </div>
-              <h2 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-4 group-hover:text-[#FF1744] transition-colors duration-300">
+              <h2 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-4 group-hover:text-[#06B6D4] transition-colors duration-300">
                 {featured.title}
               </h2>
               <p className="text-white/40 text-base md:text-lg max-w-2xl mb-4 leading-relaxed">
@@ -112,7 +112,7 @@ export default function BlogPage() {
                     <span className="text-sm text-white/30">{featured.author}</span>
                   </>
                 )}
-                <div className="ml-auto flex items-center gap-2 text-sm font-semibold text-[#FF1744] group-hover:gap-3 transition-all duration-200">
+                <div className="ml-auto flex items-center gap-2 text-sm font-semibold text-[#06B6D4] group-hover:gap-3 transition-all duration-200">
                   Lire
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
@@ -141,7 +141,7 @@ export default function BlogPage() {
                 className="group block bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-gray-200 hover:shadow-xl hover:shadow-gray-100/50 transition-all duration-300 h-full"
               >
                 {/* Color accent */}
-                <div className="h-1.5 bg-gradient-to-r from-[#FF1744] via-[#FF1744]/60 to-transparent" />
+                <div className="h-1.5 bg-gradient-to-r from-[#06B6D4] via-[#06B6D4]/60 to-transparent" />
 
                 <div className="p-6 flex flex-col min-h-[280px]">
                   <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -158,7 +158,7 @@ export default function BlogPage() {
                     </span>
                   </div>
 
-                  <h2 className="text-lg font-bold text-[#111] leading-snug mb-3 group-hover:text-[#FF1744] transition-colors duration-200">
+                  <h2 className="text-lg font-bold text-[#111] leading-snug mb-3 group-hover:text-[#06B6D4] transition-colors duration-200">
                     {article.title}
                   </h2>
 
@@ -176,7 +176,7 @@ export default function BlogPage() {
                         </>
                       )}
                     </div>
-                    <div className="flex items-center gap-1.5 text-sm font-semibold text-[#FF1744] group-hover:gap-2.5 transition-all duration-200">
+                    <div className="flex items-center gap-1.5 text-sm font-semibold text-[#06B6D4] group-hover:gap-2.5 transition-all duration-200">
                       Lire
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
@@ -199,7 +199,7 @@ export default function BlogPage() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#FF1744]/5 rounded-full blur-3xl" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#06B6D4]/5 rounded-full blur-3xl" />
           <div className="relative z-10">
             <h2 className="text-3xl font-bold text-[#111] mb-3">
               Pret a passer a l&apos;action ?
@@ -209,8 +209,8 @@ export default function BlogPage() {
             </p>
             <a
               href="/#pricing"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-[#FF1744]/20"
-              style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-[#06B6D4]/20"
+              style={{ background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" }}
             >
               Voir les offres
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

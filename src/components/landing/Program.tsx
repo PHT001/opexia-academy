@@ -100,7 +100,7 @@ export default function Program() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+          <span className="text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
             Programme
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -114,7 +114,7 @@ export default function Program() {
         {/* Timeline */}
         <div className="relative max-w-3xl mx-auto z-10">
           {/* Vertical line */}
-          <div className="absolute left-6 lg:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#FF1744]/20 via-[#FF1744]/40 to-[#FF1744]/20" />
+          <div className="absolute left-6 lg:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#06B6D4]/20 via-[#06B6D4]/40 to-[#06B6D4]/20" />
 
           <div className="space-y-16">
             {weeks.map((week, i) => (
@@ -127,8 +127,8 @@ export default function Program() {
                 className="relative pl-16 lg:pl-20"
               >
                 {/* Circle on timeline */}
-                <div className="absolute left-3 lg:left-5 top-1 h-7 w-7 rounded-full border-2 border-[#FF1744] bg-white flex items-center justify-center">
-                  <span className="text-xs font-bold text-[#FF1744]">
+                <div className="absolute left-3 lg:left-5 top-1 h-7 w-7 rounded-full border-2 border-[#06B6D4] bg-white flex items-center justify-center">
+                  <span className="text-xs font-bold text-[#06B6D4]">
                     {week.num}
                   </span>
                 </div>
@@ -151,12 +151,12 @@ export default function Program() {
                         key={point}
                         className="flex items-start gap-2.5 text-[#6B7280]"
                       >
-                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#FF1744]/40 flex-shrink-0" />
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#06B6D4]/40 flex-shrink-0" />
                         {point}
                       </li>
                     ))}
                   </ul>
-                  <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#FF1744]">
+                  <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#06B6D4]">
                     <svg
                       className="h-4 w-4"
                       fill="none"

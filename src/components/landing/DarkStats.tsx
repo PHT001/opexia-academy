@@ -65,7 +65,7 @@ export default function DarkStats() {
               transition={{ duration: 0.5, delay: i * 0.12 }}
               className="relative text-center rounded-2xl border border-gray-100 bg-white shadow-sm py-8 px-4 overflow-hidden"
             >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#FF1744]/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#06B6D4]/5 rounded-full blur-2xl pointer-events-none" />
               <div className="relative text-4xl sm:text-5xl font-black text-[#111] leading-none">
                 <AnimatedCounter
                   target={stat.value}

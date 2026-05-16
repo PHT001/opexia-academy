@@ -265,7 +265,7 @@ function DealDetailPanel({
               </button>
               <button
                 onClick={onEdit}
-                className="flex-1 py-2 rounded-lg bg-[#FF1744] text-white text-xs font-medium flex items-center justify-center gap-1.5 hover:bg-[#D50000] transition-colors"
+                className="flex-1 py-2 rounded-lg bg-[#06B6D4] text-white text-xs font-medium flex items-center justify-center gap-1.5 hover:bg-[#0891B2] transition-colors"
               >
                 <IconEdit className="text-white" /> Modifier
               </button>
@@ -342,7 +342,7 @@ function DealModal({
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
         >
-          <div className="h-1.5 bg-gradient-to-r from-[#FF1744] to-[#D50000]" />
+          <div className="h-1.5 bg-gradient-to-r from-[#06B6D4] to-[#0891B2]" />
           <div className="p-6">
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-lg font-bold text-gray-900">{deal ? "Modifier le deal" : "Nouveau projet"}</h3>
@@ -361,7 +361,7 @@ function DealModal({
               <div>
                 <label className="text-[11px] text-gray-500 font-medium mb-1.5 block">Nom du projet / client *</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required
-                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors"
                   placeholder="Ex: Agence IA pour cabinet comptable"
                 />
               </div>
@@ -370,14 +370,14 @@ function DealModal({
                 <div>
                   <label className="text-[11px] text-gray-500 font-medium mb-1.5 block">Entreprise</label>
                   <input type="text" value={company} onChange={(e) => setCompany(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors"
                     placeholder="Ex: ComptaPlus"
                   />
                 </div>
                 <div>
                   <label className="text-[11px] text-gray-500 font-medium mb-1.5 block">Montant (€)</label>
                   <input type="number" value={value} onChange={(e) => setValue(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors"
                     placeholder="0" min="0"
                   />
                 </div>
@@ -387,7 +387,7 @@ function DealModal({
                 <div>
                   <label className="text-[11px] text-gray-500 font-medium mb-1.5 block">Étape</label>
                   <select value={stage} onChange={(e) => setStage(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors"
                   >
                     {STAGES.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
                     <option value="lost">{LOST_STAGE.label}</option>
@@ -396,7 +396,7 @@ function DealModal({
                 <div>
                   <label className="text-[11px] text-gray-500 font-medium mb-1.5 block">Priorité</label>
                   <select value={priority} onChange={(e) => setPriority(e.target.value as Priority)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors"
                   >
                     <option value="high">🔴 Haute</option>
                     <option value="medium">🟡 Moyenne</option>
@@ -408,13 +408,13 @@ function DealModal({
               <div>
                 <label className="text-[11px] text-gray-500 font-medium mb-1.5 block">Notes</label>
                 <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3}
-                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors resize-none"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors resize-none"
                   placeholder="Détails, prochaines étapes, contact..."
                 />
               </div>
 
               <button type="submit"
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#0891B2] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
               >
                 {deal ? "Enregistrer les modifications" : "Ajouter le projet"}
               </button>
@@ -571,7 +571,7 @@ export default function PipelinePage() {
           </button>
           <motion.button
             onClick={() => { setEditingDeal(null); setModalOpen(true); }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#0891B2] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -629,7 +629,7 @@ export default function PipelinePage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un deal..."
-            className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744]/20 transition-colors"
+            className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors"
           />
         </div>
 
@@ -655,7 +655,7 @@ export default function PipelinePage() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as "date" | "value" | "name")}
-            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-[10px] font-medium text-gray-600 focus:outline-none focus:border-[#FF1744] flex-shrink-0"
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-[10px] font-medium text-gray-600 focus:outline-none focus:border-[#06B6D4] flex-shrink-0"
           >
             <option value="date">Date</option>
             <option value="value">Montant</option>
@@ -791,7 +791,7 @@ export default function PipelinePage() {
                         {stage.id === "lead" && !isLocked && (
                           <button
                             onClick={() => { setEditingDeal(null); setModalOpen(true); }}
-                            className="text-[10px] text-[#FF1744] font-medium hover:underline"
+                            className="text-[10px] text-[#06B6D4] font-medium hover:underline"
                           >
                             + Ajouter
                           </button>
@@ -923,14 +923,14 @@ export default function PipelinePage() {
           {isLocked ? (
             <a
               href="/offres"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all pointer-events-auto"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#0891B2] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all pointer-events-auto"
             >
               Voir les offres &rarr;
             </a>
           ) : (
             <button
               onClick={() => { setEditingDeal(null); setModalOpen(true); }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF1744] to-[#D50000] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#0891B2] text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all"
             >
               <IconPlus className="text-white" />
               Ajouter mon premier deal
@@ -962,12 +962,12 @@ export default function PipelinePage() {
   return (
     <div className="w-full">
       {isLocked && (
-        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#FF1744]/10 to-[#FF1744]/5 border border-[#FF1744]/20 p-4">
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-gradient-to-r from-[#06B6D4]/10 to-[#06B6D4]/5 border border-[#06B6D4]/20 p-4">
           <div>
             <p className="text-sm font-semibold text-[#111]">Fonctionnalité premium</p>
             <p className="text-xs text-[#6B7280]">Upgrade pour accéder à cette fonctionnalité.</p>
           </div>
-          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#FF1744] px-4 py-2 text-xs font-semibold text-white hover:bg-[#D50000] transition-colors">
+          <a href="/offres" className="flex-shrink-0 rounded-full bg-[#06B6D4] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0891B2] transition-colors">
             Voir les offres
           </a>
         </div>

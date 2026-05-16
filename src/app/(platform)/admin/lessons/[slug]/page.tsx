@@ -72,7 +72,7 @@ export default function AdminLessonDetailPage() {
           &larr; Retour aux lecons
         </Link>
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-white font-bold text-sm">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#06B6D4] to-[#0891B2] flex items-center justify-center text-white font-bold text-sm">
             {lesson.order}
           </div>
           <div>
@@ -104,7 +104,7 @@ export default function AdminLessonDetailPage() {
             <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
               <span className="text-[10px] font-mono text-white/30 w-6 text-right flex-shrink-0 pt-0.5">{i + 1}</span>
               <div className="flex-1 min-w-0">
-                <span className="inline-block text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 px-1.5 py-0.5 rounded mb-1 uppercase">
+                <span className="inline-block text-[10px] font-bold text-[#06B6D4] bg-[#06B6D4]/10 px-1.5 py-0.5 rounded mb-1 uppercase">
                   {block.type}
                 </span>
                 {block.type === "heading" && <p className="text-sm font-semibold truncate">{String(block.content || "")}</p>}

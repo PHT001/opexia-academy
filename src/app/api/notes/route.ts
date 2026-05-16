@@ -57,7 +57,7 @@ export async function POST(req: Request) {
         title: title ?? "",
         content: content ?? "",
         folder: folder ?? "Général",
-        color: color ?? "#FF1744",
+        color: color ?? "#06B6D4",
         icon: icon ?? "📝",
         pinned: pinned ?? false,
       },

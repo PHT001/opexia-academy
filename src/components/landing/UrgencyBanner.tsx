@@ -14,7 +14,7 @@ export default function UrgencyBanner() {
         initial={{ y: -40 }}
         animate={{ y: 0 }}
         exit={{ y: -40 }}
-        className="fixed top-0 left-0 right-0 z-[60] bg-[#FF1744] text-white text-center py-2 px-4"
+        className="fixed top-0 left-0 right-0 z-[60] bg-[#06B6D4] text-white text-center py-2 px-4"
       >
         <div className="flex items-center justify-center gap-3 text-sm font-medium">
           <span className="hidden sm:inline">&#127891;</span>

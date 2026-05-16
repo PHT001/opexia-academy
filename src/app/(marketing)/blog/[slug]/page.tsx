@@ -88,7 +88,7 @@ function RelatedArticles({ slugs, currentSlug }: { slugs: string[]; currentSlug:
             href={`/blog/${article!.slug}`}
             className="group block bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-gray-200 hover:shadow-lg hover:shadow-gray-100/50 transition-all duration-300"
           >
-            <div className="h-1 bg-gradient-to-r from-[#FF1744] via-[#FF1744]/60 to-transparent" />
+            <div className="h-1 bg-gradient-to-r from-[#06B6D4] via-[#06B6D4]/60 to-transparent" />
             <div className="p-5">
               <div className="flex items-center gap-2 mb-3">
                 {article!.tags?.slice(0, 1).map((tag) => (
@@ -101,7 +101,7 @@ function RelatedArticles({ slugs, currentSlug }: { slugs: string[]; currentSlug:
                 ))}
                 <span className="text-[11px] text-gray-400">{article!.readTime}</span>
               </div>
-              <h3 className="text-sm font-bold text-[#111] leading-snug mb-2 group-hover:text-[#FF1744] transition-colors duration-200 line-clamp-2">
+              <h3 className="text-sm font-bold text-[#111] leading-snug mb-2 group-hover:text-[#06B6D4] transition-colors duration-200 line-clamp-2">
                 {article!.title}
               </h3>
               <p className="text-xs text-gray-400 leading-relaxed line-clamp-2">
@@ -129,7 +129,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
         <div className="max-w-3xl mx-auto">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-[#FF1744] transition-colors mb-10"
+            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-[#06B6D4] transition-colors mb-10"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
@@ -160,7 +160,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               <div className="flex items-center gap-3">
                 {article.author && (
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#0891B2] flex items-center justify-center text-white text-xs font-bold">
                       {article.author.charAt(0)}
                     </div>
                     <span className="text-sm text-gray-600 font-medium">{article.author}</span>
@@ -176,7 +176,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               </div>
             </div>
 
-            <div className="w-16 h-1 bg-[#FF1744] rounded-full mt-6" />
+            <div className="w-16 h-1 bg-[#06B6D4] rounded-full mt-6" />
           </div>
 
           <article
@@ -198,7 +198,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
             <div className="flex items-center gap-2">
               {article.author && (
                 <>
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-white text-xs font-bold">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#0891B2] flex items-center justify-center text-white text-xs font-bold">
                     {article.author.charAt(0)}
                   </div>
                   <span className="text-sm text-gray-500">Par {article.author}</span>
@@ -210,7 +210,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
 
           {/* CTA */}
           <div className="mt-12 relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1A1A2E] to-[#0F0F1A] p-8 md:p-10 text-center">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF1744]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#06B6D4]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full translate-y-1/2 -translate-x-1/3 blur-3xl" />
             <div className="relative z-10">
               <h2 className="text-2xl font-bold text-white mb-3">
@@ -221,8 +221,8 @@ export default async function BlogArticlePage({ params }: PageProps) {
               </p>
               <a
                 href="/#pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-[#FF1744]/20"
-                style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-[#06B6D4]/20"
+                style={{ background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" }}
               >
                 Decouvre la formation OpexIA
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

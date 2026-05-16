@@ -182,7 +182,7 @@ function RadialProgress({ percent, size = 160, strokeWidth = 10 }: { percent: nu
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="#FF1744"
+          stroke="#06B6D4"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={circumference}
@@ -230,8 +230,8 @@ function XPSparkline({ data: activityData, className }: { data: RecentActivityIt
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
         <defs>
           <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FF1744" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#FF1744" stopOpacity="0" />
+            <stop offset="0%" stopColor="#06B6D4" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#06B6D4" stopOpacity="0" />
           </linearGradient>
         </defs>
         <motion.path
@@ -244,7 +244,7 @@ function XPSparkline({ data: activityData, className }: { data: RecentActivityIt
         <motion.path
           d={linePath}
           fill="none"
-          stroke="#FF1744"
+          stroke="#06B6D4"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -259,7 +259,7 @@ function XPSparkline({ data: activityData, className }: { data: RecentActivityIt
             cy={p.y}
             r="3"
             fill="white"
-            stroke="#FF1744"
+            stroke="#06B6D4"
             strokeWidth="1.5"
             initial={{ opacity: 0, scale: 0 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -404,7 +404,7 @@ function CelebrationModal({ plan, onClose }: { plan: string; onClose: () => void
             style={{
               left: `${Math.random() * 100}%`,
               top: `-5%`,
-              backgroundColor: ["#FF1744", "#FF5252", "#FFD54F", "#4FC3F7", "#81C784", "#CE93D8", "#FF8A65"][i % 7],
+              backgroundColor: ["#06B6D4", "#FF5252", "#FFD54F", "#4FC3F7", "#81C784", "#CE93D8", "#FF8A65"][i % 7],
               animationDelay: `${Math.random() * 3}s`,
               animationDuration: `${2.5 + Math.random() * 2}s`,
               transform: `rotate(${Math.random() * 360}deg)`,
@@ -432,7 +432,7 @@ function CelebrationModal({ plan, onClose }: { plan: string; onClose: () => void
         <Link
           href="/lessons"
           onClick={onClose}
-          className="inline-flex items-center justify-center gap-2 w-full rounded-xl px-6 py-4 text-base font-bold bg-[#FF1744] text-white hover:bg-[#D50000] transition-colors shadow-lg shadow-[#FF1744]/20"
+          className="inline-flex items-center justify-center gap-2 w-full rounded-xl px-6 py-4 text-base font-bold bg-[#06B6D4] text-white hover:bg-[#0891B2] transition-colors shadow-lg shadow-[#06B6D4]/20"
         >
           Commencer ma premi{"è"}re le{"ç"}on
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -643,7 +643,7 @@ function DashboardContent() {
   if (autoCheckoutPending) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <svg className="animate-spin h-8 w-8 text-[#FF1744]" viewBox="0 0 24 24" fill="none">
+        <svg className="animate-spin h-8 w-8 text-[#06B6D4]" viewBox="0 0 24 24" fill="none">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
@@ -711,7 +711,7 @@ function DashboardContent() {
               onClick={() => handlePreviewTierChange(t.id)}
               className={`text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all ${
                 previewTier === t.id
-                  ? "bg-[#FF1744] text-white shadow-sm"
+                  ? "bg-[#06B6D4] text-white shadow-sm"
                   : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700"
               }`}
             >
@@ -739,14 +739,14 @@ function DashboardContent() {
       {/* ════ FREE USER UPGRADE BANNER (legacy, kept for tier preview) ════ */}
       {isFreeUser && !isAdmin && (
         <motion.div
-          className="relative overflow-hidden rounded-2xl border border-[#FF1744]/20 shadow-sm bg-gradient-to-br from-white to-red-50/40"
+          className="relative overflow-hidden rounded-2xl border border-[#06B6D4]/20 shadow-sm bg-gradient-to-br from-white to-red-50/40"
           variants={fadeUp}
         >
           <div className="relative z-10 p-6 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="inline-flex items-center rounded-full bg-[#FF1744]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#FF1744] uppercase tracking-wider">Compte gratuit</span>
+                  <span className="inline-flex items-center rounded-full bg-[#06B6D4]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#06B6D4] uppercase tracking-wider">Compte gratuit</span>
                 </div>
                 <h2 className="text-lg font-semibold text-[#111] mb-1">
                   Bienvenue sur OpexIA Academy !
@@ -757,7 +757,7 @@ function DashboardContent() {
               </div>
               <a
                 href="/offres"
-                className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#E01440] transition-colors shadow-md shadow-red-200 whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white bg-[#06B6D4] hover:bg-[#E01440] transition-colors shadow-md shadow-red-200 whitespace-nowrap"
               >
                 D&eacute;bloquer la formation
                 <IconArrowRight className="w-4 h-4" />
@@ -774,12 +774,12 @@ function DashboardContent() {
         variants={fadeUp}
       >
         {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF1744]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-40 h-40 bg-[#FF1744]/5 rounded-full translate-y-1/2 blur-2xl" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#06B6D4]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-40 h-40 bg-[#06B6D4]/5 rounded-full translate-y-1/2 blur-2xl" />
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[#FF1744] font-semibold mb-2">Tableau de bord</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#06B6D4] font-semibold mb-2">Tableau de bord</p>
             <motion.h1
               className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-1"
               initial={{ opacity: 0, x: -10 }}
@@ -804,7 +804,7 @@ function DashboardContent() {
             <motion.a
               href={`/lessons/${data.currentLesson.slug}`}
               className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-white flex-shrink-0 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
-              style={{ background: "linear-gradient(135deg, #FF1744, #D50000)", boxShadow: "0 4px 24px rgba(255,23,68,0.35)" }}
+              style={{ background: "linear-gradient(135deg, #06B6D4, #0891B2)", boxShadow: "0 4px 24px rgba(6,182,212,0.35)" }}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.3 }}
@@ -824,7 +824,7 @@ function DashboardContent() {
           </div>
           <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
             <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252]"
+              className="h-full rounded-full bg-gradient-to-r from-[#06B6D4] to-[#FF5252]"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
@@ -836,17 +836,17 @@ function DashboardContent() {
       {/* ════ VIP SECTION (One-to-One users only) ════ */}
       {userTier === "one_to_one" && (
         <motion.div
-          className="relative overflow-hidden rounded-2xl border border-[#FF1744]/20 shadow-lg"
+          className="relative overflow-hidden rounded-2xl border border-[#06B6D4]/20 shadow-lg"
           style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #1E1B2E 50%, #1A1A2E 100%)" }}
           variants={fadeUp}
         >
-          <div className="absolute top-0 right-0 w-60 h-60 bg-[#FF1744]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#FF1744]/5 rounded-full translate-y-1/2 -translate-x-1/4 blur-2xl" />
+          <div className="absolute top-0 right-0 w-60 h-60 bg-[#06B6D4]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#06B6D4]/5 rounded-full translate-y-1/2 -translate-x-1/4 blur-2xl" />
           <div className="relative z-10 p-6 sm:p-8">
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-[#FF1744] text-lg">&#9733;</span>
+              <span className="text-[#06B6D4] text-lg">&#9733;</span>
               <h2 className="text-lg font-bold text-white tracking-tight">Ton espace VIP</h2>
-              <span className="ml-auto inline-flex items-center rounded-full bg-[#FF1744]/15 px-2.5 py-0.5 text-[10px] font-bold text-[#FF1744] uppercase tracking-wider border border-[#FF1744]/20">One-to-One</span>
+              <span className="ml-auto inline-flex items-center rounded-full bg-[#06B6D4]/15 px-2.5 py-0.5 text-[10px] font-bold text-[#06B6D4] uppercase tracking-wider border border-[#06B6D4]/20">One-to-One</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <a
@@ -859,7 +859,7 @@ function DashboardContent() {
                   <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.37 0-4.567-.818-6.303-2.187l-.44-.36-2.796.938.938-2.796-.36-.44A9.96 9.96 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white group-hover:text-[#FF1744] transition-colors">WhatsApp direct</p>
+                  <p className="text-sm font-semibold text-white group-hover:text-[#06B6D4] transition-colors">WhatsApp direct</p>
                   <p className="text-xs text-white/40">Marius &amp; Igor</p>
                 </div>
               </a>
@@ -871,13 +871,13 @@ function DashboardContent() {
                   <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white group-hover:text-[#FF1744] transition-colors">R&eacute;server une visio</p>
+                  <p className="text-sm font-semibold text-white group-hover:text-[#06B6D4] transition-colors">R&eacute;server une visio</p>
                   <p className="text-xs text-white/40">Session coaching</p>
                 </div>
               </a>
               <div className="flex items-center gap-3 rounded-xl bg-white/5 border border-white/10 p-4">
-                <div className="w-10 h-10 rounded-lg bg-[#FF1744]/15 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-[#FF1744]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div className="w-10 h-10 rounded-lg bg-[#06B6D4]/15 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-[#06B6D4]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">Support prioritaire</p>
@@ -891,10 +891,10 @@ function DashboardContent() {
 
       {/* ════ WELCOME CHECKLIST (new users only) ════ */}
       {data?.completedLessons === 0 && hasEnrollment && (
-        <Card variants={fadeUp} className="p-6 sm:p-8 border-[#FF1744]/20 bg-gradient-to-br from-white to-red-50/30">
+        <Card variants={fadeUp} className="p-6 sm:p-8 border-[#06B6D4]/20 bg-gradient-to-br from-white to-red-50/30">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-xl bg-[#FF1744]/10 flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1744" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="w-10 h-10 rounded-xl bg-[#06B6D4]/10 flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
@@ -905,29 +905,29 @@ function DashboardContent() {
             </div>
           </div>
           <div className="space-y-3">
-            <a href="/lessons" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF1744] text-white text-sm font-bold shrink-0">1</span>
+            <a href="/lessons" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#06B6D4]/30 hover:shadow-sm transition-all group">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#06B6D4] text-white text-sm font-bold shrink-0">1</span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#111] group-hover:text-[#FF1744] transition-colors">Commence la le&ccedil;on 1</p>
+                <p className="text-sm font-medium text-[#111] group-hover:text-[#06B6D4] transition-colors">Commence la le&ccedil;on 1</p>
                 <p className="text-xs text-gray-400">D&eacute;couvre les bases de l&apos;IA pour ton business</p>
               </div>
-              <IconArrowRight className="text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" />
+              <IconArrowRight className="text-gray-300 group-hover:text-[#06B6D4] transition-colors shrink-0" />
             </a>
-            <a href="https://discord.gg/uNc2jwBsr8" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
+            <a href="https://discord.gg/uNc2jwBsr8" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#06B6D4]/30 hover:shadow-sm transition-all group">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#1A1A2E] text-white text-sm font-bold shrink-0">2</span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#111] group-hover:text-[#FF1744] transition-colors">Rejoins le Discord</p>
+                <p className="text-sm font-medium text-[#111] group-hover:text-[#06B6D4] transition-colors">Rejoins le Discord</p>
                 <p className="text-xs text-gray-400">Connecte-toi avec la communaut&eacute; OpexIA</p>
               </div>
-              <IconArrowRight className="text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" />
+              <IconArrowRight className="text-gray-300 group-hover:text-[#06B6D4] transition-colors shrink-0" />
             </a>
-            <a href="/profile" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#FF1744]/30 hover:shadow-sm transition-all group">
+            <a href="/profile" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-[#06B6D4]/30 hover:shadow-sm transition-all group">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-600 text-sm font-bold shrink-0">3</span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#111] group-hover:text-[#FF1744] transition-colors">Compl&egrave;te ton profil</p>
+                <p className="text-sm font-medium text-[#111] group-hover:text-[#06B6D4] transition-colors">Compl&egrave;te ton profil</p>
                 <p className="text-xs text-gray-400">Ajoute ta photo et tes infos</p>
               </div>
-              <IconArrowRight className="text-gray-300 group-hover:text-[#FF1744] transition-colors shrink-0" />
+              <IconArrowRight className="text-gray-300 group-hover:text-[#06B6D4] transition-colors shrink-0" />
             </a>
           </div>
         </Card>
@@ -937,7 +937,7 @@ function DashboardContent() {
       <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4" variants={stagger}>
         {[
           { label: "Le\u00e7ons", numValue: data?.completedLessons || 0, displaySuffix: `/${data?.totalLessons || 80}`, sub: "termin\u00e9es", accentClass: "text-[#111]", icon: IconBook },
-          { label: "XP total", numValue: data?.xp || 0, displaySuffix: "", sub: "points gagn\u00e9s", accentClass: "text-[#FF1744]", icon: IconBolt },
+          { label: "XP total", numValue: data?.xp || 0, displaySuffix: "", sub: "points gagn\u00e9s", accentClass: "text-[#06B6D4]", icon: IconBolt },
           { label: "Quiz r\u00e9ussis", numValue: data?.quizzesCompleted || 0, displaySuffix: "", sub: `moy. ${Math.round(data?.averageScore || 0)}%`, accentClass: "text-gray-500", icon: IconChart },
         ].map((stat) => (
           <Card key={stat.label} variants={fadeUp} className="p-5 group">
@@ -985,7 +985,7 @@ function DashboardContent() {
               <IconBolt className="text-gray-300 w-4 h-4" />
               <h3 className="text-sm font-medium text-[#111]">XP cette semaine</h3>
             </div>
-            <span className="text-xs font-medium text-[#FF1744] bg-red-50 px-2.5 py-1 rounded-lg">
+            <span className="text-xs font-medium text-[#06B6D4] bg-red-50 px-2.5 py-1 rounded-lg">
               <AnimatedNumber value={data?.xp || 0} className="" /> XP
             </span>
           </div>
@@ -1003,13 +1003,13 @@ function DashboardContent() {
           {/* Continue Learning */}
           {data?.currentLesson && (
             <Card variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="overflow-hidden">
-              <div className="h-[3px] w-full bg-gradient-to-r from-[#FF1744] to-[#FF5252]" />
+              <div className="h-[3px] w-full bg-gradient-to-r from-[#06B6D4] to-[#FF5252]" />
               <div className="p-5 flex items-center gap-4">
                 <div className="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 border border-red-100">
-                  <IconPlay className="text-[#FF1744]" />
+                  <IconPlay className="text-[#06B6D4]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.15em] text-[#FF1744] font-medium mb-0.5">Reprendre la formation</p>
+                  <p className="text-[10px] uppercase tracking-[0.15em] text-[#06B6D4] font-medium mb-0.5">Reprendre la formation</p>
                   <h3 className="text-sm font-semibold text-[#111] truncate">{data.currentLesson.title}</h3>
                   <p className="text-xs text-gray-400">Le&ccedil;on {data.currentLesson.order} sur {data.totalLessons}</p>
                 </div>
@@ -1053,13 +1053,13 @@ function DashboardContent() {
                     return (
                       <div key={d.day} className="flex flex-col items-center gap-2 flex-1 group/bar">
                         {d.count > 0 && (
-                          <span className={cn("text-[10px] font-medium transition-colors", isToday ? "text-[#FF1744]" : "text-gray-400 group-hover/bar:text-gray-600")}>{d.count}</span>
+                          <span className={cn("text-[10px] font-medium transition-colors", isToday ? "text-[#06B6D4]" : "text-gray-400 group-hover/bar:text-gray-600")}>{d.count}</span>
                         )}
                         <motion.div
                           className={cn(
                             "w-full max-w-[36px] rounded-t-lg rounded-b-md transition-colors",
                             isToday
-                              ? "bg-[#FF1744] group-hover/bar:bg-[#E01440]"
+                              ? "bg-[#06B6D4] group-hover/bar:bg-[#E01440]"
                               : d.count > 0
                                 ? "bg-gray-200 group-hover/bar:bg-gray-300"
                                 : "bg-gray-100"
@@ -1071,7 +1071,7 @@ function DashboardContent() {
                         />
                         <span className={cn(
                           "text-[10px] font-medium transition-colors",
-                          isToday ? "text-[#FF1744]" : "text-gray-400"
+                          isToday ? "text-[#06B6D4]" : "text-gray-400"
                         )}>{d.day}</span>
                       </div>
                     );
@@ -1148,7 +1148,7 @@ function DashboardContent() {
                       </div>
                       <div className="w-full h-1 rounded-full bg-gray-100 overflow-hidden ml-[30px]" style={{ width: "calc(100% - 30px)" }}>
                         <motion.div
-                          className={cn("h-full rounded-full", goal.done ? "bg-[#111]" : "bg-[#FF1744]")}
+                          className={cn("h-full rounded-full", goal.done ? "bg-[#111]" : "bg-[#06B6D4]")}
                           initial={{ width: 0 }}
                           whileInView={{ width: `${goal.progress}%` }}
                           viewport={{ once: true }}
@@ -1281,7 +1281,7 @@ function DashboardContent() {
 const adminTierConfig: Record<string, { label: string; color: string; bg: string; bar: string; border: string; dot: string }> = {
   starter:    { label: "Starter",  color: "text-emerald-700", bg: "bg-emerald-50",  bar: "bg-emerald-500", border: "border-emerald-200", dot: "bg-emerald-500" },
   academy:    { label: "Academy",  color: "text-blue-700",    bg: "bg-blue-50",     bar: "bg-blue-500",    border: "border-blue-200",    dot: "bg-blue-500" },
-  one_to_one: { label: "1-to-1",   color: "text-[#FF1744]",   bg: "bg-red-50",      bar: "bg-[#FF1744]",   border: "border-red-200",     dot: "bg-[#FF1744]" },
+  one_to_one: { label: "1-to-1",   color: "text-[#06B6D4]",   bg: "bg-red-50",      bar: "bg-[#06B6D4]",   border: "border-red-200",     dot: "bg-[#06B6D4]" },
 };
 
 function formatEuro(n: number) {
@@ -1319,7 +1319,7 @@ function AdminChartTooltip({ active, payload, label, valueSuffix }: {
 
 function AdminAvatarCircle({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" }) {
   const letter = (name || "?").charAt(0).toUpperCase();
-  const colors = ["bg-[#FF1744]", "bg-blue-500", "bg-emerald-500", "bg-amber-500", "bg-purple-500", "bg-pink-500", "bg-cyan-500"];
+  const colors = ["bg-[#06B6D4]", "bg-blue-500", "bg-emerald-500", "bg-amber-500", "bg-purple-500", "bg-pink-500", "bg-cyan-500"];
   const colorIndex = name ? name.charCodeAt(0) % colors.length : 0;
   const sizeClass = size === "sm" ? "w-7 h-7 text-[10px]" : size === "lg" ? "w-12 h-12 text-lg" : "w-8 h-8 text-xs";
   return (
@@ -1374,14 +1374,14 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
         style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #16162A 60%, #0F0F1A 100%)" }}
         variants={adminFadeUp}
       >
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF1744]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-48 h-48 bg-[#FF1744]/5 rounded-full translate-y-1/2 blur-2xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#06B6D4]/8 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-48 h-48 bg-[#06B6D4]/5 rounded-full translate-y-1/2 blur-2xl" />
         <div className="absolute top-4 right-8 w-20 h-20 bg-white/[0.02] rounded-full blur-xl" />
 
         <div className="relative z-10">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.2em] text-[#FF1744] font-semibold mb-2">Administration</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-[#06B6D4] font-semibold mb-2">Administration</p>
               <motion.h1
                 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-1"
                 initial={{ opacity: 0, x: -10 }}
@@ -1412,7 +1412,7 @@ function AdminDashboardSection({ stats, loading, projects, onProjectUpdate, onTe
               </div>
               <div className="w-px h-8 bg-white/10" />
               <div className="text-center">
-                <p className="text-2xl font-bold text-[#FF1744] tabular-nums">{formatEuro(stats.totalRevenue)}</p>
+                <p className="text-2xl font-bold text-[#06B6D4] tabular-nums">{formatEuro(stats.totalRevenue)}</p>
                 <p className="text-[10px] text-white/30 uppercase tracking-wider font-medium">Revenue</p>
               </div>
               <div className="w-px h-8 bg-white/10" />
@@ -1525,12 +1525,12 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
         {[
           {
             label: "Total Eleves", value: stats.totalStudents, suffix: "", sub: "inscrits au total",
-            borderColor: "border-l-[#FF1744]", iconBg: "bg-red-50", iconColor: "text-[#FF1744]",
+            borderColor: "border-l-[#06B6D4]", iconBg: "bg-red-50", iconColor: "text-[#06B6D4]",
             icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>),
           },
           {
             label: "Revenue Total", value: stats.totalRevenue, suffix: " EUR", sub: "revenue cumule",
-            borderColor: "border-l-[#FF1744]", iconBg: "bg-red-50", iconColor: "text-[#FF1744]",
+            borderColor: "border-l-[#06B6D4]", iconBg: "bg-red-50", iconColor: "text-[#06B6D4]",
             icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M14.25 7.756a4.5 4.5 0 100 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>),
           },
           {
@@ -1598,7 +1598,7 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
         <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
           <div className="flex items-center justify-between mb-1">
             <h3 className="text-sm font-semibold text-[#111]">Revenue Mensuel</h3>
-            <span className="text-[10px] font-medium text-[#FF1744] bg-red-50 px-2.5 py-1 rounded-lg">{formatEuro(stats.totalRevenue)}</span>
+            <span className="text-[10px] font-medium text-[#06B6D4] bg-red-50 px-2.5 py-1 rounded-lg">{formatEuro(stats.totalRevenue)}</span>
           </div>
           <p className="text-xs text-gray-400 mb-6">Evolution sur les derniers mois</p>
           <div className="h-56">
@@ -1606,15 +1606,15 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
               <AreaChart data={stats.monthlyRevenue}>
                 <defs>
                   <linearGradient id="adminRevenueGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#FF1744" stopOpacity={0.2} />
-                    <stop offset="60%" stopColor="#FF1744" stopOpacity={0.05} />
-                    <stop offset="100%" stopColor="#FF1744" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#06B6D4" stopOpacity={0.2} />
+                    <stop offset="60%" stopColor="#06B6D4" stopOpacity={0.05} />
+                    <stop offset="100%" stopColor="#06B6D4" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} tickFormatter={(v: number) => `${v >= 1000 ? `${v / 1000}k` : v}`} width={40} />
-                <Tooltip content={<AdminChartTooltip valueSuffix=" EUR" />} cursor={{ stroke: "#FF1744", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.3 }} />
-                <Area type="monotone" dataKey="revenue" stroke="#FF1744" strokeWidth={2.5} fill="url(#adminRevenueGradient)" dot={false} activeDot={{ r: 5, fill: "#FF1744", stroke: "#fff", strokeWidth: 2 }} />
+                <Tooltip content={<AdminChartTooltip valueSuffix=" EUR" />} cursor={{ stroke: "#06B6D4", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.3 }} />
+                <Area type="monotone" dataKey="revenue" stroke="#06B6D4" strokeWidth={2.5} fill="url(#adminRevenueGradient)" dot={false} activeDot={{ r: 5, fill: "#06B6D4", stroke: "#fff", strokeWidth: 2 }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -1736,7 +1736,7 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
                       <td className="py-3.5">
                         <div className="flex items-center gap-2.5">
                           <AdminAvatarCircle name={enrollment.userName} size="sm" />
-                          <Link href={`/admin/students/${enrollment.id}`} className="text-[#111] hover:text-[#FF1744] transition-colors font-medium group-hover:text-[#FF1744]">{enrollment.userName}</Link>
+                          <Link href={`/admin/students/${enrollment.id}`} className="text-[#111] hover:text-[#06B6D4] transition-colors font-medium group-hover:text-[#06B6D4]">{enrollment.userName}</Link>
                         </div>
                       </td>
                       <td className="py-3.5 text-gray-400 hidden sm:table-cell truncate max-w-[140px] text-xs">{enrollment.userEmail}</td>
@@ -1760,7 +1760,7 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
       <motion.div variants={adminFadeUp} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
         <div className="flex items-center justify-between mb-1">
           <h3 className="text-sm font-semibold text-[#111]">Croissance Utilisateurs</h3>
-          <span className="text-[10px] font-medium text-[#FF1744] bg-red-50 px-2.5 py-1 rounded-lg">
+          <span className="text-[10px] font-medium text-[#06B6D4] bg-red-50 px-2.5 py-1 rounded-lg">
             {stats.userGrowth.length > 0 ? `+${stats.userGrowth[stats.userGrowth.length - 1]?.count || 0} ce mois` : ""}
           </span>
         </div>
@@ -1770,13 +1770,13 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
             <BarChart data={stats.userGrowth}>
               <defs>
                 <linearGradient id="adminBarGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FF1744" stopOpacity={0.9} />
-                  <stop offset="100%" stopColor="#FF1744" stopOpacity={0.3} />
+                  <stop offset="0%" stopColor="#06B6D4" stopOpacity={0.9} />
+                  <stop offset="100%" stopColor="#06B6D4" stopOpacity={0.3} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 11 }} width={30} allowDecimals={false} />
-              <Tooltip content={<AdminChartTooltip valueSuffix=" inscrits" />} cursor={{ fill: "rgba(255,23,68,0.04)" }} />
+              <Tooltip content={<AdminChartTooltip valueSuffix=" inscrits" />} cursor={{ fill: "rgba(6,182,212,0.04)" }} />
               <Bar dataKey="count" fill="url(#adminBarGradient)" radius={[6, 6, 0, 0]} maxBarSize={44} />
             </BarChart>
           </ResponsiveContainer>
@@ -1797,7 +1797,7 @@ function AdminOverviewTab({ stats, totalTier, tierData }: {
               const stages = [
                 { label: "Inscrits", value: f.totalUsers, color: "bg-blue-500" },
                 { label: "Email vérifié", value: f.verifiedUsers, color: "bg-emerald-500" },
-                { label: "Abonnés", value: f.enrolledUsers, color: "bg-[#FF1744]" },
+                { label: "Abonnés", value: f.enrolledUsers, color: "bg-[#06B6D4]" },
                 { label: "Actifs 7j", value: f.activeUsers, color: "bg-purple-500" },
               ];
               const max = Math.max(f.totalUsers, 1);
@@ -2036,7 +2036,7 @@ function AdminStudentsTab() {
                 <select
                   value={emailTier}
                   onChange={(e) => setEmailTier(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#06B6D4]/40 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all"
                 >
                   <option value="tous">Tous les élèves</option>
                   <option value="starter">Starter uniquement</option>
@@ -2055,7 +2055,7 @@ function AdminStudentsTab() {
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
                   placeholder="Objet de l'email..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all bg-gray-50/50"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#06B6D4]/40 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all bg-gray-50/50"
                 />
               </div>
 
@@ -2066,7 +2066,7 @@ function AdminStudentsTab() {
                   onChange={(e) => setEmailMessage(e.target.value)}
                   placeholder="Contenu de l'email..."
                   rows={5}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all bg-gray-50/50 resize-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#06B6D4]/40 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all bg-gray-50/50 resize-none"
                 />
               </div>
             </div>
@@ -2087,7 +2087,7 @@ function AdminStudentsTab() {
               <button
                 onClick={handleSendEmail}
                 disabled={emailSending || !emailSubject.trim() || !emailMessage.trim()}
-                className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#E01440] transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#06B6D4] hover:bg-[#E01440] transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {emailSending ? "Envoi en cours..." : "Envoyer"}
               </button>
@@ -2108,13 +2108,13 @@ function AdminStudentsTab() {
               placeholder="Rechercher par nom ou email..."
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all bg-gray-50/50 hover:bg-white"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] placeholder-gray-400 focus:outline-none focus:border-[#06B6D4]/40 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all bg-gray-50/50 hover:bg-white"
             />
           </div>
           <select
             value={tierFilter}
             onChange={(e) => { setTierFilter(e.target.value); setPage(1); }}
-            className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-gray-50/50 hover:bg-white focus:outline-none focus:border-[#FF1744]/40 focus:ring-2 focus:ring-[#FF1744]/10 transition-all cursor-pointer"
+            className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#111] bg-gray-50/50 hover:bg-white focus:outline-none focus:border-[#06B6D4]/40 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all cursor-pointer"
           >
             <option value="">Toutes les offres</option>
             <option value="starter">Starter</option>
@@ -2131,7 +2131,7 @@ function AdminStudentsTab() {
           </button>
           <button
             onClick={() => setEmailModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white bg-[#FF1744] hover:bg-[#E01440] transition-all shadow-sm hover:shadow-md"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white bg-[#06B6D4] hover:bg-[#E01440] transition-all shadow-sm hover:shadow-md"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
             Envoyer un email
@@ -2212,7 +2212,7 @@ function AdminStudentsTab() {
                         <td className="py-3.5 px-4">
                           <div className="flex items-center gap-2.5">
                             <div className="w-20 h-2 rounded-full bg-gray-100 overflow-hidden">
-                              <div className="h-full rounded-full bg-gradient-to-r from-[#FF1744] to-[#FF5252] transition-all duration-500" style={{ width: `${pct}%` }} />
+                              <div className="h-full rounded-full bg-gradient-to-r from-[#06B6D4] to-[#FF5252] transition-all duration-500" style={{ width: `${pct}%` }} />
                             </div>
                             <span className="text-xs text-gray-500 font-medium tabular-nums">{pct}%</span>
                           </div>
@@ -2224,9 +2224,9 @@ function AdminStudentsTab() {
                           {student.lastActive ? adminRelativeTime(student.lastActive) : "--"}
                         </td>
                         <td className="py-3.5 px-4 text-center">
-                          <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-200", isExpanded ? "bg-[#FF1744]/10" : "bg-gray-50")}>
+                          <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-200", isExpanded ? "bg-[#06B6D4]/10" : "bg-gray-50")}>
                             <svg
-                              className={cn("w-3.5 h-3.5 transition-all duration-200", isExpanded ? "rotate-180 text-[#FF1744]" : "text-gray-400")}
+                              className={cn("w-3.5 h-3.5 transition-all duration-200", isExpanded ? "rotate-180 text-[#06B6D4]" : "text-gray-400")}
                               fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
                             >
                               <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -2315,7 +2315,7 @@ function AdminStudentsTab() {
                                         {statCards.map((card, idx) => (
                                           <div key={idx} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
                                             <div className="flex items-center gap-2 mb-2">
-                                              <div className="w-7 h-7 rounded-lg bg-[#FF1744]/10 text-[#FF1744] flex items-center justify-center">{card.icon}</div>
+                                              <div className="w-7 h-7 rounded-lg bg-[#06B6D4]/10 text-[#06B6D4] flex items-center justify-center">{card.icon}</div>
                                               <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">{card.label}</p>
                                             </div>
                                             <p className="text-xl font-bold text-[#111] tabular-nums">{card.value}</p>
@@ -2338,7 +2338,7 @@ function AdminStudentsTab() {
                                           const barColor = modPct === 100
                                             ? "bg-emerald-500"
                                             : modPct > 0
-                                              ? "bg-[#FF1744]"
+                                              ? "bg-[#06B6D4]"
                                               : "bg-gray-300";
                                           return (
                                             <div key={mod.moduleId}>
@@ -2392,7 +2392,7 @@ function AdminStudentsTab() {
                                         value={editTier}
                                         onChange={(e) => setEditTier(e.target.value)}
                                         onClick={(e) => e.stopPropagation()}
-                                        className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#FF1744]/40 focus:ring-1 focus:ring-[#FF1744]/10 transition-all cursor-pointer"
+                                        className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-[#111] bg-gray-50/50 focus:outline-none focus:border-[#06B6D4]/40 focus:ring-1 focus:ring-[#06B6D4]/10 transition-all cursor-pointer"
                                       >
                                         <option value="starter">Starter</option>
                                         <option value="academy">Academy</option>
@@ -2404,7 +2404,7 @@ function AdminStudentsTab() {
                                         className={cn(
                                           "px-5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200",
                                           editTier !== (studentDetail.enrollment?.tier || "starter")
-                                            ? "bg-[#FF1744] text-white hover:bg-[#E01440] shadow-sm hover:shadow-md"
+                                            ? "bg-[#06B6D4] text-white hover:bg-[#E01440] shadow-sm hover:shadow-md"
                                             : "bg-gray-100 text-gray-400 cursor-not-allowed"
                                         )}
                                       >
@@ -2589,7 +2589,7 @@ function AdminProjectCard({ project, index, updating, onUpdate }: {
 
       <button
         onClick={() => setExpanded(!expanded)}
-        className="text-xs font-medium text-[#FF1744]/70 hover:text-[#FF1744] transition-colors mt-1"
+        className="text-xs font-medium text-[#06B6D4]/70 hover:text-[#06B6D4] transition-colors mt-1"
       >
         {expanded ? "Fermer" : "G\u00e9rer"}
       </button>
@@ -2601,7 +2601,7 @@ function AdminProjectCard({ project, index, updating, onUpdate }: {
             <select
               value={editStatus}
               onChange={(e) => setEditStatus(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#111] text-sm focus:outline-none focus:border-[#FF1744]/50 transition-all appearance-none"
+              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#111] text-sm focus:outline-none focus:border-[#06B6D4]/50 transition-all appearance-none"
             >
               <option value="submitted">En attente</option>
               <option value="reviewing">En revue</option>
@@ -2616,14 +2616,14 @@ function AdminProjectCard({ project, index, updating, onUpdate }: {
               onChange={(e) => setEditFeedback(e.target.value)}
               placeholder="Ajouter un retour pour l'&eacute;tudiant..."
               rows={3}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#111] text-sm placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 transition-all resize-none"
+              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#111] text-sm placeholder:text-gray-300 focus:outline-none focus:border-[#06B6D4]/50 transition-all resize-none"
             />
           </div>
           <button
             onClick={() => onUpdate(project.id, editStatus, editFeedback)}
             disabled={updating}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white transition-all disabled:opacity-50"
-            style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
+            style={{ background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" }}
           >
             {updating ? (
               <>
@@ -2736,7 +2736,7 @@ function AdminLeadsTab() {
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
             <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-2">Aujourd&apos;hui</p>
-            <p className="text-2xl font-bold text-[#FF1744] tabular-nums">{lstats.today}</p>
+            <p className="text-2xl font-bold text-[#06B6D4] tabular-nums">{lstats.today}</p>
             <p className="text-xs text-gray-400 mt-1">nouveaux leads</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
@@ -2766,7 +2766,7 @@ function AdminLeadsTab() {
             placeholder="Rechercher un email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF1744]/20 focus:border-[#FF1744] w-full sm:w-64"
+            className="px-4 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20 focus:border-[#06B6D4] w-full sm:w-64"
           />
         </div>
 
@@ -2893,7 +2893,7 @@ function AdminReferralsTab() {
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 p-5">
             <p className="text-xs text-gray-400 font-medium mb-1">Confirm&eacute;s</p>
-            <p className="text-2xl font-bold text-[#FF1744]">{rstats.confirmedReferrals}</p>
+            <p className="text-2xl font-bold text-[#06B6D4]">{rstats.confirmedReferrals}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 p-5">
             <p className="text-xs text-gray-400 font-medium mb-1">&Agrave; payer</p>
@@ -2914,7 +2914,7 @@ function AdminReferralsTab() {
           <div className="divide-y divide-gray-100">
             {referrerStats.map((r) => (
               <div key={r.id} className="flex items-center gap-4 px-5 py-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#0891B2] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                   {r.name[0]?.toUpperCase() || "?"}
                 </div>
                 <div className="flex-1 min-w-0">

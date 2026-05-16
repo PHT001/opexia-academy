@@ -32,7 +32,7 @@ interface CommunityData {
 const TIER_BADGES: Record<string, { label: string; color: string; bg: string }> = {
   starter: { label: "Starter", color: "text-emerald-600", bg: "bg-emerald-50" },
   academy: { label: "Academy", color: "text-blue-600", bg: "bg-blue-50" },
-  one_to_one: { label: "1-to-1", color: "text-[#FF1744]", bg: "bg-red-50" },
+  one_to_one: { label: "1-to-1", color: "text-[#06B6D4]", bg: "bg-red-50" },
   free: { label: "Free", color: "text-gray-500", bg: "bg-gray-50" },
 };
 
@@ -117,7 +117,7 @@ export default function CommunitySection() {
       <div className="px-6 pt-6 pb-0">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF1744] to-[#D50000] flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#06B6D4] to-[#0891B2] flex items-center justify-center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
@@ -152,14 +152,14 @@ export default function CommunitySection() {
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`relative px-4 py-2.5 text-xs font-medium transition-colors ${
-              tab === t.id ? "text-[#FF1744]" : "text-gray-400 hover:text-gray-600"
+              tab === t.id ? "text-[#06B6D4]" : "text-gray-400 hover:text-gray-600"
             }`}
           >
             {t.label}
             {tab === t.id && (
               <motion.div
                 layoutId="community-tab"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF1744] rounded-full"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#06B6D4] rounded-full"
               />
             )}
           </button>
@@ -240,8 +240,8 @@ export default function CommunitySection() {
                 <div className="absolute inset-0 flex items-center justify-center z-10">
                   <div className="text-center px-4">
                     <div className="rounded-xl bg-white/95 backdrop-blur-sm border border-gray-200 shadow-md p-5">
-                      <div className="mx-auto w-10 h-10 rounded-xl bg-[#FF1744]/10 flex items-center justify-center mb-3">
-                        <svg className="h-5 w-5 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <div className="mx-auto w-10 h-10 rounded-xl bg-[#06B6D4]/10 flex items-center justify-center mb-3">
+                        <svg className="h-5 w-5 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                         </svg>
                       </div>
@@ -253,8 +253,8 @@ export default function CommunitySection() {
                         href="/offres"
                         className="inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-2 text-xs font-semibold text-white transition-all hover:shadow-md"
                         style={{
-                          background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)",
-                          boxShadow: "0 2px 8px rgba(255,23,68,0.25)",
+                          background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
+                          boxShadow: "0 2px 8px rgba(6,182,212,0.25)",
                         }}
                       >
                         Voir les offres
@@ -310,7 +310,7 @@ export default function CommunitySection() {
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-[10px] text-gray-400">M{entry.moduleOrder}</span>
                       {entry.xpEarned > 0 && (
-                        <span className="text-[10px] font-medium text-[#FF1744]">+{entry.xpEarned} XP</span>
+                        <span className="text-[10px] font-medium text-[#06B6D4]">+{entry.xpEarned} XP</span>
                       )}
                       <span className="text-[10px] text-gray-300">{timeAgo(entry.completedAt)}</span>
                     </div>
@@ -319,8 +319,8 @@ export default function CommunitySection() {
                   {/* Pulse dot for recent */}
                   {i < 3 && (
                     <span className="relative flex h-2 w-2 mt-2 flex-shrink-0">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF1744] opacity-40" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF1744]" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#06B6D4] opacity-40" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#06B6D4]" />
                     </span>
                   )}
                 </motion.div>

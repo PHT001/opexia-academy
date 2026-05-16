@@ -156,7 +156,7 @@ export default function Hero() {
           >
             Lance ton agence IA
             <br />
-            et g&eacute;n&egrave;re <span className="text-[#FF1744]">10K&euro;/mois</span> en 90 jours
+            et g&eacute;n&egrave;re <span className="text-[#06B6D4]">10K&euro;/mois</span> en 90 jours
           </motion.h1>
 
           <motion.p
@@ -175,8 +175,8 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="mb-10 relative max-w-3xl mx-auto"
           >
-            <div className="absolute -inset-4 bg-[#FF1744]/15 rounded-3xl blur-2xl pointer-events-none" />
-            <div className="absolute -inset-8 bg-[#FF1744]/5 rounded-[2rem] blur-3xl pointer-events-none" />
+            <div className="absolute -inset-4 bg-[#06B6D4]/15 rounded-3xl blur-2xl pointer-events-none" />
+            <div className="absolute -inset-8 bg-[#06B6D4]/5 rounded-[2rem] blur-3xl pointer-events-none" />
             <div ref={videoContainerRef} className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 border border-gray-200/50 cursor-pointer" onClick={handleVideoClick}>
               <video
                 ref={videoRef}
@@ -193,7 +193,7 @@ export default function Hero() {
                   onClick={startVideo}
                   className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] cursor-pointer transition-all hover:bg-black/30"
                 >
-                  <div className="h-20 w-20 rounded-full bg-[#FF1744] flex items-center justify-center shadow-[0_0_30px_8px_rgba(255,23,68,0.4)] transition-transform hover:scale-110">
+                  <div className="h-20 w-20 rounded-full bg-[#06B6D4] flex items-center justify-center shadow-[0_0_30px_8px_rgba(6,182,212,0.4)] transition-transform hover:scale-110">
                     <svg className="h-9 w-9 text-white ml-1" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M8 5v14l11-7z" />
                     </svg>
@@ -213,7 +213,7 @@ export default function Hero() {
                     videoRef.current.currentTime = x * videoRef.current.duration;
                   }
                 }}>
-                  <div className="h-full bg-[#FF1744] rounded-full transition-all" style={{ width: `${progress}%` }} />
+                  <div className="h-full bg-[#06B6D4] rounded-full transition-all" style={{ width: `${progress}%` }} />
                 </div>
                 {/* Controls */}
                 <div className="flex items-center justify-between">
@@ -311,7 +311,7 @@ export default function Hero() {
 
               <a
                 href="#pricing"
-                className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#FF1744] px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all hover:bg-[#D50000] hover:shadow-xl hover:shadow-red-200 whitespace-nowrap"
+                className="relative z-10 group inline-flex items-center justify-center rounded-full bg-[#06B6D4] px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all hover:bg-[#0891B2] hover:shadow-xl hover:shadow-red-200 whitespace-nowrap"
               >
                 Rejoindre la formation
                 <svg

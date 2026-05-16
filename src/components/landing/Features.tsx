@@ -136,8 +136,8 @@ function GhostCard() {
       viewport={{ once: true }}
       className="flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-6 flex flex-col items-center justify-center text-center snap-center"
     >
-      <div className="h-12 w-12 rounded-full bg-[#FF1744]/10 flex items-center justify-center mb-4">
-        <svg className="h-6 w-6 text-[#FF1744]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="h-12 w-12 rounded-full bg-[#06B6D4]/10 flex items-center justify-center mb-4">
+        <svg className="h-6 w-6 text-[#06B6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
       </div>
@@ -145,7 +145,7 @@ function GhostCard() {
       <p className="text-xs text-gray-400 mb-5">Tu apprendras &agrave; cr&eacute;er des offres sur-mesure</p>
       <a
         href="#pricing"
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#FF1744] hover:underline"
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#06B6D4] hover:underline"
       >
         Voir la formation
         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -193,12 +193,12 @@ export default function Features() {
           className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8"
         >
           <div>
-            <span className="text-sm font-semibold text-[#FF1744] uppercase tracking-wider">
+            <span className="text-sm font-semibold text-[#06B6D4] uppercase tracking-wider">
               Ce que tu vendras
             </span>
             <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-bold text-[#111] leading-tight">
               Les services que chaque PME{" "}
-              <span className="text-[#FF1744]">va te demander</span>
+              <span className="text-[#06B6D4]">va te demander</span>
             </h2>
           </div>
 

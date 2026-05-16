@@ -44,7 +44,7 @@ function ConfettiParticle({ delay, color, left }: { delay: number; color: string
 }
 
 /* ——— Confetti Burst ——— */
-const CONFETTI_COLORS = ["#FF1744", "#FF6D00", "#FFD600", "#00E676", "#2979FF", "#D500F9", "#F50057"];
+const CONFETTI_COLORS = ["#06B6D4", "#FF6D00", "#FFD600", "#00E676", "#2979FF", "#D500F9", "#F50057"];
 
 function ConfettiBurst() {
   const particles = useMemo(
@@ -140,7 +140,7 @@ export default function CongratulationsPage() {
 
         {/* Heading */}
         <motion.h1
-          className="text-5xl font-extrabold bg-gradient-to-r from-[#FF1744] to-[#FF6D00] bg-clip-text text-transparent mb-4"
+          className="text-5xl font-extrabold bg-gradient-to-r from-[#06B6D4] to-[#FF6D00] bg-clip-text text-transparent mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}

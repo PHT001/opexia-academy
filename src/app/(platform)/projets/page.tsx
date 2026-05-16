@@ -245,12 +245,12 @@ function StudentView({
       <motion.div variants={fadeUp} className="rounded-2xl overflow-hidden" style={{ background: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)" }}>
         <div className="relative p-6 sm:p-8">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#FF1744]/15 blur-[60px]" />
+            <div className="absolute top-0 right-1/4 w-40 h-40 rounded-full bg-[#06B6D4]/15 blur-[60px]" />
           </div>
           <div className="relative">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#FF1744]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#06B6D4]">
                   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                 </svg>
               </div>
@@ -268,7 +268,7 @@ function StudentView({
                 { step: "3", title: "Am\u00e9liore", desc: "Int\u00e8gre les feedbacks et progresse" },
               ].map((s) => (
                 <div key={s.step} className="flex items-start gap-3 bg-white/5 rounded-xl p-3">
-                  <span className="w-6 h-6 rounded-full bg-[#FF1744]/20 text-[#FF1744] text-xs font-bold flex items-center justify-center flex-shrink-0">{s.step}</span>
+                  <span className="w-6 h-6 rounded-full bg-[#06B6D4]/20 text-[#06B6D4] text-xs font-bold flex items-center justify-center flex-shrink-0">{s.step}</span>
                   <div>
                     <p className="text-xs font-semibold text-white">{s.title}</p>
                     <p className="text-[10px] text-white/40">{s.desc}</p>
@@ -296,7 +296,7 @@ function StudentView({
             <a
               href="/offres"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:scale-[1.02]"
-              style={{ background: "linear-gradient(135deg, #FF1744, #D50000)" }}
+              style={{ background: "linear-gradient(135deg, #06B6D4, #0891B2)" }}
             >
               D{"\u00e9"}couvrir nos offres
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
@@ -305,13 +305,13 @@ function StudentView({
         ) : !showForm ? (
           <button
             onClick={() => setShowForm(true)}
-            className="w-full p-4 rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#FF1744]/30 hover:bg-red-50/30 transition-all group flex items-center justify-center gap-2"
+            className="w-full p-4 rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#06B6D4]/30 hover:bg-red-50/30 transition-all group flex items-center justify-center gap-2"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-[#FF1744] transition-colors">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-[#06B6D4] transition-colors">
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
-            <span className="text-sm font-semibold text-gray-400 group-hover:text-[#FF1744] transition-colors">Soumettre un nouveau projet</span>
+            <span className="text-sm font-semibold text-gray-400 group-hover:text-[#06B6D4] transition-colors">Soumettre un nouveau projet</span>
           </button>
         ) : null}
       </motion.div>
@@ -333,7 +333,7 @@ function StudentView({
                   <select
                     value={moduleOrder}
                     onChange={(e) => setModuleOrder(Number(e.target.value))}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] focus:outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all"
                     required
                   >
                     {Array.from({ length: 22 }, (_, i) => i + 2).map((m) => (
@@ -349,7 +349,7 @@ function StudentView({
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Ex: SaaS de gestion de factures"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all"
                     required
                   />
                 </div>
@@ -360,7 +360,7 @@ function StudentView({
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="D&eacute;cris ton projet, les technologies utilis&eacute;es, le probl&egrave;me r&eacute;solu..."
                     rows={4}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all resize-none"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all resize-none"
                     required
                   />
                 </div>
@@ -371,7 +371,7 @@ function StudentView({
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://mon-projet.vercel.app"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all"
                   />
                 </div>
                 <div className="flex items-center gap-3 pt-1">
@@ -379,7 +379,7 @@ function StudentView({
                     type="submit"
                     disabled={submitting}
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-50"
-                    style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" }}
                   >
                     {submitting ? (
                       <>
@@ -407,7 +407,7 @@ function StudentView({
       {/* Projects list */}
       {loading ? (
         <motion.div variants={fadeUp} className="flex items-center justify-center py-16">
-          <div className="w-6 h-6 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-gray-200 border-t-[#06B6D4] rounded-full animate-spin" />
         </motion.div>
       ) : projects.length === 0 && !isFree ? (
         <motion.div variants={fadeUp} className="text-center py-12">
@@ -534,7 +534,7 @@ function AdminView({
       {/* Projects list */}
       {loading ? (
         <motion.div variants={fadeUp} className="flex items-center justify-center py-16">
-          <div className="w-6 h-6 border-2 border-gray-200 border-t-[#FF1744] rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-gray-200 border-t-[#06B6D4] rounded-full animate-spin" />
         </motion.div>
       ) : filtered.length === 0 ? (
         <motion.div variants={fadeUp} className="text-center py-16">
@@ -637,7 +637,7 @@ function AdminView({
                           <select
                             value={reviewStatus[project.id] || project.status}
                             onChange={(e) => setReviewStatus((prev) => ({ ...prev, [project.id]: e.target.value }))}
-                            className="w-full max-w-xs px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all"
+                            className="w-full max-w-xs px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] focus:outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all"
                           >
                             <option value="submitted">En attente</option>
                             <option value="reviewing">En revue</option>
@@ -654,7 +654,7 @@ function AdminView({
                             onChange={(e) => setReviewFeedback((prev) => ({ ...prev, [project.id]: e.target.value }))}
                             rows={3}
                             placeholder="Ajoute un retour pour l&apos;élève..."
-                            className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#FF1744]/50 focus:ring-2 focus:ring-[#FF1744]/10 transition-all resize-none"
+                            className="w-full px-4 py-2.5 rounded-xl bg-[#f8f9fb] border border-gray-200 text-sm text-[#111] placeholder:text-gray-300 focus:outline-none focus:border-[#06B6D4]/50 focus:ring-2 focus:ring-[#06B6D4]/10 transition-all resize-none"
                           />
                         </div>
 
@@ -664,7 +664,7 @@ function AdminView({
                             onClick={() => handleUpdate(project.id)}
                             disabled={updating === project.id}
                             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-50"
-                            style={{ background: "linear-gradient(135deg, #FF1744 0%, #D50000 100%)" }}
+                            style={{ background: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)" }}
                           >
                             {updating === project.id ? (
                               <>

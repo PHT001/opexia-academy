@@ -114,7 +114,7 @@ export default function ContactSection() {
             className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition-shadow"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF1744]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#06B6D4]">
                 <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
@@ -204,7 +204,7 @@ export default function ContactSection() {
                       name="name"
                       required
                       placeholder="Ex : Thomas"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#F8F9FA] text-base sm:text-sm text-[#111] placeholder-[#9CA3AF] focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744] transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#F8F9FA] text-base sm:text-sm text-[#111] placeholder-[#9CA3AF] focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all"
                     />
                   </div>
                   <div>
@@ -214,7 +214,7 @@ export default function ContactSection() {
                       type="email"
                       required
                       placeholder="thomas@exemple.com"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#F8F9FA] text-base sm:text-sm text-[#111] placeholder-[#9CA3AF] focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744] transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#F8F9FA] text-base sm:text-sm text-[#111] placeholder-[#9CA3AF] focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all"
                     />
                   </div>
                 </div>
@@ -225,13 +225,13 @@ export default function ContactSection() {
                     required
                     rows={4}
                     placeholder="Dis-nous ce qui t'int&eacute;resse : la formation, l'accompagnement, les tarifs..."
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#F8F9FA] text-base sm:text-sm text-[#111] placeholder-[#9CA3AF] resize-y focus:outline-none focus:border-[#FF1744] focus:ring-1 focus:ring-[#FF1744] transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#F8F9FA] text-base sm:text-sm text-[#111] placeholder-[#9CA3AF] resize-y focus:outline-none focus:border-[#06B6D4] focus:ring-1 focus:ring-[#06B6D4] transition-all"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-full py-3.5 text-sm font-semibold text-white bg-[#FF1744] hover:bg-[#D50000] transition-all disabled:opacity-60 min-h-[48px]"
+                  className="w-full rounded-full py-3.5 text-sm font-semibold text-white bg-[#06B6D4] hover:bg-[#0891B2] transition-all disabled:opacity-60 min-h-[48px]"
                 >
                   {loading ? "Envoi en cours..." : "Envoyer le message"}
                 </button>
@@ -260,13 +260,13 @@ export default function ContactSection() {
                 key={index}
                 className={`rounded-2xl border bg-white overflow-hidden transition-all duration-300 ${
                   faqOpen === index
-                    ? "border-[#FF1744]/20 shadow-sm"
+                    ? "border-[#06B6D4]/20 shadow-sm"
                     : "border-gray-200"
                 }`}
               >
                 <button
                   onClick={() => setFaqOpen(faqOpen === index ? null : index)}
-                  className="flex items-center justify-between w-full px-6 py-5 text-left text-[15px] font-semibold text-[#111] hover:text-[#FF1744] transition-colors cursor-pointer"
+                  className="flex items-center justify-between w-full px-6 py-5 text-left text-[15px] font-semibold text-[#111] hover:text-[#06B6D4] transition-colors cursor-pointer"
                 >
                   <span>{item.question}</span>
                   <svg
