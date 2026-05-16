@@ -151,7 +151,7 @@ export default function LessonPage() {
               href="/offres"
               className="inline-flex items-center gap-2 bg-[#FF1744] hover:bg-[#D50000] text-white rounded-xl px-8 py-3.5 text-sm font-bold transition-colors shadow-lg shadow-red-500/20"
             >
-              Rejoindre l&apos;Academy — 397€
+              Débloquer la plateforme
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
             </Link>
           </div>
