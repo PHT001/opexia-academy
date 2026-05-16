@@ -13,12 +13,12 @@ const faqs = [
     a: "La formation comprend 6 phases compl\u00e8tes, \u00e0 suivre \u00e0 ton rythme. La plupart de nos \u00e9l\u00e8ves signent leur premier client rapidement. En moyenne, 14 jours suffisent pour d\u00e9crocher un premier contrat gr\u00e2ce aux scripts et templates fournis.",
   },
   {
-    q: "C\u2019est quoi la diff\u00e9rence entre Starter, Academy et One-to-One ?",
-    a: "Le Starter \u00e0 47\u20ac te donne 2 modules D\u00e9couverte (7 le\u00e7ons) pour d\u00e9couvrir l\u2019IA. L\u2019Academy \u00e0 397\u20ac (paiement en 2x disponible), c\u2019est la formation compl\u00e8te avec 86 le\u00e7ons, la plateforme interactive, le CRM, et 1 appel coaching one-to-one offert (1h) \u2014 tout ce qu\u2019il faut pour lancer ton agence. Le One-to-One \u00e0 2\u00a0497\u20ac, c\u2019est l\u2019accompagnement premium avec 8 visios individuelles et un suivi personnalis\u00e9 avec Marius & Igor.",
+    q: "Standard mensuel ou Lifetime \u00b7 qu\u2019est-ce qui change ?",
+    a: "Standard mensuel \u00b7 89\u20ac/mois, acc\u00e8s complet \u00e0 la plateforme (23 modules, 111 le\u00e7ons), 1 appel offert par mois avec Marius (30 min). Sans engagement, annulation en 1 clic. Lifetime \u00b7 697\u20ac une fois, m\u00eame acc\u00e8s complet + mises \u00e0 jour \u00e0 vie + 3 appels offerts en bonus au d\u00e9marrage. Aucun renouvellement. L\u2019exp\u00e9rience plateforme est identique \u00b7 seule la dur\u00e9e et les bonus changent.",
   },
   {
-    q: "Est-ce que je peux payer en plusieurs fois ?",
-    a: "Oui ! L\u2019Academy est disponible en paiement en 2 fois par carte. Le Starter est \u00e0 47\u20ac en une seule fois. Tous les paiements sont s\u00e9curis\u00e9s par Stripe.",
+    q: "Est-ce qu\u2019il y a un Accompagnement One-to-One ?",
+    a: "Oui \u00b7 l\u2019Accompagnement One-to-One inclut tout le pack Lifetime + sessions 1-on-1 hebdomadaires avec Marius jusqu\u2019\u00e0 ton 1er client sign\u00e9, review MVP en perso \u00e0 chaque module, acc\u00e8s WhatsApp illimit\u00e9, et garantie 1er client en 90 jours. Tarif sur mesure \u00b7 r\u00e9serve un appel WhatsApp pour en discuter.",
   },
   {
     q: "Est-ce que je peux faire \u00e7a en parall\u00e8le de mon travail ?",
@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: "Y a-t-il un support si je suis bloqu\u00e9 ?",
-    a: "Oui. Tu as acc\u00e8s au Discord communautaire (toutes les offres), \u00e0 l\u2019aide rapide int\u00e9gr\u00e9e (Academy), et au support prioritaire illimit\u00e9 avec review de tes projets (One-to-One). Tu n\u2019es jamais seul.",
+    a: "Oui. Tu as acc\u00e8s au Discord communautaire (toutes les offres), \u00e0 l\u2019aide rapide int\u00e9gr\u00e9e (Standard et Lifetime), et au support prioritaire illimit\u00e9 avec review de tes projets (Accompagnement One-to-One). Tu n\u2019es jamais seul.",
   },
 ];
 

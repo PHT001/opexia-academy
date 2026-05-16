@@ -14,7 +14,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["prix", "tarif", "combien", "co\u00fbt", "cher", "gratuit", "payer", "paiement", "plusieurs fois"],
     answer:
-      "On a 3 formules : Starter \u00e0 47\u20ac (2 modules D\u00e9couverte), Academy \u00e0 397\u20ac (formation compl\u00e8te 86 le\u00e7ons + plateforme + CRM + 1 appel coaching one-to-one offert \u2014 payable en 2x avec +10%), et One-to-One \u00e0 2\u00a0497\u20ac (accompagnement personnalis\u00e9 avec Marius & Igor).",
+      "On a 2 formules au choix : Standard \u00e0 89\u20ac/mois (acc\u00e8s complet, sans engagement) ou Lifetime \u00e0 697\u20ac une fois (acc\u00e8s \u00e0 vie + 3 appels offerts en bonus). M\u00eame plateforme, m\u00eame contenu (23 modules, 111 le\u00e7ons). Pour aller plus vite, l'Accompagnement One-to-One avec Marius est sur mesure (r\u00e9server sur WhatsApp).",
   },
   {
     keywords: ["d\u00e9butant", "z\u00e9ro", "aucune", "connaissance", "niveau", "pr\u00e9requis", "base"],
@@ -44,12 +44,12 @@ const faqData: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["support", "aide", "bloqu\u00e9", "question", "discord", "communaut\u00e9"],
     answer:
-      "Tu as acc\u00e8s \u00e0 notre Discord communautaire. L'offre Academy inclut aussi une aide rapide int\u00e9gr\u00e9e. Pour le One-to-One, tu as un support prioritaire illimit\u00e9 + 8 visios individuelles avec Marius & Igor.",
+      "Tu as acc\u00e8s \u00e0 notre Discord communautaire dans toutes les formules. Standard et Lifetime incluent l'aide rapide int\u00e9gr\u00e9e et 1 appel offert par mois avec Marius. L'Accompagnement One-to-One inclut un support WhatsApp illimit\u00e9 et des sessions 1-on-1 hebdomadaires jusqu'\u00e0 ton 1er client sign\u00e9.",
   },
   {
     keywords: ["contenu", "programme", "module", "le\u00e7on", "apprendre"],
     answer:
-      "86 le\u00e7ons r\u00e9parties en 6 phases : Fondations IA, Construction d'infrastructures, Packaging de ton offre, Acquisition clients, et bien plus. Plus des templates, un CRM, et un g\u00e9n\u00e9rateur de projets.",
+      "23 modules \u00b7 111 le\u00e7ons r\u00e9parties en 8 phases : Fondations IA, Tes outils (Claude Code/Vercel/GitHub/Supabase), Frontend Next.js, Backend Stripe, Chatbots, Agents vocaux, Automatisations, MVP, S\u00e9curit\u00e9, DevOps, Vendre, Sprint 1er client, Livrer, Scaler. Plus des templates, un CRM, et un g\u00e9n\u00e9rateur de projets.",
   },
 ];
 
