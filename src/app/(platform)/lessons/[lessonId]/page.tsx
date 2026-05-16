@@ -14,6 +14,10 @@ import { detectContentFormat, parseLessonBlocks } from "@/lib/parseLessonContent
 import { useTierGate } from "@/hooks/useTierGate";
 import Link from "next/link";
 
+// In-memory cache of fetched lessons · keeps client-side navigation instant
+// for the rest of the session (next/prev/back) once a lesson has been opened.
+const lessonCache: Map<string, LessonData> = new Map();
+
 interface LessonData {
   id: string;
   title: string;
@@ -147,13 +151,27 @@ export default function LessonPage() {
 
   useEffect(() => {
     let cancelled = false;
+    const slug = params.lessonId as string;
+
+    // Hit the in-memory cache first · navigating back to a previously visited
+    // lesson is instant, no flash, no spinner.
+    const cached = lessonCache.get(slug);
+    if (cached) {
+      setLesson(cached);
+      setAccessBlock(null);
+      setLoading(false);
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+      // Still fire-and-forget the start tracking
+      fetch(`/api/lessons/${slug}/start`, { method: "POST" }).catch(() => {});
+      return;
+    }
+
     setLoading(true);
     setLesson(null);
     setAccessBlock(null);
-    fetch(`/api/lessons/${params.lessonId}`)
+    fetch(`/api/lessons/${slug}`)
       .then(async (r) => {
         if (r.ok) return { ok: true, data: await r.json() } as const;
-        // 403 from MVP gating · capture so we can show a useful screen
         const body = await r.json().catch(() => ({}));
         if (r.status === 403 && body?.reason) {
           return { ok: false, block: body as { reason: string; blockingModule?: number; message: string } } as const;
@@ -164,11 +182,24 @@ export default function LessonPage() {
         if (cancelled) return;
         if (res.ok) {
           setLesson(res.data);
+          lessonCache.set(slug, res.data);
+          // Prefetch prev/next so the next click feels instant
+          const data = res.data as LessonData;
+          for (const adj of [data.prevSlug, data.nextSlug]) {
+            if (adj && !lessonCache.has(adj)) {
+              fetch(`/api/lessons/${adj}`)
+                .then((rr) => (rr.ok ? rr.json() : null))
+                .then((d) => { if (d) lessonCache.set(adj, d); })
+                .catch(() => {});
+            }
+          }
         } else {
           setAccessBlock(res.block);
         }
         setLoading(false);
         if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+        // Fire-and-forget · mark lesson started + record streak. Doesn't block render.
+        if (res.ok) fetch(`/api/lessons/${slug}/start`, { method: "POST" }).catch(() => {});
       })
       .catch(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
