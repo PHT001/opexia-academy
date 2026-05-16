@@ -10,9 +10,16 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 const PLAN_TO_TIER: Record<string, string> = {
-  starter: "starter",
-  academy: "academy",
-  one_to_one: "one_to_one",
+  // New offering (QCM landing) · monthly + lifetime both map to "standard" tier
+  // (UI is identical · isLifetime flag on Enrollment tracks the difference)
+  standard: "standard",
+  standard_lifetime: "standard",
+  standard_lifetime_upgrade: "standard",
+  accompagnement: "accompagnement",
+  // Legacy plans · still mapped for older customers / re-purchases
+  starter: "standard",
+  academy: "standard",
+  one_to_one: "accompagnement",
 };
 
 export async function POST(req: NextRequest) {
@@ -146,7 +153,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Mark lower-tier enrollments as upgraded
-      const TIER_RANK: Record<string, number> = { free: 0, starter: 1, academy: 2, one_to_one: 3 };
+      const TIER_RANK: Record<string, number> = { free: 0, starter: 1, academy: 2, standard: 2, one_to_one: 3, accompagnement: 3 };
       const newRank = TIER_RANK[tier] ?? 0;
       if (newRank > 0) {
         const lowerTiers = Object.entries(TIER_RANK)
@@ -278,9 +285,14 @@ export async function POST(req: NextRequest) {
 
       // --- Referral commission logic ---
       const TIER_COMMISSION: Record<string, number> = {
+        // Legacy
         starter: 940,      // 20% of 4700 cents (47EUR)
         academy: 5955,     // 15% of 39700 cents (397EUR)
         one_to_one: 24970, // 10% of 249700 cents (2497EUR)
+        // New offering · standard tier covers both monthly (89€/mois) and lifetime (697€)
+        standard: 1780,    // 20% of 8900 cents · first-month commission for the monthly plan
+        // accompagnement uses same as legacy one_to_one
+        accompagnement: 24970,
       };
 
       try {
