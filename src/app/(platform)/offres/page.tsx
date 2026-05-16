@@ -7,7 +7,9 @@ import { motion } from "framer-motion";
 import { WHATSAPP_PHONE, TIER_PRIORITY } from "@/lib/constants";
 
 const TIER_LABELS: Record<string, string> = {
-  free: "Gratuit", starter: "Starter", academy: "Academy", one_to_one: "One to One",
+  free: "Gratuit",
+  starter: "Standard", academy: "Standard", standard: "Standard",
+  one_to_one: "Accompagnement", accompagnement: "Accompagnement",
 };
 
 interface Plan {
@@ -18,25 +20,66 @@ interface Plan {
 
 const plans: Plan[] = [
   {
-    name: "Starter", slug: "starter", price: "47", oldPrice: "97", period: "paiement unique",
-    description: "Pour d\u00e9couvrir le monde de l\u2019IA", popular: false,
-    features: ["Modules 1 & 2 de la formation (7 le\u00e7ons)", "Atelier pratique : comparer les IA", "Quiz de validation", "Acc\u00e8s Discord communautaire", "Checklist de d\u00e9marrage"],
-    notIncluded: ["Modules 3 \u00e0 22 (prompting, code, vente...)", "Assistant IA int\u00e9gr\u00e9", "Visios individuelles"],
-    cta: "Obtenir le Starter \u2014 47\u20ac",
+    name: "Standard \u2014 Mensuel",
+    slug: "standard",
+    price: "89",
+    oldPrice: "",
+    period: "\u00b7 / mois",
+    description: "Acc\u00e8s complet \u00e0 la plateforme. Sans engagement, r\u00e9siliable en 1 clic.",
+    popular: false,
+    features: [
+      "23 modules \u00b7 111 le\u00e7ons",
+      "Exercices not\u00e9s \u00e0 chaque module",
+      "MVP review perso sous 24h",
+      "1 appel offert par mois avec Marius (30 min)",
+      "Annulation \u00e0 tout moment",
+    ],
+    notIncluded: [
+      "Acc\u00e8s \u00e0 vie",
+      "Bonus 3 appels offerts au d\u00e9marrage",
+    ],
+    cta: "D\u00e9marrer \u2014 89\u20ac/mois",
   },
   {
-    name: "Academy", slug: "academy", price: "397", oldPrice: "897", period: "paiement en plusieurs fois possible",
-    description: "La formation compl\u00e8te pour lancer ton agence IA", popular: true,
-    features: ["Tout le pack Starter", "86 le\u00e7ons vid\u00e9o & texte", "Quiz & exercices pratiques", "Assistant IA int\u00e9gr\u00e9", "Plateforme compl\u00e8te", "Pipeline CRM int\u00e9gr\u00e9", "Templates IA premium", "G\u00e9n\u00e9rateur de projets", "Syst\u00e8me de progression (XP, classement)", "Programme de parrainage", "1 appel coaching one-to-one offert (1h)"],
-    notIncluded: ["Visios individuelles suppl\u00e9mentaires"],
-    cta: "Rejoindre l\u2019Academy \u2014 397\u20ac",
-  },
-  {
-    name: "One-to-One", slug: "one_to_one", price: "2\u00A0497", oldPrice: "4\u00A0997", period: "paiement en plusieurs fois possible",
-    description: "Accompagnement premium avec nos experts", popular: false, limited: true,
-    features: ["Tout le pack Academy", "8 visios individuelles (1h)", "Review de tes projets en live", "Support prioritaire illimit\u00e9", "R\u00e9seau priv\u00e9 VIP fondateurs", "Acc\u00e8s \u00e0 vie \u00e0 toutes les mises \u00e0 jour", "Audit personnalis\u00e9 de ton agence", "Strat\u00e9gie de lancement sur-mesure", "Suivi hebdomadaire pendant 3 mois", "Acc\u00e8s direct WhatsApp avec Marius & Igor"],
+    name: "Standard \u2014 Lifetime",
+    slug: "standard_lifetime",
+    price: "697",
+    oldPrice: "",
+    period: "paiement unique",
+    description: "Tout est inclus, pour toujours. \u00c9conomise sur le long terme.",
+    popular: true,
+    features: [
+      "23 modules \u00b7 111 le\u00e7ons",
+      "Exercices not\u00e9s \u00e0 chaque module",
+      "MVP review perso sous 24h",
+      "Masterclass + lives group\u00e9s inclus",
+      "Mises \u00e0 jour \u00e0 vie",
+      "1 appel offert par mois + 3 appels bonus au d\u00e9marrage",
+      "Aucun renouvellement",
+    ],
     notIncluded: [],
-    cta: "Postuler via WhatsApp", href: WHATSAPP_PHONE, external: true,
+    cta: "Acheter en Lifetime \u2014 697\u20ac",
+  },
+  {
+    name: "Accompagnement One-to-One",
+    slug: "accompagnement",
+    price: "",
+    oldPrice: "",
+    period: "sur mesure",
+    description: "Coaching 1-on-1 hebdomadaire jusqu\u2019\u00e0 ton 1er client sign\u00e9.",
+    popular: false,
+    limited: true,
+    features: [
+      "Tout le pack Standard Lifetime",
+      "Sessions 1-on-1 hebdomadaires avec Marius",
+      "Review MVP en perso \u00e0 chaque module",
+      "Acc\u00e8s WhatsApp direct illimit\u00e9",
+      "Garantie 1er client sign\u00e9 en 90 jours",
+    ],
+    notIncluded: [],
+    cta: "R\u00e9server ma place",
+    href: WHATSAPP_PHONE,
+    external: true,
   },
 ];
 
@@ -136,15 +179,8 @@ function OffresContent() {
   const effectiveTier = previewTier || userTier;
 
 
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-
   async function handleCheckout(slug: string, installments?: number) {
-    if (slug === "academy" && !installments) {
-      setShowPaymentModal(true);
-      return;
-    }
     setLoading(slug);
-    setShowPaymentModal(false);
     try {
       const ref = typeof window !== "undefined" ? localStorage.getItem("opexia-ref") || "" : "";
       const payload: Record<string, unknown> = { plan: slug };
@@ -206,9 +242,9 @@ function OffresContent() {
             </div>
             <div className="text-left sm:text-right">
               <p className="text-3xl font-black text-white">
-                {effectiveTier === "free" ? "0\u20ac" : effectiveTier === "starter" ? "47\u20ac" : effectiveTier === "academy" ? "397\u20ac" : "2\u00A0497\u20ac"}
+                {effectiveTier === "free" || !effectiveTier ? "0\u20ac" : effectiveTier === "accompagnement" || effectiveTier === "one_to_one" ? "Sur mesure" : "Actif"}
               </p>
-              <p className="text-[10px] text-white/40">{effectiveTier === "free" ? "aucun engagement" : "paiement unique"}</p>
+              <p className="text-[10px] text-white/40">{effectiveTier === "free" || !effectiveTier ? "aucun engagement" : "abonnement actif"}</p>
             </div>
           </div>
         </div>
@@ -217,7 +253,7 @@ function OffresContent() {
       {/* Title */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="text-center mb-10">
         <h2 className="text-2xl font-bold text-[#111] mb-2">Choisis l&apos;offre qui te correspond</h2>
-        <p className="text-sm text-gray-400">Paiement unique, acc&egrave;s &agrave; vie. Sans engagement.</p>
+        <p className="text-sm text-gray-400">Sans engagement. Annulation en 1 clic.</p>
       </motion.div>
 
       {/* Cards — same style as landing page */}
@@ -276,9 +312,8 @@ function OffresContent() {
                   <p className="text-sm text-[#6B7280] mt-1">{plan.period}</p>
                 )}
 
-                {/* Installment selector for Academy & One-to-One */}
-                {plan.slug === "academy" && (
-                  <p className="text-xs text-[#6B7280] mt-2 text-center">ou en 2 fois : 218,35 EUR x2 (+10%)</p>
+                {plan.slug === "standard_lifetime" && (
+                  <p className="text-xs text-[#FF1744] mt-2 text-center font-semibold">⚡ Le plus populaire</p>
                 )}
               </div>
 
@@ -341,44 +376,6 @@ function OffresContent() {
           );
         })}
       </div>
-
-      {/* Payment choice modal for Academy */}
-      {showPaymentModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowPaymentModal(false)}>
-          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full mx-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-[#111] text-center mb-1">Comment veux-tu payer ?</h3>
-            <p className="text-xs text-gray-400 text-center mb-6">Formation Academy</p>
-
-            <div className="space-y-3">
-              <button
-                onClick={() => handleCheckout("academy", 1)}
-                disabled={loading === "academy"}
-                className="w-full p-4 rounded-xl border-2 border-[#FF1744] bg-[#FF1744]/5 hover:bg-[#FF1744]/10 transition-all text-left relative"
-              >
-                <span className="absolute top-3 right-3 text-[10px] font-bold text-[#FF1744] bg-[#FF1744]/10 px-2 py-0.5 rounded-full">Recommand&eacute;</span>
-                <p className="text-sm font-bold text-[#111]">Paiement unique</p>
-                <p className="text-2xl font-black text-[#111] mt-1">397 EUR</p>
-                <p className="text-xs text-gray-400 mt-1">Meilleur prix — Paiement par carte</p>
-              </button>
-
-              <button
-                onClick={() => handleCheckout("academy", 2)}
-                disabled={loading === "academy"}
-                className="w-full p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-left"
-              >
-                <p className="text-sm font-bold text-[#111]">En 2 fois</p>
-                <p className="text-2xl font-black text-[#111] mt-1">218,35 EUR <span className="text-sm font-medium text-gray-400">x 2</span></p>
-                <p className="text-xs text-gray-400 mt-1">436,70 EUR total (+10%) — 2 pr&eacute;l&egrave;vements par carte</p>
-              </button>
-            </div>
-
-            <div className="mt-5 flex items-center justify-center gap-2 text-[10px] text-gray-400">
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-              Paiement s&eacute;curis&eacute; par Stripe
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );

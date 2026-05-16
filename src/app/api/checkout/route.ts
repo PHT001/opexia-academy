@@ -8,7 +8,21 @@ import { TIER_PRIORITY } from "@/lib/constants";
 
 const limiter = rateLimit({ interval: 60_000, uniqueTokenPerInterval: 500 });
 
-const PLANS: Record<string, { name: string; price: number; description: string }> = {
+const PLANS: Record<string, { name: string; price: number; description: string; mode?: "payment" | "subscription" }> = {
+  // ── New offering (matches QCM landing) ──
+  standard: {
+    name: "OpexIA Academy — Mensuel",
+    price: 8900, // 89 EUR/mois
+    description: "Acces a la plateforme OpexIA Academy (23 modules) + 1 appel offert par mois avec Marius. Sans engagement, resiliable a tout moment.",
+    mode: "subscription",
+  },
+  standard_lifetime: {
+    name: "OpexIA Academy — Lifetime",
+    price: 69700, // 697 EUR one-time
+    description: "Acces a vie a la plateforme OpexIA Academy : 23 modules, masterclass, lives groupes, mises a jour a vie + 3 appels offerts avec Marius. Paiement unique.",
+    mode: "payment",
+  },
+  // ── Legacy plans (kept for re-purchase / old links) ──
   starter: {
     name: "OpexIA Starter",
     price: 4700, // in cents
@@ -183,9 +197,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ url: subSession.url });
     }
 
-    // Standard one-time payment (card only)
+    // Recurring subscription for "standard" (89 EUR/mois) · one-time payment otherwise
+    const checkoutMode: "subscription" | "payment" = p.mode === "subscription" ? "subscription" : "payment";
+
+    const lineItemPriceData = {
+      currency: "eur",
+      product_data: { name: p.name, description: p.description },
+      unit_amount: basePrice,
+      ...(checkoutMode === "subscription" ? { recurring: { interval: "month" as const } } : {}),
+    };
+
     const checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
+      mode: checkoutMode,
       payment_method_types: ["card"],
       ...(customerId
         ? { customer: customerId }
@@ -195,14 +218,11 @@ export async function POST(req: NextRequest) {
       metadata,
       line_items: [
         {
-          price_data: {
-            currency: "eur",
-            product_data: { name: p.name, description: p.description },
-            unit_amount: basePrice,
-          },
+          price_data: lineItemPriceData,
           quantity: 1,
         },
       ],
+      ...(checkoutMode === "subscription" ? { subscription_data: { metadata } } : {}),
       success_url: successUrl,
       cancel_url: cancelUrl,
       ...(!hasCustomDiscount ? { allow_promotion_codes: true } : {}),
