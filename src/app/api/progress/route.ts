@@ -25,14 +25,6 @@ export async function GET() {
         orderBy: { order: "asc" },
         include: {
           progress: { where: { userId } },
-          quiz: {
-            include: {
-              submissions: {
-                where: { userId, passed: true },
-                take: 1,
-              },
-            },
-          },
         },
       },
     },
@@ -94,17 +86,6 @@ export async function GET() {
           xpEarned: prog.xpEarned || 0,
           completedAt: new Date(prog.completedAt).toISOString(),
         });
-        // If the lesson has a quiz with a passed submission, add a quiz entry
-        if (lesson.quiz?.submissions && lesson.quiz.submissions.length > 0) {
-          recentActivity.push({
-            type: "quiz",
-            title: lesson.title,
-            lessonOrder: lesson.order,
-            moduleOrder: mod.order,
-            xpEarned: 0,
-            completedAt: new Date(prog.completedAt).toISOString(),
-          });
-        }
       }
     }
   }

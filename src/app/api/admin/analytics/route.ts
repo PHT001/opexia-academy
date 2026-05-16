@@ -62,53 +62,7 @@ export async function GET() {
       })
     );
 
-    // ── Quiz stats (aggregated) ──
-    const quizzes = await prisma.quiz.findMany({
-      include: {
-        lesson: {
-          select: {
-            id: true,
-            title: true,
-            module: { select: { title: true } },
-          },
-        },
-      },
-    });
-
-    const quizSubmissionStats = await prisma.quizSubmission.groupBy({
-      by: ["quizId"],
-      _count: { quizId: true },
-      _avg: { score: true },
-    });
-    const quizPassCounts = await prisma.quizSubmission.groupBy({
-      by: ["quizId"],
-      where: { passed: true },
-      _count: { quizId: true },
-    });
-
-    const submissionMap = new Map(
-      quizSubmissionStats.map((qs) => [
-        qs.quizId,
-        { attempts: qs._count.quizId, avgScore: qs._avg.score || 0 },
-      ])
-    );
-    const passMap = new Map(
-      quizPassCounts.map((qp) => [qp.quizId, qp._count.quizId])
-    );
-
-    const quizStats = quizzes.map((quiz) => {
-      const sub = submissionMap.get(quiz.id) || { attempts: 0, avgScore: 0 };
-      const passes = passMap.get(quiz.id) || 0;
-      return {
-        lessonId: quiz.lesson.id,
-        lessonTitle: quiz.lesson.title,
-        moduleTitle: quiz.lesson.module.title,
-        attempts: sub.attempts,
-        passes,
-        passRate: sub.attempts > 0 ? Math.round((passes / sub.attempts) * 100) : 0,
-        avgScore: Math.round(sub.avgScore),
-      };
-    });
+    const quizStats: never[] = [];
 
     // ── Bottlenecks: top 5 lessons with biggest drop-off ──
     // Drop-off = difference in completion rate between lesson N and lesson N+1
